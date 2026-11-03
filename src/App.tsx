@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   applyPlacement, buildPlan, clozeOf, currentLevel, dayLog, dayNumber, hardWords, isKnown, isMet, Kind, label, levelStats, LEARNING_CAP, options,
-  Part, Plan, placementWords, PLACEMENT_PASS, recordRecognition, recordSpelling, spellDiff, spellKnown, spellMeasured, State, Step, tileSet,
+  Part, Plan, placementWords, PLACEMENT_PASS, recordRecognition, recordSpelling, spellAlign, spellDiff, spellKnown, spellMeasured, State, Step, tileSet,
   toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, resolveCheck, restorePaused, spellCandidates,
 } from './engine';
 import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind, sentencePlan, sentencesKnown, tokens, TOPICS, unknownWords } from './sentences';
@@ -540,6 +540,7 @@ function TileSpell({ st, update, step, onResult, onNext }: ExProps) {
   const [placed, setPlaced] = useState<string[]>(() => [...word].map((c, i) => (set.given[i] ? c : '')));
   const [shake, setShake] = useState(-1);
   const [mistakes, setMistakes] = useState<number[]>([]);
+  const [slips, setSlips] = useState<{ at: number; tapped: string }[]>([]);
   const [done, setDone] = useState(false);
   const cursor = placed.findIndex((c) => !c);
 
@@ -565,6 +566,7 @@ function TileSpell({ st, update, step, onResult, onNext }: ExProps) {
       if (st.settings.sound) sfx.bad();
       setShake(i); setTimeout(() => setShake(-1), 380);
       if (!mistakes.includes(cursor)) setMistakes([...mistakes, cursor]);
+      setSlips((x) => (x.some((y) => y.at === cursor && y.tapped === c) ? x : [...x, { at: cursor, tapped: c }]));
     }
   };
 
@@ -585,7 +587,7 @@ function TileSpell({ st, update, step, onResult, onNext }: ExProps) {
       {done && mistakes.length > 0 && (
         <div className="feedback soft" role="status">
           <b>בנית אותה עד הסוף.</b>
-          <p className="small">האות המודגשת היא המקום שכדאי לשים אליו לב.</p>
+          <ul className="slips">{slips.map((x) => <li key={`${x.at}${x.tapped}`}>במקום <En className="slip-right">{word[x.at]}</En> לחצת על <En className="slip-wrong">{x.tapped}</En></li>)}</ul>
           <div className="fb-actions">{!step.retry && <FlagButton st={st} update={update} id={w.id} m="s" />}<button type="button" className="btn-next" onClick={onNext}>הבנתי</button></div>
         </div>
       )}
@@ -602,6 +604,7 @@ function TypeSpell({ st, update, step, onResult, onNext }: ExProps) {
   const [wrong, setWrong] = useState<number[] | null>(null);
   const [looking, setLooking] = useState(step.kind === 'memo');
   const done = wrong !== null;
+  const badTyped = done ? spellAlign(w.en, text).typed : [];
 
   useEffect(() => { say(w.en); }, [w.id]);
 
@@ -646,12 +649,12 @@ function TypeSpell({ st, update, step, onResult, onNext }: ExProps) {
       <div className="word-hero he medium">{w.he}</div>
       <button type="button" className="speak" onClick={() => say(w.en)} aria-label="השמעה"><SpeakIcon /></button>
       <div className={`typed ${done ? (wrong!.length ? 'is-bad' : 'is-good') : ''}`} dir="ltr" aria-live="polite">
-        {[...w.en].map((_, i) => <span key={i} className={`ln ${!done && i === text.length ? 'cur' : ''}`}>{text[i] ?? ''}</span>)}
+        {[...w.en].map((_, i) => <span key={i} className={`ln ${!done && i === text.length ? 'cur' : ''} ${done && badTyped.includes(i) ? 'bad' : ''}`}>{text[i] ?? ''}</span>)}
       </div>
       {done && wrong!.length > 0 && (
         <div className="feedback soft" role="status">
           <div className="correct-word" dir="ltr">{[...w.en].map((c, i) => <Tile key={i} ch={c} small state={wrong!.includes(i) ? 'missed' : ''} />)}</div>
-          <p className="small">שימי לב לאותיות המודגשות. לאיות יש מדד נפרד, אז ההכרות של המילה לא נפגעת.</p>
+          <p className="small">למעלה מה שכתבת, וכאן המילה הנכונה. האותיות הצבועות הן ההבדל. ההכרות של המילה לא נפגעת.</p>
           <div className="fb-actions"><FlagButton st={st} update={update} id={w.id} m="s" /><button type="button" className="btn-next" onClick={onNext}>הבנתי</button></div>
         </div>
       )}

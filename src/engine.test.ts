@@ -3,7 +3,7 @@ import { WORDS, WORD, LEVELS } from './words';
 import { classified, recordSentence, SENTENCES, sentencePlan, tokens, unknownWords } from './sentences';
 import {
   applyPlacement, buildPlan, clozeOf, dayLog, grade, initialState, isKnown, KNOWN_BOX, LEARNING_CAP, freshMetric, newAllowance,
-  spellingPlan, practicePlan, restorePaused, options, recordRecognition, resolveCheck, nextNewWords, buildPlan as bp, recordSpelling, spellDiff, State, tileSet, trapsAt, ws, freshWord,
+  spellingPlan, practicePlan, restorePaused, options, recordRecognition, resolveCheck, nextNewWords, buildPlan as bp, recordSpelling, spellAlign, spellDiff, State, tileSet, trapsAt, ws, freshWord,
 } from './engine';
 
 const T = 20000;
@@ -375,5 +375,22 @@ describe('spelling round', () => {
   it('still offers something early on, from words being learned', () => {
     const st = recordRecognition(initialState(), 'friend', true, T, 'new');
     expect(spellingPlan(st, T).steps.map((x) => x.id)).toEqual(['friend']);
+  });
+});
+
+describe('pointing at the right letters', () => {
+  it('swapped letters mark both, and nothing else', () => {
+    expect(spellAlign('friend', 'freind')).toEqual({ target: [2, 3], typed: [2, 3] });
+  });
+  it('one wrong letter marks just that letter', () => {
+    expect(spellAlign('friend', 'friemd')).toEqual({ target: [4], typed: [4] });
+    expect(spellAlign('friend', 'friena')).toEqual({ target: [5], typed: [5] });
+  });
+  it('a missing letter marks the letter that is missing', () => {
+    expect(spellAlign('friend', 'frend').target).toEqual([2]);
+  });
+  it('an extra letter marks the extra typed letter', () => {
+    expect(spellAlign('cat', 'catt').typed.length).toBe(1);
+    expect(spellAlign('cat', 'catt').target.length).toBe(1);
   });
 });

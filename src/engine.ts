@@ -335,25 +335,29 @@ export function trapsAt(word: string, wrongAt: number[]): string[] {
   return [...out];
 }
 
-/** Compare typed text with the target. Returns the target indexes that were wrong. */
-export function spellDiff(target: string, typed: string): number[] {
+/** Align typed text with the target: which target letters were missed, and which typed letters are wrong. */
+export function spellAlign(target: string, typed: string): { target: number[]; typed: number[] } {
   const a = target.toLowerCase(), b = typed.toLowerCase().trim();
-  if (a === b) return [];
+  if (a === b) return { target: [], typed: [] };
   const dp = Array.from({ length: a.length + 1 }, (_, i) => [i, ...new Array(b.length).fill(0)]);
   for (let j = 1; j <= b.length; j++) dp[0][j] = j;
   for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) {
     dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
   }
-  const wrong = new Set<number>();
+  const missed = new Set<number>(), extra = new Set<number>();
   let i = a.length, j = b.length;
   while (i > 0 || j > 0) {
     if (i > 0 && j > 0 && a[i - 1] === b[j - 1] && dp[i][j] === dp[i - 1][j - 1]) { i--; j--; }
-    else if (i > 0 && j > 0 && dp[i][j] === dp[i - 1][j - 1] + 1) { wrong.add(i - 1); i--; j--; }
-    else if (i > 0 && dp[i][j] === dp[i - 1][j] + 1) { wrong.add(i - 1); i--; }
-    else { wrong.add(Math.min(i, a.length - 1)); j--; }
+    else if (i > 0 && j > 0 && dp[i][j] === dp[i - 1][j - 1] + 1) { missed.add(i - 1); extra.add(j - 1); i--; j--; }
+    else if (i > 0 && dp[i][j] === dp[i - 1][j] + 1) { missed.add(i - 1); i--; }
+    else { extra.add(j - 1); j--; }
   }
-  return [...wrong].sort((x, y) => x - y);
+  // Only extra letters, such as "catt": point at the target letter next to the extra one.
+  if (!missed.size) missed.add(Math.min(Math.min(...extra), a.length - 1));
+  return { target: [...missed].sort((x, y) => x - y), typed: [...extra].sort((x, y) => x - y) };
 }
+
+export const spellDiff = (target: string, typed: string): number[] => spellAlign(target, typed).target;
 
 // ---------- Exercise helpers ----------
 export function options(st: State, id: string, count: number, rnd: () => number = Math.random): Word[] {
