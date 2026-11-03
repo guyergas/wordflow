@@ -3,7 +3,7 @@ import { WORDS, WORD, LEVELS } from './words';
 import { classified, recordSentence, SENTENCES, sentencePlan, tokens, unknownWords } from './sentences';
 import {
   applyPlacement, buildPlan, clozeOf, dayLog, grade, initialState, isKnown, KNOWN_BOX, LEARNING_CAP, freshMetric, newAllowance,
-  options, recordRecognition, resolveCheck, nextNewWords, buildPlan as bp, recordSpelling, spellDiff, State, tileSet, trapsAt, ws, freshWord,
+  spellingPlan, practicePlan, restorePaused, options, recordRecognition, resolveCheck, nextNewWords, buildPlan as bp, recordSpelling, spellDiff, State, tileSet, trapsAt, ws, freshWord,
 } from './engine';
 
 const T = 20000;
@@ -15,7 +15,7 @@ function simulateDay(st: State, day: number, correct: (kind: string) => boolean 
     s = { ...s, plan: { ...s.plan!, at: i } };
     if (step.kind === 'check') { s = resolveCheck(s, step.id, false, day); continue; }
     if (step.kind === 'intro' || step.kind === 'match') continue;
-    if (['tiles', 'gaps', 'type'].includes(step.kind)) s = recordSpelling(s, step.id, correct(step.kind), day);
+    if (['tiles', 'gaps', 'memo', 'type'].includes(step.kind)) s = recordSpelling(s, step.id, correct(step.kind), day);
     else s = recordRecognition(s, step.id, correct(step.kind), day, step.part);
   }
   return s;
@@ -60,7 +60,7 @@ describe('two independent measures', () => {
   });
   it('bad spelling never slows new words', () => {
     let st = { ...initialState(), onboarded: true };
-    for (let d = 0; d < 10; d++) st = simulateDay(st, T + d, (k) => !['tiles', 'gaps', 'type'].includes(k));
+    for (let d = 0; d < 10; d++) st = simulateDay(st, T + d, (k) => !['tiles', 'gaps', 'memo', 'type'].includes(k));
     let good = { ...initialState(), onboarded: true };
     for (let d = 0; d < 10; d++) good = simulateDay(good, T + d);
     const met = (x: State) => WORDS.filter((w) => ws(x, w.id).met !== null).length;
@@ -141,7 +141,7 @@ describe('daily plan', () => {
     let st = { ...initialState(), onboarded: true };
     let good = { ...initialState(), onboarded: true };
     for (let d = 0; d < 14; d++) {
-      st = simulateDay(st, T + d, (k) => ['tiles', 'gaps', 'type'].includes(k) || (T + d) % 2 === 0 ? true : false);
+      st = simulateDay(st, T + d, (k) => ['tiles', 'gaps', 'memo', 'type'].includes(k) || (T + d) % 2 === 0 ? true : false);
       good = simulateDay(good, T + d);
     }
     const met = (x: State) => WORDS.filter((w) => ws(x, w.id).met !== null).length;
@@ -156,7 +156,7 @@ describe('daily plan', () => {
   it('spelling waits until the word was seen on an earlier day', () => {
     const st = recordRecognition({ ...initialState(), onboarded: true }, 'friend', true, T, 'new');
     const today = buildPlan(st, T);
-    expect(today.steps.some((s) => s.id === 'friend' && ['tiles', 'gaps', 'type'].includes(s.kind))).toBe(false);
+    expect(today.steps.some((s) => s.id === 'friend' && ['tiles', 'gaps', 'memo', 'type'].includes(s.kind))).toBe(false);
     const seen = recordRecognition(st, 'friend', true, T + 1, 'boost');
     const later = buildPlan(seen, T + 2);
     expect(later.steps.some((s) => s.id === 'friend' && s.kind === 'tiles')).toBe(true);
@@ -267,7 +267,7 @@ describe('extra rounds of new words', () => {
         const step = s.plan!.steps[i];
         s = { ...s, plan: { ...s.plan!, at: i } };
         if (step.kind === 'check') s = resolveCheck(s, step.id, false, day);
-        else if (['tiles', 'gaps', 'type'].includes(step.kind)) s = recordSpelling(s, step.id, true, day);
+        else if (['tiles', 'gaps', 'memo', 'type'].includes(step.kind)) s = recordSpelling(s, step.id, true, day);
         else if (step.kind !== 'intro' && step.kind !== 'match') s = recordRecognition(s, step.id, true, day, step.part);
       }
       return s;
@@ -309,5 +309,71 @@ describe('sentences', () => {
     const st = recordRecognition(initialState(), 'friend', true, T, 'new');
     const after = recordSentence(st, 's3', false, T);
     expect(ws(after, 'friend')).toEqual(ws(st, 'friend'));
+  });
+});
+
+describe('free practice', () => {
+  const learned = () => {
+    let st: State = applyPlacement(initialState(), {}, 1, T - 10);
+    st = { ...st, plan: bp(st, T) };
+    for (const id of ['knight', 'castle', 'sword']) st = recordRecognition(st, id, true, T, 'new');
+    return st;
+  };
+  it("includes today's words together with older ones", () => {
+    const ids = practicePlan(learned(), T).steps.map((x) => x.id);
+    expect(ids).toHaveLength(10);
+    expect(ids).toEqual(expect.arrayContaining(['knight', 'castle', 'sword']));
+    expect(ids.some((id) => !['knight', 'castle', 'sword'].includes(id))).toBe(true);
+    expect(new Set(ids).size).toBe(10);
+  });
+  it('does not rush a word through the gate', () => {
+    let st = learned();
+    for (let i = 0; i < 5; i++) st = recordRecognition(st, 'knight', true, T, 'boost');
+    expect(ws(st, 'knight').r.box).toBe(1);
+  });
+  it("a slip on a word met today does not mark it", () => {
+    const st = recordRecognition(learned(), 'knight', false, T, 'boost');
+    expect(ws(st, 'knight').r.flag).toBe(false);
+    expect(ws(st, 'knight').r.box).toBe(1);
+    const sp = recordSpelling(learned(), 'knight', false, T);
+    expect(ws(sp, 'knight').s.flag).toBe(false);
+  });
+  it('an unfinished round comes back after practice', () => {
+    const st = learned();
+    const held = { ...st, paused: st.plan, plan: practicePlan(st, T) };
+    const back = restorePaused(held);
+    expect(back.plan).toBe(st.plan);
+    expect(back.paused).toBeNull();
+  });
+  it('has nothing to practice before any word was met', () => {
+    expect(practicePlan(initialState(), T).steps).toHaveLength(0);
+  });
+});
+
+describe('spelling round', () => {
+  it('starts with known words and shows them before hiding', () => {
+    const st = applyPlacement(initialState(), {}, 1, T - 5);
+    const plan = spellingPlan(st, T);
+    expect(plan.steps).toHaveLength(8);
+    expect(plan.steps.every((x) => x.kind === 'memo')).toBe(true);
+    expect(plan.steps.every((x) => isKnown(ws(st, x.id)))).toBe(true);
+    expect(plan.extra).toBe(true);
+  });
+  it('words marked for spelling come first, stronger words are written from sound', () => {
+    let st = applyPlacement(initialState(), {}, 1, T - 5);
+    st = recordSpelling(st, 'music', false, T - 1);
+    st = { ...st, words: { ...st.words, friend: { ...ws(st, 'friend'), s: { ...freshMetric(), box: 3, ok: 3, due: T } } } };
+    const plan = spellingPlan(st, T);
+    expect(plan.steps[0].id).toBe('music');
+    expect(plan.steps.find((x) => x.id === 'friend')?.kind).toBe('type');
+  });
+  it('spelling results leave recognition alone', () => {
+    const st = applyPlacement(initialState(), {}, 1, T - 5);
+    const after = recordSpelling(st, 'friend', false, T);
+    expect(ws(after, 'friend').r).toEqual(ws(st, 'friend').r);
+  });
+  it('still offers something early on, from words being learned', () => {
+    const st = recordRecognition(initialState(), 'friend', true, T, 'new');
+    expect(spellingPlan(st, T).steps.map((x) => x.id)).toEqual(['friend']);
   });
 });

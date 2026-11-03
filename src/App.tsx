@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   applyPlacement, buildPlan, clozeOf, currentLevel, dayLog, dayNumber, hardWords, isKnown, isMet, Kind, label, levelStats, LEARNING_CAP, options,
   Part, Plan, placementWords, PLACEMENT_PASS, recordRecognition, recordSpelling, spellDiff, spellKnown, spellMeasured, State, Step, tileSet,
-  toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, resolveCheck,
+  toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, resolveCheck, restorePaused, spellCandidates,
 } from './engine';
 import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind, sentencePlan, sentencesKnown, tokens, TOPICS, unknownWords } from './sentences';
 import { LEVELS, WORD, WORDS, Word } from './words';
@@ -10,7 +10,7 @@ import { askPersistence, canSpeak, englishVoices, load, save, sfx, speak } from 
 
 type Tab = 'home' | 'path' | 'progress' | 'words';
 type Update = (fn: (s: State) => State) => void;
-type StartOpts = { short?: boolean; extra?: boolean; bonus?: boolean };
+type StartOpts = { short?: boolean; extra?: boolean; spell?: boolean; bonus?: boolean };
 
 const PART: Record<Part, { name: string; next: string; note: string }> = {
   warm: { name: 'חימום', next: 'מילים שאת כבר מכירה', note: 'כאן את על מגרש הבית' },
@@ -38,7 +38,7 @@ export function Wordmark() {
 }
 
 export function App() {
-  const [st, setSt] = useState<State>(() => load());
+  const [st, setSt] = useState<State>(() => restorePaused(load()));
   const [tab, setTab] = useState<Tab>('home');
   const [inSession, setInSession] = useState(false);
   const [inSentences, setInSentences] = useState(false);
@@ -50,15 +50,17 @@ export function App() {
   useEffect(() => { void askPersistence(); }, []);
 
   const startSession = (opts: StartOpts = {}) => {
-    update((s) => {
-      const fresh = s.plan && s.plan.day === today && !opts.short && !opts.extra && s.plan.at < s.plan.steps.length;
-      return fresh ? s : { ...s, plan: buildPlan(s, today, opts) };
+    update((raw) => {
+      const s = restorePaused(raw);
+      const unfinished = !!s.plan && s.plan.day === today && s.plan.at < s.plan.steps.length;
+      if (opts.extra) return { ...s, plan: buildPlan(s, today, opts), paused: unfinished ? s.plan : null };
+      return unfinished && !opts.short ? s : { ...s, plan: buildPlan(s, today, opts) };
     });
     setInSession(true);
   };
 
   if (!st.onboarded) return <Onboarding st={st} update={update} />;
-  if (inSession && st.plan) return <Session st={st} update={update} onExit={() => { setInSession(false); setTab('home'); }} onMore={() => startSession({ extra: true })} onMoreNew={() => startSession({ bonus: true })} />;
+  if (inSession && st.plan) return <Session st={st} update={update} onExit={() => { update(restorePaused); setInSession(false); setTab('home'); }} onMore={() => startSession(st.plan?.spelling ? { extra: true, spell: true } : { extra: true })} onMoreNew={() => startSession({ bonus: true })} />;
   if (inSentences) return <SentenceSession st={st} update={update} today={today} onExit={() => setInSentences(false)} />;
 
   return (
@@ -172,6 +174,7 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
   const canMore = newAllowance(st, today) > 0 && nextNewWords(st, 1).length > 0;
   const midBonus = !!plan?.bonus && plan.at < plan.steps.length;
   const ready = readyCount(st);
+  const spellCount = spellCandidates(st, today).length;
   const preview = useMemo(() => plan ?? buildPlan(st, today), [plan?.day, st.words, today]);
   const inProgress = !!plan && plan.at > 0 && plan.at < plan.steps.length;
   const t = totals(st);
@@ -196,7 +199,7 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
             <p>{log.fresh > 0 ? `פגשת היום ${log.fresh} מילים חדשות. ` : ''}{canMore || midBonus ? 'בא לך עוד? אפשר ללמוד עוד כמה עכשיו.' : 'יש כרגע מספיק מילים בתהליך. חדשות יגיעו ברגע שכמה מהן יתבססו.'}</p>
             {canMore || midBonus
               ? <button type="button" className="cta-d" onClick={() => onStart({ bonus: true })}>{midBonus ? 'להמשיך את הסבב' : 'עוד מילים חדשות'}</button>
-              : <button type="button" className="cta-d" onClick={() => onStart({ extra: true })}>סיבוב חיזוק קטן</button>}
+              : <button type="button" className="cta-d" onClick={() => onStart({ extra: true })}>אימון חיזוק</button>}
           </>
         ) : (
           <>
@@ -224,6 +227,20 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
         <div><b>{t.known}</b><span>מילים שאת מכירה</span></div>
         <div><b>{t.spelled}</b><span>מילים שאת יודעת לאיית</span></div>
       </section>
+
+      {t.met > 0 && (
+        <button type="button" className="sent-card" onClick={() => onStart({ extra: true })}>
+          <span className="sent-txt"><b>אימון חיזוק</b><small>{log.fresh > 0 ? 'המילים של היום ועוד מילים ישנות יותר' : 'סיבוב על מילים שכבר למדת'}{t.flagged > 0 ? ` · ${t.flagged} מסומנות` : ''}</small></span>
+          <span className="sent-go" aria-hidden="true">←</span>
+        </button>
+      )}
+
+      {spellCount > 0 && (
+        <button type="button" className="sent-card" onClick={() => onStart({ extra: true, spell: true })}>
+          <span className="sent-txt"><b>אימון איות</b><small>רואים את המילה, היא נעלמת, וכותבים אותה</small></span>
+          <span className="sent-go" aria-hidden="true">←</span>
+        </button>
+      )}
 
       <button type="button" className="sent-card" onClick={onSentences}>
         <span className="sent-txt"><b>אימון משפטים</b><small>{ready > 0 ? `${ready} משפטים שימושיים מהמילים שאת כבר מכירה` : 'משפטים שימושיים לכל יום'}</small></span>
@@ -273,7 +290,7 @@ function Session({ st, update, onExit, onMore, onMoreNew }: { st: State; update:
     update((s) => {
       if (!s.plan) return s;
       const lastInPart = s.plan.steps.reduce((acc, x, i) => (x.part === stp.part ? i : acc), s.plan.at);
-      const retry: Step = { part: stp.part, kind: ['tiles', 'gaps', 'type'].includes(stp.kind) ? 'tiles' : 'meaning', id: stp.id, retry: true };
+      const retry: Step = { part: stp.part, kind: stp.kind === 'memo' || stp.kind === 'type' ? 'memo' : stp.kind === 'tiles' || stp.kind === 'gaps' ? 'tiles' : 'meaning', id: stp.id, retry: true };
       const copy = [...s.plan.steps];
       copy.splice(lastInPart + 1, 0, retry);
       return { ...s, plan: { ...s.plan, steps: copy } };
@@ -293,7 +310,7 @@ function Session({ st, update, onExit, onMore, onMoreNew }: { st: State; update:
   if (step.part !== shownPart) return <Interlude key={step.part} st={st} plan={plan} part={step.part} onGo={() => setShownPart(step.part)} onExit={onExit} />;
 
   const onResult = (correct: boolean, meta: { chosen?: string; wrongAt?: number[] } = {}) => {
-    const spelling = ['tiles', 'gaps', 'type'].includes(step.kind);
+    const spelling = ['tiles', 'gaps', 'memo', 'type'].includes(step.kind);
     if (!step.retry) {
       update((s) => spelling
         ? recordSpelling(s, step.id, correct, today, meta.wrongAt)
@@ -312,13 +329,13 @@ function Session({ st, update, onExit, onMore, onMoreNew }: { st: State; update:
         <button type="button" className="round" aria-label="יציאה. ההתקדמות נשמרת" onClick={onExit}>
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg>
         </button>
-        <ol className="part-bar" aria-label={`חלק ${PART[step.part].name}`}>
+        {plan.extra ? <div className="thin grow-bar"><span style={{ width: `${(plan.at / steps.length) * 100}%` }} /></div> : <ol className="part-bar" aria-label={`חלק ${PART[step.part].name}`}>
           {PARTS.map((p) => {
             const pi = PARTS.indexOf(p), cur = PARTS.indexOf(step.part);
             const fill = pi < cur ? 100 : pi > cur ? 0 : (partIndex / partSteps.length) * 100;
             return <li key={p} className={p === step.part ? 'on' : ''}><span><i style={{ width: `${fill}%` }} /></span><small>{PART[p].name}</small></li>;
           })}
-        </ol>
+        </ol>}
         {combo >= 3 ? <span className="combo" aria-live="polite">{combo}×</span> : <span className="combo ghost" />}
       </div>
       <Exercise st={st} update={update} step={step} today={today} onResult={onResult} onNext={advance} />
@@ -333,7 +350,7 @@ function Interlude({ st, plan, part, onGo, onExit }: { st: State; plan: Plan; pa
   useEffect(() => { const t = setTimeout(() => { setRevealed(true); if (st.settings.sound && pi > 0) sfx.flip(); }, 350); return () => clearTimeout(t); }, []);
   const words = plan.newIds.map((id) => WORD[id]);
   const count = plan.steps.filter((s) => s.part === part && s.kind !== 'intro').length;
-  const title = part === 'new'
+  const title = plan.spelling ? 'עכשיו כותבות' : plan.extra ? 'מחזקות מילים' : part === 'new'
     ? plan.consolidating ? 'היום הן מקבלות עוד מבט' : 'הגעת! הנה המילים החדשות'
     : part === 'boost' ? (hasWarm ? 'יופי של חימום' : 'מתחילות בחיזוק') : 'מתחממות';
   const reveal = pi === 2 ? 99 : pi;
@@ -342,9 +359,9 @@ function Interlude({ st, plan, part, onGo, onExit }: { st: State; plan: Plan; pa
       <div className="s-top"><button type="button" className="round" aria-label="יציאה" onClick={onExit}>
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg></button></div>
       <div className="il-body">
-        <span className="stage">{plan.bonus ? 'סבב נוסף' : `עצירה ${pi + 1} מתוך 3`}</span>
+        <span className="stage">{plan.spelling ? 'אימון איות' : plan.extra ? 'אימון חיזוק' : plan.bonus ? 'סבב נוסף' : `עצירה ${pi + 1} מתוך 3`}</span>
         <h1>{title}</h1>
-        <p className="lead">{PART[part].next}. {PART[part].note}.</p>
+        <p className="lead">{plan.spelling ? 'מילים שאת כבר מכירה. רואים, מסתירים וכותבים. טעות באיות לא פוגעת בהכרות של המילה.' : `${PART[part].next}. ${PART[part].note}.`}</p>
         {plan.extra ? null : plan.consolidating ? (
           <p className="gate-note">כשעוד כמה מילים יתבססו, יגיעו חדשות. עד אז אנחנו מוודאות שהן נשארות איתך.</p>
         ) : (
@@ -375,7 +392,7 @@ function Exercise(p: ExProps) {
     case 'intro': return <Intro {...p} />;
     case 'match': return <Match {...p} />;
     case 'tiles': case 'gaps': return <TileSpell {...p} />;
-    case 'type': return <TypeSpell {...p} />;
+    case 'memo': case 'type': return <TypeSpell {...p} />;
     default: return <Choice {...p} />;
   }
 }
@@ -583,14 +600,15 @@ function TypeSpell({ st, update, step, onResult, onNext }: ExProps) {
   const say = useSay(st);
   const [text, setText] = useState('');
   const [wrong, setWrong] = useState<number[] | null>(null);
+  const [looking, setLooking] = useState(step.kind === 'memo');
   const done = wrong !== null;
 
   useEffect(() => { say(w.en); }, [w.id]);
 
-  const key = (c: string) => { if (done) return; if (st.settings.sound) sfx.tap(); setText((t) => (t.length < 24 ? t + c : t)); };
-  const back = () => { if (!done) setText((t) => t.slice(0, -1)); };
+  const key = (c: string) => { if (done || looking) return; if (st.settings.sound) sfx.tap(); setText((t) => (t.length < w.en.length ? t + c : t)); };
+  const back = () => { if (!done && !looking) setText((t) => t.slice(0, -1)); };
   const check = () => {
-    if (done || !text) return;
+    if (done || looking || text.length < w.en.length) return;
     const d = spellDiff(w.en, text);
     setWrong(d);
     const ok = d.length === 0;
@@ -605,19 +623,30 @@ function TypeSpell({ st, update, step, onResult, onNext }: ExProps) {
       if (e.metaKey || e.ctrlKey) return;
       if (/^[a-zA-Z]$/.test(e.key)) key(e.key.toLowerCase());
       else if (e.key === 'Backspace') back();
-      else if (e.key === 'Enter') { if (done) { if (wrong?.length) onNext(); } else check(); }
+      else if (e.key === 'Enter') { if (looking) setLooking(false); else if (done) { if (wrong?.length) onNext(); } else check(); }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   });
 
+  if (looking) return (
+    <div className="q">
+      <p className="prompt">הסתכלי טוב על המילה</p>
+      <div className="flip-in tiles-row" dir="ltr">{[...w.en].map((c, i) => <Tile key={i} ch={c} state="pop" small={w.en.length > 8} />)}</div>
+      <button type="button" className="speak" onClick={() => say(w.en)} aria-label="השמעה"><SpeakIcon /></button>
+      <div className="meaning">{w.he}</div>
+      <div className="grow" />
+      <button type="button" className="cta" onClick={() => { if (st.settings.sound) sfx.flip(); setLooking(false); }}>זכרתי, להסתיר</button>
+    </div>
+  );
+
   return (
     <div className="q">
-      <p className="prompt">כתבי את המילה ששמעת</p>
+      <p className="prompt">{step.kind === 'memo' ? 'עכשיו כתבי אותה' : 'כתבי את המילה ששמעת'}</p>
       <div className="word-hero he medium">{w.he}</div>
       <button type="button" className="speak" onClick={() => say(w.en)} aria-label="השמעה"><SpeakIcon /></button>
       <div className={`typed ${done ? (wrong!.length ? 'is-bad' : 'is-good') : ''}`} dir="ltr" aria-live="polite">
-        <En>{text || ' '}</En>{!done && <span className="caret" />}
+        {[...w.en].map((_, i) => <span key={i} className={`ln ${!done && i === text.length ? 'cur' : ''}`}>{text[i] ?? ''}</span>)}
       </div>
       {done && wrong!.length > 0 && (
         <div className="feedback soft" role="status">
@@ -635,7 +664,7 @@ function TypeSpell({ st, update, step, onResult, onNext }: ExProps) {
               {i === 2 && <button type="button" className="k wide" onClick={back} aria-label="מחיקה">⌫</button>}
             </div>
           ))}
-          <button type="button" className="cta kcheck" disabled={!text} onClick={check}>בדיקה</button>
+          <button type="button" className="cta kcheck" disabled={text.length < w.en.length} onClick={check}>בדיקה</button>
         </div>
       )}
     </div>
@@ -719,7 +748,7 @@ function Finish({ st, plan, onExit, onMore, onMoreNew }: { st: State; plan: Plan
   return (
     <div className="session finish">
       <Confetti />
-      <span className="stage">{plan.extra || plan.bonus ? 'סבב נוסף' : 'סיימת את שלוש העצירות'}</span>
+      <span className="stage">{plan.spelling ? 'אימון איות' : plan.extra ? 'אימון חיזוק' : plan.bonus ? 'סבב נוסף' : 'סיימת את שלוש העצירות'}</span>
       <h1>{pct >= 85 ? `אלופה, ${st.name}!` : `כל הכבוד שהגעת עד הסוף, ${st.name}!`}</h1>
       {plan.newIds.length > 0 && !plan.consolidating && (
         <section className="fresh-shelf">
@@ -741,7 +770,7 @@ function Finish({ st, plan, onExit, onMore, onMoreNew }: { st: State; plan: Plan
       <div className="grow" />
       {canMore && <button type="button" className="cta" onClick={onMoreNew}>עוד מילים חדשות</button>}
       <button type="button" className={canMore ? 'ans' : 'cta'} onClick={onExit}>סיום</button>
-      {!plan.extra && !canMore && <button type="button" className="link center-block" onClick={onMore}>סיבוב חיזוק קטן</button>}
+      <button type="button" className="link center-block" onClick={onMore}>{plan.spelling ? 'עוד סיבוב איות' : plan.extra ? 'עוד סיבוב חיזוק' : 'אימון חיזוק'}</button>
     </div>
   );
 }

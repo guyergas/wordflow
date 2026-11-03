@@ -8,16 +8,16 @@ import { WORD, WORDS, Word } from './words';
 export interface Metric { box: number; due: number; flag: boolean; clear: number; ok: number; no: number; last: number }
 export interface WordState { r: Metric; s: Metric; met: number | null; assumed?: boolean }
 export type Part = 'warm' | 'boost' | 'new';
-export type Kind = 'check' | 'intro' | 'meaning' | 'reverse' | 'listen' | 'cloze' | 'match' | 'tiles' | 'gaps' | 'type' | 'review';
+export type Kind = 'check' | 'intro' | 'meaning' | 'reverse' | 'listen' | 'cloze' | 'match' | 'tiles' | 'gaps' | 'memo' | 'type' | 'review';
 export interface Step { part: Part; kind: Kind; id: string; ids?: string[]; retry?: boolean }
 export interface DayLog { rOk: number; rNo: number; sOk: number; sNo: number; fresh: number; done: boolean }
 export interface Plan {
-  day: number; steps: Step[]; at: number; short: boolean; extra?: boolean; bonus?: boolean; alreadyKnown: string[];
+  day: number; steps: Step[]; at: number; short: boolean; extra?: boolean; spelling?: boolean; bonus?: boolean; alreadyKnown: string[];
   newIds: string[]; consolidating: boolean; gained: { r: string[]; s: string[] }; flagged: string[];
 }
 export interface State {
   v: 1; name: string; onboarded: boolean; startLevel: number;
-  words: Record<string, WordState>; sentences: Record<string, Metric>; days: Record<string, DayLog>; plan: Plan | null;
+  paused?: Plan | null; words: Record<string, WordState>; sentences: Record<string, Metric>; days: Record<string, DayLog>; plan: Plan | null;
   traps: Record<string, number>; confusions: Record<string, Record<string, number>>;
   settings: { sound: boolean; autoSpeak: boolean; voice: string; rate: number; weeklyGoal: number };
 }
@@ -83,9 +83,51 @@ const recKind = (box: number, i: number): Kind => {
   if (box === 2) return i % 2 ? 'listen' : 'reverse';
   return (['cloze', 'listen', 'reverse'] as Kind[])[i % 3];
 };
-export const spellKind = (box: number): Kind => (box <= 0 ? 'tiles' : box <= 2 ? 'gaps' : 'type');
+export const spellKind = (box: number): Kind => (box <= 0 ? 'tiles' : box === 1 ? 'gaps' : box === 2 ? 'memo' : 'type');
 
-export function buildPlan(st: State, today: number, opts: { short?: boolean; extra?: boolean; bonus?: boolean; rnd?: () => number } = {}): Plan {
+/**
+ * Free practice, any time: today's words, words marked for improvement, words that are due, and older words.
+ * It is safe to repeat: a word still moves up at most once a day, so extra practice cannot rush it past the gate.
+ */
+export function practicePlan(st: State, today: number, count = 10, rnd: () => number = Math.random): Plan {
+  const met = WORDS.map((w) => ({ w, s: ws(st, w.id) })).filter((e) => isMet(e.s));
+  const flagged = shuffle(met.filter((e) => e.s.r.flag || e.s.s.flag), rnd).slice(0, 3);
+  const fromToday = shuffle(met.filter((e) => e.s.met === today && !e.s.assumed), rnd).slice(0, 4);
+  const due = shuffle(met.filter((e) => e.s.r.due <= today), rnd).slice(0, 3);
+  const older = shuffle(met.filter((e) => e.s.met !== today || e.s.assumed), rnd);
+  const picked = new Map<string, (typeof met)[number]>();
+  for (const e of [...flagged, ...fromToday, ...due, ...older]) { if (picked.size < count) picked.set(e.w.id, e); }
+  const steps: Step[] = shuffle([...picked.values()], rnd).map((e, i) => {
+    if (e.s.s.flag || (i % 3 === 2 && e.s.r.box >= 1)) return { part: 'boost', kind: spellKind(e.s.s.box), id: e.w.id };
+    return { part: 'boost', kind: e.s.r.flag || e.s.met === today ? 'meaning' : recKind(e.s.r.box, i), id: e.w.id };
+  });
+  return { day: today, steps, at: 0, short: false, extra: true, alreadyKnown: [], newIds: [], consolidating: false, gained: { r: [], s: [] }, flagged: [] };
+}
+
+/** Words ready for spelling work: known words first. Words still being learned only fill in when there are too few. */
+export function spellCandidates(st: State, today: number): Word[] {
+  const rank = (s: WordState) => (s.s.flag ? 0 : spellMeasured(s) && s.s.due <= today ? 1 : !spellMeasured(s) ? 2 : 3);
+  const sorted = (list: Word[]) => [...list].sort((a, b) => rank(ws(st, a.id)) - rank(ws(st, b.id)) || ws(st, a.id).s.due - ws(st, b.id).s.due || a.order - b.order);
+  const ready = WORDS.filter((w) => { const s = ws(st, w.id); return isMet(s) && !s.r.flag && s.r.box >= 2; });
+  const learning = WORDS.filter((w) => { const s = ws(st, w.id); return isMet(s) && (s.r.flag || s.r.box < 2); });
+  return [...sorted(ready), ...sorted(learning)];
+}
+
+/** Spelling round: look at the word, hide it, write it on the lines. Stronger words are written from sound alone. */
+export function spellingPlan(st: State, today: number, count = 8): Plan {
+  const steps: Step[] = spellCandidates(st, today).slice(0, count).map((w) => ({ part: 'boost', kind: ws(st, w.id).s.box >= 2 ? 'type' : 'memo', id: w.id }));
+  return { day: today, steps, at: 0, short: false, extra: true, spelling: true, alreadyKnown: [], newIds: [], consolidating: false, gained: { r: [], s: [] }, flagged: [] };
+}
+
+/** An unfinished daily round waits while she runs free practice, and comes back afterwards. */
+export function restorePaused(st: State): State {
+  if (!st.plan?.extra || !st.paused) return st.paused && !st.plan ? { ...st, plan: st.paused, paused: null } : st;
+  return { ...st, plan: st.paused, paused: null };
+}
+
+export function buildPlan(st: State, today: number, opts: { short?: boolean; extra?: boolean; spell?: boolean; bonus?: boolean; rnd?: () => number } = {}): Plan {
+  if (opts.spell) return spellingPlan(st, today);
+  if (opts.extra) return practicePlan(st, today, 10, opts.rnd);
   const rnd = opts.rnd ?? Math.random;
   const short = !!opts.short;
   const entries = WORDS.map((w) => ({ w, s: ws(st, w.id) }));
@@ -215,7 +257,8 @@ export function recordRecognition(st: State, id: string, correct: boolean, today
   const w = ws(st, id);
   const first = !isMet(w);
   // A brand-new word answered wrong is not a failure yet: it just returns tomorrow, unflagged.
-  const r = part === 'new' && first
+  const justMet = w.met === today && w.r.box <= 1 && !w.r.flag;
+  const r = (part === 'new' && first) || justMet
     ? correct ? { ...grade(w.r, true, today) } : { ...w.r, no: w.r.no + 1, due: today + 1, last: today }
     : grade(w.r, correct, today);
   const log = dayLog(st, today);
@@ -244,7 +287,8 @@ export function recordRecognition(st: State, id: string, correct: boolean, today
 export function recordSpelling(st: State, id: string, correct: boolean, today: number, wrongAt: number[] = []): State {
   const w = ws(st, id);
   const before = spellKnown(w);
-  const s = grade(w.s, correct, today);
+  // A word met today is still brand new, so a slip is a retry tomorrow and not a mark against it.
+  const s = !correct && w.met === today && w.s.box <= 1 && !w.s.flag ? { ...w.s, no: w.s.no + 1, due: today + 1, last: today } : grade(w.s, correct, today);
   const log = dayLog(st, today);
   const nw = { ...w, s, met: w.met ?? today };
   const next: State = {
