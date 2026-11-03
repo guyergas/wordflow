@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   applyPlacement, buildPlan, clozeOf, currentLevel, dayLog, dayNumber, hardWords, isKnown, isMet, Kind, label, levelStats, LEARNING_CAP, options,
-  Part, Plan, placementWords, PLACEMENT_PASS, recordRecognition, recordSpelling, spellAlign, spellDiff, spellKnown, spellMeasured, State, Step, tileSet,
+  Part, Plan, placementWords, PLACEMENT_PASS, recordRecognition, recordSpelling, givenLetters, spellAlign, spellDiff, spellKnown, spellMeasured, State, Step, tileSet,
   toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, resolveCheck, restorePaused, spellCandidates,
 } from './engine';
 import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind, sentencePlan, sentencesKnown, tokens, TOPICS, unknownWords } from './sentences';
@@ -290,7 +290,7 @@ function Session({ st, update, onExit, onMore, onMoreNew }: { st: State; update:
     update((s) => {
       if (!s.plan) return s;
       const lastInPart = s.plan.steps.reduce((acc, x, i) => (x.part === stp.part ? i : acc), s.plan.at);
-      const retry: Step = { part: stp.part, kind: stp.kind === 'memo' || stp.kind === 'type' ? 'memo' : stp.kind === 'tiles' || stp.kind === 'gaps' ? 'tiles' : 'meaning', id: stp.id, retry: true };
+      const retry: Step = { part: stp.part, kind: stp.kind === 'memo' || stp.kind === 'type' ? 'memo' : stp.kind === 'tiles' || stp.kind === 'gaps' ? 'gaps' : 'meaning', id: stp.id, retry: true };
       const copy = [...s.plan.steps];
       copy.splice(lastInPart + 1, 0, retry);
       return { ...s, plan: { ...s.plan, steps: copy } };
@@ -535,7 +535,7 @@ function TileSpell({ st, update, step, onResult, onNext }: ExProps) {
   const say = useSay(st);
   const word = w.en.toLowerCase();
   const kind = step.kind;
-  const [set] = useState(() => tileSet(word, kind));
+  const [set] = useState(() => tileSet(word, kind, undefined, ws(st, w.id).s.box));
   const [used, setUsed] = useState<boolean[]>(() => set.letters.map(() => false));
   const [placed, setPlaced] = useState<string[]>(() => [...word].map((c, i) => (set.given[i] ? c : '')));
   const [shake, setShake] = useState(-1);
@@ -603,16 +603,19 @@ function TypeSpell({ st, update, step, onResult, onNext }: ExProps) {
   const [text, setText] = useState('');
   const [wrong, setWrong] = useState<number[] | null>(null);
   const [looking, setLooking] = useState(step.kind === 'memo');
+  const [given] = useState(() => (step.kind === 'memo' ? givenLetters(w.en, ws(st, w.id).s.box) : [...w.en].map(() => false)));
+  const open = useMemo(() => given.flatMap((g, i) => (g ? [] : [i])), [given]);
+  const merged = [...w.en].map((c, i) => { if (given[i]) return c; const k = open.indexOf(i); return text[k] ?? ''; }).join('');
   const done = wrong !== null;
-  const badTyped = done ? spellAlign(w.en, text).typed : [];
+  const badTyped = done ? spellAlign(w.en, merged).typed : [];
 
   useEffect(() => { say(w.en); }, [w.id]);
 
-  const key = (c: string) => { if (done || looking) return; if (st.settings.sound) sfx.tap(); setText((t) => (t.length < w.en.length ? t + c : t)); };
+  const key = (c: string) => { if (done || looking) return; if (st.settings.sound) sfx.tap(); setText((t) => (t.length < open.length ? t + c : t)); };
   const back = () => { if (!done && !looking) setText((t) => t.slice(0, -1)); };
   const check = () => {
-    if (done || looking || text.length < w.en.length) return;
-    const d = spellDiff(w.en, text);
+    if (done || looking || text.length < open.length) return;
+    const d = spellDiff(w.en, merged);
     setWrong(d);
     const ok = d.length === 0;
     if (st.settings.sound) (ok ? sfx.good : sfx.bad)();
@@ -645,11 +648,11 @@ function TypeSpell({ st, update, step, onResult, onNext }: ExProps) {
 
   return (
     <div className="q">
-      <p className="prompt">{step.kind === 'memo' ? 'עכשיו כתבי אותה' : 'כתבי את המילה ששמעת'}</p>
+      <p className="prompt">{step.kind === 'memo' ? (open.length < w.en.length ? 'השלימי את האותיות החסרות' : 'עכשיו כתבי אותה') : 'כתבי את המילה ששמעת'}</p>
       <div className="word-hero he medium">{w.he}</div>
       <button type="button" className="speak" onClick={() => say(w.en)} aria-label="השמעה"><SpeakIcon /></button>
       <div className={`typed ${done ? (wrong!.length ? 'is-bad' : 'is-good') : ''}`} dir="ltr" aria-live="polite">
-        {[...w.en].map((_, i) => <span key={i} className={`ln ${!done && i === text.length ? 'cur' : ''} ${done && badTyped.includes(i) ? 'bad' : ''}`}>{text[i] ?? ''}</span>)}
+        {[...w.en].map((_, i) => <span key={i} className={`ln ${given[i] ? 'given' : ''} ${!done && i === open[text.length] ? 'cur' : ''} ${done && badTyped.includes(i) ? 'bad' : ''}`}>{given[i] ? w.en[i] : text[open.indexOf(i)] ?? ''}</span>)}
       </div>
       {done && wrong!.length > 0 && (
         <div className="feedback soft" role="status">
@@ -667,7 +670,7 @@ function TypeSpell({ st, update, step, onResult, onNext }: ExProps) {
               {i === 2 && <button type="button" className="k wide" onClick={back} aria-label="מחיקה">⌫</button>}
             </div>
           ))}
-          <button type="button" className="cta kcheck" disabled={text.length < w.en.length} onClick={check}>בדיקה</button>
+          <button type="button" className="cta kcheck" disabled={text.length < open.length} onClick={check}>בדיקה</button>
         </div>
       )}
     </div>

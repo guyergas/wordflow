@@ -3,7 +3,7 @@ import { WORDS, WORD, LEVELS } from './words';
 import { classified, recordSentence, SENTENCES, sentencePlan, tokens, unknownWords } from './sentences';
 import {
   applyPlacement, buildPlan, clozeOf, dayLog, grade, initialState, isKnown, KNOWN_BOX, LEARNING_CAP, freshMetric, newAllowance,
-  spellingPlan, practicePlan, restorePaused, options, recordRecognition, resolveCheck, nextNewWords, buildPlan as bp, recordSpelling, spellAlign, spellDiff, State, tileSet, trapsAt, ws, freshWord,
+  spellingPlan, practicePlan, restorePaused, options, recordRecognition, resolveCheck, nextNewWords, buildPlan as bp, recordSpelling, givenLetters, spellAlign, spellDiff, State, tileSet, trapsAt, ws, freshWord,
 } from './engine';
 
 const T = 20000;
@@ -159,7 +159,7 @@ describe('daily plan', () => {
     expect(today.steps.some((s) => s.id === 'friend' && ['tiles', 'gaps', 'memo', 'type'].includes(s.kind))).toBe(false);
     const seen = recordRecognition(st, 'friend', true, T + 1, 'boost');
     const later = buildPlan(seen, T + 2);
-    expect(later.steps.some((s) => s.id === 'friend' && s.kind === 'tiles')).toBe(true);
+    expect(later.steps.some((s) => s.id === 'friend' && s.kind === 'gaps')).toBe(true);
   });
 });
 
@@ -362,7 +362,7 @@ describe('spelling round', () => {
   it('words marked for spelling come first, stronger words are written from sound', () => {
     let st = applyPlacement(initialState(), {}, 1, T - 5);
     st = recordSpelling(st, 'music', false, T - 1);
-    st = { ...st, words: { ...st.words, friend: { ...ws(st, 'friend'), s: { ...freshMetric(), box: 3, ok: 3, due: T } } } };
+    st = { ...st, words: { ...st.words, friend: { ...ws(st, 'friend'), s: { ...freshMetric(), box: 4, ok: 3, due: T } } } };
     const plan = spellingPlan(st, T);
     expect(plan.steps[0].id).toBe('music');
     expect(plan.steps.find((x) => x.id === 'friend')?.kind).toBe('type');
@@ -392,5 +392,33 @@ describe('pointing at the right letters', () => {
   it('an extra letter marks the extra typed letter', () => {
     expect(spellAlign('cat', 'catt').typed.length).toBe(1);
     expect(spellAlign('cat', 'catt').target.length).toBe(1);
+  });
+});
+
+describe('letters fade as the word gets stronger', () => {
+  const hidden = (w: string, box: number) => givenLetters(w, box).filter((g) => !g).length;
+  it('hides more letters at each level, and all of them at the end', () => {
+    for (const w of ['friend', 'beautiful', 'responsibility']) {
+      expect(hidden(w, 0)).toBeLessThan(hidden(w, 1));
+      expect(hidden(w, 1)).toBeLessThan(hidden(w, 2));
+      expect(hidden(w, 2)).toBeLessThan(hidden(w, 3));
+      expect(hidden(w, 3)).toBe(w.length);
+    }
+  });
+  it('a first try on a word leaves most letters and the first one', () => {
+    for (let i = 0; i < 30; i++) {
+      const g = givenLetters('friend', 0);
+      expect(g[0]).toBe(true);
+      expect(g.filter(Boolean).length).toBeGreaterThanOrEqual(4);
+    }
+  });
+  it('works for every word at every level, always asking for at least one letter', () => {
+    for (const w of WORDS) for (const box of [0, 1, 2, 3]) expect(hidden(w.en, box)).toBeGreaterThan(0);
+  });
+  it('a new spelling word never starts as a full scramble', () => {
+    const st = recordRecognition(initialState(), 'friend', true, T - 2, 'new');
+    const t = tileSet('friend', 'gaps', undefined, ws(st, 'friend').s.box);
+    expect(t.letters.length).toBeLessThan(6);
+    expect(t.given.filter(Boolean).length).toBeGreaterThanOrEqual(4);
   });
 });

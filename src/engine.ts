@@ -83,7 +83,7 @@ const recKind = (box: number, i: number): Kind => {
   if (box === 2) return i % 2 ? 'listen' : 'reverse';
   return (['cloze', 'listen', 'reverse'] as Kind[])[i % 3];
 };
-export const spellKind = (box: number): Kind => (box <= 0 ? 'tiles' : box === 1 ? 'gaps' : box === 2 ? 'memo' : 'type');
+export const spellKind = (box: number): Kind => (box <= 2 ? 'gaps' : box === 3 ? 'memo' : 'type');
 
 /**
  * Free practice, any time: today's words, words marked for improvement, words that are due, and older words.
@@ -115,7 +115,7 @@ export function spellCandidates(st: State, today: number): Word[] {
 
 /** Spelling round: look at the word, hide it, write it on the lines. Stronger words are written from sound alone. */
 export function spellingPlan(st: State, today: number, count = 8): Plan {
-  const steps: Step[] = spellCandidates(st, today).slice(0, count).map((w) => ({ part: 'boost', kind: ws(st, w.id).s.box >= 2 ? 'type' : 'memo', id: w.id }));
+  const steps: Step[] = spellCandidates(st, today).slice(0, count).map((w) => ({ part: 'boost', kind: ws(st, w.id).s.box >= 4 ? 'type' : 'memo', id: w.id }));
   return { day: today, steps, at: 0, short: false, extra: true, spelling: true, alreadyKnown: [], newIds: [], consolidating: false, gained: { r: [], s: [] }, flagged: [] };
 }
 
@@ -369,17 +369,28 @@ export function options(st: State, id: string, count: number, rnd: () => number 
   return shuffle([w, ...picks], rnd);
 }
 
-export function tileSet(word: string, kind: Kind, rnd: () => number = Math.random): { letters: string[]; given: boolean[] } {
+/**
+ * Which letters stay visible. The stronger the word, the fewer stay: about 70%, 50%, then 25%, then none.
+ * The first letter stays while she is still getting to know the word.
+ */
+export function givenLetters(word: string, box: number, rnd: () => number = Math.random): boolean[] {
+  const n = word.length;
+  if (box >= 3) return new Array(n).fill(false);
+  const hide = Math.min(n, Math.max(box === 0 ? 1 : 2, Math.round(n * [0.3, 0.5, 0.75][Math.max(0, box)])));
+  const order = shuffle(Array.from({ length: n }, (_, i) => i).filter((i) => box === 2 || i > 0), rnd);
+  const hidden = new Set(order.slice(0, hide));
+  return Array.from({ length: n }, (_, i) => !hidden.has(i));
+}
+
+export function tileSet(word: string, kind: Kind, rnd: () => number = Math.random, box = 0): { letters: string[]; given: boolean[] } {
   const clean = word.toLowerCase();
   const chars = [...clean];
   const given = chars.map(() => false);
   if (kind === 'gaps') {
-    const gaps = Math.max(2, Math.min(4, Math.round(chars.length * 0.4)));
-    const idx = shuffle(chars.map((_, i) => i), rnd);
-    const hide = new Set(idx.slice(0, gaps));
-    chars.forEach((_, i) => { given[i] = !hide.has(i); });
+    const shown = givenLetters(clean, box, rnd);
+    shown.forEach((v, i) => { given[i] = v; });
     const missing = chars.filter((_, i) => !given[i]);
-    const extras = shuffle('aeiouyrstln'.split('').filter((c) => !missing.includes(c)), rnd).slice(0, 2);
+    const extras = shuffle('aeiouyrstln'.split('').filter((c) => !missing.includes(c)), rnd).slice(0, Math.min(box, 2));
     return { letters: shuffle([...missing, ...extras], rnd), given };
   }
   return { letters: shuffle(chars, rnd), given };

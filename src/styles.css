@@ -336,3 +336,5 @@ input[type=range] { width: 100%; accent-color: var(--rec); }
 .typed.is-bad .ln.bad { color: var(--spell); border-bottom-color: var(--spell); font-weight: 650; }
 .slips { display: grid; gap: 2px; font-size: 15px; }
 .slip-right { font-weight: 650; font-size: 18px; color: var(--spell); } .slip-wrong { font-weight: 500; font-size: 18px; }
+.ln.given { color: var(--ink-3); border-bottom-color: transparent; }
+.typed.is-bad .ln.given, .typed.is-good .ln.given { border-bottom-color: transparent; }
