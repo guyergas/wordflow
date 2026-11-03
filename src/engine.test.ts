@@ -3,7 +3,7 @@ import { WORDS, WORD, LEVELS } from './words';
 import { classified, recordSentence, SENTENCES, sentencePlan, tokens, unknownWords } from './sentences';
 import {
   applyPlacement, buildPlan, clozeOf, dayLog, grade, initialState, isKnown, KNOWN_BOX, LEARNING_CAP, freshMetric, newAllowance,
-  spellingPlan, practicePlan, restorePaused, options, recordRecognition, resolveCheck, nextNewWords, buildPlan as bp, recordSpelling, spellLevel, spellKind, givenLetters, spellAlign, spellDiff, State, tileSet, trapsAt, ws, freshWord,
+  spellingPlan, practicePlan, restorePaused, options, recordRecognition, resolveCheck, nextNewWords, buildPlan as bp, recordSpelling, onTheWay, steppedToday, totals, spellLevel, spellKind, givenLetters, spellAlign, spellDiff, State, tileSet, trapsAt, ws, freshWord,
 } from './engine';
 
 const T = 20000;
@@ -428,4 +428,13 @@ it('a strong word marked for improvement gets letters back', () => {
   expect(spellLevel(m)).toBe(1);
   expect(spellKind(spellLevel(m))).toBe('gaps');
   expect(givenLetters('friend', spellLevel(m)).filter(Boolean).length).toBeGreaterThan(0);
+});
+
+it('progress shows on the same day, before a word is established', () => {
+  let st = recordRecognition(initialState(), 'friend', true, T, 'new');
+  st = recordSpelling(st, 'friend', true, T);
+  expect(totals(st).known).toBe(0);
+  expect(onTheWay(st)).toEqual({ r: 1, s: 1 });
+  expect(steppedToday(st, T)).toEqual({ r: 1, s: 1 });
+  expect(steppedToday(st, T + 1)).toEqual({ r: 0, s: 0 });
 });

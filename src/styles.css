@@ -338,3 +338,4 @@ input[type=range] { width: 100%; accent-color: var(--rec); }
 .slip-right { font-weight: 650; font-size: 18px; color: var(--spell); } .slip-wrong { font-weight: 500; font-size: 18px; }
 .ln.given { color: var(--ink-3); border-bottom-color: transparent; }
 .typed.is-bad .ln.given, .typed.is-good .ln.given { border-bottom-color: transparent; }
+.two-meters small { font-size: 12.5px; color: var(--ink-3); margin-top: 2px; }

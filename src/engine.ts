@@ -444,6 +444,25 @@ export function totals(st: State): Totals {
   return { met, known, spelled, flagged, all: WORDS.length };
 }
 
+/** Words on their way: practiced and moving up, but not yet established. This is what changes on the day itself. */
+export function onTheWay(st: State): { r: number; s: number } {
+  let r = 0, sp = 0;
+  for (const w of WORDS) {
+    const x = ws(st, w.id);
+    if (isMet(x) && !isKnown(x)) r++;
+    if (spellMeasured(x) && !spellKnown(x)) sp++;
+  }
+  return { r, s: sp };
+}
+
+/** Words that moved up a step today, per measure. */
+export function steppedToday(st: State, today: number): { r: number; s: number } {
+  const up = (m: Metric) => m.last === today && !m.flag && m.box > 0 && m.ok > 0;
+  let r = 0, sp = 0;
+  for (const w of WORDS) { const x = ws(st, w.id); if (up(x.r)) r++; if (up(x.s)) sp++; }
+  return { r, s: sp };
+}
+
 export function levelStats(st: State, level: number) {
   const list = WORDS.filter((w) => w.level === level);
   const known = list.filter((w) => isKnown(ws(st, w.id))).length;

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   applyPlacement, buildPlan, clozeOf, currentLevel, dayLog, dayNumber, hardWords, isKnown, isMet, Kind, label, levelStats, LEARNING_CAP, options,
   Part, Plan, placementWords, PLACEMENT_PASS, recordRecognition, recordSpelling, givenLetters, spellLevel, spellAlign, spellDiff, spellKnown, spellMeasured, State, Step, tileSet,
-  toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, resolveCheck, restorePaused, spellCandidates,
+  toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, resolveCheck, restorePaused, onTheWay, steppedToday, spellCandidates,
 } from './engine';
 import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind, sentencePlan, sentencesKnown, tokens, TOPICS, unknownWords } from './sentences';
 import { LEVELS, WORD, WORDS, Word } from './words';
@@ -178,6 +178,7 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
   const preview = useMemo(() => plan ?? buildPlan(st, today), [plan?.day, st.words, today]);
   const inProgress = !!plan && plan.at > 0 && plan.at < plan.steps.length;
   const t = totals(st);
+  const way = onTheWay(st);
   const week = weekDays(st, today);
   const weekCount = week.filter(Boolean).length;
   const hour = new Date().getHours();
@@ -224,8 +225,8 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
       {!done && !inProgress && <button type="button" className="link center-block" onClick={() => onStart({ short: true })}>יש לי רק כמה דקות היום</button>}
 
       <section className="two-meters" aria-label="סיכום">
-        <div><b>{t.known}</b><span>מילים שאת מכירה</span></div>
-        <div><b>{t.spelled}</b><span>מילים שאת יודעת לאיית</span></div>
+        <div><b>{t.known}</b><span>מילים שאת מכירה</span>{way.r > 0 && <small>ועוד {way.r} בדרך</small>}</div>
+        <div><b>{t.spelled}</b><span>מילים שאת יודעת לאיית</span>{way.s > 0 && <small>ועוד {way.s} בדרך</small>}</div>
       </section>
 
       {t.met > 0 && (
@@ -750,6 +751,7 @@ function Finish({ st, plan, onExit, onMore, onMoreNew }: { st: State; plan: Plan
   const pct = total ? Math.round(((log.rOk + log.sOk) / total) * 100) : 100;
   const point = plan.flagged[0] ? WORD[plan.flagged[0]] : null;
   const say = useSay(st);
+  const stepped = steppedToday(st, plan.day);
   const canMore = !plan.extra && newAllowance(st, plan.day) > 0 && nextNewWords(st, 1).length > 0;
   return (
     <div className="session finish">
@@ -772,6 +774,8 @@ function Finish({ st, plan, onExit, onMore, onMoreNew }: { st: State; plan: Plan
       {(plan.gained.r.length > 0 || plan.gained.s.length > 0) && (
         <p className="gain">{plan.gained.r.length > 0 && <>התבססו {plan.gained.r.length} מילים. </>}{plan.gained.s.length > 0 && <>{plan.gained.s.length} מילים עלו באיות.</>}</p>
       )}
+      {(stepped.r > 0 || stepped.s > 0) && <p className="gain">היום התקדמו {stepped.r} מילים בהכרות ו-{stepped.s} באיות.</p>}
+      <p className="small muted">מילה עולה שלב אחד ביום, ונספרת כמבוססת אחרי 3 ימי הצלחה שונים. ככה היא נשארת בזיכרון.</p>
       {point && <p className="one-point">נקודה אחת למחר: <En>{point.en}</En> ({point.he}). היא תחזור בחיזוק.</p>}
       <div className="grow" />
       {canMore && <button type="button" className="cta" onClick={onMoreNew}>עוד מילים חדשות</button>}
