@@ -2,13 +2,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   applyPlacement, buildPlan, clozeOf, currentLevel, dayLog, dayNumber, hardWords, isKnown, isMet, Kind, label, levelStats, LEARNING_CAP, options,
   Part, Plan, placementWords, PLACEMENT_PASS, recordRecognition, recordSpelling, spellDiff, spellKnown, spellMeasured, State, Step, tileSet,
-  toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning,
+  toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, resolveCheck,
 } from './engine';
+import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind, sentencePlan, sentencesKnown, tokens, TOPICS, unknownWords } from './sentences';
 import { LEVELS, WORD, WORDS, Word } from './words';
 import { askPersistence, canSpeak, englishVoices, load, save, sfx, speak } from './platform';
 
 type Tab = 'home' | 'path' | 'progress' | 'words';
 type Update = (fn: (s: State) => State) => void;
+type StartOpts = { short?: boolean; extra?: boolean; bonus?: boolean };
 
 const PART: Record<Part, { name: string; next: string; note: string }> = {
   warm: { name: 'חימום', next: 'מילים שאת כבר מכירה', note: 'כאן את על מגרש הבית' },
@@ -39,6 +41,7 @@ export function App() {
   const [st, setSt] = useState<State>(() => load());
   const [tab, setTab] = useState<Tab>('home');
   const [inSession, setInSession] = useState(false);
+  const [inSentences, setInSentences] = useState(false);
   const [settings, setSettings] = useState(false);
   const [wordSheet, setWordSheet] = useState<string | null>(null);
   const update: Update = useCallback((fn) => setSt((s) => { const n = fn(s); save(n); return n; }), []);
@@ -46,7 +49,7 @@ export function App() {
 
   useEffect(() => { void askPersistence(); }, []);
 
-  const startSession = (opts: { short?: boolean; extra?: boolean } = {}) => {
+  const startSession = (opts: StartOpts = {}) => {
     update((s) => {
       const fresh = s.plan && s.plan.day === today && !opts.short && !opts.extra && s.plan.at < s.plan.steps.length;
       return fresh ? s : { ...s, plan: buildPlan(s, today, opts) };
@@ -55,12 +58,13 @@ export function App() {
   };
 
   if (!st.onboarded) return <Onboarding st={st} update={update} />;
-  if (inSession && st.plan) return <Session st={st} update={update} onExit={() => { setInSession(false); setTab('home'); }} onMore={() => startSession({ extra: true })} />;
+  if (inSession && st.plan) return <Session st={st} update={update} onExit={() => { setInSession(false); setTab('home'); }} onMore={() => startSession({ extra: true })} onMoreNew={() => startSession({ bonus: true })} />;
+  if (inSentences) return <SentenceSession st={st} update={update} today={today} onExit={() => setInSentences(false)} />;
 
   return (
     <div className="app">
       <main className="page">
-        {tab === 'home' && <Home st={st} today={today} onStart={startSession} onSettings={() => setSettings(true)} />}
+        {tab === 'home' && <Home st={st} today={today} onStart={startSession} onSentences={() => setInSentences(true)} onSettings={() => setSettings(true)} />}
         {tab === 'path' && <PathScreen st={st} onWord={setWordSheet} />}
         {tab === 'progress' && <Progress st={st} today={today} onWord={setWordSheet} />}
         {tab === 'words' && <WordsScreen st={st} onWord={setWordSheet} />}
@@ -161,9 +165,13 @@ function Onboarding({ st, update }: { st: State; update: Update }) {
 }
 
 // ---------- Home ----------
-function Home({ st, today, onStart, onSettings }: { st: State; today: number; onStart: (o?: { short?: boolean; extra?: boolean }) => void; onSettings: () => void }) {
+function Home({ st, today, onStart, onSentences, onSettings }: { st: State; today: number; onStart: (o?: StartOpts) => void; onSentences: () => void; onSettings: () => void }) {
   const plan = st.plan && st.plan.day === today && !st.plan.extra ? st.plan : null;
-  const done = dayLog(st, today).done;
+  const log = dayLog(st, today);
+  const done = log.done;
+  const canMore = newAllowance(st, today) > 0 && nextNewWords(st, 1).length > 0;
+  const midBonus = !!plan?.bonus && plan.at < plan.steps.length;
+  const ready = readyCount(st);
   const preview = useMemo(() => plan ?? buildPlan(st, today), [plan?.day, st.words, today]);
   const inProgress = !!plan && plan.at > 0 && plan.at < plan.steps.length;
   const t = totals(st);
@@ -185,8 +193,10 @@ function Home({ st, today, onStart, onSettings }: { st: State; today: number; on
           <>
             <span className="chip-d">היום הושלם</span>
             <h2>סיימת את האימון של היום</h2>
-            <p>המילים החדשות יחכו לך מחר. בא לך עוד קצת? סיבוב קצר על מה שצריך חיזוק.</p>
-            <button type="button" className="cta-d" onClick={() => onStart({ extra: true })}>עוד סיבוב קטן</button>
+            <p>{log.fresh > 0 ? `פגשת היום ${log.fresh} מילים חדשות. ` : ''}{canMore || midBonus ? 'בא לך עוד? אפשר ללמוד עוד כמה עכשיו.' : 'יש כרגע מספיק מילים בתהליך. חדשות יגיעו ברגע שכמה מהן יתבססו.'}</p>
+            {canMore || midBonus
+              ? <button type="button" className="cta-d" onClick={() => onStart({ bonus: true })}>{midBonus ? 'להמשיך את הסבב' : 'עוד מילים חדשות'}</button>
+              : <button type="button" className="cta-d" onClick={() => onStart({ extra: true })}>סיבוב חיזוק קטן</button>}
           </>
         ) : (
           <>
@@ -215,6 +225,11 @@ function Home({ st, today, onStart, onSettings }: { st: State; today: number; on
         <div><b>{t.spelled}</b><span>מילים שאת יודעת לאיית</span></div>
       </section>
 
+      <button type="button" className="sent-card" onClick={onSentences}>
+        <span className="sent-txt"><b>אימון משפטים</b><small>{ready > 0 ? `${ready} משפטים שימושיים מהמילים שאת כבר מכירה` : 'משפטים שימושיים לכל יום'}</small></span>
+        <span className="sent-go" aria-hidden="true">←</span>
+      </button>
+
       <section className="card week">
         <div className="row-between"><h3>השבוע</h3><span className="muted small">{weekCount} מתוך {st.settings.weeklyGoal} ימים</span></div>
         <div className="week-tiles" aria-hidden="true">
@@ -227,7 +242,7 @@ function Home({ st, today, onStart, onSettings }: { st: State; today: number; on
 }
 
 // ---------- Session ----------
-function Session({ st, update, onExit, onMore }: { st: State; update: Update; onExit: () => void; onMore: () => void }) {
+function Session({ st, update, onExit, onMore, onMoreNew }: { st: State; update: Update; onExit: () => void; onMore: () => void; onMoreNew: () => void }) {
   const plan = st.plan as Plan;
   const today = plan.day;
   const [shownPart, setShownPart] = useState<Part | null>(plan.at > 0 ? plan.steps[plan.at]?.part ?? null : null);
@@ -271,7 +286,7 @@ function Session({ st, update, onExit, onMore }: { st: State; update: Update; on
     prevDone.current = isDone;
   }, [isDone]);
 
-  if (isDone) return <Finish st={st} plan={plan} onExit={onExit} onMore={onMore} />;
+  if (isDone) return <Finish st={st} plan={plan} onExit={onExit} onMore={onMore} onMoreNew={onMoreNew} />;
   if (!step) return null;
 
   // Moving into a new part gets a small moment, and flips a tile of what's waiting.
@@ -327,7 +342,7 @@ function Interlude({ st, plan, part, onGo, onExit }: { st: State; plan: Plan; pa
       <div className="s-top"><button type="button" className="round" aria-label="יציאה" onClick={onExit}>
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg></button></div>
       <div className="il-body">
-        <span className="stage">עצירה {pi + 1} מתוך 3</span>
+        <span className="stage">{plan.bonus ? 'סבב נוסף' : `עצירה ${pi + 1} מתוך 3`}</span>
         <h1>{title}</h1>
         <p className="lead">{PART[part].next}. {PART[part].note}.</p>
         {plan.extra ? null : plan.consolidating ? (
@@ -344,7 +359,7 @@ function Interlude({ st, plan, part, onGo, onExit }: { st: State; plan: Plan; pa
             ))}
           </div>
         )}
-        {pi < 2 && !plan.consolidating && !plan.extra && <p className="small muted center">בכל עצירה נחשפת עוד אות מהמילים שמחכות לך.</p>}
+        {pi < 2 && !plan.consolidating && !plan.extra && !plan.bonus && <p className="small muted center">בכל עצירה נחשפת עוד אות מהמילים שמחכות לך.</p>}
       </div>
       <button type="button" className="cta" onClick={onGo}>{count > 0 ? 'קדימה' : 'ממשיכים'}</button>
     </div>
@@ -356,6 +371,7 @@ interface ExProps { st: State; update: Update; step: Step; today: number; onResu
 
 function Exercise(p: ExProps) {
   switch (p.step.kind) {
+    case 'check': return <Check {...p} />;
     case 'intro': return <Intro {...p} />;
     case 'match': return <Match {...p} />;
     case 'tiles': case 'gaps': return <TileSpell {...p} />;
@@ -380,13 +396,60 @@ function Intro({ st, step, onNext }: ExProps) {
   const index = (st.plan?.newIds ?? []).indexOf(w.id);
   return (
     <div className="q intro-q">
-      <p className="prompt">מילה {index + 1} מתוך {st.plan?.newIds.length}</p>
+      <p className="prompt">{index >= 0 ? 'מילה חדשה' : 'עוד מבט'}</p>
       <div className="flip-in tiles-row" dir="ltr">{[...w.en].map((c, i) => <Tile key={i} ch={c} state="pop" small={w.en.length > 8} />)}</div>
       <button type="button" className="speak" onClick={() => say(w.en)} aria-label="השמעה"><SpeakIcon /></button>
       <div className="meaning">{w.he}</div>
       <button type="button" className="sentence" dir="ltr" lang="en" onClick={() => say(w.ex)}><span>{highlight(w.ex, w.en)}</span><span className="s-icon"><SpeakIcon /></span></button>
       <div className="grow" />
       <button type="button" className="cta" onClick={() => { if (st.settings.sound) sfx.tap(); onNext(); }}>הכרתי</button>
+    </div>
+  );
+}
+
+function Check(p: ExProps) {
+  const { st, update, step, today, onNext } = p;
+  const w = WORD[step.id];
+  const say = useSay(st);
+  const [phase, setPhase] = useState<'ask' | 'prove' | 'intro'>('ask');
+  const [picked, setPicked] = useState<string | null>(null);
+  const opts = useMemo(() => options(st, w.id, 4), [w.id]);
+  const left = st.plan?.steps.filter((x, i) => x.kind === 'check' && i >= (st.plan?.at ?? 0)).length ?? 1;
+  useEffect(() => { if (st.settings.autoSpeak) say(w.en); }, [w.id]);
+
+  const settle = (known: boolean) => { update((s) => resolveCheck(s, w.id, known, today)); onNext(); };
+  const pick = (o: Word) => {
+    if (picked) return;
+    setPicked(o.id);
+    const ok = o.id === w.id;
+    if (st.settings.sound) (ok ? sfx.good : sfx.tap)();
+    setTimeout(() => (ok ? settle(true) : setPhase('intro')), ok ? 1100 : 1300);
+  };
+
+  if (phase === 'intro') return <Intro {...p} onNext={() => settle(false)} />;
+  if (phase === 'prove') return (
+    <div className="q">
+      <p className="prompt">אם את מכירה, מה הפירוש?</p>
+      <button type="button" className="word-hero as-btn" onClick={() => say(w.en)}><En>{w.en}</En></button>
+      <div className="answers">
+        {opts.map((o) => (
+          <button key={o.id} type="button" onClick={() => pick(o)} className={`ans ${picked && o.id === w.id ? 'right' : ''} ${picked === o.id && o.id !== w.id ? 'wrong' : ''}`}>{o.he}</button>
+        ))}
+        {!picked && <button type="button" className="ans quiet" onClick={() => setPhase('intro')}>בעצם לא בטוחה</button>}
+      </div>
+      {picked === w.id && <div className="feedback good" role="status"><b>מעולה, את כבר מכירה! מביאה מילה אחרת.</b></div>}
+      {picked && picked !== w.id && <div className="feedback soft" role="status"><b>אין בעיה, נלמד אותה עכשיו.</b></div>}
+    </div>
+  );
+  return (
+    <div className="q">
+      <p className="prompt">{left > 1 ? `עוד ${left} מילים` : 'מילה אחרונה'}: את מכירה אותה?</p>
+      <div className="flip-in tiles-row" dir="ltr">{[...w.en].map((c, i) => <Tile key={i} ch={c} state="pop" small={w.en.length > 8} />)}</div>
+      <button type="button" className="speak" onClick={() => say(w.en)} aria-label="השמעה"><SpeakIcon /></button>
+      <div className="answers">
+        <button type="button" className="cta" onClick={() => setPhase('intro')}>חדשה לי</button>
+        <button type="button" className="ans" onClick={() => setPhase('prove')}>כבר מכירה</button>
+      </div>
     </div>
   );
 }
@@ -646,16 +709,17 @@ function Confetti() {
   return <canvas ref={ref} className="confetti" aria-hidden="true" />;
 }
 
-function Finish({ st, plan, onExit, onMore }: { st: State; plan: Plan; onExit: () => void; onMore: () => void }) {
+function Finish({ st, plan, onExit, onMore, onMoreNew }: { st: State; plan: Plan; onExit: () => void; onMore: () => void; onMoreNew: () => void }) {
   const log = dayLog(st, plan.day);
   const total = log.rOk + log.rNo + log.sOk + log.sNo;
   const pct = total ? Math.round(((log.rOk + log.sOk) / total) * 100) : 100;
   const point = plan.flagged[0] ? WORD[plan.flagged[0]] : null;
   const say = useSay(st);
+  const canMore = !plan.extra && newAllowance(st, plan.day) > 0 && nextNewWords(st, 1).length > 0;
   return (
     <div className="session finish">
       <Confetti />
-      <span className="stage">{plan.extra ? 'סיבוב נוסף' : 'סיימת את שלוש העצירות'}</span>
+      <span className="stage">{plan.extra || plan.bonus ? 'סבב נוסף' : 'סיימת את שלוש העצירות'}</span>
       <h1>{pct >= 85 ? `אלופה, ${st.name}!` : `כל הכבוד שהגעת עד הסוף, ${st.name}!`}</h1>
       {plan.newIds.length > 0 && !plan.consolidating && (
         <section className="fresh-shelf">
@@ -665,6 +729,7 @@ function Finish({ st, plan, onExit, onMore }: { st: State; plan: Plan; onExit: (
           </div>
         </section>
       )}
+      {plan.alreadyKnown.length > 0 && <p className="one-point">התברר שאת כבר מכירה: {plan.alreadyKnown.map((id, i) => <span key={id}>{i > 0 ? ', ' : ''}<En>{WORD[id].en}</En></span>)}. נחזור לזה בחימום בהמשך.</p>}
       <section className="results-grid">
         <div><b>{log.rOk + log.rNo ? Math.round((log.rOk / (log.rOk + log.rNo)) * 100) : '-'}{log.rOk + log.rNo ? '%' : ''}</b><span>דיוק בהכרות</span></div>
         <div><b>{log.sOk + log.sNo ? Math.round((log.sOk / (log.sOk + log.sNo)) * 100) : '-'}{log.sOk + log.sNo ? '%' : ''}</b><span>דיוק באיות</span></div>
@@ -674,8 +739,9 @@ function Finish({ st, plan, onExit, onMore }: { st: State; plan: Plan; onExit: (
       )}
       {point && <p className="one-point">נקודה אחת למחר: <En>{point.en}</En> ({point.he}). היא תחזור בחיזוק.</p>}
       <div className="grow" />
-      <button type="button" className="cta" onClick={onExit}>סיום</button>
-      {!plan.extra && <button type="button" className="link center-block" onClick={onMore}>עוד סיבוב קטן</button>}
+      {canMore && <button type="button" className="cta" onClick={onMoreNew}>עוד מילים חדשות</button>}
+      <button type="button" className={canMore ? 'ans' : 'cta'} onClick={onExit}>סיום</button>
+      {!plan.extra && !canMore && <button type="button" className="link center-block" onClick={onMore}>סיבוב חיזוק קטן</button>}
     </div>
   );
 }
@@ -747,6 +813,12 @@ function Progress({ st, today, onWord }: { st: State; today: number; onWord: (id
           <div className="m-bar"><span style={{ width: `${(t.known / t.all) * 100}%` }} /></div><small>{learning} בתהליך</small></div>
         <div className="meter s"><span className="m-name">איות</span><b>{t.spelled}</b><small>מילים מבוססות מתוך {t.all}</small>
           <div className="m-bar"><span style={{ width: `${(t.spelled / t.all) * 100}%` }} /></div><small>{spellMeasuredCount} נבדקו</small></div>
+      </section>
+
+      <section className="card">
+        <div className="row-between"><h3>משפטים</h3><span className="chip">{sentencesKnown(st)}/{SENTENCES.length}</span></div>
+        <div className="gauge"><span style={{ width: `${(sentencesKnown(st) / SENTENCES.length) * 100}%` }} /></div>
+        <p className="small muted">{readyCount(st)} משפטים בנויים רק ממילים שאת כבר מכירה.</p>
       </section>
 
       <section className="card pace">
@@ -920,9 +992,136 @@ function Settings({ st, update, onClose }: { st: State; update: Update; onClose:
         {!confirmReset ? <button type="button" className="link" onClick={() => setConfirmReset(true)}>איפוס כל ההתקדמות</button> : (
           <><p className="small">למחוק את כל ההתקדמות? אי אפשר לבטל את זה.</p>
             <div className="btns"><button type="button" className="btn" onClick={() => setConfirmReset(false)}>ביטול</button>
-              <button type="button" className="btn del" onClick={() => { update(() => ({ ...load(), words: {}, days: {}, plan: null, traps: {}, confusions: {}, onboarded: false })); onClose(); }}>מחיקה</button></div></>
+              <button type="button" className="btn del" onClick={() => { update(() => ({ ...load(), words: {}, sentences: {}, days: {}, plan: null, traps: {}, confusions: {}, onboarded: false })); onClose(); }}>מחיקה</button></div></>
         )}
       </div>
     </Sheet>
+  );
+}
+
+// ---------- Sentences ----------
+const clean = (t: string) => (t === 'i' ? 'I' : t.startsWith("i'") ? `I${t.slice(1)}` : t);
+
+function SentenceSession({ st, update, today, onExit }: { st: State; update: Update; today: number; onExit: () => void }) {
+  const [queue, setQueue] = useState<{ s: Sentence; kind: 'meaning' | 'build' | 'ear'; retry?: boolean }[]>(() =>
+    sentencePlan(st, today).map((s) => ({ s, kind: sentenceKind(metricOf(st, s.id)) })));
+  const [at, setAt] = useState(0);
+  const [score, setScore] = useState({ ok: 0, all: 0 });
+  const item = queue[at];
+
+  useEffect(() => { if (at >= queue.length && st.settings.sound) sfx.win(); }, [at, queue.length]);
+
+  if (!item) return (
+    <div className="session finish">
+      <Confetti />
+      <span className="stage">אימון משפטים</span>
+      <h1>{score.all > 0 && score.ok / score.all >= 0.8 ? 'כבר מדברת!' : 'כל משפט מקרב אותך'}</h1>
+      <section className="results-grid one"><div><b>{score.ok}/{score.all}</b><span>משפטים נכונים בניסיון הראשון</span></div></section>
+      <div className="grow" />
+      <button type="button" className="cta" onClick={onExit}>סיום</button>
+    </div>
+  );
+
+  const result = (ok: boolean) => {
+    if (item.retry) return;
+    update((x) => recordSentence(x, item.s.id, ok, today));
+    setScore((c) => ({ ok: c.ok + (ok ? 1 : 0), all: c.all + 1 }));
+    if (!ok) setQueue((q) => [...q, { s: item.s, kind: 'meaning', retry: true }]);
+  };
+
+  return (
+    <div className="session" key={at}>
+      <div className="s-top">
+        <button type="button" className="round" aria-label="יציאה" onClick={onExit}><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg></button>
+        <div className="thin grow-bar"><span style={{ width: `${(at / queue.length) * 100}%` }} /></div>
+        <span className="topic">{TOPICS[item.s.topic]}</span>
+      </div>
+      {item.kind === 'meaning'
+        ? <SentenceMeaning st={st} s={item.s} onResult={result} onNext={() => setAt(at + 1)} />
+        : <SentenceBuild st={st} s={item.s} ear={item.kind === 'ear' && canSpeak()} onResult={result} onNext={() => setAt(at + 1)} />}
+    </div>
+  );
+}
+
+function UnknownHint({ st, s }: { st: State; s: Sentence }) {
+  const list = unknownWords(st, s);
+  if (!list.length) return null;
+  return <p className="hint-words">{list.length === 1 ? 'מילה שעוד לא התבססה: ' : 'מילים שעוד לא התבססו: '}{list.map((w, i) => <span key={w.id}>{i > 0 ? ' · ' : ''}<En>{w.en}</En> = {w.he}</span>)}</p>;
+}
+
+interface SentProps { st: State; s: Sentence; onResult: (ok: boolean) => void; onNext: () => void }
+
+function SentenceMeaning({ st, s, onResult, onNext }: SentProps) {
+  const say = useSay(st);
+  const [picked, setPicked] = useState<string | null>(null);
+  const opts = useMemo(() => {
+    const same = SENTENCES.filter((x) => x.id !== s.id && x.topic === s.topic).sort(() => Math.random() - 0.5).slice(0, 2);
+    return [s, ...same].sort(() => Math.random() - 0.5);
+  }, [s.id]);
+  useEffect(() => { if (st.settings.autoSpeak) say(s.en); }, [s.id]);
+  const pick = (o: Sentence) => {
+    if (picked) return;
+    setPicked(o.id);
+    const ok = o.id === s.id;
+    if (st.settings.sound) (ok ? sfx.good : sfx.bad)();
+    onResult(ok);
+    if (ok) setTimeout(onNext, 1000);
+  };
+  return (
+    <div className="q">
+      <p className="prompt">מה פירוש המשפט?</p>
+      <button type="button" className="sentence-hero" dir="ltr" lang="en" onClick={() => say(s.en)}>{s.en}<span className="s-icon"><SpeakIcon /></span></button>
+      <UnknownHint st={st} s={s} />
+      <div className="answers">
+        {opts.map((o) => <button key={o.id} type="button" onClick={() => pick(o)} className={`ans ${picked && o.id === s.id ? 'right' : ''} ${picked === o.id && o.id !== s.id ? 'wrong' : ''}`}>{o.he}</button>)}
+      </div>
+      {picked && picked !== s.id && <div className="feedback soft" role="status"><div className="fb-actions"><b>הפירוש מסומן בירוק.</b><button type="button" className="btn-next" onClick={onNext}>הבנתי</button></div></div>}
+      {picked === s.id && <div className="feedback good" role="status"><b>{praise(s.id)}</b></div>}
+    </div>
+  );
+}
+
+function SentenceBuild({ st, s, ear, onResult, onNext }: SentProps & { ear: boolean }) {
+  const say = useSay(st);
+  const target = useMemo(() => tokens(s.en).map(clean), [s.id]);
+  const [pool] = useState(() => target.map((t, i) => ({ t, i })).sort(() => Math.random() - 0.5));
+  const [placed, setPlaced] = useState<number[]>([]);
+  const [verdict, setVerdict] = useState<boolean | null>(null);
+  useEffect(() => { if (ear || st.settings.autoSpeak) say(s.en); }, [s.id]);
+  const text = (i: number) => pool.find((p) => p.i === i)!.t;
+  const tap = (i: number) => {
+    if (verdict !== null) return;
+    if (st.settings.sound) sfx.tap();
+    const next = [...placed, i];
+    setPlaced(next);
+    if (next.length === target.length) {
+      const ok = next.every((n, k) => text(n) === target[k]);
+      setVerdict(ok);
+      if (st.settings.sound) (ok ? sfx.good : sfx.bad)();
+      say(s.en);
+      onResult(ok);
+      if (ok) setTimeout(onNext, 1300);
+    }
+  };
+  return (
+    <div className="q">
+      <p className="prompt">{ear ? 'הקשיבי והרכיבי את המשפט' : 'הרכיבי את המשפט באנגלית'}</p>
+      {(!ear || verdict !== null) && <div className="word-hero he sentence-he">{s.he}</div>}
+      <button type="button" className={`speak ${ear ? 'big ear' : ''}`} onClick={() => say(s.en)} aria-label="השמעה"><SpeakIcon /></button>
+      {!ear && <UnknownHint st={st} s={s} />}
+      <div className={`line ${verdict === true ? 'is-good' : verdict === false ? 'is-bad' : ''}`} dir="ltr" lang="en">
+        {placed.map((i) => <button key={i} type="button" className="chip-w set" onClick={() => { if (verdict === null) setPlaced(placed.filter((x) => x !== i)); }}>{text(i)}</button>)}
+      </div>
+      {verdict === null && <div className="chips" dir="ltr" lang="en">
+        {pool.map((p) => <button key={p.i} type="button" className={`chip-w ${placed.includes(p.i) ? 'gone' : ''}`} disabled={placed.includes(p.i)} onClick={() => tap(p.i)}>{p.t}</button>)}
+      </div>}
+      {verdict === true && <div className="feedback good" role="status"><b>{praise(s.id)}</b></div>}
+      {verdict === false && (
+        <div className="feedback soft" role="status">
+          <p className="fb-ex big" dir="ltr" lang="en">{s.en}</p>
+          <div className="fb-actions"><span className="small">כך נראה המשפט הנכון.</span><button type="button" className="btn-next" onClick={onNext}>הבנתי</button></div>
+        </div>
+      )}
+    </div>
   );
 }

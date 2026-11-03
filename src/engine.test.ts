@@ -1,15 +1,19 @@
 import { describe, expect, it } from 'vitest';
 import { WORDS, WORD, LEVELS } from './words';
+import { classified, recordSentence, SENTENCES, sentencePlan, tokens, unknownWords } from './sentences';
 import {
   applyPlacement, buildPlan, clozeOf, dayLog, grade, initialState, isKnown, KNOWN_BOX, LEARNING_CAP, freshMetric, newAllowance,
-  options, recordRecognition, recordSpelling, spellDiff, State, tileSet, trapsAt, ws, freshWord,
+  options, recordRecognition, resolveCheck, nextNewWords, buildPlan as bp, recordSpelling, spellDiff, State, tileSet, trapsAt, ws, freshWord,
 } from './engine';
 
 const T = 20000;
 
 function simulateDay(st: State, day: number, correct: (kind: string) => boolean = () => true): State {
   let s: State = { ...st, plan: buildPlan(st, day) };
-  for (const step of s.plan!.steps) {
+  for (let i = 0; i < s.plan!.steps.length; i++) {
+    const step = s.plan!.steps[i];
+    s = { ...s, plan: { ...s.plan!, at: i } };
+    if (step.kind === 'check') { s = resolveCheck(s, step.id, false, day); continue; }
     if (step.kind === 'intro' || step.kind === 'match') continue;
     if (['tiles', 'gaps', 'type'].includes(step.kind)) s = recordSpelling(s, step.id, correct(step.kind), day);
     else s = recordRecognition(s, step.id, correct(step.kind), day, step.part);
@@ -109,7 +113,7 @@ describe('daily plan', () => {
     let st = placed();
     for (const w of WORDS.slice(0, 120)) st = recordRecognition(st, w.id, false, T - 1, 'boost');
     const plan = buildPlan(st, T);
-    expect(plan.steps.filter((s) => s.part !== 'new').length).toBeLessThanOrEqual(13);
+    expect(plan.steps.filter((s) => s.part !== 'new').length).toBeLessThanOrEqual(14);
     expect(plan.steps.filter((s) => s.part === 'new').length).toBeGreaterThan(0);
   });
   it('closes the gate at the cap and consolidates instead of adding', () => {
@@ -202,4 +206,108 @@ it('logs each day', () => {
   const l = dayLog(st, T);
   expect([l.rOk, l.sNo, l.fresh]).toEqual([1, 1, 1]);
   expect(WORD.friend.he).toBe('חבר');
+});
+
+describe('truly new words', () => {
+  const start = (extra = {}): State => { const st = { ...initialState(), onboarded: true }; return { ...st, plan: bp(st, T, extra) }; };
+  const at = (s: State, kind: string): State => ({ ...s, plan: { ...s.plan!, at: s.plan!.steps.findIndex((x) => x.kind === kind) } });
+
+  it('a word she already knows is replaced by another in the same round', () => {
+    let s = at(start(), 'check');
+    const first = s.plan!.newIds[0];
+    s = resolveCheck(s, first, true, T);
+    expect(s.plan!.newIds).not.toContain(first);
+    expect(s.plan!.newIds).toHaveLength(4);
+    expect(s.plan!.alreadyKnown).toEqual([first]);
+    expect(isKnown(ws(s, first))).toBe(true);
+    expect(ws(s, first).s.ok + ws(s, first).s.no).toBe(0);
+    expect(ws(s, first).r.due).toBe(T + 3);
+  });
+  it('practice steps are only for words that really are new', () => {
+    let s = start();
+    const known = s.plan!.newIds[0];
+    for (let i = 0; i < s.plan!.steps.length; i++) {
+      const step = s.plan!.steps[i];
+      if (step.kind !== 'check') continue;
+      s = { ...s, plan: { ...s.plan!, at: i } };
+      s = resolveCheck(s, step.id, step.id === known, T);
+    }
+    const meaning = s.plan!.steps.filter((x) => x.kind === 'meaning').map((x) => x.id);
+    expect(meaning).toHaveLength(4);
+    expect(meaning).not.toContain(known);
+    expect(s.plan!.steps.filter((x) => x.kind === 'check')).toHaveLength(5);
+    expect(s.plan!.steps.at(-1)!.kind).toBe('match');
+  });
+  it('a known word does not fill the new-words pool', () => {
+    let s = at(start(), 'check');
+    for (const id of [...s.plan!.newIds]) s = resolveCheck(s, id, true, T);
+    expect(newAllowance(s, T)).toBe(4);
+  });
+});
+
+describe('extra rounds of new words', () => {
+  it('a bonus round brings 4 more words and only a short review', () => {
+    let st: State = { ...initialState(), onboarded: true };
+    st = simulateDay(st, T);
+    const metBefore = nextNewWords(st, 1)[0].id;
+    const plan = bp(st, T, { bonus: true });
+    expect(plan.newIds).toHaveLength(4);
+    expect(plan.newIds[0]).toBe(metBefore);
+    expect(plan.steps.filter((x) => x.part === 'warm')).toHaveLength(0);
+    expect(plan.steps.filter((x) => x.part === 'boost').length).toBeLessThanOrEqual(4);
+  });
+  it('extra rounds raise the pace, and the recognition gate still holds', () => {
+    let st: State = { ...initialState(), onboarded: true };
+    let one: State = { ...initialState(), onboarded: true };
+    const met = (x: State) => WORDS.filter((w) => ws(x, w.id).met !== null).length;
+    const pool = (x: State) => WORDS.filter((w) => { const y = ws(x, w.id); return y.met !== null && y.r.box < KNOWN_BOX; }).length;
+    const round = (x: State, day: number, opts: object) => {
+      let s: State = { ...x, plan: bp(x, day, opts) };
+      for (let i = 0; i < s.plan!.steps.length; i++) {
+        const step = s.plan!.steps[i];
+        s = { ...s, plan: { ...s.plan!, at: i } };
+        if (step.kind === 'check') s = resolveCheck(s, step.id, false, day);
+        else if (['tiles', 'gaps', 'type'].includes(step.kind)) s = recordSpelling(s, step.id, true, day);
+        else if (step.kind !== 'intro' && step.kind !== 'match') s = recordRecognition(s, step.id, true, day, step.part);
+      }
+      return s;
+    };
+    for (let d = 0; d < 21; d++) {
+      one = round(one, T + d, {});
+      st = round(st, T + d, {});
+      for (let r = 0; r < 2 && newAllowance(st, T + d) > 0; r++) st = round(st, T + d, { bonus: true });
+      expect(pool(st)).toBeLessThanOrEqual(LEARNING_CAP);
+    }
+    expect(met(st)).toBeGreaterThan(met(one));
+  });
+});
+
+describe('sentences', () => {
+  it('every word in every sentence is classified', () => {
+    const bad = SENTENCES.flatMap((s) => tokens(s.en).filter((t) => !classified(t)).map((t) => `${t} (${s.en})`));
+    expect(bad).toEqual([]);
+  });
+  it('unique sentences with translations', () => {
+    expect(SENTENCES.length).toBeGreaterThanOrEqual(80);
+    expect(new Set(SENTENCES.map((s) => s.en)).size).toBe(SENTENCES.length);
+    for (const s of SENTENCES) expect(s.he.length).toBeGreaterThan(0);
+  });
+  it('prefers sentences made only of words she knows', () => {
+    const st = applyPlacement(initialState(), {}, 1, T);
+    const plan = sentencePlan(st, T);
+    expect(plan).toHaveLength(6);
+    for (const s of plan) expect(unknownWords(st, s)).toEqual([]);
+  });
+  it('falls back to the fewest unfamiliar words, and reviews come first', () => {
+    const st = initialState();
+    const counts = sentencePlan(st, T).map((s) => unknownWords(st, s).length);
+    expect(counts).toEqual([...counts].sort((a, b) => a - b));
+    const after = recordSentence(st, 's3', false, T);
+    expect(sentencePlan(after, T + 1)[0].id).toBe('s3');
+  });
+  it('sentence results do not touch word measures', () => {
+    const st = recordRecognition(initialState(), 'friend', true, T, 'new');
+    const after = recordSentence(st, 's3', false, T);
+    expect(ws(after, 'friend')).toEqual(ws(st, 'friend'));
+  });
 });

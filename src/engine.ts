@@ -8,16 +8,16 @@ import { WORD, WORDS, Word } from './words';
 export interface Metric { box: number; due: number; flag: boolean; clear: number; ok: number; no: number; last: number }
 export interface WordState { r: Metric; s: Metric; met: number | null; assumed?: boolean }
 export type Part = 'warm' | 'boost' | 'new';
-export type Kind = 'intro' | 'meaning' | 'reverse' | 'listen' | 'cloze' | 'match' | 'tiles' | 'gaps' | 'type' | 'review';
+export type Kind = 'check' | 'intro' | 'meaning' | 'reverse' | 'listen' | 'cloze' | 'match' | 'tiles' | 'gaps' | 'type' | 'review';
 export interface Step { part: Part; kind: Kind; id: string; ids?: string[]; retry?: boolean }
 export interface DayLog { rOk: number; rNo: number; sOk: number; sNo: number; fresh: number; done: boolean }
 export interface Plan {
-  day: number; steps: Step[]; at: number; short: boolean; extra?: boolean;
+  day: number; steps: Step[]; at: number; short: boolean; extra?: boolean; bonus?: boolean; alreadyKnown: string[];
   newIds: string[]; consolidating: boolean; gained: { r: string[]; s: string[] }; flagged: string[];
 }
 export interface State {
   v: 1; name: string; onboarded: boolean; startLevel: number;
-  words: Record<string, WordState>; days: Record<string, DayLog>; plan: Plan | null;
+  words: Record<string, WordState>; sentences: Record<string, Metric>; days: Record<string, DayLog>; plan: Plan | null;
   traps: Record<string, number>; confusions: Record<string, Record<string, number>>;
   settings: { sound: boolean; autoSpeak: boolean; voice: string; rate: number; weeklyGoal: number };
 }
@@ -27,7 +27,7 @@ export const MAX_BOX = INTERVALS.length - 1;
 /** A word counts as established once recognition reaches this box (at least 3 successful days). */
 export const KNOWN_BOX = 3;
 /** New words stop arriving while this many words are still not established. */
-export const LEARNING_CAP = 12;
+export const LEARNING_CAP = 24;
 export const MAX_NEW_PER_DAY = 4;
 
 export const dayNumber = (d: Date = new Date()) =>
@@ -38,7 +38,7 @@ export const freshWord = (): WordState => ({ r: freshMetric(), s: freshMetric(),
 
 export function initialState(): State {
   return {
-    v: 1, name: 'איילה', onboarded: false, startLevel: 0, words: {}, days: {}, plan: null, traps: {}, confusions: {},
+    v: 1, name: 'איילה', onboarded: false, startLevel: 0, words: {}, sentences: {}, days: {}, plan: null, traps: {}, confusions: {},
     settings: { sound: true, autoSpeak: true, voice: '', rate: 0.9, weeklyGoal: 4 },
   };
 }
@@ -85,7 +85,7 @@ const recKind = (box: number, i: number): Kind => {
 };
 export const spellKind = (box: number): Kind => (box <= 0 ? 'tiles' : box <= 2 ? 'gaps' : 'type');
 
-export function buildPlan(st: State, today: number, opts: { short?: boolean; extra?: boolean; rnd?: () => number } = {}): Plan {
+export function buildPlan(st: State, today: number, opts: { short?: boolean; extra?: boolean; bonus?: boolean; rnd?: () => number } = {}): Plan {
   const rnd = opts.rnd ?? Math.random;
   const short = !!opts.short;
   const entries = WORDS.map((w) => ({ w, s: ws(st, w.id) }));
@@ -101,7 +101,7 @@ export function buildPlan(st: State, today: number, opts: { short?: boolean; ext
   const weakRec = entries
     .filter((e) => isMet(e.s) && (e.s.r.flag || (e.s.r.box < KNOWN_BOX && e.s.r.due <= today)))
     .sort((a, b) => Number(b.s.r.flag) - Number(a.s.r.flag) || a.s.r.box - b.s.r.box || a.s.r.due - b.s.r.due)
-    .slice(0, short ? 3 : 6);
+    .slice(0, opts.bonus ? 4 : short ? 3 : 6);
   weakRec.forEach((e) => used.add(e.w.id));
   const recSteps: Step[] = weakRec.map((e, i) => ({
     part: 'boost', kind: e.s.r.flag ? 'meaning' : recKind(e.s.r.box, i), id: e.w.id,
@@ -112,7 +112,7 @@ export function buildPlan(st: State, today: number, opts: { short?: boolean; ext
   const spellFlag = eligible.filter((e) => e.s.s.flag);
   const spellDue = eligible.filter((e) => !e.s.s.flag && spellMeasured(e.s) && e.s.s.due <= today).sort((a, b) => a.s.s.due - b.s.s.due);
   const spellFresh = eligible.filter((e) => !spellMeasured(e.s)).sort((a, b) => a.w.order - b.w.order);
-  const spellPick = [...spellFlag, ...spellDue, ...spellFresh].slice(0, short ? 2 : 3);
+  const spellPick = opts.bonus ? [] : [...spellFlag, ...spellDue, ...spellFresh].slice(0, short ? 2 : 3);
   spellPick.forEach((e) => used.add(e.w.id));
   const spellSteps: Step[] = spellPick.map((e) => ({ part: 'boost', kind: spellKind(e.s.s.box), id: e.w.id }));
 
@@ -126,11 +126,11 @@ export function buildPlan(st: State, today: number, opts: { short?: boolean; ext
   const familiar = entries
     .filter((e) => isKnown(e.s) && !used.has(e.w.id))
     .sort((a, b) => a.s.r.due - b.s.r.due || b.s.r.box - a.s.r.box);
-  const dueFirst = familiar.slice(0, 16);
+  const dueFirst = opts.bonus ? [] : familiar.slice(0, 16);
   const warmPool = shuffle(dueFirst, rnd).slice(0, short || boost.length >= 7 ? 3 : 4);
   warmPool.forEach((e) => used.add(e.w.id));
   warmPool.forEach((e, i) => steps.push({ part: 'warm', kind: i % 3 === 2 ? 'listen' : 'meaning', id: e.w.id }));
-  const pairs = shuffle(familiar.filter((e) => !used.has(e.w.id)), rnd).slice(0, 4).map((e) => e.w.id);
+  const pairs = opts.bonus ? [] : shuffle(familiar.filter((e) => !used.has(e.w.id)), rnd).slice(0, 4).map((e) => e.w.id);
   if (pairs.length === 4) steps.push({ part: 'warm', kind: 'match', id: pairs[0], ids: pairs });
 
   steps.push(...boost);
@@ -143,12 +143,49 @@ export function buildPlan(st: State, today: number, opts: { short?: boolean; ext
       consolidating = true;
       newIds = entries.filter((e) => isLearning(e.s)).sort((a, b) => (b.s.met ?? 0) - (a.s.met ?? 0)).slice(0, 3).map((e) => e.w.id);
     }
-    newIds.forEach((id) => steps.push({ part: 'new', kind: 'intro', id }));
-    newIds.forEach((id) => steps.push({ part: 'new', kind: 'meaning', id }));
-    if (newIds.length >= 2) steps.push({ part: 'new', kind: 'match', id: newIds[0], ids: newIds });
-    return { day: today, steps, at: 0, short, newIds, consolidating, gained: { r: [], s: [] }, flagged: [] };
+    if (consolidating) {
+      newIds.forEach((id) => steps.push({ part: 'new', kind: 'intro', id }));
+      newIds.forEach((id) => steps.push({ part: 'new', kind: 'meaning', id }));
+      if (newIds.length >= 2) steps.push({ part: 'new', kind: 'match', id: newIds[0], ids: newIds });
+    } else {
+      // Practice steps are added by resolveCheck, once she confirmed which words really are new.
+      newIds.forEach((id) => steps.push({ part: 'new', kind: 'check', id }));
+    }
+    return { day: today, steps, at: 0, short, bonus: opts.bonus, alreadyKnown: [], newIds, consolidating, gained: { r: [], s: [] }, flagged: [] };
   }
-  return { day: today, steps, at: 0, short, extra: true, newIds: [], consolidating, gained: { r: [], s: [] }, flagged: [] };
+  return { day: today, steps, at: 0, short, extra: true, alreadyKnown: [], newIds: [], consolidating, gained: { r: [], s: [] }, flagged: [] };
+}
+
+/**
+ * Settle one candidate at the current check step.
+ * A word she proved she knows joins the familiar words and another word takes its place in the same round.
+ * After the last check, the practice steps for the words that really are new are added.
+ */
+export function resolveCheck(st: State, id: string, alreadyKnown: boolean, today: number): State {
+  const plan = st.plan;
+  if (!plan) return st;
+  const steps = [...plan.steps];
+  let newIds = plan.newIds;
+  let known = plan.alreadyKnown;
+  let words = st.words;
+  if (alreadyKnown) {
+    known = [...known, id];
+    newIds = newIds.filter((x) => x !== id);
+    // One right answer can be a lucky guess, so the word stays checkable: it comes back in a warm-up soon.
+    words = { ...words, [id]: { ...ws(st, id), met: today, assumed: true, r: { ...freshMetric(), box: KNOWN_BOX, due: today + 3, last: today } } };
+    const taken = new Set(newIds);
+    const next = WORDS.filter((w) => w.id !== id && !taken.has(w.id) && words[w.id]?.met == null).sort((a, b) => a.order - b.order)[0];
+    if (next) {
+      newIds = [...newIds, next.id];
+      steps.splice(steps.length, 0, { part: 'new', kind: 'check', id: next.id });
+    }
+  }
+  const moreChecks = steps.slice(plan.at + 1).some((x) => x.kind === 'check');
+  if (!moreChecks) {
+    newIds.forEach((x) => steps.push({ part: 'new', kind: 'meaning', id: x }));
+    if (newIds.length >= 2) steps.push({ part: 'new', kind: 'match', id: newIds[0], ids: newIds });
+  }
+  return { ...st, words, plan: { ...plan, steps, newIds, alreadyKnown: known } };
 }
 
 /** Apply one answer to one measure. Promotion happens at most once per day. */
