@@ -402,7 +402,7 @@ function Intro({ st, step, onNext }: ExProps) {
       <div className="meaning">{w.he}</div>
       <button type="button" className="sentence" dir="ltr" lang="en" onClick={() => say(w.ex)}><span>{highlight(w.ex, w.en)}</span><span className="s-icon"><SpeakIcon /></span></button>
       <div className="grow" />
-      <button type="button" className="cta" onClick={() => { if (st.settings.sound) sfx.tap(); onNext(); }}>הכרתי</button>
+      <button type="button" className="cta" onClick={() => { if (st.settings.sound) sfx.tap(); onNext(); }}>הבנתי</button>
     </div>
   );
 }
