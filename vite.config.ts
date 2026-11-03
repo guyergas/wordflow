@@ -2,11 +2,13 @@ import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import { viteSingleFile } from 'vite-plugin-singlefile';
+import pkg from './package.json';
 
 export default defineConfig(({ mode }) => {
   const single = mode === 'singlefile';
   return {
     base: './',
+    define: { __APP_VERSION__: JSON.stringify(pkg.version) },
     plugins: [
       react(),
       single

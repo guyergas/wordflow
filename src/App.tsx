@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   applyPlacement, buildPlan, clozeOf, currentLevel, dayLog, dayNumber, hardWords, isKnown, isMet, Kind, label, levelStats, LEARNING_CAP, options,
-  Part, Plan, placementWords, PLACEMENT_PASS, recordRecognition, recordSpelling, givenLetters, spellAlign, spellDiff, spellKnown, spellMeasured, State, Step, tileSet,
+  Part, Plan, placementWords, PLACEMENT_PASS, recordRecognition, recordSpelling, givenLetters, spellLevel, spellAlign, spellDiff, spellKnown, spellMeasured, State, Step, tileSet,
   toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, resolveCheck, restorePaused, spellCandidates,
 } from './engine';
 import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind, sentencePlan, sentencesKnown, tokens, TOPICS, unknownWords } from './sentences';
@@ -535,7 +535,7 @@ function TileSpell({ st, update, step, onResult, onNext }: ExProps) {
   const say = useSay(st);
   const word = w.en.toLowerCase();
   const kind = step.kind;
-  const [set] = useState(() => tileSet(word, kind, undefined, ws(st, w.id).s.box));
+  const [set] = useState(() => tileSet(word, kind, undefined, spellLevel(ws(st, w.id).s)));
   const [used, setUsed] = useState<boolean[]>(() => set.letters.map(() => false));
   const [placed, setPlaced] = useState<string[]>(() => [...word].map((c, i) => (set.given[i] ? c : '')));
   const [shake, setShake] = useState(-1);
@@ -603,7 +603,7 @@ function TypeSpell({ st, update, step, onResult, onNext }: ExProps) {
   const [text, setText] = useState('');
   const [wrong, setWrong] = useState<number[] | null>(null);
   const [looking, setLooking] = useState(step.kind === 'memo');
-  const [given] = useState(() => (step.kind === 'memo' ? givenLetters(w.en, ws(st, w.id).s.box) : [...w.en].map(() => false)));
+  const [given] = useState(() => (step.kind === 'memo' ? givenLetters(w.en, spellLevel(ws(st, w.id).s)) : [...w.en].map(() => false)));
   const open = useMemo(() => given.flatMap((g, i) => (g ? [] : [i])), [given]);
   const merged = [...w.en].map((c, i) => { if (given[i]) return c; const k = open.indexOf(i); return text[k] ?? ''; }).join('');
   const done = wrong !== null;
@@ -1023,6 +1023,7 @@ function Settings({ st, update, onClose }: { st: State; update: Update; onClose:
       <div className="btns"><button type="button" className="btn" onClick={backup}>שמירת גיבוי</button>
         <label className="btn" htmlFor="restore">שחזור מקובץ</label><input id="restore" type="file" accept="application/json" hidden onChange={(e) => restore(e.target.files?.[0])} /></div>
       {msg && <p className="small" role="status">{msg}</p>}
+      <p className="small muted">גרסה {__APP_VERSION__}</p>
       <div className="danger">
         {!confirmReset ? <button type="button" className="link" onClick={() => setConfirmReset(true)}>איפוס כל ההתקדמות</button> : (
           <><p className="small">למחוק את כל ההתקדמות? אי אפשר לבטל את זה.</p>

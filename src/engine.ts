@@ -98,7 +98,7 @@ export function practicePlan(st: State, today: number, count = 10, rnd: () => nu
   const picked = new Map<string, (typeof met)[number]>();
   for (const e of [...flagged, ...fromToday, ...due, ...older]) { if (picked.size < count) picked.set(e.w.id, e); }
   const steps: Step[] = shuffle([...picked.values()], rnd).map((e, i) => {
-    if (e.s.s.flag || (i % 3 === 2 && e.s.r.box >= 1)) return { part: 'boost', kind: spellKind(e.s.s.box), id: e.w.id };
+    if (e.s.s.flag || (i % 3 === 2 && e.s.r.box >= 1)) return { part: 'boost', kind: spellKind(spellLevel(e.s.s)), id: e.w.id };
     return { part: 'boost', kind: e.s.r.flag || e.s.met === today ? 'meaning' : recKind(e.s.r.box, i), id: e.w.id };
   });
   return { day: today, steps, at: 0, short: false, extra: true, alreadyKnown: [], newIds: [], consolidating: false, gained: { r: [], s: [] }, flagged: [] };
@@ -115,7 +115,7 @@ export function spellCandidates(st: State, today: number): Word[] {
 
 /** Spelling round: look at the word, hide it, write it on the lines. Stronger words are written from sound alone. */
 export function spellingPlan(st: State, today: number, count = 8): Plan {
-  const steps: Step[] = spellCandidates(st, today).slice(0, count).map((w) => ({ part: 'boost', kind: ws(st, w.id).s.box >= 4 ? 'type' : 'memo', id: w.id }));
+  const steps: Step[] = spellCandidates(st, today).slice(0, count).map((w) => ({ part: 'boost', kind: spellLevel(ws(st, w.id).s) >= 4 ? 'type' : 'memo', id: w.id }));
   return { day: today, steps, at: 0, short: false, extra: true, spelling: true, alreadyKnown: [], newIds: [], consolidating: false, gained: { r: [], s: [] }, flagged: [] };
 }
 
@@ -156,7 +156,7 @@ export function buildPlan(st: State, today: number, opts: { short?: boolean; ext
   const spellFresh = eligible.filter((e) => !spellMeasured(e.s)).sort((a, b) => a.w.order - b.w.order);
   const spellPick = opts.bonus ? [] : [...spellFlag, ...spellDue, ...spellFresh].slice(0, short ? 2 : 3);
   spellPick.forEach((e) => used.add(e.w.id));
-  const spellSteps: Step[] = spellPick.map((e) => ({ part: 'boost', kind: spellKind(e.s.s.box), id: e.w.id }));
+  const spellSteps: Step[] = spellPick.map((e) => ({ part: 'boost', kind: spellKind(spellLevel(e.s.s)), id: e.w.id }));
 
   const boost: Step[] = [];
   while (recSteps.length || spellSteps.length) {
@@ -368,6 +368,9 @@ export function options(st: State, id: string, count: number, rnd: () => number 
   const picks = [...conf, ...shuffle(near.length >= count ? near : pool, rnd)].slice(0, count - 1);
   return shuffle([w, ...picks], rnd);
 }
+
+/** A word marked for improvement gets letters back, even if it was strong before. */
+export const spellLevel = (m: Metric) => (m.flag ? Math.min(m.box, 1) : m.box);
 
 /**
  * Which letters stay visible. The stronger the word, the fewer stay: about 70%, 50%, then 25%, then none.

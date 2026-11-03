@@ -3,7 +3,7 @@ import { WORDS, WORD, LEVELS } from './words';
 import { classified, recordSentence, SENTENCES, sentencePlan, tokens, unknownWords } from './sentences';
 import {
   applyPlacement, buildPlan, clozeOf, dayLog, grade, initialState, isKnown, KNOWN_BOX, LEARNING_CAP, freshMetric, newAllowance,
-  spellingPlan, practicePlan, restorePaused, options, recordRecognition, resolveCheck, nextNewWords, buildPlan as bp, recordSpelling, givenLetters, spellAlign, spellDiff, State, tileSet, trapsAt, ws, freshWord,
+  spellingPlan, practicePlan, restorePaused, options, recordRecognition, resolveCheck, nextNewWords, buildPlan as bp, recordSpelling, spellLevel, spellKind, givenLetters, spellAlign, spellDiff, State, tileSet, trapsAt, ws, freshWord,
 } from './engine';
 
 const T = 20000;
@@ -421,4 +421,11 @@ describe('letters fade as the word gets stronger', () => {
     expect(t.letters.length).toBeLessThan(6);
     expect(t.given.filter(Boolean).length).toBeGreaterThanOrEqual(4);
   });
+});
+
+it('a strong word marked for improvement gets letters back', () => {
+  const m = { ...freshMetric(), box: 5, flag: true };
+  expect(spellLevel(m)).toBe(1);
+  expect(spellKind(spellLevel(m))).toBe('gaps');
+  expect(givenLetters('friend', spellLevel(m)).filter(Boolean).length).toBeGreaterThan(0);
 });
