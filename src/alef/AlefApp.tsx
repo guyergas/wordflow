@@ -4,7 +4,7 @@ import { saveHebrewRecordings, sayHebrew, sfx } from '../platform';
 import { CourseSwitch, SummaryTab } from '../summaryUi';
 import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, initial, meet, nextLetter, PlanOptions, secure, shaky, SHAKY_LIMIT, Step, validStep } from './engine';
 import { Ink, judge, FREE, TRACE } from './ink';
-import { FAMILIES, frameOf, LETTER, Letter, LETTERS, Pt, SAY, Stroke, VIEW, WORDS } from './letters';
+import { FAMILIES, frameOf, LETTER, Letter, LETTERS, Pt, SAY, spots, Stroke, VIEW, WORDS } from './letters';
 
 type Update = (fn: (s: AState) => AState) => void;
 const VB = `${VIEW.x} ${VIEW.y} ${VIEW.w} ${VIEW.h}`;
@@ -204,7 +204,7 @@ function Find({ st, step, sound, onDone }: { st: AState; step: Step; sound: bool
 function WordGame({ st, id, n, sound, onDone }: { st: AState; id: string; n?: number; sound: boolean; onDone: (ok: boolean) => void }) {
   const l = LETTER[id], word = WORDS[id][(n ?? 0) % WORDS[id].length], options = useMemo(() => choices(st, id), [id]);
   const [wrong, setWrong] = useState<string[]>([]), [right, setRight] = useState(false);
-  const say = SAY.word(word[1]), at = word[0].indexOf(id);
+  const places = spots(word[0], id), place = places[Math.floor((n ?? 0) / WORDS[id].length) % places.length], at = place.at, say = SAY.word(word[1], place.where);
   useEffect(() => { sayHebrew(say); }, []);
   const tap = (c: string) => {
     if (right) return;

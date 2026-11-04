@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { answer, advance, buildPlan, choices, initial, meet, nextLetter, secure, shaky, SHAKY_LIMIT, validStep, writeStage } from './engine';
 import { judge, FREE, TRACE } from './ink';
-import { FINALS, frameOf, HEBREW_AUDIO, LETTER, LETTERS, lookAlikes, Pt, SAY, WORDS } from './letters';
+import { FINALS, frameOf, HEBREW_AUDIO, LETTER, LETTERS, lookAlikes, Pt, SAY, spots, WORDS } from './letters';
 
 const ink = (id: string) => LETTER[id].strokes.map((s) => s.p);
 const wobble = (lines: Pt[][], a = 5): Pt[][] => lines.map((l) => l.flatMap((p, i) => { if (!i) return [p]; const [x0, y0] = l[i - 1], out: Pt[] = []; for (let k = 1; k <= 8; k++) { const t = k / 8; out.push([x0 + (p[0] - x0) * t + Math.sin(k * 1.7) * a, y0 + (p[1] - y0) * t + Math.cos(k * 2.3) * a]); } return out; }));
@@ -16,7 +16,12 @@ describe('letters', () => {
     LETTERS.forEach((l, i) => { if (l.base) expect(LETTERS.findIndex((o) => o.id === l.base), l.id).toBeLessThan(i); });
   });
   it('has picture words that really contain the letter', () => {
-    for (const l of LETTERS) { expect(WORDS[l.id].length, l.id).toBeGreaterThanOrEqual(3); for (const w of WORDS[l.id]) expect(w[0], l.id).toContain(l.id); }
+    for (const l of LETTERS) { expect(WORDS[l.id].length, l.id).toBeGreaterThanOrEqual(3); for (const w of WORDS[l.id]) expect(spots(w[0], l.id).length, `${l.id} in ${w[0]}`).toBeGreaterThan(0); }
+  });
+  it('asks only about the opening, exact middle or closing letter', () => {
+    expect(spots('תות', 'ו')).toEqual([{ at: 1, where: 'middle' }]);
+    expect(spots('שמש', 'ש').map((s) => s.where)).toEqual(['first', 'last']);
+    expect(spots('בננה', 'נ')).toEqual([]);
   });
   it('moves writing from dashed, to beside a model, to alone', () => {
     expect([0, 1, 2, 3].map(writeStage)).toEqual(['trace', 'copy', 'write', 'write']);
