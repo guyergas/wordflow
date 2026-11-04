@@ -1,5 +1,6 @@
 // Who is learning, which courses they joined, and moving between them.
 import { useState } from 'react';
+import './users.css';
 import { COURSE_ID, COURSE_INFO, COURSES, CourseId, joinCourses, leaveCourse, myCourses, oldProgress, signIn, signOut, switchCourse, USER_NAME, USERS } from './course';
 
 export function UserPicker() {
@@ -40,25 +41,25 @@ function CourseSheet({ onClose }: { onClose: () => void }) {
   const [editing, setEditing] = useState(false);
   const [, refresh] = useState(0);
   return (
-    <div className="sheet-wrap" onClick={onClose}>
-      <div className="sheet" role="dialog" aria-label="הקורסים שלי" onClick={(e) => e.stopPropagation()}>
-        <div className="row-between"><h2>הקורסים של {USER_NAME}</h2><button type="button" className="round" aria-label="סגירה" onClick={onClose}><Close /></button></div>
+    <div className="cs-wrap" onClick={onClose}>
+      <div className="cs-sheet" role="dialog" aria-label="הקורסים שלי" onClick={(e) => e.stopPropagation()}>
+        <div className="cs-row"><h2>הקורסים של {USER_NAME}</h2><button type="button" className="cs-round" aria-label="סגירה" onClick={onClose}><Close /></button></div>
         <div className="my-courses">
           {mine.map((c) => (
             <div key={c.id} className="my-course">
               <button type="button" aria-current={c.id === COURSE_ID ? 'true' : undefined} onClick={() => { if (c.id === COURSE_ID) onClose(); else switchCourse(c.id); }}>{c.name}</button>
-              {editing && mine.length > 1 && <button type="button" className="round" aria-label={`יציאה מהקורס ${c.name}`} onClick={() => { leaveCourse(c.id); refresh((n) => n + 1); }}><Close /></button>}
+              {editing && mine.length > 1 && <button type="button" className="cs-round" aria-label={`יציאה מהקורס ${c.name}`} onClick={() => { leaveCourse(c.id); refresh((n) => n + 1); }}><Close /></button>}
             </div>
           ))}
         </div>
-        {editing && mine.length > 1 && <p className="small muted">יציאה מקורס לא מוחקת את ההתקדמות, והיא חוזרת בהרשמה מחדש.</p>}
+        {editing && mine.length > 1 && <p className="cs-note">יציאה מקורס לא מוחקת את ההתקדמות, והיא חוזרת בהרשמה מחדש.</p>}
         {more.length > 0 && <>
           <h3>להירשם לעוד קורס</h3>
           <div className="more-courses">{more.map((c) => <button key={c.id} type="button" onClick={() => joinCourses([c.id])}>+ {c.name}</button>)}</div>
         </>}
-        <div className="row-between">
-          <button type="button" className="link" onClick={signOut}>החלפת משתמש</button>
-          {mine.length > 1 && <button type="button" className="link" aria-pressed={editing} onClick={() => setEditing(!editing)}>{editing ? 'סיום' : 'עריכת הקורסים'}</button>}
+        <div className="cs-row">
+          <button type="button" className="cs-link" onClick={signOut}>החלפת משתמש</button>
+          {mine.length > 1 && <button type="button" className="cs-link" aria-pressed={editing} onClick={() => setEditing(!editing)}>{editing ? 'סיום' : 'עריכת הקורסים'}</button>}
         </div>
       </div>
     </div>

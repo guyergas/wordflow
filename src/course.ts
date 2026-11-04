@@ -1,7 +1,7 @@
 // Which course this device is on. It is read once at startup, and changing it reloads the app.
 // A new course only needs a line here: it then appears in the picker, the switcher and the summary.
-export type CourseId = 'en' | 'th' | 'math' | 'hist' | 'geo' | 'sci' | 'art' | 'nature' | 'sport' | 'heb' | 'jud' | 'food' | 'alef';
-export interface CourseInfo { id: CourseId; name: string; hello: string; note: string; storageKey: string; defaultMinutes: number; short?: string; newLabel: string; knowledge?: boolean; alef?: boolean }
+export type CourseId = 'en' | 'th' | 'math' | 'hist' | 'geo' | 'sci' | 'art' | 'nature' | 'sport' | 'heb' | 'jud' | 'food' | 'alef' | 'notes';
+export interface CourseInfo { id: CourseId; name: string; hello: string; note: string; storageKey: string; defaultMinutes: number; short?: string; newLabel: string; knowledge?: boolean; alef?: boolean; notes?: boolean }
 const K = (id: CourseId, name: string, short: string, hello: string, note: string): CourseInfo => ({ id, name, short, hello, note, storageKey: `wordflow.${id}.v1`, defaultMinutes: 0, newLabel: 'שיעורים חדשים', knowledge: true });
 export const COURSES: CourseInfo[] = [
   { id: 'en', name: 'אנגלית', hello: 'Hello', note: 'מילים, איות ומשפטים', storageKey: 'wordflow.v1', defaultMinutes: 15, newLabel: 'מילים חדשות' },
@@ -17,6 +17,7 @@ export const COURSES: CourseInfo[] = [
   K('jud', 'יהדות ומסורת', 'יהדות', 'תנ״ך', 'חגים, מקורות והיסטוריה'),
   K('food', 'תזונה', 'תזונה', 'C', 'איך הגוף משתמש באוכל, ומדע במטבח'),
   { id: 'alef', name: 'א״ב', short: 'א״ב', hello: 'אב', note: 'לזהות ולכתוב את האותיות, קו אחרי קו', storageKey: 'wordflow.alef.v1', defaultMinutes: 0, newLabel: 'אותיות חדשות', alef: true },
+  { id: 'notes', name: 'קריאת תווים בפסנתר', short: 'תווים', hello: '♩', note: 'לקרוא תווים ולנגן על המסך', storageKey: 'wordflow.notes.v1', defaultMinutes: 0, newLabel: 'שיעורים', notes: true },
 ];
 
 const KEY = 'wordflow.course';
@@ -75,6 +76,7 @@ export const IS_MATH = COURSE_ID === 'math';
 export const COURSE_INFO = COURSES.find((c) => c.id === COURSE_ID)!;
 export const IS_KNOWLEDGE = !!COURSE_INFO.knowledge;
 export const IS_ALEF = !!COURSE_INFO.alef;
+export const IS_NOTES = !!COURSE_INFO.notes;
 export const HAS_SPELLING = !IS_THAI;
 export const STORAGE_KEY = storageKeyOf(COURSE_INFO);
 

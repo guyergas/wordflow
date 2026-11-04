@@ -1,0 +1,20 @@
+/* The course menu appears in every app, so it depends on neither app's styles. */
+.who, .cs-sheet { --cs-bg: #f5f4ef; --cs-surface: #fffefa; --cs-soft: #ecebe4; --cs-line: #e2e3dc; --cs-ink: #172b35; --cs-dark: #182c35; --cs-dark-ink: #fffef3; }
+.who { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; max-width: 58vw; padding: 0 14px; border: 0; border-radius: 999px; background: var(--cs-soft); font-weight: 600; font-size: 15px; color: var(--cs-ink); cursor: pointer; }
+.who span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.who svg { flex: none; }
+.cs-wrap { position: fixed; inset: 0; z-index: 90; display: flex; align-items: flex-end; justify-content: center; background: rgba(10, 20, 26, .45); }
+.cs-sheet { display: grid; gap: 14px; width: 100%; max-width: 560px; max-height: 88%; overflow-y: auto; box-sizing: border-box; border-radius: 26px 26px 0 0; padding: 18px 18px calc(18px + env(safe-area-inset-bottom, 0px)); background: var(--cs-bg); color: var(--cs-ink); text-align: start; }
+.cs-sheet h2 { margin: 0; font-size: 24px; color: inherit; }
+.cs-sheet h3 { margin: 0; font-size: 18px; color: inherit; }
+.cs-sheet button { font: inherit; cursor: pointer; color: var(--cs-ink); }
+.cs-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.cs-round { flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--cs-line); border-radius: 50%; background: var(--cs-surface); }
+.cs-link { min-height: 44px; padding: 0; border: 0; background: none; text-decoration: underline; }
+.cs-note { margin: 0; font-size: 14px; opacity: .75; }
+.my-courses { display: grid; gap: 8px; }
+.my-course { display: flex; align-items: center; gap: 8px; }
+.my-course > button:first-child { flex: 1; min-height: 56px; min-width: 0; padding: 8px 16px; border-radius: 16px; background: var(--cs-surface); border: 1px solid var(--cs-line); text-align: start; font-weight: 650; font-size: 17px; }
+.my-course > button[aria-current="true"]:first-child { background: var(--cs-dark); color: var(--cs-dark-ink); border-color: var(--cs-dark); }
+.more-courses { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.more-courses button { min-height: 52px; padding: 8px 12px; border-radius: 14px; border: 1px dashed var(--cs-line); background: transparent; font-weight: 600; text-align: start; }

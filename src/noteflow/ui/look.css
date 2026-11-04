@@ -1,0 +1,398 @@
+/* NoteFlow look — calm and confident. Loaded after styles.css and overrides it.
+   - One focal point per screen: the dark card. Everything around it is quiet paper.
+   - Lime only for the next step (main buttons, the active tab, the current note).
+   - Big, tight Hebrew headlines; short warm copy; lots of air.
+   - The piano stays black and white. */
+
+body { font-family: var(--font-ui); -webkit-font-smoothing: antialiased; background: var(--bg); line-height: 1.5; }
+html, body { overflow-x: clip; }
+.glyph { font-family: Bravura, serif; font-style: normal; line-height: 1; }
+
+/* ---------- Type ---------- */
+h1, h2, h3, .topbar h1, .wordmark, .score-ring b, .stat b, .namepad .wht, .pass, .sheet h2, .jtitle b, .big-num,
+.ob-title, .win-head, .hh-greet, .nc-title, .handpad .finger, .ipad-btn b, .levels .lnum, .chk b, .conf .pair, .live-note b,
+.listen-picks .pick, .streak-toast, .note-label, .feedback .big, .mk-caption b, .stage-card .title, .hero .level {
+  font-family: var(--font-ui);
+  letter-spacing: -0.02em;
+}
+h2 { font-size: 22px; font-weight: 700; }
+h3 { margin: 0; font-size: 18px; font-weight: 700; }
+.topbar h1 { font-size: 30px; font-weight: 750; letter-spacing: -0.03em; }
+.muted { color: var(--ink-2); }
+.faint { color: var(--ink-3); }
+.eyebrow { font-size: 18px; font-weight: 700; color: var(--ink); margin: 30px 2px 12px; letter-spacing: -0.01em; }
+
+/* ---------- Surfaces ---------- */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
+.icon-btn { border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 50%; }
+.chip { background: var(--surface-2); color: var(--ink-2); font-weight: 500; }
+.chip.good { background: var(--good-soft); color: var(--good); }
+.chip.gold { background: var(--gold-soft); color: var(--gold); }
+.chip.accent { background: var(--accent-soft); color: var(--lime-deep); }
+.banner { border: 1px solid var(--line); background: var(--pink); border-radius: 18px; }
+
+/* ---------- Buttons ---------- */
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; font-weight: 600; box-shadow: none; padding: 0 20px; }
+.btn.small { border-radius: 999px; padding: 0 14px; font-weight: 600; }
+.btn.primary { background: var(--ink); color: var(--bg); border-color: transparent; }
+.btn.gold, .btn.keycta, .nc-cta { background: var(--lime); color: var(--lime-ink); border-color: transparent; }
+.btn.ghost { background: transparent; border-color: transparent; }
+.btn.danger-fill { background: var(--orange); color: #fff; }
+.btn.keycta { min-height: 60px; border-radius: 999px; font-size: 18px; font-weight: 700; box-shadow: none; }
+.btn.keycta.test { background: var(--ink); color: var(--bg); }
+.linkbtn { color: var(--ink-2); text-decoration: none; font-weight: 500; }
+
+/* ---------- Controls ---------- */
+.seg { background: var(--surface-2); border-radius: 999px; padding: 4px; }
+.seg button { border-radius: 999px; font-weight: 600; color: var(--ink-2); }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 4px rgba(23, 43, 53, .12); }
+.switch span { background: var(--sky-2); border: 0; }
+.switch input:checked + span { background: var(--lime-deep); }
+.text-input { border: 1px solid var(--line); background: var(--surface); border-radius: 14px; }
+.bar { background: var(--surface-2); height: 6px; }
+.bar > span { background: var(--ink); }
+input[type="range"] { accent-color: var(--ink); }
+
+/* ---------- Brand ---------- */
+.wordmark { display: flex; align-items: center; gap: 8px; font-size: 26px; font-weight: 750; letter-spacing: -0.05em; direction: ltr; }
+.wordmark .brandmark { width: 34px; height: 34px; border-radius: 11px; background: var(--lime); color: var(--lime-ink); display: grid; place-items: center; font-size: 20px; letter-spacing: 0; }
+.wordmark i { font-style: normal; color: var(--lime-deep); margin-left: -6px; }
+
+/* ---------- Home ---------- */
+.home-top { margin-bottom: 26px; }
+.hh-greet { font-size: 40px; font-weight: 750; line-height: 1.1; letter-spacing: -0.04em; margin: 0; text-wrap: balance; }
+.hh-sub { color: var(--ink-2); margin: 6px 0 22px; font-size: 16px; }
+.next-card {
+  position: relative; overflow: hidden; background: var(--dark); color: var(--dark-ink);
+  border-radius: 28px; padding: 26px 24px 24px; min-height: 330px; display: flex; flex-direction: column; align-items: flex-start;
+  box-shadow: var(--lift);
+}
+.nc-chip { align-self: flex-start; font-size: 13px; color: var(--lime); border: 1px solid rgba(182, 233, 99, .35); border-radius: 999px; padding: 4px 12px; position: relative; z-index: 1; }
+.nc-title { font-size: 34px; line-height: 1.15; font-weight: 750; letter-spacing: -0.035em; margin: 92px 0 10px; max-width: 300px; position: relative; z-index: 1; }
+.nc-text { color: var(--dark-muted); font-size: 15.5px; margin: 0 0 22px; max-width: 300px; position: relative; z-index: 1; }
+.nc-cta { margin-top: auto; min-height: 56px; padding: 0 26px; font-size: 17px; font-weight: 700; position: relative; z-index: 1; }
+.nc-art { position: absolute; left: -16px; top: -18px; width: 210px; height: 150px; opacity: .9; direction: ltr; transform: rotate(-12deg); pointer-events: none; }
+.nc-lines { position: absolute; top: 40px; left: 0; width: 100%; height: 88px;
+  background: repeating-linear-gradient(to bottom, transparent 0 20px, rgba(255, 255, 255, .2) 20px 21.5px); }
+.nc-art .g1 { position: absolute; left: 50px; top: 18px; font-size: 80px; color: var(--lime); }
+.nc-art .g2 { position: absolute; left: 124px; top: 52px; font-size: 56px; color: rgba(182, 233, 99, .55); }
+.section-head { display: flex; justify-content: space-between; align-items: baseline; margin: 32px 2px 12px; }
+.section-head h3 { font-size: 20px; letter-spacing: -0.02em; }
+.mood-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.mood-card {
+  display: grid; align-content: start; gap: 4px; text-align: start; min-height: 150px; padding: 16px 14px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); color: var(--ink);
+}
+.mood-card .mc-glyph { font-size: 34px; color: var(--lime-deep); height: 46px; display: flex; align-items: flex-end; margin-bottom: 6px; }
+.mood-card b { font-size: 15.5px; line-height: 1.25; font-weight: 700; letter-spacing: -0.01em; }
+.mood-card small { color: var(--ink-3); font-size: 12.5px; line-height: 1.35; }
+.mood-card:active { transform: scale(.98); }
+.stat-strip { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 14px; padding: 18px 8px; }
+.stat-strip > div { display: grid; gap: 2px; padding: 0 12px; border-inline-start: 1px solid var(--line); }
+.stat-strip > div:first-child { border-inline-start: 0; }
+.stat-strip b { font-size: 26px; font-weight: 750; letter-spacing: -0.03em; }
+.stat-strip b small { font-size: 14px; color: var(--ink-3); font-weight: 500; }
+.stat-strip span { color: var(--ink-3); font-size: 12.5px; line-height: 1.3; }
+.short-one { display: block; margin: 14px auto 0; }
+.waiting { padding: 4px 20px; }
+.wrow { border-bottom-color: var(--line); }
+.wrow b { font-weight: 650; }
+.last-win { border: 1px solid var(--line); background: var(--pink); box-shadow: none; }
+.last-win .medal { background: var(--surface); color: var(--orange); border-radius: 12px; }
+
+/* ---------- Bottom navigation: a floating dark pill ---------- */
+.bottomnav {
+  inset-inline: 0; margin: 0 auto; transform: none; bottom: calc(env(safe-area-inset-bottom) + 14px);
+  width: fit-content; max-width: calc(100% - 28px); padding: 7px; gap: 4px; border-radius: 24px;
+  background: var(--dark); border: 1px solid rgba(255, 255, 255, .07); box-shadow: 0 10px 34px rgba(0, 0, 0, .22);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+}
+.bottomnav button { min-height: 44px; flex: none; max-width: none; padding: 0 18px; border-radius: 17px; color: #bac4c2; font-size: 14px; font-weight: 500; flex-direction: row; gap: 6px; }
+.bottomnav button svg { display: none; }
+.bottomnav button.on { background: var(--lime); color: var(--lime-ink); font-weight: 650; }
+.page.with-nav { padding-bottom: calc(env(safe-area-inset-bottom) + 100px); }
+
+/* ---------- Session ---------- */
+.s-meta { color: var(--ink-2); font-weight: 500; }
+.dots { gap: 4px; }
+.dots i { height: 5px; border-radius: 3px; background: var(--surface-2); }
+.dots i.done, .dots i.ok { background: var(--ink); }
+.dots i.no { background: var(--orange); }
+.dots i.cur { background: var(--lime-deep); }
+.staff-card { background: var(--staff-bg); border: 1px solid var(--line); border-radius: 26px; box-shadow: var(--shadow); }
+.staff-card.flash-good { border-color: var(--lime-deep); box-shadow: 0 0 0 3px var(--accent-soft); }
+.staff-card.flash-bad { border-color: var(--orange); box-shadow: 0 0 0 3px var(--bad-soft); }
+.note-label { font-weight: 750; font-size: 22px; }
+.note-label.good { color: var(--good); }
+.note-label.bad { color: var(--orange); background: var(--bad-soft); }
+.timer { background: var(--surface-2); }
+.timer > span { background: var(--lime-deep); }
+.feedback .big { font-weight: 750; font-size: 20px; }
+.session .feedback { height: 104px; }
+@media (max-height: 700px) { .session .feedback { height: 84px; } }
+.s-tools .btn:not(.primary) { background: transparent; }
+
+/* Name pad: quiet keys; ♯/♭ dark like black keys. */
+.namepad .wht { border: 1px solid var(--line); border-radius: 18px; background: var(--surface); color: var(--ink); box-shadow: var(--shadow); font-weight: 700; font-size: 26px; }
+.namepad .blk { border: 0; border-radius: 13px; background: var(--dark); color: var(--dark-ink); box-shadow: none; }
+.namepad .good { background: var(--lime) !important; color: var(--lime-ink) !important; border-color: transparent; }
+.namepad .bad { background: var(--pink) !important; color: var(--orange) !important; border-color: transparent; }
+.namepad .reveal { outline: 3px solid var(--lime-deep); outline-offset: 2px; }
+:root[data-notesize="large"] .namepad .wht { font-size: 32px; }
+
+/* Piano: black and white — a pressed key gets a mark, never a colour. */
+.piano .white { background: linear-gradient(#ffffff, #f4f4f0); border-color: #cfd3cc; color: #8a938f; }
+.piano .black { background: linear-gradient(#2b2e33, #101215); border-color: #000; }
+.piano .white.good, .piano .white.bad { background: linear-gradient(#ffffff, #f4f4f0) !important; color: #8a938f; }
+.piano .black.good, .piano .black.bad { background: linear-gradient(#2b2e33, #101215) !important; }
+.piano .reveal { box-shadow: none; }
+.piano .good::after, .piano .bad::after, .piano .reveal::after { content: ''; position: absolute; left: 50%; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; }
+.piano .white.good::after, .piano .white.bad::after, .piano .white.reveal::after { bottom: 40px; }
+.piano .black.good::after, .piano .black.bad::after, .piano .black.reveal::after { bottom: 12px; width: 12px; height: 12px; margin-left: -6px; }
+.piano .good::after { background: var(--lime-deep); }
+.piano .bad::after { background: var(--orange); }
+.piano .reveal::after { background: transparent; box-shadow: inset 0 0 0 3px var(--lime-deep); }
+:root[data-theme="evening"] .piano .white.good, :root[data-theme="evening"] .piano .white.bad { background: linear-gradient(#fbf3e4, #eadbbd) !important; }
+
+/* Keyboards drawn as pictures (home/stats/results): black and white, a small dot under known keys. */
+.mk .felt { display: none; }
+.mk .w { background: var(--key-white); border: 1px solid var(--rule); border-top: 0; color: var(--ink-3); animation: none; }
+.mk .w.on { color: var(--ink-3); }
+.mk .b { background: var(--key-black); box-shadow: none; animation: none; }
+.mk-dots { position: relative; height: 16px; margin-top: 6px; }
+.mk-dots .d { position: absolute; top: 3px; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: var(--ink); --nc: initial; }
+.mk-dots .d.half { background: transparent; box-shadow: inset 0 0 0 1.5px var(--ink-3); }
+.mk-dots .d.blk { top: 0; width: 6px; height: 6px; margin-left: -3px; }
+.sk .w { background: var(--key-white); }
+.sk .b { background: var(--key-black); }
+.sk .mk-dots .d.k-good { background: var(--lime-deep); }
+.sk .mk-dots .d.k-mid { background: var(--gold); }
+.sk .mk-dots .d.k-bad { background: var(--orange); }
+.sk-legend i { border-radius: 50%; }
+.sk-legend i.k-good { background: var(--lime-deep); } .sk-legend i.k-mid { background: var(--gold); } .sk-legend i.k-bad { background: var(--orange); }
+
+/* Hand, intervals, listen, rhythm */
+.handpad .finger { border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); font-family: var(--font-ui); font-weight: 750; }
+.handpad .finger.good { background: var(--lime); color: var(--lime-ink); border-color: transparent; }
+.handpad .finger.bad { background: var(--pink); color: var(--orange); border-color: transparent; }
+.handpad .palm { background: var(--surface-2); border: 0; }
+.ipad-btn { border: 1px solid var(--line); box-shadow: var(--shadow); border-radius: 18px; }
+.ipad-btn.good { background: var(--lime); color: var(--lime-ink); border-color: transparent; }
+.ipad-btn.good small { color: var(--lime-ink); }
+.ipad-btn.bad { background: var(--pink); color: var(--orange); border-color: transparent; }
+.ipad-btn.bad small { color: var(--orange); }
+.listen-picks .pick { border: 1px solid var(--line); box-shadow: var(--shadow); }
+.listen-picks .pick.good { background: var(--lime); color: var(--lime-ink); }
+.listen-picks .pick.bad { background: var(--pink); color: var(--orange); }
+.tapbtn { background: var(--surface-2); box-shadow: none; }
+.tapbtn.start, .tapbtn.live { background: var(--dark); color: var(--dark-ink); }
+.beatlights i { border: 0; background: var(--surface-2); }
+.beatlights i.on { background: var(--ink); }
+.beatlights i.on.count { background: var(--lime-deep); }
+.seq-glow { background: var(--accent-soft); }
+
+/* ---------- Practice hub ---------- */
+.hub { gap: 12px; }
+.hub .tile { border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); background: var(--surface); padding: 16px; min-height: 120px; }
+.hub .tile > svg { color: var(--lime-deep); width: 26px; height: 26px; }
+.hub .tile b { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
+.hub .tile.wide { background: var(--pink); border-color: transparent; box-shadow: none; }
+.hub .tile.wide > svg { color: var(--orange); }
+.hub .tile.wide:last-child { background: var(--dark); color: var(--dark-ink); }
+.hub .tile.wide:last-child small { color: var(--dark-muted); }
+.hub .tile.wide:last-child > svg { color: var(--lime); }
+
+/* ---------- Path ---------- */
+.journey::before { background: var(--line); width: 2px; }
+.jstep .node { background: var(--surface); border: 1px solid var(--rule); color: var(--ink-3); font-weight: 700; }
+.jstep.learning .node { border-color: var(--ink); color: var(--ink); }
+.jstep.ready .node { background: var(--accent-soft); border-color: var(--lime-deep); color: var(--ink); }
+.jstep.passed .node { background: var(--ink); border-color: transparent; color: var(--bg); }
+.jstep.mastered .node { background: var(--lime); border-color: transparent; color: var(--lime-ink); }
+.jstep.here .node { box-shadow: 0 0 0 5px var(--accent-soft); }
+.jhead { border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+.jstep.here .jhead { background: var(--dark); color: var(--dark-ink); border-color: transparent; }
+.jstep.here .jhead small { color: var(--dark-muted); }
+.jstep.here.open .jhead { border-radius: 18px 18px 0 0; }
+.jbody { border: 1px solid var(--line); border-top: 0; border-radius: 0 0 18px 18px; }
+.jstep.here .jbody { border-color: var(--dark); }
+.jtitle b { font-weight: 700; }
+
+/* ---------- Results, stats, songs ---------- */
+.improve-card { background: var(--pink); border-color: transparent; box-shadow: none; }
+.stat { background: var(--surface-2); border-radius: 16px; }
+.ach .medal { background: var(--surface-2); border-radius: 12px; }
+.ach.on .medal { background: var(--pink); color: var(--orange); }
+.levels li { background: var(--surface-2); border-radius: 16px; }
+.levels li.done .lnum { background: var(--lime); color: var(--lime-ink); border-color: transparent; }
+.levels .lnum { border: 1px solid var(--rule); font-weight: 700; }
+.weekbar i { background: var(--surface-2); } .weekbar i.on { background: var(--lime-deep); }
+.chk { background: var(--surface-2); }
+.rbar span { background: var(--ink); }
+.lesson-art { border: 1px solid var(--line); border-radius: 18px; }
+.lesson-label { color: var(--lime-deep); font-weight: 700; }
+.sheet { border-radius: 28px; box-shadow: var(--lift); }
+.days button { border-radius: 999px; }
+.days button.on { background: var(--ink); color: var(--bg); }
+.sym-card, .card-preview { border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); }
+.lp-lane { border: 1px solid var(--line); }
+
+/* ---------- Onboarding ---------- */
+.ob-card { border: 0; box-shadow: none; background: transparent; padding: 10px 4px; }
+.ob-title { font-size: 40px; font-weight: 750; line-height: 1.05; letter-spacing: -0.04em; }
+.ob-steps i { background: var(--line); }
+.ob-steps i.on { background: var(--ink); }
+.ob-staff { display: block; width: 100%; max-width: 340px; height: auto; margin: 0 0 22px; direction: ltr; overflow: visible; }
+.ob-staff line { stroke: var(--rule); stroke-width: 1.5; }
+.ob-note ellipse { fill: var(--ink); }
+.ob-note:last-of-type ellipse { fill: var(--lime-deep); }
+
+/* ---------- Tablet ---------- */
+@media (min-width: 760px) and (min-height: 600px) {
+  .next-card { min-height: 360px; padding: 34px; }
+  .nc-title { font-size: 42px; max-width: 420px; }
+  .nc-text { max-width: 420px; }
+  .nc-art { left: 30px; transform: rotate(-12deg) scale(1.25); }
+  .hh-greet { font-size: 48px; }
+}
+
+/* ---------- Evening: the concert stage ---------- */
+:root[data-theme="evening"] { --dark: #3a1640; --dark-ink: #fbefdc; --dark-muted: #d9c2cf; --lime: #f2c66d; --lime-ink: #2a0f2e; --lime-deep: #e0b050; --pink: #4d2b3a; --orange: #ff8f7a; }
+:root[data-theme="evening"] .next-card { background: radial-gradient(120% 90% at 50% 0, #6d2a5e, #3a1640 70%); box-shadow: 0 0 0 1px rgba(242, 198, 109, .35), 0 20px 60px -20px rgba(0, 0, 0, .8); }
+:root[data-theme="evening"] .bottomnav { background: #1b0a1f; }
+
+/* High contrast keeps the structure, drops the tints. */
+:root[data-contrast="high"] .namepad .wht { background: #fff; color: #000; border-color: #000; }
+:root[data-contrast="high"] .card, :root[data-contrast="high"] .mood-card { border-color: #6b6b6b; }
+
+/* ---------- Name pad as a piano octave ---------- */
+.namepad.keys {
+  --bw: 9.4%; --h: 168px;
+  position: relative; display: flex; gap: 0; height: var(--h); direction: ltr;
+  border-top: 3px solid var(--dark); border-radius: 4px 4px 0 0;
+}
+.namepad.keys .wht {
+  flex: 1; height: 100%; margin: 0; margin-inline-end: -1px; grid-row: auto; grid-column: auto;
+  border: 1px solid #cfd3cc; border-top: 0; border-radius: 0 0 12px 12px;
+  background: linear-gradient(#ffffff 0%, #ffffff 82%, #f1f1ec 100%); color: var(--ink);
+  box-shadow: inset 0 -5px 0 #e4e5df, 0 2px 0 rgba(23, 43, 53, .06);
+  display: flex; align-items: flex-end; justify-content: center; padding-bottom: 14px;
+  font-size: 24px; font-weight: 750; transition: transform .05s, box-shadow .05s;
+}
+.namepad.keys .wht:active { box-shadow: inset 0 -2px 0 #e4e5df; transform: translateY(1px); }
+.namepad.keys .blk {
+  position: absolute; top: 0; z-index: 2; width: var(--bw); height: 58%; margin: 0;
+  border: 0; border-radius: 0 0 8px 8px; padding: 0 0 8px;
+  background: linear-gradient(#2c3036 0%, #15181c 85%, #0b0c0e 100%); color: #e9ecea;
+  box-shadow: inset 0 -4px 0 #000, 0 3px 6px rgba(0, 0, 0, .25);
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 1px;
+  font-size: 11px; font-weight: 650; line-height: 1.05;
+}
+.namepad.keys .blk span + span { opacity: .7; }
+.namepad.keys .blk:active { box-shadow: inset 0 -1px 0 #000; }
+.namepad.keys .wht.good { background: linear-gradient(#ffffff, #eef8dc) !important; color: var(--good) !important; box-shadow: inset 0 -5px 0 var(--lime-deep) !important; }
+.namepad.keys .wht.bad { background: linear-gradient(#ffffff, #f8ebe4) !important; color: var(--orange) !important; box-shadow: inset 0 -5px 0 var(--orange) !important; }
+.namepad.keys .blk.good { background: linear-gradient(#2c3036, #15181c) !important; color: var(--lime) !important; box-shadow: inset 0 -4px 0 var(--lime-deep) !important; }
+.namepad.keys .blk.bad { background: linear-gradient(#2c3036, #15181c) !important; color: #f0a585 !important; box-shadow: inset 0 -4px 0 var(--orange) !important; }
+.namepad.keys .reveal { outline: 3px solid var(--lime-deep); outline-offset: -3px; }
+:root[data-notesize="large"] .namepad.keys { --h: 196px; }
+:root[data-notesize="large"] .namepad.keys .wht { font-size: 30px; }
+@media (max-height: 700px) { .namepad.keys { --h: 140px; } }
+@media (max-height: 520px) and (orientation: landscape) { .namepad.keys { --h: 120px; } }
+@media (min-width: 760px) and (min-height: 600px) { .namepad.keys { --h: 210px; } .namepad.keys .wht { font-size: 28px; } .namepad.keys .blk { font-size: 13px; } }
+:root[data-theme="evening"] .namepad.keys .wht { background: linear-gradient(#fbf3e4, #eadbbd); color: #3a1430; border-color: #d7c3a0; box-shadow: inset 0 -5px 0 #d7c3a0; }
+/* Piano keys keep their own ink in every theme: dark letters on white keys, light letters on black keys. */
+.namepad.keys .wht { color: #172b35; }
+.namepad.keys .wht.good { color: #3f7a1c !important; }
+.namepad.keys .wht.bad { color: #b0532c !important; }
+.namepad.keys .wht:disabled { opacity: 1; }
+.namepad.keys .blk { color: #f1f3ef; }
+.namepad.keys .blk span + span { opacity: .8; }
+:root[data-theme="evening"] .namepad.keys .wht { color: #3a1430; }
+/* iOS Safari can paint button text with its own system colour (dark scheme, disabled state): pin it. */
+.namepad.keys .wht, .namepad.keys .wht:disabled { color: #172b35 !important; -webkit-text-fill-color: #172b35; opacity: 1 !important; }
+.namepad.keys .wht.good { -webkit-text-fill-color: #3f7a1c; }
+.namepad.keys .wht.bad { -webkit-text-fill-color: #b0532c; }
+.namepad.keys .blk, .namepad.keys .blk:disabled { color: #f1f3ef !important; -webkit-text-fill-color: #f1f3ef; opacity: 1 !important; }
+.namepad.keys .blk.good { -webkit-text-fill-color: #b6e963; }
+.namepad.keys .blk.bad { -webkit-text-fill-color: #f0a585; }
+.namepad.keys button { -webkit-appearance: none; appearance: none; color-scheme: light; }
+:root[data-theme="evening"] .namepad.keys .wht { color: #3a1430 !important; -webkit-text-fill-color: #3a1430; }
+
+/* Tablet in landscape: one centred column — the staff in the middle, a wide keyboard under it (easier to tap). */
+@media (min-width: 1000px) and (min-height: 600px) and (orientation: landscape) {
+  .session { display: flex; flex-direction: column; max-width: 1080px; padding-left: 32px; padding-right: 32px; }
+  .s-top, .s-stage, .s-tools, .answers { grid-column: auto; grid-row: auto; }
+  .s-stage { justify-content: flex-start; padding-top: 8px !important; }
+  .session .staff-card { width: 100%; max-width: 900px; margin-inline: auto; }
+  .session .feedback { height: 64px; }
+  .s-tools { align-self: center; margin-bottom: 10px; }
+  .answers { width: 100%; padding-bottom: 8px; }
+  .namepad.keys { --h: max(184px, 36vh); }
+  .namepad.keys .wht { font-size: 30px; padding-bottom: 18px; }
+  .namepad.keys .blk { height: 56%; font-size: 13px; }
+  .session .staff-card { padding-top: 26px; }
+}
+
+/* ---------- The playable piano (free piano, play-along, keyboard questions): same feel as the name keys ---------- */
+.piano { --ph: 190px; height: var(--ph); border-top: 4px solid var(--dark); border-radius: 4px 4px 0 0; }
+.piano .white {
+  border: 1px solid #cfd3cc; border-top: 0; border-radius: 0 0 12px 12px;
+  background: linear-gradient(#ffffff 0%, #ffffff 82%, #f1f1ec 100%) !important;
+  box-shadow: inset 0 -6px 0 #e4e5df, 0 2px 0 rgba(23, 43, 53, .06);
+  padding-bottom: 16px; font-size: 13px; color: #8a938f; transition: transform .05s, box-shadow .05s;
+}
+.piano .white:active { box-shadow: inset 0 -2px 0 #e4e5df; transform: translateY(1px); }
+.piano .black {
+  height: 60%; border: 0; border-radius: 0 0 8px 8px;
+  background: linear-gradient(#2c3036 0%, #15181c 85%, #0b0c0e 100%) !important;
+  box-shadow: inset 0 -5px 0 #000, 0 3px 6px rgba(0, 0, 0, .25);
+}
+.piano .black:active { box-shadow: inset 0 -1px 0 #000; }
+.piano .white.good { box-shadow: inset 0 -6px 0 var(--lime-deep) !important; }
+.piano .white.bad { box-shadow: inset 0 -6px 0 var(--orange) !important; }
+.piano .black.good { box-shadow: inset 0 -5px 0 var(--lime-deep) !important; }
+.piano .black.bad { box-shadow: inset 0 -5px 0 var(--orange) !important; }
+:root[data-theme="evening"] .piano .white { background: linear-gradient(#fbf3e4, #eadbbd) !important; box-shadow: inset 0 -6px 0 #d7c3a0; }
+@media (max-height: 700px) { .piano { --ph: 160px; } }
+@media (min-width: 760px) and (min-height: 600px) { .piano { --ph: max(220px, 30vh); } .piano .white { font-size: 15px; } }
+
+/* Free piano and play-along on a tablet: a wide page so the keyboard can be wide. */
+@media (min-width: 760px) and (min-height: 600px) {
+  .page.free-piano, .page.playalong { max-width: 1100px; }
+  .page.playalong .answers { margin-top: auto; padding-bottom: 12px; }
+  .page.playalong .piano { --ph: max(240px, 36vh); }
+  .page.playalong .pa-card { max-width: 1100px; }
+}
+
+/* ---------- Tablet landscape: use the width ---------- */
+@media (min-width: 1000px) and (min-height: 600px) and (orientation: landscape) {
+  .page { max-width: 1080px; padding-left: 36px; padding-right: 36px; }
+  .page.free-piano, .page.playalong { max-width: 1160px; }
+  /* Home: the next-practice card and the day's options side by side. */
+  .page.home { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 32px; align-items: start; }
+  .page.home > * { grid-column: 1 / -1; }
+  .page.home > .next-card { grid-column: 1; grid-row: span 3; min-height: 420px; }
+  .page.home > .section-head, .page.home > .mood-cards, .page.home > .stat-strip, .page.home > .short-one { grid-column: 2; }
+  .page.home > .section-head { margin-top: 0; }
+  .hub { grid-template-columns: repeat(4, 1fr); }
+  .hub .tile.wide { grid-column: span 2; }
+  .sym-grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+  .mood-card { min-height: 128px; }
+}
+/* Monthly card: a picture, shown at a comfortable size. */
+.card-preview { max-width: 480px; margin-inline: auto; }
+.page:has(.card-preview) .btn.block { max-width: 480px; margin-inline: auto; display: flex; }
+/* Finger exercise on a tablet: a hand the size of a hand. */
+@media (min-width: 760px) and (min-height: 600px) {
+  .handpad { max-width: 560px; }
+  .handpad .fingers { height: max(220px, 30vh); gap: 12px; }
+  .handpad .finger { font-size: 30px; }
+  .handpad .palm { height: 70px; }
+  .listen-picks .pick { min-width: 72px; height: 58px; font-size: 22px; }
+  .ipad-btn { min-height: 84px; }
+  .ipad-btn b { font-size: 28px; }
+}
+@media (min-width: 1000px) and (min-height: 600px) and (orientation: landscape) {
+  .page.home:not(:has(.mood-cards)) > .next-card { grid-column: 1 / -1; }
+}

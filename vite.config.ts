@@ -33,6 +33,7 @@ export default defineConfig(({ mode }) => {
               maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
               navigateFallback: 'index.html',
               runtimeCaching: [
+                { urlPattern: /\/assets\/[^/]+\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'piano-samples', expiration: { maxEntries: 60 } } },
                 { urlPattern: /\/audio\/th\/[^/]+\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'thai-audio' } },
                 { urlPattern: /\/audio\/he\/[^/]+\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'hebrew-audio' } },
               ],
