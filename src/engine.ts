@@ -19,7 +19,7 @@ export interface Plan {
 export interface State {
   v: 1; name: string; onboarded: boolean; startLevel: number;
   paused?: Plan | null; words: Record<string, WordState>; sentences: Record<string, Metric>; days: Record<string, DayLog>; plan: Plan | null;
-  traps: Record<string, number>; confusions: Record<string, Record<string, number>>; cleaned?: boolean;
+  traps: Record<string, number>; confusions: Record<string, Record<string, number>>;
   settings: { sound: boolean; autoSpeak: boolean; voice: string; rate: number; weeklyGoal: number };
 }
 
@@ -434,10 +434,15 @@ export function applyPlacement(st: State, results: Record<string, boolean>, star
   return { ...st, words, startLevel, onboarded: true };
 }
 
-/** Words the old Thai placement test marked as met without any practice go back to being new. */
+/**
+ * In Thai a word counts as met only after real contact: an answer, a proof that it is known, or a flag.
+ * The old placement test marked whole chapters without any of these, so those words go back to being new.
+ */
 export function dropUnpracticed(st: State): State {
-  const words = Object.fromEntries(Object.entries(st.words).filter(([, w]) => w.r.ok + w.r.no > 0 || w.s.ok + w.s.no > 0 || w.r.flag));
-  return { ...st, words, startLevel: 0, plan: null, paused: null, cleaned: true };
+  const entries = Object.entries(st.words);
+  const kept = entries.filter(([, w]) => w.r.last >= 0 || w.r.ok + w.r.no > 0 || w.s.ok + w.s.no > 0 || w.r.flag);
+  if (kept.length === entries.length) return st;
+  return { ...st, words: Object.fromEntries(kept), startLevel: 0, plan: null, paused: null };
 }
 
 // ---------- Progress ----------

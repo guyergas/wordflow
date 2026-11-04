@@ -71,6 +71,9 @@ describe('Thai mode', () => {
     const fixed = engine.dropUnpracticed(st);
     expect(Object.keys(fixed.words)).toEqual([c.id]);
     expect(fixed.plan).toBeNull();
+    expect(engine.dropUnpracticed(fixed)).toBe(fixed);
+    const proved = { ...base, words: { [a.id]: { ...engine.freshWord(), met: 100, assumed: true, r: { ...engine.freshMetric(), box: 3, due: 103, last: 100 } } } };
+    expect(engine.dropUnpracticed(proved)).toBe(proved);
     const plan = engine.buildPlan(fixed, 100);
     const old = plan.steps.filter((s) => s.part !== 'new').map((s) => s.id);
     expect(old.includes(a.id) || old.includes(b.id)).toBe(false);

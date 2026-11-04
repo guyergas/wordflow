@@ -12,9 +12,9 @@ export function load(): State {
     const parsed = JSON.parse(raw);
     const base = initialState();
     const st: State = { ...base, ...parsed, settings: { ...base.settings, ...parsed.settings } };
-    if (!IS_THAI || parsed.cleaned) return st;
+    if (!IS_THAI) return st;
     const fixed = dropUnpracticed(st);
-    save(fixed);
+    if (fixed !== st) save(fixed);
     return fixed;
   } catch { return initialState(); }
 }
