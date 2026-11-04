@@ -1,0 +1,57 @@
+import { describe, expect, it } from 'vitest';
+import { COURSES } from '../course';
+import { answerKey, buildPlan, dayLog, finishLesson, initial, isSolid, lessonsOf, LESSON } from './engine';
+import { LESSONS } from './lessons';
+
+const T = 20000;
+describe('lesson bank', () => {
+  it('each of the eight courses has lessons at every level', () => {
+    const list = COURSES.filter((c) => c.knowledge);
+    expect(list).toHaveLength(8);
+    for (const c of list) { const l = lessonsOf(c.id); expect(l.length, c.id).toBeGreaterThanOrEqual(6); expect(new Set(l.map((x) => x.level)).size, c.id).toBe(3); }
+  });
+  it('every lesson is complete', () => {
+    expect(new Set(LESSONS.map((l) => l.id)).size).toBe(LESSONS.length);
+    for (const l of LESSONS) {
+      const words = l.text.split(/\s+/).length;
+      expect(words, `${l.id} length`).toBeGreaterThanOrEqual(45);
+      expect(words, `${l.id} length`).toBeLessThanOrEqual(130);
+      expect(l.qs.length, l.id).toBeGreaterThanOrEqual(3);
+      expect(l.keys.length, l.id).toBeGreaterThanOrEqual(1);
+      for (const [q, right, wrong, why] of [...l.qs, ...l.keys]) {
+        expect(q.length, l.id).toBeGreaterThan(5);
+        expect(why.length, `${l.id}: ${q}`).toBeGreaterThan(0);
+        expect(wrong.length, `${l.id}: ${q}`).toBeGreaterThanOrEqual(2);
+        expect(new Set([right, ...wrong]).size, `${l.id}: ${q}`).toBe(wrong.length + 1);
+      }
+    }
+  });
+});
+describe('learning rules', () => {
+  const id = lessonsOf('geo')[0].id;
+  it('a day offers two lessons at most, and no spaced review on the first day', () => {
+    const p = buildPlan(initial(), T, {}, 'geo');
+    expect(p.steps.map((s) => s.t)).toEqual(['lesson', 'lesson']);
+  });
+  it('a passed lesson counts as new once, and its key points return the next day', () => {
+    let st = finishLesson(initial(), id, 3, 3, T);
+    expect(dayLog(st, T).fresh).toBe(1);
+    expect(buildPlan(st, T, {}, 'geo').steps.some((s) => s.t === 'key')).toBe(false);
+    expect(buildPlan(st, T + 1, {}, 'geo').steps.some((s) => s.t === 'key')).toBe(true);
+    st = finishLesson(st, id, 3, 3, T + 1);
+    expect(dayLog(st, T + 1).fresh).toBe(0);
+  });
+  it('a lesson not understood returns the next day', () => {
+    const st = finishLesson(initial(), id, 1, 3, T);
+    expect(buildPlan(st, T + 1, {}, 'geo').steps.some((s) => s.t === 'lesson' && s.id === id)).toBe(true);
+    expect(st.lessons[id].pass).toBe(false);
+  });
+  it('solid needs key points remembered on separate days', () => {
+    let st = finishLesson(initial(), id, 3, 3, T);
+    const keys = LESSON[id].keys.map((_, i) => `${id}#${i}`);
+    for (const d of [1, 3, 6]) for (const k of keys) { st = answerKey(st, k, true, T + d); st = answerKey(st, k, true, T + d); }
+    expect(isSolid(st, LESSON[id])).toBe(true);
+    st = answerKey(st, keys[0], false, T + 9);
+    expect(isSolid(st, LESSON[id])).toBe(false);
+  });
+});

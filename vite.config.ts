@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
             registerType: 'autoUpdate',
             includeAssets: ['icon.svg', 'apple-touch-icon.png'],
             manifest: {
-              name: 'WordFlow', short_name: 'WordFlow', description: 'אנגלית, תאית וחשבון, קצת בכל יום',
+              name: 'WordFlow', short_name: 'WordFlow', description: 'שפות, חשבון וידע כללי, קצת בכל יום',
               lang: 'he', dir: 'rtl', start_url: './', scope: './', display: 'standalone', orientation: 'portrait',
               background_color: '#f5f4ef', theme_color: '#f5f4ef',
               icons: [

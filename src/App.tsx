@@ -6,7 +6,7 @@ import {
 } from './engine';
 import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind, sentencePlan, sentencesKnown, tokens, TOPICS, unknownWords } from './sentences';
 import { COURSE_CHOSEN, COURSE_ID, COURSES, HAS_SPELLING, IS_THAI, switchCourse, x } from './course';
-import { SummaryCard } from './summaryUi';
+import { CourseSwitch, SummaryTab, TodayPlan } from './summaryUi';
 import { LEVELS, WORD, WORDS, Word } from './words';
 import { buildReport, drawReport, fileName, Period, toBlob } from './report';
 import { askPersistence, canSpeak, englishVoices, load, save, saveThaiRecordings, sfx, speak } from './platform';
@@ -138,6 +138,7 @@ export function App() {
         {([['home', 'בית'], ['path', 'המסע'], ['progress', 'התקדמות'], ['words', 'מילים']] as [Tab, string][]).map(([k, t]) => (
           <button key={k} type="button" className={tab === k ? 'on' : ''} aria-current={tab === k ? 'page' : undefined} onClick={() => setTab(k)}>{t}</button>
         ))}
+        <SummaryTab name={st.name} />
       </nav>
       {settings && <Settings st={st} update={update} onClose={() => setSettings(false)} />}
       {wordSheet && <WordSheet st={st} update={update} id={wordSheet} onClose={() => setWordSheet(null)} />}
@@ -314,7 +315,7 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
         <span className="sent-go" aria-hidden="true">←</span>
       </button>
 
-      <SummaryCard name={st.name} />
+      <TodayPlan />
 
       <section className="card week">
         <div className="row-between"><h3>השבוע</h3><span className="muted small">{weekCount} מתוך {st.settings.weeklyGoal} ימים</span></div>
@@ -1103,9 +1104,7 @@ function Settings({ st, update, onClose }: { st: State; update: Update; onClose:
   return (
     <Sheet title="הגדרות" onClose={onClose}>
       <div className="set-row"><span>מה לומדים</span>
-        <div className="seg lang" role="group" aria-label="הקורס">
-          {COURSES.map((c) => <button key={c.id} type="button" aria-pressed={COURSE_ID === c.id} onClick={() => { if (COURSE_ID !== c.id) switchCourse(c.id); }}>{c.name}</button>)}
-        </div></div>
+        <CourseSwitch /></div>
       <p className="small muted">לכל קורס התקדמות משלו, והיא נשמרת כשעוברים ביניהם.</p>
       <label className="field" htmlFor="n2">שם</label>
       <input id="n2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} />

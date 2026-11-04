@@ -15,4 +15,8 @@ Thai mode (`src/thai.ts`) shows Latin transliteration with tone marks, has no sp
 
 Math (`src/math`) is a third course on the same site. Skills in `skills.ts` generate a fresh question each time, with stations 1-7 so far. `engine.ts` holds the rules: an opening run with a separate stopping point in each area, prerequisites, understanding and execution as two measures, and hints that show other numbers. A course is one line in `COURSES` in `src/course.ts`, and it then appears in the switcher and in the time summary (`src/summary.ts`).
 
+Eight knowledge courses (`src/knowledge`) share one engine: a short text, questions on understanding, and key points in spaced review. Lessons are in `lessons.ts`.
+
+The summary tab in every course shows study time and new items across all courses, by day and week, against a weekly schedule of minutes per course.
+
 `npm test` · `npm run dev` · `npm run build`. Pushing to `main` deploys to GitHub Pages.

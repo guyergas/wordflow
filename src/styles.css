@@ -421,3 +421,25 @@ input[type=range] { width: 100%; accent-color: var(--rec); }
 .q:has(.m-keys) .m-big { padding-block: 4px; }
 .m-keys button { height: 48px; }
 .m-typed { min-height: 54px; }
+
+/* All courses: today's schedule and the tab */
+.nav button { padding: 0 11px; }
+.today-plan { display: grid; }
+.today-plan li + li { border-top: 1px solid var(--line); }
+.today-plan button { width: 100%; min-height: 46px; display: flex; justify-content: space-between; align-items: center; gap: 10px; text-align: start; font-weight: 600; }
+.today-plan small { color: var(--ink-2); font-weight: 500; font-size: 14px; flex: none; }
+.today-plan small.ok { color: var(--good); font-weight: 650; }
+.set-row:has(.course-switch) { flex-direction: column; align-items: stretch; padding-bottom: 10px; gap: 4px; }
+.goal-row small { text-align: start; }
+
+/* Knowledge lessons */
+.k-wrap { flex: 1; display: flex; flex-direction: column; }
+.k-title { font-size: 28px; font-weight: 750; text-align: center; }
+.k-text { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: grid; gap: 10px; justify-items: start; }
+.k-text p { font-size: 18.5px; line-height: 1.7; }
+.k-ans { font-size: 17px; min-height: 54px; }
+.k-idea { font-size: 23px; font-weight: 700; line-height: 1.4; text-align: center; padding-block: 8px; text-wrap: balance; }
+.k-why { text-align: start; font-size: 16px; color: var(--ink); }
+.k-why b { color: var(--good); }
+.feedback .btn-next { align-self: flex-end; }
+a.link { text-align: center; line-height: 44px; }

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { CourseSwitch, SummaryCard } from '../summaryUi';
+import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
 import { readCourses } from '../summary';
 import { STORAGE_KEY } from '../course';
 import { canSpeak, sfx, speakHebrew } from '../platform';
@@ -91,6 +91,7 @@ export function MathApp() {
       </main>
       <nav className="nav" aria-label="ניווט">
         {([['home', 'בית'], ['path', 'המסע'], ['progress', 'התקדמות']] as [Tab, string][]).map(([k, t]) => <button key={k} type="button" className={tab === k ? 'on' : ''} aria-current={tab === k ? 'page' : undefined} onClick={() => setTab(k)}>{t}</button>)}
+        <SummaryTab name={st.name} />
       </nav>
       {settings && <Settings st={st} update={update} onClose={() => setSettings(false)} />}
     </div>
@@ -376,7 +377,7 @@ function Home({ st, today, onStart, onSettings }: { st: MathState; today: number
         <div><b>{t.e}</b><span>מיומנויות שאת מחשבת נכון מתוך {t.eAll}</span></div>
       </section>
       {anyMet && <button type="button" className="sent-card" onClick={() => onStart({ extra: true })}><span className="sent-txt"><b>אימון חיזוק</b><small>סיבוב קצר על מה שכבר למדת</small></span><span className="sent-go" aria-hidden="true">←</span></button>}
-      <SummaryCard name={st.name} />
+      <TodayPlan />
       <section className="card week">
         <div className="row-between"><h3>השבוע</h3><span className="muted small">{week.filter(Boolean).length} מתוך {st.settings.weeklyGoal} ימים</span></div>
         <div className="week-tiles" aria-hidden="true">{['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'].map((d, i) => <span key={d} className={`wd ${week[i] ? 'on' : ''}`}>{d}</span>)}</div>
