@@ -33,7 +33,7 @@ const RAW: string[] = [
 קוראים לי…|ผมชื่อ|phǒm chûe…
 קוראים לי גיא|ผมชื่อกาย|phǒm chûe kaai
 נעים להכיר|ยินดีที่ได้รู้จัก|yin-dii thîi dâai rúu-jàk
-נתראה|แล้วเจอกัน|láeo joe kan
+נתראה|เจอกันใหม่|joe kan mài|แล้วเจอกัน
 להתראות|บ๊ายบาย|baai-baai
 לילה טוב|ฝันดี|fǎn dii
 מאיפה אתה?|คุณมาจากไหน|khun maa jàak nǎi
@@ -582,10 +582,11 @@ const politeEn = (en: string) => `${en} khráp`;
 
 // The id comes from the Thai without the ending, so progress on a word survives changes to its ending.
 export const THAI_WORDS: ThaiWord[] = RAW.flatMap((block, level) => block.split('\n').map((line, i) => {
-  const [he, base, baseEn] = line.split('|');
+  // An optional fourth field holds the word's earlier Thai, so reworded words keep their progress.
+  const [he, base, baseEn, earlier] = line.split('|');
   const polite = isPolite(he, base);
   const en = polite ? politeEn(baseEn) : baseEn;
-  return { id: `t${audioName(base)}`, en, he, th: polite ? politeTh(base) : base, pos: /\s/.test(en) ? 'o' as const : 'n' as const, ex: '', level, order: level * 1000 + i };
+  return { id: `t${audioName(earlier ?? base)}`, en, he, th: polite ? politeTh(base) : base, pos: /\s/.test(en) ? 'o' as const : 'n' as const, ex: '', level, order: level * 1000 + i };
 }));
 
 // The sentence patterns from the list. Longer phrases from the bank join them once their word has been met.
