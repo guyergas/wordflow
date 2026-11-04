@@ -41,6 +41,12 @@ describe('learning rules', () => {
     st = finishLesson(st, id, 3, 3, T + 1);
     expect(dayLog(st, T + 1).fresh).toBe(0);
   });
+  it('a day with lessons starts with reading, and review questions come after', () => {
+    const st = finishLesson(initial(), id, 3, 3, T);
+    const kinds = buildPlan(st, T + 1, {}, 'geo').steps.map((s) => s.t);
+    expect(kinds[0]).toBe('lesson');
+    expect(kinds.at(-1)).toBe('key');
+  });
   it('a lesson not understood returns the next day', () => {
     const st = finishLesson(initial(), id, 1, 3, T);
     expect(buildPlan(st, T + 1, {}, 'geo').steps.some((s) => s.t === 'lesson' && s.id === id)).toBe(true);

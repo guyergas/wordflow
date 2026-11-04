@@ -13,7 +13,7 @@ function load(): KState {
   let raw = memory;
   try { raw = localStorage.getItem(STORAGE_KEY) ?? raw; } catch { /* memory only */ }
   if (!raw) return initial();
-  try { const p = JSON.parse(raw), b = initial(); const st: KState = { ...b, ...p, settings: { ...b.settings, ...p.settings } }; if (st.plan?.steps.some((x) => (x.t === 'lesson' ? !LESSON[x.id] : !LESSON[x.id.split('#')[0]]))) st.plan = null; return st; } catch { return initial(); }
+  try { const p = JSON.parse(raw), b = initial(); const st: KState = { ...b, ...p, settings: { ...b.settings, ...p.settings } }; if (st.plan?.steps.some((x) => (x.t === 'lesson' ? !LESSON[x.id] : !LESSON[x.id.split('#')[0]]))) st.plan = null; if (st.plan && st.plan.at === 0) st.plan = { ...st.plan, steps: [...st.plan.steps].sort((x, y) => Number(x.t === 'key') - Number(y.t === 'key')) }; return st; } catch { return initial(); }
 }
 function save(st: KState) { memory = JSON.stringify(st); try { localStorage.setItem(STORAGE_KEY, memory); } catch { /* memory only */ } }
 export function recoverKnowledge() { save({ ...load(), plan: null }); }
@@ -136,11 +136,11 @@ function Session({ st, update, onExit, onMore }: { st: KState; update: Update; o
   );
 }
 
-function Quiz({ q, sound, onAnswer, onNext, label, unscored, tools }: { q: QuizQ; sound: boolean; onAnswer: (ok: boolean) => void; onNext: () => void; label?: string; unscored?: boolean; tools?: React.ReactNode }) {
+function Quiz({ q, sound, onAnswer, onNext, label, tools }: { q: QuizQ; sound: boolean; onAnswer: (ok: boolean) => void; onNext: () => void; label?: string; tools?: React.ReactNode }) {
   const [question, right, wrong, why] = q;
   const options = useMemo(() => [right, ...wrong].map((o) => ({ o, k: Math.random() })).sort((a, b) => a.k - b.k).map((x) => x.o), [question]);
   const [picked, setPicked] = useState<string | null>(null);
-  const pick = (o: string) => { if (picked) return; setPicked(o); if (sound) (unscored ? sfx.tap : o === right ? sfx.good : sfx.bad)(); onAnswer(o === right); };
+  const pick = (o: string) => { if (picked) return; setPicked(o); if (sound) (o === right ? sfx.good : sfx.bad)(); onAnswer(o === right); };
   return (
     <div className="q">
       {label && <span className="m-chip-hi center">{label}</span>}
@@ -149,7 +149,7 @@ function Quiz({ q, sound, onAnswer, onNext, label, unscored, tools }: { q: QuizQ
       <div className="answers">
         {options.map((o) => <button key={o} type="button" className={`ans k-ans ${picked && o === right ? 'right' : ''} ${picked === o && o !== right ? 'wrong' : ''}`} onClick={() => pick(o)}>{o}</button>)}
       </div>
-      {picked && <div className={`feedback ${picked === right ? 'good k-why' : 'soft'}`} role="status"><b>{picked === right ? 'נכון!' : unscored ? 'זה בסדר, נראה בקטע.' : 'לא הפעם.'}</b>{why && <span>{why}</span>}<button type="button" className="btn-next" onClick={onNext}>ממשיכות</button></div>}
+      {picked && <div className={`feedback ${picked === right ? 'good k-why' : 'soft'}`} role="status"><b>{picked === right ? 'נכון!' : 'לא הפעם.'}</b>{why && <span>{why}</span>}<button type="button" className="btn-next" onClick={onNext}>ממשיכות</button></div>}
     </div>
   );
 }
@@ -165,13 +165,12 @@ function ReportProblem({ lesson }: { lesson: Lesson }) {
 }
 
 function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boolean; sound: boolean; onDone: (ok: number, all: number) => void }) {
-  type Stage = 'guess' | 'read' | 'q' | 'end';
-  const [stage, setStage] = useState<Stage>('guess');
+  type Stage = 'read' | 'q' | 'end';
+  const [stage, setStage] = useState<Stage>('read');
   const [i, setI] = useState(0);
   const score = useRef(0);
   const [reread, setReread] = useState(false);
   const Text = () => <div className="k-text"><p>{lesson.text}</p>{canSpeak() && <button type="button" className="m-tool" onClick={() => speakHebrew(lesson.text)}>🔊 הקראה</button>}</div>;
-  if (stage === 'guess') return <div key="g" className="k-wrap"><Quiz q={[lesson.keys[0][0], lesson.keys[0][1], lesson.keys[0][2], '']} sound={sound} unscored onAnswer={() => undefined} onNext={() => setStage('read')} label={`${lesson.title} · ניחוש לפני הקריאה, בלי ציון`} /></div>;
   if (stage === 'read') return <div className="q"><span className="m-chip-hi center">{LEVEL[lesson.level]}</span><h1 className="k-title">{lesson.title}</h1><Text /><div className="grow" /><button type="button" className="cta" onClick={() => setStage('q')}>קראתי</button></div>;
   if (stage === 'q') return (
     <div className="k-wrap" key={i}>

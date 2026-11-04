@@ -24,6 +24,7 @@ function shuffle<T>(a: T[], rnd: () => number): T[] { const r = [...a]; for (let
 
 export function buildPlan(st: KState, today: number, o: { bonus?: boolean; extra?: boolean; rnd?: () => number } = {}, c: CourseId = COURSE_ID): Plan {
   const rnd = o.rnd ?? Math.random, steps: Step[] = [];
+  // A lesson opens with its text, so reading comes first and review questions follow.
   const mine = Object.entries(st.keys).filter(([id]) => id.startsWith(`${c}.`));
   if (!o.bonus) {
     const due = mine.filter(([, m]) => o.extra || m.due <= today).sort((a, b) => Number(b[1].flag) - Number(a[1].flag) || a[1].due - b[1].due);
@@ -32,6 +33,7 @@ export function buildPlan(st: KState, today: number, o: { bonus?: boolean; extra
     if (again && !o.extra) steps.push({ t: 'lesson', id: again.id });
   }
   if (!o.extra) lessonsOf(c).filter((l) => !st.lessons[l.id]).slice(0, o.bonus ? 1 : NEW_PER_DAY).forEach((l) => steps.push({ t: 'lesson', id: l.id }));
+  steps.sort((x, y) => Number(x.t === 'key') - Number(y.t === 'key'));
   return { day: today, steps, at: 0, bonus: o.bonus, extra: o.extra };
 }
 
