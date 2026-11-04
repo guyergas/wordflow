@@ -10,7 +10,7 @@ export interface WordState { r: Metric; s: Metric; met: number | null; assumed?:
 export type Part = 'warm' | 'boost' | 'new';
 export type Kind = 'check' | 'intro' | 'meaning' | 'reverse' | 'listen' | 'cloze' | 'match' | 'tiles' | 'gaps' | 'memo' | 'type' | 'review';
 export interface Step { part: Part; kind: Kind; id: string; ids?: string[]; retry?: boolean }
-export interface DayLog { rOk: number; rNo: number; sOk: number; sNo: number; fresh: number; done: boolean }
+export interface DayLog { rOk: number; rNo: number; sOk: number; sNo: number; fresh: number; done: boolean; sen?: number; sec?: number; known?: number; spelled?: number }
 export interface Plan {
   day: number; steps: Step[]; at: number; short: boolean; extra?: boolean; spelling?: boolean; bonus?: boolean; alreadyKnown: string[];
   newIds: string[]; consolidating: boolean; gained: { r: string[]; s: string[] }; flagged: string[];
@@ -268,7 +268,7 @@ export function recordRecognition(st: State, id: string, correct: boolean, today
   const next: State = {
     ...st,
     words: { ...st.words, [id]: nw },
-    days: { ...st.days, [today]: { ...log, rOk: log.rOk + (correct ? 1 : 0), rNo: log.rNo + (correct ? 0 : 1), fresh: log.fresh + (first ? 1 : 0) } },
+    days: { ...st.days, [today]: { ...log, rOk: log.rOk + (correct ? 1 : 0), rNo: log.rNo + (correct ? 0 : 1), fresh: log.fresh + (first ? 1 : 0), known: (log.known ?? 0) + (!before && isKnown(nw) ? 1 : 0) } },
   };
   if (plan) {
     next.plan = {
@@ -294,7 +294,7 @@ export function recordSpelling(st: State, id: string, correct: boolean, today: n
   const next: State = {
     ...st,
     words: { ...st.words, [id]: nw },
-    days: { ...st.days, [today]: { ...log, sOk: log.sOk + (correct ? 1 : 0), sNo: log.sNo + (correct ? 0 : 1) } },
+    days: { ...st.days, [today]: { ...log, sOk: log.sOk + (correct ? 1 : 0), sNo: log.sNo + (correct ? 0 : 1), spelled: (log.spelled ?? 0) + (!before && spellKnown(nw) ? 1 : 0) } },
   };
   if (!correct) {
     const traps = { ...st.traps };
@@ -442,6 +442,27 @@ export function totals(st: State): Totals {
     if (s.r.flag || s.s.flag) flagged++;
   }
   return { met, known, spelled, flagged, all: WORDS.length };
+}
+
+export function addStudyTime(st: State, today: number, sec: number): State {
+  const log = dayLog(st, today);
+  return { ...st, days: { ...st.days, [today]: { ...log, sec: (log.sec ?? 0) + sec } } };
+}
+
+export function studySeconds(st: State, from: number, to: number): number {
+  let sum = 0;
+  for (let d = from; d <= to; d++) sum += st.days[d]?.sec ?? 0;
+  return sum;
+}
+
+export function formatStudyTime(sec: number): string {
+  if (sec < 30) return 'פחות מדקה';
+  const total = Math.round(sec / 60);
+  if (total < 60) return total === 1 ? 'דקה' : `${total} דקות`;
+  const h = Math.floor(total / 60), m = total % 60;
+  const hours = h === 1 ? 'שעה' : h === 2 ? 'שעתיים' : `${h} שעות`;
+  if (!m) return hours;
+  return `${hours} ו${m === 1 ? 'דקה' : `־${m} דקות`}`;
 }
 
 /** Words on their way: practiced and moving up, but not yet established. This is what changes on the day itself. */

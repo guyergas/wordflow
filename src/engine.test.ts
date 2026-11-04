@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { WORDS, WORD, LEVELS } from './words';
+import { buildReport } from './report';
 import { classified, recordSentence, SENTENCES, sentencePlan, tokens, unknownWords } from './sentences';
 import {
   applyPlacement, buildPlan, clozeOf, dayLog, grade, initialState, isKnown, KNOWN_BOX, LEARNING_CAP, freshMetric, newAllowance,
-  spellingPlan, practicePlan, restorePaused, options, recordRecognition, resolveCheck, nextNewWords, buildPlan as bp, recordSpelling, onTheWay, steppedToday, totals, spellLevel, spellKind, givenLetters, spellAlign, spellDiff, State, tileSet, trapsAt, ws, freshWord,
+  spellingPlan, practicePlan, restorePaused, options, recordRecognition, resolveCheck, nextNewWords, buildPlan as bp, recordSpelling, addStudyTime, formatStudyTime, studySeconds, onTheWay, steppedToday, totals, spellLevel, spellKind, givenLetters, spellAlign, spellDiff, State, tileSet, trapsAt, ws, freshWord,
 } from './engine';
 
 const T = 20000;
@@ -437,4 +438,59 @@ it('progress shows on the same day, before a word is established', () => {
   expect(onTheWay(st)).toEqual({ r: 1, s: 1 });
   expect(steppedToday(st, T)).toEqual({ r: 1, s: 1 });
   expect(steppedToday(st, T + 1)).toEqual({ r: 0, s: 0 });
+});
+
+describe('progress report', () => {
+  const played = () => {
+    let st: State = { ...initialState(), onboarded: true, name: 'איילה' };
+    st = recordRecognition(st, 'friend', true, T - 6, 'new');
+    st = recordRecognition(st, 'friend', true, T - 5, 'boost');
+    st = recordRecognition(st, 'friend', true, T - 3, 'boost');
+    st = recordRecognition(st, 'house', true, T, 'new');
+    st = recordSpelling(st, 'house', false, T);
+    st = recordSentence(st, 's1', true, T);
+    return st;
+  };
+  it('a day covers today only', () => {
+    const r = buildReport(played(), T, 'day');
+    expect([r.freshCount, r.recOk, r.recAll, r.spellOk, r.spellAll, r.sentences, r.practiced]).toEqual([1, 1, 1, 0, 1, 1, 1]);
+    expect(r.newWords.map((w) => w.en)).toEqual(['house']);
+    expect(r.days).toHaveLength(1);
+  });
+  it('a week covers 7 days and counts words established in it', () => {
+    const r = buildReport(played(), T, 'week');
+    expect(r.days).toHaveLength(7);
+    expect(r.practiced).toBe(4);
+    expect(r.freshCount).toBe(2);
+    expect(r.gainedKnown).toBe(1);
+    expect(r.totalKnown).toBe(1);
+    expect(r.newWords.map((w) => w.en).sort()).toEqual(['friend', 'house']);
+  });
+  it('words assumed from the placement check are not reported as learned', () => {
+    const st = applyPlacement(initialState(), {}, 2, T);
+    expect(buildReport(st, T, 'day').newWords).toEqual([]);
+  });
+  it('words that fell out of the week are not counted', () => {
+    expect(buildReport(played(), T + 6, 'week').practiced).toBe(1);
+    expect(buildReport(played(), T + 7, 'week').practiced).toBe(0);
+  });
+});
+
+describe('study time', () => {
+  it('adds up by day and over the period', () => {
+    let st = addStudyTime(addStudyTime(initialState(), T, 300), T, 60);
+    st = addStudyTime(st, T - 3, 600);
+    st = addStudyTime(st, T - 9, 600);
+    expect(studySeconds(st, T - 6, T)).toBe(960);
+    expect(buildReport(st, T, 'day').sec).toBe(360);
+    expect(buildReport(st, T, 'week').sec).toBe(960);
+  });
+  it('reads naturally in Hebrew', () => {
+    expect(formatStudyTime(10)).toBe('פחות מדקה');
+    expect(formatStudyTime(60)).toBe('דקה');
+    expect(formatStudyTime(720)).toBe('12 דקות');
+    expect(formatStudyTime(3600)).toBe('שעה');
+    expect(formatStudyTime(4320)).toBe('שעה ו־12 דקות');
+    expect(formatStudyTime(7200)).toBe('שעתיים');
+  });
 });

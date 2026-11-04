@@ -1,5 +1,5 @@
 // Useful everyday sentences, with a check of which words in each one she already knows.
-import { isKnown, Metric, State, ws, freshMetric, grade, spellKind } from './engine';
+import { dayLog, isKnown, Metric, State, ws, freshMetric, grade, spellKind } from './engine';
 import { WORDS, Word } from './words';
 
 export interface Sentence { id: string; en: string; he: string; topic: string; order: number }
@@ -150,7 +150,8 @@ export function sentencePlan(st: State, today: number, count = 6): Sentence[] {
   return [...due, ...fresh];
 }
 export function recordSentence(st: State, id: string, correct: boolean, today: number): State {
-  return { ...st, sentences: { ...st.sentences, [id]: grade(metricOf(st, id), correct, today) } };
+  const log = dayLog(st, today);
+  return { ...st, sentences: { ...st.sentences, [id]: grade(metricOf(st, id), correct, today) }, days: { ...st.days, [today]: { ...log, sen: (log.sen ?? 0) + 1 } } };
 }
 /** Understanding first, then building from Hebrew, then building by ear. */
 export const sentenceKind = (m: Metric): 'meaning' | 'build' | 'ear' => (m.box <= 0 ? 'meaning' : spellKind(m.box) === 'type' ? 'ear' : 'build');

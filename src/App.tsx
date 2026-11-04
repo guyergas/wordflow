@@ -2,10 +2,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   applyPlacement, buildPlan, clozeOf, currentLevel, dayLog, dayNumber, hardWords, isKnown, isMet, Kind, label, levelStats, LEARNING_CAP, options,
   Part, Plan, placementWords, PLACEMENT_PASS, recordRecognition, recordSpelling, givenLetters, spellLevel, spellAlign, spellDiff, spellKnown, spellMeasured, State, Step, tileSet,
-  toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, resolveCheck, restorePaused, onTheWay, steppedToday, spellCandidates,
+  toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, addStudyTime, formatStudyTime, studySeconds, resolveCheck, restorePaused, onTheWay, steppedToday, spellCandidates,
 } from './engine';
 import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind, sentencePlan, sentencesKnown, tokens, TOPICS, unknownWords } from './sentences';
 import { LEVELS, WORD, WORDS, Word } from './words';
+import { buildReport, drawReport, fileName, Period, toBlob } from './report';
 import { askPersistence, canSpeak, englishVoices, load, save, sfx, speak } from './platform';
 
 type Tab = 'home' | 'path' | 'progress' | 'words';
@@ -37,6 +38,29 @@ export function Wordmark() {
   return <div className="wordmark" dir="ltr" aria-label="WordFlow"><Tile ch="W" small /><span>ordFlow</span></div>;
 }
 
+/** Counts real study time: the screen is visible and she touched it recently. Walking away stops the clock. */
+function useStudyTimer(active: boolean, update: Update) {
+  useEffect(() => {
+    if (!active) return;
+    const TICK = 5, IDLE_MS = 45000;
+    let last = Date.now(), pending = 0;
+    const touch = () => { last = Date.now(); };
+    const flush = () => { if (pending > 0) { const sec = pending; pending = 0; update((s) => addStudyTime(s, dayNumber(), sec)); } };
+    window.addEventListener('pointerdown', touch);
+    window.addEventListener('keydown', touch);
+    const id = setInterval(() => {
+      if (document.visibilityState === 'visible' && Date.now() - last < IDLE_MS) pending += TICK;
+      if (pending >= 15) flush();
+    }, TICK * 1000);
+    document.addEventListener('visibilitychange', flush);
+    return () => {
+      clearInterval(id); flush();
+      window.removeEventListener('pointerdown', touch); window.removeEventListener('keydown', touch);
+      document.removeEventListener('visibilitychange', flush);
+    };
+  }, [active, update]);
+}
+
 export function App() {
   const [st, setSt] = useState<State>(() => restorePaused(load()));
   const [tab, setTab] = useState<Tab>('home');
@@ -48,6 +72,7 @@ export function App() {
   const today = dayNumber();
 
   useEffect(() => { void askPersistence(); }, []);
+  useStudyTimer(inSession || inSentences, update);
 
   const startSession = (opts: StartOpts = {}) => {
     update((raw) => {
@@ -179,6 +204,7 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
   const inProgress = !!plan && plan.at > 0 && plan.at < plan.steps.length;
   const t = totals(st);
   const way = onTheWay(st);
+  const weekSec = studySeconds(st, today - 6, today);
   const week = weekDays(st, today);
   const weekCount = week.filter(Boolean).length;
   const hour = new Date().getHours();
@@ -250,6 +276,7 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
 
       <section className="card week">
         <div className="row-between"><h3>השבוע</h3><span className="muted small">{weekCount} מתוך {st.settings.weeklyGoal} ימים</span></div>
+        {weekSec > 0 && <p className="small">זמן למידה ב-7 הימים האחרונים: <b>{formatStudyTime(weekSec)}</b></p>}
         <div className="week-tiles" aria-hidden="true">
           {['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'].map((d, i) => <span key={d} className={`wd ${week[i] ? 'on' : ''}`}>{d}</span>)}
         </div>
@@ -751,6 +778,7 @@ function Finish({ st, plan, onExit, onMore, onMoreNew }: { st: State; plan: Plan
   const pct = total ? Math.round(((log.rOk + log.sOk) / total) * 100) : 100;
   const point = plan.flagged[0] ? WORD[plan.flagged[0]] : null;
   const say = useSay(st);
+  const [share, setShare] = useState(false);
   const stepped = steppedToday(st, plan.day);
   const canMore = !plan.extra && newAllowance(st, plan.day) > 0 && nextNewWords(st, 1).length > 0;
   return (
@@ -780,6 +808,8 @@ function Finish({ st, plan, onExit, onMore, onMoreNew }: { st: State; plan: Plan
       <div className="grow" />
       {canMore && <button type="button" className="cta" onClick={onMoreNew}>עוד מילים חדשות</button>}
       <button type="button" className={canMore ? 'ans' : 'cta'} onClick={onExit}>סיום</button>
+      <button type="button" className="link center-block" onClick={() => setShare(true)}>שליחת סיכום בתמונה</button>
+      {share && <ShareSheet st={st} today={plan.day} onClose={() => setShare(false)} />}
       <button type="button" className="link center-block" onClick={onMore}>{plan.spelling ? 'עוד סיבוב איות' : plan.extra ? 'עוד סיבוב חיזוק' : 'אימון חיזוק'}</button>
     </div>
   );
@@ -834,6 +864,7 @@ const Pips = ({ n, flag, kind }: { n: number; flag: boolean; kind: 'r' | 's' }) 
 
 // ---------- Progress ----------
 function Progress({ st, today, onWord }: { st: State; today: number; onWord: (id: string) => void }) {
+  const [share, setShare] = useState(false);
   const t = totals(st);
   const hard = hardWords(st);
   const traps = topTraps(st);
@@ -853,6 +884,12 @@ function Progress({ st, today, onWord }: { st: State; today: number; onWord: (id
         <div className="meter s"><span className="m-name">איות</span><b>{t.spelled}</b><small>מילים מבוססות מתוך {t.all}</small>
           <div className="m-bar"><span style={{ width: `${(t.spelled / t.all) * 100}%` }} /></div><small>{spellMeasuredCount} נבדקו</small></div>
       </section>
+
+      <button type="button" className="sent-card" onClick={() => setShare(true)}>
+        <span className="sent-txt"><b>שליחת סיכום בתמונה</b><small>סיכום יומי או שבועי לוואטסאפ, כולל זמן הלמידה</small></span>
+        <span className="sent-go" aria-hidden="true">←</span>
+      </button>
+      {share && <ShareSheet st={st} today={today} onClose={() => setShare(false)} />}
 
       <section className="card">
         <div className="row-between"><h3>משפטים</h3><span className="chip">{sentencesKnown(st)}/{SENTENCES.length}</span></div>
@@ -1163,5 +1200,51 @@ function SentenceBuild({ st, s, ear, onResult, onNext }: SentProps & { ear: bool
         </div>
       )}
     </div>
+  );
+}
+
+// ---------- Share progress ----------
+function ShareSheet({ st, today, onClose }: { st: State; today: number; onClose: () => void }) {
+  const [period, setPeriod] = useState<Period>('day');
+  const [blob, setBlob] = useState<Blob | null>(null);
+  const [url, setUrl] = useState('');
+  const [msg, setMsg] = useState('');
+  const report = useMemo(() => buildReport(st, today, period), [period, today]);
+
+  // The image is ready before the tap, because phones only allow sharing directly from a tap.
+  useEffect(() => {
+    let live = true; let made = '';
+    setBlob(null); setMsg('');
+    drawReport(report).then(toBlob).then((b) => {
+      if (!live) return;
+      made = URL.createObjectURL(b); setBlob(b); setUrl(made);
+    }).catch(() => { if (live) setMsg('לא הצלחתי ליצור את התמונה במכשיר הזה.'); });
+    return () => { live = false; if (made) URL.revokeObjectURL(made); };
+  }, [report]);
+
+  const save = () => {
+    if (!url) return;
+    const a = document.createElement('a'); a.href = url; a.download = fileName(report); a.click();
+    setMsg('התמונה נשמרה. אפשר לצרף אותה בוואטסאפ.');
+  };
+  const send = async () => {
+    if (!blob) return;
+    const file = new File([blob], fileName(report), { type: 'image/png' });
+    if (navigator.canShare?.({ files: [file] })) {
+      try { await navigator.share({ files: [file] }); }
+      catch (e) { if ((e as Error).name !== 'AbortError') setMsg('השליחה לא הצליחה. אפשר ללחוץ לחיצה ארוכה על התמונה ולשמור אותה.'); }
+    } else save();
+  };
+
+  return (
+    <Sheet title="שליחת סיכום" onClose={onClose}>
+      <div className="seg" role="group">
+        {([['day', 'היום'], ['week', '7 ימים']] as const).map(([k, t]) => <button key={k} type="button" aria-pressed={period === k} onClick={() => setPeriod(k)}>{t}</button>)}
+      </div>
+      <div className="report-preview">{url && blob ? <img src={url} alt="תמונת סיכום ההתקדמות" /> : <span className="muted small">מכינה את התמונה...</span>}</div>
+      <button type="button" className="cta" disabled={!blob} onClick={send}>שליחה</button>
+      <p className="small muted center">בחלון שנפתח בוחרים בוואטסאפ ואת איש הקשר.</p>
+      {msg && <p className="small center" role="status">{msg}</p>}
+    </Sheet>
   );
 }
