@@ -8,14 +8,14 @@ describe('lesson bank', () => {
   it('each of the eight courses has lessons at every level', () => {
     const list = COURSES.filter((c) => c.knowledge);
     expect(list).toHaveLength(8);
-    for (const c of list) { const l = lessonsOf(c.id); expect(l.length, c.id).toBeGreaterThanOrEqual(6); expect(new Set(l.map((x) => x.level)).size, c.id).toBe(3); }
+    for (const c of list) { const l = lessonsOf(c.id); expect(l.length, c.id).toBeGreaterThanOrEqual(30); expect(new Set(l.map((x) => x.level)).size, c.id).toBe(3); }
   });
   it('every lesson is complete', () => {
     expect(new Set(LESSONS.map((l) => l.id)).size).toBe(LESSONS.length);
     for (const l of LESSONS) {
       const words = l.text.split(/\s+/).length;
-      expect(words, `${l.id} length`).toBeGreaterThanOrEqual(45);
-      expect(words, `${l.id} length`).toBeLessThanOrEqual(130);
+      expect(words, `${l.id} length`).toBeGreaterThanOrEqual(100);
+      expect(words, `${l.id} length`).toBeLessThanOrEqual(280);
       expect(l.qs.length, l.id).toBeGreaterThanOrEqual(3);
       expect(l.keys.length, l.id).toBeGreaterThanOrEqual(1);
       for (const [q, right, wrong, why] of [...l.qs, ...l.keys]) {
@@ -29,9 +29,13 @@ describe('lesson bank', () => {
 });
 describe('learning rules', () => {
   const id = lessonsOf('geo')[0].id;
-  it('a day offers two lessons at most, and no spaced review on the first day', () => {
+  it('a day has one topic, and no spaced review on the first day', () => {
     const p = buildPlan(initial(), T, {}, 'geo');
-    expect(p.steps.map((s) => s.t)).toEqual(['lesson', 'lesson']);
+    expect(p.steps.map((s) => s.t)).toEqual(['lesson']);
+  });
+  it('a topic not understood takes the place of a new one the next day', () => {
+    const st = finishLesson(initial(), id, 1, 3, T);
+    expect(buildPlan(st, T + 1, {}, 'geo').steps.filter((s) => s.t === 'lesson')).toEqual([{ t: 'lesson', id }]);
   });
   it('a passed lesson counts as new once, and its key points return the next day', () => {
     let st = finishLesson(initial(), id, 3, 3, T);

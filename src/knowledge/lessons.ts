@@ -1,14 +1,20 @@
 // Pilot lessons for the eight knowledge courses. One idea in each: a short text, questions on understanding,
 // and one or two key points that return in spaced review. Written directly, not copied from another text.
 // Level: 0 basis, 1 deeper, 2 a jump above the expected age. `wiki` is the Hebrew Wikipedia title for reading more.
-import { CourseId } from '../course';
+import { L, Lesson } from './kit';
+import { EXTRA } from './extra';
+import { MORE_GEO } from './more-geo';
+import { MORE_SCI } from './more-sci';
+import { MORE_NATURE } from './more-nature';
+import { MORE_HIST } from './more-hist';
+import { MORE_ART } from './more-art';
+import { MORE_SPORT } from './more-sport';
+import { MORE_HEB } from './more-heb';
+import { MORE_JUD } from './more-jud';
 
-export type QuizQ = [question: string, right: string, wrong: string[], why: string];
-export interface Lesson { id: string; course: CourseId; level: 0 | 1 | 2; title: string; wiki: string; text: string; idea: string; qs: QuizQ[]; keys: QuizQ[] }
+export type { Lesson, QuizQ } from './kit';
 
-const L = (course: CourseId, id: string, level: 0 | 1 | 2, title: string, wiki: string, text: string, idea: string, qs: QuizQ[], keys: QuizQ[]): Lesson => ({ id: `${course}.${id}`, course, level, title, wiki, text, idea, qs, keys });
-
-export const LESSONS: Lesson[] = [
+const FIRST: Lesson[] = [
   // ---------- Geography ----------
   L('geo', 'continents', 0, 'היבשות והאוקיינוסים', 'יבשת', 'רוב פני כדור הארץ מכוסים במים, ולא ביבשה. נהוג למנות שבע יבשות: אסיה, אפריקה, אמריקה הצפונית, אמריקה הדרומית, אנטארקטיקה, אירופה ואוסטרליה. אסיה היא הגדולה ביותר, ויש בה יותר אנשים מבכל יבשת אחרת. אוסטרליה היא הקטנה ביותר. סביב היבשות יש חמישה אוקיינוסים, וכולם מחוברים זה לזה. הגדול שבהם הוא האוקיינוס השקט. ישראל נמצאת באסיה, קרוב למקום שבו אסיה, אפריקה ואירופה כמעט נפגשות.', 'רוב כדור הארץ הוא מים, והיבשה מחולקת לשבע יבשות שנבדלות מאוד בגודלן.', [
     ['מה נכון לגבי פני כדור הארץ?', 'יש בהם יותר מים מיבשה', ['יש בהם יותר יבשה ממים', 'יש בהם כמות שווה של מים ויבשה', 'המים נמצאים רק סביב אסיה'], 'רוב פני הכדור מכוסים במים.'],
@@ -265,3 +271,5 @@ export const LESSONS: Lesson[] = [
     ['מה הייתה מטרת משנה תורה?', 'לארגן את ההלכה', ['ללמד כימיה', 'לספר על מלחמות', 'להציג שירים'], 'זה ספר הלכה מסודר.'],
   ], [['באיזו עיר נולד הרמב״ם?', 'קורדובה', ['קהיר', 'ירושלים', 'בגדד'], 'קורדובה.']]),
 ];
+
+export const LESSONS: Lesson[] = [...FIRST.map((l) => ({ ...l, text: EXTRA[l.id] ? `${l.text}\n\n${EXTRA[l.id]}` : l.text })), ...MORE_GEO, ...MORE_SCI, ...MORE_NATURE, ...MORE_HIST, ...MORE_ART, ...MORE_SPORT, ...MORE_HEB, ...MORE_JUD];

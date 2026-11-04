@@ -11,7 +11,7 @@ export interface DayLog { fresh: number; ok: number; no: number; done: boolean; 
 export interface KState { v: 1; name: string; onboarded: boolean; lessons: Record<string, LessonState>; keys: Record<string, Metric>; days: Record<string, DayLog>; plan: Plan | null; settings: { sound: boolean; wiki: boolean } }
 
 const INTERVALS = [0, 1, 2, 4, 8, 16, 32, 64];
-export const SOLID = 3, NEW_PER_DAY = 2, KEYS_PER_DAY = 5, PASS = 2 / 3;
+export const SOLID = 3, KEYS_PER_DAY = 5, PASS = 2 / 3;
 export const dayNumber = (d: Date = new Date()) => Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() / 864e5 + 0.5);
 export const initial = (): KState => ({ v: 1, name: '', onboarded: false, lessons: {}, keys: {}, days: {}, plan: null, settings: { sound: true, wiki: false } });
 export const dayLog = (st: KState, d: number): DayLog => st.days[d] ?? { fresh: 0, ok: 0, no: 0, done: false };
@@ -29,10 +29,13 @@ export function buildPlan(st: KState, today: number, o: { bonus?: boolean; extra
   if (!o.bonus) {
     const due = mine.filter(([, m]) => o.extra || m.due <= today).sort((a, b) => Number(b[1].flag) - Number(a[1].flag) || a[1].due - b[1].due);
     shuffle(due.slice(0, KEYS_PER_DAY * 2), rnd).slice(0, KEYS_PER_DAY).forEach(([id]) => steps.push({ t: 'key', id }));
-    const again = lessonsOf(c).find((l) => { const s = st.lessons[l.id]; return s && !s.pass && s.due <= today; });
-    if (again && !o.extra) steps.push({ t: 'lesson', id: again.id });
   }
-  if (!o.extra) lessonsOf(c).filter((l) => !st.lessons[l.id]).slice(0, o.bonus ? 1 : NEW_PER_DAY).forEach((l) => steps.push({ t: 'lesson', id: l.id }));
+  // One topic a day: a lesson that was not understood comes back first, and otherwise the next one opens.
+  if (!o.extra) {
+    const again = lessonsOf(c).find((l) => { const s = st.lessons[l.id]; return s && !s.pass && s.due <= today; });
+    const topic = again ?? lessonsOf(c).find((l) => !st.lessons[l.id]);
+    if (topic) steps.push({ t: 'lesson', id: topic.id });
+  }
   steps.sort((x, y) => Number(x.t === 'key') - Number(y.t === 'key'));
   return { day: today, steps, at: 0, bonus: o.bonus, extra: o.extra };
 }

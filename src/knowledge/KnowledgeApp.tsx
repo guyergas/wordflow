@@ -92,14 +92,14 @@ function Home({ st, today, onStart, onSettings }: { st: KState; today: number; o
           <>
             <span className="chip-d">{next ? 'היום הושלם' : 'הכול נלמד'}</span>
             <h2>{next ? 'סיימת להיום' : 'סיימת את כל השיעורים שיש כרגע'}</h2>
-            <p>{next ? 'בא לך עוד? יש שיעור נוסף.' : 'שיעורים חדשים ייתווספו בהמשך.'}</p>
-            {next ? <button type="button" className="cta-d" onClick={() => onStart({ bonus: true })}>עוד שיעור</button> : Object.keys(st.keys).length > 0 && <button type="button" className="cta-d" onClick={() => onStart({ extra: true })}>חזרה קצרה</button>}
+            <p>{next ? 'הנושא הבא מחכה לך באימון של מחר.' : 'שיעורים חדשים ייתווספו בהמשך.'}</p>
+            {Object.keys(st.keys).length > 0 && <button type="button" className="cta-d" onClick={() => onStart({ extra: true })}>חזרה קצרה</button>}
           </>
         ) : (
           <>
             <span className="chip-d">{open && open.at > 0 ? 'ממשיכות מאיפה שעצרת' : 'האימון של היום'}</span>
             <h2>{firstLesson ? LESSON[firstLesson.id].title : 'חזרה קצרה על מה שלמדת'}</h2>
-            <p>{[fresh > 0 ? `${fresh} שיעורים` : '', keys > 0 ? `${keys} שאלות חזרה` : ''].filter(Boolean).join(' ועוד ')}</p>
+            <p>{[fresh > 0 ? 'נושא אחד' : '', keys > 0 ? `${keys} שאלות חזרה` : ''].filter(Boolean).join(' ועוד ')}</p>
             <button type="button" className="cta-d" onClick={() => onStart()}>{open && open.at > 0 ? 'להמשיך' : 'להתחיל'}</button>
           </>
         )}
@@ -125,7 +125,7 @@ function Path({ st }: { st: KState }) {
 
 function Session({ st, update, onExit, onMore }: { st: KState; update: Update; onExit: () => void; onMore: (o?: { bonus?: boolean; extra?: boolean }) => void }) {
   const plan = st.plan!, step = plan.steps[plan.at];
-  if (!step) return <Finish st={st} onExit={onExit} onMore={onMore} />;
+  if (!step) return <Finish st={st} onExit={onExit} />;
   return (
     <div className="session" key={plan.at}>
       <div className="s-top"><button type="button" className="round" aria-label="יציאה. ההתקדמות נשמרת" onClick={onExit}><CloseIcon /></button><div className="thin" style={{ flex: 1 }}><span style={{ width: `${(plan.at / plan.steps.length) * 100}%` }} /></div></div>
@@ -170,7 +170,7 @@ function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boo
   const [i, setI] = useState(0);
   const score = useRef(0);
   const [reread, setReread] = useState(false);
-  const Text = () => <div className="k-text"><p>{lesson.text}</p>{canSpeak() && <button type="button" className="m-tool" onClick={() => speakHebrew(lesson.text)}>🔊 הקראה</button>}</div>;
+  const Text = () => <div className="k-text">{lesson.text.split('\n\n').map((t, i) => <p key={i}>{t}</p>)}{canSpeak() && <button type="button" className="m-tool" onClick={() => speakHebrew(lesson.text)}>🔊 הקראה</button>}</div>;
   if (stage === 'read') return <div className="q"><span className="m-chip-hi center">{LEVEL[lesson.level]}</span><h1 className="k-title">{lesson.title}</h1><Text /><div className="grow" /><button type="button" className="cta" onClick={() => setStage('q')}>קראתי</button></div>;
   if (stage === 'q') return (
     <div className="k-wrap" key={i}>
@@ -191,16 +191,15 @@ function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boo
   );
 }
 
-function Finish({ st, onExit, onMore }: { st: KState; onExit: () => void; onMore: (o?: { bonus?: boolean; extra?: boolean }) => void }) {
+function Finish({ st, onExit }: { st: KState; onExit: () => void }) {
   const log = dayLog(st, st.plan!.day);
   return (
     <div className="session finish">
       <span className="stage">סיימת</span>
       <h1>כל הכבוד{st.name ? `, ${st.name}` : ''}!</h1>
-      <section className="two-meters solo"><div><b>{log.fresh}</b><span>שיעורים חדשים היום</span></div></section>
+      <section className="two-meters solo"><div><b>{log.fresh}</b><span>נושאים חדשים היום</span></div></section>
       <div className="grow" />
       <button type="button" className="cta" onClick={onExit}>סיום</button>
-      {nextLesson(st) && <button type="button" className="link center-block" onClick={() => onMore({ bonus: true })}>עוד שיעור</button>}
     </div>
   );
 }
