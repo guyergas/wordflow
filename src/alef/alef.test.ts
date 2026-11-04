@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { answer, advance, buildPlan, choices, initial, meet, nextLetter, secure, shaky, SHAKY_LIMIT, writeStage } from './engine';
+import { answer, advance, buildPlan, choices, initial, meet, nextLetter, secure, shaky, SHAKY_LIMIT, validStep, writeStage } from './engine';
 import { judge, FREE, TRACE } from './ink';
-import { HEBREW_AUDIO, LETTER, LETTERS, lookAlikes, Pt, WORDS } from './letters';
+import { frameOf, HEBREW_AUDIO, LETTER, LETTERS, lookAlikes, Pt, WORDS } from './letters';
 
 const ink = (id: string) => LETTER[id].strokes.map((s) => s.p);
 const wobble = (lines: Pt[][], a = 5): Pt[][] => lines.map((l) => l.flatMap((p, i) => { if (!i) return [p]; const [x0, y0] = l[i - 1], out: Pt[] = []; for (let k = 1; k <= 8; k++) { const t = k / 8; out.push([x0 + (p[0] - x0) * t + Math.sin(k * 1.7) * a, y0 + (p[1] - y0) * t + Math.cos(k * 2.3) * a]); } return out; }));
@@ -59,8 +59,22 @@ describe('the plan', () => {
   const pass = (st: ReturnType<typeof initial>, id: string, day: number) => answer(answer(st, id, 'see', true, day), id, 'write', true, day);
   it('starts with the first letter and the full introduction', () => {
     const p = buildPlan(initial('עומר'), 100);
-    expect(p.steps.map((s) => s.t)).toEqual(['meet', 'build', 'trace', 'trace', 'find', 'word']);
+    expect(p.steps.map((s) => s.t)).toEqual(['meet', 'find', 'find', 'find', 'trace', 'trace', 'trace', 'trace', 'word', 'word']);
     expect(p.steps[0].id).toBe('י');
+  });
+  it('repeats a review exercise several times', () => {
+    const st = meet(initial('א'), 'י', 100);
+    const p = buildPlan(st, 100, { extra: true, rnd: () => 0.9 });
+    expect(p.steps.filter((s) => s.t === 'find').length).toBe(2);
+    expect(p.steps.filter((s) => s.t === 'trace').length).toBe(4);
+  });
+  it('drops a saved exercise that no longer exists', () => {
+    expect(validStep({ t: 'build' as 'meet', id: 'י' })).toBe(false);
+    expect(validStep({ t: 'trace', id: 'י' })).toBe(true);
+  });
+  it('frames each letter tightly, with room for the lines', () => {
+    for (const l of LETTERS) { const [, y, , h] = frameOf(l).split(' ').map(Number); expect(y).toBeLessThan(0); expect(y + h).toBeGreaterThan(100); }
+    expect(frameOf(LETTER['י']).split(' ')[2]).toBe('100');
   });
   it('gives one new letter a day, and another only when asked', () => {
     let st = meet(initial('א'), 'י', 100);

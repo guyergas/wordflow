@@ -17,7 +17,7 @@ Math (`src/math`) is a third course on the same site. Skills in `skills.ts` gene
 
 Eight knowledge courses (`src/knowledge`) share one engine: a short text, questions on understanding, and key points in spaced review. Lessons are in `lessons.ts`.
 
-The alef-bet course (`src/alef`) is for children who cannot read yet, so everything is spoken and shown. Each letter is built from a letter they know, out of small, big and giant lines (`letters.ts`). Omer and Ido are two lines in `COURSES`, so each has separate progress and time. `ink.ts` judges finger writing, and `engine.ts` holds the rules. Recordings in `public/audio/he` are created by the deploy, and the phone's Hebrew voice is the fallback.
+The alef-bet course (`src/alef`) is for children who cannot read yet, so everything is spoken and shown. Each letter is built from a letter they know, out of small, big and giant lines (`letters.ts`). It is one course, and each child uses their own device, so progress stays separate. `ink.ts` judges finger writing, and `engine.ts` holds the rules. Recordings in `public/audio/he` are created by the deploy, and the phone's Hebrew voice is the fallback.
 
 The summary tab in every course shows study time and new items across all courses, by day and week, against a weekly schedule of minutes per course.
 

@@ -4,7 +4,7 @@ import { LETTER, LETTERS, lookAlikes } from './letters';
 
 export interface Box { box: number; due: number }
 export interface Known { see: Box; write: Box; met: number }
-export type Step = { t: 'meet' | 'build' | 'trace' | 'copy' | 'write' | 'find' | 'word'; id: string; print?: boolean };
+export type Step = { t: 'meet' | 'trace' | 'copy' | 'write' | 'find' | 'word'; id: string; print?: boolean; n?: number };
 export interface Plan { day: number; steps: Step[]; at: number; extra?: boolean }
 export interface AState { onboarded: boolean; name: string; letters: Record<string, Known>; days: Record<number, { sec: number; fresh: number; done?: boolean }>; plan: Plan | null; settings: { sound: boolean } }
 
@@ -21,18 +21,22 @@ export const dayLog = (st: AState, day: number) => st.days[day] ?? { sec: 0, fre
 
 const shuffle = <T,>(a: T[], rnd: () => number) => a.map((v) => ({ v, k: rnd() })).sort((p, q) => p.k - q.k).map((x) => x.v);
 
+/** Every exercise comes several times in a row, because one success at five years old proves little. */
+export const REPEAT = { find: 3, word: 2, trace: 4, copy: 3, write: 3 };
+const times = (t: Step['t'], id: string, count: number, extra: Partial<Step> = {}): Step[] => Array.from({ length: count }, (_, n) => ({ t, id, n, ...extra }));
+
 function practice(st: AState, id: string, day: number, rnd: () => number, force = false): Step[] {
   const k = st.letters[id], out: Step[] = [];
-  if (force || k.see.due <= day) out.push(rnd() < 0.5 ? { t: 'word', id } : { t: 'find', id, print: k.see.box >= 2 && rnd() < 0.5 });
-  if (force || k.write.due <= day) out.push({ t: writeStage(k.write.box), id });
+  if (force || k.see.due <= day) out.push(...(rnd() < 0.5 ? times('word', id, REPEAT.word, { n: undefined }).map((s, n) => ({ ...s, n: n + Math.floor(rnd() * 3) })) : times('find', id, 2, { print: k.see.box >= 2 && rnd() < 0.5 })));
+  if (force || k.write.due <= day) { const stage = writeStage(k.write.box) as 'trace' | 'copy' | 'write'; out.push(...times(stage, id, REPEAT[stage])); }
   return out;
 }
 
-/** A short sitting: at most three review tasks, then the new letter. */
+/** A sitting: some review of whole letters, then the new letter. */
 export function buildPlan(st: AState, day: number, o: { bonus?: boolean; extra?: boolean; rnd?: () => number } = {}): Plan {
   const rnd = o.rnd ?? Math.random, met = Object.keys(st.letters);
   if (o.extra) {
-    const steps = shuffle(met, rnd).slice(0, 4).flatMap((id) => practice(st, id, day, rnd, true)).slice(0, 6);
+    const steps = shuffle(met, rnd).slice(0, 2).flatMap((id) => practice(st, id, day, rnd, true));
     return { day, steps, at: 0, extra: true };
   }
   const due = met.filter((id) => st.letters[id].see.due <= day || st.letters[id].write.due <= day)
@@ -41,11 +45,11 @@ export function buildPlan(st: AState, day: number, o: { bonus?: boolean; extra?:
   const canLearn = !!next && shaky(st).length < SHAKY_LIMIT && (!freshToday || !!o.bonus);
   let reviews = due.flatMap((id) => practice(st, id, day, rnd));
   if (!canLearn && !freshToday && !reviews.length) reviews = shaky(st).flatMap((id) => practice(st, id, day, rnd, true));
-  reviews = reviews.slice(0, canLearn ? 3 : 6);
+  reviews = reviews.slice(0, canLearn ? 6 : 14);
   const steps: Step[] = [...reviews];
   if (canLearn && next) {
     const id = next.id;
-    steps.push({ t: 'meet', id }, { t: 'build', id }, { t: 'trace', id }, { t: 'trace', id }, { t: 'find', id }, { t: 'word', id });
+    steps.push({ t: 'meet', id }, ...times('find', id, REPEAT.find), ...times('trace', id, REPEAT.trace), ...times('word', id, REPEAT.word));
   }
   return { day, steps, at: 0 };
 }
@@ -81,4 +85,5 @@ export function choices(st: AState, id: string, rnd: () => number = Math.random)
   return shuffle([id, ...others], rnd);
 }
 
-export const validStep = (s: Step) => !!LETTER[s.id];
+const STEPS = ['meet', 'trace', 'copy', 'write', 'find', 'word'];
+export const validStep = (s: Step) => !!LETTER[s.id] && STEPS.includes(s.t);

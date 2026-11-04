@@ -11,7 +11,13 @@ export const VIEW = { x: -25, y: -55, w: 150, h: 225 };
 const s = (k: Kind, ...c: number[]): Stroke => ({ k, p: c.reduce<Pt[]>((a, v, i) => (i % 2 ? a : [...a, [v, c[i + 1]] as Pt]), []) });
 const ring = (): Stroke => ({ k: 'round', p: Array.from({ length: 25 }, (_, i): Pt => { const t = (i / 24) * Math.PI * 2; return [50 + 38 * Math.sin(t), 50 - 50 * Math.cos(t)]; }) });
 
-export const KIND_SAY: Record<Kind, string> = { small: 'קַו קָטָן', big: 'קַו גָּדוֹל', giant: 'קַו עֲנָק', chup: 'צ׳וּפְּצִ׳יק', slant: 'קַו אֲלַכְסוֹנִי', round: 'עִיגּוּל' };
+/** The frame for writing one letter: as close as the letter allows, so that the writing area is as large as possible. */
+export function frameOf(l: Letter) {
+  const p = l.strokes.flatMap((s) => s.p), xs = p.map((q) => q[0]), ys = p.map((q) => q[1]);
+  const x0 = Math.min(...xs), x1 = Math.max(...xs), w = Math.max(100, x1 - x0 + 34), cx = (x0 + x1) / 2;
+  const top = Math.min(0, ...ys) - 22, bottom = Math.max(100, ...ys) + 22;
+  return `${cx - w / 2} ${top} ${w} ${bottom - top}`;
+}
 export const FAMILIES = ['קווים', 'הגג', 'עוד רגל', 'הבית', 'רגליים', 'צורות', 'אלכסונים'];
 
 const ROOF = s('big', 10, 0, 85, 0), LEG = s('big', 85, 0, 85, 100);
@@ -105,13 +111,12 @@ export const SAY = {
   find: (l: Letter) => `אֵיפֹה הָאוֹת ${l.say}?`,
   write: (l: Letter) => `עַכְשָׁו כּוֹתְבִים ${l.say}, לְבַד.`,
   copy: (l: Letter) => `כּוֹתְבִים ${l.say}, כְּמוֹ הָאוֹת שֶׁבַּצַּד.`,
-  build: (l: Letter) => `בּוֹנִים אֶת ${l.say}. בּוֹחֲרִים אֶת הַחֵלֶק הַבָּא.`,
   thisIs: (l: Letter) => `זֹאת ${l.say}.`,
   word: (spoken: string) => `${spoken}. אֵיזוֹ אוֹת גְּדוֹלָה?`,
 };
 
 /** Every sentence the app can say. The deploy creates a recording for each one. */
 export const HEBREW_AUDIO: string[] = [...new Set([
-  ...SAY.right, SAY.again, SAY.notThis, SAY.trace, SAY.finish, ...Object.values(KIND_SAY),
-  ...LETTERS.flatMap((l) => [l.say, l.recipe, SAY.find(l), SAY.write(l), SAY.copy(l), SAY.build(l), SAY.thisIs(l), ...WORDS[l.id].map((w) => SAY.word(w[1]))]),
+  ...SAY.right, SAY.again, SAY.notThis, SAY.trace, SAY.finish,
+  ...LETTERS.flatMap((l) => [l.say, l.recipe, SAY.find(l), SAY.write(l), SAY.copy(l), SAY.thisIs(l), ...WORDS[l.id].map((w) => SAY.word(w[1]))]),
 ])];

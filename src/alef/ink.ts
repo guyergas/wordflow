@@ -25,10 +25,12 @@ function field(points: Pt[], tol: number) {
   };
 }
 
-export const TRACE = { tol: 15, shift: 0 }, FREE = { tol: 13, shift: 1 };
-const NEED = 0.72, ON_LETTER = 0.8;
+// Over a dashed letter the whole line must be walked, so a child does not jump on after half of it.
+export interface Rules { tol: number; shift: number; need: number }
+export const TRACE: Rules = { tol: 15, shift: 0, need: 0.88 }, FREE: Rules = { tol: 13, shift: 1, need: 0.72 };
+const ON_LETTER = 0.8;
 
-function fit(drawn: Pt[], letter: Letter, mode: { tol: number; shift: number }) {
+function fit(drawn: Pt[], letter: Letter, mode: Rules) {
   const targets = letter.strokes.map((s) => dense(s.p)), all = targets.flat();
   const inked = field(drawn, mode.tol), wide = field(all, mode.tol * 1.5), tight = field(all, mode.tol);
   let best = { score: -1, missing: letter.strokes.map((_, i) => i), on: 0 };
@@ -38,12 +40,12 @@ function fit(drawn: Pt[], letter: Letter, mode: { tol: number; shift: number }) 
     const cover = targets.map((t) => t.filter((p) => inked(p[0] - dx, p[1] - dy)).length / t.length);
     const count = (f: (x: number, y: number) => boolean) => drawn.filter(([x, y]) => f(x + dx, y + dy)).length / drawn.length;
     const score = cover.reduce((a, b) => a + b, 0) / cover.length + count(tight);
-    if (score > best.score) best = { score, on: count(wide), missing: cover.flatMap((c, i) => (c < NEED ? [i] : [])) };
+    if (score > best.score) best = { score, on: count(wide), missing: cover.flatMap((c, i) => (c < mode.need ? [i] : [])) };
   }
   return best;
 }
 
-export function judge(ink: Ink, letter: Letter, mode: { tol: number; shift: number } = FREE): Verdict {
+export function judge(ink: Ink, letter: Letter, mode: Rules = FREE): Verdict {
   const drawn = ink.flatMap((l) => dense(l));
   if (drawn.length < 4) return { ok: false, missing: letter.strokes.map((_, i) => i), stray: 0 };
   const mine = fit(drawn, letter, mode);
