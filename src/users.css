@@ -18,3 +18,32 @@
 .my-course > button[aria-current="true"]:first-child { background: var(--cs-dark); color: var(--cs-dark-ink); border-color: var(--cs-dark); }
 .more-courses { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .more-courses button { min-height: 52px; padding: 8px 12px; border-radius: 14px; border: 1px dashed var(--cs-line); background: transparent; font-weight: 600; text-align: start; }
+.fam-card { display: grid; gap: 6px; padding: 14px; border: 1px solid var(--cs-line); border-radius: 18px; background: var(--cs-surface); }
+.fam-line { display: flex; justify-content: space-between; gap: 10px; font-size: 15px; }
+.fam-line small { font-size: 14px; opacity: .8; }
+.fam-line small.ok { color: #1f8a58; font-weight: 700; opacity: 1; }
+.fam-seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; padding: 4px; border-radius: 999px; background: var(--cs-soft); }
+.fam-seg button { min-height: 40px; border: 0; border-radius: 999px; background: none; font-weight: 600; }
+.fam-seg button[aria-pressed="true"] { background: var(--cs-surface); }
+.fam-goals { display: grid; gap: 8px; }
+.fam-row { display: flex; align-items: center; gap: 8px; }
+.fam-row span { flex: 1; }
+.fam-row input { width: 72px; min-height: 44px; padding: 0 8px; border: 1px solid var(--cs-line); border-radius: 12px; background: #fff; color: var(--cs-ink); font: inherit; }
+.fam-open { min-height: 52px; padding: 8px 16px; border: 0; border-radius: 16px; background: var(--cs-soft); font-weight: 700; text-align: start; }
+.fam-page { --cs-bg: #f5f4ef; --cs-surface: #fffefa; --cs-soft: #ecebe4; --cs-line: #e2e3dc; --cs-ink: #172b35; position: fixed; inset: 0; z-index: 95; overflow-y: auto; background: var(--cs-bg); color: var(--cs-ink); text-align: start; }
+.fam-inner { display: grid; gap: 14px; max-width: 640px; margin: 0 auto; padding: calc(env(safe-area-inset-top, 0px) + 16px) 16px calc(env(safe-area-inset-bottom, 0px) + 24px); }
+.fam-page h2 { margin: 0; font-size: 28px; color: inherit; } .fam-page h3 { margin: 0; font-size: 19px; color: inherit; }
+.fam-page button { font: inherit; cursor: pointer; color: var(--cs-ink); }
+.fam-card { min-width: 0; }
+.fam-item { display: grid; gap: 4px; }
+.fam-bar { height: 8px; border-radius: 4px; background: var(--cs-soft); overflow: hidden; }
+.fam-bar span { display: block; height: 100%; border-radius: 4px; background: #ffc83d; }
+.fam-bar span.ok { background: #1f8a58; }
+.fam-scroll { overflow-x: auto; }
+.fam-week { width: 100%; border-collapse: collapse; font-size: 14px; text-align: center; }
+.fam-week th, .fam-week td { padding: 6px 3px; border-top: 1px solid var(--cs-line); white-space: nowrap; font-weight: 500; }
+.fam-week th:first-child { text-align: start; font-weight: 650; }
+.fam-week thead th { border-top: 0; }
+.fam-week th[aria-current] { font-weight: 800; }
+.fam-week td small { opacity: .6; font-size: 11px; }
+.fam-week td.ok { color: #1f8a58; font-weight: 700; }

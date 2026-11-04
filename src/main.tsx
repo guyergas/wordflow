@@ -1,5 +1,8 @@
 // Piano notes has its own look, so each app's styles load only with that app.
 import { COURSE_CHOSEN, IS_NOTES, USER_ID } from './course';
+import { startSync } from './familySync';
+
+startSync();
 
 if (USER_ID && COURSE_CHOSEN && IS_NOTES) void import('./noteflow/mount');
 else void import('./wordMount');

@@ -1,7 +1,8 @@
 // Shared by every course: moving between courses, today's schedule, and the summary she sends.
 import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { COURSE_ID, CourseId, myCourses, switchCourse, USER_NAME } from './course';
+import { COURSE_ID, CourseId, myCourses, switchCourse, USER_ID, USER_NAME } from './course';
+import { dbUrl, pushPlan } from './familySync';
 import { buildSummary, drawSummary, loadSchedule, minutes, planOf, rangeLabel, readCourses, saveSchedule, Schedule, SummaryPeriod, timeLabel, weekday } from './summary';
 
 const dayNow = () => { const d = new Date(); return Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() / 864e5 + 0.5); };
@@ -102,8 +103,8 @@ function SummarySheet({ name, onClose }: { name: string; onClose: () => void }) 
         {url ? <img className="summary-img" src={url} alt={`זמן לימוד: ${summary.rows.map((r) => `${r.name} ${minutes(r.sec)} דקות, ${r.fresh} ${r.freshLabel}`).join('; ') || 'אין עדיין למידה'}. סך הכול ${timeLabel(summary.totalSec)}`} /> : <p className="muted center pad">מכינה תמונה…</p>}
         <button type="button" className="cta" disabled={!blob} onClick={send}>שליחה</button>
         {msg && <p className="small center" role="status">{msg}</p>}
-        <button type="button" className="link center-block" aria-expanded={editing} onClick={() => setEditing(!editing)}>לו״ז שבועי</button>
-        {editing && <ScheduleEditor schedule={schedule} onChange={(s) => { setSchedule(s); saveSchedule(s); }} />}
+        {!dbUrl() && <button type="button" className="link center-block" aria-expanded={editing} onClick={() => setEditing(!editing)}>לו״ז שבועי</button>}
+        {editing && !dbUrl() && <ScheduleEditor schedule={schedule} onChange={(s) => { setSchedule(s); saveSchedule(s); if (USER_ID) void pushPlan(USER_ID, s); }} />}
       </div>
     </div>
   );

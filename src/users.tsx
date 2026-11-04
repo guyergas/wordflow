@@ -1,6 +1,8 @@
 // Who is learning, which courses they joined, and moving between them.
 import { useState } from 'react';
 import './users.css';
+import { FamilySheet } from './family';
+import { dbUrl } from './familySync';
 import { COURSE_ID, COURSE_INFO, COURSES, CourseId, joinCourses, leaveCourse, myCourses, oldProgress, signIn, signOut, switchCourse, USER_NAME, USERS } from './course';
 
 export function UserPicker() {
@@ -40,10 +42,13 @@ function CourseSheet({ onClose }: { onClose: () => void }) {
   const mine = myCourses(), more = COURSES.filter((c) => !mine.includes(c));
   const [editing, setEditing] = useState(false);
   const [, refresh] = useState(0);
+  const [family, setFamily] = useState(false);
+  if (family) return <FamilySheet onClose={onClose} />;
   return (
     <div className="cs-wrap" onClick={onClose}>
       <div className="cs-sheet" role="dialog" aria-label="הקורסים שלי" onClick={(e) => e.stopPropagation()}>
         <div className="cs-row"><h2>הקורסים של {USER_NAME}</h2><button type="button" className="cs-round" aria-label="סגירה" onClick={onClose}><Close /></button></div>
+        {dbUrl() && <button type="button" className="fam-open" onClick={() => setFamily(true)}>לוח המשפחה: לו״ז, יעדים וביצוע</button>}
         <div className="my-courses">
           {mine.map((c) => (
             <div key={c.id} className="my-course">
