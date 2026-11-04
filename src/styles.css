@@ -593,3 +593,10 @@ a.link { text-align: center; line-height: 44px; }
 .a-free { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; flex: none; }
 .a-free button { min-height: 68px; display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; font-size: 20px; font-weight: 700; }
 .a-free span { font-size: 30px; }
+/* Printed letters stand on the same two light lines as written ones, so ו stops at the floor and ן goes below it. */
+.a-print-svg { font: 700 150px var(--font-ui); text-anchor: middle; fill: var(--ink); }
+.a-mini .a-lines line { stroke: var(--ink-3); stroke-opacity: .45; stroke-width: 1.6; }
+.a-answers.small .a-answer { height: min(21dvh, 170px); }
+html.a-lock, html.a-lock body { overflow: hidden; overscroll-behavior: none; height: 100%; }
+html.a-lock .a-session { height: 100dvh; min-height: 0; overflow: hidden; }
+.a-pad { -webkit-touch-callout: none; }

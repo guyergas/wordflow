@@ -1,5 +1,5 @@
 import { PointerEvent as PE, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { STORAGE_KEY } from '../course';
+import { STORAGE_KEY, USER_NAME } from '../course';
 import { saveHebrewRecordings, sayHebrew, sfx } from '../platform';
 import { CourseSwitch, SummaryTab } from '../summaryUi';
 import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, initial, meet, nextLetter, PlanOptions, secure, shaky, SHAKY_LIMIT, Step, validStep } from './engine';
@@ -15,12 +15,12 @@ let memory: string | null = null;
 function load(): AState {
   let raw = memory;
   try { raw = localStorage.getItem(STORAGE_KEY) ?? raw; } catch { /* memory only */ }
-  if (!raw) return initial('');
+  if (!raw) return initial(USER_NAME);
   try {
-    const p = JSON.parse(raw), b = initial(''), st: AState = { ...b, ...p, settings: { ...b.settings, ...p.settings } };
+    const p = JSON.parse(raw), b = initial(''), st: AState = { ...b, ...p, name: USER_NAME || p.name, settings: { ...b.settings, ...p.settings } };
     if (st.plan && !st.plan.steps.every(validStep)) st.plan = null;
     return st;
-  } catch { return initial(''); }
+  } catch { return initial(USER_NAME); }
 }
 function save(st: AState) { memory = JSON.stringify(st); try { localStorage.setItem(STORAGE_KEY, memory); } catch { /* memory only */ } }
 export function recoverAlef() { save({ ...load(), plan: null }); }
@@ -46,7 +46,7 @@ function Glyph({ strokes, cls, draw, gap = 1.3, start = 0 }: { strokes: Stroke[]
   return <>{strokes.map((s, i) => <polyline key={i} points={pts(s.p)} pathLength={draw ? 1 : undefined} className={`a-stroke ${cls ?? ''} ${draw ? 'draw' : ''}`} style={draw ? { animationDelay: `${start + i * gap}s` } : undefined} />)}</>;
 }
 const Mini = ({ id, print }: { id: string; print?: boolean }) => print
-  ? <span className="a-print" aria-hidden="true">{id}</span>
+  ? <svg viewBox={VB} className="a-mini" aria-hidden="true"><Lines /><text x="50" y="100" className="a-print-svg">{id}</text></svg>
   : <svg viewBox={VB} className="a-mini" aria-hidden="true"><Lines /><Glyph strokes={LETTER[id].strokes} /></svg>;
 
 const Speaker = ({ text }: { text: string }) => <button type="button" className="a-speak" aria-label="לשמוע שוב" onClick={() => sayHebrew(text)}><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M4 9v6h4l5 4V5L8 9H4Z" /><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11" /></svg></button>;
@@ -114,8 +114,10 @@ function Parents({ st, update, onClose }: { st: AState; update: Update; onClose:
     <div className="app"><main className="page a-parents-page">
       <header className="row-between"><h1>{st.name || 'א״ב'}</h1><button type="button" className="round" aria-label="חזרה" onClick={onClose}><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg></button></header>
       <p className="muted">{met} אותיות מתוך {LETTERS.length}, ומהן {Object.values(st.letters).filter(secure).length} בטוחות: מזהים אותן וכותבים לבד, בכמה ימים שונים. כל יום אות חדשה אחת, ואות חדשה מחכה כשיש {SHAKY_LIMIT} שעוד לא בטוחות.</p>
+      {!USER_NAME && <>
       <label className="field" htmlFor="a0">שם הילד או הילדה (לסיכום)</label>
       <input id="a0" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} />
+      </>}
       <div className="a-parent-tools"><SummaryTab name={st.name} /></div>
       {FAMILIES.map((f, i) => (
         <section key={f} className="a-fam"><h3>{f}</h3>
@@ -125,7 +127,7 @@ function Parents({ st, update, onClose }: { st: AState; update: Update; onClose:
       <div className="set-row"><span>מה לומדים</span><CourseSwitch /></div>
       <div className="set-row"><label htmlFor="a1">צלילי משחק</label><input id="a1" type="checkbox" checked={st.settings.sound} onChange={(e) => update((s) => ({ ...s, settings: { ...s.settings, sound: e.target.checked } }))} /></div>
       <div className="danger">
-        {!confirm ? <button type="button" className="link" onClick={() => setConfirm(true)}>איפוס ההתקדמות</button> : <><p className="small">למחוק את ההתקדמות במכשיר הזה? אי אפשר לבטל את זה.</p><div className="row-between"><button type="button" className="link" onClick={() => setConfirm(false)}>ביטול</button><button type="button" className="link" onClick={() => { update(() => initial('')); setConfirm(false); onClose(); }}>למחוק</button></div></>}
+        {!confirm ? <button type="button" className="link" onClick={() => setConfirm(true)}>איפוס ההתקדמות</button> : <><p className="small">למחוק את ההתקדמות במכשיר הזה? אי אפשר לבטל את זה.</p><div className="row-between"><button type="button" className="link" onClick={() => setConfirm(false)}>ביטול</button><button type="button" className="link" onClick={() => { update(() => initial(USER_NAME)); setConfirm(false); onClose(); }}>למחוק</button></div></>}
       </div>
       {l && <div className="sheet-wrap" onClick={() => setShown(null)}><div className="sheet a-show" role="dialog" aria-label={l.name} onClick={(e) => e.stopPropagation()}>
         <svg key={l.id} viewBox={VB} className="a-board" aria-hidden="true"><Lines /><Glyph strokes={l.strokes} draw /></svg>
@@ -228,6 +230,13 @@ function Draw({ l, mode, sound, onDone }: { l: Letter; mode: 'trace' | 'copy' | 
   const said = guide ? SAY.trace : mode === 'copy' ? SAY.copy(l) : SAY.write(l);
   latest.current = ink;
   useEffect(() => { sayHebrew(said); return () => clearTimeout(wait.current); }, []);
+  // The page stays still while writing. iPhone may scroll a page even over an area marked not to, so touch moves are stopped here too.
+  useEffect(() => {
+    const root = document.documentElement, stop = (e: TouchEvent) => e.preventDefault();
+    root.classList.add('a-lock');
+    document.addEventListener('touchmove', stop, { passive: false });
+    return () => { root.classList.remove('a-lock'); document.removeEventListener('touchmove', stop); };
+  }, []);
   const at = (e: PE): Pt | null => {
     const m = svg.current?.getScreenCTM(); if (!m) return null;
     const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse());

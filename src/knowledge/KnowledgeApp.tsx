@@ -13,7 +13,7 @@ function load(): KState {
   let raw = memory;
   try { raw = localStorage.getItem(STORAGE_KEY) ?? raw; } catch { /* memory only */ }
   if (!raw) return initial();
-  try { const p = JSON.parse(raw), b = initial(); const st: KState = { ...b, ...p, settings: { ...b.settings, ...p.settings } }; if (st.plan?.steps.some((x) => (x.t === 'lesson' ? !LESSON[x.id] : !LESSON[x.id.split('#')[0]]))) st.plan = null; if (st.plan && st.plan.at === 0) st.plan = { ...st.plan, steps: [...st.plan.steps].sort((x, y) => Number(x.t === 'key') - Number(y.t === 'key')) }; return st; } catch { return initial(); }
+  try { const p = JSON.parse(raw), b = initial(); const st: KState = { ...b, ...p, name: USER_NAME || p.name, settings: { ...b.settings, ...p.settings } }; if (st.plan?.steps.some((x) => (x.t === 'lesson' ? !LESSON[x.id] : !LESSON[x.id.split('#')[0]]))) st.plan = null; if (st.plan && st.plan.at === 0) st.plan = { ...st.plan, steps: [...st.plan.steps].sort((x, y) => Number(x.t === 'key') - Number(y.t === 'key')) }; return st; } catch { return initial(); }
 }
 function save(st: KState) { memory = JSON.stringify(st); try { localStorage.setItem(STORAGE_KEY, memory); } catch { /* memory only */ } }
 export function recoverKnowledge() { save({ ...load(), plan: null }); }

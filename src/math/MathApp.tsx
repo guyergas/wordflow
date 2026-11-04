@@ -21,7 +21,7 @@ function load(): MathState {
   if (!raw) return initialMath();
   try {
     const p = JSON.parse(raw), base = initialMath();
-    const st: MathState = { ...base, ...p, settings: { ...base.settings, ...p.settings } };
+    const st: MathState = { ...base, ...p, name: USER_NAME || p.name, settings: { ...base.settings, ...p.settings } };
     if (st.plan && st.plan.steps.some((s) => !SKILL[s.skill])) st.plan = null;
     return st;
   } catch { return initialMath(); }

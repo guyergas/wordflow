@@ -1,5 +1,5 @@
 // Storage, speech and sound. Everything here fails soft: a missing capability never breaks the lesson.
-import { IS_ALEF, IS_THAI, STORAGE_KEY as KEY } from './course';
+import { IS_ALEF, IS_THAI, STORAGE_KEY as KEY, USER_NAME } from './course';
 import { HEBREW_AUDIO } from './alef/letters';
 import { dropUnpracticed, initialState, repairPlans, State } from './engine';
 import { audioName, THAI_AUDIO } from './thai';
@@ -12,7 +12,7 @@ export function load(): State {
   try {
     const parsed = JSON.parse(raw);
     const base = initialState();
-    const st: State = { ...base, ...parsed, settings: { ...base.settings, ...parsed.settings } };
+    const st: State = { ...base, ...parsed, name: USER_NAME || parsed.name, settings: { ...base.settings, ...parsed.settings } };
     const fixed = repairPlans(IS_THAI ? dropUnpracticed(st) : st);
     if (fixed !== st) save(fixed);
     return fixed;
