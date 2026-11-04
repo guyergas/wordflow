@@ -1,5 +1,6 @@
 // Draws the progress summary as an image that can be sent through WhatsApp or any other app.
 import { dayLog, hardWords, questionCount, studyTimeLabel, isMet, State, totals, ws } from './engine';
+import { HAS_SPELLING, x as say } from './course';
 import { Word, WORDS } from './words';
 
 export type Period = 'day' | 'week';
@@ -121,7 +122,7 @@ export async function drawReport(r: Report): Promise<HTMLCanvasElement> {
   he(x, r.name, W - M - 40, y + 66, 34, 500, C.sun);
   he(x, `זמן למידה: ${studyTimeLabel(r.sec, r.questions)}`, M + 40, y + 66, 34, 650, C.sun, 'left');
   const headline = r.practiced === 0 ? (week ? 'לא היה אימון השבוע' : 'לא היה אימון ביום הזה')
-    : r.freshCount > 0 ? `למדה ${r.freshCount} מילים חדשות` : 'חיזקה מילים שכבר למדה';
+    : r.freshCount > 0 ? `${say('למדה', 'למד')} ${r.freshCount} מילים חדשות` : say('חיזקה מילים שכבר למדה', 'חיזק מילים שכבר למד');
   he(x, headline, W - M - 40, y + 142, 62, 750, C.darkInk);
   const sub = [`${r.questions} שאלות`, r.sentences > 0 ? `${r.sentences} מהן משפטים` : null, week ? `${r.practiced} ימי אימון מתוך 7` : null].filter(Boolean).join(' · ');
   he(x, sub, W - M - 40, y + 196, 30, 400, C.darkMuted);
@@ -129,8 +130,8 @@ export async function drawReport(r: Report): Promise<HTMLCanvasElement> {
 
   // Two independent measures
   const mw = (W - 2 * M - 20) / 2;
-  measure(x, M + mw + 20, y, mw, 'הכרות', C.rec, r.totalKnown, r.gainedKnown, pct(r.recOk, r.recAll), week ? 'השבוע' : 'ביום הזה');
-  measure(x, M, y, mw, 'איות', C.spell, r.totalSpelled, r.gainedSpelled, pct(r.spellOk, r.spellAll), week ? 'השבוע' : 'ביום הזה');
+  measure(x, HAS_SPELLING ? M + mw + 20 : M, y, HAS_SPELLING ? mw : W - 2 * M, 'הכרות', C.rec, r.totalKnown, r.gainedKnown, pct(r.recOk, r.recAll), week ? 'השבוע' : 'ביום הזה');
+  if (HAS_SPELLING) measure(x, M, y, mw, 'איות', C.spell, r.totalSpelled, r.gainedSpelled, pct(r.spellOk, r.spellAll), week ? 'השבוע' : 'ביום הזה');
   y += 262;
 
   if (week) {

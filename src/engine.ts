@@ -3,6 +3,7 @@
 // Two independent measures per word:
 //   r = recognition (does she know what it means)  - primary, gates new words
 //   s = spelling (can she write it)                - secondary, never blocks anything
+import { HAS_SPELLING, x } from './course';
 import { WORD, WORDS, Word } from './words';
 
 export interface Metric { box: number; due: number; flag: boolean; clear: number; ok: number; no: number; last: number }
@@ -38,7 +39,7 @@ export const freshWord = (): WordState => ({ r: freshMetric(), s: freshMetric(),
 
 export function initialState(): State {
   return {
-    v: 1, name: 'איילה', onboarded: false, startLevel: 0, words: {}, sentences: {}, days: {}, plan: null, traps: {}, confusions: {},
+    v: 1, name: x('איילה', 'גיא'), onboarded: false, startLevel: 0, words: {}, sentences: {}, days: {}, plan: null, traps: {}, confusions: {},
     settings: { sound: true, autoSpeak: true, voice: '', rate: 0.9, weeklyGoal: 4 },
   };
 }
@@ -53,7 +54,7 @@ export const spellKnown = (w: WordState) => w.s.box >= KNOWN_BOX && !w.s.flag;
 export const label = (m: Metric, measured = true): string => {
   if (!measured) return 'טרם נבדק';
   if (m.flag) return 'דורש שיפור';
-  if (m.box >= 5) return 'שולטת';
+  if (m.box >= 5) return x('שולטת', 'שולט');
   if (m.box >= KNOWN_BOX) return 'מבוסס';
   if (m.box >= 1) return 'בתהליך';
   return 'התחלה';
@@ -98,7 +99,7 @@ export function practicePlan(st: State, today: number, count = 10, rnd: () => nu
   const picked = new Map<string, (typeof met)[number]>();
   for (const e of [...flagged, ...fromToday, ...due, ...older]) { if (picked.size < count) picked.set(e.w.id, e); }
   const steps: Step[] = shuffle([...picked.values()], rnd).map((e, i) => {
-    if (e.s.s.flag || (i % 3 === 2 && e.s.r.box >= 1)) return { part: 'boost', kind: spellKind(spellLevel(e.s.s)), id: e.w.id };
+    if (HAS_SPELLING && (e.s.s.flag || (i % 3 === 2 && e.s.r.box >= 1))) return { part: 'boost', kind: spellKind(spellLevel(e.s.s)), id: e.w.id };
     return { part: 'boost', kind: e.s.r.flag || e.s.met === today ? 'meaning' : recKind(e.s.r.box, i), id: e.w.id };
   });
   return { day: today, steps, at: 0, short: false, extra: true, alreadyKnown: [], newIds: [], consolidating: false, gained: { r: [], s: [] }, flagged: [] };
@@ -106,6 +107,7 @@ export function practicePlan(st: State, today: number, count = 10, rnd: () => nu
 
 /** Words ready for spelling work: known words first. Words still being learned only fill in when there are too few. */
 export function spellCandidates(st: State, today: number): Word[] {
+  if (!HAS_SPELLING) return [];
   const rank = (s: WordState) => (s.s.flag ? 0 : spellMeasured(s) && s.s.due <= today ? 1 : !spellMeasured(s) ? 2 : 3);
   const sorted = (list: Word[]) => [...list].sort((a, b) => rank(ws(st, a.id)) - rank(ws(st, b.id)) || ws(st, a.id).s.due - ws(st, b.id).s.due || a.order - b.order);
   const ready = WORDS.filter((w) => { const s = ws(st, w.id); return isMet(s) && !s.r.flag && s.r.box >= 2; });
@@ -154,7 +156,7 @@ export function buildPlan(st: State, today: number, opts: { short?: boolean; ext
   const spellFlag = eligible.filter((e) => e.s.s.flag);
   const spellDue = eligible.filter((e) => !e.s.s.flag && spellMeasured(e.s) && e.s.s.due <= today).sort((a, b) => a.s.s.due - b.s.s.due);
   const spellFresh = eligible.filter((e) => !spellMeasured(e.s)).sort((a, b) => a.w.order - b.w.order);
-  const spellPick = opts.bonus ? [] : [...spellFlag, ...spellDue, ...spellFresh].slice(0, short ? 2 : 3);
+  const spellPick = opts.bonus || !HAS_SPELLING ? [] : [...spellFlag, ...spellDue, ...spellFresh].slice(0, short ? 2 : 3);
   spellPick.forEach((e) => used.add(e.w.id));
   const spellSteps: Step[] = spellPick.map((e) => ({ part: 'boost', kind: spellKind(spellLevel(e.s.s)), id: e.w.id }));
 

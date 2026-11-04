@@ -1,9 +1,11 @@
 // Useful everyday sentences, with a check of which words in each one she already knows.
 import { dayLog, isKnown, Metric, State, ws, freshMetric, grade, spellKind } from './engine';
+import { IS_THAI } from './course';
+import { THAI_SENTENCES, THAI_TOPICS } from './thai';
 import { WORDS, Word } from './words';
 
-export interface Sentence { id: string; en: string; he: string; topic: string; order: number }
-export const TOPICS: Record<string, string> = { friends: 'חברים', school: 'בית ספר', help: 'לבקש עזרה', food: 'אוכל וקניות', travel: 'בדרך', feel: 'איך אני מרגישה', plans: 'תוכניות' };
+export interface Sentence { id: string; en: string; he: string; topic: string; order: number; th?: string; word?: string }
+export const TOPICS: Record<string, string> = IS_THAI ? THAI_TOPICS : { friends: 'חברים', school: 'בית ספר', help: 'לבקש עזרה', food: 'אוכל וקניות', travel: 'בדרך', feel: 'איך אני מרגישה', plans: 'תוכניות' };
 
 const RAW: Record<string, string> = {
   friends: `What is your name?|איך קוראים לך?
@@ -101,14 +103,14 @@ We can choose a movie together.|אנחנו יכולות לבחור סרט ביח
 };
 
 let n = 0;
-export const SENTENCES: Sentence[] = Object.entries(RAW).flatMap(([topic, block]) => block.split('\n').map((line) => {
+export const SENTENCES: Sentence[] = IS_THAI ? THAI_SENTENCES : Object.entries(RAW).flatMap(([topic, block]) => block.split('\n').map((line) => {
   const [en, he] = line.split('|');
   const order = n++;
   return { id: `s${order}`, en, he, topic, order };
 }));
 
 // Grammar words and very simple words that are not practiced as vocabulary, so they never hold a sentence back.
-export const BASIC = new Set(`a an the i you he she it we they me my your our his her their this that these those is am are was were be been being
+export const BASIC = new Set(IS_THAI ? [] : `a an the i you he she it we they me my your our his her their this that these those is am are was were be been being
 do does did don't can't can will would need have has had not no yes and or but so to of in on at for from with about up out here there what where when why who how which much many some too very really
 please thank thanks sorry hi nice let's it's what's like go get know say see think come lose lost find keys phone mean make call time name home
 one two nine friday noon tonight next again together little outside dark blue pizza movie summer win meat great busy best keep smells play sit live word test love well doing`.split(/\s+/));
@@ -136,7 +138,9 @@ export const unknownWords = (st: State, s: Sentence): Word[] => {
 
 export const metricOf = (st: State, id: string): Metric => st.sentences?.[id] ?? freshMetric();
 export const sMeasured = (m: Metric) => m.ok + m.no > 0;
-export const readyCount = (st: State) => SENTENCES.filter((s) => unknownWords(st, s).length === 0).length;
+/** A phrase from the Thai bank joins sentence practice only after its word has been met. */
+const available = (st: State, s: Sentence) => !s.word || ws(st, s.word).met !== null;
+export const readyCount = (st: State) => SENTENCES.filter((s) => available(st, s) && unknownWords(st, s).length === 0).length;
 export const sentencesKnown = (st: State) => SENTENCES.filter((s) => { const m = metricOf(st, s.id); return m.box >= 3 && !m.flag; }).length;
 
 /** Reviews first, then new sentences ordered by how few unfamiliar words they contain. */
@@ -144,7 +148,7 @@ export function sentencePlan(st: State, today: number, count = 6): Sentence[] {
   const due = SENTENCES.filter((s) => { const m = metricOf(st, s.id); return sMeasured(m) && (m.flag || m.due <= today); })
     .sort((a, b) => Number(metricOf(st, b.id).flag) - Number(metricOf(st, a.id).flag) || metricOf(st, a.id).due - metricOf(st, b.id).due)
     .slice(0, Math.ceil(count / 2));
-  const fresh = SENTENCES.filter((s) => !sMeasured(metricOf(st, s.id)))
+  const fresh = SENTENCES.filter((s) => available(st, s) && !sMeasured(metricOf(st, s.id)))
     .sort((a, b) => unknownWords(st, a).length - unknownWords(st, b).length || a.en.length - b.en.length || a.order - b.order)
     .slice(0, count - due.length);
   return [...due, ...fresh];

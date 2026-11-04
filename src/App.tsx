@@ -5,6 +5,7 @@ import {
   toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, addStudyTime, questionCount, studyTimeLabel, studySeconds, resolveCheck, restorePaused, onTheWay, steppedToday, spellCandidates,
 } from './engine';
 import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind, sentencePlan, sentencesKnown, tokens, TOPICS, unknownWords } from './sentences';
+import { COURSE_CHOSEN, COURSE_ID, CourseId, HAS_SPELLING, IS_THAI, switchCourse, x } from './course';
 import { LEVELS, WORD, WORDS, Word } from './words';
 import { buildReport, drawReport, fileName, Period, toBlob } from './report';
 import { askPersistence, canSpeak, englishVoices, load, save, sfx, speak } from './platform';
@@ -14,7 +15,7 @@ type Update = (fn: (s: State) => State) => void;
 type StartOpts = { short?: boolean; extra?: boolean; spell?: boolean; bonus?: boolean };
 
 const PART: Record<Part, { name: string; next: string; note: string }> = {
-  warm: { name: 'חימום', next: 'מילים שאת כבר מכירה', note: 'כאן את על מגרש הבית' },
+  warm: { name: 'חימום', next: x('מילים שאת כבר מכירה', 'מילים שאתה כבר מכיר'), note: x('כאן את על מגרש הבית', 'כאן אתה על מגרש הבית') },
   boost: { name: 'חיזוק', next: 'כמה מילים שצריכות עוד סיבוב', note: 'קצר, ותמיד עם עזרה' },
   new: { name: 'חדשות', next: 'המילים החדשות של היום', note: 'הפרס של היום' },
 };
@@ -32,6 +33,46 @@ function Tile({ ch, state = '', onClick, small, disabled }: { ch: string; state?
   const cls = `tile ${small ? 'small' : ''} ${state}`;
   if (onClick) return <button type="button" className={cls} onClick={onClick} disabled={disabled} aria-label={ch}><i>{ch}</i></button>;
   return <span className={cls}><i>{ch}</i></span>;
+}
+
+const longClass = (t: string) => (t.length > 22 ? 'very-long' : t.length > 11 ? 'long' : '');
+const searchable = (t: string) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[-\s]/g, '').toLowerCase();
+const COURSES: { id: CourseId; name: string; hello: string; note: string }[] = [
+  { id: 'en', name: 'אנגלית', hello: 'Hello', note: 'מילים, איות ומשפטים' },
+  { id: 'th', name: 'תאית', hello: 'sà-wàt-dii', note: 'מילים וביטויים ליום־יום, עם הקלטות' },
+];
+
+/** The word as the learner reads it: letter tiles in English, a plain line of transliteration in Thai. */
+function WordFace({ w }: { w: Word }) {
+  if (IS_THAI) return <div className={`flip-in word-hero ${longClass(w.en)}`}><En>{w.en}</En></div>;
+  return <div className="flip-in tiles-row" dir="ltr">{[...w.en].map((c, i) => <Tile key={i} ch={c} state="pop" small={w.en.length > 8} />)}</div>;
+}
+
+function ToneNote() {
+  return (
+    <div className="tone-note">
+      <b>הסימן מעל התנועה הוא הטון</b>
+      <ul dir="ltr"><li><En>à</En><span>נמוך</span></li><li><En>a</En><span>אמצעי</span></li><li><En>á</En><span>גבוה</span></li><li><En>â</En><span>יורד</span></li><li><En>ǎ</En><span>עולה</span></li></ul>
+      <small>תנועה כפולה ארוכה יותר. הטון משנה את המשמעות, ולכן כדאי להקשיב לכל מילה.</small>
+    </div>
+  );
+}
+
+function CoursePicker() {
+  return (
+    <div className="onb">
+      <Wordmark />
+      <h1>מה לומדים?</h1>
+      <p className="lead">הבחירה נשמרת במכשיר הזה, ואפשר לשנות אותה בהגדרות.</p>
+      <div className="courses">
+        {COURSES.map((c) => (
+          <button key={c.id} type="button" className="course" onClick={() => switchCourse(c.id)}>
+            <span className="c-hello" dir="ltr">{c.hello}</span><b>{c.name}</b><small>{c.note}</small>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export function Wordmark() {
@@ -84,6 +125,7 @@ export function App() {
     setInSession(true);
   };
 
+  if (!COURSE_CHOSEN) return <CoursePicker />;
   if (!st.onboarded) return <Onboarding st={st} update={update} />;
   if (inSession && st.plan) return <Session st={st} update={update} onExit={() => { update(restorePaused); setInSession(false); setTab('home'); }} onMore={() => startSession(st.plan?.spelling ? { extra: true, spell: true } : { extra: true })} onMoreNew={() => startSession({ bonus: true })} />;
   if (inSentences) return <SentenceSession st={st} update={update} today={today} onExit={() => setInSentences(false)} />;
@@ -110,7 +152,7 @@ export function App() {
 // ---------- Onboarding + placement ----------
 function Onboarding({ st, update }: { st: State; update: Update }) {
   const [step, setStep] = useState<'hello' | 'test' | 'result'>('hello');
-  const [name, setName] = useState(st.name);
+  const [name, setName] = useState(COURSE_ID === 'en' ? '' : st.name);
   const [level, setLevel] = useState(0);
   const [queue, setQueue] = useState<Word[]>(() => placementWords(0));
   const [i, setI] = useState(0);
@@ -141,17 +183,18 @@ function Onboarding({ st, update }: { st: State; update: Update }) {
     }, 450);
   };
 
-  const finish = (from: number, res: Record<string, boolean>) => update((s) => applyPlacement({ ...s, name: name.trim() || 'איילה' }, res, from, dayNumber()));
+  const finish = (from: number, res: Record<string, boolean>) => update((s) => applyPlacement({ ...s, name: name.trim() || s.name }, res, from, dayNumber()));
 
   if (step === 'hello') return (
     <div className="onb">
       <Wordmark />
-      <div className="onb-tiles" dir="ltr" aria-hidden="true">{[...'HELLO'].map((c, n) => <Tile key={n} ch={c} state="pop" />)}</div>
+      <div className="onb-tiles" dir="ltr" aria-hidden="true">{[...x('HELLO', 'SAWATDII')].map((c, n) => <Tile key={n} ch={c} state="pop" small={IS_THAI} />)}</div>
       <h1>כל יום קצת.<br />והמילים נשארות.</h1>
-      <p className="lead">אימון קצר ביום: חימום על מילים שאת מכירה, חיזוק קליל, ואז מילים חדשות שמחכות לך בסוף.</p>
+      <p className="lead">{x('אימון קצר ביום: חימום על מילים שאת מכירה, חיזוק קליל, ואז מילים חדשות שמחכות לך בסוף.', 'אימון קצר ביום: חימום על מילים שאתה מכיר, חיזוק קליל, ואז מילים חדשות שמחכות לך בסוף.')}</p>
+      {IS_THAI && <ToneNote />}
       <label className="field" htmlFor="nm">איך לקרוא לך?</label>
       <input id="nm" className="input" value={name} onChange={(e) => setName(e.target.value)} />
-      <button type="button" className="cta" onClick={() => { setStep('test'); if (st.settings.sound) sfx.tap(); }}>נתחיל בבדיקה קצרה</button>
+      <button type="button" className="cta" disabled={!name.trim()} onClick={() => { setStep('test'); if (st.settings.sound) sfx.tap(); }}>נתחיל בבדיקה קצרה</button>
       <p className="small muted center">כמה דקות, בלי ציון. היא רק מוצאת לך את נקודת ההתחלה. אם מילה לא מוכרת, זה בסדר גמור.</p>
     </div>
   );
@@ -167,7 +210,7 @@ function Onboarding({ st, update }: { st: State; update: Update }) {
           <p>{lv.blurb}. המילים של התחנות הקודמות יעלו בחימום. אם מילה תתברר כפחות מוכרת, היא פשוט תקבל עוד חיזוק.</p>
         </div>
         <button type="button" className="cta" onClick={() => finish(startLevel, results)}>יאללה, לאימון</button>
-        {startLevel > 0 && <button type="button" className="link" onClick={() => finish(Math.max(0, startLevel - 1), results)}>אני מעדיפה להתחיל תחנה אחת קודם</button>}
+        {startLevel > 0 && <button type="button" className="link" onClick={() => finish(Math.max(0, startLevel - 1), results)}>{x('אני מעדיפה להתחיל תחנה אחת קודם', 'אני מעדיף להתחיל תחנה אחת קודם')}</button>}
       </div>
     );
   }
@@ -175,16 +218,16 @@ function Onboarding({ st, update }: { st: State; update: Update }) {
   return (
     <div className="session">
       <div className="s-top"><span className="muted small">בדיקת פתיחה · תחנה {level + 1}</span>
-        <button type="button" className="link" onClick={() => { setStartLevel(level); setStep('result'); }}>מספיק, עצרי כאן</button></div>
+        <button type="button" className="link" onClick={() => { setStartLevel(level); setStep('result'); }}>{x('מספיק, עצרי כאן', 'מספיק, עצור כאן')}</button></div>
       <div className="thin"><span style={{ width: `${Math.min(100, (asked / (LEVELS.length * 4)) * 100)}%` }} /></div>
       <div className="q">
         <p className="prompt">מה פירוש המילה?</p>
-        <div className="word-hero"><En>{w.en}</En></div>
+        <button type="button" className={`word-hero as-btn ${longClass(w.en)}`} onClick={() => speak(w.en)}><En>{w.en}</En></button>
         <div className="answers">
           {opts.map((o) => (
             <button key={o.id} type="button" className={`ans ${picked && o.id === w.id ? 'right' : ''} ${picked === o.id && o.id !== w.id ? 'wrong' : ''}`} onClick={() => answer(o.id)}>{o.he}</button>
           ))}
-          <button type="button" className="ans quiet" onClick={() => answer(null)}>עוד לא מכירה</button>
+          <button type="button" className="ans quiet" onClick={() => answer(null)}>{x('עוד לא מכירה', 'עוד לא מכיר')}</button>
         </div>
       </div>
     </div>
@@ -230,7 +273,7 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
           </>
         ) : (
           <>
-            <span className="chip-d">{inProgress ? `ממשיכות מ${PART[part!].name}` : 'האימון של היום'}</span>
+            <span className="chip-d">{inProgress ? `${x('ממשיכות', 'ממשיכים')} מ${PART[part!].name}` : 'האימון של היום'}</span>
             {lockCount > 0 ? (
               <>
                 <div className="hidden-tiles" dir="ltr" aria-label={`${lockCount} מילים חדשות מחכות בסוף`}>
@@ -239,7 +282,7 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
                 <h2>{lockCount} מילים חדשות מחכות לך בסוף</h2>
               </>
             ) : (
-              <h2>היום מבססות את המילים האחרונות</h2>
+              <h2>{x('היום מבססות את המילים האחרונות', 'היום מבססים את המילים האחרונות')}</h2>
             )}
             <ol className="route">
               {PARTS.map((p) => <li key={p} className={part === p ? 'now' : ''}><b>{PART[p].name}</b><small>{count(p) || '-'} {p === 'new' ? 'מילים ומשחק' : 'קטנות'}</small></li>)}
@@ -250,9 +293,9 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
       </div>
       {!done && !inProgress && <button type="button" className="link center-block" onClick={() => onStart({ short: true })}>יש לי רק כמה דקות היום</button>}
 
-      <section className="two-meters" aria-label="סיכום">
-        <div><b>{t.known}</b><span>מילים שאת מכירה</span>{way.r > 0 && <small>ועוד {way.r} בדרך</small>}</div>
-        <div><b>{t.spelled}</b><span>מילים שאת יודעת לאיית</span>{way.s > 0 && <small>ועוד {way.s} בדרך</small>}</div>
+      <section className={`two-meters ${HAS_SPELLING ? '' : 'solo'}`} aria-label="סיכום">
+        <div><b>{t.known}</b><span>{x('מילים שאת מכירה', 'מילים שאתה מכיר')}</span>{way.r > 0 && <small>ועוד {way.r} בדרך</small>}</div>
+        {HAS_SPELLING && <div><b>{t.spelled}</b><span>מילים שאת יודעת לאיית</span>{way.s > 0 && <small>ועוד {way.s} בדרך</small>}</div>}
       </section>
 
       {t.met > 0 && (
@@ -270,7 +313,7 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
       )}
 
       <button type="button" className="sent-card" onClick={onSentences}>
-        <span className="sent-txt"><b>אימון משפטים</b><small>{ready > 0 ? `${ready} משפטים שימושיים מהמילים שאת כבר מכירה` : 'משפטים שימושיים לכל יום'}</small></span>
+        <span className="sent-txt"><b>אימון משפטים</b><small>{ready > 0 ? `${ready} משפטים שימושיים מהמילים ש${x('את כבר מכירה', 'אתה כבר מכיר')}` : 'משפטים שימושיים לכל יום'}</small></span>
         <span className="sent-go" aria-hidden="true">←</span>
       </button>
 
@@ -283,7 +326,7 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
         <div className="week-tiles" aria-hidden="true">
           {['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'].map((d, i) => <span key={d} className={`wd ${week[i] ? 'on' : ''}`}>{d}</span>)}
         </div>
-        <p className="small muted">{weekCount >= st.settings.weeklyGoal ? 'הגעת ליעד השבועי. כל הכבוד!' : 'יום שפספסת לא מוחק כלום. פשוט ממשיכות.'}</p>
+        <p className="small muted">{weekCount >= st.settings.weeklyGoal ? 'הגעת ליעד השבועי. כל הכבוד!' : x('יום שפספסת לא מוחק כלום. פשוט ממשיכות.', 'יום שפספסת לא מוחק כלום. פשוט ממשיכים.')}</p>
       </section>
     </>
   );
@@ -381,9 +424,9 @@ function Interlude({ st, plan, part, onGo, onExit }: { st: State; plan: Plan; pa
   useEffect(() => { const t = setTimeout(() => { setRevealed(true); if (st.settings.sound && pi > 0) sfx.flip(); }, 350); return () => clearTimeout(t); }, []);
   const words = plan.newIds.map((id) => WORD[id]);
   const count = plan.steps.filter((s) => s.part === part && s.kind !== 'intro').length;
-  const title = plan.spelling ? 'עכשיו כותבות' : plan.extra ? 'מחזקות מילים' : part === 'new'
+  const title = plan.spelling ? 'עכשיו כותבות' : plan.extra ? x('מחזקות מילים', 'מחזקים מילים') : part === 'new'
     ? plan.consolidating ? 'היום הן מקבלות עוד מבט' : 'הגעת! הנה המילים החדשות'
-    : part === 'boost' ? (hasWarm ? 'יופי של חימום' : 'מתחילות בחיזוק') : 'מתחממות';
+    : part === 'boost' ? (hasWarm ? 'יופי של חימום' : x('מתחילות בחיזוק', 'מתחילים בחיזוק')) : x('מתחממות', 'מתחממים');
   const reveal = pi === 2 ? 99 : pi;
   return (
     <div className="session interlude">
@@ -394,9 +437,9 @@ function Interlude({ st, plan, part, onGo, onExit }: { st: State; plan: Plan; pa
         <h1>{title}</h1>
         <p className="lead">{plan.spelling ? 'מילים שאת כבר מכירה. רואים, מסתירים וכותבים. טעות באיות לא פוגעת בהכרות של המילה.' : `${PART[part].next}. ${PART[part].note}.`}</p>
         {plan.extra ? null : plan.consolidating ? (
-          <p className="gate-note">כשעוד כמה מילים יתבססו, יגיעו חדשות. עד אז אנחנו מוודאות שהן נשארות איתך.</p>
+          <p className="gate-note">כשעוד כמה מילים יתבססו, יגיעו חדשות. עד אז אנחנו {x('מוודאות', 'מוודאים')} שהן נשארות איתך.</p>
         ) : (
-          <div className="waiting" dir="ltr" aria-label="המילים שמחכות בסוף">
+          IS_THAI ? <div className="hidden-tiles" dir="ltr" aria-label="המילים שמחכות בסוף">{words.map((w) => <span key={w.id} className="face-down" aria-hidden="true">?</span>)}</div> : <div className="waiting" dir="ltr" aria-label="המילים שמחכות בסוף">
             {words.map((w) => (
               <div key={w.id} className="wait-word">
                 {[...w.en].map((c, i) => {
@@ -407,7 +450,7 @@ function Interlude({ st, plan, part, onGo, onExit }: { st: State; plan: Plan; pa
             ))}
           </div>
         )}
-        {pi < 2 && !plan.consolidating && !plan.extra && !plan.bonus && <p className="small muted center">בכל עצירה נחשפת עוד אות מהמילים שמחכות לך.</p>}
+        {!IS_THAI && pi < 2 && !plan.consolidating && !plan.extra && !plan.bonus && <p className="small muted center">בכל עצירה נחשפת עוד אות מהמילים שמחכות לך.</p>}
       </div>
       <button type="button" className="cta" onClick={onGo}>{count > 0 ? 'קדימה' : 'ממשיכים'}</button>
     </div>
@@ -445,10 +488,10 @@ function Intro({ st, step, onNext }: ExProps) {
   return (
     <div className="q intro-q">
       <p className="prompt">{index >= 0 ? 'מילה חדשה' : 'עוד מבט'}</p>
-      <div className="flip-in tiles-row" dir="ltr">{[...w.en].map((c, i) => <Tile key={i} ch={c} state="pop" small={w.en.length > 8} />)}</div>
+      <WordFace w={w} />
       <button type="button" className="speak" onClick={() => say(w.en)} aria-label="השמעה"><SpeakIcon /></button>
       <div className="meaning">{w.he}</div>
-      <button type="button" className="sentence" dir="ltr" lang="en" onClick={() => say(w.ex)}><span>{highlight(w.ex, w.en)}</span><span className="s-icon"><SpeakIcon /></span></button>
+      {w.ex && <button type="button" className="sentence" dir="ltr" lang="en" onClick={() => say(w.ex)}><span>{highlight(w.ex, w.en)}</span><span className="s-icon"><SpeakIcon /></span></button>}
       <div className="grow" />
       <button type="button" className="cta" onClick={() => { if (st.settings.sound) sfx.tap(); onNext(); }}>הבנתי</button>
     </div>
@@ -477,26 +520,26 @@ function Check(p: ExProps) {
   if (phase === 'intro') return <Intro {...p} onNext={() => settle(false)} />;
   if (phase === 'prove') return (
     <div className="q">
-      <p className="prompt">אם את מכירה, מה הפירוש?</p>
-      <button type="button" className="word-hero as-btn" onClick={() => say(w.en)}><En>{w.en}</En></button>
+      <p className="prompt">{x('אם את מכירה, מה הפירוש?', 'אם אתה מכיר, מה הפירוש?')}</p>
+      <button type="button" className={`word-hero as-btn ${longClass(w.en)}`} onClick={() => say(w.en)}><En>{w.en}</En></button>
       <div className="answers">
         {opts.map((o) => (
           <button key={o.id} type="button" onClick={() => pick(o)} className={`ans ${picked && o.id === w.id ? 'right' : ''} ${picked === o.id && o.id !== w.id ? 'wrong' : ''}`}>{o.he}</button>
         ))}
-        {!picked && <button type="button" className="ans quiet" onClick={() => setPhase('intro')}>בעצם לא בטוחה</button>}
+        {!picked && <button type="button" className="ans quiet" onClick={() => setPhase('intro')}>{x('בעצם לא בטוחה', 'בעצם לא בטוח')}</button>}
       </div>
-      {picked === w.id && <div className="feedback good" role="status"><b>מעולה, את כבר מכירה! מביאה מילה אחרת.</b></div>}
+      {picked === w.id && <div className="feedback good" role="status"><b>{x('מעולה, את כבר מכירה! מביאה מילה אחרת.', 'מעולה, אתה כבר מכיר! הנה מילה אחרת.')}</b></div>}
       {picked && picked !== w.id && <div className="feedback soft" role="status"><b>אין בעיה, נלמד אותה עכשיו.</b></div>}
     </div>
   );
   return (
     <div className="q">
-      <p className="prompt">{left > 1 ? `עוד ${left} מילים` : 'מילה אחרונה'}: את מכירה אותה?</p>
-      <div className="flip-in tiles-row" dir="ltr">{[...w.en].map((c, i) => <Tile key={i} ch={c} state="pop" small={w.en.length > 8} />)}</div>
+      <p className="prompt">{left > 1 ? `עוד ${left} מילים` : 'מילה אחרונה'}: {x('את מכירה אותה?', 'אתה מכיר אותה?')}</p>
+      <WordFace w={w} />
       <button type="button" className="speak" onClick={() => say(w.en)} aria-label="השמעה"><SpeakIcon /></button>
       <div className="answers">
         <button type="button" className="cta" onClick={() => setPhase('intro')}>חדשה לי</button>
-        <button type="button" className="ans" onClick={() => setPhase('prove')}>כבר מכירה</button>
+        <button type="button" className="ans" onClick={() => setPhase('prove')}>{x('כבר מכירה', 'כבר מכיר')}</button>
       </div>
     </div>
   );
@@ -510,7 +553,7 @@ function highlight(text: string, word: string) {
 function Choice({ st, update, step, onResult, onNext }: ExProps) {
   const w = WORD[step.id];
   const say = useSay(st);
-  const kind: Kind = step.kind === 'listen' && !canSpeak() ? 'meaning' : step.kind;
+  const kind: Kind = step.kind === 'listen' && !canSpeak() ? 'meaning' : step.kind === 'cloze' && !w.ex ? 'reverse' : step.kind;
   const count = step.part === 'warm' || step.part === 'new' ? 3 : 4;
   const opts = useMemo(() => options(st, w.id, count), [w.id]);
   const [picked, setPicked] = useState<string | null>(null);
@@ -531,8 +574,8 @@ function Choice({ st, update, step, onResult, onNext }: ExProps) {
   const showEnglishAnswers = kind === 'reverse' || kind === 'cloze';
   return (
     <div className="q">
-      {kind === 'meaning' && <><p className="prompt">מה פירוש המילה?</p><button type="button" className="word-hero as-btn" onClick={() => say(w.en)}><En>{w.en}</En></button></>}
-      {kind === 'reverse' && <><p className="prompt">איך אומרים באנגלית?</p><div className="word-hero he">{w.he}</div></>}
+      {kind === 'meaning' && <><p className="prompt">מה פירוש המילה?</p><button type="button" className={`word-hero as-btn ${longClass(w.en)}`} onClick={() => say(w.en)}><En>{w.en}</En></button></>}
+      {kind === 'reverse' && <><p className="prompt">איך אומרים {x('באנגלית', 'בתאית')}?</p><div className="word-hero he">{w.he}</div></>}
       {kind === 'listen' && <><p className="prompt">מה שמעת?</p><button type="button" className="speak big" onClick={() => say(w.en)} aria-label="השמעה"><SpeakIcon /></button>{picked && <div className="word-hero small-hero"><En>{w.en}</En></div>}</>}
       {kind === 'cloze' && <><p className="prompt">איזו מילה משלימה את המשפט?</p><div className="cloze" dir="ltr" lang="en">{picked ? highlight(w.ex, w.en) : clozeOf(w)}</div></>}
       <div className="answers" dir={showEnglishAnswers ? 'ltr' : undefined}>
@@ -546,7 +589,7 @@ function Choice({ st, update, step, onResult, onNext }: ExProps) {
       {picked && !correct && (
         <div className="feedback bad" role="status">
           <div className="fb-word"><En className="big-en">{w.en}</En><b>{w.he}</b></div>
-          <p className="fb-ex" dir="ltr" lang="en">{highlight(w.ex, w.en)}</p>
+          {w.ex && <p className="fb-ex" dir="ltr" lang="en">{highlight(w.ex, w.en)}</p>}
           <div className="fb-actions">
             {!step.retry && <FlagButton st={st} update={update} id={w.id} m="r" />}
             <button type="button" className="btn-next" onClick={onNext}>הבנתי</button>
@@ -734,7 +777,7 @@ function Match({ st, step, onNext }: ExProps) {
 
   return (
     <div className="q">
-      <p className="prompt">התאימי זוגות</p>
+      <p className="prompt">{x('התאימי זוגות', 'התאם זוגות')}</p>
       <div className="match">
         <div className="col" dir="ltr">
           {left.map((id) => (
@@ -788,7 +831,7 @@ function Finish({ st, plan, onExit, onMore, onMoreNew }: { st: State; plan: Plan
     <div className="session finish">
       <Confetti />
       <span className="stage">{plan.spelling ? 'אימון איות' : plan.extra ? 'אימון חיזוק' : plan.bonus ? 'סבב נוסף' : 'סיימת את שלוש העצירות'}</span>
-      <h1>{pct >= 85 ? `אלופה, ${st.name}!` : `כל הכבוד שהגעת עד הסוף, ${st.name}!`}</h1>
+      <h1>{pct >= 85 ? `${x('אלופה', 'אלוף')}, ${st.name}!` : `כל הכבוד שהגעת עד הסוף, ${st.name}!`}</h1>
       {plan.newIds.length > 0 && !plan.consolidating && (
         <section className="fresh-shelf">
           <h3>מילים חדשות שפגשת היום</h3>
@@ -797,16 +840,16 @@ function Finish({ st, plan, onExit, onMore, onMoreNew }: { st: State; plan: Plan
           </div>
         </section>
       )}
-      {plan.alreadyKnown.length > 0 && <p className="one-point">התברר שאת כבר מכירה: {plan.alreadyKnown.map((id, i) => <span key={id}>{i > 0 ? ', ' : ''}<En>{WORD[id].en}</En></span>)}. נחזור לזה בחימום בהמשך.</p>}
+      {plan.alreadyKnown.length > 0 && <p className="one-point">התברר ש{x('את כבר מכירה', 'אתה כבר מכיר')}: {plan.alreadyKnown.map((id, i) => <span key={id}>{i > 0 ? ', ' : ''}<En>{WORD[id].en}</En></span>)}. נחזור לזה בחימום בהמשך.</p>}
       <p className="one-point">היום: <b>{studyTimeLabel(studySeconds(st, plan.day, plan.day), questionCount(st, plan.day, plan.day))}</b> של למידה, <b>{questionCount(st, plan.day, plan.day)}</b> שאלות.</p>
-      <section className="results-grid">
+      <section className={`results-grid ${HAS_SPELLING ? '' : 'one'}`}>
         <div><b>{log.rOk + log.rNo ? Math.round((log.rOk / (log.rOk + log.rNo)) * 100) : '-'}{log.rOk + log.rNo ? '%' : ''}</b><span>דיוק בהכרות</span></div>
-        <div><b>{log.sOk + log.sNo ? Math.round((log.sOk / (log.sOk + log.sNo)) * 100) : '-'}{log.sOk + log.sNo ? '%' : ''}</b><span>דיוק באיות</span></div>
+        {HAS_SPELLING && <div><b>{log.sOk + log.sNo ? Math.round((log.sOk / (log.sOk + log.sNo)) * 100) : '-'}{log.sOk + log.sNo ? '%' : ''}</b><span>דיוק באיות</span></div>}
       </section>
       {(plan.gained.r.length > 0 || plan.gained.s.length > 0) && (
         <p className="gain">{plan.gained.r.length > 0 && <>התבססו {plan.gained.r.length} מילים. </>}{plan.gained.s.length > 0 && <>{plan.gained.s.length} מילים עלו באיות.</>}</p>
       )}
-      {(stepped.r > 0 || stepped.s > 0) && <p className="gain">היום התקדמו {stepped.r} מילים בהכרות ו-{stepped.s} באיות.</p>}
+      {(stepped.r > 0 || stepped.s > 0) && <p className="gain">{HAS_SPELLING ? `היום התקדמו ${stepped.r} מילים בהכרות ו-${stepped.s} באיות.` : `היום התקדמו ${stepped.r} מילים.`}</p>}
       <p className="small muted">מילה עולה שלב אחד ביום, ונספרת כמבוססת אחרי 3 ימי הצלחה שונים. ככה היא נשארת בזיכרון.</p>
       {point && <p className="one-point">נקודה אחת למחר: <En>{point.en}</En> ({point.he}). היא תחזור בחיזוק.</p>}
       <div className="grow" />
@@ -825,7 +868,7 @@ function PathScreen({ st, onWord }: { st: State; onWord: (id: string) => void })
   const [open, setOpen] = useState<number | null>(cur);
   return (
     <>
-      <header className="page-head"><h1>המסע</h1><p className="muted">שמונה תחנות, מהקל לקשה. תחנה נחשבת כשרוב המילים בה מבוססות.</p></header>
+      <header className="page-head"><h1>המסע</h1><p className="muted">{x('שמונה תחנות, מהקל לקשה.', `${LEVELS.length} תחנות, לפי נושאים.`)} תחנה נחשבת כשרוב המילים בה מבוססות.</p></header>
       <ol className="stations">
         {LEVELS.map((l, i) => {
           const s = levelStats(st, i);
@@ -835,7 +878,7 @@ function PathScreen({ st, onWord }: { st: State; onWord: (id: string) => void })
             <li key={l.name} className={`station ${state}`}>
               <button type="button" className="st-head" aria-expanded={open === i} onClick={() => setOpen(open === i ? null : i)}>
                 <span className="st-num">{i + 1}</span>
-                <span className="st-txt"><b>{l.name}</b><small>{l.blurb} · {l.cefr}</small>
+                <span className="st-txt"><b>{l.name}</b><small>{l.blurb}{l.cefr ? ` · ${l.cefr}` : ''}</small>
                   <span className="double-bar"><span className="b-r" style={{ width: `${pct}%` }} /><span className="b-s" style={{ width: `${(s.spelled / s.all) * 100}%` }} /></span></span>
                 <span className="st-count"><b>{s.known}</b>/{s.all}</span>
               </button>
@@ -844,20 +887,20 @@ function PathScreen({ st, onWord }: { st: State; onWord: (id: string) => void })
           );
         })}
       </ol>
-      <div className="legend"><span><i className="dot r" />הכרות</span><span><i className="dot s" />איות</span></div>
+      {HAS_SPELLING && <div className="legend"><span><i className="dot r" />הכרות</span><span><i className="dot s" />איות</span></div>}
     </>
   );
 }
 
 function WordGrid({ st, level, onWord }: { st: State; level: number; onWord: (id: string) => void }) {
   return (
-    <div className="grid" dir="ltr">
+    <div className={`grid ${IS_THAI ? 'phrases' : ''}`} dir="ltr">
       {WORDS.filter((w) => w.level === level).map((w) => {
         const s = ws(st, w.id);
         return (
           <button key={w.id} type="button" className={`cell ${isMet(s) ? '' : 'unseen'}`} onClick={() => onWord(w.id)} title={w.he}>
             <span className="c-en">{isMet(s) ? w.en : '•'.repeat(Math.min(w.en.length, 6))}</span>
-            <span className="pair"><Pips n={s.r.box} flag={s.r.flag} kind="r" /><Pips n={s.s.box} flag={s.s.flag} kind="s" /></span>
+            <span className="pair"><Pips n={s.r.box} flag={s.r.flag} kind="r" />{HAS_SPELLING && <Pips n={s.s.box} flag={s.s.flag} kind="s" />}</span>
           </button>
         );
       })}
@@ -882,11 +925,11 @@ function Progress({ st, today, onWord }: { st: State; today: number; onWord: (id
   return (
     <>
       <header className="page-head"><h1>התקדמות</h1></header>
-      <section className="meters">
+      <section className={`meters ${HAS_SPELLING ? '' : 'solo'}`}>
         <div className="meter r"><span className="m-name">הכרות</span><b>{t.known}</b><small>מילים מבוססות מתוך {t.all}</small>
           <div className="m-bar"><span style={{ width: `${(t.known / t.all) * 100}%` }} /></div><small>{learning} בתהליך</small></div>
-        <div className="meter s"><span className="m-name">איות</span><b>{t.spelled}</b><small>מילים מבוססות מתוך {t.all}</small>
-          <div className="m-bar"><span style={{ width: `${(t.spelled / t.all) * 100}%` }} /></div><small>{spellMeasuredCount} נבדקו</small></div>
+        {HAS_SPELLING && <div className="meter s"><span className="m-name">איות</span><b>{t.spelled}</b><small>מילים מבוססות מתוך {t.all}</small>
+          <div className="m-bar"><span style={{ width: `${(t.spelled / t.all) * 100}%` }} /></div><small>{spellMeasuredCount} נבדקו</small></div>}
       </section>
 
       <button type="button" className="sent-card" onClick={() => setShare(true)}>
@@ -898,13 +941,13 @@ function Progress({ st, today, onWord }: { st: State; today: number; onWord: (id
       <section className="card">
         <div className="row-between"><h3>משפטים</h3><span className="chip">{sentencesKnown(st)}/{SENTENCES.length}</span></div>
         <div className="gauge"><span style={{ width: `${(sentencesKnown(st) / SENTENCES.length) * 100}%` }} /></div>
-        <p className="small muted">{readyCount(st)} משפטים בנויים רק ממילים שאת כבר מכירה.</p>
+        <p className="small muted">{readyCount(st)} משפטים בנויים רק ממילים ש{x('את כבר מכירה', 'אתה כבר מכיר')}.</p>
       </section>
 
       <section className="card pace">
         <div className="row-between"><h3>קצב המילים החדשות</h3><span className="chip">{learning}/{LEARNING_CAP}</span></div>
         <div className="gauge"><span style={{ width: `${Math.min(100, (learning / LEARNING_CAP) * 100)}%` }} /></div>
-        <p className="small muted">{learning >= LEARNING_CAP ? 'יש כרגע מספיק מילים בתהליך. חדשות יגיעו ברגע שכמה יתבססו.' : 'כשפחות מילים בתהליך, מגיעות יותר חדשות. האיות לא משפיע על הקצב.'}</p>
+        <p className="small muted">{learning >= LEARNING_CAP ? 'יש כרגע מספיק מילים בתהליך. חדשות יגיעו ברגע שכמה יתבססו.' : x('כשפחות מילים בתהליך, מגיעות יותר חדשות. האיות לא משפיע על הקצב.', 'כשפחות מילים בתהליך, מגיעות יותר חדשות.')}</p>
       </section>
 
       <section className="card">
@@ -916,7 +959,7 @@ function Progress({ st, today, onWord }: { st: State; today: number; onWord: (id
             return <div key={d} className={`bar-col ${d === today ? 'today' : ''}`} title={`${r + s} תשובות`}><span className="b-s" style={{ height: `${(s / max) * 100}%` }} /><span className="b-r" style={{ height: `${(r / max) * 100}%` }} /></div>;
           })}
         </div>
-        <div className="legend"><span><i className="dot r" />הכרות</span><span><i className="dot s" />איות</span></div>
+        {HAS_SPELLING && <div className="legend"><span><i className="dot r" />הכרות</span><span><i className="dot s" />איות</span></div>}
       </section>
 
       <h2 className="eyebrow">נקודות קושי</h2>
@@ -928,7 +971,7 @@ function Progress({ st, today, onWord }: { st: State; today: number; onWord: (id
             {hard.map(({ w, s }) => (
               <li key={w.id}><button type="button" onClick={() => onWord(w.id)}>
                 <En>{w.en}</En><span className="muted">{w.he}</span>
-                <span className="tags">{s.r.flag && <em className="tag r">הכרות</em>}{s.s.flag && <em className="tag s">איות</em>}</span>
+                {HAS_SPELLING && <span className="tags">{s.r.flag && <em className="tag r">הכרות</em>}{s.s.flag && <em className="tag s">איות</em>}</span>}
               </button></li>
             ))}
           </ul>
@@ -966,12 +1009,12 @@ function WordsScreen({ st, onWord }: { st: State; onWord: (id: string) => void }
       if (filter === 'known') return isKnown(s);
       return true;
     })
-    .filter((w) => !q || w.en.includes(q.toLowerCase()) || w.he.includes(q))
+    .filter((w) => !q || w.en.includes(q.toLowerCase()) || w.he.includes(q) || (IS_THAI && searchable(w.en).includes(searchable(q))))
     .sort((a, b) => (ws(st, b.id).met ?? 0) - (ws(st, a.id).met ?? 0) || b.order - a.order);
   return (
     <>
       <header className="page-head"><h1>המילים שלי</h1></header>
-      <input id="search" className="input" placeholder="חיפוש בעברית או באנגלית" value={q} onChange={(e) => setQ(e.target.value)} />
+      <input id="search" className="input" placeholder={x('חיפוש בעברית או באנגלית', 'חיפוש בעברית או בתעתיק')} value={q} onChange={(e) => setQ(e.target.value)} />
       <div className="seg" role="group">
         {([['all', 'הכול'], ['flag', 'לחיזוק'], ['known', 'מבוססות']] as const).map(([k, t]) => <button key={k} type="button" aria-pressed={filter === k} onClick={() => setFilter(k)}>{t}</button>)}
       </div>
@@ -982,7 +1025,7 @@ function WordsScreen({ st, onWord }: { st: State; onWord: (id: string) => void }
           return (
             <li key={w.id}><button type="button" onClick={() => onWord(w.id)}>
               <span className="wl-he">{w.he}</span>
-              <span className="pair"><Pips n={s.r.box} flag={s.r.flag} kind="r" /><Pips n={s.s.box} flag={s.s.flag} kind="s" /></span>
+              <span className="pair"><Pips n={s.r.box} flag={s.r.flag} kind="r" />{HAS_SPELLING && <Pips n={s.s.box} flag={s.s.flag} kind="s" />}</span>
               <En className="wl-en">{w.en}</En>
             </button></li>
           );
@@ -1008,16 +1051,16 @@ function WordSheet({ st, update, id, onClose }: { st: State; update: Update; id:
   const w = WORD[id];
   const s = ws(st, id);
   const say = useSay(st);
-  if (!isMet(s)) return <Sheet title="מילה שמחכה" onClose={onClose}><p className="muted">את המילה הזו עוד לא פגשת. היא תיחשף כשתגיעי אליה.</p></Sheet>;
+  if (!isMet(s)) return <Sheet title="מילה שמחכה" onClose={onClose}><p className="muted">את המילה הזו עוד לא פגשת. היא תיחשף כש{x('תגיעי', 'תגיע')} אליה.</p></Sheet>;
   return (
     <Sheet title={w.he} onClose={onClose}>
       <button type="button" className="sheet-word" onClick={() => say(w.en)}><En>{w.en}</En><SpeakIcon /></button>
-      <button type="button" className="sentence" dir="ltr" lang="en" onClick={() => say(w.ex)}><span>{highlight(w.ex, w.en)}</span></button>
-      <div className="sheet-m">
+      {w.ex && <button type="button" className="sentence" dir="ltr" lang="en" onClick={() => say(w.ex)}><span>{highlight(w.ex, w.en)}</span></button>}
+      <div className={`sheet-m ${HAS_SPELLING ? '' : 'solo'}`}>
         <div><span>הכרות</span><b>{label(s.r)}</b><small>{s.r.ok} נכון · {s.r.no} טעויות</small><FlagButton st={st} update={update} id={id} m="r" /></div>
-        <div><span>איות</span><b>{label(s.s, spellMeasured(s) || s.s.flag)}</b><small>{s.s.ok} נכון · {s.s.no} טעויות</small><FlagButton st={st} update={update} id={id} m="s" /></div>
+        {HAS_SPELLING && <div><span>איות</span><b>{label(s.s, spellMeasured(s) || s.s.flag)}</b><small>{s.s.ok} נכון · {s.s.no} טעויות</small><FlagButton st={st} update={update} id={id} m="s" /></div>}
       </div>
-      {spellKnown(s) && isKnown(s) && <p className="small muted center">שני המדדים מבוססים. מעולה!</p>}
+      {HAS_SPELLING && spellKnown(s) && isKnown(s) && <p className="small muted center">שני המדדים מבוססים. מעולה!</p>}
     </Sheet>
   );
 }
@@ -1027,13 +1070,13 @@ function Settings({ st, update, onClose }: { st: State; update: Update; onClose:
   const [confirmReset, setConfirmReset] = useState(false);
   const [msg, setMsg] = useState('');
   const set = (patch: Partial<State['settings']>) => update((s) => ({ ...s, settings: { ...s.settings, ...patch } }));
-  const voices = englishVoices();
+  const voices = IS_THAI ? [] : englishVoices();
   const backup = () => {
     try {
-      const blob = new Blob([JSON.stringify(st)], { type: 'application/json' });
+      const blob = new Blob([JSON.stringify({ ...st, course: COURSE_ID })], { type: 'application/json' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = `wordflow-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      a.download = `wordflow-${COURSE_ID}-backup-${new Date().toISOString().slice(0, 10)}.json`;
       a.click();
       setMsg('הגיבוי נשמר בקובץ.');
     } catch { setMsg('לא הצלחתי לשמור קובץ במכשיר הזה.'); }
@@ -1042,13 +1085,18 @@ function Settings({ st, update, onClose }: { st: State; update: Update; onClose:
     if (!f) return;
     try {
       const data = JSON.parse(await f.text());
-      if (data.v !== 1 || !data.words) throw new Error('bad');
+      if (data.v !== 1 || !data.words || (data.course ?? 'en') !== COURSE_ID) throw new Error('bad');
       update(() => data);
       setMsg('הגיבוי שוחזר.');
-    } catch { setMsg('הקובץ הזה אינו גיבוי של WordFlow.'); }
+    } catch { setMsg(`הקובץ הזה אינו גיבוי של ${COURSES.find((c) => c.id === COURSE_ID)!.name} ב-WordFlow.`); }
   };
   return (
     <Sheet title="הגדרות" onClose={onClose}>
+      <div className="set-row"><span>מה לומדים במכשיר הזה</span>
+        <div className="seg lang" role="group" aria-label="שפת הלימוד">
+          {COURSES.map((c) => <button key={c.id} type="button" aria-pressed={COURSE_ID === c.id} onClick={() => { if (COURSE_ID !== c.id) switchCourse(c.id); }}>{c.name}</button>)}
+        </div></div>
+      <p className="small muted">לכל שפה התקדמות משלה, והיא נשמרת כשעוברים ביניהן.</p>
       <label className="field" htmlFor="n2">שם</label>
       <input id="n2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} />
       <div className="set-row"><label htmlFor="s1">צלילי משחק</label><input id="s1" type="checkbox" checked={st.settings.sound} onChange={(e) => set({ sound: e.target.checked })} /></div>
@@ -1059,8 +1107,8 @@ function Settings({ st, update, onClose }: { st: State; update: Update; onClose:
           <option value="">אוטומטי</option>
           {voices.map((v) => <option key={v.name} value={v.name}>{v.name} ({v.lang})</option>)}
         </select></>}
-      <label className="field" htmlFor="rt">מהירות הקראה</label>
-      <input id="rt" type="range" min="0.6" max="1.1" step="0.1" value={st.settings.rate} onChange={(e) => { set({ rate: +e.target.value }); speak('listen', { voice: st.settings.voice, rate: +e.target.value }); }} />
+      {IS_THAI ? <ToneNote /> : <><label className="field" htmlFor="rt">מהירות הקראה</label>
+      <input id="rt" type="range" min="0.6" max="1.1" step="0.1" value={st.settings.rate} onChange={(e) => { set({ rate: +e.target.value }); speak('listen', { voice: st.settings.voice, rate: +e.target.value }); }} /></>}
       <div className="set-row"><label htmlFor="wg">יעד ימי אימון בשבוע</label>
         <select id="wg" className="input tiny" value={st.settings.weeklyGoal} onChange={(e) => set({ weeklyGoal: +e.target.value })}>{[2, 3, 4, 5, 6, 7].map((n) => <option key={n} value={n}>{n}</option>)}</select></div>
       <h3 className="sub">גיבוי</h3>
@@ -1096,7 +1144,7 @@ function SentenceSession({ st, update, today, onExit }: { st: State; update: Upd
     <div className="session finish">
       <Confetti />
       <span className="stage">אימון משפטים</span>
-      <h1>{score.all > 0 && score.ok / score.all >= 0.8 ? 'כבר מדברת!' : 'כל משפט מקרב אותך'}</h1>
+      <h1>{score.all > 0 && score.ok / score.all >= 0.8 ? x('כבר מדברת!', 'כבר מדבר!') : 'כל משפט מקרב אותך'}</h1>
       <section className="results-grid one"><div><b>{score.ok}/{score.all}</b><span>משפטים נכונים בניסיון הראשון</span></div></section>
       <div className="grow" />
       <button type="button" className="cta" onClick={onExit}>סיום</button>
@@ -1136,7 +1184,9 @@ function SentenceMeaning({ st, s, onResult, onNext }: SentProps) {
   const say = useSay(st);
   const [picked, setPicked] = useState<string | null>(null);
   const opts = useMemo(() => {
-    const same = SENTENCES.filter((x) => x.id !== s.id && x.topic === s.topic).sort(() => Math.random() - 0.5).slice(0, 2);
+    const others = SENTENCES.filter((o) => o.id !== s.id && o.he !== s.he);
+    const near = others.filter((o) => o.topic === s.topic);
+    const same = (near.length >= 2 ? near : others).sort(() => Math.random() - 0.5).slice(0, 2);
     return [s, ...same].sort(() => Math.random() - 0.5);
   }, [s.id]);
   useEffect(() => { if (st.settings.autoSpeak) say(s.en); }, [s.id]);
@@ -1186,7 +1236,7 @@ function SentenceBuild({ st, s, ear, onResult, onNext }: SentProps & { ear: bool
   };
   return (
     <div className="q">
-      <p className="prompt">{ear ? 'הקשיבי והרכיבי את המשפט' : 'הרכיבי את המשפט באנגלית'}</p>
+      <p className="prompt">{ear ? x('הקשיבי והרכיבי את המשפט', 'הקשב והרכב את המשפט') : x('הרכיבי את המשפט באנגלית', 'הרכב את המשפט בתאית')}</p>
       {(!ear || verdict !== null) && <div className="word-hero he sentence-he">{s.he}</div>}
       <button type="button" className={`speak ${ear ? 'big ear' : ''}`} onClick={() => say(s.en)} aria-label="השמעה"><SpeakIcon /></button>
       {!ear && <UnknownHint st={st} s={s} />}
@@ -1250,7 +1300,7 @@ function ShareSheet({ st, today, onClose }: { st: State; today: number; onClose:
       <div className="seg" role="group">
         {([['today', 'היום'], ['yesterday', 'אתמול'], ['week', '7 ימים']] as const).map(([k, t]) => <button key={k} type="button" aria-pressed={choice === k} onClick={() => setChoice(k)}>{t}</button>)}
       </div>
-      <div className="report-preview">{url && blob ? <img src={url} alt="תמונת סיכום ההתקדמות" /> : <span className="muted small">מכינה את התמונה...</span>}</div>
+      <div className="report-preview">{url && blob ? <img src={url} alt="תמונת סיכום ההתקדמות" /> : <span className="muted small">{x('מכינה את התמונה...', 'מכין את התמונה...')}</span>}</div>
       <button type="button" className="cta" disabled={!blob} onClick={send}>שליחה</button>
       <p className="small muted center">בחלון שנפתח בוחרים בוואטסאפ ואת איש הקשר.</p>
       {msg && <p className="small center" role="status">{msg}</p>}

@@ -2,7 +2,9 @@
 
 האתר: https://guyergas.github.io/wordflow/
 
-PWA in Hebrew for learning English vocabulary and spelling. Progress stays on the device.
+PWA in Hebrew for learning English vocabulary and spelling, or everyday Thai. Each device picks a language, and each language keeps its own progress on the device.
+
+Thai mode (`src/thai.ts`) shows Latin transliteration with tone marks, has no spelling practice, and plays recordings from `public/audio/th`. The deploy workflow creates missing recordings and commits them. The app falls back to the phone's Thai voice when a recording is missing.
 
 - Daily session: warm-up on known words, short boost on weak words, then new words.
 - Recognition and spelling are two independent measures. Only recognition limits how fast new words arrive.

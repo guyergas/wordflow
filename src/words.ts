@@ -1,8 +1,12 @@
+import { IS_THAI } from './course';
+import { THAI_LEVELS, THAI_WORDS } from './thai';
+
 // Word bank, easy to hard. Line format: word|hebrew|pos|example sentence (contains the exact word).
 export type Pos = 'n' | 'v' | 'a' | 'd' | 'o';
-export interface Word { id: string; en: string; he: string; pos: Pos; ex: string; level: number; order: number }
+/** In Thai mode `en` holds the transliteration, `th` the Thai text, and `ex` stays empty. */
+export interface Word { id: string; en: string; he: string; pos: Pos; ex: string; level: number; order: number; th?: string }
 
-export const LEVELS: { name: string; cefr: string; blurb: string }[] = [
+const EN_LEVELS: { name: string; cefr: string; blurb: string }[] = [
   { name: 'הבית', cefr: 'A1', blurb: 'המילים של כל יום' },
   { name: 'השכונה', cefr: 'A2', blurb: 'בית ספר, חברים ועיר' },
   { name: 'החיים', cefr: 'A2', blurb: 'רגשות, פעולות וגוף' },
@@ -497,7 +501,7 @@ succeed|להצליח|v|I know you will succeed.`,
 ];
 
 const seen = new Set<string>();
-export const WORDS: Word[] = RAW.flatMap((block, level) =>
+const EN_WORDS: Word[] = RAW.flatMap((block, level) =>
   block.split('\n').map((line, i) => {
     const [en, he, pos, ex] = line.split('|');
     let id = en;
@@ -506,4 +510,6 @@ export const WORDS: Word[] = RAW.flatMap((block, level) =>
     return { id, en, he, pos: pos as Pos, ex, level, order: level * 1000 + i };
   }),
 );
+export const LEVELS = IS_THAI ? THAI_LEVELS : EN_LEVELS;
+export const WORDS: Word[] = IS_THAI ? THAI_WORDS : EN_WORDS;
 export const WORD: Record<string, Word> = Object.fromEntries(WORDS.map((w) => [w.id, w]));

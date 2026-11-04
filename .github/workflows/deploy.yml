@@ -4,7 +4,7 @@ on:
     branches: [main]
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 concurrency: { group: pages, cancel-in-progress: true }
@@ -17,6 +17,20 @@ jobs:
         with: { node-version: 22, cache: npm }
       - run: npm ci
       - run: npm test
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Create missing Thai recordings
+        continue-on-error: true
+        run: |
+          pip install edge-tts
+          npx vite-node scripts/list-audio.ts | python3 scripts/gen-audio.py
+          git add public/audio
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Update Thai recordings"
+            git push
+          fi
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with: { path: dist }

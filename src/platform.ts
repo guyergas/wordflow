@@ -1,7 +1,7 @@
 // Storage, speech and sound. Everything here fails soft: a missing capability never breaks the lesson.
+import { IS_THAI, STORAGE_KEY as KEY } from './course';
 import { initialState, State } from './engine';
-
-const KEY = 'wordflow.v1';
+import { audioName, THAI_AUDIO } from './thai';
 let memory: string | null = null;
 
 export function load(): State {
@@ -32,7 +32,7 @@ function refreshVoices() { const s = synth(); if (s) voices = s.getVoices().filt
 if (synth()) { refreshVoices(); try { synth()!.addEventListener('voiceschanged', refreshVoices); } catch { /* old Safari */ } }
 
 export const englishVoices = () => { refreshVoices(); return voices; };
-export const canSpeak = () => !!synth();
+export const canSpeak = () => IS_THAI || !!synth();
 
 function bestVoice(name: string) {
   refreshVoices();
@@ -42,7 +42,61 @@ function bestVoice(name: string) {
   return [...voices].sort((a, b) => rank(b) - rank(a))[0];
 }
 
+// ---------- Thai recordings ----------
+const THAI_TEXT = new Map(THAI_AUDIO.map((a) => [a.en, a.th]));
+const recordings = new Map<string, Promise<AudioBuffer>>();
+let playing: AudioBufferSourceNode | null = null;
+let turn = 0;
+
+function recording(th: string, c: AudioContext) {
+  let p = recordings.get(th);
+  if (!p) {
+    p = fetch(`audio/th/${audioName(th)}.mp3`)
+      .then((r) => { if (!r.ok) throw new Error('missing'); return r.arrayBuffer(); })
+      .then((b) => c.decodeAudioData(b));
+    p.catch(() => recordings.delete(th));
+    recordings.set(th, p);
+  }
+  return p;
+}
+
+/** The phone's Thai voice, for a recording that is not available. */
+function speakThaiVoice(th: string) {
+  const s = synth();
+  if (!s) return;
+  try {
+    s.cancel();
+    const u = new SpeechSynthesisUtterance(th);
+    u.lang = 'th-TH';
+    const v = s.getVoices().find((o) => o.lang.toLowerCase().replace('_', '-').startsWith('th'));
+    if (v) u.voice = v;
+    u.rate = 0.85;
+    s.speak(u);
+  } catch { /* no audio */ }
+}
+
+function speakThai(text: string) {
+  const th = THAI_TEXT.get(text);
+  if (!th) return;
+  const mine = ++turn;
+  try { playing?.stop(); } catch { /* already over */ }
+  playing = null;
+  // On iPhone this lets the recording play when the silent switch is on, as a video would.
+  try { (navigator as unknown as { audioSession?: { type: string } }).audioSession!.type = 'playback'; } catch { /* other phones */ }
+  const c = audio();
+  if (!c) { speakThaiVoice(th); return; }
+  recording(th, c).then((buffer) => {
+    if (mine !== turn) return;
+    const src = c.createBufferSource();
+    src.buffer = buffer;
+    src.connect(c.destination);
+    src.start();
+    playing = src;
+  }).catch(() => { if (mine === turn) speakThaiVoice(th); });
+}
+
 export function speak(text: string, opts: { voice?: string; rate?: number } = {}) {
+  if (IS_THAI) { speakThai(text); return; }
   const s = synth();
   if (!s) return;
   try {

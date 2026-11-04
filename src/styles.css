@@ -345,3 +345,24 @@ input[type=range] { width: 100%; accent-color: var(--rec); }
 .time-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .time-row > div { background: var(--surface-2); border-radius: 14px; padding: 10px 12px; display: grid; }
 .time-row span, .time-row small { font-size: 13px; color: var(--ink-2); } .time-row b { font-size: 19px; font-weight: 700; }
+
+/* Thai mode and the language picker */
+.word-hero.long { font-size: clamp(1.7rem, 8vw, 2.4rem); line-height: 1.2; }
+.word-hero.very-long { font-size: clamp(1.3rem, 6vw, 1.8rem); line-height: 1.25; }
+.word-hero .en { overflow-wrap: anywhere; }
+.two-meters.solo, .meters.solo, .sheet-m.solo { grid-template-columns: 1fr; }
+.grid.phrases { grid-template-columns: 1fr 1fr; }
+.grid.phrases .c-en { white-space: normal; overflow-wrap: anywhere; font-size: .9rem; line-height: 1.2; }
+.seg.lang { margin: 0; flex: none; }
+.tone-note { display: grid; gap: 8px; padding: 12px 14px; border-radius: 16px; background: var(--surface, #fffefa); border: 1px solid var(--line, #e2e3dc); }
+.tone-note ul { display: flex; justify-content: space-between; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.tone-note li { display: grid; justify-items: center; gap: 2px; font-size: .8rem; }
+.tone-note li .en { font-size: 1.5rem; font-weight: 600; }
+.tone-note small { opacity: .75; }
+.courses { display: grid; gap: 12px; width: 100%; }
+.course { display: grid; gap: 2px; justify-items: start; text-align: start; padding: 18px 20px; border-radius: 22px; border: 1px solid var(--line, #e2e3dc); background: var(--surface, #fffefa); color: inherit; font: inherit; cursor: pointer; }
+.course b { font-size: 1.35rem; }
+.course small { opacity: .75; }
+.course .c-hello { font-family: "Fredoka Variable", Fredoka, sans-serif; opacity: .65; }
+.seg.lang { display: inline-flex; width: auto; }
+.seg.lang button { padding: 7px 16px; white-space: nowrap; flex: none; width: auto; }
