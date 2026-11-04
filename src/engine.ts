@@ -455,6 +455,19 @@ export function studySeconds(st: State, from: number, to: number): number {
   return sum;
 }
 
+/** Questions answered in a period, across words, spelling and sentences. */
+export function questionCount(st: State, from: number, to: number): number {
+  let sum = 0;
+  for (let d = from; d <= to; d++) { const l = st.days[d]; if (l) sum += l.rOk + l.rNo + l.sOk + l.sNo + (l.sen ?? 0); }
+  return sum;
+}
+
+/** The label for a period's time. Days from before time was measured say so, and do not claim zero. */
+export function studyTimeLabel(sec: number, questions: number): string {
+  if (sec > 0) return formatStudyTime(sec);
+  return questions > 0 ? 'לא נמדד' : '0 דקות';
+}
+
 export function formatStudyTime(sec: number): string {
   if (sec < 30) return 'פחות מדקה';
   const total = Math.round(sec / 60);

@@ -4,7 +4,7 @@ import { buildReport } from './report';
 import { classified, recordSentence, SENTENCES, sentencePlan, tokens, unknownWords } from './sentences';
 import {
   applyPlacement, buildPlan, clozeOf, dayLog, grade, initialState, isKnown, KNOWN_BOX, LEARNING_CAP, freshMetric, newAllowance,
-  spellingPlan, practicePlan, restorePaused, options, recordRecognition, resolveCheck, nextNewWords, buildPlan as bp, recordSpelling, addStudyTime, formatStudyTime, studySeconds, onTheWay, steppedToday, totals, spellLevel, spellKind, givenLetters, spellAlign, spellDiff, State, tileSet, trapsAt, ws, freshWord,
+  spellingPlan, practicePlan, restorePaused, options, recordRecognition, resolveCheck, nextNewWords, buildPlan as bp, recordSpelling, questionCount, studyTimeLabel, addStudyTime, formatStudyTime, studySeconds, onTheWay, steppedToday, totals, spellLevel, spellKind, givenLetters, spellAlign, spellDiff, State, tileSet, trapsAt, ws, freshWord,
 } from './engine';
 
 const T = 20000;
@@ -493,4 +493,26 @@ describe('study time', () => {
     expect(formatStudyTime(4320)).toBe('שעה ו־12 דקות');
     expect(formatStudyTime(7200)).toBe('שעתיים');
   });
+});
+
+describe('time and questions always have a value', () => {
+  it('an empty day says zero, an unmeasured day does not', () => {
+    expect(studyTimeLabel(0, 0)).toBe('0 דקות');
+    expect(studyTimeLabel(0, 12)).toBe('לא נמדד');
+    expect(studyTimeLabel(720, 12)).toBe('12 דקות');
+  });
+  it('counts words, spelling and sentences as questions', () => {
+    let st = recordRecognition(initialState(), 'friend', true, T, 'new');
+    st = recordSpelling(st, 'friend', false, T);
+    st = recordSentence(st, 's1', true, T);
+    expect(questionCount(st, T, T)).toBe(3);
+    expect(buildReport(st, T, 'day').questions).toBe(3);
+    expect(buildReport(st, T + 1, 'day').questions).toBe(0);
+  });
+});
+
+it("yesterday's summary leaves out words met today", () => {
+  let st = recordRecognition(initialState(), 'friend', true, T - 1, 'new');
+  st = recordRecognition(st, 'house', true, T, 'new');
+  expect(buildReport(st, T - 1, 'day').newWords.map((w) => w.en)).toEqual(['friend']);
 });

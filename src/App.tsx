@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   applyPlacement, buildPlan, clozeOf, currentLevel, dayLog, dayNumber, hardWords, isKnown, isMet, Kind, label, levelStats, LEARNING_CAP, options,
   Part, Plan, placementWords, PLACEMENT_PASS, recordRecognition, recordSpelling, givenLetters, spellLevel, spellAlign, spellDiff, spellKnown, spellMeasured, State, Step, tileSet,
-  toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, addStudyTime, formatStudyTime, studySeconds, resolveCheck, restorePaused, onTheWay, steppedToday, spellCandidates,
+  toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, addStudyTime, questionCount, studyTimeLabel, studySeconds, resolveCheck, restorePaused, onTheWay, steppedToday, spellCandidates,
 } from './engine';
 import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind, sentencePlan, sentencesKnown, tokens, TOPICS, unknownWords } from './sentences';
 import { LEVELS, WORD, WORDS, Word } from './words';
@@ -276,7 +276,10 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
 
       <section className="card week">
         <div className="row-between"><h3>השבוע</h3><span className="muted small">{weekCount} מתוך {st.settings.weeklyGoal} ימים</span></div>
-        {weekSec > 0 && <p className="small">זמן למידה ב-7 הימים האחרונים: <b>{formatStudyTime(weekSec)}</b></p>}
+        <div className="time-row">
+          <div><span>היום</span><b>{studyTimeLabel(studySeconds(st, today, today), questionCount(st, today, today))}</b><small>{questionCount(st, today, today)} שאלות</small></div>
+          <div><span>7 ימים</span><b>{studyTimeLabel(weekSec, questionCount(st, today - 6, today))}</b><small>{questionCount(st, today - 6, today)} שאלות</small></div>
+        </div>
         <div className="week-tiles" aria-hidden="true">
           {['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'].map((d, i) => <span key={d} className={`wd ${week[i] ? 'on' : ''}`}>{d}</span>)}
         </div>
@@ -795,6 +798,7 @@ function Finish({ st, plan, onExit, onMore, onMoreNew }: { st: State; plan: Plan
         </section>
       )}
       {plan.alreadyKnown.length > 0 && <p className="one-point">התברר שאת כבר מכירה: {plan.alreadyKnown.map((id, i) => <span key={id}>{i > 0 ? ', ' : ''}<En>{WORD[id].en}</En></span>)}. נחזור לזה בחימום בהמשך.</p>}
+      <p className="one-point">היום: <b>{studyTimeLabel(studySeconds(st, plan.day, plan.day), questionCount(st, plan.day, plan.day))}</b> של למידה, <b>{questionCount(st, plan.day, plan.day)}</b> שאלות.</p>
       <section className="results-grid">
         <div><b>{log.rOk + log.rNo ? Math.round((log.rOk / (log.rOk + log.rNo)) * 100) : '-'}{log.rOk + log.rNo ? '%' : ''}</b><span>דיוק בהכרות</span></div>
         <div><b>{log.sOk + log.sNo ? Math.round((log.sOk / (log.sOk + log.sNo)) * 100) : '-'}{log.sOk + log.sNo ? '%' : ''}</b><span>דיוק באיות</span></div>
@@ -1205,11 +1209,16 @@ function SentenceBuild({ st, s, ear, onResult, onNext }: SentProps & { ear: bool
 
 // ---------- Share progress ----------
 function ShareSheet({ st, today, onClose }: { st: State; today: number; onClose: () => void }) {
-  const [period, setPeriod] = useState<Period>('day');
+  type Choice = 'today' | 'yesterday' | 'week';
+  const asked = (d: number) => questionCount(st, d, d) > 0;
+  // In the morning today is still empty, so the summary opens on the day she last practiced.
+  const [choice, setChoice] = useState<Choice>(!asked(today) && asked(today - 1) ? 'yesterday' : 'today');
+  const period: Period = choice === 'week' ? 'week' : 'day';
+  const endDay = choice === 'yesterday' ? today - 1 : today;
   const [blob, setBlob] = useState<Blob | null>(null);
   const [url, setUrl] = useState('');
   const [msg, setMsg] = useState('');
-  const report = useMemo(() => buildReport(st, today, period), [period, today]);
+  const report = useMemo(() => buildReport(st, endDay, period), [period, endDay]);
 
   // The image is ready before the tap, because phones only allow sharing directly from a tap.
   useEffect(() => {
@@ -1239,7 +1248,7 @@ function ShareSheet({ st, today, onClose }: { st: State; today: number; onClose:
   return (
     <Sheet title="שליחת סיכום" onClose={onClose}>
       <div className="seg" role="group">
-        {([['day', 'היום'], ['week', '7 ימים']] as const).map(([k, t]) => <button key={k} type="button" aria-pressed={period === k} onClick={() => setPeriod(k)}>{t}</button>)}
+        {([['today', 'היום'], ['yesterday', 'אתמול'], ['week', '7 ימים']] as const).map(([k, t]) => <button key={k} type="button" aria-pressed={choice === k} onClick={() => setChoice(k)}>{t}</button>)}
       </div>
       <div className="report-preview">{url && blob ? <img src={url} alt="תמונת סיכום ההתקדמות" /> : <span className="muted small">מכינה את התמונה...</span>}</div>
       <button type="button" className="cta" disabled={!blob} onClick={send}>שליחה</button>

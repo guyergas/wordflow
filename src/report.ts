@@ -1,11 +1,11 @@
 // Draws the progress summary as an image that can be sent through WhatsApp or any other app.
-import { dayLog, formatStudyTime, hardWords, isMet, State, totals, ws } from './engine';
+import { dayLog, hardWords, questionCount, studyTimeLabel, isMet, State, totals, ws } from './engine';
 import { Word, WORDS } from './words';
 
 export type Period = 'day' | 'week';
 export interface ReportDay { day: number; answers: number; sec: number; done: boolean }
 export interface Report {
-  period: Period; name: string; from: number; to: number; practiced: number; sec: number;
+  period: Period; name: string; from: number; to: number; practiced: number; sec: number; questions: number;
   freshCount: number; recOk: number; recAll: number; spellOk: number; spellAll: number; sentences: number;
   gainedKnown: number; gainedSpelled: number; totalKnown: number; totalSpelled: number;
   newWords: Word[]; toImprove: Word[]; days: ReportDay[];
@@ -15,7 +15,7 @@ export function buildReport(st: State, today: number, period: Period): Report {
   const span = period === 'day' ? 1 : 7;
   const from = today - span + 1;
   const r: Report = {
-    period, name: st.name, from, to: today, practiced: 0, sec: 0, freshCount: 0, recOk: 0, recAll: 0, spellOk: 0, spellAll: 0, sentences: 0,
+    period, name: st.name, from, to: today, practiced: 0, sec: 0, questions: questionCount(st, from, today), freshCount: 0, recOk: 0, recAll: 0, spellOk: 0, spellAll: 0, sentences: 0,
     gainedKnown: 0, gainedSpelled: 0, totalKnown: 0, totalSpelled: 0, newWords: [], toImprove: [], days: [],
   };
   for (let d = from; d <= today; d++) {
@@ -29,7 +29,7 @@ export function buildReport(st: State, today: number, period: Period): Report {
   }
   const t = totals(st);
   r.totalKnown = t.known; r.totalSpelled = t.spelled;
-  r.newWords = WORDS.filter((w) => { const s = ws(st, w.id); return isMet(s) && !s.assumed && s.r.ok + s.r.no > 0 && (s.met as number) >= from; })
+  r.newWords = WORDS.filter((w) => { const s = ws(st, w.id); return isMet(s) && !s.assumed && s.r.ok + s.r.no > 0 && (s.met as number) >= from && (s.met as number) <= today; })
     .sort((a, b) => (ws(st, b.id).met as number) - (ws(st, a.id).met as number) || b.order - a.order);
   r.toImprove = hardWords(st, 6).filter((e) => e.s.r.flag || e.s.s.flag).map((e) => e.w);
   return r;
@@ -119,18 +119,18 @@ export async function drawReport(r: Report): Promise<HTMLCanvasElement> {
   let y = 182;
   box(x, M, y, W - 2 * M, 236, 36, C.dark);
   he(x, r.name, W - M - 40, y + 66, 34, 500, C.sun);
-  if (r.sec > 0) he(x, `זמן למידה: ${formatStudyTime(r.sec)}`, M + 40, y + 66, 34, 650, C.sun, 'left');
-  const headline = r.practiced === 0 ? (week ? 'השבוע עוד לא היה אימון' : 'היום עוד לא היה אימון')
+  he(x, `זמן למידה: ${studyTimeLabel(r.sec, r.questions)}`, M + 40, y + 66, 34, 650, C.sun, 'left');
+  const headline = r.practiced === 0 ? (week ? 'לא היה אימון השבוע' : 'לא היה אימון ביום הזה')
     : r.freshCount > 0 ? `למדה ${r.freshCount} מילים חדשות` : 'חיזקה מילים שכבר למדה';
   he(x, headline, W - M - 40, y + 142, 62, 750, C.darkInk);
-  const sub = [week ? `${r.practiced} ימי אימון מתוך 7` : null, r.sentences > 0 ? `${r.sentences} משפטים` : null, r.recAll + r.spellAll > 0 ? `${r.recAll + r.spellAll} תשובות` : null].filter(Boolean).join(' · ');
+  const sub = [`${r.questions} שאלות`, r.sentences > 0 ? `${r.sentences} מהן משפטים` : null, week ? `${r.practiced} ימי אימון מתוך 7` : null].filter(Boolean).join(' · ');
   he(x, sub, W - M - 40, y + 196, 30, 400, C.darkMuted);
   y += 262;
 
   // Two independent measures
   const mw = (W - 2 * M - 20) / 2;
-  measure(x, M + mw + 20, y, mw, 'הכרות', C.rec, r.totalKnown, r.gainedKnown, pct(r.recOk, r.recAll), week ? 'השבוע' : 'היום');
-  measure(x, M, y, mw, 'איות', C.spell, r.totalSpelled, r.gainedSpelled, pct(r.spellOk, r.spellAll), week ? 'השבוע' : 'היום');
+  measure(x, M + mw + 20, y, mw, 'הכרות', C.rec, r.totalKnown, r.gainedKnown, pct(r.recOk, r.recAll), week ? 'השבוע' : 'ביום הזה');
+  measure(x, M, y, mw, 'איות', C.spell, r.totalSpelled, r.gainedSpelled, pct(r.spellOk, r.spellAll), week ? 'השבוע' : 'ביום הזה');
   y += 262;
 
   if (week) {
@@ -152,7 +152,7 @@ export async function drawReport(r: Report): Promise<HTMLCanvasElement> {
   }
 
   if (hasNew) {
-    he(x, week ? 'מילים חדשות השבוע' : 'מילים חדשות היום', W - M, y + 36, 32, 700, C.ink);
+    he(x, week ? 'מילים חדשות השבוע' : 'מילים חדשות', W - M, y + 36, 32, 700, C.ink);
     chips(x, r.newWords, y + 60, 2);
     if (more > 0) he(x, `ועוד ${more}`, W - M, y + 60 + newRows.rows * 78 + 22, 26, 400, C.ink2);
     y += newH;

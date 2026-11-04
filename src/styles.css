@@ -342,3 +342,6 @@ input[type=range] { width: 100%; accent-color: var(--rec); }
 .report-preview { display: grid; place-items: center; min-height: 240px; background: var(--surface-2); border-radius: 18px; padding: 12px; }
 .report-preview img { display: block; width: auto; max-width: 100%; max-height: 52vh; border-radius: 10px; box-shadow: var(--shadow); }
 .sheet > * { flex: none; }
+.time-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.time-row > div { background: var(--surface-2); border-radius: 14px; padding: 10px 12px; display: grid; }
+.time-row span, .time-row small { font-size: 13px; color: var(--ink-2); } .time-row b { font-size: 19px; font-weight: 700; }
