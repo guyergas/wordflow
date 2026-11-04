@@ -22,12 +22,12 @@ export const dayLog = (st: AState, day: number) => st.days[day] ?? { sec: 0, fre
 const shuffle = <T,>(a: T[], rnd: () => number) => a.map((v) => ({ v, k: rnd() })).sort((p, q) => p.k - q.k).map((x) => x.v);
 
 /** Every exercise comes several times in a row, because one success at five years old proves little. */
-export const REPEAT = { find: 3, word: 2, trace: 4, copy: 3, write: 3 };
+export const REPEAT = { find: 10, word: 10, trace: 10, copy: 10, write: 10 };
 const times = (t: Step['t'], id: string, count: number, extra: Partial<Step> = {}): Step[] => Array.from({ length: count }, (_, n) => ({ t, id, n, ...extra }));
 
 function practice(st: AState, id: string, day: number, rnd: () => number, force = false): Step[] {
   const k = st.letters[id], out: Step[] = [];
-  if (force || k.see.due <= day) out.push(...(rnd() < 0.5 ? times('word', id, REPEAT.word, { n: undefined }).map((s, n) => ({ ...s, n: n + Math.floor(rnd() * 3) })) : times('find', id, 2, { print: k.see.box >= 2 && rnd() < 0.5 })));
+  if (force || k.see.due <= day) out.push(...(rnd() < 0.5 ? times('word', id, REPEAT.word, { n: undefined }).map((s, n) => ({ ...s, n: n + Math.floor(rnd() * 3) })) : times('find', id, REPEAT.find, { print: k.see.box >= 2 && rnd() < 0.5 })));
   if (force || k.write.due <= day) { const stage = writeStage(k.write.box) as 'trace' | 'copy' | 'write'; out.push(...times(stage, id, REPEAT[stage])); }
   return out;
 }
@@ -41,7 +41,7 @@ export function buildPlan(st: AState, day: number, o: PlanOptions = {}): Plan {
   if (o.warm || o.boost) {
     const known = met.filter((id) => secure(st.letters[id]));
     const list = o.warm ? shuffle(known.length >= 2 ? known : met, rnd) : shuffle(met, rnd).sort((a, b) => level(st.letters[a]) - level(st.letters[b]));
-    return { day, steps: list.slice(0, 3).flatMap((id) => practice(st, id, day, rnd, true)).slice(0, 14), at: 0, extra: true };
+    return { day, steps: list.slice(0, 3).flatMap((id) => practice(st, id, day, rnd, true)).slice(0, 30), at: 0, extra: true };
   }
   if (o.extra) {
     const steps = shuffle(met, rnd).slice(0, 2).flatMap((id) => practice(st, id, day, rnd, true));
@@ -53,7 +53,7 @@ export function buildPlan(st: AState, day: number, o: PlanOptions = {}): Plan {
   const canLearn = !!next && shaky(st).length < SHAKY_LIMIT && (!freshToday || !!o.bonus);
   let reviews = due.flatMap((id) => practice(st, id, day, rnd));
   if (!canLearn && !freshToday && !reviews.length) reviews = shaky(st).flatMap((id) => practice(st, id, day, rnd, true));
-  reviews = reviews.slice(0, canLearn ? 6 : 14);
+  reviews = reviews.slice(0, canLearn ? 20 : 40);
   const steps: Step[] = [...reviews];
   if (canLearn && next) {
     const id = next.id;

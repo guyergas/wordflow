@@ -59,14 +59,14 @@ describe('the plan', () => {
   const pass = (st: ReturnType<typeof initial>, id: string, day: number) => answer(answer(st, id, 'see', true, day), id, 'write', true, day);
   it('starts with the first letter and the full introduction', () => {
     const p = buildPlan(initial('עומר'), 100);
-    expect(p.steps.map((s) => s.t)).toEqual(['meet', 'find', 'find', 'find', 'trace', 'trace', 'trace', 'trace', 'word', 'word']);
+    expect(p.steps.map((s) => s.t)).toEqual(['meet', ...Array(10).fill('find'), ...Array(10).fill('trace'), ...Array(10).fill('word')]);
     expect(p.steps[0].id).toBe('י');
   });
   it('repeats a review exercise several times', () => {
     const st = meet(initial('א'), 'י', 100);
     const p = buildPlan(st, 100, { extra: true, rnd: () => 0.9 });
-    expect(p.steps.filter((s) => s.t === 'find').length).toBe(2);
-    expect(p.steps.filter((s) => s.t === 'trace').length).toBe(4);
+    expect(p.steps.filter((s) => s.t === 'find').length).toBe(10);
+    expect(p.steps.filter((s) => s.t === 'trace').length).toBe(10);
   });
   it('drops a saved exercise that no longer exists', () => {
     expect(validStep({ t: 'build' as 'meet', id: 'י' })).toBe(false);
