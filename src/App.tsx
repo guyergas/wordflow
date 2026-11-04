@@ -8,7 +8,7 @@ import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind
 import { COURSE_CHOSEN, COURSE_ID, CourseId, HAS_SPELLING, IS_THAI, switchCourse, x } from './course';
 import { LEVELS, WORD, WORDS, Word } from './words';
 import { buildReport, drawReport, fileName, Period, toBlob } from './report';
-import { askPersistence, canSpeak, englishVoices, load, save, sfx, speak } from './platform';
+import { askPersistence, canSpeak, englishVoices, load, save, saveThaiRecordings, sfx, speak } from './platform';
 
 type Tab = 'home' | 'path' | 'progress' | 'words';
 type Update = (fn: (s: State) => State) => void;
@@ -112,7 +112,7 @@ export function App() {
   const update: Update = useCallback((fn) => setSt((s) => { const n = fn(s); save(n); return n; }), []);
   const today = dayNumber();
 
-  useEffect(() => { void askPersistence(); }, []);
+  useEffect(() => { void askPersistence(); const t = setTimeout(() => void saveThaiRecordings(), 1500); return () => clearTimeout(t); }, []);
   useStudyTimer(inSession || inSentences, update);
 
   const startSession = (opts: StartOpts = {}) => {

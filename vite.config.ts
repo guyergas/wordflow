@@ -26,7 +26,12 @@ export default defineConfig(({ mode }) => {
                 { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
               ],
             },
-            workbox: { globPatterns: ['**/*.{js,css,html,svg,png,woff2,mp3}'], navigateFallback: 'index.html' },
+            workbox: {
+              // Recordings stay out of the app update, so a new version arrives quickly and English devices never download them.
+              globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+              navigateFallback: 'index.html',
+              runtimeCaching: [{ urlPattern: /\/audio\/th\/[^/]+\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'thai-audio' } }],
+            },
           }),
     ],
     build: single ? { outDir: 'dist-preview', assetsInlineLimit: 100_000_000, cssCodeSplit: false } : { outDir: 'dist' },

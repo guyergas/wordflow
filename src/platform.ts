@@ -60,6 +60,21 @@ function recording(th: string, c: AudioContext) {
   return p;
 }
 
+/** Saves every recording on the device in the background, so Thai works offline. Thai devices only. */
+export async function saveThaiRecordings() {
+  if (!IS_THAI || !('caches' in window)) return;
+  try {
+    const cache = await caches.open('thai-audio');
+    const queue = THAI_AUDIO.map((a) => `audio/th/${audioName(a.th)}.mp3`);
+    const worker = async () => {
+      for (let url = queue.pop(); url; url = queue.pop()) {
+        try { if (!(await cache.match(url))) await cache.add(url); } catch { /* the next launch tries again */ }
+      }
+    };
+    await Promise.all([worker(), worker(), worker()]);
+  } catch { /* optional */ }
+}
+
 /** The phone's Thai voice, for a recording that is not available. */
 function speakThaiVoice(th: string) {
   const s = synth();
