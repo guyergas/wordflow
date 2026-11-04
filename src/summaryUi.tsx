@@ -1,5 +1,6 @@
 // Shared by every course: moving between courses, today's schedule, and the summary she sends.
 import { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { COURSE_ID, CourseId, myCourses, switchCourse, USER_NAME } from './course';
 import { buildSummary, drawSummary, loadSchedule, minutes, planOf, rangeLabel, readCourses, saveSchedule, Schedule, SummaryPeriod, timeLabel, weekday } from './summary';
 
@@ -114,7 +115,8 @@ export function SummaryTab({ name }: { name: string }) {
   return (
     <>
       <button type="button" onClick={() => setOpen(true)}>סיכום</button>
-      {open && <SummarySheet name={name} onClose={() => setOpen(false)} />}
+      {/* Outside the nav, whose button styles would otherwise color every button in the sheet. */}
+      {open && createPortal(<SummarySheet name={name} onClose={() => setOpen(false)} />, document.body)}
     </>
   );
 }
