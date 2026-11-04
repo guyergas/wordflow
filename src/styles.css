@@ -590,3 +590,6 @@ a.link { text-align: center; line-height: 44px; }
 .my-course > button[aria-current="true"]:first-child { background: var(--dark); color: var(--dark-ink); border-color: var(--dark); }
 .more-courses { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .more-courses button { min-height: 52px; padding: 8px 12px; border-radius: 14px; border: 1px dashed var(--line); background: transparent; font-weight: 600; color: var(--ink); text-align: start; }
+.a-free { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; flex: none; }
+.a-free button { min-height: 68px; display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; font-size: 20px; font-weight: 700; }
+.a-free span { font-size: 30px; }

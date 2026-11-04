@@ -76,6 +76,19 @@ describe('the plan', () => {
     for (const l of LETTERS) { const [, y, , h] = frameOf(l).split(' ').map(Number); expect(y).toBeLessThan(0); expect(y + h).toBeGreaterThan(100); }
     expect(frameOf(LETTER['י']).split(' ')[2]).toBe('100');
   });
+  it('warm-up and boost bring no new letter', () => {
+    let st = initial('א');
+    for (const id of ['י', 'ו', 'ן', 'ר']) st = meet(st, id, 100);
+    st = answer(st, 'ר', 'see', true, 100);
+    for (const o of [{ warm: true }, { boost: true }]) {
+      const p = buildPlan(st, 101, o);
+      expect(p.extra).toBe(true); expect(p.steps.length).toBeGreaterThan(0);
+      expect(p.steps.some((s) => s.t === 'meet')).toBe(false);
+      expect(p.steps.every((s) => st.letters[s.id])).toBe(true);
+    }
+    const weak = new Set(buildPlan(st, 101, { boost: true }).steps.map((s) => s.id));
+    expect(weak.has('ר')).toBe(false);
+  });
   it('gives one new letter a day, and another only when asked', () => {
     let st = meet(initial('א'), 'י', 100);
     expect(buildPlan(st, 100).steps.some((s) => s.t === 'meet')).toBe(false);

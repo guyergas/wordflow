@@ -33,8 +33,16 @@ function practice(st: AState, id: string, day: number, rnd: () => number, force 
 }
 
 /** A sitting: some review of whole letters, then the new letter. */
-export function buildPlan(st: AState, day: number, o: { bonus?: boolean; extra?: boolean; rnd?: () => number } = {}): Plan {
+export type PlanOptions = { bonus?: boolean; extra?: boolean; warm?: boolean; boost?: boolean; rnd?: () => number };
+const level = (k: Known) => k.see.box + k.write.box;
+export function buildPlan(st: AState, day: number, o: PlanOptions = {}): Plan {
   const rnd = o.rnd ?? Math.random, met = Object.keys(st.letters);
+  // Warm-up and boost are free practice: no new letter, and stages stay as they are.
+  if (o.warm || o.boost) {
+    const known = met.filter((id) => secure(st.letters[id]));
+    const list = o.warm ? shuffle(known.length >= 2 ? known : met, rnd) : shuffle(met, rnd).sort((a, b) => level(st.letters[a]) - level(st.letters[b]));
+    return { day, steps: list.slice(0, 3).flatMap((id) => practice(st, id, day, rnd, true)).slice(0, 14), at: 0, extra: true };
+  }
   if (o.extra) {
     const steps = shuffle(met, rnd).slice(0, 2).flatMap((id) => practice(st, id, day, rnd, true));
     return { day, steps, at: 0, extra: true };

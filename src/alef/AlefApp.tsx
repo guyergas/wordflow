@@ -2,7 +2,7 @@ import { PointerEvent as PE, useCallback, useEffect, useMemo, useRef, useState }
 import { STORAGE_KEY } from '../course';
 import { saveHebrewRecordings, sayHebrew, sfx } from '../platform';
 import { CourseSwitch, SummaryTab } from '../summaryUi';
-import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, initial, meet, nextLetter, secure, shaky, SHAKY_LIMIT, Step, validStep } from './engine';
+import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, initial, meet, nextLetter, PlanOptions, secure, shaky, SHAKY_LIMIT, Step, validStep } from './engine';
 import { Ink, judge, FREE, TRACE } from './ink';
 import { FAMILIES, frameOf, LETTER, Letter, LETTERS, Pt, SAY, Stroke, VIEW, WORDS } from './letters';
 
@@ -60,8 +60,8 @@ export function AlefApp() {
   const today = dayNumber();
   useTimer(inSession, update);
   useEffect(() => { void saveHebrewRecordings(); }, []);
-  const start = (o: { bonus?: boolean; extra?: boolean } = {}) => {
-    update((s) => { const open = !!s.plan && s.plan.day === today && s.plan.at < s.plan.steps.length; return open && !o.bonus && !o.extra ? s : { ...s, plan: buildPlan(s, today, o) }; });
+  const start = (o: PlanOptions = {}) => {
+    update((s) => { const open = !!s.plan && !s.plan.extra && s.plan.day === today && s.plan.at < s.plan.steps.length; return open && !o.bonus && !o.extra && !o.warm && !o.boost ? s : { ...s, plan: buildPlan(s, today, o) }; });
     setInSession(true);
   };
   if (inSession && st.plan) return <Session st={st} update={update} onExit={() => setInSession(false)} onMore={start} />;
@@ -72,8 +72,8 @@ export function AlefApp() {
 const Play = () => <svg viewBox="0 0 24 24" width="56" height="56" aria-hidden="true"><path fill="currentColor" d="M18 5v14L6 12z" /></svg>;
 
 /** The child's whole screen: who is learning, and one big button. Everything else is behind the small button for parents. */
-function Home({ st, today, onStart, onParents }: { st: AState; today: number; onStart: (o?: { bonus?: boolean; extra?: boolean }) => void; onParents: () => void }) {
-  const open = st.plan && st.plan.day === today && st.plan.at < st.plan.steps.length ? st.plan : null;
+function Home({ st, today, onStart, onParents }: { st: AState; today: number; onStart: (o?: PlanOptions) => void; onParents: () => void }) {
+  const open = st.plan && !st.plan.extra && st.plan.day === today && st.plan.at < st.plan.steps.length ? st.plan : null;
   const preview = useMemo(() => open ?? buildPlan(st, today, { rnd: () => 0.5 }), [open?.at, st.letters, today]);
   const shown = preview.steps.find((s) => s.t === 'meet')?.id ?? preview.steps[preview.at]?.id;
   const more = !!nextLetter(st) && shaky(st).length < SHAKY_LIMIT;
@@ -89,6 +89,12 @@ function Home({ st, today, onStart, onParents }: { st: AState; today: number; on
           <span className="a-star" aria-hidden="true">★</span>
           <span className="a-play"><Play /></span>
         </button>
+      )}
+      {Object.keys(st.letters).length > 0 && (
+        <div className="a-free">
+          <button type="button" onClick={() => onStart({ warm: true })}><span aria-hidden="true">🔥</span>חימום</button>
+          <button type="button" onClick={() => onStart({ boost: true })}><span aria-hidden="true">💪</span>חיזוק</button>
+        </div>
       )}
       <Stars st={st} />
       <button type="button" className="a-parents" onClick={onParents}>להורים</button>
@@ -130,7 +136,7 @@ function Parents({ st, update, onClose }: { st: AState; update: Update; onClose:
   );
 }
 
-function Session({ st, update, onExit, onMore }: { st: AState; update: Update; onExit: () => void; onMore: (o?: { bonus?: boolean; extra?: boolean }) => void }) {
+function Session({ st, update, onExit, onMore }: { st: AState; update: Update; onExit: () => void; onMore: (o?: PlanOptions) => void }) {
   const plan = st.plan!, step = plan.steps[plan.at];
   if (!step) return <Finish st={st} onExit={onExit} onMore={onMore} />;
   const l = LETTER[step.id], sound = st.settings.sound;
@@ -139,9 +145,9 @@ function Session({ st, update, onExit, onMore }: { st: AState; update: Update; o
       <div className="s-top"><button type="button" className="round" aria-label="יציאה. ההתקדמות נשמרת" onClick={onExit}><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg></button><div className="thin" style={{ flex: 1 }}><span style={{ width: `${(plan.at / plan.steps.length) * 100}%` }} /></div></div>
       <Reps steps={plan.steps} at={plan.at} />
       {step.t === 'meet' && <Meet l={l} onDone={() => update((s) => advance(meet(s, l.id, plan.day)))} />}
-      {(step.t === 'trace' || step.t === 'copy' || step.t === 'write') && <Draw l={l} mode={step.t} sound={sound} onDone={(ok) => update((s) => advance(answer(s, l.id, 'write', ok, plan.day)))} />}
-      {step.t === 'word' && <WordGame st={st} id={l.id} n={step.n} sound={sound} onDone={(ok) => update((s) => advance(answer(s, l.id, 'see', ok, plan.day)))} />}
-      {step.t === 'find' && <Find st={st} step={step} sound={sound} onDone={(ok) => update((s) => advance(answer(s, l.id, 'see', ok, plan.day)))} />}
+      {(step.t === 'trace' || step.t === 'copy' || step.t === 'write') && <Draw l={l} mode={step.t} sound={sound} onDone={(ok) => update((s) => advance(plan.extra ? s : answer(s, l.id, 'write', ok, plan.day)))} />}
+      {step.t === 'word' && <WordGame st={st} id={l.id} n={step.n} sound={sound} onDone={(ok) => update((s) => advance(plan.extra ? s : answer(s, l.id, 'see', ok, plan.day)))} />}
+      {step.t === 'find' && <Find st={st} step={step} sound={sound} onDone={(ok) => update((s) => advance(plan.extra ? s : answer(s, l.id, 'see', ok, plan.day)))} />}
     </div>
   );
 }
@@ -270,7 +276,7 @@ function Draw({ l, mode, sound, onDone }: { l: Letter; mode: 'trace' | 'copy' | 
   );
 }
 
-function Finish({ st, onExit }: { st: AState; onExit: () => void; onMore: (o?: { bonus?: boolean; extra?: boolean }) => void }) {
+function Finish({ st, onExit }: { st: AState; onExit: () => void; onMore: (o?: PlanOptions) => void }) {
   useEffect(() => { sfx.win(); sayHebrew(SAY.finish); }, []);
   const day = st.plan!.day, today = Object.keys(st.letters).filter((id) => st.letters[id].met === day);
   return (
