@@ -481,9 +481,111 @@ export function audioName(th: string): string {
   return h.toString(16).padStart(8, '0');
 }
 
+/** Whole things you say to someone, which take the polite ending. Every question does too, see `isPolite`. */
+const SAID_TO_SOMEONE = new Set(`לא נורא / אין בעיה
+אני לא מבין
+הכול טוב
+קוראים לי גיא
+נעים להכיר
+נתראה
+להתראות
+לילה טוב
+ברוך הבא
+אני מישראל
+אקח את זה
+אבקש את זה
+לא אקח / לא, תודה
+לא כל כך טוב
+כן
+לא / זה לא נכון
+רגע אחד
+בסדר
+נכון
+אפשר
+אי אפשר
+מספיק
+רק זה
+בקבוק אחד
+עוד אחד
+אקח שלושה כאלה
+אפשר תפריט בבקשה
+אני רוצה להזמין אוכל
+מים בבקשה
+קרח בבקשה
+רוצה לשתות
+מעט חריף
+לא חריף
+בלי סוכר
+טעים
+אני שבע
+לאכול כאן
+לארוז לקחת
+זה טוב יותר מזה
+יקר מדי
+רוצה לנסות
+לשים בשקית
+לא אקנה
+רק מסתכל
+אני מדבר קצת תאית
+אני לא מדבר תאית
+אני לומד תאית
+אני מבין
+לא שמעתי
+הבנתי עכשיו
+אני לא יודע
+תודה על העזרה
+ישר
+לפנות שמאלה
+לפנות ימינה
+לעצור כאן
+הלכתי לאיבוד
+רעב
+צמא
+עייף
+חולה
+לא מרגיש טוב
+מרגיש יותר טוב
+מסכים
+לא מסכים
+טוב מאוד
+כל הכבוד
+כמה יפה
+אני חושב שכן
+אפשר / בטח
+אחשוב על זה
+לא רוצה / לא מתחשק לי
+אני לא חושב ככה
+לא פנוי
+בטח
+אולי
+סגור / מוסכם
+אני לא בטוח
+המזגן מקולקל
+זה לא עובד
+האור לא נדלק
+אין קליטה
+האינטרנט איטי
+נגמרה הסוללה
+נפצעתי
+יש חום
+כאב גרון
+כאב ראש
+כאב בטן
+כאב שיניים
+כאב גב
+מסוחרר
+אלרגי לתרופה`.split('\n'));
+
+const isPolite = (he: string, th: string) => !th.endsWith('ครับ') && (SAID_TO_SOMEONE.has(he) || (he.endsWith('?') && he !== 'האם?'));
+const politeTh = (th: string) => `${th}ครับ`;
+const politeEn = (en: string) => `${en} khráp`;
+
+// The id comes from the Thai without the ending, so progress on a word survives changes to its ending.
 export const THAI_WORDS: ThaiWord[] = RAW.flatMap((block, level) => block.split('\n').map((line, i) => {
-  const [he, th, en] = line.split('|');
-  return { id: `t${audioName(th)}`, en, he, th, pos: /\s/.test(en) ? 'o' as const : 'n' as const, ex: '', level, order: level * 1000 + i };
+  const [he, base, baseEn] = line.split('|');
+  const polite = isPolite(he, base);
+  const en = polite ? politeEn(baseEn) : baseEn;
+  return { id: `t${audioName(base)}`, en, he, th: polite ? politeTh(base) : base, pos: /\s/.test(en) ? 'o' as const : 'n' as const, ex: '', level, order: level * 1000 + i };
 }));
 
 // The sentence patterns from the list. Longer phrases from the bank join them once their word has been met.
@@ -512,12 +614,15 @@ export const THAI_TOPICS: Record<string, string> = {
 
 const fromPatterns = Object.entries(PATTERNS).flatMap(([topic, block]) => block.split('\n').map((line) => {
   const [he, th, en] = line.split('|');
-  return { he, th, en, topic } as Omit<ThaiSentence, 'id' | 'order'>;
+  return { he, th: politeTh(th), en: politeEn(en), topic, key: th };
 }));
-const fromBank = THAI_WORDS.filter((w) => w.en.split(/\s+/).length >= 3 && !w.en.includes('…'))
-  .map((w) => ({ he: w.he, th: w.th, en: w.en, topic: `c${w.level}`, word: w.id }));
+const inPatterns = new Set(fromPatterns.map((s) => s.th));
+const fromBank = THAI_WORDS.filter((w) => w.en.split(/\s+/).length >= 3 && !w.en.includes('…') && !inPatterns.has(w.th))
+  .map((w) => ({ he: w.he, th: w.th, en: w.en, topic: `c${w.level}`, word: w.id, key: w.id.slice(1) }));
 
-export const THAI_SENTENCES: ThaiSentence[] = [...fromPatterns, ...fromBank].map((s, order) => ({ ...s, id: `ts${audioName(s.th)}`, order }));
+export const THAI_SENTENCES: ThaiSentence[] = [...fromPatterns, ...fromBank].map(({ key, ...s }, order) => ({
+  ...s, id: `ts${/^[0-9a-f]{8}$/.test(key) ? key : audioName(key)}`, order,
+}));
 
 /** Everything that needs a recording. */
 export const THAI_AUDIO: { th: string; en: string }[] = [...new Map([...THAI_WORDS, ...THAI_SENTENCES].map((e) => [e.th, { th: e.th, en: e.en }])).values()];

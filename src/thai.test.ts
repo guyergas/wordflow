@@ -20,6 +20,20 @@ describe('Thai bank', () => {
   it('gives every recording its own file name', () => {
     expect(new Set(THAI_AUDIO.map((a) => audioName(a.th))).size).toBe(THAI_AUDIO.length);
   });
+  it('ends polite speech with khráp in both Thai and transliteration', () => {
+    for (const w of THAI_WORDS) expect(w.th.endsWith('ครับ')).toBe(w.en.endsWith(' khráp'));
+    for (const w of THAI_WORDS.filter((x) => x.he.endsWith('?') && x.he !== 'האם?')) expect(w.en).toMatch(/ khráp$/);
+    expect(THAI_WORDS.find((w) => w.he === 'כן')!.en).toBe('châi khráp');
+    expect(THAI_WORDS.find((w) => w.he === 'קפה')!.en).toBe('kaa-fae');
+  });
+  it('keeps word ids when the polite ending is added', () => {
+    expect(THAI_WORDS.find((w) => w.he === 'כן')!.id).toBe(`t${audioName('ใช่')}`);
+  });
+  it('has no repeated sentence', () => {
+    expect(new Set(THAI_SENTENCES.map((s) => s.id)).size).toBe(THAI_SENTENCES.length);
+    expect(new Set(THAI_SENTENCES.map((s) => s.th)).size).toBe(THAI_SENTENCES.length);
+    expect(THAI_SENTENCES.filter((s) => s.topic === 'ask').every((s) => s.en.endsWith(' khráp'))).toBe(true);
+  });
   it('builds sentences with at least two pieces', () => {
     for (const s of THAI_SENTENCES) expect(s.en.split(/\s+/).length).toBeGreaterThanOrEqual(2);
   });
