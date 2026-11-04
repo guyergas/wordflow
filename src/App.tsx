@@ -191,6 +191,7 @@ function Onboarding({ st, update }: { st: State; update: Update }) {
       <div className="onb-tiles" dir="ltr" aria-hidden="true">{[...x('HELLO', 'SAWATDII')].map((c, n) => <Tile key={n} ch={c} state="pop" small={IS_THAI} />)}</div>
       <h1>כל יום קצת.<br />והמילים נשארות.</h1>
       <p className="lead">{x('אימון קצר ביום: חימום על מילים שאת מכירה, חיזוק קליל, ואז מילים חדשות שמחכות לך בסוף.', 'אימון קצר ביום: חימום על מילים שאתה מכיר, חיזוק קליל, ואז מילים חדשות שמחכות לך בסוף.')}</p>
+      {IS_THAI && <p className="lead"><b>מקשיבים וחוזרים בקול רם על כל מילה.</b> ככה הפה מתרגל, ולא רק האוזן.</p>}
       {IS_THAI && <ToneNote />}
       <label className="field" htmlFor="nm">איך לקרוא לך?</label>
       <input id="nm" className="input" value={name} onChange={(e) => setName(e.target.value)} />
@@ -491,9 +492,10 @@ function Intro({ st, step, onNext }: ExProps) {
       <WordFace w={w} />
       <button type="button" className="speak" onClick={() => say(w.en)} aria-label="השמעה"><SpeakIcon /></button>
       <div className="meaning">{w.he}</div>
+      <RepeatCue strong />
       {w.ex && <button type="button" className="sentence" dir="ltr" lang="en" onClick={() => say(w.ex)}><span>{highlight(w.ex, w.en)}</span><span className="s-icon"><SpeakIcon /></span></button>}
       <div className="grow" />
-      <button type="button" className="cta" onClick={() => { if (st.settings.sound) sfx.tap(); onNext(); }}>הבנתי</button>
+      <button type="button" className="cta" onClick={() => { if (st.settings.sound) sfx.tap(); onNext(); }}>{x('הבנתי', 'אמרתי בקול רם')}</button>
     </div>
   );
 }
@@ -567,8 +569,8 @@ function Choice({ st, update, step, onResult, onNext }: ExProps) {
     const ok = o.id === w.id;
     if (st.settings.sound) (ok ? sfx.good : sfx.bad)();
     onResult(ok, { chosen: o.id });
-    if (ok) { if (kind !== 'listen' && kind !== 'meaning' && st.settings.autoSpeak) say(w.en); setTimeout(onNext, 850); }
-    else if (st.settings.autoSpeak) say(w.en);
+    if (ok) { if (IS_THAI || (kind !== 'listen' && kind !== 'meaning' && st.settings.autoSpeak)) say(w.en); setTimeout(onNext, AFTER_RIGHT); }
+    else if (IS_THAI || st.settings.autoSpeak) say(w.en);
   };
 
   const showEnglishAnswers = kind === 'reverse' || kind === 'cloze';
@@ -590,16 +592,26 @@ function Choice({ st, update, step, onResult, onNext }: ExProps) {
         <div className="feedback bad" role="status">
           <div className="fb-word"><En className="big-en">{w.en}</En><b>{w.he}</b></div>
           {w.ex && <p className="fb-ex" dir="ltr" lang="en">{highlight(w.ex, w.en)}</p>}
+          <RepeatCue />
           <div className="fb-actions">
             {!step.retry && <FlagButton st={st} update={update} id={w.id} m="r" />}
             <button type="button" className="btn-next" onClick={onNext}>הבנתי</button>
           </div>
         </div>
       )}
-      {picked && correct && <div className="feedback good" role="status"><b>{praise(step.id)}</b></div>}
+      {picked && correct && <div className="feedback good" role="status"><b>{praise(step.id)}</b><RepeatCue /></div>}
     </div>
   );
 }
+
+/** Thai practice asks for speaking: hear it, then say it out loud. Answers wait long enough for that. */
+const RepeatCue = ({ strong }: { strong?: boolean }) => (IS_THAI ? (
+  <p className={`repeat-cue ${strong ? 'strong' : ''}`}>
+    <svg viewBox="0 0 24 24" width={strong ? 22 : 16} height={strong ? 22 : 16} aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor" /><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3" /></svg>
+    {strong ? 'עכשיו אמור את זה בקול רם' : 'חזור בקול רם'}
+  </p>
+) : null);
+const AFTER_RIGHT = IS_THAI ? 2600 : 850;
 
 const PRAISE = ['יפה!', 'בול!', 'נכון!', 'מעולה!', 'איזה יופי!', 'בדיוק!'];
 const praise = (seed: string) => PRAISE[[...seed].reduce((a, c) => a + c.charCodeAt(0), 0) % PRAISE.length];
@@ -1196,7 +1208,8 @@ function SentenceMeaning({ st, s, onResult, onNext }: SentProps) {
     const ok = o.id === s.id;
     if (st.settings.sound) (ok ? sfx.good : sfx.bad)();
     onResult(ok);
-    if (ok) setTimeout(onNext, 1000);
+    if (IS_THAI) say(s.en);
+    if (ok) setTimeout(onNext, IS_THAI ? 3000 : 1000);
   };
   return (
     <div className="q">
@@ -1207,7 +1220,8 @@ function SentenceMeaning({ st, s, onResult, onNext }: SentProps) {
         {opts.map((o) => <button key={o.id} type="button" onClick={() => pick(o)} className={`ans ${picked && o.id === s.id ? 'right' : ''} ${picked === o.id && o.id !== s.id ? 'wrong' : ''}`}>{o.he}</button>)}
       </div>
       {picked && picked !== s.id && <div className="feedback soft" role="status"><div className="fb-actions"><b>הפירוש מסומן בירוק.</b><button type="button" className="btn-next" onClick={onNext}>הבנתי</button></div></div>}
-      {picked === s.id && <div className="feedback good" role="status"><b>{praise(s.id)}</b></div>}
+      {picked && picked !== s.id && <RepeatCue />}
+      {picked === s.id && <div className="feedback good" role="status"><b>{praise(s.id)}</b><RepeatCue /></div>}
     </div>
   );
 }
@@ -1231,7 +1245,7 @@ function SentenceBuild({ st, s, ear, onResult, onNext }: SentProps & { ear: bool
       if (st.settings.sound) (ok ? sfx.good : sfx.bad)();
       say(s.en);
       onResult(ok);
-      if (ok) setTimeout(onNext, 1300);
+      if (ok) setTimeout(onNext, IS_THAI ? 3000 : 1300);
     }
   };
   return (
@@ -1246,10 +1260,11 @@ function SentenceBuild({ st, s, ear, onResult, onNext }: SentProps & { ear: bool
       {verdict === null && <div className="chips" dir="ltr" lang="en">
         {pool.map((p) => <button key={p.i} type="button" className={`chip-w ${placed.includes(p.i) ? 'gone' : ''}`} disabled={placed.includes(p.i)} onClick={() => tap(p.i)}>{p.t}</button>)}
       </div>}
-      {verdict === true && <div className="feedback good" role="status"><b>{praise(s.id)}</b></div>}
+      {verdict === true && <div className="feedback good" role="status"><b>{praise(s.id)}</b><RepeatCue /></div>}
       {verdict === false && (
         <div className="feedback soft" role="status">
           <p className="fb-ex big" dir="ltr" lang="en">{s.en}</p>
+          <RepeatCue />
           <div className="fb-actions"><span className="small">כך נראה המשפט הנכון.</span><button type="button" className="btn-next" onClick={onNext}>הבנתי</button></div>
         </div>
       )}

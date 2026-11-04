@@ -366,3 +366,8 @@ input[type=range] { width: 100%; accent-color: var(--rec); }
 .course .c-hello { font-family: "Fredoka Variable", Fredoka, sans-serif; opacity: .65; }
 .seg.lang { display: inline-flex; width: auto; }
 .seg.lang button { padding: 7px 16px; white-space: nowrap; flex: none; width: auto; }
+
+.repeat-cue { display: inline-flex; align-items: center; gap: 6px; margin: 4px 0 0; font-size: .9rem; font-weight: 600; }
+.repeat-cue.strong { justify-content: center; align-self: center; margin-top: 18px; padding: 10px 18px; border-radius: 999px; background: var(--sun, #ffc83d); color: #2d2406; font-size: 1.05rem; animation: cue-pulse 1.8s ease-in-out infinite; }
+@keyframes cue-pulse { 50% { transform: scale(1.04); } }
+@media (prefers-reduced-motion: reduce) { .repeat-cue.strong { animation: none; } }
