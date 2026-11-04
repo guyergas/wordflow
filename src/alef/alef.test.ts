@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { answer, advance, buildPlan, choices, initial, meet, nextLetter, secure, shaky, SHAKY_LIMIT, validStep, writeStage } from './engine';
 import { judge, FREE, TRACE } from './ink';
-import { FINALS, frameOf, HEBREW_AUDIO, LETTER, LETTERS, lookAlikes, Pt, WORDS } from './letters';
+import { FINALS, frameOf, HEBREW_AUDIO, LETTER, LETTERS, lookAlikes, Pt, SAY, WORDS } from './letters';
 
 const ink = (id: string) => LETTER[id].strokes.map((s) => s.p);
 const wobble = (lines: Pt[][], a = 5): Pt[][] => lines.map((l) => l.flatMap((p, i) => { if (!i) return [p]; const [x0, y0] = l[i - 1], out: Pt[] = []; for (let k = 1; k <= 8; k++) { const t = k / 8; out.push([x0 + (p[0] - x0) * t + Math.sin(k * 1.7) * a, y0 + (p[1] - y0) * t + Math.cos(k * 2.3) * a]); } return out; }));
@@ -24,6 +24,9 @@ describe('letters', () => {
   it('keeps final forms for the end', () => {
     expect(LETTERS.slice(-5).map((l) => l.id).sort().join('')).toBe([...FINALS].sort().join(''));
     expect(choices(initial('א'), 'י', () => 0.5).some((c) => FINALS.includes(c))).toBe(false);
+  });
+  it('says the name and how to write it in every writing exercise', () => {
+    for (const l of LETTERS) for (const say of [SAY.trace(l), SAY.copy(l), SAY.write(l)]) { expect(say).toContain(l.say); expect(say).toContain(l.recipe); expect(HEBREW_AUDIO).toContain(say); }
   });
   it('gives every sentence a recording', () => {
     for (const l of LETTERS) { expect(HEBREW_AUDIO).toContain(l.recipe); expect(HEBREW_AUDIO).toContain(l.say); }

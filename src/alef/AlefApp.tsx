@@ -239,7 +239,7 @@ function Draw({ l, mode, sound, onDone }: { l: Letter; mode: 'trace' | 'copy' | 
   const guide = mode === 'trace', rules = guide ? TRACE : FREE;
   const [ink, setInk] = useState<Ink>([]), [help, setHelp] = useState<number[] | null>(null), [won, setWon] = useState(false), [result, setResult] = useState(false), frame = frameOf(l);
   const svg = useRef<SVGSVGElement>(null), down = useRef(false), tries = useRef(0), wait = useRef<ReturnType<typeof setTimeout>>(undefined), latest = useRef<Ink>([]);
-  const said = guide ? SAY.trace : mode === 'copy' ? SAY.copy(l) : SAY.write(l);
+  const said = guide ? SAY.trace(l) : mode === 'copy' ? SAY.copy(l) : SAY.write(l);
   latest.current = ink;
   useEffect(() => { sayHebrew(said); return () => clearTimeout(wait.current); }, []);
   // The page stays still while writing. iPhone may scroll a page even over an area marked not to, so touch moves are stopped here too.
