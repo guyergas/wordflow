@@ -4,6 +4,7 @@
 import { L, Lesson } from './kit';
 import { EXTRA } from './extra';
 import { DEEP } from './deep';
+import { NEW_LESSONS } from './new-lessons';
 import { MORE_GEO } from './more-geo';
 import { MORE_SCI } from './more-sci';
 import { MORE_NATURE } from './more-nature';
@@ -276,4 +277,4 @@ const FIRST: Lesson[] = [
 
 const ALL: Lesson[] = [...FIRST.map((l) => ({ ...l, text: EXTRA[l.id] ? `${l.text}\n\n${EXTRA[l.id]}` : l.text })), ...MORE_GEO, ...MORE_SCI, ...MORE_NATURE, ...MORE_HIST, ...MORE_ART, ...MORE_SPORT, ...MORE_HEB, ...MORE_JUD, ...FOOD];
 
-export const LESSONS: Lesson[] = ALL.map((l) => (DEEP[l.id] ? { ...l, text: DEEP[l.id].text, qs: [...DEEP[l.id].qs] } : l));
+export const LESSONS: Lesson[] = ALL.map((l) => (DEEP[l.id] ? { ...l, text: DEEP[l.id].text, qs: [...DEEP[l.id].qs] } : l)).concat(NEW_LESSONS);

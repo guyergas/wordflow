@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { COURSES } from '../course';
 import { answerKey, buildPlan, dayLog, finishLesson, initial, isSolid, lessonsOf, LESSON } from './engine';
 import { DEEP } from './deep';
+import { NEW_LESSONS } from './new-lessons';
 import { shortParagraphs } from './kit';
 import { LESSONS } from './lessons';
 
@@ -14,6 +15,7 @@ describe('lesson bank', () => {
   });
   it('marked sentences are balanced, and full-length lessons have several', () => {
     for (const l of LESSONS) expect(l.text.split('[[').length, l.id).toBe(l.text.split(']]').length);
+    for (const l of NEW_LESSONS) { expect(l.text.split('[[').length - 1, l.id).toBeGreaterThanOrEqual(5); expect(l.text.split(/\s+/).length, l.id).toBeGreaterThanOrEqual(600); }
     for (const id of Object.keys(DEEP)) expect(DEEP[id].text.split('[[').length - 1, id).toBeGreaterThanOrEqual(5);
   });
   it('short paragraphs keep every word and every mark whole', () => {

@@ -1,0 +1,16 @@
+// Prints which lesson to write next, one at a time across the courses. Build and run: see docs/lesson-writing.md
+import { LESSONS } from '../src/knowledge/lessons';
+import { DEEP } from '../src/knowledge/deep';
+import { NEW_LESSONS } from '../src/knowledge/new-lessons';
+
+const ORDER = ['geo', 'sci', 'nature', 'hist', 'art', 'sport', 'heb', 'jud', 'food'], TARGET = 60;
+const full = (c: string) => Object.keys(DEEP).filter((id) => id.startsWith(`${c}.`)).length + NEW_LESSONS.filter((l) => l.course === c).length;
+const counts = ORDER.map((c) => ({ c, n: full(c) }));
+const low = Math.min(...counts.map((x) => x.n));
+if (low >= TARGET) { console.log(JSON.stringify({ done: true, counts })); process.exit(0); }
+const course = counts.find((x) => x.n === low)!.c;
+const all = LESSONS.filter((l) => l.course === course).sort((a, b) => a.level - b.level);
+const next = all.find((l) => !DEEP[l.id] && !NEW_LESSONS.includes(l));
+console.log(JSON.stringify(next
+  ? { kind: 'expand', file: `src/knowledge/deep/${course}.ts`, id: next.id, level: next.level, title: next.title, idea: next.idea, keys: next.keys, text: next.text, counts }
+  : { kind: 'new', course, file: 'src/knowledge/new-lessons.ts', existingTitles: all.map((l) => l.title), counts }, null, 1));
