@@ -3,7 +3,7 @@
 // Two independent measures per word:
 //   r = recognition (does she know what it means)  - primary, gates new words
 //   s = spelling (can she write it)                - secondary, never blocks anything
-import { HAS_SPELLING, x } from './course';
+import { HAS_SPELLING, IS_THAI, x } from './course';
 import { WORD, WORDS, Word } from './words';
 
 export interface Metric { box: number; due: number; flag: boolean; clear: number; ok: number; no: number; last: number }
@@ -19,7 +19,7 @@ export interface Plan {
 export interface State {
   v: 1; name: string; onboarded: boolean; startLevel: number;
   paused?: Plan | null; words: Record<string, WordState>; sentences: Record<string, Metric>; days: Record<string, DayLog>; plan: Plan | null;
-  traps: Record<string, number>; confusions: Record<string, Record<string, number>>;
+  traps: Record<string, number>; confusions: Record<string, Record<string, number>>; cleaned?: boolean;
   settings: { sound: boolean; autoSpeak: boolean; voice: string; rate: number; weeklyGoal: number };
 }
 
@@ -367,7 +367,10 @@ export function options(st: State, id: string, count: number, rnd: () => number 
   const conf = Object.entries(st.confusions[id] ?? {}).sort((a, b) => b[1] - a[1]).map(([k]) => WORD[k]).filter(Boolean).slice(0, 1);
   const pool = WORDS.filter((x) => x.id !== id && x.he !== w.he && !conf.includes(x));
   const near = pool.filter((x) => x.pos === w.pos && Math.abs(x.level - w.level) <= 1);
-  const picks = [...conf, ...shuffle(near.length >= count ? near : pool, rnd)].slice(0, count - 1);
+  // In Thai, wrong answers come from words already met, so a question does not show words never taught. Others only fill a gap.
+  const seen = pool.filter((x) => isMet(ws(st, x.id)));
+  const fill = IS_THAI ? [...shuffle(seen, rnd), ...shuffle(pool.filter((x) => !isMet(ws(st, x.id))), rnd)] : shuffle(near.length >= count ? near : pool, rnd);
+  const picks = [...conf, ...fill].slice(0, count - 1);
   return shuffle([w, ...picks], rnd);
 }
 
@@ -429,6 +432,12 @@ export function applyPlacement(st: State, results: Record<string, boolean>, star
     }
   }
   return { ...st, words, startLevel, onboarded: true };
+}
+
+/** Words the old Thai placement test marked as met without any practice go back to being new. */
+export function dropUnpracticed(st: State): State {
+  const words = Object.fromEntries(Object.entries(st.words).filter(([, w]) => w.r.ok + w.r.no > 0 || w.s.ok + w.s.no > 0 || w.r.flag));
+  return { ...st, words, startLevel: 0, plan: null, paused: null, cleaned: true };
 }
 
 // ---------- Progress ----------

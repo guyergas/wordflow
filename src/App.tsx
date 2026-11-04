@@ -194,8 +194,8 @@ function Onboarding({ st, update }: { st: State; update: Update }) {
       {IS_THAI && <ToneNote />}
       <label className="field" htmlFor="nm">איך לקרוא לך?</label>
       <input id="nm" className="input" value={name} onChange={(e) => setName(e.target.value)} />
-      <button type="button" className="cta" disabled={!name.trim()} onClick={() => { setStep('test'); if (st.settings.sound) sfx.tap(); }}>נתחיל בבדיקה קצרה</button>
-      <p className="small muted center">כמה דקות, בלי ציון. היא רק מוצאת לך את נקודת ההתחלה. אם מילה לא מוכרת, זה בסדר גמור.</p>
+      <button type="button" className="cta" disabled={!name.trim()} onClick={() => { if (st.settings.sound) sfx.tap(); if (IS_THAI) finish(0, {}); else setStep('test'); }}>{x('נתחיל בבדיקה קצרה', 'נתחיל')}</button>
+      {!IS_THAI && <p className="small muted center">כמה דקות, בלי ציון. היא רק מוצאת לך את נקודת ההתחלה. אם מילה לא מוכרת, זה בסדר גמור.</p>}
     </div>
   );
 

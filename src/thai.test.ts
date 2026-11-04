@@ -59,6 +59,33 @@ describe('Thai mode', () => {
     vi.unstubAllGlobals();
   });
 
+  it('returns words that were never practiced to new, and keeps real practice', async () => {
+    const { engine, words } = await load();
+    const [a, b, c] = words.WORDS;
+    const base = engine.initialState();
+    const st = { ...base, startLevel: 3, plan: engine.buildPlan(base, 100), words: {
+      [a.id]: { ...engine.freshWord(), met: 100, assumed: true, r: { ...engine.freshMetric(), box: 3, due: 100 } },
+      [b.id]: { ...engine.freshWord(), met: 100, r: { ...engine.freshMetric(), box: 1, due: 100 } },
+      [c.id]: { ...engine.freshWord(), met: 100, r: { ...engine.freshMetric(), box: 1, ok: 1, due: 101 } },
+    } };
+    const fixed = engine.dropUnpracticed(st);
+    expect(Object.keys(fixed.words)).toEqual([c.id]);
+    expect(fixed.plan).toBeNull();
+    const plan = engine.buildPlan(fixed, 100);
+    const old = plan.steps.filter((s) => s.part !== 'new').map((s) => s.id);
+    expect(old.includes(a.id) || old.includes(b.id)).toBe(false);
+    vi.unstubAllGlobals();
+  });
+
+  it('prefers words already met as wrong answers', async () => {
+    const { engine, words } = await load();
+    const met = words.WORDS.slice(100, 106);
+    const st = { ...engine.initialState(), words: Object.fromEntries(met.map((w) => [w.id, { ...engine.freshWord(), met: 100 }])) };
+    const opts = engine.options(st, met[0].id, 4);
+    expect(opts.every((o) => met.includes(o))).toBe(true);
+    vi.unstubAllGlobals();
+  });
+
   it('starts sentence practice from the patterns and adds phrases after they are met', async () => {
     const { engine, sentences } = await load();
     const st = engine.initialState();

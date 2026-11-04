@@ -1,6 +1,6 @@
 // Storage, speech and sound. Everything here fails soft: a missing capability never breaks the lesson.
 import { IS_THAI, STORAGE_KEY as KEY } from './course';
-import { initialState, State } from './engine';
+import { dropUnpracticed, initialState, State } from './engine';
 import { audioName, THAI_AUDIO } from './thai';
 let memory: string | null = null;
 
@@ -11,7 +11,11 @@ export function load(): State {
   try {
     const parsed = JSON.parse(raw);
     const base = initialState();
-    return { ...base, ...parsed, settings: { ...base.settings, ...parsed.settings } };
+    const st: State = { ...base, ...parsed, settings: { ...base.settings, ...parsed.settings } };
+    if (!IS_THAI || parsed.cleaned) return st;
+    const fixed = dropUnpracticed(st);
+    save(fixed);
+    return fixed;
   } catch { return initialState(); }
 }
 
