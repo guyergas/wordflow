@@ -11,6 +11,7 @@ import { MORE_ART } from './more-art';
 import { MORE_SPORT } from './more-sport';
 import { MORE_HEB } from './more-heb';
 import { MORE_JUD } from './more-jud';
+import { FOOD } from './food';
 
 export type { Lesson, QuizQ } from './kit';
 
@@ -272,4 +273,4 @@ const FIRST: Lesson[] = [
   ], [['באיזו עיר נולד הרמב״ם?', 'קורדובה', ['קהיר', 'ירושלים', 'בגדד'], 'קורדובה.']]),
 ];
 
-export const LESSONS: Lesson[] = [...FIRST.map((l) => ({ ...l, text: EXTRA[l.id] ? `${l.text}\n\n${EXTRA[l.id]}` : l.text })), ...MORE_GEO, ...MORE_SCI, ...MORE_NATURE, ...MORE_HIST, ...MORE_ART, ...MORE_SPORT, ...MORE_HEB, ...MORE_JUD];
+export const LESSONS: Lesson[] = [...FIRST.map((l) => ({ ...l, text: EXTRA[l.id] ? `${l.text}\n\n${EXTRA[l.id]}` : l.text })), ...MORE_GEO, ...MORE_SCI, ...MORE_NATURE, ...MORE_HIST, ...MORE_ART, ...MORE_SPORT, ...MORE_HEB, ...MORE_JUD, ...FOOD];

@@ -5,9 +5,9 @@ import { LESSONS } from './lessons';
 
 const T = 20000;
 describe('lesson bank', () => {
-  it('each of the eight courses has lessons at every level', () => {
+  it('each knowledge course has lessons at every level', () => {
     const list = COURSES.filter((c) => c.knowledge);
-    expect(list).toHaveLength(8);
+    expect(list).toHaveLength(9);
     for (const c of list) { const l = lessonsOf(c.id); expect(l.length, c.id).toBeGreaterThanOrEqual(30); expect(new Set(l.map((x) => x.level)).size, c.id).toBe(3); }
   });
   it('every lesson is complete', () => {
