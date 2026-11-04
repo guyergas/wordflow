@@ -5,7 +5,7 @@ import { THAI_SENTENCES, THAI_TOPICS } from './thai';
 import { WORDS, Word } from './words';
 
 export interface Sentence { id: string; en: string; he: string; topic: string; order: number; th?: string; word?: string }
-export const TOPICS: Record<string, string> = IS_THAI ? THAI_TOPICS : { friends: 'חברים', school: 'בית ספר', help: 'לבקש עזרה', food: 'אוכל וקניות', travel: 'בדרך', feel: 'איך אני מרגישה', plans: 'תוכניות' };
+export const TOPICS: Record<string, string> = IS_THAI ? THAI_TOPICS : { friends: 'חברים', school: 'בית ספר', help: 'לבקש עזרה', food: 'אוכל וקניות', travel: 'בדרך', feel: 'איך אני מרגישה', plans: 'תוכניות', opinion: 'להביע דעה', people: 'אנשים ורגשות', world: 'העולם סביבנו' };
 
 const RAW: Record<string, string> = {
   friends: `What is your name?|איך קוראים לך?
@@ -100,6 +100,42 @@ I hope you win the game.|אני מקווה שתנצחי במשחק.
 It is my birthday next month.|יום ההולדת שלי בחודש הבא.
 I promise to help you.|אני מבטיחה לעזור לך.
 We can choose a movie together.|אנחנו יכולות לבחור סרט ביחד.`,
+  opinion: `I think that is a good argument.|אני חושבת שזה טיעון טוב.
+There is no evidence for that.|אין לזה שום ראיה.
+It depends on the context.|זה תלוי בהקשר.
+Could you clarify what you mean?|את יכולה להבהיר למה את מתכוונת?
+I see it from a different perspective.|אני רואה את זה מנקודת מבט אחרת.
+That is a relevant question.|זו שאלה רלוונטית.
+It is not as obvious as it seems.|זה לא ברור מאליו כמו שזה נראה.
+I am skeptical about this plan.|אני ספקנית לגבי התוכנית הזאת.
+We should evaluate every option.|אנחנו צריכות להעריך כל אפשרות.
+Although it is hard, it is possible.|למרות שזה קשה, זה אפשרי.
+This is a controversial issue.|זו סוגיה שנויה במחלוקת.
+That sounds like a plausible story.|זה נשמע כמו סיפור סביר.`,
+  people: `Don't hesitate to ask me.|אל תהססי לשאול אותי.
+I am grateful for your help.|אני אסירת תודה על העזרה שלך.
+I felt embarrassed by my mistake.|הרגשתי נבוכה מהטעות שלי.
+You should apologize to her.|את צריכה להתנצל בפניה.
+It was just a misunderstanding.|זו הייתה רק אי הבנה.
+My sister is very stubborn.|אחותי ממש עקשנית.
+I feel overwhelmed by all this homework.|אני מרגישה מוצפת מכל שיעורי הבית.
+Please don't interrupt me.|בבקשה אל תפריעי לי באמצע.
+We were relieved to hear the news.|הוקל לנו לשמוע את החדשות.
+I admire your courage.|אני מעריצה את האומץ שלך.
+Don't believe every rumor you hear.|אל תאמיני לכל שמועה שאת שומעת.
+She gave an eloquent speech.|היא נשאה נאום רהוט.`,
+  world: `We must protect the environment.|אנחנו חייבות להגן על הסביבה.
+Pollution is a serious issue.|זיהום הוא סוגיה רצינית.
+Change is inevitable.|שינוי הוא בלתי נמנע.
+Every choice has a consequence.|לכל בחירה יש תוצאה.
+Water is essential for life.|מים הכרחיים לחיים.
+The majority voted yes.|הרוב הצביע בעד.
+Hunger is a global problem.|רעב הוא בעיה עולמית.
+We visited an ancient temple.|ביקרנו במקדש עתיק.
+The film had a huge impact.|לסרט הייתה השפעה ענקית.
+Everyone hopes for peace.|כולם מקווים לשלום.
+This was an unprecedented event.|זה היה אירוע חסר תקדים.
+Birds migrate south in winter.|ציפורים נודדות דרומה בחורף.`,
 };
 
 let n = 0;
@@ -113,6 +149,7 @@ export const SENTENCES: Sentence[] = IS_THAI ? THAI_SENTENCES : Object.entries(R
 export const BASIC = new Set(IS_THAI ? [] : `a an the i you he she it we they me my your our his her their this that these those is am are was were be been being
 do does did don't can't can will would need have has had not no yes and or but so to of in on at for from with about up out here there what where when why who how which much many some too very really
 please thank thanks sorry hi nice let's it's what's like go get know say see think come lose lost find keys phone mean make call time name home
+good could as seems plan should every option hard story ask felt by just all hear gave speech must change life hunger temple film everyone event birds south winter
 one two nine friday noon tonight next again together little outside dark blue pizza movie summer win meat great busy best keep smells play sit live word test love well doing`.split(/\s+/));
 
 const IRREGULAR: Record<string, string> = { ate: 'eat', bought: 'buy', forgot: 'forget', left: 'leave', took: 'take', leaves: 'leave', closes: 'close', hurts: 'hurt', hungry: 'hungry' };

@@ -1,4 +1,4 @@
-import { repairPlans, Plan as RepairPlan } from './engine';
+import { MAX_NEW_PER_DAY, repairPlans, Plan as RepairPlan } from './engine';
 import { describe, expect, it } from 'vitest';
 import { WORDS, WORD, LEVELS } from './words';
 import { buildReport } from './report';
@@ -46,9 +46,9 @@ describe('saved rounds', () => {
 });
 
 describe('word bank', () => {
-  it('has 8 levels with complete, usable entries', () => {
-    expect(LEVELS).toHaveLength(8);
-    expect(WORDS.length).toBeGreaterThan(450);
+  it('has 12 levels with complete, usable entries', () => {
+    expect(LEVELS).toHaveLength(12);
+    expect(WORDS.length).toBeGreaterThan(650);
     for (const w of WORDS) {
       expect(w.en, w.id).toMatch(/^[a-z]+$/);
       expect(w.he.length, w.id).toBeGreaterThan(0);
@@ -131,7 +131,7 @@ describe('daily plan', () => {
     expect(parts[0]).toBe('warm');
     expect(parts.lastIndexOf('warm')).toBeLessThan(parts.indexOf('new'));
     expect(parts.includes('new')).toBe(true);
-    expect(plan.newIds).toHaveLength(4);
+    expect(plan.newIds).toHaveLength(MAX_NEW_PER_DAY);
   });
   it('first two parts stay short even with a huge backlog', () => {
     let st = placed();
@@ -241,7 +241,7 @@ describe('truly new words', () => {
     const first = s.plan!.newIds[0];
     s = resolveCheck(s, first, true, T);
     expect(s.plan!.newIds).not.toContain(first);
-    expect(s.plan!.newIds).toHaveLength(4);
+    expect(s.plan!.newIds).toHaveLength(MAX_NEW_PER_DAY);
     expect(s.plan!.alreadyKnown).toEqual([first]);
     expect(isKnown(ws(s, first))).toBe(true);
     expect(ws(s, first).s.ok + ws(s, first).s.no).toBe(0);
@@ -257,25 +257,25 @@ describe('truly new words', () => {
       s = resolveCheck(s, step.id, step.id === known, T);
     }
     const meaning = s.plan!.steps.filter((x) => x.kind === 'meaning').map((x) => x.id);
-    expect(meaning).toHaveLength(4);
+    expect(meaning).toHaveLength(MAX_NEW_PER_DAY);
     expect(meaning).not.toContain(known);
-    expect(s.plan!.steps.filter((x) => x.kind === 'check')).toHaveLength(5);
+    expect(s.plan!.steps.filter((x) => x.kind === 'check')).toHaveLength(MAX_NEW_PER_DAY + 1);
     expect(s.plan!.steps.at(-1)!.kind).toBe('match');
   });
   it('a known word does not fill the new-words pool', () => {
     let s = at(start(), 'check');
     for (const id of [...s.plan!.newIds]) s = resolveCheck(s, id, true, T);
-    expect(newAllowance(s, T)).toBe(4);
+    expect(newAllowance(s, T)).toBe(MAX_NEW_PER_DAY);
   });
 });
 
 describe('extra rounds of new words', () => {
-  it('a bonus round brings 4 more words and only a short review', () => {
+  it('a bonus round brings a full set of words and only a short review', () => {
     let st: State = { ...initialState(), onboarded: true };
     st = simulateDay(st, T);
     const metBefore = nextNewWords(st, 1)[0].id;
     const plan = bp(st, T, { bonus: true });
-    expect(plan.newIds).toHaveLength(4);
+    expect(plan.newIds).toHaveLength(MAX_NEW_PER_DAY);
     expect(plan.newIds[0]).toBe(metBefore);
     expect(plan.steps.filter((x) => x.part === 'warm')).toHaveLength(0);
     expect(plan.steps.filter((x) => x.part === 'boost').length).toBeLessThanOrEqual(4);

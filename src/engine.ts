@@ -4,7 +4,7 @@
 //   r = recognition (does she know what it means)  - primary, gates new words
 //   s = spelling (can she write it)                - secondary, never blocks anything
 import { HAS_SPELLING, IS_THAI, x } from './course';
-import { WORD, WORDS, Word } from './words';
+import { LEVELS, WORD, WORDS, Word } from './words';
 
 export interface Metric { box: number; due: number; flag: boolean; clear: number; ok: number; no: number; last: number }
 export interface WordState { r: Metric; s: Metric; met: number | null; assumed?: boolean }
@@ -28,8 +28,8 @@ export const MAX_BOX = INTERVALS.length - 1;
 /** A word counts as established once recognition reaches this box (at least 3 successful days). */
 export const KNOWN_BOX = 3;
 /** New words stop arriving while this many words are still not established. */
-export const LEARNING_CAP = 24;
-export const MAX_NEW_PER_DAY = 4;
+export const LEARNING_CAP = IS_THAI ? 24 : 36;
+export const MAX_NEW_PER_DAY = IS_THAI ? 4 : 6;
 
 export const dayNumber = (d: Date = new Date()) =>
   Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() / 864e5 + 0.5);
@@ -540,7 +540,7 @@ export function levelStats(st: State, level: number) {
   return { all: list.length, known, spelled };
 }
 
-export const currentLevel = (st: State): number => nextNewWords(st, 1)[0]?.level ?? 7;
+export const currentLevel = (st: State): number => nextNewWords(st, 1)[0]?.level ?? LEVELS.length - 1;
 
 export function hardWords(st: State, n = 8) {
   return WORDS.map((w) => ({ w, s: ws(st, w.id) }))

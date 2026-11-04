@@ -880,7 +880,7 @@ function PathScreen({ st, onWord }: { st: State; onWord: (id: string) => void })
   const [open, setOpen] = useState<number | null>(cur);
   return (
     <>
-      <header className="page-head"><h1>המסע</h1><p className="muted">{x('שמונה תחנות, מהקל לקשה.', `${LEVELS.length} תחנות, לפי נושאים.`)} תחנה נחשבת כשרוב המילים בה מבוססות.</p></header>
+      <header className="page-head"><h1>המסע</h1><p className="muted">{x(`${LEVELS.length} תחנות, מהקל לקשה.`, `${LEVELS.length} תחנות, לפי נושאים.`)} תחנה נחשבת כשרוב המילים בה מבוססות.</p></header>
       <ol className="stations">
         {LEVELS.map((l, i) => {
           const s = levelStats(st, i);

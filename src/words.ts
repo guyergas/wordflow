@@ -15,6 +15,10 @@ const EN_LEVELS: { name: string; cefr: string; blurb: string }[] = [
   { name: 'הדעה', cefr: 'B1', blurb: 'לחשוב, להסביר ולהתווכח' },
   { name: 'העולם', cefr: 'B1+', blurb: 'מדע, חברה ועתיד' },
   { name: 'הפסגה', cefr: 'B2', blurb: 'מילים גדולות למתקדמים' },
+  { name: 'הסדנה', cefr: 'B2+', blurb: 'לכתוב, להסביר ולנמק' },
+  { name: 'הבמה', cefr: 'B2+', blurb: 'תרבות, אנשים ותקשורת' },
+  { name: 'המפה', cefr: 'C1', blurb: 'חברה, סביבה והיסטוריה' },
+  { name: 'השיא', cefr: 'C1', blurb: 'מילים של קוראים מנוסים' },
 ];
 
 const RAW: string[] = [
@@ -488,7 +492,7 @@ appreciate|להעריך|v|I appreciate your help.
 assume|להניח|v|Don't assume I know.
 avoid|להימנע|v|Try to avoid sugar.
 concentrate|להתרכז|v|I can't concentrate with this noise.
-criticize|לבקר|v|Don't criticize her work.
+criticize|למתוח ביקורת|v|Don't criticize her work.
 emphasize|להדגיש|v|Teachers emphasize good habits.
 exaggerate|להגזים|v|Don't exaggerate the story.
 hesitate|להסס|v|Don't hesitate to ask.
@@ -498,6 +502,216 @@ persuade|לשכנע בטיעונים|v|Try to persuade your parents.
 pronounce|להגות|v|How do you pronounce this word?
 recommend|להמליץ|v|I recommend this book.
 succeed|להצליח|v|I know you will succeed.`,
+`analyze|לנתח|v|Scientists analyze the data carefully.
+conclude|להסיק|v|We can conclude that the plan worked.
+contrast|ניגוד|n|There is a sharp contrast between the two cities.
+define|להגדיר|v|Can you define this term?
+demonstrate|להדגים|v|The teacher will demonstrate the experiment.
+evaluate|לשקול ולהעריך|v|We must evaluate every option.
+evidence|ראיה|n|There is no evidence against him.
+assumption|הנחה|n|That assumption turned out to be wrong.
+illustrate|להמחיש|v|These pictures illustrate the idea.
+indicate|להצביע על|v|The dark clouds indicate a storm.
+interpret|לפרש|v|People interpret the poem differently.
+justify|להצדיק|v|Nothing can justify such behavior.
+outline|מתווה|n|Write an outline before the essay.
+summarize|לסכם|v|Please summarize the article in two lines.
+argument|טיעון|n|Her argument was very clear.
+paragraph|פסקה|n|The first paragraph is too long.
+essay|חיבור|n|I wrote an essay about the sea.
+source|מקור|n|Check the source of this story.
+criticism|ביקורת|n|He did not take the criticism well.
+approach|דרך פעולה|n|We need a new approach to this problem.
+aspect|היבט|n|Money is only one aspect of the job.
+concept|מושג|n|Gravity is a difficult concept.
+context|הקשר|n|The word changes with the context.
+factor|גורם|n|Sleep is an important factor in health.
+issue|סוגיה|n|Pollution is a serious issue.
+method|שיטה|n|This method saves a lot of time.
+principle|עיקרון|n|Honesty is my main principle.
+theory|תיאוריה|n|Nobody could prove the theory.
+significant|משמעותי|a|This is a significant change.
+relevant|רלוונטי|a|Your question is very relevant.
+complex|מורכב|a|The human brain is complex.
+consistent|עקבי|a|Be consistent and practice daily.
+logical|הגיוני|a|That is a logical next step.
+vague|מעורפל|a|His directions were vague.
+valid|תקף|a|Your ticket is still valid.
+moreover|יתרה מזאת|d|It is cheap; moreover, it works well.
+nevertheless|אף על פי כן|d|She was tired; nevertheless, she finished.
+whereas|בעוד ש|d|He likes tea, whereas I prefer coffee.
+furthermore|נוסף על כך|d|The hotel is clean; furthermore, it is quiet.
+consequently|כתוצאה מכך|d|He missed the bus and consequently came late.
+roughly|בערך|d|The trip takes roughly two hours.
+mainly|בעיקר|d|The team is mainly young players.
+briefly|בקצרה|d|Let me explain it briefly.
+contribute|לתרום|v|Everyone can contribute an idea.
+establish|לבסס|v|They want to establish clear rules.
+identify|לאתר ולזהות|v|Can you identify this bird?
+involve|לערב|v|The game will involve the whole class.
+maintain|לשמור על|v|It is hard to maintain this speed.
+obtain|לקבל, להשיג|v|You must obtain permission first.
+occur|להתרחש|v|Accidents occur on this road.
+require|לדרוש|v|Good photos require patience.
+respond|להגיב|v|She did not respond to my message.
+assess|להעריך מצב|v|The doctor will assess the injury.
+clarify|להבהיר|v|Could you clarify your question?`,
+`performance|הופעה|n|Her performance moved everyone.
+rehearsal|חזרה (להצגה)|n|The rehearsal starts at five.
+stage|במה|n|He walked nervously onto the stage.
+script|תסריט|n|The actor forgot the script.
+director|במאי|n|The director shouted, "Cut!"
+masterpiece|יצירת מופת|n|This painting is a masterpiece.
+exhibition|תערוכה|n|We saw an exhibition of old photos.
+sculpture|פסל|n|The sculpture stands in the garden.
+novel|רומן|n|I could not put the novel down.
+biography|ביוגרפיה|n|She read a biography of Einstein.
+plot|עלילה|n|The plot has a surprising ending.
+custom|מנהג|n|Every country has its own custom.
+heritage|מורשת|n|We are proud of our heritage.
+ceremony|טקס|n|The ceremony ended with a song.
+identity|זהות|n|Language is part of our identity.
+reputation|מוניטין|n|The school has a good reputation.
+headline|כותרת|n|The headline shocked the readers.
+interview|ראיון|n|The interview lasted an hour.
+broadcast|שידור|n|We watched the live broadcast.
+advertisement|פרסומת|n|That advertisement is really annoying.
+gossip|רכילות|n|I try to stay away from gossip.
+ambitious|שאפתן|a|She is ambitious and works hard.
+humble|צנוע|a|He stayed humble after the win.
+sensitive|רגיש|a|She is sensitive to loud noise.
+cautious|זהיר|a|Be cautious on the wet road.
+embarrassed|נבוך|a|I felt embarrassed by my mistake.
+exhausted|מותש|a|We were exhausted after the climb.
+frustrated|מתוסכל|a|He got frustrated with the puzzle.
+grateful|אסיר תודה|a|I am grateful for your help.
+jealous|מקנא|a|She was jealous of her sister.
+overwhelmed|מוצף|a|I feel overwhelmed by all this homework.
+relieved|חש הקלה|a|We were relieved to hear the news.
+encourage|לעודד|v|Good teachers encourage their students.
+admire|להעריץ|v|I admire your courage.
+complain|להתלונן|v|Customers often complain about the price.
+insist|להתעקש|v|They insist on paying.
+negotiate|לנהל משא ומתן|v|They had to negotiate a better price.
+mention|להזכיר|v|Did she mention the party?
+pretend|להעמיד פנים|v|He likes to pretend he is asleep.
+reveal|לחשוף|v|The final scene will reveal the truth.
+compliment|מחמאה|n|That was a lovely compliment.
+conversation|שיחה|n|We had a long conversation.
+misunderstanding|אי הבנה|n|It was just a misunderstanding.`,
+`drought|בצורת|n|The drought killed the crops.
+earthquake|רעידת אדמה|n|The earthquake woke the whole city.
+flood|שיטפון|n|The flood destroyed the bridge.
+resource|משאב|n|Water is a precious resource.
+extinct|נכחד|a|Dinosaurs have been extinct for millions of years.
+endangered|בסכנת הכחדה|a|The tiger is an endangered animal.
+renewable|מתחדש|a|Wind is a renewable source of energy.
+sustainable|בר קיימא|a|We need a sustainable way of life.
+agriculture|חקלאות|n|Agriculture needs a lot of water.
+community|קהילה|n|Our community built a new park.
+democracy|דמוקרטיה|n|In a democracy people can vote.
+parliament|פרלמנט|n|The parliament will meet tomorrow.
+citizen|אזרח|n|Every citizen has a duty to vote.
+president|נשיא|n|The president gave a speech.
+minister|שר|n|The minister answered the question.
+policy|מדיניות|n|The school changed its policy on phones.
+budget|תקציב|n|We have a small budget for the trip.
+poverty|עוני|n|Many families live in poverty.
+wealth|עושר|n|Wealth does not buy happiness.
+inequality|אי שוויון|n|The report shows growing inequality.
+justice|צדק|n|They marched for justice.
+freedom|חופש|n|Freedom is worth fighting for.
+protest|מחאה|n|Thousands joined the protest.
+treaty|הסכם בין מדינות|n|The two nations signed a treaty.
+border|גבול|n|We crossed the border at night.
+empire|אימפריה|n|The Roman empire was huge.
+colony|מושבה|n|It was once a British colony.
+medieval|מימי הביניים|a|The town has a medieval castle.
+revolution|מהפכה|n|The revolution changed the country.
+civilization|ציוויליזציה|n|Egypt had a great civilization.
+ancestor|אב קדמון|n|My ancestor came from Spain.
+archaeology|ארכאולוגיה|n|She wants to study archaeology.
+immigrant|מהגר|n|His father was an immigrant.
+refugee|פליט|n|The refugee found a safe home.
+conflict|סכסוך|n|The conflict lasted many years.
+peace|שלום|n|Everyone hopes for peace.
+crisis|משבר|n|The crisis forced many shops to close.
+disaster|אסון|n|The fire was a terrible disaster.
+impact|השפעה ניכרת|n|The film had a huge impact.
+trend|מגמה|n|The trend is moving upward.
+statistics|סטטיסטיקה|n|The statistics surprised everyone.
+majority|רוב|n|The majority voted yes.
+minority|מיעוט|n|Only a minority agreed.
+urban|עירוני|a|Urban life can be noisy.
+rural|כפרי|a|She grew up in a rural area.
+abolish|לבטל (חוק)|v|They voted to abolish the rule.
+conquer|לכבוש|v|The army tried to conquer the city.
+migrate|לנדוד|v|Birds migrate south in winter.
+preserve|לשמר|v|We must preserve these old buildings.`,
+`abandon|לנטוש|v|They had to abandon the ship.
+absurd|אבסורדי|a|What an absurd idea!
+abundant|בשפע|a|Fish are abundant in this lake.
+accumulate|להצטבר|v|Dust will accumulate under the bed.
+adequate|מספיק לצורך|a|The room has adequate light.
+adversity|מצוקה|n|She showed courage in adversity.
+ambiguous|דו משמעי|a|His reply was ambiguous.
+anticipate|לצפות מראש|v|We did not anticipate this delay.
+apparent|נראה לעין|a|The problem became apparent quickly.
+arbitrary|שרירותי|a|The decision seemed arbitrary.
+astonishing|מדהים|a|The view from the top was astonishing.
+authentic|אותנטי|a|This is an authentic Italian recipe.
+bewildered|מבולבל לגמרי|a|He looked bewildered by the question.
+bizarre|מוזר מאוד|a|What a bizarre dream!
+blunt|בוטה|a|Sorry to be blunt about it.
+compassion|חמלה|n|She treated him with compassion.
+comprehend|לתפוס (להבין)|v|I cannot comprehend this math.
+conceal|להסתיר|v|He tried to conceal his fear.
+controversial|שנוי במחלוקת|a|The new law is controversial.
+convey|להעביר (מסר)|v|Music can convey strong feelings.
+crucial|מכריע|a|This is a crucial moment.
+deceive|להונות|v|Don't try to deceive me.
+deliberate|מכוון|a|It was a deliberate choice.
+despair|ייאוש|n|He sat down in despair.
+devastating|הרסני|a|The storm was devastating.
+dilemma|דילמה|n|I face a real dilemma.
+diminish|להצטמצם|v|The pain will diminish with time.
+distinct|מובחן|a|There are two distinct groups.
+elaborate|מפורט ומורכב|a|They made an elaborate plan.
+eloquent|רהוט|a|She gave an eloquent speech.
+elusive|חמקמק|a|Success remained elusive.
+endure|לעמוד ב (סבל)|v|They had to endure the long winter.
+enormous|עצום|a|An enormous wave hit the boat.
+evident|ברור|a|Her joy was evident to all.
+exceed|לעלות על|v|Costs may exceed the budget.
+fragile|שביר|a|Be careful, the glass is fragile.
+futile|חסר תוחלת|a|Our efforts proved futile.
+genuine|אמיתי|a|Her smile looked genuine.
+hostile|עוין|a|The crowd became hostile.
+immense|עצום בגודלו|a|The castle is immense.
+ingenious|גאוני|a|What an ingenious solution!
+integrity|יושרה|n|He is a man of integrity.
+intricate|מסובך ומפורט|a|The clock has an intricate design.
+irony|אירוניה|n|The irony of the story made us laugh.
+legitimate|לגיטימי|a|That is a legitimate question.
+meticulous|קפדני|a|He is meticulous about details.
+notorious|ידוע לשמצה|a|The road is notorious for accidents.
+obstacle|מכשול|n|Fear is the biggest obstacle.
+ominous|מבשר רעות|a|We heard an ominous sound.
+paradox|פרדוקס|n|It is a strange paradox.
+persistent|עיקש|a|She is a persistent student.
+plausible|סביר ומתקבל|a|That sounds like a plausible story.
+profound|עמוק ומשמעותי|a|The book had a profound effect on me.
+reluctant|מסרב בלב כבד|a|He was reluctant to leave.
+resilient|חסין ומתאושש|a|Children are often resilient.
+scarce|נדיר ומועט|a|Food was scarce that winter.
+skeptical|ספקן|a|I am skeptical about this plan.
+subtle|מעודן|a|There is a subtle difference.
+tedious|מייגע|a|Copying the list was tedious.
+thrive|לשגשג|v|These plants thrive in the sun.
+trivial|זניח|a|It was a trivial mistake.
+ubiquitous|נמצא בכל מקום|a|Phones are ubiquitous today.
+unprecedented|חסר תקדים|a|This was an unprecedented event.
+vivid|חי וצבעוני|a|I have a vivid memory of that day.`,
 ];
 
 const seen = new Set<string>();
