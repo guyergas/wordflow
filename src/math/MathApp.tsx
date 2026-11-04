@@ -135,8 +135,7 @@ function QuestionView({ q, sound, hint, onDone, onNext, neutral, extraAction, sh
       {shownSteps && <ol className="m-steps">{shownSteps.map((s, i) => <li key={i}><span><MT s={s} /></span></li>)}</ol>}
       {q.fig && <Figure fig={q.fig} />}
       <div className="m-tools">
-        {q.pencil && !neutral && <span className="m-tool pencil">✎ כדאי לפתור בדף</span>}
-        {hint && !result && <button type="button" className="m-tool" onClick={() => { setHinted(true); setShowHint(true); }}>{hinted ? 'לראות שוב את הרמז' : 'רמז: איך פותרים?'}</button>}
+        {q.pencil && hint && !result && <button type="button" className="m-tool pencil" onClick={() => { setHinted(true); setShowHint(true); }}>✎ אפשר בדף · לחיצה לרמז</button>}
         {q.read && canSpeak() && <button type="button" className="m-tool" onClick={() => speakHebrew(q.prompt)}>🔊 הקראה</button>}
       </div>
       {q.choices ? (
@@ -298,6 +297,7 @@ function Run({ st, update, onPause }: { st: MathState; update: Update; onPause: 
   const p = st.placement!;
   const stepDef = placementStep(p);
   const q = useMemo(() => makeQuestion(stepDef), [p.station, p.round, p.i, p.d]);
+  const hint = useMemo(() => (q.pencil ? hintFor(stepDef, q) : null), [q]);
   const station = STATIONS.find((s) => s.id === p.station)!;
   const total = STATIONS.length;
   const pct = Math.min(100, ((station.id - 1 + p.i / 4) / total) * 100);
@@ -307,7 +307,7 @@ function Run({ st, update, onPause }: { st: MathState; update: Update; onPause: 
     <div className="session" key={`${p.d}-${p.station}-${p.round}-${p.i}`}>
       <div className="s-top"><span className="muted small">{DOMAINS[p.d].name}</span><button type="button" className="link" onClick={onPause}>אמשיך אחר כך</button></div>
       <div className="thin"><span style={{ width: `${pct}%` }} /></div>
-      <QuestionView q={q} sound={st.settings.sound} neutral onDone={(r) => { answered.current = r.correct; }} onNext={() => move(answered.current === true)}
+      <QuestionView q={q} sound={st.settings.sound} neutral hint={hint} onDone={(r) => { answered.current = r.correct && !r.hinted; }} onNext={() => move(answered.current === true)}
         extraAction={<button type="button" className="ans quiet" onClick={() => move('notyet')}>עוד לא למדתי</button>} />
     </div>
   );

@@ -161,7 +161,8 @@ export function makeQuestion(step: Pick<Step, 'skill' | 'measure' | 'seed' | 'su
   const fig: Fig | undefined = q.needFig || step.support ? q.fig : undefined;
   const choices = step.mode === 'choice' && !q.choices ? autoChoices(q, seeded(step.seed + 7)) : q.choices;
   const wrong = q.wrong?.filter(([v]) => !sameValue(v, q.answer));
-  return { ...q, fig, wrong, choices: choices ? shuffle(choices, seeded(step.seed + 3)) : undefined };
+  // Every question can be worked on paper, and every one has a hint behind the pencil.
+  return { ...q, pencil: true, fig, wrong, choices: choices ? shuffle(choices, seeded(step.seed + 3)) : undefined };
 }
 function autoChoices(q: Question, rnd: Rnd) {
   const out = new Map<string, { label: string; trap?: TrapId }>([[q.answer, { label: q.answer }]]);
@@ -174,7 +175,7 @@ function autoChoices(q: Question, rnd: Rnd) {
   return [...out.values()].map((c) => ({ ...c, label: shown(c.label) }));
 }
 /** How a number is shown: thousands separated, fractions as math. */
-export const shown = (v: string) => `[[${/^\d+$/.test(v) ? fmt(Number(v)) : v}]]`;
+export const shown = (v: string) => (v.includes('[[') ? v : /^[\u0590-\u05ff]/.test(v) ? v : `[[${/^\d+$/.test(v) ? fmt(Number(v)) : v}]]`);
 
 /** A worked example of the same kind with other numbers, so the hint never gives this answer away. */
 export function hintFor(step: Pick<Step, 'skill' | 'measure' | 'seed'>, q: Question): Question {

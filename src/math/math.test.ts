@@ -97,6 +97,7 @@ describe('answers', () => {
     expect(checkTyped({ ...base, exact: true }, '2/4')).toBe(false);
     expect(checkTyped({ ...base, exact: true }, '1/2')).toBe(true);
   });
+  it('never wraps math twice', () => { expect(shown('[[1/2]]')).toBe('[[1/2]]'); expect(shown('מאיות')).toBe('מאיות'); });
   it('recognizes a choice shown as math', () => { expect(isChoiceRight({ ...base, answer: '1234' }, shown('1234'))).toBe(true); });
 });
 
@@ -132,7 +133,14 @@ describe('placement', () => {
     expect(st.settings.pace).toBe('calm');
     expect(nextNew(st)?.id).toBe('mulmean');
   });
-  it('placement offers no hints: the steps exist only for the session', () => { expect(placementStep(startPlacement(1)).support).toBe(false); });
+  it('placement questions show no helping picture by default', () => { expect(placementStep(startPlacement(1)).support).toBe(false); });
+  it('every question marked for paper has a hint with other numbers, in the run too', () => {
+    for (const s of SKILLS) for (const m of ['u', 'e'] as const) { if (!s[m]) continue; for (let seed = 1; seed < 40; seed++) {
+      const step = { skill: s.id, measure: m, seed }, q = makeQuestion({ ...step, support: false, mode: 'type' });
+      expect(q.pencil, s.id).toBe(true);
+      if (q.pencil) expect(hintFor(step, q).steps.length, s.id).toBeGreaterThan(0);
+    } }
+  });
 });
 
 function doDay(st: MathState, day: number, ok: (id: string) => boolean = () => true): MathState {
