@@ -658,3 +658,5 @@ html.a-lock .a-finish { height: 100dvh; min-height: 0; overflow: hidden; }
 .a-facts li { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); padding: 6px 0; }
 .a-show .a-board { height: 36dvh; }
 .a-today-card .a-mini { height: 100%; }
+
+.k-mark { background: linear-gradient(transparent 8%, #ffe45c 8%, #ffe45c 92%, transparent 92%); color: #172b35; border-radius: 3px; padding-inline: 2px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }

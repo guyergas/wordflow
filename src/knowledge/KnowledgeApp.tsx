@@ -169,8 +169,9 @@ function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boo
   const [i, setI] = useState(0);
   const score = useRef(0);
   const [reread, setReread] = useState(false);
-  const Text = () => <div className="k-text">{lesson.text.split('\n\n').map((t, i) => <p key={i}>{t}</p>)}{canSpeak() && <button type="button" className="m-tool" onClick={() => speakHebrew(lesson.text)}>🔊 הקראה</button>}</div>;
-  if (stage === 'read') return <div className="q"><span className="m-chip-hi center">{LEVEL[lesson.level]}</span><h1 className="k-title">{lesson.title}</h1><Text /><div className="grow" /><button type="button" className="cta" onClick={() => setStage('q')}>קראתי</button></div>;
+  // Key sentences are in yellow on the first reading only. Back from a question, she looks for the answer herself.
+  const Text = ({ marks = false }: { marks?: boolean }) => <div className="k-text">{lesson.text.split('\n\n').map((t, i) => <p key={i}>{t.split(/\[\[|\]\]/).map((part, j) => (marks && j % 2 ? <mark key={j} className="k-mark">{part}</mark> : part))}</p>)}{canSpeak() && <button type="button" className="m-tool" onClick={() => speakHebrew(lesson.text)}>🔊 הקראה</button>}</div>;
+  if (stage === 'read') return <div className="q"><span className="m-chip-hi center">{LEVEL[lesson.level]}</span><h1 className="k-title">{lesson.title}</h1>{lesson.text.includes('[[') && <p className="small muted center">במרקר הצהוב: המשפטים החשובים בקטע</p>}<Text marks /><div className="grow" /><button type="button" className="cta" onClick={() => setStage('q')}>קראתי</button></div>;
   if (stage === 'q') return (
     <div className="k-wrap" key={i}>
       <Quiz q={lesson.qs[i]} sound={sound} label={`שאלה ${i + 1} מתוך ${lesson.qs.length}`} onAnswer={(ok) => { if (ok) score.current++; }} onNext={() => { setReread(false); if (i + 1 < lesson.qs.length) setI(i + 1); else setStage('end'); }}
