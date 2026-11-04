@@ -66,7 +66,10 @@ describe('the plan', () => {
   const pass = (st: ReturnType<typeof initial>, id: string, day: number) => answer(answer(st, id, 'see', true, day), id, 'write', true, day);
   it('starts with the first letter and the full introduction', () => {
     const p = buildPlan(initial('עומר'), 100);
-    expect(p.steps.map((s) => s.t)).toEqual(['meet', ...Array(10).fill('find'), ...Array(10).fill('trace'), ...Array(10).fill('word')]);
+    expect(p.steps[0].t).toBe('meet');
+    const count = (t: string) => p.steps.filter((s) => s.t === t).length;
+    expect([count('meet'), count('find'), count('trace'), count('word')]).toEqual([1, 10, 10, 10]);
+    expect(p.steps.slice(1).filter((s, i, a) => i > 0 && s.t === a[i - 1].t).length).toBeLessThan(5);
     expect(p.steps[0].id).toBe('י');
   });
   it('repeats a review exercise several times', () => {

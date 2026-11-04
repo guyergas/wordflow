@@ -32,6 +32,17 @@ function practice(st: AState, id: string, day: number, rnd: () => number, force 
   return out;
 }
 
+/** Exercises in random order, so that writing and recognizing keep alternating. The same kind twice in a row happens only when nothing else is left. */
+export function mix(steps: Step[], rnd: () => number): Step[] {
+  const left = shuffle(steps, rnd), out: Step[] = [];
+  const kind = (s: Step) => (s.t === 'find' || s.t === 'word' ? s.t : 'draw');
+  while (left.length) {
+    const last = out[out.length - 1], i = last ? left.findIndex((s) => kind(s) !== kind(last)) : 0;
+    out.push(left.splice(Math.max(i, 0), 1)[0]);
+  }
+  return out;
+}
+
 /** A sitting: some review of whole letters, then the new letter. */
 export type PlanOptions = { bonus?: boolean; extra?: boolean; warm?: boolean; boost?: boolean; rnd?: () => number };
 const level = (k: Known) => k.see.box + k.write.box;
@@ -41,11 +52,11 @@ export function buildPlan(st: AState, day: number, o: PlanOptions = {}): Plan {
   if (o.warm || o.boost) {
     const known = met.filter((id) => secure(st.letters[id]));
     const list = o.warm ? shuffle(known.length >= 2 ? known : met, rnd) : shuffle(met, rnd).sort((a, b) => level(st.letters[a]) - level(st.letters[b]));
-    return { day, steps: list.slice(0, 3).flatMap((id) => practice(st, id, day, rnd, true)).slice(0, 30), at: 0, extra: true };
+    return { day, steps: mix(list.slice(0, 3).flatMap((id) => practice(st, id, day, rnd, true)).slice(0, 30), rnd), at: 0, extra: true };
   }
   if (o.extra) {
     const steps = shuffle(met, rnd).slice(0, 2).flatMap((id) => practice(st, id, day, rnd, true));
-    return { day, steps, at: 0, extra: true };
+    return { day, steps: mix(steps, rnd), at: 0, extra: true };
   }
   const due = met.filter((id) => st.letters[id].see.due <= day || st.letters[id].write.due <= day)
     .sort((a, b) => Math.min(st.letters[a].see.due, st.letters[a].write.due) - Math.min(st.letters[b].see.due, st.letters[b].write.due));
@@ -54,12 +65,12 @@ export function buildPlan(st: AState, day: number, o: PlanOptions = {}): Plan {
   let reviews = due.flatMap((id) => practice(st, id, day, rnd));
   if (!canLearn && !freshToday && !reviews.length) reviews = shaky(st).flatMap((id) => practice(st, id, day, rnd, true));
   reviews = reviews.slice(0, canLearn ? 20 : 40);
-  const steps: Step[] = [...reviews];
+  // Meeting a new letter stays first, and everything after it is mixed.
   if (canLearn && next) {
     const id = next.id;
-    steps.push({ t: 'meet', id }, ...times('find', id, REPEAT.find), ...times('trace', id, REPEAT.trace), ...times('word', id, REPEAT.word));
+    return { day, steps: [{ t: 'meet', id }, ...mix([...reviews, ...times('find', id, REPEAT.find), ...times('trace', id, REPEAT.trace), ...times('word', id, REPEAT.word)], rnd)], at: 0 };
   }
-  return { day, steps, at: 0 };
+  return { day, steps: mix(reviews, rnd), at: 0 };
 }
 
 const bump = (b: Box, ok: boolean, day: number): Box => {

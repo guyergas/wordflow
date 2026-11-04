@@ -157,23 +157,12 @@ function Session({ st, update, onExit, onMore }: { st: AState; update: Update; o
   return (
     <div className="session a-session" key={plan.at}>
       <div className="s-top"><button type="button" className="round" aria-label="יציאה. ההתקדמות נשמרת" onClick={onExit}><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg></button><div className="thin" style={{ flex: 1 }}><span style={{ width: `${(plan.at / plan.steps.length) * 100}%` }} /></div></div>
-      <Reps steps={plan.steps} at={plan.at} />
       {step.t === 'meet' && <Meet l={l} onDone={() => update((s) => advance(meet(s, l.id, plan.day)))} />}
       {(step.t === 'trace' || step.t === 'copy' || step.t === 'write') && <Draw l={l} mode={step.t} sound={sound} onDone={(ok) => update((s) => advance(plan.extra ? s : answer(s, l.id, 'write', ok, plan.day)))} />}
       {step.t === 'word' && <WordGame st={st} id={l.id} n={step.n} sound={sound} onDone={(ok) => update((s) => advance(plan.extra ? s : answer(s, l.id, 'see', ok, plan.day)))} />}
       {step.t === 'find' && <Find st={st} step={step} sound={sound} onDone={(ok) => update((s) => advance(plan.extra ? s : answer(s, l.id, 'see', ok, plan.day)))} />}
     </div>
   );
-}
-
-/** Dots for the exercise repeated now, so the child sees how many are left. */
-function Reps({ steps, at }: { steps: Step[]; at: number }) {
-  const same = (s?: Step) => !!s && s.t === steps[at].t && s.id === steps[at].id;
-  let from = at, to = at;
-  while (same(steps[from - 1])) from--;
-  while (same(steps[to + 1])) to++;
-  if (from === to) return null;
-  return <div className="a-reps" aria-hidden="true">{steps.slice(from, to + 1).map((_, i) => <i key={i} className={from + i < at ? 'done' : from + i === at ? 'now' : ''} />)}</div>;
 }
 
 /** First the known letter, then the new part draws itself in color while the voice explains. */
