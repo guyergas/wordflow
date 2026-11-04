@@ -38,6 +38,7 @@ const Close = () => <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden=
 function CourseSheet({ onClose }: { onClose: () => void }) {
   const mine = myCourses(), more = COURSES.filter((c) => !mine.includes(c));
   const [editing, setEditing] = useState(false);
+  const [, refresh] = useState(0);
   return (
     <div className="sheet-wrap" onClick={onClose}>
       <div className="sheet" role="dialog" aria-label="הקורסים שלי" onClick={(e) => e.stopPropagation()}>
@@ -46,7 +47,7 @@ function CourseSheet({ onClose }: { onClose: () => void }) {
           {mine.map((c) => (
             <div key={c.id} className="my-course">
               <button type="button" aria-current={c.id === COURSE_ID ? 'true' : undefined} onClick={() => { if (c.id === COURSE_ID) onClose(); else switchCourse(c.id); }}>{c.name}</button>
-              {editing && mine.length > 1 && <button type="button" className="round" aria-label={`יציאה מהקורס ${c.name}`} onClick={() => { leaveCourse(c.id); if (c.id !== COURSE_ID) setEditing(true); }}><Close /></button>}
+              {editing && mine.length > 1 && <button type="button" className="round" aria-label={`יציאה מהקורס ${c.name}`} onClick={() => { leaveCourse(c.id); refresh((n) => n + 1); }}><Close /></button>}
             </div>
           ))}
         </div>
