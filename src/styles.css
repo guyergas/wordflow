@@ -660,3 +660,9 @@ html.a-lock .a-finish { height: 100dvh; min-height: 0; overflow: hidden; }
 .a-today-card .a-mini { height: 100%; }
 
 .k-mark { background: linear-gradient(transparent 8%, #ffe45c 8%, #ffe45c 92%, transparent 92%); color: #172b35; border-radius: 3px; padding-inline: 2px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+.k-text p { line-height: 1.7; margin-block: 0 .95em; }
+.k-size { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 10px; }
+.k-size button { min-width: 44px; min-height: 44px; border-radius: 12px; background: var(--surface-2); font-weight: 700; font-size: 16px; color: var(--ink); }
+.k-size button:disabled { opacity: .4; }
+.k-text p { font-size: inherit; }

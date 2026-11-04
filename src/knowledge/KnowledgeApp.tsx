@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { COURSE_INFO, STORAGE_KEY, USER_NAME } from '../course';
+import { COURSE_INFO, STORAGE_KEY, USER_NAME, userKey } from '../course';
+import { shortParagraphs } from './kit';
 import { canSpeak, sfx, speakHebrew } from '../platform';
 import { readCourses } from '../summary';
 import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
@@ -163,6 +164,8 @@ function ReportProblem({ lesson }: { lesson: Lesson }) {
   return <><button type="button" className="link center-block" onClick={send}>משהו לא נכון?</button>{msg && <p className="small center" role="status">{msg}</p>}</>;
 }
 
+const textSize = () => { try { return Number(localStorage.getItem(userKey('textSize'))) || 18; } catch { return 18; } };
+
 function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boolean; sound: boolean; onDone: (ok: number, all: number) => void }) {
   type Stage = 'read' | 'q' | 'end';
   const [stage, setStage] = useState<Stage>('read');
@@ -170,7 +173,9 @@ function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boo
   const score = useRef(0);
   const [reread, setReread] = useState(false);
   // Key sentences are in yellow on the first reading only. Back from a question, she looks for the answer herself.
-  const Text = ({ marks = false }: { marks?: boolean }) => <div className="k-text">{lesson.text.split('\n\n').map((t, i) => <p key={i}>{t.split(/\[\[|\]\]/).map((part, j) => (marks && j % 2 ? <mark key={j} className="k-mark">{part}</mark> : part))}</p>)}{canSpeak() && <button type="button" className="m-tool" onClick={() => speakHebrew(lesson.text)}>🔊 הקראה</button>}</div>;
+  const [size, setSize] = useState(textSize);
+  const change = (by: number) => { const next = Math.max(14, Math.min(28, size + by)); setSize(next); try { localStorage.setItem(userKey('textSize'), String(next)); } catch { /* this visit only */ } };
+  const Text = ({ marks = false }: { marks?: boolean }) => <div className="k-text" style={{ fontSize: size }}><div className="k-size" role="group" aria-label="גודל הטקסט"><button type="button" aria-label="הקטנת הטקסט" disabled={size <= 14} onClick={() => change(-2)}>א−</button><button type="button" aria-label="הגדלת הטקסט" disabled={size >= 28} onClick={() => change(2)}>א+</button></div>{shortParagraphs(lesson.text).map((t, i) => <p key={i}>{t.split(/\[\[|\]\]/).map((part, j) => (marks && j % 2 ? <mark key={j} className="k-mark">{part}</mark> : part))}</p>)}{canSpeak() && <button type="button" className="m-tool" onClick={() => speakHebrew(lesson.text)}>🔊 הקראה</button>}</div>;
   if (stage === 'read') return <div className="q"><span className="m-chip-hi center">{LEVEL[lesson.level]}</span><h1 className="k-title">{lesson.title}</h1>{lesson.text.includes('[[') && <p className="small muted center">במרקר הצהוב: המשפטים החשובים בקטע</p>}<Text marks /><div className="grow" /><button type="button" className="cta" onClick={() => setStage('q')}>קראתי</button></div>;
   if (stage === 'q') return (
     <div className="k-wrap" key={i}>

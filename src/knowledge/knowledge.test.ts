@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { COURSES } from '../course';
 import { answerKey, buildPlan, dayLog, finishLesson, initial, isSolid, lessonsOf, LESSON } from './engine';
 import { DEEP } from './deep';
+import { shortParagraphs } from './kit';
 import { LESSONS } from './lessons';
 
 const T = 20000;
@@ -14,6 +15,13 @@ describe('lesson bank', () => {
   it('marked sentences are balanced, and full-length lessons have several', () => {
     for (const l of LESSONS) expect(l.text.split('[[').length, l.id).toBe(l.text.split(']]').length);
     for (const id of Object.keys(DEEP)) expect(DEEP[id].text.split('[[').length - 1, id).toBeGreaterThanOrEqual(5);
+  });
+  it('short paragraphs keep every word and every mark whole', () => {
+    for (const l of LESSONS) {
+      const parts = shortParagraphs(l.text);
+      expect(parts.join(' ').replace(/\s+/g, ' '), l.id).toBe(l.text.replace(/\s+/g, ' '));
+      for (const t of parts) expect(t.split('[[').length, l.id).toBe(t.split(']]').length);
+    }
   });
   it('every lesson is complete', () => {
     expect(new Set(LESSONS.map((l) => l.id)).size).toBe(LESSONS.length);
