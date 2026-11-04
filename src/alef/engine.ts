@@ -1,6 +1,6 @@
 // Rules of the course. One new letter at a time, and a new one waits while three letters are still shaky.
 // Knowing a letter and writing it are two separate measures, each with its own spaced review.
-import { LETTER, LETTERS, lookAlikes } from './letters';
+import { FINALS, LETTER, LETTERS, lookAlikes } from './letters';
 
 export interface Box { box: number; due: number }
 export interface Known { see: Box; write: Box; met: number }
@@ -89,7 +89,8 @@ export function choices(st: AState, id: string, rnd: () => number = Math.random)
   const like = shuffle(lookAlikes(id), rnd).sort((a, b) => Number(known(b)) - Number(known(a)));
   const met = shuffle(Object.keys(st.letters).filter((c) => c !== id), rnd);
   const rest = LETTERS.map((l) => l.id).filter((c) => c !== id);
-  const others = [...new Set([...like, ...met, ...rest])].slice(0, size - 1);
+  const allowed = (c: string) => known(c) || !FINALS.includes(c) || FINALS.includes(id);
+  const others = [...new Set([...like, ...met, ...rest])].filter(allowed).slice(0, size - 1);
   return shuffle([id, ...others], rnd);
 }
 

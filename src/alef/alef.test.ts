@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { answer, advance, buildPlan, choices, initial, meet, nextLetter, secure, shaky, SHAKY_LIMIT, validStep, writeStage } from './engine';
 import { judge, FREE, TRACE } from './ink';
-import { frameOf, HEBREW_AUDIO, LETTER, LETTERS, lookAlikes, Pt, WORDS } from './letters';
+import { FINALS, frameOf, HEBREW_AUDIO, LETTER, LETTERS, lookAlikes, Pt, WORDS } from './letters';
 
 const ink = (id: string) => LETTER[id].strokes.map((s) => s.p);
 const wobble = (lines: Pt[][], a = 5): Pt[][] => lines.map((l) => l.flatMap((p, i) => { if (!i) return [p]; const [x0, y0] = l[i - 1], out: Pt[] = []; for (let k = 1; k <= 8; k++) { const t = k / 8; out.push([x0 + (p[0] - x0) * t + Math.sin(k * 1.7) * a, y0 + (p[1] - y0) * t + Math.cos(k * 2.3) * a]); } return out; }));
@@ -20,6 +20,10 @@ describe('letters', () => {
   });
   it('moves writing from dashed, to beside a model, to alone', () => {
     expect([0, 1, 2, 3].map(writeStage)).toEqual(['trace', 'copy', 'write', 'write']);
+  });
+  it('keeps final forms for the end', () => {
+    expect(LETTERS.slice(-5).map((l) => l.id).sort().join('')).toBe([...FINALS].sort().join(''));
+    expect(choices(initial('א'), 'י', () => 0.5).some((c) => FINALS.includes(c))).toBe(false);
   });
   it('gives every sentence a recording', () => {
     for (const l of LETTERS) { expect(HEBREW_AUDIO).toContain(l.recipe); expect(HEBREW_AUDIO).toContain(l.say); }

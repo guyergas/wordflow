@@ -600,3 +600,6 @@ a.link { text-align: center; line-height: 44px; }
 html.a-lock, html.a-lock body { overflow: hidden; overscroll-behavior: none; height: 100%; }
 html.a-lock .a-session { height: 100dvh; min-height: 0; overflow: hidden; }
 .a-pad { -webkit-touch-callout: none; }
+/* Writing direction, in blue so that it never looks like part of the letter. */
+.a-arrows polyline { fill: none; stroke: #2f80d0; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.a-model .a-arrows polyline { stroke-width: 3.5; }

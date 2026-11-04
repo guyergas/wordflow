@@ -45,6 +45,18 @@ const Lines = () => <g className="a-lines"><line x1={VIEW.x} x2={VIEW.x + VIEW.w
 function Glyph({ strokes, cls, draw, gap = 1.3, start = 0 }: { strokes: Stroke[]; cls?: string; draw?: boolean; gap?: number; start?: number }) {
   return <>{strokes.map((s, i) => <polyline key={i} points={pts(s.p)} pathLength={draw ? 1 : undefined} className={`a-stroke ${cls ?? ''} ${draw ? 'draw' : ''}`} style={draw ? { animationDelay: `${start + i * gap}s` } : undefined} />)}</>;
 }
+/** The direction of writing: an arrow along each line, pointing where the finger goes. */
+function arrowOf(p: Pt[]) {
+  const seg = p.slice(1).map((q, i) => Math.hypot(q[0] - p[i][0], q[1] - p[i][1])), all = seg.reduce((a, b) => a + b, 0);
+  const pad = all < 40 ? 0.1 : 0.16, at = (d: number): Pt => { let left = d; for (let i = 0; i < seg.length; i++) { if (left <= seg[i] || i === seg.length - 1) { const f = left / seg[i]; return [p[i][0] + (p[i + 1][0] - p[i][0]) * f, p[i][1] + (p[i + 1][1] - p[i][1]) * f]; } left -= seg[i]; } return p[0]; };
+  const from = all * pad, to = all * (1 - pad), line: Pt[] = [at(from)]; let run = 0;
+  seg.forEach((len, i) => { run += len; if (run > from && run < to) line.push(p[i + 1]); });
+  const end = at(to); line.push(end);
+  const [bx, by] = line[line.length - 2], a = Math.atan2(end[1] - by, end[0] - bx), size = 9;
+  const wing = (w: number): Pt => [end[0] - size * Math.cos(a + w), end[1] - size * Math.sin(a + w)];
+  return { line, head: [wing(0.6), end, wing(-0.6)] };
+}
+const Arrows = ({ strokes }: { strokes: Stroke[] }) => <g className="a-arrows">{strokes.map((s, i) => { const { line, head } = arrowOf(s.p); return <g key={i}><polyline points={pts(line)} /><polyline points={pts(head)} /></g>; })}</g>;
 const Mini = ({ id, print }: { id: string; print?: boolean }) => print
   ? <svg viewBox={VB} className="a-mini" aria-hidden="true"><Lines /><text x="50" y="100" className="a-print-svg">{id}</text></svg>
   : <svg viewBox={VB} className="a-mini" aria-hidden="true"><Lines /><Glyph strokes={LETTER[id].strokes} /></svg>;
@@ -130,7 +142,7 @@ function Parents({ st, update, onClose }: { st: AState; update: Update; onClose:
         {!confirm ? <button type="button" className="link" onClick={() => setConfirm(true)}>איפוס ההתקדמות</button> : <><p className="small">למחוק את ההתקדמות במכשיר הזה? אי אפשר לבטל את זה.</p><div className="row-between"><button type="button" className="link" onClick={() => setConfirm(false)}>ביטול</button><button type="button" className="link" onClick={() => { update(() => initial(USER_NAME)); setConfirm(false); onClose(); }}>למחוק</button></div></>}
       </div>
       {l && <div className="sheet-wrap" onClick={() => setShown(null)}><div className="sheet a-show" role="dialog" aria-label={l.name} onClick={(e) => e.stopPropagation()}>
-        <svg key={l.id} viewBox={VB} className="a-board" aria-hidden="true"><Lines /><Glyph strokes={l.strokes} draw /></svg>
+        <svg key={l.id} viewBox={VB} className="a-board" aria-hidden="true"><Lines /><Glyph strokes={l.strokes} draw /><Arrows strokes={l.strokes} /></svg>
         <div className="row-between"><b>{l.name}</b><Speaker text={l.recipe} /></div>
         {st.letters[l.id] && <p className="small muted">שלב הכתיבה: {stage[Math.min(3, st.letters[l.id].write.box)]}</p>}
       </div></div>}
@@ -171,7 +183,7 @@ function Meet({ l, onDone }: { l: Letter; onDone: () => void }) {
   useEffect(() => { sayHebrew(l.recipe); }, [run]);
   return (
     <div className="a-step">
-      <svg key={run} viewBox={VB} className="a-board" role="img" aria-label={l.name}><Lines /><Glyph strokes={old} /><Glyph strokes={fresh} cls="new" draw start={old.length ? 1 : 0.3} gap={1.4} /></svg>
+      <svg key={run} viewBox={VB} className="a-board" role="img" aria-label={l.name}><Lines /><Glyph strokes={old} /><Glyph strokes={fresh} cls="new" draw start={old.length ? 1 : 0.3} gap={1.4} /><Arrows strokes={l.strokes} /></svg>
       <div className="a-tools"><button type="button" className="a-speak" aria-label="שוב" onClick={() => setRun(run + 1)}><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" d="M4 12a8 8 0 1 0 2.5-5.8M4 4v5h5" /></svg></button></div>
       <Next onClick={onDone} />
     </div>
@@ -266,10 +278,11 @@ function Draw({ l, mode, sound, onDone }: { l: Letter; mode: 'trace' | 'copy' | 
   return (
     <div className="a-step">
       <div className={`a-desk ${mode === 'copy' ? 'two' : ''}`}>
-        {mode === 'copy' && <svg viewBox={frame} className="a-model" role="img" aria-label={`דוגמה: ${l.name}`}><Lines /><Glyph strokes={l.strokes} /></svg>}
+        {mode === 'copy' && <svg viewBox={frame} className="a-model" role="img" aria-label={`דוגמה: ${l.name}`}><Lines /><Glyph strokes={l.strokes} /><Arrows strokes={l.strokes} /></svg>}
         <svg ref={svg} viewBox={frame} className="a-board a-pad" role="img" aria-label={`כתיבת ${l.name}`} onPointerDown={start} onPointerMove={move} onPointerUp={end} onPointerCancel={end}>
           <Lines />
           {guide && <Glyph strokes={l.strokes} cls="dash" />}
+          {guide && !won && <Arrows strokes={l.strokes} />}
           {guide && !ink.length && l.strokes.map((s, i) => <g key={i}><circle cx={s.p[0][0]} cy={s.p[0][1]} r="6" className="a-dot" /><text x={s.p[0][0]} y={s.p[0][1] + 3} className="a-num">{i + 1}</text></g>)}
           {help && <Glyph strokes={l.strokes.filter((_, i) => help.includes(i))} cls="new" draw gap={1} />}
           {ink.map((k, i) => <polyline key={i} points={pts(k)} className={`a-stroke ink ${won ? 'gold' : ''}`} />)}
