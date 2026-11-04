@@ -74,6 +74,14 @@ export function AlefApp() {
   const today = dayNumber();
   useTimer(inSession, update);
   useEffect(() => { void saveHebrewRecordings(); }, []);
+  // The child's screens fit the screen and never scroll, so a tap or a stroke is never taken for a scroll. Only the parents' page scrolls.
+  useEffect(() => {
+    if (parents) return;
+    const root = document.documentElement, stop = (e: TouchEvent) => e.preventDefault();
+    root.classList.add('a-lock');
+    document.addEventListener('touchmove', stop, { passive: false });
+    return () => { root.classList.remove('a-lock'); document.removeEventListener('touchmove', stop); };
+  }, [parents]);
   const start = (o: PlanOptions = {}) => {
     update((s) => { const open = !!s.plan && !s.plan.extra && s.plan.day === today && s.plan.at < s.plan.steps.length; return open && !o.bonus && !o.extra && !o.warm && !o.boost ? s : { ...s, plan: buildPlan(s, today, o) }; });
     setInSession(true);
@@ -233,13 +241,6 @@ function Draw({ l, mode, sound, onDone }: { l: Letter; mode: 'trace' | 'copy' | 
   const said = guide ? SAY.trace(l) : mode === 'copy' ? SAY.copy(l) : SAY.write(l);
   latest.current = ink;
   useEffect(() => { sayHebrew(said); return () => clearTimeout(wait.current); }, []);
-  // The page stays still while writing. iPhone may scroll a page even over an area marked not to, so touch moves are stopped here too.
-  useEffect(() => {
-    const root = document.documentElement, stop = (e: TouchEvent) => e.preventDefault();
-    root.classList.add('a-lock');
-    document.addEventListener('touchmove', stop, { passive: false });
-    return () => { root.classList.remove('a-lock'); document.removeEventListener('touchmove', stop); };
-  }, []);
   const at = (e: PE): Pt | null => {
     const m = svg.current?.getScreenCTM(); if (!m) return null;
     const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse());

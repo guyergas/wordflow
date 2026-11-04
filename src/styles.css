@@ -603,3 +603,11 @@ html.a-lock .a-session { height: 100dvh; min-height: 0; overflow: hidden; }
 /* Writing direction, in blue so that it never looks like part of the letter. */
 .a-arrows polyline { fill: none; stroke: #2f80d0; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 .a-model .a-arrows polyline { stroke-width: 3.5; }
+/* Answers share whatever height is left, so that the next button is always on the screen. */
+html.a-lock .a-home { height: 100dvh; overflow: hidden; }
+html.a-lock .a-finish { height: 100dvh; min-height: 0; overflow: hidden; }
+.a-answers, .a-answers.small { flex: 1 1 0; min-height: 0; align-content: stretch; grid-auto-rows: minmax(0, 1fr); }
+.a-answer, .a-answers.small .a-answer { height: auto; min-height: 0; max-height: none; }
+.a-answer .a-mini { min-height: 0; }
+.a-step > .a-speak, .a-word { flex: none; }
+.a-word { max-height: 34dvh; overflow: hidden; }
