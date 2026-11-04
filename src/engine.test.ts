@@ -1,3 +1,4 @@
+import { repairPlans, Plan as RepairPlan } from './engine';
 import { describe, expect, it } from 'vitest';
 import { WORDS, WORD, LEVELS } from './words';
 import { buildReport } from './report';
@@ -21,6 +22,28 @@ function simulateDay(st: State, day: number, correct: (kind: string) => boolean 
   }
   return s;
 }
+
+describe('saved rounds', () => {
+  const stale = (over: Partial<RepairPlan> = {}): RepairPlan => ({ day: 1, steps: [], at: 0, short: false, alreadyKnown: [], newIds: [], consolidating: false, gained: { r: [], s: [] }, flagged: [], ...over });
+  const [a, b] = WORDS;
+  it('removes steps for words that no longer exist and keeps the place', () => {
+    const plan = stale({ at: 2, newIds: ['gone', a.id], flagged: ['gone'], steps: [
+      { part: 'new', kind: 'meaning', id: a.id }, { part: 'new', kind: 'meaning', id: 'gone' },
+      { part: 'new', kind: 'meaning', id: b.id }, { part: 'new', kind: 'match', id: a.id, ids: [a.id, 'gone'] },
+    ] });
+    const fixed = repairPlans({ ...initialState(), plan }).plan!;
+    expect(fixed.steps.map((s) => s.id)).toEqual([a.id, b.id]);
+    expect(fixed.at).toBe(1);
+    expect(fixed.newIds).toEqual([a.id]);
+    expect(fixed.flagged).toEqual([]);
+  });
+  it('drops a round with nothing left and leaves a healthy state unchanged', () => {
+    const st = { ...initialState(), plan: stale({ steps: [{ part: 'new', kind: 'meaning', id: 'gone' }] }) };
+    expect(repairPlans(st).plan).toBeNull();
+    const fine = { ...initialState(), plan: stale({ steps: [{ part: 'new', kind: 'meaning', id: a.id }] }) };
+    expect(repairPlans(fine)).toBe(fine);
+  });
+});
 
 describe('word bank', () => {
   it('has 8 levels with complete, usable entries', () => {

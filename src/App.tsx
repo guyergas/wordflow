@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   applyPlacement, buildPlan, clozeOf, currentLevel, dayLog, dayNumber, hardWords, isKnown, isMet, Kind, label, levelStats, LEARNING_CAP, options,
   Part, Plan, placementWords, PLACEMENT_PASS, recordRecognition, recordSpelling, givenLetters, spellLevel, spellAlign, spellDiff, spellKnown, spellMeasured, State, Step, tileSet,
-  toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, addStudyTime, questionCount, studyTimeLabel, studySeconds, resolveCheck, restorePaused, onTheWay, steppedToday, spellCandidates,
+  toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, addStudyTime, questionCount, studyTimeLabel, studySeconds, resolveCheck, restorePaused, repairPlans, onTheWay, steppedToday, spellCandidates,
 } from './engine';
 import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind, sentencePlan, sentencesKnown, tokens, TOPICS, unknownWords } from './sentences';
 import { COURSE_CHOSEN, COURSE_ID, CourseId, HAS_SPELLING, IS_THAI, switchCourse, x } from './course';
@@ -1086,7 +1086,7 @@ function Settings({ st, update, onClose }: { st: State; update: Update; onClose:
     try {
       const data = JSON.parse(await f.text());
       if (data.v !== 1 || !data.words || (data.course ?? 'en') !== COURSE_ID) throw new Error('bad');
-      update(() => data);
+      update(() => repairPlans(data));
       setMsg('הגיבוי שוחזר.');
     } catch { setMsg(`הקובץ הזה אינו גיבוי של ${COURSES.find((c) => c.id === COURSE_ID)!.name} ב-WordFlow.`); }
   };

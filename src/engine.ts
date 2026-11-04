@@ -445,6 +445,26 @@ export function dropUnpracticed(st: State): State {
   return { ...st, words: Object.fromEntries(kept), startLevel: 0, plan: null, paused: null };
 }
 
+/** A saved round can name a word that a later version replaced. Those steps go, and the round carries on from the same place. */
+function repairOne(plan: Plan): Plan | null {
+  const ok = (id: string) => !!WORD[id];
+  const fine = (s: Step) => ok(s.id) && (s.ids ?? []).every(ok);
+  if (plan.steps.every(fine) && plan.newIds.every(ok) && plan.alreadyKnown.every(ok) && plan.flagged.every(ok) && plan.gained.r.every(ok) && plan.gained.s.every(ok)) return plan;
+  const steps = plan.steps.filter(fine);
+  if (!steps.length) return null;
+  return {
+    ...plan, steps, at: plan.steps.slice(0, plan.at).filter(fine).length,
+    newIds: plan.newIds.filter(ok), alreadyKnown: plan.alreadyKnown.filter(ok), flagged: plan.flagged.filter(ok),
+    gained: { r: plan.gained.r.filter(ok), s: plan.gained.s.filter(ok) },
+  };
+}
+
+export function repairPlans(st: State): State {
+  const plan = st.plan ? repairOne(st.plan) : st.plan;
+  const paused = st.paused ? repairOne(st.paused) : st.paused;
+  return plan === st.plan && paused === st.paused ? st : { ...st, plan, paused };
+}
+
 // ---------- Progress ----------
 export interface Totals { met: number; known: number; spelled: number; flagged: number; all: number }
 export function totals(st: State): Totals {

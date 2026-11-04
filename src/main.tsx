@@ -2,9 +2,27 @@ import '@fontsource-variable/heebo/index.css';
 import '@fontsource-variable/fredoka/index.css';
 import './styles.css';
 import { createRoot } from 'react-dom/client';
+import { Component, ReactNode } from 'react';
 import { App } from './App';
+import { load, save } from './platform';
 
-createRoot(document.getElementById('root')!).render(<App />);
+/** An unexpected error shows a way out and not a blank screen. Learning progress is left alone. */
+class Recover extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  render() {
+    if (!this.state.failed) return this.props.children;
+    return (
+      <div className="onb">
+        <h1>משהו השתבש</h1>
+        <p className="lead">ההתקדמות שלך שמורה. אפשר להתחיל מחדש את האימון של היום.</p>
+        <button type="button" className="cta" onClick={() => { save({ ...load(), plan: null, paused: null }); location.reload(); }}>להמשיך</button>
+      </div>
+    );
+  }
+}
+
+createRoot(document.getElementById('root')!).render(<Recover><App /></Recover>);
 
 // A new version takes over as soon as it is ready, so nobody stays on an old one.
 if ('serviceWorker' in navigator) {
