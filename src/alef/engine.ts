@@ -5,7 +5,7 @@ import { FINALS, LETTER, LETTERS, lookAlikes } from './letters';
 export interface Box { box: number; due: number }
 export interface Known { see: Box; write: Box; met: number }
 export type Step = { t: 'meet' | 'trace' | 'copy' | 'write' | 'find' | 'word'; id: string; print?: boolean; n?: number };
-export interface Plan { day: number; steps: Step[]; at: number; extra?: boolean }
+export interface Plan { day: number; steps: Step[]; at: number; extra?: boolean; mixed?: boolean }
 export interface AState { onboarded: boolean; name: string; letters: Record<string, Known>; days: Record<number, { sec: number; fresh: number; done?: boolean }>; plan: Plan | null; settings: { sound: boolean } }
 
 const GAPS = [1, 1, 2, 4, 8, 16, 32];
@@ -52,11 +52,11 @@ export function buildPlan(st: AState, day: number, o: PlanOptions = {}): Plan {
   if (o.warm || o.boost) {
     const known = met.filter((id) => secure(st.letters[id]));
     const list = o.warm ? shuffle(known.length >= 2 ? known : met, rnd) : shuffle(met, rnd).sort((a, b) => level(st.letters[a]) - level(st.letters[b]));
-    return { day, steps: mix(list.slice(0, 3).flatMap((id) => practice(st, id, day, rnd, true)).slice(0, 30), rnd), at: 0, extra: true };
+    return { day, steps: mix(list.slice(0, 3).flatMap((id) => practice(st, id, day, rnd, true)).slice(0, 30), rnd), at: 0, extra: true, mixed: true };
   }
   if (o.extra) {
     const steps = shuffle(met, rnd).slice(0, 2).flatMap((id) => practice(st, id, day, rnd, true));
-    return { day, steps: mix(steps, rnd), at: 0, extra: true };
+    return { day, steps: mix(steps, rnd), at: 0, extra: true, mixed: true };
   }
   const due = met.filter((id) => st.letters[id].see.due <= day || st.letters[id].write.due <= day)
     .sort((a, b) => Math.min(st.letters[a].see.due, st.letters[a].write.due) - Math.min(st.letters[b].see.due, st.letters[b].write.due));
@@ -68,9 +68,9 @@ export function buildPlan(st: AState, day: number, o: PlanOptions = {}): Plan {
   // Meeting a new letter stays first, and everything after it is mixed.
   if (canLearn && next) {
     const id = next.id;
-    return { day, steps: [{ t: 'meet', id }, ...mix([...reviews, ...times('find', id, REPEAT.find), ...times('trace', id, REPEAT.trace), ...times('word', id, REPEAT.word)], rnd)], at: 0 };
+    return { day, steps: [{ t: 'meet', id }, ...mix([...reviews, ...times('find', id, REPEAT.find), ...times('trace', id, REPEAT.trace), ...times('word', id, REPEAT.word)], rnd)], at: 0, mixed: true };
   }
-  return { day, steps: mix(reviews, rnd), at: 0 };
+  return { day, steps: mix(reviews, rnd), at: 0, mixed: true };
 }
 
 const bump = (b: Box, ok: boolean, day: number): Box => {

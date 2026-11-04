@@ -2,7 +2,7 @@ import { PointerEvent as PE, useCallback, useEffect, useMemo, useRef, useState }
 import { STORAGE_KEY, USER_NAME } from '../course';
 import { saveHebrewRecordings, sayHebrew, sfx } from '../platform';
 import { CourseSwitch, SummaryTab } from '../summaryUi';
-import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, initial, meet, nextLetter, PlanOptions, secure, shaky, SHAKY_LIMIT, Step, validStep } from './engine';
+import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, initial, meet, mix, nextLetter, PlanOptions, secure, shaky, SHAKY_LIMIT, Step, validStep } from './engine';
 import { Ink, judge, FREE, TRACE } from './ink';
 import { FAMILIES, frameOf, LETTER, Letter, LETTERS, Pt, SAY, spots, Stroke, VIEW, WORDS } from './letters';
 
@@ -19,6 +19,8 @@ function load(): AState {
   try {
     const p = JSON.parse(raw), b = initial(''), st: AState = { ...b, ...p, name: USER_NAME || p.name, settings: { ...b.settings, ...p.settings } };
     if (st.plan && !st.plan.steps.every(validStep)) st.plan = null;
+    // A sitting saved before exercises were mixed: what remains of it is mixed now, so nobody has to finish the old order.
+    if (st.plan && !st.plan.mixed) { const done = st.plan.steps.slice(0, st.plan.at), rest = st.plan.steps.slice(st.plan.at), first = rest[0]?.t === 'meet' ? rest.slice(0, 1) : []; st.plan = { ...st.plan, mixed: true, steps: [...done, ...first, ...mix(rest.slice(first.length), Math.random)] }; }
     return st;
   } catch { return initial(USER_NAME); }
 }
@@ -188,8 +190,8 @@ function Find({ st, step, sound, onDone }: { st: AState; step: Step; sound: bool
     if (right) return;
     if (id === l.id) {
       setRight(true); if (sound) sfx.good();
-      sayHebrew(wrong.length ? SAY.thisIs(l) : pick(SAY.right));
-    } else { setWrong([...wrong, id]); if (sound) sfx.bad(); sayHebrew(SAY.notThis); }
+      sayHebrew(SAY.rightIs(l));
+    } else { setWrong([...wrong, id]); if (sound) sfx.bad(); sayHebrew(SAY.thisIs(LETTER[id])); }
   };
   return (
     <div className="a-step">
@@ -208,8 +210,8 @@ function WordGame({ st, id, n, sound, onDone }: { st: AState; id: string; n?: nu
   useEffect(() => { sayHebrew(say); }, []);
   const tap = (c: string) => {
     if (right) return;
-    if (c === id) { setRight(true); if (sound) sfx.good(); sayHebrew(wrong.length ? SAY.thisIs(l) : pick(SAY.right)); }
-    else { setWrong([...wrong, c]); if (sound) sfx.bad(); sayHebrew(SAY.notThis); }
+    if (c === id) { setRight(true); if (sound) sfx.good(); sayHebrew(SAY.rightIs(l)); }
+    else { setWrong([...wrong, c]); if (sound) sfx.bad(); sayHebrew(SAY.thisIs(LETTER[c])); }
   };
   return (
     <div className="a-step">

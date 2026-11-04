@@ -120,18 +120,18 @@ export function lookAlikes(id: string): string[] {
 export const SAY = {
   right: ['נָכוֹן!', 'יָפֶה מְאוֹד!', 'כָּל הַכָּבוֹד!', 'מְצֻיָּן!'],
   again: 'כִּמְעַט! מְנַסִּים עוֹד פַּעַם.',
-  notThis: 'לֹא זֶה. מְחַפְּשִׂים עוֹד.',
   trace: (l: Letter) => `עוֹבְרִים עִם הָאֶצְבַּע עַל הָאוֹת ${l.say}. ${l.recipe}`,
   finish: 'סִיַּמְנוּ לְהַיּוֹם. כָּל הַכָּבוֹד!',
   find: (l: Letter) => `אֵיפֹה הָאוֹת ${l.say}?`,
   write: (l: Letter) => `עַכְשָׁו כּוֹתְבִים ${l.say}, לְבַד. ${l.recipe}`,
   copy: (l: Letter) => `כּוֹתְבִים ${l.say}, כְּמוֹ הָאוֹת שֶׁבַּצַּד. ${l.recipe}`,
   thisIs: (l: Letter) => `זֹאת ${l.say}.`,
+  rightIs: (l: Letter) => `נָכוֹן! זֹאת ${l.say}.`,
   word: (spoken: string, where: Where) => `${spoken}. מַהִי הָאוֹת ${WHERE_SAY[where]}?`,
 };
 
 /** Every sentence the app can say. The deploy creates a recording for each one. */
 export const HEBREW_AUDIO: string[] = [...new Set([
-  ...SAY.right, SAY.again, SAY.notThis, SAY.finish,
-  ...LETTERS.flatMap((l) => [l.say, l.recipe, SAY.find(l), SAY.trace(l), SAY.write(l), SAY.copy(l), SAY.thisIs(l), ...WORDS[l.id].flatMap((w) => spots(w[0], l.id).map((s) => SAY.word(w[1], s.where)))]),
+  ...SAY.right, SAY.again, SAY.finish,
+  ...LETTERS.flatMap((l) => [l.say, l.recipe, SAY.find(l), SAY.trace(l), SAY.write(l), SAY.copy(l), SAY.thisIs(l), SAY.rightIs(l), ...WORDS[l.id].flatMap((w) => spots(w[0], l.id).map((s) => SAY.word(w[1], s.where)))]),
 ])];
