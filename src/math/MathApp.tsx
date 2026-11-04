@@ -108,9 +108,8 @@ function QuestionView({ q, sound, hint, onDone, onNext, neutral, extraAction, sh
   const [showHint, setShowHint] = useState(false);
   const finish = (correct: boolean, trap?: TrapId) => {
     setResult({ correct, trap });
-    if (sound) (neutral ? sfx.tap : correct ? sfx.good : sfx.bad)();
+    if (sound) (correct ? sfx.good : sfx.bad)();
     onDone({ correct, hinted, trap });
-    if (neutral) { setTimeout(onNext, 220); return; }
     if (correct) setTimeout(onNext, 850);
   };
   const pick = (label: string, trap?: TrapId) => { if (result) return; setPicked(label); finish(isChoiceRight(q, label), trap); };
@@ -137,19 +136,18 @@ function QuestionView({ q, sound, hint, onDone, onNext, neutral, extraAction, sh
       {q.fig && <Figure fig={q.fig} />}
       <div className="m-tools">
         {q.pencil && !neutral && <span className="m-tool pencil">✎ כדאי לפתור בדף</span>}
-        {q.pencil && neutral && <span className="m-tool pencil">✎ אפשר בדף</span>}
         {hint && !result && <button type="button" className="m-tool" onClick={() => { setHinted(true); setShowHint(true); }}>{hinted ? 'לראות שוב את הרמז' : 'רמז: איך פותרים?'}</button>}
         {q.read && canSpeak() && <button type="button" className="m-tool" onClick={() => speakHebrew(q.prompt)}>🔊 הקראה</button>}
       </div>
       {q.choices ? (
         <div className="answers m-pick">
-          {q.choices.map((c) => <button key={c.label} type="button" onClick={() => pick(c.label, c.trap)} className={`ans ${!neutral && result && isChoiceRight(q, c.label) ? 'right' : ''} ${!neutral && result && picked === c.label && !isChoiceRight(q, c.label) ? 'wrong' : ''}`}><MT s={c.label} /></button>)}
-          {extraAction}
+          {q.choices.map((c) => <button key={c.label} type="button" onClick={() => pick(c.label, c.trap)} className={`ans ${result && isChoiceRight(q, c.label) ? 'right' : ''} ${result && picked === c.label && !isChoiceRight(q, c.label) ? 'wrong' : ''}`}><MT s={c.label} /></button>)}
+          {!result && extraAction}
         </div>
       ) : (
         <>
-          <div className={`m-typed ${!neutral && result ? (result.correct ? 'ok' : 'no') : ''}`} aria-live="polite">{text || ' '}</div>
-          {!(result && !neutral) && (
+          <div className={`m-typed ${result ? (result.correct ? 'ok' : 'no') : ''}`} aria-live="polite">{text || ' '}</div>
+          {!result && (
             <>
               <div className="m-keys">
                 {['7', '8', '9'].map((c) => <button key={c} type="button" onClick={() => key(c)}>{c}</button>)}<button type="button" aria-label="מחיקה" onClick={() => setText((t) => t.slice(0, -1))}>⌫</button>
@@ -162,7 +160,14 @@ function QuestionView({ q, sound, hint, onDone, onNext, neutral, extraAction, sh
           )}
         </>
       )}
-      {!neutral && result?.correct && <div className="feedback good" role="status"><b>{hinted ? 'יפה! עם רמז, ועכשיו זה שלך' : PRAISE[(q.answer.length + q.prompt.length) % PRAISE.length]}</b></div>}
+      {result?.correct && <div className="feedback good" role="status"><b>{hinted ? 'יפה! עם רמז, ועכשיו זה שלך' : PRAISE[(q.answer.length + q.prompt.length) % PRAISE.length]}</b></div>}
+      {neutral && result && !result.correct && (
+        <div className="feedback soft" role="status">
+          <b>לא הפעם, וזה בסדר.</b>
+          <span className="m-result">התשובה: <MT s={ANS(q.answer)} /></span>
+          <button type="button" className="btn-next" onClick={onNext}>ממשיכות</button>
+        </div>
+      )}
       {!neutral && result && !result.correct && (
         <div className="feedback soft" role="status">
           <span className="m-result">התשובה: <MT s={ANS(q.answer)} /></span>
@@ -221,7 +226,7 @@ function Session({ st, update, onExit, onMore }: { st: MathState; update: Update
   const played = useRef(false);
   useEffect(() => { if (finished && !played.current && st.settings.sound) { played.current = true; sfx.win(); } }, [finished, st.settings.sound]);
   const q = useMemo(() => (step ? makeQuestion(step) : null), [step?.seed, step?.skill, step?.kind]);
-  const hint = useMemo(() => (step && q?.pencil && step.kind === 'solve' ? hintFor(step, q) : null), [q]);
+  const hint = useMemo(() => (step && q?.pencil && step.kind !== 'worked' ? hintFor(step, q) : null), [q]);
   if (finished) return <Finish st={st} onExit={onExit} onMore={onMore} />;
   if (!step || !q) return null;
   const next = () => update(advance);
