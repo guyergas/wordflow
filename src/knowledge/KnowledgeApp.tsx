@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { COURSE_INFO, STORAGE_KEY } from '../course';
+import { COURSE_INFO, STORAGE_KEY, USER_NAME } from '../course';
 import { canSpeak, sfx, speakHebrew } from '../platform';
 import { readCourses } from '../summary';
 import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
@@ -63,11 +63,10 @@ export function KnowledgeApp() {
 }
 
 function Hello({ st, update }: { st: KState; update: Update }) {
-  const [name, setName] = useState(() => st.name || readCourses().find((c) => c.name)?.name || '');
+  const [name, setName] = useState(() => st.name || USER_NAME || readCourses().find((c) => c.name)?.name || '');
   return (
     <div className="onb">
       <Mark />
-      <CourseSwitch />
       <h1>{COURSE_INFO.name}</h1>
       <p className="lead">{COURSE_INFO.note}. בכל שיעור קוראים קטע קצר ועונים על כמה שאלות. לא צריך לזכור כל פרט, אלא להבין את הרעיון.</p>
       <label className="field" htmlFor="kn">איך לקרוא לך?</label>
@@ -85,7 +84,7 @@ function Home({ st, today, onStart, onSettings }: { st: KState; today: number; o
   const firstLesson = preview.steps.find((x) => x.t === 'lesson');
   return (
     <>
-      <header className="top"><Mark /><button type="button" className="round" aria-label="הגדרות" onClick={onSettings}><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="2" /></svg></button></header>
+      <header className="top"><Mark /><CourseSwitch /><button type="button" className="round" aria-label="הגדרות" onClick={onSettings}><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="2" /></svg></button></header>
       <h1 className="greet">{COURSE_INFO.name}</h1>
       <div className="next-card">
         {preview.steps.length === 0 || (log.done && !open) ? (

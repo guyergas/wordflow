@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
 import { readCourses } from '../summary';
-import { STORAGE_KEY } from '../course';
+import { STORAGE_KEY, USER_NAME } from '../course';
 import { canSpeak, sfx, speakHebrew } from '../platform';
 import { Figure } from './Figure';
 import {
@@ -274,7 +274,7 @@ function Finish({ st, onExit, onMore }: { st: MathState; onExit: () => void; onM
 
 // ---------- Onboarding and the opening run ----------
 function Onboarding({ st, update, running, setRunning }: { st: MathState; update: Update; running: boolean; setRunning: (v: boolean) => void }) {
-  const [name, setName] = useState(() => st.name || readCourses().find((c) => c.name)?.name || '');
+  const [name, setName] = useState(() => st.name || USER_NAME || readCourses().find((c) => c.name)?.name || '');
   const p = st.placement;
   const begin = () => { update((s) => ({ ...s, name: name.trim(), placement: s.placement ?? startPlacement(Math.floor(Math.random() * 1e8)) })); setRunning(true); };
   if (p && placementDone(p)) return <RunResult st={st} update={update} />;
@@ -282,7 +282,6 @@ function Onboarding({ st, update, running, setRunning }: { st: MathState; update
   return (
     <div className="onb">
       <Mark />
-      <CourseSwitch />
       <h1>{p ? 'ממשיכות מאיפה שעצרנו' : 'מוצאות יחד מאיפה מתחילים'}</h1>
       <p className="lead">כמה שאלות קצרות, בלי ציון. {p ? 'ההתקדמות נשמרה.' : 'מתחילות בקל, ועוצרות במקום שעוד לא למדת.'}</p>
       {!p && <><p className="lead"><b>כדאי להכין דף ועט.</b> עושים כאן את החישוב כמו בבית, וכותבים באפליקציה רק את התשובה.</p>
@@ -343,7 +342,7 @@ function Home({ st, today, onStart, onSettings }: { st: MathState; today: number
   const canNew = !!nextNew(st), anyMet = SKILLS.some((s) => isMet(st, s.id));
   return (
     <>
-      <header className="top"><Mark /><button type="button" className="round" aria-label="הגדרות" onClick={onSettings}><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="2" /></svg></button></header>
+      <header className="top"><Mark /><CourseSwitch /><button type="button" className="round" aria-label="הגדרות" onClick={onSettings}><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="2" /></svg></button></header>
       <h1 className="greet">{hi}{st.name ? `, ${st.name}` : ''}</h1>
       <div className="next-card">
         {log.done && !open ? (

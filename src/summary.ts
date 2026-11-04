@@ -1,6 +1,6 @@
 // The cross-course summary: study time and how many new things were learned, for a day or a week, against the weekly schedule.
 // It reads every course's saved days on this device. The timer counts only real practice.
-import { COURSES, CourseId } from './course';
+import { COURSES, CourseId, myCourses, storageKeyOf, userKey } from './course';
 
 export type SummaryPeriod = 'day' | 'week';
 /** Minutes planned for each weekday. Index 0 is Sunday. */
@@ -9,7 +9,6 @@ export interface RawCourse { id: CourseId; name?: string; days: Record<string, {
 export interface SummaryRow { id: CourseId; name: string; short: string; sec: number; goalMin: number; met: boolean; perDay: number[]; fresh: number; freshLabel: string }
 export interface Summary { period: SummaryPeriod; name: string; from: number; to: number; days: number[]; rows: SummaryRow[]; totalSec: number; totalFresh: number; allMet: boolean; hasGoals: boolean }
 
-const KEY = 'wordflow.schedule', OLD_GOALS = 'wordflow.goals';
 export const weekday = (day: number) => (day + 4) % 7;
 export const weekStart = (day: number) => day - weekday(day);
 const defaults = (m: number) => [m, m, m, m, m, 0, 0];
@@ -17,17 +16,17 @@ export const planOf = (s: Schedule, id: CourseId) => s[id] ?? defaults(COURSES.f
 
 export function loadSchedule(): Schedule {
   try {
-    const saved = localStorage.getItem(KEY);
+    const saved = localStorage.getItem(userKey('schedule'));
     if (saved) return JSON.parse(saved) as Schedule;
-    const old = JSON.parse(localStorage.getItem(OLD_GOALS) ?? '{}') as Record<string, { day: number }>;
+    const old = JSON.parse(localStorage.getItem(userKey('goals')) ?? '{}') as Record<string, { day: number }>;
     return Object.fromEntries(Object.entries(old).map(([id, g]) => [id, defaults(g.day)])) as Schedule;
   } catch { return {}; }
 }
-export function saveSchedule(s: Schedule) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch { /* this visit only */ } }
+export function saveSchedule(s: Schedule) { try { localStorage.setItem(userKey('schedule'), JSON.stringify(s)); } catch { /* this visit only */ } }
 
 export function readCourses(): RawCourse[] {
-  return COURSES.map((c) => {
-    try { const p = JSON.parse(localStorage.getItem(c.storageKey) ?? '{}'); return { id: c.id, days: p.days ?? {}, name: p.name ?? '', skills: p.skills }; }
+  return myCourses().map((c) => {
+    try { const p = JSON.parse(localStorage.getItem(storageKeyOf(c)) ?? '{}'); return { id: c.id, days: p.days ?? {}, name: p.name ?? '', skills: p.skills }; }
     catch { return { id: c.id, days: {} }; }
   });
 }

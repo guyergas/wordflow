@@ -28,12 +28,36 @@ function moveOld(v: string | null) {
   try { const old = localStorage.getItem(`wordflow.${v}.v1`); if (old && !localStorage.getItem('wordflow.alef.v1')) localStorage.setItem('wordflow.alef.v1', old); } catch { /* storage is optional */ }
 }
 
+// Each member of the family has courses of their own and separate progress in each, on the same device.
+export const USERS = [{ id: 'guy', name: 'גיא' }, { id: 'dikla', name: 'דיקלה' }, { id: 'ayala', name: 'איילה' }, { id: 'ofir', name: 'אופיר' }, { id: 'omer', name: 'עומר' }, { id: 'ido', name: 'עידו' }];
+const USER_KEY = 'wordflow.user', MOVED_KEY = 'wordflow.moved';
+const uKey = (u: string, k: string) => `wordflow.u.${u}.${k}`;
+const get = (k: string) => { try { return localStorage.getItem(k); } catch { return null; } };
+const put = (k: string, v: string) => { try { localStorage.setItem(k, v); } catch { /* this visit only */ } };
+const listOf = (raw: string | null): CourseId[] => { try { return (JSON.parse(raw ?? '[]') as string[]).map(current).filter(valid); } catch { return []; } };
+
+const savedUser = get(USER_KEY);
+export const USER_ID = USERS.some((u) => u.id === savedUser) ? savedUser! : null;
+export const USER_NAME = USERS.find((u) => u.id === USER_ID)?.name ?? '';
+/** A setting of the person using the app. Before anyone has signed in, it is the device's old setting. */
+export const userKey = (k: string) => (USER_ID ? uKey(USER_ID, k) : `wordflow.${k}`);
+let enrolled = USER_ID ? listOf(get(uKey(USER_ID, 'courses'))) : [];
+export const enrolledCourses = () => enrolled;
+export const myCourses = () => (USER_ID ? COURSES.filter((c) => enrolled.includes(c.id)) : COURSES);
+export const storageKeyOf = (c: CourseInfo) => (USER_ID ? uKey(USER_ID, `data.${c.id}`) : c.storageKey);
+const setEnrolled = (list: CourseId[]) => { enrolled = list; if (USER_ID) put(uKey(USER_ID, 'courses'), JSON.stringify(list)); };
+
 function read(): CourseId | null {
   let asked: string | null = null;
   try { asked = new URLSearchParams(location.search).get('course'); } catch { /* no page here */ }
   moveOld(asked); asked = current(asked);
+  { const was = get(KEY); moveOld(was); if (current(was) !== was) put(KEY, 'alef'); }
+  if (USER_ID) {
+    if (valid(asked)) { if (!enrolled.includes(asked)) setEnrolled([...enrolled, asked]); put(uKey(USER_ID, 'course'), asked); return asked; }
+    const saved = get(uKey(USER_ID, 'course'));
+    return valid(saved) && enrolled.includes(saved) ? saved : enrolled[0] ?? null;
+  }
   try {
-    { const was = localStorage.getItem(KEY); moveOld(was); if (current(was) !== was) localStorage.setItem(KEY, 'alef'); }
     if (valid(asked)) { localStorage.setItem(KEY, asked); return asked; }
     const saved = localStorage.getItem(KEY);
     if (valid(saved)) return saved;
@@ -52,16 +76,45 @@ export const COURSE_INFO = COURSES.find((c) => c.id === COURSE_ID)!;
 export const IS_KNOWLEDGE = !!COURSE_INFO.knowledge;
 export const IS_ALEF = !!COURSE_INFO.alef;
 export const HAS_SPELLING = !IS_THAI;
-export const STORAGE_KEY = COURSES.find((c) => c.id === COURSE_ID)!.storageKey;
+export const STORAGE_KEY = storageKeyOf(COURSE_INFO);
+
+/** Whatever was learned on this device before there were users. It goes to the first person who signs in. */
+export const oldProgress = () => (get(MOVED_KEY) ? [] : COURSES.filter((c) => get(c.storageKey)));
+function moveOldProgress(user: string) {
+  if (get(MOVED_KEY)) return;
+  const list = oldProgress();
+  list.forEach((c) => put(uKey(user, `data.${c.id}`), get(c.storageKey)!));
+  if (list.length) {
+    const was = current(get(KEY)) as CourseId;
+    put(uKey(user, 'courses'), JSON.stringify(list.map((c) => c.id)));
+    if (list.some((c) => c.id === was)) put(uKey(user, 'course'), was);
+    for (const k of ['schedule', 'goals']) { const v = get(`wordflow.${k}`); if (v) put(uKey(user, k), v); }
+  }
+  put(MOVED_KEY, '1');
+}
+
+const go = (course: string | null) => {
+  try {
+    const url = new URL(location.href);
+    if (course) url.searchParams.set('course', course); else url.searchParams.delete('course');
+    location.replace(url.toString());
+  } catch { location.reload(); }
+};
+export function signIn(user: string) { moveOldProgress(user); put(USER_KEY, user); go(null); }
+export function signOut() { try { localStorage.removeItem(USER_KEY); } catch { /* the choice lasts until the next launch */ } go(null); }
+export function joinCourses(list: CourseId[]) { setEnrolled([...enrolled, ...list.filter((c) => !enrolled.includes(c))]); if (list[0]) switchCourse(list[0]); }
+/** Leaving a course keeps its progress, which returns on joining again. */
+export function leaveCourse(id: CourseId) {
+  const rest = enrolled.filter((c) => c !== id);
+  if (!rest.length) return;
+  setEnrolled(rest);
+  if (id === COURSE_ID) switchCourse(rest[0]);
+}
 
 /** English speaks to a girl and Thai speaks to a man. Thai wording goes second. */
 export const x = (english: string, thai: string) => (IS_THAI ? thai : english);
 
 export function switchCourse(id: CourseId) {
-  try { localStorage.setItem(KEY, id); } catch { /* the choice lasts until the next launch */ }
-  try {
-    const url = new URL(location.href);
-    url.searchParams.set('course', id);
-    location.replace(url.toString());
-  } catch { location.reload(); }
+  put(USER_ID ? uKey(USER_ID, 'course') : KEY, id);
+  go(id);
 }

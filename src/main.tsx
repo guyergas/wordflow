@@ -4,8 +4,9 @@ import './styles.css';
 import { createRoot } from 'react-dom/client';
 import { Component, ReactNode } from 'react';
 import { App } from './App';
+import { CoursePicker, UserPicker } from './users';
 import { load, save } from './platform';
-import { IS_ALEF, IS_KNOWLEDGE, IS_MATH } from './course';
+import { COURSE_CHOSEN, USER_ID, IS_ALEF, IS_KNOWLEDGE, IS_MATH } from './course';
 import { AlefApp, recoverAlef } from './alef/AlefApp';
 import { KnowledgeApp, recoverKnowledge } from './knowledge/KnowledgeApp';
 import { MathApp, recoverMath } from './math/MathApp';
@@ -26,7 +27,7 @@ class Recover extends Component<{ children: ReactNode }, { failed: boolean }> {
   }
 }
 
-createRoot(document.getElementById('root')!).render(<Recover>{IS_ALEF ? <AlefApp /> : IS_MATH ? <MathApp /> : IS_KNOWLEDGE ? <KnowledgeApp /> : <App />}</Recover>);
+createRoot(document.getElementById('root')!).render(<Recover>{!USER_ID ? <UserPicker /> : !COURSE_CHOSEN ? <CoursePicker /> : IS_ALEF ? <AlefApp /> : IS_MATH ? <MathApp /> : IS_KNOWLEDGE ? <KnowledgeApp /> : <App />}</Recover>);
 
 // A new version takes over as soon as it is ready, so nobody stays on an old one.
 if ('serviceWorker' in navigator) {

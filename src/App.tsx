@@ -5,7 +5,7 @@ import {
   toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, addStudyTime, questionCount, studyTimeLabel, studySeconds, resolveCheck, restorePaused, repairPlans, onTheWay, steppedToday, spellCandidates,
 } from './engine';
 import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind, sentencePlan, sentencesKnown, tokens, TOPICS, unknownWords } from './sentences';
-import { COURSE_CHOSEN, COURSE_ID, COURSES, HAS_SPELLING, IS_THAI, switchCourse, x } from './course';
+import { COURSE_ID, COURSES, HAS_SPELLING, IS_THAI, USER_NAME, x } from './course';
 import { CourseSwitch, SummaryTab, TodayPlan } from './summaryUi';
 import { LEVELS, WORD, WORDS, Word } from './words';
 import { buildReport, drawReport, fileName, Period, toBlob } from './report';
@@ -50,23 +50,6 @@ function ToneNote() {
       <b>הסימן מעל התנועה הוא הטון</b>
       <ul dir="ltr"><li><En>à</En><span>נמוך</span></li><li><En>a</En><span>אמצעי</span></li><li><En>á</En><span>גבוה</span></li><li><En>â</En><span>יורד</span></li><li><En>ǎ</En><span>עולה</span></li></ul>
       <small>תנועה כפולה ארוכה יותר. הטון משנה את המשמעות, ולכן כדאי להקשיב לכל מילה.</small>
-    </div>
-  );
-}
-
-function CoursePicker() {
-  return (
-    <div className="onb">
-      <Wordmark />
-      <h1>מה לומדים?</h1>
-      <p className="lead">הבחירה נשמרת במכשיר הזה, ואפשר לשנות אותה בהגדרות.</p>
-      <div className="courses">
-        {COURSES.map((c) => (
-          <button key={c.id} type="button" className="course" onClick={() => switchCourse(c.id)}>
-            <span className="c-hello" dir="ltr">{c.hello}</span><b>{c.name}</b><small>{c.note}</small>
-          </button>
-        ))}
-      </div>
     </div>
   );
 }
@@ -121,7 +104,6 @@ export function App() {
     setInSession(true);
   };
 
-  if (!COURSE_CHOSEN) return <CoursePicker />;
   if (!st.onboarded) return <Onboarding st={st} update={update} />;
   if (inSession && st.plan) return <Session st={st} update={update} onExit={() => { update(restorePaused); setInSession(false); setTab('home'); }} onMore={() => startSession(st.plan?.spelling ? { extra: true, spell: true } : { extra: true })} onMoreNew={() => startSession({ bonus: true })} />;
   if (inSentences) return <SentenceSession st={st} update={update} today={today} onExit={() => setInSentences(false)} />;
@@ -149,7 +131,7 @@ export function App() {
 // ---------- Onboarding + placement ----------
 function Onboarding({ st, update }: { st: State; update: Update }) {
   const [step, setStep] = useState<'hello' | 'test' | 'result'>('hello');
-  const [name, setName] = useState(COURSE_ID === 'en' ? '' : st.name);
+  const [name, setName] = useState(st.name || USER_NAME);
   const [level, setLevel] = useState(0);
   const [queue, setQueue] = useState<Word[]>(() => placementWords(0));
   const [i, setI] = useState(0);
@@ -256,7 +238,7 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
 
   return (
     <>
-      <header className="top"><Wordmark /><button type="button" className="round" aria-label="הגדרות" onClick={onSettings}>
+      <header className="top"><Wordmark /><CourseSwitch /><button type="button" className="round" aria-label="הגדרות" onClick={onSettings}>
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="2" /></svg></button></header>
       <h1 className="greet">{hi}, {st.name}</h1>
       <div className="next-card">

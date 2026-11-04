@@ -1,26 +1,19 @@
 // Shared by every course: moving between courses, today's schedule, and the summary she sends.
 import { useEffect, useMemo, useState } from 'react';
-import { COURSE_ID, COURSES, CourseId, switchCourse } from './course';
+import { COURSE_ID, CourseId, myCourses, switchCourse, USER_NAME } from './course';
 import { buildSummary, drawSummary, loadSchedule, minutes, planOf, rangeLabel, readCourses, saveSchedule, Schedule, SummaryPeriod, timeLabel, weekday } from './summary';
 
 const dayNow = () => { const d = new Date(); return Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() / 864e5 + 0.5); };
 const DAYS = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'];
 
-/** It lists whatever courses exist, so a new one appears by itself. */
-export function CourseSwitch() {
-  return (
-    <div className="course-switch" role="group" aria-label="מעבר בין קורסים">
-      {COURSES.map((c) => <button key={c.id} type="button" aria-pressed={COURSE_ID === c.id} onClick={() => { if (COURSE_ID !== c.id) switchCourse(c.id); }}>{c.short ?? c.name}</button>)}
-    </div>
-  );
-}
+export { CourseSwitch } from './users';
 
 /** What is on today's schedule on the home screen, with a tap to go there. */
 export function TodayPlan() {
   const today = dayNow();
   const schedule = useMemo(() => loadSchedule(), []);
   const courses = useMemo(() => readCourses(), []);
-  const list = COURSES.map((c) => ({ c, goal: planOf(schedule, c.id)[weekday(today)], sec: courses.find((x) => x.id === c.id)?.days[today]?.sec ?? 0 })).filter((x) => x.goal > 0);
+  const list = myCourses().map((c) => ({ c, goal: planOf(schedule, c.id)[weekday(today)], sec: courses.find((x) => x.id === c.id)?.days[today]?.sec ?? 0 })).filter((x) => x.goal > 0);
   if (!list.length) return null;
   return (
     <section className="card">
@@ -47,7 +40,7 @@ function ScheduleEditor({ schedule, onChange }: { schedule: Schedule; onChange: 
   return (
     <div className="goals">
       <div className="seg" role="group" aria-label="יום בשבוע">{DAYS.map((d, i) => <button key={d} type="button" aria-pressed={i === day} onClick={() => setDay(i)}>{d}</button>)}</div>
-      {COURSES.map((c) => {
+      {myCourses().map((c) => {
         const plan = planOf(schedule, c.id);
         return (
           <div key={c.id} className="goal-row"><b>{c.name}</b>
@@ -72,7 +65,7 @@ function SummarySheet({ name, onClose }: { name: string; onClose: () => void }) 
   const [url, setUrl] = useState('');
   const [blob, setBlob] = useState<Blob | null>(null);
   const [msg, setMsg] = useState('');
-  const owner = name || courses.find((c) => c.name)?.name || '';
+  const owner = USER_NAME || name || courses.find((c) => c.name)?.name || '';
   const summary = useMemo(() => buildSummary(courses, schedule, choice === 'yesterday' ? today - 1 : today, period, owner), [courses, schedule, choice, today, owner]);
 
   useEffect(() => {
