@@ -1,10 +1,12 @@
 // Rules of the course. One new letter at a time, and a new one waits while three letters are still shaky.
 // Knowing a letter and writing it are two separate measures, each with its own spaced review.
-import { FINALS, LETTER, LETTERS, lookAlikes } from './letters';
+import { FINALS, firstWords, LETTER, LETTERS, lookAlikes, PAIRS } from './letters';
 
 export interface Box { box: number; due: number }
-export interface Known { see: Box; write: Box; met: number }
-export type Step = { t: 'meet' | 'trace' | 'copy' | 'write' | 'find' | 'word'; id: string; print?: boolean; n?: number };
+/** Right and wrong counts, and which letters this one was mistaken for. Practice counts here too, though it moves no stage. */
+export interface Tally { see: [number, number]; write: [number, number]; mixed: Record<string, number> }
+export interface Known { see: Box; write: Box; met: number; tally?: Tally }
+export type Step = { t: 'meet' | 'trace' | 'copy' | 'memory' | 'write' | 'opening' | 'find' | 'word' | 'sound' | 'hunt' | 'pair' | 'missing'; id: string; print?: boolean; n?: number };
 export interface Plan { day: number; steps: Step[]; at: number; extra?: boolean; mixed?: boolean }
 export interface AState { onboarded: boolean; name: string; letters: Record<string, Known>; days: Record<number, { sec: number; fresh: number; done?: boolean }>; plan: Plan | null; settings: { sound: boolean } }
 
@@ -21,21 +23,43 @@ export const dayLog = (st: AState, day: number) => st.days[day] ?? { sec: 0, fre
 
 const shuffle = <T,>(a: T[], rnd: () => number) => a.map((v) => ({ v, k: rnd() })).sort((p, q) => p.k - q.k).map((x) => x.v);
 
-/** Every exercise comes several times in a row, because one success at five years old proves little. */
-export const REPEAT = { find: 10, word: 10, trace: 10, copy: 10, write: 10 };
-const times = (t: Step['t'], id: string, count: number, extra: Partial<Step> = {}): Step[] => Array.from({ length: count }, (_, n) => ({ t, id, n, ...extra }));
+/** Each sitting gives a letter this many tasks of each measure, and the recognition tasks are shared among the games it can have. */
+export const REPEAT = { firstSee: 20, see: 10, write: 10 };
+const times = (t: Step['t'], id: string, count: number): Step[] => Array.from({ length: count }, (_, n) => ({ t, id, n }));
+export const WRITING: Step['t'][] = ['trace', 'copy', 'memory', 'write', 'opening'];
+export const pairsOf = (st: AState, id: string) => PAIRS.filter((p) => p.slice(0, 2).includes(id) && st.letters[p[0]] && st.letters[p[1]] && st.letters[id]);
+
+function seeSet(st: AState, id: string, count: number, rnd: () => number): Step[] {
+  const opens = firstWords(id).length > 0, k = st.letters[id];
+  const kinds: Step['t'][] = ['find', 'word', 'hunt'];
+  if (opens) kinds.push('sound');
+  if (opens && k && k.see.box >= 1) kinds.push('missing');
+  if (pairsOf(st, id).length) kinds.push('pair');
+  const seen: Record<string, number> = {}, order = shuffle(kinds, rnd);
+  return Array.from({ length: count }, (_, i) => {
+    const t = order[i % order.length], n = seen[t] ?? 0;
+    seen[t] = n + 1;
+    return t === 'find' ? { t, id, n, print: !!k && k.see.box >= 2 && rnd() < 0.5 } : { t, id, n };
+  });
+}
+
+function writeSet(k: Known, id: string): Step[] {
+  if (k.write.box < 2) return times(writeStage(k.write.box), id, REPEAT.write);
+  // Once a letter is written beside a model, writing varies: from memory, alone, and from the sound of a word.
+  return firstWords(id).length ? [...times('memory', id, 4), ...times('write', id, 4), ...times('opening', id, 2)] : [...times('memory', id, 5), ...times('write', id, 5)];
+}
 
 function practice(st: AState, id: string, day: number, rnd: () => number, force = false): Step[] {
   const k = st.letters[id], out: Step[] = [];
-  if (force || k.see.due <= day) out.push(...(rnd() < 0.5 ? times('word', id, REPEAT.word, { n: undefined }).map((s, n) => ({ ...s, n: n + Math.floor(rnd() * 3) })) : times('find', id, REPEAT.find, { print: k.see.box >= 2 && rnd() < 0.5 })));
-  if (force || k.write.due <= day) { const stage = writeStage(k.write.box) as 'trace' | 'copy' | 'write'; out.push(...times(stage, id, REPEAT[stage])); }
+  if (force || k.see.due <= day) out.push(...seeSet(st, id, REPEAT.see, rnd));
+  if (force || k.write.due <= day) out.push(...writeSet(k, id));
   return out;
 }
 
 /** Exercises in random order, so that writing and recognizing keep alternating. The same kind twice in a row happens only when nothing else is left. */
 export function mix(steps: Step[], rnd: () => number): Step[] {
   const left = shuffle(steps, rnd), out: Step[] = [];
-  const kind = (s: Step) => (s.t === 'find' || s.t === 'word' ? s.t : 'draw');
+  const kind = (s: Step) => (WRITING.includes(s.t) ? 'draw' : s.t);
   while (left.length) {
     const last = out[out.length - 1], i = last ? left.findIndex((s) => kind(s) !== kind(last)) : 0;
     out.push(left.splice(Math.max(i, 0), 1)[0]);
@@ -51,7 +75,7 @@ export function buildPlan(st: AState, day: number, o: PlanOptions = {}): Plan {
   // Warm-up and boost are free practice: no new letter, and stages stay as they are.
   if (o.warm || o.boost) {
     const known = met.filter((id) => secure(st.letters[id]));
-    const list = o.warm ? shuffle(known.length >= 2 ? known : met, rnd) : shuffle(met, rnd).sort((a, b) => level(st.letters[a]) - level(st.letters[b]));
+    const list = o.warm ? shuffle(known.length >= 2 ? known : met, rnd) : shuffle(met, rnd).sort((a, b) => hardness(st.letters[b]) - hardness(st.letters[a]) || level(st.letters[a]) - level(st.letters[b]));
     return { day, steps: mix(list.slice(0, 3).flatMap((id) => practice(st, id, day, rnd, true)).slice(0, 30), rnd), at: 0, extra: true, mixed: true };
   }
   if (o.extra) {
@@ -68,7 +92,7 @@ export function buildPlan(st: AState, day: number, o: PlanOptions = {}): Plan {
   // Meeting a new letter stays first, and everything after it is mixed.
   if (canLearn && next) {
     const id = next.id;
-    return { day, steps: [{ t: 'meet', id }, ...mix([...reviews, ...times('find', id, REPEAT.find), ...times('trace', id, REPEAT.trace), ...times('word', id, REPEAT.word)], rnd)], at: 0, mixed: true };
+    return { day, steps: [{ t: 'meet', id }, ...mix([...reviews, ...seeSet({ ...st, letters: { ...st.letters, [id]: { see: { box: 0, due: day }, write: { box: 0, due: day }, met: day } } }, id, REPEAT.firstSee, rnd), ...times('trace', id, REPEAT.write)], rnd)], at: 0, mixed: true };
   }
   return { day, steps: mix(reviews, rnd), at: 0, mixed: true };
 }
@@ -86,6 +110,25 @@ export function meet(st: AState, id: string, day: number): AState {
   const log = dayLog(st, day);
   return { ...st, letters: { ...st.letters, [id]: { see: { box: 0, due: day }, write: { box: 0, due: day }, met: day } }, days: { ...st.days, [day]: { ...log, fresh: log.fresh + 1 } } };
 }
+const emptyTally = (): Tally => ({ see: [0, 0], write: [0, 0], mixed: {} });
+export function record(st: AState, id: string, what: 'see' | 'write', ok: boolean): AState {
+  const k = st.letters[id]; if (!k) return st;
+  const old = k.tally ?? emptyTally(), pair: [number, number] = ok ? [old[what][0] + 1, old[what][1]] : [old[what][0], old[what][1] + 1];
+  return { ...st, letters: { ...st.letters, [id]: { ...k, tally: { ...old, [what]: pair } } } };
+}
+export function noteMix(st: AState, id: string, other: string): AState {
+  const k = st.letters[id]; if (!k) return st;
+  const old = k.tally ?? emptyTally();
+  return { ...st, letters: { ...st.letters, [id]: { ...k, tally: { ...old, mixed: { ...old.mixed, [other]: (old.mixed[other] ?? 0) + 1 } } } } };
+}
+const missRate = ([ok, bad]: [number, number]) => (ok + bad >= 4 ? bad / (ok + bad) : 0);
+/** How hard a letter is for this child: the share of tasks missed, in its weaker measure. */
+export const hardness = (k: Known) => (k.tally ? Math.max(missRate(k.tally.see), missRate(k.tally.write)) : 0);
+export const isHard = (k: Known) => hardness(k) >= 0.25;
+export const topMix = (k: Known) => Object.entries(k.tally?.mixed ?? {}).sort((a, b) => b[1] - a[1]).slice(0, 2).map((e) => e[0]);
+export type Status = 'hard' | 'known' | 'learning' | 'new';
+export const statusOf = (st: AState, id: string): Status => { const k = st.letters[id]; return !k ? 'new' : isHard(k) ? 'hard' : secure(k) ? 'known' : 'learning'; };
+
 export function answer(st: AState, id: string, what: 'see' | 'write', ok: boolean, day: number): AState {
   const k = st.letters[id];
   return k ? { ...st, letters: { ...st.letters, [id]: { ...k, [what]: bump(k[what], ok, day) } } } : st;
@@ -105,5 +148,12 @@ export function choices(st: AState, id: string, rnd: () => number = Math.random)
   return shuffle([id, ...others], rnd);
 }
 
-const STEPS = ['meet', 'trace', 'copy', 'write', 'find', 'word'];
+const STEPS = ['meet', 'trace', 'copy', 'memory', 'write', 'opening', 'find', 'word', 'sound', 'hunt', 'pair', 'missing'];
+/** The look-alikes and other letters that fill a hunt: 5 to find among 16. */
+export function huntCells(st: AState, id: string, rnd: () => number = Math.random): string[] {
+  const others = choices({ ...st, letters: { ...st.letters } }, id, rnd).filter((c) => c !== id);
+  const fill = Array.from({ length: 11 }, (_, i) => others[i % others.length]);
+  return shuffle([...Array<string>(5).fill(id), ...fill], rnd);
+}
+
 export const validStep = (s: Step) => !!LETTER[s.id] && STEPS.includes(s.t);

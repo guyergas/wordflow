@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { answer, advance, buildPlan, choices, initial, meet, nextLetter, secure, shaky, SHAKY_LIMIT, validStep, writeStage } from './engine';
+import { answer, advance, buildPlan, choices, initial, meet, huntCells, nextLetter, noteMix, pairsOf, record, secure, statusOf, topMix, shaky, SHAKY_LIMIT, validStep, WRITING, writeStage } from './engine';
 import { judge, FREE, TRACE } from './ink';
-import { FINALS, frameOf, HEBREW_AUDIO, LETTER, LETTERS, lookAlikes, Pt, SAY, spots, WORDS } from './letters';
+import { FINALS, firstWords, frameOf, HEBREW_AUDIO, LETTER, LETTERS, lookAlikes, PAIRS, Pt, SAY, spots, WORDS } from './letters';
 
 const ink = (id: string) => LETTER[id].strokes.map((s) => s.p);
 const wobble = (lines: Pt[][], a = 5): Pt[][] => lines.map((l) => l.flatMap((p, i) => { if (!i) return [p]; const [x0, y0] = l[i - 1], out: Pt[] = []; for (let k = 1; k <= 8; k++) { const t = k / 8; out.push([x0 + (p[0] - x0) * t + Math.sin(k * 1.7) * a, y0 + (p[1] - y0) * t + Math.cos(k * 2.3) * a]); } return out; }));
@@ -72,16 +72,37 @@ describe('the plan', () => {
   it('starts with the first letter and the full introduction', () => {
     const p = buildPlan(initial('עומר'), 100);
     expect(p.steps[0].t).toBe('meet');
-    const count = (t: string) => p.steps.filter((s) => s.t === t).length;
-    expect([count('meet'), count('find'), count('trace'), count('word')]).toEqual([1, 10, 10, 10]);
-    expect(p.steps.slice(1).filter((s, i, a) => i > 0 && s.t === a[i - 1].t).length).toBeLessThan(5);
-    expect(p.steps[0].id).toBe('י');
+    const write = p.steps.filter((s) => WRITING.includes(s.t)), see = p.steps.slice(1).filter((s) => !WRITING.includes(s.t));
+    expect(write.length).toBe(10); expect(write.every((s) => s.t === 'trace')).toBe(true);
+    expect(see.length).toBe(20);
+    expect(new Set(see.map((s) => s.t))).toEqual(new Set(['find', 'word', 'hunt', 'sound']));
   });
   it('repeats a review exercise several times', () => {
     const st = meet(initial('א'), 'י', 100);
     const p = buildPlan(st, 100, { extra: true, rnd: () => 0.9 });
-    expect(p.steps.filter((s) => s.t === 'find').length).toBe(10);
-    expect(p.steps.filter((s) => s.t === 'trace').length).toBe(10);
+    expect(p.steps.filter((s) => WRITING.includes(s.t)).length).toBe(10);
+    expect(p.steps.filter((s) => !WRITING.includes(s.t)).length).toBe(10);
+  });
+  it('varies writing once a letter is written beside a model', () => {
+    let st = meet(initial('א'), 'ד', 100);
+    st = { ...st, letters: { ...st.letters, 'ד': { ...st.letters['ד'], write: { box: 2, due: 100 } } } };
+    const kinds = new Set(buildPlan(st, 100, { extra: true }).steps.map((s) => s.t));
+    for (const k of ['memory', 'write', 'opening'] as const) expect(kinds.has(k), k).toBe(true);
+  });
+  it('asks about a pair only when both letters were met', () => {
+    let st = meet(initial('א'), 'ר', 100);
+    expect(pairsOf(st, 'ר')).toEqual([]);
+    st = meet(st, 'ד', 100);
+    expect(pairsOf(st, 'ר').map((p) => p[0])).toEqual(['ד']);
+  });
+  it('fills a hunt with five to find among sixteen', () => {
+    const st = meet(meet(initial('א'), 'ר', 100), 'ד', 100), cells = huntCells(st, 'ד');
+    expect(cells.length).toBe(16); expect(cells.filter((c) => c === 'ד').length).toBe(5);
+  });
+  it('has a word opening with every letter that is not final, and recordings for all questions', () => {
+    for (const l of LETTERS) if (!FINALS.includes(l.id)) expect(firstWords(l.id).length, l.id).toBeGreaterThan(0);
+    for (const p of PAIRS) { expect(HEBREW_AUDIO).toContain(p[2]); expect(LETTER[p[0]]).toBeTruthy(); expect(LETTER[p[1]]).toBeTruthy(); }
+    for (const l of LETTERS) { expect(HEBREW_AUDIO).toContain(SAY.sound(l)); expect(HEBREW_AUDIO).toContain(SAY.hunt(l)); expect(HEBREW_AUDIO).toContain(SAY.memory(l)); }
   });
   it('drops a saved exercise that no longer exists', () => {
     expect(validStep({ t: 'build' as 'meet', id: 'י' })).toBe(false);
@@ -103,6 +124,15 @@ describe('the plan', () => {
     }
     const weak = new Set(buildPlan(st, 101, { boost: true }).steps.map((s) => s.id));
     expect(weak.has('ר')).toBe(false);
+  });
+  it('marks a letter hard from its misses, and remembers what it was mistaken for', () => {
+    let st = meet(initial('א'), 'ד', 100);
+    expect(statusOf(st, 'ד')).toBe('learning'); expect(statusOf(st, 'ר')).toBe('new');
+    for (const ok of [true, false, false, true]) st = record(st, 'ד', 'see', ok);
+    st = noteMix(noteMix(noteMix(st, 'ד', 'ר'), 'ד', 'ר'), 'ד', 'ה');
+    expect(statusOf(st, 'ד')).toBe('hard');
+    expect(topMix(st.letters['ד'])).toEqual(['ר', 'ה']);
+    expect(st.letters['ד'].see).toEqual({ box: 0, due: 100 });
   });
   it('gives one new letter a day, and another only when asked', () => {
     let st = meet(initial('א'), 'י', 100);
@@ -138,8 +168,8 @@ describe('the plan', () => {
       let p = buildPlan(st, day);
       for (const s of p.steps) {
         if (s.t === 'meet') st = meet(st, s.id, day);
-        if (s.t === 'find' || s.t === 'word') st = answer(st, s.id, 'see', true, day);
-        if (s.t === 'trace' || s.t === 'copy' || s.t === 'write') st = answer(st, s.id, 'write', true, day);
+        if (s.t !== 'meet' && !WRITING.includes(s.t)) st = answer(st, s.id, 'see', true, day);
+        if (WRITING.includes(s.t)) st = answer(st, s.id, 'write', true, day);
       }
       st = advance(st);
     }

@@ -611,3 +611,50 @@ html.a-lock .a-finish { height: 100dvh; min-height: 0; overflow: hidden; }
 .a-answer .a-mini { min-height: 0; }
 .a-step > .a-speak, .a-word { flex: none; }
 .a-word { max-height: 34dvh; overflow: hidden; }
+/* Picture answers, the letter hunt, and the picture above writing. */
+.a-answers.n1 { grid-template-columns: 1fr; }
+.a-picture { font-size: clamp(56px, 13dvh, 96px); line-height: 1; }
+.a-hunt { flex: 1 1 0; min-height: 0; width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: minmax(0, 1fr); gap: 6px; }
+.a-hunt .a-answer { height: auto; min-height: 0; border-radius: 14px; border-width: 2px; }
+.a-hunt .a-answer.off { opacity: .35; }
+.a-opening { font-size: clamp(56px, 12dvh, 90px); line-height: 1; display: grid; place-items: center; }
+
+/* Alef-bet home and progress, in the same shape as the other courses. */
+.a-today-card { display: grid; grid-template-columns: 96px 1fr; gap: 14px; align-items: center; margin-top: 12px; }
+.a-today-letter { height: 132px; background: var(--surface); border-radius: 20px; overflow: hidden; }
+.a-today-letter .a-lines line { stroke-opacity: .5; }
+.a-today-letter .a-stroke { stroke: var(--ink); }
+.a-done-star { display: grid; place-items: center; font-size: 60px; color: var(--sun); }
+.a-today-text { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.a-start { grid-column: 1 / -1; min-height: 66px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 22px; }
+.a-free { margin-top: 12px; }
+.a-free button { flex-direction: column; gap: 0; min-height: 96px; padding: 8px; }
+.a-free b { font-size: 19px; }
+.a-free small { font-size: 13px; font-weight: 400; color: var(--ink-2); }
+.a-strip-card { width: 100%; margin-top: 12px; text-align: inherit; }
+.a-strip { display: grid; grid-template-columns: repeat(9, 1fr); gap: 4px; }
+.a-strip i { aspect-ratio: 3 / 4; border-radius: 8px; background: var(--surface-2); overflow: hidden; display: block; }
+.a-strip .a-lines { display: none; }
+.a-strip .a-stroke { stroke-width: 14; }
+.a-strip i.new .a-stroke { stroke: var(--ink-3); opacity: .35; }
+.a-strip i.learning { background: var(--rec-soft); }
+.a-strip i.known { background: var(--sun); }
+.a-strip i.known .a-stroke { stroke: var(--sun-ink); }
+.a-strip i.hard { background: var(--spell-soft); }
+.a-totals { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+.a-totals div { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 10px 4px; display: grid; justify-items: center; }
+.a-totals b { font-size: 28px; line-height: 1.1; }
+.a-totals span { font-size: 13px; color: var(--ink-2); }
+.a-totals .warn { border-color: var(--spell); background: var(--spell-soft); }
+.a-fam p { margin-bottom: 8px; }
+.a-grid { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
+.a-cell { position: relative; display: block; }
+.a-cell.new { opacity: .5; }
+.a-cell.learning { border-color: var(--rec); }
+.a-cell.known { border-color: var(--sun); background: var(--sun-soft); }
+.a-cell.hard { border-color: var(--spell); background: var(--spell-soft); }
+.a-cell small { position: absolute; inset-inline: 0; bottom: 2px; font-size: 11px; text-align: center; }
+.a-facts { display: grid; gap: 6px; }
+.a-facts li { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); padding: 6px 0; }
+.a-show .a-board { height: 36dvh; }
+.a-today-card .a-mini { height: 100%; }

@@ -2,9 +2,9 @@ import { PointerEvent as PE, useCallback, useEffect, useMemo, useRef, useState }
 import { STORAGE_KEY, USER_NAME } from '../course';
 import { saveHebrewRecordings, sayHebrew, sfx } from '../platform';
 import { CourseSwitch, SummaryTab } from '../summaryUi';
-import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, initial, meet, mix, nextLetter, PlanOptions, secure, shaky, SHAKY_LIMIT, Step, validStep } from './engine';
+import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, huntCells, initial, meet, mix, nextLetter, noteMix, pairsOf, PlanOptions, record, secure, shaky, SHAKY_LIMIT, Status, statusOf, Step, topMix, validStep, WRITING } from './engine';
 import { Ink, judge, FREE, TRACE } from './ink';
-import { FAMILIES, frameOf, LETTER, Letter, LETTERS, Pt, SAY, spots, Stroke, VIEW, WORDS } from './letters';
+import { FAMILIES, frameOf, LETTER, Letter, LETTERS, Pt, SAY, firstWords, LETTERS as ALL, spots, Stroke, VIEW, WORDS } from './letters';
 
 type Update = (fn: (s: AState) => AState) => void;
 const VB = `${VIEW.x} ${VIEW.y} ${VIEW.w} ${VIEW.h}`;
@@ -66,61 +66,88 @@ const Mini = ({ id, print }: { id: string; print?: boolean }) => print
 const Speaker = ({ text }: { text: string }) => <button type="button" className="a-speak" aria-label="לשמוע שוב" onClick={() => sayHebrew(text)}><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M4 9v6h4l5 4V5L8 9H4Z" /><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11" /></svg></button>;
 const Next = ({ onClick }: { onClick: () => void }) => <button type="button" className="cta a-go" aria-label="ממשיכים" onClick={onClick}><svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" d="M15 5l-7 7 7 7" /></svg></button>;
 
+type DrawMode = 'trace' | 'copy' | 'memory' | 'write' | 'opening';
+
 export function AlefApp() {
   const [st, setSt] = useState<AState>(() => load());
   const update: Update = useCallback((fn) => setSt((s) => { const n = fn(s); save(n); return n; }), []);
-  const [parents, setParents] = useState(false);
+  const [tab, setTab] = useState<'home' | 'progress'>('home');
   const [inSession, setInSession] = useState(false);
+  const [settings, setSettings] = useState(false);
   const today = dayNumber();
   useTimer(inSession, update);
   useEffect(() => { void saveHebrewRecordings(); }, []);
-  // The child's screens fit the screen and never scroll, so a tap or a stroke is never taken for a scroll. Only the parents' page scrolls.
+  // Exercises fit the screen and never scroll, so a tap or a stroke is never taken for a scroll.
   useEffect(() => {
-    if (parents) return;
+    if (!inSession) return;
     const root = document.documentElement, stop = (e: TouchEvent) => e.preventDefault();
     root.classList.add('a-lock');
     document.addEventListener('touchmove', stop, { passive: false });
     return () => { root.classList.remove('a-lock'); document.removeEventListener('touchmove', stop); };
-  }, [parents]);
+  }, [inSession]);
   const start = (o: PlanOptions = {}) => {
     update((s) => { const open = !!s.plan && !s.plan.extra && s.plan.day === today && s.plan.at < s.plan.steps.length; return open && !o.bonus && !o.extra && !o.warm && !o.boost ? s : { ...s, plan: buildPlan(s, today, o) }; });
     setInSession(true);
   };
   if (inSession && st.plan) return <Session st={st} update={update} onExit={() => setInSession(false)} onMore={start} />;
-  if (parents) return <Parents st={st} update={update} onClose={() => setParents(false)} />;
-  return <Home st={st} today={today} onStart={start} onParents={() => setParents(true)} />;
+  return (
+    <div className="app">
+      <main className="page">{tab === 'home' ? <Home st={st} today={today} onStart={start} onProgress={() => setTab('progress')} onSettings={() => setSettings(true)} /> : <Progress st={st} />}</main>
+      <nav className="nav" aria-label="ניווט">
+        {([['home', 'בית'], ['progress', 'התקדמות']] as const).map(([k, label]) => <button key={k} type="button" className={tab === k ? 'on' : ''} aria-current={tab === k ? 'page' : undefined} onClick={() => setTab(k)}>{label}</button>)}
+        <SummaryTab name={st.name} />
+      </nav>
+      {settings && <Settings st={st} update={update} onClose={() => setSettings(false)} />}
+    </div>
+  );
 }
 
-const Play = () => <svg viewBox="0 0 24 24" width="56" height="56" aria-hidden="true"><path fill="currentColor" d="M18 5v14L6 12z" /></svg>;
+const Play = () => <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M18 5v14L6 12z" /></svg>;
 
-/** The child's whole screen: who is learning, and one big button. Everything else is behind the small button for parents. */
-function Home({ st, today, onStart, onParents }: { st: AState; today: number; onStart: (o?: PlanOptions) => void; onParents: () => void }) {
+/** Says plainly what today holds and what each button does. */
+function Home({ st, today, onStart, onProgress, onSettings }: { st: AState; today: number; onStart: (o?: PlanOptions) => void; onProgress: () => void; onSettings: () => void }) {
   const open = st.plan && !st.plan.extra && st.plan.day === today && st.plan.at < st.plan.steps.length ? st.plan : null;
   const preview = useMemo(() => open ?? buildPlan(st, today, { rnd: () => 0.5 }), [open?.at, st.letters, today]);
-  const shown = preview.steps.find((s) => s.t === 'meet')?.id ?? preview.steps[preview.at]?.id;
-  const more = !!nextLetter(st) && shaky(st).length < SHAKY_LIMIT;
+  const left = preview.steps.slice(preview.at), fresh = left.find((s) => s.t === 'meet')?.id, firstId = fresh ?? left[0]?.id;
+  const more = !!nextLetter(st) && shaky(st).length < SHAKY_LIMIT, met = Object.keys(st.letters).length, hard = LETTERS.filter((l) => statusOf(st, l.id) === 'hard').length;
   return (
-    <div className="a-home">
-      {shown ? (
-        <button type="button" className="a-hero" aria-label="להתחיל" onClick={() => onStart()}>
-          <svg viewBox={VB} aria-hidden="true"><Lines /><Glyph strokes={LETTER[shown].strokes} draw /></svg>
-          <span className="a-play"><Play /></span>
-        </button>
-      ) : (
-        <button type="button" className="a-hero done" aria-label="עוד" onClick={() => onStart(more ? { bonus: true } : { extra: true })}>
-          <span className="a-star" aria-hidden="true">★</span>
-          <span className="a-play"><Play /></span>
-        </button>
-      )}
-      {Object.keys(st.letters).length > 0 && (
-        <div className="a-free">
-          <button type="button" onClick={() => onStart({ warm: true })}><span aria-hidden="true">🔥</span>חימום</button>
-          <button type="button" onClick={() => onStart({ boost: true })}><span aria-hidden="true">💪</span>חיזוק</button>
+    <>
+      <header className="top"><CourseSwitch /><button type="button" className="round" aria-label="הגדרות" onClick={onSettings}><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="2" /><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2" /></svg></button></header>
+      <h1 className="greet">{st.name ? `שלום ${st.name}` : 'לומדים א״ב'}</h1>
+      <div className="next-card a-today-card">
+        {firstId ? (
+          <>
+            <div className="a-today-letter"><Mini id={firstId} /></div>
+            <div className="a-today-text">
+              <span className="chip-d">{open && open.at > 0 ? 'ממשיכים מאיפה שעצרנו' : 'האימון של היום'}</span>
+              <h2>{fresh ? `אות חדשה: ${LETTER[fresh].name}` : 'חזרה על אותיות'}</h2>
+              <p>{left.length} תרגילים של זיהוי וכתיבה</p>
+            </div>
+            <button type="button" className="cta-d a-start" onClick={() => onStart()}><Play /> {open && open.at > 0 ? 'להמשיך' : 'להתחיל'}</button>
+          </>
+        ) : (
+          <>
+            <div className="a-today-letter a-done-star" aria-hidden="true">★</div>
+            <div className="a-today-text">
+              <span className="chip-d">היום הושלם</span>
+              <h2>סיימנו להיום, כל הכבוד!</h2>
+              <p>{more ? 'אפשר ללמוד עוד אות, או לחזור מחר.' : 'נתרגל את האותיות שלמדנו, ומחר נמשיך.'}</p>
+            </div>
+            {more && <button type="button" className="cta-d a-start" onClick={() => onStart({ bonus: true })}><Play /> עוד אות</button>}
+          </>
+        )}
+      </div>
+      {met > 0 && (
+        <div className="a-free" role="group" aria-label="תרגול נוסף">
+          <button type="button" onClick={() => onStart({ warm: true })}><span aria-hidden="true">🔥</span><b>חימום</b><small>אותיות שכבר יודעים</small></button>
+          <button type="button" onClick={() => onStart({ boost: true })}><span aria-hidden="true">💪</span><b>חיזוק</b><small>{hard > 0 ? `${hard} אותיות קשות` : 'האותיות שפחות בטוחות'}</small></button>
         </div>
       )}
-      <Stars st={st} />
-      <button type="button" className="a-parents" onClick={onParents}>להורים</button>
-    </div>
+      <button type="button" className="card a-strip-card" onClick={onProgress}>
+        <span className="row-between"><b>הא״ב שלי</b><small className="muted">{met} מתוך {LETTERS.length} ›</small></span>
+        <span className="a-strip">{LETTERS.map((l) => <i key={l.id} className={statusOf(st, l.id)}><Mini id={l.id} /></i>)}</span>
+      </button>
+    </>
   );
 }
 
@@ -129,34 +156,65 @@ function Stars({ st }: { st: AState }) {
   return <div className="a-row" aria-hidden="true">{LETTERS.map((l) => { const k = st.letters[l.id]; return <i key={l.id} className={k ? (secure(k) ? 'gold' : 'met') : ''} />; })}</div>;
 }
 
-function Parents({ st, update, onClose }: { st: AState; update: Update; onClose: () => void }) {
-  const [shown, setShown] = useState<string | null>(null), [confirm, setConfirm] = useState(false);
-  const l = shown ? LETTER[shown] : null, met = Object.keys(st.letters).length, stage = ['מעבר על מקווקו', 'כתיבה ליד דוגמה', 'כתיבה לבד', 'כתיבה לבד'];
+const STATUS: { key: Status; title: string; note: string }[] = [
+  { key: 'hard', title: 'קשה עכשיו', note: 'כדאי לתרגל בחיזוק' },
+  { key: 'learning', title: 'בתהליך', note: 'נפגשו, ועוד לא בטוחות' },
+  { key: 'known', title: 'נלמדו', note: 'מזהים וכותבים בכמה ימים שונים' },
+  { key: 'new', title: 'עוד לא נלמדו', note: 'לפי סדר הלימוד' },
+];
+const STAGE = ['מעבר על מקווקו', 'כתיבה ליד דוגמה', 'כתיבה מהזיכרון ולבד', 'כתיבה לבד'];
+const share = ([ok, bad]: [number, number]) => (ok + bad ? `${ok} מתוך ${ok + bad} נכון` : 'עוד לא תורגל');
+
+/** What was learned, what is hard and why, letter by letter. */
+function Progress({ st }: { st: AState }) {
+  const [shown, setShown] = useState<string | null>(null);
+  const l = shown ? LETTER[shown] : null, k = shown ? st.letters[shown] : undefined;
+  const of = (s: Status) => LETTERS.filter((x) => statusOf(st, x.id) === s);
   return (
-    <div className="app"><main className="page a-parents-page">
-      <header className="row-between"><h1>{st.name || 'א״ב'}</h1><button type="button" className="round" aria-label="חזרה" onClick={onClose}><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg></button></header>
-      <p className="muted">{met} אותיות מתוך {LETTERS.length}, ומהן {Object.values(st.letters).filter(secure).length} בטוחות: מזהים אותן וכותבים לבד, בכמה ימים שונים. כל יום אות חדשה אחת, ואות חדשה מחכה כשיש {SHAKY_LIMIT} שעוד לא בטוחות.</p>
-      {!USER_NAME && <>
-      <label className="field" htmlFor="a0">שם הילד או הילדה (לסיכום)</label>
-      <input id="a0" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} />
-      </>}
-      <div className="a-parent-tools"><SummaryTab name={st.name} /></div>
-      {FAMILIES.map((f, i) => (
-        <section key={f} className="a-fam"><h3>{f}</h3>
-          <div className="a-grid">{LETTERS.filter((x) => x.family === i).map((x) => { const k = st.letters[x.id]; return <button key={x.id} type="button" className={`a-cell ${k ? (secure(k) ? 'gold' : 'met') : 'locked'}`} aria-label={x.name} onClick={() => { setShown(x.id); sayHebrew(x.recipe); }}><Mini id={x.id} /></button>; })}</div>
+    <>
+      <header className="page-head"><h1>התקדמות</h1></header>
+      <section className="a-totals">
+        <div><b>{of('known').length}</b><span>נלמדו</span></div>
+        <div><b>{of('learning').length}</b><span>בתהליך</span></div>
+        <div className={of('hard').length ? 'warn' : ''}><b>{of('hard').length}</b><span>קשות</span></div>
+        <div><b>{of('new').length}</b><span>נשארו</span></div>
+      </section>
+      {STATUS.map((s) => { const list = of(s.key); return list.length > 0 && (
+        <section key={s.key} className="a-fam"><h3>{s.title}</h3><p className="small muted">{s.note}</p>
+          <div className="a-grid">{list.map((x) => { const mix = st.letters[x.id] ? topMix(st.letters[x.id]) : []; return (
+            <button key={x.id} type="button" className={`a-cell ${s.key}`} aria-label={x.name} onClick={() => { setShown(x.id); sayHebrew(x.recipe); }}><Mini id={x.id} />{s.key === 'hard' && mix.length > 0 && <small>עם {mix.join(' ')}</small>}</button>
+          ); })}</div>
         </section>
-      ))}
-      <div className="set-row"><span>מה לומדים</span><CourseSwitch /></div>
-      <div className="set-row"><label htmlFor="a1">צלילי משחק</label><input id="a1" type="checkbox" checked={st.settings.sound} onChange={(e) => update((s) => ({ ...s, settings: { ...s.settings, sound: e.target.checked } }))} /></div>
-      <div className="danger">
-        {!confirm ? <button type="button" className="link" onClick={() => setConfirm(true)}>איפוס ההתקדמות</button> : <><p className="small">למחוק את ההתקדמות במכשיר הזה? אי אפשר לבטל את זה.</p><div className="row-between"><button type="button" className="link" onClick={() => setConfirm(false)}>ביטול</button><button type="button" className="link" onClick={() => { update(() => initial(USER_NAME)); setConfirm(false); onClose(); }}>למחוק</button></div></>}
-      </div>
+      ); })}
       {l && <div className="sheet-wrap" onClick={() => setShown(null)}><div className="sheet a-show" role="dialog" aria-label={l.name} onClick={(e) => e.stopPropagation()}>
+        <div className="row-between"><h2>{l.name}</h2><Speaker text={l.recipe} /></div>
         <svg key={l.id} viewBox={VB} className="a-board" aria-hidden="true"><Lines /><Glyph strokes={l.strokes} draw /><Arrows strokes={l.strokes} /></svg>
-        <div className="row-between"><b>{l.name}</b><Speaker text={l.recipe} /></div>
-        {st.letters[l.id] && <p className="small muted">שלב הכתיבה: {stage[Math.min(3, st.letters[l.id].write.box)]}</p>}
+        {k ? (
+          <ul className="a-facts">
+            <li><span>זיהוי</span><b>{share(k.tally?.see ?? [0, 0])}</b></li>
+            <li><span>כתיבה</span><b>{share(k.tally?.write ?? [0, 0])}</b></li>
+            <li><span>שלב הכתיבה</span><b>{STAGE[Math.min(3, k.write.box)]}</b></li>
+            {topMix(k).length > 0 && <li><span>מתבלבל עם</span><b>{topMix(k).map((c) => LETTER[c].name).join(', ')}</b></li>}
+          </ul>
+        ) : <p className="small muted">האות הזאת עוד לא נלמדה.</p>}
       </div></div>}
-    </main></div>
+    </>
+  );
+}
+
+function Settings({ st, update, onClose }: { st: AState; update: Update; onClose: () => void }) {
+  const [confirm, setConfirm] = useState(false);
+  return (
+    <div className="sheet-wrap" onClick={onClose}>
+      <div className="sheet" role="dialog" aria-label="הגדרות" onClick={(e) => e.stopPropagation()}>
+        <div className="row-between"><h2>הגדרות</h2><button type="button" className="round" aria-label="סגירה" onClick={onClose}><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg></button></div>
+        {!USER_NAME && <><label className="field" htmlFor="a0">שם הילד או הילדה</label><input id="a0" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} /></>}
+        <div className="set-row"><label htmlFor="a1">צלילי משחק</label><input id="a1" type="checkbox" checked={st.settings.sound} onChange={(e) => update((s) => ({ ...s, settings: { ...s.settings, sound: e.target.checked } }))} /></div>
+        <div className="danger">
+          {!confirm ? <button type="button" className="link" onClick={() => setConfirm(true)}>איפוס ההתקדמות</button> : <><p className="small">למחוק את ההתקדמות בקורס? אי אפשר לבטל את זה.</p><div className="row-between"><button type="button" className="link" onClick={() => setConfirm(false)}>ביטול</button><button type="button" className="link" onClick={() => { update(() => initial(USER_NAME)); setConfirm(false); onClose(); }}>למחוק</button></div></>}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -168,9 +226,17 @@ function Session({ st, update, onExit, onMore }: { st: AState; update: Update; o
     <div className="session a-session" key={plan.at}>
       <div className="s-top"><button type="button" className="round" aria-label="יציאה. ההתקדמות נשמרת" onClick={onExit}><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg></button><div className="thin" style={{ flex: 1 }}><span style={{ width: `${(plan.at / plan.steps.length) * 100}%` }} /></div></div>
       {step.t === 'meet' && <Meet l={l} onDone={() => update((s) => advance(meet(s, l.id, plan.day)))} />}
-      {(step.t === 'trace' || step.t === 'copy' || step.t === 'write') && <Draw l={l} mode={step.t} sound={sound} onDone={(ok) => update((s) => advance(plan.extra ? s : answer(s, l.id, 'write', ok, plan.day)))} />}
-      {step.t === 'word' && <WordGame st={st} id={l.id} n={step.n} sound={sound} onDone={(ok) => update((s) => advance(plan.extra ? s : answer(s, l.id, 'see', ok, plan.day)))} />}
-      {step.t === 'find' && <Find st={st} step={step} sound={sound} onDone={(ok) => update((s) => advance(plan.extra ? s : answer(s, l.id, 'see', ok, plan.day)))} />}
+      {WRITING.includes(step.t) && <Draw l={l} mode={step.t as DrawMode} n={step.n} sound={sound} onDone={(ok) => update((s) => { const r = record(s, l.id, 'write', ok); return advance(plan.extra ? r : answer(r, l.id, 'write', ok, plan.day)); })} />}
+      {step.t !== 'meet' && !WRITING.includes(step.t) && (() => {
+        const onMix = (c: string) => update((s) => noteMix(s, l.id, c));
+        const done = (ok: boolean) => update((s) => { const r = record(s, l.id, 'see', ok); return advance(plan.extra ? r : answer(r, l.id, 'see', ok, plan.day)); });
+        if (step.t === 'word') return <WordGame st={st} id={l.id} n={step.n} onMix={onMix} sound={sound} onDone={done} />;
+        if (step.t === 'missing') return <WordGame st={st} id={l.id} n={step.n} missing onMix={onMix} sound={sound} onDone={done} />;
+        if (step.t === 'sound') return <SoundGame st={st} id={l.id} n={step.n} sound={sound} onDone={done} />;
+        if (step.t === 'hunt') return <Hunt st={st} id={l.id} onMix={onMix} sound={sound} onDone={done} />;
+        if (step.t === 'pair' && pairsOf(st, l.id).length) return <Pair st={st} id={l.id} n={step.n} sound={sound} onDone={done} />;
+        return <Find st={st} step={step} onMix={onMix} sound={sound} onDone={done} />;
+      })()}
     </div>
   );
 }
@@ -189,7 +255,7 @@ function Meet({ l, onDone }: { l: Letter; onDone: () => void }) {
   );
 }
 
-function Find({ st, step, sound, onDone }: { st: AState; step: Step; sound: boolean; onDone: (ok: boolean) => void }) {
+function Find({ st, step, onMix, sound, onDone }: { st: AState; step: Step; onMix: (c: string) => void; sound: boolean; onDone: (ok: boolean) => void }) {
   const l = LETTER[step.id], options = useMemo(() => choices(st, l.id), [l.id]);
   const [wrong, setWrong] = useState<string[]>([]), [right, setRight] = useState(false);
   const say = SAY.find(l);
@@ -199,7 +265,7 @@ function Find({ st, step, sound, onDone }: { st: AState; step: Step; sound: bool
     if (id === l.id) {
       setRight(true); if (sound) sfx.good();
       sayHebrew(SAY.rightIs(l));
-    } else { setWrong([...wrong, id]); if (sound) sfx.bad(); sayHebrew(SAY.thisIs(LETTER[id])); }
+    } else { setWrong([...wrong, id]); onMix(id); if (sound) sfx.bad(); sayHebrew(SAY.thisIs(LETTER[id])); }
   };
   return (
     <div className="a-step">
@@ -211,21 +277,21 @@ function Find({ st, step, sound, onDone }: { st: AState; step: Step; sound: bool
 }
 
 /** A word with a picture and one enlarged letter: which letter is the big one? Options are in print, like the word. */
-function WordGame({ st, id, n, sound, onDone }: { st: AState; id: string; n?: number; sound: boolean; onDone: (ok: boolean) => void }) {
-  const l = LETTER[id], word = WORDS[id][(n ?? 0) % WORDS[id].length], options = useMemo(() => choices(st, id), [id]);
+function WordGame({ st, id, n, missing, onMix, sound, onDone }: { st: AState; id: string; n?: number; missing?: boolean; onMix: (c: string) => void; sound: boolean; onDone: (ok: boolean) => void }) {
+  const pool = missing ? firstWords(id) : WORDS[id], l = LETTER[id], word = pool[(n ?? 0) % pool.length], options = useMemo(() => choices(st, id), [id]);
   const [wrong, setWrong] = useState<string[]>([]), [right, setRight] = useState(false);
-  const places = spots(word[0], id), place = places[Math.floor((n ?? 0) / WORDS[id].length) % places.length], at = place.at, say = SAY.word(word[1], place.where);
+  const places = spots(word[0], id), place = missing ? places[0] : places[Math.floor((n ?? 0) / pool.length) % places.length], at = place.at, say = SAY.word(word[1], place.where);
   useEffect(() => { sayHebrew(say); }, []);
   const tap = (c: string) => {
     if (right) return;
     if (c === id) { setRight(true); if (sound) sfx.good(); sayHebrew(SAY.rightIs(l)); }
-    else { setWrong([...wrong, c]); if (sound) sfx.bad(); sayHebrew(SAY.thisIs(LETTER[c])); }
+    else { setWrong([...wrong, c]); onMix(c); if (sound) sfx.bad(); sayHebrew(SAY.thisIs(LETTER[c])); }
   };
   return (
     <div className="a-step">
       <button type="button" className="a-word" aria-label="לשמוע שוב" onClick={() => sayHebrew(say)}>
         <span className="a-pic" aria-hidden="true">{word[2]}</span>
-        <span className="a-letters" dir="rtl">{word[0].slice(0, at)}<b className={right ? 'yes' : ''}>{id}</b>{word[0].slice(at + 1)}</span>
+        <span className="a-letters" dir="rtl">{word[0].slice(0, at)}<b className={right ? 'yes' : ''}>{missing && !right ? '?' : id}</b>{word[0].slice(at + 1)}</span>
       </button>
       <div className={`a-answers small n${options.length}`}>{options.map((c) => <button key={c} type="button" disabled={wrong.includes(c)} className={`a-answer ${right && c === id ? 'right' : ''} ${wrong.includes(c) ? 'off' : ''}`} aria-label={LETTER[c].name} onClick={() => tap(c)}><Mini id={c} print /></button>)}</div>
       {right ? <Next onClick={() => onDone(wrong.length === 0)} /> : <div className="a-next-space" />}
@@ -233,12 +299,82 @@ function WordGame({ st, id, n, sound, onDone }: { st: AState; id: string; n?: nu
   );
 }
 
+/** Hear a letter, choose the picture whose word opens with it. This joins the shape to its sound, which is what reading needs. */
+function SoundGame({ st, id, n, sound, onDone }: { st: AState; id: string; n?: number; sound: boolean; onDone: (ok: boolean) => void }) {
+  const l = LETTER[id], say = SAY.sound(l);
+  const options = useMemo(() => {
+    const own = firstWords(id), right = own[(n ?? 0) % own.length];
+    const pool = ALL.filter((x) => x.id !== id).flatMap((x) => firstWords(x.id)).filter((w) => w[2] !== right[2] && w[0][0] !== id);
+    const known = pool.filter((w) => st.letters[w[0][0]]);
+    const pickFrom = [...known.sort(() => Math.random() - 0.5), ...pool.sort(() => Math.random() - 0.5)], others: typeof pool = [];
+    for (const w of pickFrom) if (others.length < 2 && !others.some((o) => o[2] === w[2] || o[0][0] === w[0][0])) others.push(w);
+    return [right, ...others].sort(() => Math.random() - 0.5);
+  }, [id, n]);
+  const [wrong, setWrong] = useState<string[]>([]), [right, setRight] = useState(false);
+  useEffect(() => { sayHebrew(say); }, []);
+  const tap = (w: string[]) => {
+    if (right) return;
+    if (w[0][0] === id) { setRight(true); if (sound) sfx.good(); sayHebrew(SAY.rightWord(w[1])); }
+    else { setWrong([...wrong, w[0]]); if (sound) sfx.bad(); sayHebrew(SAY.heard(w[1])); }
+  };
+  return (
+    <div className="a-step">
+      <Speaker text={say} />
+      <div className="a-answers n1">{options.map((w) => <button key={w[0]} type="button" disabled={wrong.includes(w[0])} className={`a-answer a-picture ${right && w[0][0] === id ? 'right' : ''} ${wrong.includes(w[0]) ? 'off' : ''}`} aria-label={w[0]} onClick={() => tap(w)}>{w[2]}</button>)}</div>
+      {right ? <Next onClick={() => onDone(wrong.length === 0)} /> : <div className="a-next-space" />}
+    </div>
+  );
+}
+
+/** Many letters on the screen: find every one of this letter. */
+function Hunt({ st, id, onMix, sound, onDone }: { st: AState; id: string; onMix: (c: string) => void; sound: boolean; onDone: (ok: boolean) => void }) {
+  const l = LETTER[id], cells = useMemo(() => huntCells(st, id), [id]), say = SAY.hunt(l);
+  const [found, setFound] = useState<number[]>([]), [misses, setMisses] = useState<number[]>([]);
+  const all = found.length === cells.filter((c) => c === id).length;
+  useEffect(() => { sayHebrew(say); }, []);
+  const tap = (c: string, i: number) => {
+    if (all || found.includes(i)) return;
+    if (c === id) { const next = [...found, i]; setFound(next); if (sound) sfx.good(); if (next.length === 5) sayHebrew(SAY.rightIs(l)); else sayHebrew(l.say); }
+    else { if (!misses.includes(i)) { setMisses([...misses, i]); onMix(c); } if (sound) sfx.bad(); sayHebrew(SAY.thisIs(LETTER[c])); }
+  };
+  return (
+    <div className="a-step">
+      <Speaker text={say} />
+      <div className="a-hunt">{cells.map((c, i) => <button key={i} type="button" className={`a-answer ${found.includes(i) ? 'right' : ''} ${misses.includes(i) ? 'off' : ''}`} aria-label={LETTER[c].name} onClick={() => tap(c, i)}><Mini id={c} /></button>)}</div>
+      {all ? <Next onClick={() => onDone(misses.length <= 1)} /> : <div className="a-next-space" />}
+    </div>
+  );
+}
+
+/** Two look-alikes and a question about what tells them apart. */
+function Pair({ st, id, n, sound, onDone }: { st: AState; id: string; n?: number; sound: boolean; onDone: (ok: boolean) => void }) {
+  const list = pairsOf(st, id), [answer_, other, question] = list[(n ?? 0) % list.length];
+  const order = useMemo(() => (Math.random() < 0.5 ? [answer_, other] : [other, answer_]), [answer_, other]);
+  const [wrong, setWrong] = useState(false), [right, setRight] = useState(false);
+  useEffect(() => { sayHebrew(question); }, []);
+  const tap = (c: string) => {
+    if (right) return;
+    if (c === answer_) { setRight(true); if (sound) sfx.good(); sayHebrew(SAY.rightIs(LETTER[c])); }
+    else { setWrong(true); if (sound) sfx.bad(); sayHebrew(SAY.thisIs(LETTER[c])); }
+  };
+  return (
+    <div className="a-step">
+      <Speaker text={question} />
+      <div className="a-answers n1">{order.map((c) => <button key={c} type="button" disabled={wrong && c !== answer_} className={`a-answer ${right && c === answer_ ? 'right' : ''} ${wrong && c !== answer_ ? 'off' : ''}`} aria-label={LETTER[c].name} onClick={() => tap(c)}><Mini id={c} /></button>)}</div>
+      {right ? <Next onClick={() => onDone(!wrong)} /> : <div className="a-next-space" />}
+    </div>
+  );
+}
+
 /** Writing with a finger between two lines: over a dashed letter, then beside a model, then alone. No button to finish: the app sees when the letter is done. */
-function Draw({ l, mode, sound, onDone }: { l: Letter; mode: 'trace' | 'copy' | 'write'; sound: boolean; onDone: (ok: boolean) => void }) {
+function Draw({ l, mode, n, sound, onDone }: { l: Letter; mode: DrawMode; n?: number; sound: boolean; onDone: (ok: boolean) => void }) {
   const guide = mode === 'trace', rules = guide ? TRACE : FREE;
   const [ink, setInk] = useState<Ink>([]), [help, setHelp] = useState<number[] | null>(null), [won, setWon] = useState(false), [result, setResult] = useState(false), frame = frameOf(l);
   const svg = useRef<SVGSVGElement>(null), down = useRef(false), tries = useRef(0), wait = useRef<ReturnType<typeof setTimeout>>(undefined), latest = useRef<Ink>([]);
-  const said = guide ? SAY.trace(l) : mode === 'copy' ? SAY.copy(l) : SAY.write(l);
+  const words = firstWords(l.id), heard = words.length ? words[(n ?? 0) % words.length] : null;
+  const said = guide ? SAY.trace(l) : mode === 'copy' ? SAY.copy(l) : mode === 'memory' ? SAY.memory(l) : mode === 'opening' && heard ? SAY.opening(heard[1]) : SAY.write(l);
+  const [showing, setShowing] = useState(mode === 'memory');
+  useEffect(() => { if (!showing) return; const id = setTimeout(() => setShowing(false), 2500); return () => clearTimeout(id); }, [showing]);
   latest.current = ink;
   useEffect(() => { sayHebrew(said); return () => clearTimeout(wait.current); }, []);
   const at = (e: PE): Pt | null => {
@@ -256,7 +392,7 @@ function Draw({ l, mode, sound, onDone }: { l: Letter; mode: 'trace' | 'copy' | 
     if (sound) sfx.bad();
     sayHebrew(SAY.again); setHelp(v.missing.length ? v.missing : l.strokes.map((_, i) => i));
   };
-  const start = (e: PE) => { if (won) return; const p = at(e); if (!p) return; clearTimeout(wait.current); (e.target as Element).setPointerCapture?.(e.pointerId); down.current = true; setHelp(null); setInk((k) => [...k, [p]]); };
+  const start = (e: PE) => { if (won) return; const p = at(e); if (!p) return; clearTimeout(wait.current); setShowing(false); (e.target as Element).setPointerCapture?.(e.pointerId); down.current = true; setHelp(null); setInk((k) => [...k, [p]]); };
   const move = (e: PE) => { if (!down.current) return; const p = at(e); if (p) setInk((k) => { const c = [...k]; c[c.length - 1] = [...c[c.length - 1], p]; return c; }); };
   // Lifting a finger may only be a pause in the letter, so a good letter is accepted soon and a poor one is given time.
   const end = () => {
@@ -271,9 +407,11 @@ function Draw({ l, mode, sound, onDone }: { l: Letter; mode: 'trace' | 'copy' | 
     <div className="a-step">
       <div className={`a-desk ${mode === 'copy' ? 'two' : ''}`}>
         {mode === 'copy' && <svg viewBox={frame} className="a-model" role="img" aria-label={`דוגמה: ${l.name}`}><Lines /><Glyph strokes={l.strokes} /><Arrows strokes={l.strokes} /></svg>}
+        {mode === 'opening' && heard && <button type="button" className="a-model a-opening" aria-label="לשמוע שוב" onClick={() => sayHebrew(said)}>{heard[2]}</button>}
         <svg ref={svg} viewBox={frame} className="a-board a-pad" role="img" aria-label={`כתיבת ${l.name}`} onPointerDown={start} onPointerMove={move} onPointerUp={end} onPointerCancel={end}>
           <Lines />
           {guide && <Glyph strokes={l.strokes} cls="dash" />}
+          {showing && <Glyph strokes={l.strokes} />}
           {guide && !won && <Arrows strokes={l.strokes} />}
           {guide && !ink.length && l.strokes.map((s, i) => <g key={i}><circle cx={s.p[0][0]} cy={s.p[0][1]} r="6" className="a-dot" /><text x={s.p[0][0]} y={s.p[0][1] + 3} className="a-num">{i + 1}</text></g>)}
           {help && <Glyph strokes={l.strokes.filter((_, i) => help.includes(i))} cls="new" draw gap={1} />}

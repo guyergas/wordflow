@@ -17,7 +17,9 @@ Math (`src/math`) is a third course on the same site. Skills in `skills.ts` gene
 
 Eight knowledge courses (`src/knowledge`) share one engine: a short text, questions on understanding, and key points in spaced review. Lessons are in `lessons.ts`.
 
-The alef-bet course (`src/alef`) is for children who cannot read yet, so everything is spoken and shown. Each letter is built from a letter they know, out of small, big and giant lines (`letters.ts`). It is one course, and each child uses their own device, so progress stays separate. `ink.ts` judges finger writing, and `engine.ts` holds the rules. Warm-up (known letters) and boost (weakest letters) are free practice that brings no new letter and leaves stages unchanged. Recordings in `public/audio/he` are created by the deploy, and the phone's Hebrew voice is the fallback.
+The alef-bet course (`src/alef`) is for children who cannot read yet, so everything is spoken and shown. Each letter is built from a letter they know, out of small, big and giant lines (`letters.ts`). It is one course, and each child uses their own device, so progress stays separate. `ink.ts` judges finger writing, and `engine.ts` holds the rules. Recognition games: find, enlarged letter in a word, picture that opens with a letter, letter hunt, look-alike pairs, missing opening letter. Writing: over dashes, beside a model, from memory, alone, and the opening letter of a heard word. The progress tab lists hard, learning, learned and new letters, from right and wrong counts and letters mixed up.
+
+Warm-up (known letters) and boost (weakest letters) are free practice that brings no new letter and leaves stages unchanged. Recordings in `public/audio/he` are created by the deploy, and the phone's Hebrew voice is the fallback.
 
 The summary tab in every course shows study time and new items across all courses, by day and week, against a weekly schedule of minutes per course.
 

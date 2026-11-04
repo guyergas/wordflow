@@ -100,6 +100,30 @@ export const WORDS: Record<string, [string, string, string][]> = {
   'ש': [['שמש', 'שֶׁמֶשׁ', '☀️'], ['שעון', 'שָׁעוֹן', '⏰'], ['דבש', 'דְּבַשׁ', '🍯'], ['קשת', 'קֶשֶׁת', '🌈']],
 };
 
+/** Words that open with this letter. Final forms have none. */
+export const firstWords = (id: string) => (WORDS[id] ?? []).filter((w) => w[0][0] === id);
+
+/** Two look-alikes and a question about what tells them apart. The first letter is the answer. */
+export const PAIRS: [string, string, string][] = [
+  ['ד', 'ר', 'בְּאֵיזוֹ אוֹת יֵשׁ צ׳וּפְּצִ׳יק?'],
+  ['ו', 'י', 'אֵיזוֹ אוֹת אֲרֻכָּה יוֹתֵר?'],
+  ['ן', 'ו', 'אֵיזוֹ אוֹת יוֹרֶדֶת מִתַּחַת לַשּׁוּרָה?'],
+  ['ך', 'ר', 'אֵיזוֹ אוֹת יוֹרֶדֶת מִתַּחַת לַשּׁוּרָה?'],
+  ['ק', 'ר', 'אֵיזוֹ אוֹת יוֹרֶדֶת מִתַּחַת לַשּׁוּרָה?'],
+  ['ה', 'ר', 'בְּאֵיזוֹ אוֹת יֵשׁ עוֹד קַו קָטָן לְמַטָּה?'],
+  ['ח', 'ר', 'בְּאֵיזוֹ אוֹת יֵשׁ שְׁתֵּי רַגְלַיִם?'],
+  ['ת', 'ח', 'בְּאֵיזוֹ אוֹת יֵשׁ צ׳וּפְּצִ׳יק לְמַטָּה?'],
+  ['ה', 'ח', 'בְּאֵיזוֹ אוֹת הַקַּו הַשֵּׁנִי לֹא נוֹגֵעַ בַּגַּג?'],
+  ['ב', 'כ', 'בְּאֵיזוֹ אוֹת יֵשׁ צ׳וּפְּצִ׳יק לְמַטָּה?'],
+  ['פ', 'כ', 'בְּאֵיזוֹ אוֹת יֵשׁ קַוִּים בִּפְנִים?'],
+  ['ג', 'ו', 'בְּאֵיזוֹ אוֹת יֵשׁ רֶגֶל קְטַנָּה?'],
+  ['ז', 'ו', 'בְּאֵיזוֹ אוֹת יֵשׁ כּוֹבַע רָחָב?'],
+  ['ס', 'ם', 'אֵיזוֹ אוֹת עֲגֻלָּה?'],
+  ['ם', 'מ', 'אֵיזוֹ אוֹת סְגוּרָה לְגַמְרֵי?'],
+  ['צ', 'ע', 'בְּאֵיזוֹ אוֹת יֵשׁ רִצְפָּה?'],
+  ['ף', 'פ', 'אֵיזוֹ אוֹת יוֹרֶדֶת מִתַּחַת לַשּׁוּרָה?'],
+];
+
 export type Where = 'first' | 'middle' | 'last';
 const WHERE_SAY: Record<Where, string> = { first: 'הַפּוֹתַחַת', middle: 'הָאֶמְצָעִית', last: 'הַסּוֹגֶרֶת' };
 /** Where a letter stands in a word, counting only the clear places: the opening letter, the exact middle, and the closing letter. */
@@ -126,6 +150,12 @@ export const SAY = {
   write: (l: Letter) => `עַכְשָׁו כּוֹתְבִים ${l.say}, לְבַד. ${l.recipe}`,
   copy: (l: Letter) => `כּוֹתְבִים ${l.say}, כְּמוֹ הָאוֹת שֶׁבַּצַּד. ${l.recipe}`,
   thisIs: (l: Letter) => `זֹאת ${l.say}.`,
+  sound: (l: Letter) => `מַה מַּתְחִיל בָּאוֹת ${l.say}?`,
+  hunt: (l: Letter) => `מוֹצְאִים אֶת כָּל הָאוֹתִיּוֹת ${l.say}.`,
+  memory: (l: Letter) => `מִסְתַּכְּלִים טוֹב עַל הָאוֹת ${l.say}, וְכוֹתְבִים אוֹתָהּ מֵהַזִּכָּרוֹן. ${l.recipe}`,
+  opening: (spoken: string) => `${spoken}. כּוֹתְבִים אֶת הָאוֹת הַפּוֹתַחַת.`,
+  heard: (spoken: string) => `${spoken}.`,
+  rightWord: (spoken: string) => `נָכוֹן! ${spoken}.`,
   rightIs: (l: Letter) => `נָכוֹן! זֹאת ${l.say}.`,
   word: (spoken: string, where: Where) => `${spoken}. מַהִי הָאוֹת ${WHERE_SAY[where]}?`,
 };
@@ -133,5 +163,6 @@ export const SAY = {
 /** Every sentence the app can say. The deploy creates a recording for each one. */
 export const HEBREW_AUDIO: string[] = [...new Set([
   ...SAY.right, SAY.again, SAY.finish,
-  ...LETTERS.flatMap((l) => [l.say, l.recipe, SAY.find(l), SAY.trace(l), SAY.write(l), SAY.copy(l), SAY.thisIs(l), SAY.rightIs(l), ...WORDS[l.id].flatMap((w) => spots(w[0], l.id).map((s) => SAY.word(w[1], s.where)))]),
+  ...PAIRS.map((p) => p[2]),
+  ...LETTERS.flatMap((l) => [l.say, l.recipe, SAY.find(l), SAY.trace(l), SAY.write(l), SAY.copy(l), SAY.thisIs(l), SAY.rightIs(l), SAY.sound(l), SAY.hunt(l), SAY.memory(l), ...firstWords(l.id).flatMap((w) => [SAY.opening(w[1]), SAY.heard(w[1]), SAY.rightWord(w[1]), SAY.word(w[1], 'first')]), ...WORDS[l.id].flatMap((w) => spots(w[0], l.id).map((s) => SAY.word(w[1], s.where)))]),
 ])];
