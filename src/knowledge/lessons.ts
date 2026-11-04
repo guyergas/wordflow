@@ -3,6 +3,7 @@
 // Level: 0 basis, 1 deeper, 2 a jump above the expected age. `wiki` is the Hebrew Wikipedia title for reading more.
 import { L, Lesson } from './kit';
 import { EXTRA } from './extra';
+import { DEEP } from './deep';
 import { MORE_GEO } from './more-geo';
 import { MORE_SCI } from './more-sci';
 import { MORE_NATURE } from './more-nature';
@@ -273,4 +274,6 @@ const FIRST: Lesson[] = [
   ], [['באיזו עיר נולד הרמב״ם?', 'קורדובה', ['קהיר', 'ירושלים', 'בגדד'], 'קורדובה.']]),
 ];
 
-export const LESSONS: Lesson[] = [...FIRST.map((l) => ({ ...l, text: EXTRA[l.id] ? `${l.text}\n\n${EXTRA[l.id]}` : l.text })), ...MORE_GEO, ...MORE_SCI, ...MORE_NATURE, ...MORE_HIST, ...MORE_ART, ...MORE_SPORT, ...MORE_HEB, ...MORE_JUD, ...FOOD];
+const ALL: Lesson[] = [...FIRST.map((l) => ({ ...l, text: EXTRA[l.id] ? `${l.text}\n\n${EXTRA[l.id]}` : l.text })), ...MORE_GEO, ...MORE_SCI, ...MORE_NATURE, ...MORE_HIST, ...MORE_ART, ...MORE_SPORT, ...MORE_HEB, ...MORE_JUD, ...FOOD];
+
+export const LESSONS: Lesson[] = ALL.map((l) => (DEEP[l.id] ? { ...l, text: DEEP[l.id].text, qs: [...DEEP[l.id].qs] } : l));

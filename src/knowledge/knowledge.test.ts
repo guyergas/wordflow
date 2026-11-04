@@ -15,7 +15,7 @@ describe('lesson bank', () => {
     for (const l of LESSONS) {
       const words = l.text.split(/\s+/).length;
       expect(words, `${l.id} length`).toBeGreaterThanOrEqual(100);
-      expect(words, `${l.id} length`).toBeLessThanOrEqual(280);
+      expect(words, `${l.id} length`).toBeLessThanOrEqual(2200);
       expect(l.qs.length, l.id).toBeGreaterThanOrEqual(3);
       expect(l.keys.length, l.id).toBeGreaterThanOrEqual(1);
       for (const [q, right, wrong, why] of [...l.qs, ...l.keys]) {
