@@ -30,7 +30,10 @@ export default defineConfig(({ mode }) => {
               // Recordings stay out of the app update, so a new version arrives quickly and English devices never download them.
               globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
               navigateFallback: 'index.html',
-              runtimeCaching: [{ urlPattern: /\/audio\/th\/[^/]+\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'thai-audio' } }],
+              runtimeCaching: [
+                { urlPattern: /\/audio\/th\/[^/]+\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'thai-audio' } },
+                { urlPattern: /\/audio\/he\/[^/]+\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'hebrew-audio' } },
+              ],
             },
           }),
     ],

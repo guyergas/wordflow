@@ -1,5 +1,6 @@
 // Storage, speech and sound. Everything here fails soft: a missing capability never breaks the lesson.
-import { IS_THAI, STORAGE_KEY as KEY } from './course';
+import { IS_ALEF, IS_THAI, STORAGE_KEY as KEY } from './course';
+import { HEBREW_AUDIO } from './alef/letters';
 import { dropUnpracticed, initialState, repairPlans, State } from './engine';
 import { audioName, THAI_AUDIO } from './thai';
 let memory: string | null = null;
@@ -51,10 +52,10 @@ const recordings = new Map<string, Promise<AudioBuffer>>();
 let playing: AudioBufferSourceNode | null = null;
 let turn = 0;
 
-function recording(th: string, c: AudioContext) {
+function recording(th: string, c: AudioContext, dir = 'th') {
   let p = recordings.get(th);
   if (!p) {
-    p = fetch(`audio/th/${audioName(th)}.mp3`)
+    p = fetch(`audio/${dir}/${audioName(th)}.mp3`)
       .then((r) => { if (!r.ok) throw new Error('missing'); return r.arrayBuffer(); })
       .then((b) => c.decodeAudioData(b));
     p.catch(() => recordings.delete(th));
@@ -111,6 +112,36 @@ function speakThai(text: string) {
     src.start();
     playing = src;
   }).catch(() => { if (mine === turn) speakThaiVoice(th); });
+}
+
+/** Saves the alef-bet sentences on the device in the background, on the children's course only. */
+export async function saveHebrewRecordings() {
+  if (!IS_ALEF || !('caches' in window)) return;
+  try {
+    const cache = await caches.open('hebrew-audio');
+    const queue = HEBREW_AUDIO.map((t) => `audio/he/${audioName(t)}.mp3`);
+    const worker = async () => { for (let url = queue.pop(); url; url = queue.pop()) { try { if (!(await cache.match(url))) await cache.add(url); } catch { /* the next launch tries again */ } } };
+    await Promise.all([worker(), worker(), worker()]);
+  } catch { /* optional */ }
+}
+
+/** Says a sentence from the alef-bet course: its recording if there is one, otherwise the phone's Hebrew voice. */
+export function sayHebrew(text: string) {
+  const mine = ++turn;
+  try { playing?.stop(); } catch { /* already over */ }
+  playing = null;
+  try { synth()?.cancel(); } catch { /* no voice */ }
+  try { (navigator as unknown as { audioSession?: { type: string } }).audioSession!.type = 'playback'; } catch { /* other phones */ }
+  const c = audio();
+  if (!c) { speakHebrew(text); return; }
+  recording(text, c, 'he').then((buffer) => {
+    if (mine !== turn) return;
+    const src = c.createBufferSource();
+    src.buffer = buffer;
+    src.connect(c.destination);
+    src.start();
+    playing = src;
+  }).catch(() => { if (mine === turn) speakHebrew(text); });
 }
 
 export function speak(text: string, opts: { voice?: string; rate?: number } = {}) {
