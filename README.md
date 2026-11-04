@@ -13,4 +13,6 @@ Thai mode (`src/thai.ts`) shows Latin transliteration with tone marks, has no sp
 - Sentence practice in `src/sentences.ts`, preferring sentences made only of words she knows.
 - 690 words in 12 levels, A1 to C1, in `src/words.ts`. Learning rules are in `src/engine.ts`.
 
+Math (`src/math`) is a third course on the same site. Skills in `skills.ts` generate a fresh question each time, with stations 1-7 so far. `engine.ts` holds the rules: an opening run with a separate stopping point in each area, prerequisites, understanding and execution as two measures, and hints that show other numbers. A course is one line in `COURSES` in `src/course.ts`, and it then appears in the switcher and in the time summary (`src/summary.ts`).
+
 `npm test` · `npm run dev` · `npm run build`. Pushing to `main` deploys to GitHub Pages.

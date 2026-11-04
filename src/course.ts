@@ -1,8 +1,15 @@
-// Which language this device is learning. It is read once at startup, and changing it reloads the app.
-export type CourseId = 'en' | 'th';
+// Which course this device is on. It is read once at startup, and changing it reloads the app.
+// A new course only needs a line here: it then appears in the picker, the switcher and the summary.
+export type CourseId = 'en' | 'th' | 'math';
+export interface CourseInfo { id: CourseId; name: string; hello: string; note: string; storageKey: string; defaultMinutes: number }
+export const COURSES: CourseInfo[] = [
+  { id: 'en', name: 'אנגלית', hello: 'Hello', note: 'מילים, איות ומשפטים', storageKey: 'wordflow.v1', defaultMinutes: 15 },
+  { id: 'th', name: 'תאית', hello: 'sà-wàt-dii', note: 'מילים וביטויים ליום־יום, עם הקלטות', storageKey: 'wordflow.th.v1', defaultMinutes: 0 },
+  { id: 'math', name: 'חשבון', hello: '7×8', note: 'מתחילים מהבסיס ומתקדמים בקצב אישי', storageKey: 'wordflow.math.v1', defaultMinutes: 15 },
+];
 
 const KEY = 'wordflow.course';
-const valid = (v: string | null): v is CourseId => v === 'en' || v === 'th';
+const valid = (v: string | null): v is CourseId => COURSES.some((c) => c.id === v);
 
 function read(): CourseId | null {
   let asked: string | null = null;
@@ -21,8 +28,9 @@ const found = read();
 export const COURSE_CHOSEN = found !== null;
 export const COURSE_ID: CourseId = found ?? 'en';
 export const IS_THAI = COURSE_ID === 'th';
+export const IS_MATH = COURSE_ID === 'math';
 export const HAS_SPELLING = !IS_THAI;
-export const STORAGE_KEY = IS_THAI ? 'wordflow.th.v1' : 'wordflow.v1';
+export const STORAGE_KEY = COURSES.find((c) => c.id === COURSE_ID)!.storageKey;
 
 /** English speaks to a girl and Thai speaks to a man. Thai wording goes second. */
 export const x = (english: string, thai: string) => (IS_THAI ? thai : english);

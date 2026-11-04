@@ -5,7 +5,8 @@ import {
   toggleFlag, topConfusions, topTraps, totals, weekDays, ws, isLearning, newAllowance, nextNewWords, addStudyTime, questionCount, studyTimeLabel, studySeconds, resolveCheck, restorePaused, repairPlans, onTheWay, steppedToday, spellCandidates,
 } from './engine';
 import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind, sentencePlan, sentencesKnown, tokens, TOPICS, unknownWords } from './sentences';
-import { COURSE_CHOSEN, COURSE_ID, CourseId, HAS_SPELLING, IS_THAI, switchCourse, x } from './course';
+import { COURSE_CHOSEN, COURSE_ID, COURSES, HAS_SPELLING, IS_THAI, switchCourse, x } from './course';
+import { SummaryCard } from './summaryUi';
 import { LEVELS, WORD, WORDS, Word } from './words';
 import { buildReport, drawReport, fileName, Period, toBlob } from './report';
 import { askPersistence, canSpeak, englishVoices, load, save, saveThaiRecordings, sfx, speak } from './platform';
@@ -37,11 +38,6 @@ function Tile({ ch, state = '', onClick, small, disabled }: { ch: string; state?
 
 const longClass = (t: string) => (t.length > 22 ? 'very-long' : t.length > 11 ? 'long' : '');
 const searchable = (t: string) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[-\s]/g, '').toLowerCase();
-const COURSES: { id: CourseId; name: string; hello: string; note: string }[] = [
-  { id: 'en', name: 'אנגלית', hello: 'Hello', note: 'מילים, איות ומשפטים' },
-  { id: 'th', name: 'תאית', hello: 'sà-wàt-dii', note: 'מילים וביטויים ליום־יום, עם הקלטות' },
-];
-
 /** The word as the learner reads it: letter tiles in English, a plain line of transliteration in Thai. */
 function WordFace({ w }: { w: Word }) {
   if (IS_THAI) return <div className={`flip-in word-hero ${longClass(w.en)}`}><En>{w.en}</En></div>;
@@ -317,6 +313,8 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
         <span className="sent-txt"><b>אימון משפטים</b><small>{ready > 0 ? `${ready} משפטים שימושיים מהמילים ש${x('את כבר מכירה', 'אתה כבר מכיר')}` : 'משפטים שימושיים לכל יום'}</small></span>
         <span className="sent-go" aria-hidden="true">←</span>
       </button>
+
+      <SummaryCard name={st.name} />
 
       <section className="card week">
         <div className="row-between"><h3>השבוע</h3><span className="muted small">{weekCount} מתוך {st.settings.weeklyGoal} ימים</span></div>
@@ -1104,11 +1102,11 @@ function Settings({ st, update, onClose }: { st: State; update: Update; onClose:
   };
   return (
     <Sheet title="הגדרות" onClose={onClose}>
-      <div className="set-row"><span>מה לומדים במכשיר הזה</span>
-        <div className="seg lang" role="group" aria-label="שפת הלימוד">
+      <div className="set-row"><span>מה לומדים</span>
+        <div className="seg lang" role="group" aria-label="הקורס">
           {COURSES.map((c) => <button key={c.id} type="button" aria-pressed={COURSE_ID === c.id} onClick={() => { if (COURSE_ID !== c.id) switchCourse(c.id); }}>{c.name}</button>)}
         </div></div>
-      <p className="small muted">לכל שפה התקדמות משלה, והיא נשמרת כשעוברים ביניהן.</p>
+      <p className="small muted">לכל קורס התקדמות משלו, והיא נשמרת כשעוברים ביניהם.</p>
       <label className="field" htmlFor="n2">שם</label>
       <input id="n2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} />
       <div className="set-row"><label htmlFor="s1">צלילי משחק</label><input id="s1" type="checkbox" checked={st.settings.sound} onChange={(e) => set({ sound: e.target.checked })} /></div>

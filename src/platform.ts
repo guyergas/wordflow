@@ -128,6 +128,21 @@ export function speak(text: string, opts: { voice?: string; rate?: number } = {}
   } catch { /* no audio */ }
 }
 
+/** Reads a Hebrew word problem aloud, so that reading never hides what she can do in math. */
+export function speakHebrew(text: string) {
+  const s = synth();
+  if (!s) return;
+  try {
+    s.cancel();
+    const u = new SpeechSynthesisUtterance(text.replace(/\[\[|\]\]/g, '').replace(/(\d+)%/g, '$1 אחוז').replace(/[־]/g, ' '));
+    u.lang = 'he-IL';
+    const v = s.getVoices().find((o) => /^(he|iw)/i.test(o.lang));
+    if (v) u.voice = v;
+    u.rate = 0.9;
+    s.speak(u);
+  } catch { /* no audio */ }
+}
+
 // ---------- Sound effects ----------
 let ctx: AudioContext | null = null;
 function audio() {
