@@ -9,10 +9,12 @@ Checked on 5 November 2026 against the documents that could be opened. Full less
 - Homeland, society and citizenship, grades 2 to 4; history from the return to Zion to the 1950s.
 - Hebrew: reading and grammar. Bible: books by grade, secular and religious lists.
 
+- Holocaust: unit of five lessons, for Ayala only by parent's decision.
+- Added from sample tests and specs: grade 5 Hebrew test topics, grade 5 and 6 math weights, and Bible by grade for state schools.
+
 ## Not covered, and why
-- Holocaust: awaits parent approval.
 - Open writing, speaking and projects: the app has only closed questions.
-- English grammar, listening and reading: the bank covers words, not all five domains.
+- English grammar, listening, reading of texts and writing: the bank covers words. The grade 5 test is 75% reading and 25% writing.
 - Literature, art and physical education: curricula not compared in detail.
-- Grade-level detail not retrieved: history chapter lists, full math grade 4 to 6 programs, elementary Hebrew, elementary science list.
+- Grade-level detail not retrieved: full math grade 4 to 6 programs, elementary science list. History by grade was read from the state-religious program; state secular may differ.
 - Bible and heritage for secular state schools: not checked separately.

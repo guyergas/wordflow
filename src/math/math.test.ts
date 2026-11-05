@@ -221,7 +221,7 @@ describe('grading', () => {
 
 describe('the bridge stations', () => {
   it('every new question has one right answer and a way to solve it', () => {
-    for (const s of SKILLS.filter((x) => x.station >= 8 || ["round", "time", "mixed", "ratio", "price", "scale", "paral", "surface"].includes(x.id))) for (let seed = 1; seed < 200; seed++) for (const gen of [s.e, s.u]) {
+    for (const s of SKILLS.filter((x) => x.station >= 8 || ["round", "time", "mixed", "ratio", "price", "scale", "paral", "surface", "prob", "coord"].includes(x.id))) for (let seed = 1; seed < 200; seed++) for (const gen of [s.e, s.u]) {
       if (!gen) continue;
       const q = gen(seeded(seed));
       expect(q.steps.length, s.id).toBeGreaterThan(0);

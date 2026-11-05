@@ -12,7 +12,7 @@ Next lesson: `npx esbuild scripts/next-lesson.ts --bundle --platform=node --outf
 - Marks: wrap 7–10 whole important sentences in [[...]], the yellow marker. A mark holds whole sentences, ends after the final punctuation, and never contains a blank line. Mark main ideas, not trivia. About half of the questions are answered by marked sentences, half by unmarked text.
 - Questions: 10–12 multiple-choice, in the order of the text, `[question, right, [wrong, wrong], why]`. At least 2 plausible wrong options, all unique; mostly why/how and the general idea; `why` is one short sentence. Inside single-quoted strings use Hebrew ׳ and ״.
 - Accuracy matters most. Only well-established facts, numbers rounded. If unsure of a name, date or figure, check with WebSearch or WebFetch, or leave it out. Never invent quotes, studies or anecdotes; label legends as legends. Records and medal counts change: check them and state the year.
-- Contested politics, religion or history: present the sides fairly and take none; on the Israeli–Arab conflict give both narratives in their own words. Nothing graphic. No detailed Holocaust content; a separate unit awaits parent approval.
+- Contested politics, religion or history: present the sides fairly and take none; on the Israeli–Arab conflict give both narratives in their own words. Nothing graphic. Holocaust: a separate unit exists in `src/knowledge/holocaust.ts`, shown only to one child by parent's decision. Do not write about it in detail in other lessons.
 
 ## By course
 - `art`: describe poems, songs and books in your own words; no lines of in-copyright work. Leave out suicide or self-harm in artists' lives.

@@ -452,6 +452,14 @@ export const SKILLS: Skill[] = [
     const hi = bars[1].value, lo = bars[0].value;
     return calc({ prompt: 'הגרף מראה כמה ספרים הושאלו מהספרייה בכל יום. כמה ספרים הושאלו בימים ראשון ושני יחד?', ans: n(hi + lo), eq: `${hi}+${lo}`, wrong: [[n(hi - lo), 'op'], [n(hi), 'op']], fig: { t: 'chart', bars, step }, needFig: true, steps: ['קוראים את גובה כל עמודה מול המספרים שבצד', `ראשון: [[${lo}]]. שני: [[${hi}]]`, `[[${lo}+${hi}=${lo + hi}]]`] });
   } },
+  { id: 'prob', station: 8, title: 'סיכוי', needs: ['fracmean'], u: (r) => {
+    const a = ri(r, 1, 5), b = ri(r, 1, 5), t = a + b;
+    return conceptQ(`בשקית יש [[${a}]] כדורים אדומים ו־[[${b}]] כדורים כחולים. מוציאים כדור אחד בלי להסתכל. מה הסיכוי שיהיה אדום?`, `[[${a}/${t}]]`, [`[[${b}/${t}]]`, `[[${a}/${b}]]`, `[[1/${t + 1}]]`], [`סופרים את כל הכדורים: [[${t}]]`, 'הסיכוי הוא מספר הכדורים האדומים חלקי סך הכדורים']);
+  } },
+  { id: 'coord', station: 8, title: 'מערכת צירים', needs: [], u: (r) => {
+    const x = ri(r, 1, 9), y = ri(r, 1, 9), o = x === y ? x + 1 : y;
+    return conceptQ(`נקודה נמצאת [[${x}]] צעדים ימינה על ציר ה־[[x]] ו־[[${o}]] צעדים למעלה על ציר ה־[[y]]. מה הזוג שלה?`, `[[(${x},${o})]]`, [`[[(${o},${x})]]`, `[[(${x},${x})]]`, `[[(${o},${o})]]`], ['כותבים קודם את [[x]], ואחריו את [[y]]']);
+  } },
   { id: 'mean', station: 8, title: 'ממוצע', needs: ['div'], e: (r) => {
     const k = ri(r, 3, 5), avg = ri(r, 4, 20), v = Array.from({ length: k }, () => avg);
     for (let i = 0; i + 1 < k; i += 2) { const d = ri(r, 1, Math.min(3, avg - 1)); v[i] += d; v[i + 1] -= d; }

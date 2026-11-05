@@ -1,6 +1,6 @@
 // Rules for the knowledge courses: pure functions over plain state, no DOM and no storage.
 //   understanding = first-try answers in the lesson   remembering = key points in spaced review
-import { COURSE_ID, CourseId } from '../course';
+import { COURSE_ID, CourseId, USER_ID } from '../course';
 import { Lesson, LESSONS, QuizQ } from './lessons';
 
 export interface Metric { box: number; due: number; flag: boolean; ok: number; no: number; last: number }
@@ -15,7 +15,7 @@ export const SOLID = 3, KEYS_PER_DAY = 5, PASS = 2 / 3;
 export const dayNumber = (d: Date = new Date()) => Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() / 864e5 + 0.5);
 export const initial = (): KState => ({ v: 1, name: '', onboarded: false, lessons: {}, keys: {}, days: {}, plan: null, settings: { sound: true, wiki: false } });
 export const dayLog = (st: KState, d: number): DayLog => st.days[d] ?? { fresh: 0, ok: 0, no: 0, done: false };
-export const lessonsOf = (c: CourseId = COURSE_ID): Lesson[] => LESSONS.filter((l) => l.course === c).sort((a, b) => a.level - b.level);
+export const lessonsOf = (c: CourseId = COURSE_ID): Lesson[] => LESSONS.filter((l) => l.course === c && (!l.only || !USER_ID || l.only.includes(USER_ID))).sort((a, b) => a.level - b.level);
 export const LESSON: Record<string, Lesson> = Object.fromEntries(LESSONS.map((l) => [l.id, l]));
 export const keyOf = (id: string): QuizQ => { const [l, i] = id.split('#'); return LESSON[l].keys[Number(i)]; };
 export const nextLesson = (st: KState, c: CourseId = COURSE_ID) => lessonsOf(c).find((l) => !st.lessons[l.id]) ?? null;
