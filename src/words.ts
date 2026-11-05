@@ -89,7 +89,13 @@ pillow|כרית|n|My pillow is very soft.
 blanket|שמיכה|n|This blanket keeps me warm.
 towel|מגבת|n|Take a towel to the beach.
 sock|גרב|n|I can only find one sock.
-button|כפתור|n|Press the green button.`,
+button|כפתור|n|Press the green button.
+cup|כוס|n|I drink tea from a blue cup.
+carrot|גזר|n|The rabbit ate a big carrot.
+lemon|לימון|n|This lemon is very sour.
+rabbit|ארנב|n|My rabbit sleeps in a small box.
+duck|ברווז|n|A duck swims on the lake.
+garden|גינה|n|We grow flowers in our garden.`,
 `neighbor|שכן|n|Our neighbor has three cats.
 street|רחוב|n|We live on a quiet street.
 library|ספרייה|n|I borrowed it from the library.
@@ -151,7 +157,13 @@ between|בין|o|Sit between us.
 before|לפני|o|Wash your hands before lunch.
 after|אחרי|o|We play after dinner.
 wash|לשטוף|v|I wash my hands before lunch.
-thirsty|צמא|a|The thirsty boy drank some water.`,
+thirsty|צמא|a|The thirsty boy drank some water.
+shirt|חולצה|n|He is wearing a clean white shirt.
+hat|כובע|n|Put on your hat when it is sunny.
+sing|לשיר|v|We sing together in music class.
+tall|גבוה|a|My brother is very tall.
+stairs|מדרגות|n|We walked up the stairs to our flat.
+mirror|מראה|n|She looked at her hair in the mirror.`,
 `feeling|הרגשה|n|I had a strange feeling.
 angry|כועס|a|She was angry at her brother.
 afraid|מפחד|a|He is afraid of spiders.
@@ -214,7 +226,10 @@ maybe|אולי|d|Maybe we can go tomorrow.
 suddenly|פתאום|d|Suddenly the lights went out.
 lend|להשאיל|v|Can you lend me your book?
 invite|להזמין|v|I want to invite my class to the party.
-village|כפר|n|My grandmother lives in a small village.`,
+village|כפר|n|My grandmother lives in a small village.
+careful|זהיר|a|Be careful when you cross the road.
+wallet|ארנק|n|He keeps his money in a wallet.
+ceiling|תקרה|n|A spider is walking on the ceiling.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -281,7 +296,12 @@ support|לתמוך|v|Good friends support each other.
 describe|לתאר|v|Can you describe your new school?
 fence|גדר|n|The cat jumped over the fence.
 ladder|סולם|n|He climbed the ladder to the roof.
-scissors|מספריים|n|Use the scissors to cut the paper.`,
+scissors|מספריים|n|Use the scissors to cut the paper.
+envelope|מעטפה|n|Put the letter in the envelope.
+nearby|בקרבת מקום|d|My aunt lives nearby, so we often visit.
+receipt|קבלה|n|Keep the receipt in case the shoes are too small.
+repair|לתקן|v|Dad can repair my broken bike.
+forecast|תחזית|n|The forecast says it will rain tomorrow.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.
