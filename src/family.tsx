@@ -28,7 +28,7 @@ function Goals({ user, courses, plan, onChange }: { user: string; courses: Cours
   );
 }
 
-const Bar = ({ part, done }: { part: number; done: boolean }) => <div className="fam-bar"><span className={done ? 'ok' : ''} style={{ width: `${Math.min(100, part * 100)}%` }} /></div>;
+const Bar = ({ part, state }: { part: number; state: string }) => <div className="fam-bar"><span className={state} style={{ width: `${Math.min(100, part * 100)}%` }} /></div>;
 
 /** A full page for everyone, in every course. Only Guy changes goals; the others see them. */
 export function FamilySheet({ onClose }: { onClose: () => void }) {
@@ -40,6 +40,8 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
   const today = dayNow(), week = Array.from({ length: 7 }, (_, i) => weekStart(today) + i);
   const days = choice === 'week' ? week : [choice === 'today' ? today : today - 1];
   const secOn = (u: string, c: string, d: number) => Object.values(data?.time?.[u]?.[c]?.[d] ?? {}).reduce((a, b) => a + b, 0);
+  // A goal met is green. Not met yet today is orange, and not met on a past day is red. Future days stay plain.
+  const stateOf = (sec: number, goal: number, day: number) => (goal <= 0 ? '' : sec >= goal * 60 ? 'ok' : day === today ? 'late' : day < today ? 'miss' : '');
   const people = [...USERS.filter((u) => u.id === USER_ID), ...USERS.filter((u) => u.id !== USER_ID)];
   return (
     <div className="fam-page">
@@ -61,14 +63,14 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
               {!rows.length && <p className="cs-note">{choice === 'week' ? 'אין השבוע לימוד או יעדים' : 'אין ביום הזה לימוד או יעדים'}</p>}
               {choice !== 'week' && rows.map((r) => (
                 <div key={r.c} className="fam-item">
-                  <div className="fam-line"><span>{r.name}</span><small className={r.goal > 0 && r.sec >= r.goal * 60 ? 'ok' : ''}>{timeLabel(r.sec)}{r.goal > 0 ? ` מתוך ${r.goal} דק׳` : ''}{r.goal > 0 && r.sec >= r.goal * 60 ? ' ✓' : ''}</small></div>
-                  {r.goal > 0 && <Bar part={r.sec / (r.goal * 60)} done={r.sec >= r.goal * 60} />}
+                  <div className="fam-line"><span>{r.name}</span><small className={stateOf(r.sec, r.goal, days[0])}>{timeLabel(r.sec)}{r.goal > 0 ? ` מתוך ${r.goal} דק׳` : ''}{r.goal > 0 && r.sec >= r.goal * 60 ? ' ✓' : ''}</small></div>
+                  {r.goal > 0 && <Bar part={r.sec / (r.goal * 60)} state={stateOf(r.sec, r.goal, days[0])} />}
                 </div>
               ))}
               {choice === 'week' && rows.length > 0 && (
                 <div className="fam-scroll"><table className="fam-week">
                   <thead><tr><th scope="col">דקות</th>{DAYS.map((d, i) => <th key={d} scope="col" aria-current={week[i] === today ? 'date' : undefined}>{d}</th>)}</tr></thead>
-                  <tbody>{rows.map((r) => <tr key={r.c}><th scope="row">{r.name}</th>{week.map((d) => { const m = Math.floor(secOn(u.id, r.c, d) / 60), g = goalOn(r.c, d); return <td key={d} className={g > 0 && m >= g ? 'ok' : ''}>{m || g ? <>{m}{g > 0 && <small>/{g}</small>}</> : '–'}</td>; })}</tr>)}</tbody>
+                  <tbody>{rows.map((r) => <tr key={r.c}><th scope="row">{r.name}</th>{week.map((d) => { const m = Math.floor(secOn(u.id, r.c, d) / 60), g = goalOn(r.c, d); return <td key={d} className={stateOf(secOn(u.id, r.c, d), g, d)}>{m || g ? <>{m}{g > 0 && <small>/{g}</small>}</> : '–'}</td>; })}</tr>)}</tbody>
                 </table></div>
               )}
               {USER_ID === 'guy' && <button type="button" className="cs-link" aria-expanded={editing === u.id} onClick={() => setEditing(editing === u.id ? null : u.id)}>קביעת יעדים</button>}

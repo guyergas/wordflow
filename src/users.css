@@ -69,3 +69,12 @@
 .fam-card.me .fam-seg button[aria-pressed="true"] { background: var(--cs-sun); color: #2d2406; }
 .fam-card.me .fam-row input { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .2); color: inherit; }
 .fam-card.me .fam-bar span.ok { background: #7fe0a8; }
+
+.fam-page { --fam-late: #d97706; --fam-miss: #d62828; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .fam-page { --fam-late: #ffa94d; --fam-miss: #ff6b6b; } }
+:root[data-theme="dark"] .fam-page, .fam-card.me { --fam-late: #ffa94d; --fam-miss: #ff6b6b; }
+.fam-line small.late, .fam-week td.late, .fam-card.me small.late, .fam-card.me .fam-week td.late { color: var(--fam-late); font-weight: 700; }
+.fam-line small.miss, .fam-week td.miss, .fam-card.me small.miss, .fam-card.me .fam-week td.miss { color: var(--fam-miss); font-weight: 700; }
+.fam-week td.late small, .fam-week td.miss small { opacity: .8; }
+.fam-bar span.late, .fam-card.me .fam-bar span.late { background: var(--fam-late); }
+.fam-bar span.miss, .fam-card.me .fam-bar span.miss { background: var(--fam-miss); }
