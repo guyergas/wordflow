@@ -104,7 +104,12 @@ cheese|גבינה|n|I like cheese on my bread.
 lamp|מנורה|n|Please turn on the lamp.
 roof|גג|n|A bird is sitting on the roof.
 moon|ירח|n|The moon is bright tonight.
-key|מפתח|n|I lost the key to my room.`,
+key|מפתח|n|I lost the key to my room.
+shelf|מדף|n|The books are on the top shelf.
+jacket|מעיל קצר|n|Take your jacket, it is cold outside.
+candle|נר|n|She lit a candle on the cake.
+wing|כנף|n|The bird hurt its wing.
+tail|זנב|n|The dog wagged its tail.`,
 `neighbor|שכן|n|Our neighbor has three cats.
 street|רחוב|n|We live on a quiet street.
 library|ספרייה|n|I borrowed it from the library.
@@ -176,7 +181,15 @@ mirror|מראה|n|She looked at her hair in the mirror.
 farmer|חקלאי|n|The farmer feeds his cows every morning.
 belong|להשתייך|v|These books belong to my sister.
 collect|לאסוף|v|My brother likes to collect old coins.
-celebrate|לחגוג|v|We celebrate my birthday with a big cake.`,
+celebrate|לחגוג|v|We celebrate my birthday with a big cake.
+glove|כפפה|n|I lost one glove in the snow.
+basket|סל|n|We put the apples in a basket.
+noisy|רועש|a|The classroom was very noisy today.
+sleepy|מנומנם|a|The baby is sleepy after lunch.
+hurry|למהר|v|We must hurry or we will miss the bus.
+guest|אורח|n|Our guest stayed for dinner.
+puddle|שלולית|n|The kids jumped into a puddle.
+recipe|מתכון|n|Grandma gave me her cake recipe.`,
 `feeling|הרגשה|n|I had a strange feeling.
 angry|כועס|a|She was angry at her brother.
 afraid|מפחד|a|He is afraid of spiders.
@@ -246,7 +259,11 @@ ceiling|תקרה|n|A spider is walking on the ceiling.
 accept|לקבל|v|Please accept this small gift.
 connect|לחבר|v|This cable will connect the phone to the computer.
 traffic|תנועת כלי רכב|n|There is a lot of traffic in the morning.
-notice|להבחין|v|Did you notice the new sign on the door?`,
+notice|להבחין|v|Did you notice the new sign on the door?
+chew|ללעוס|v|Please chew your food slowly.
+tidy|מסודר|a|Her room is always tidy.
+stir|לערבב|v|Stir the soup with a big spoon.
+remind|להזכיר|v|Please remind me to call Grandma.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -321,7 +338,10 @@ repair|לתקן|v|Dad can repair my broken bike.
 forecast|תחזית|n|The forecast says it will rain tomorrow.
 prevent|למנוע|v|Washing your hands can prevent illness.
 translate|לתרגם|v|Can you translate this letter into Hebrew?
-responsible|אחראי|a|She is responsible for feeding the dog.`,
+responsible|אחראי|a|She is responsible for feeding the dog.
+sew|לתפור|v|My aunt can sew a button on a shirt.
+parcel|חבילה|n|A parcel arrived for you this morning.
+harvest|קציר|n|The farmers finished the wheat harvest in spring.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.
