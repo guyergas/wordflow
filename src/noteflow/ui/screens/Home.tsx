@@ -1,3 +1,4 @@
+import { userKey } from '../../../course';
 import { CourseSwitch } from '../../../users';
 import { useEffect, useState } from 'react';
 import { ACHIEVEMENTS } from '../../engine/achievements';
@@ -27,7 +28,7 @@ export function Home({ start, go, onResume, startDaily, startReview, startWeekly
   const store = useStore();
   const { idx, sessions, settings, achievements } = app;
   const [mood, setMood] = useState<Mood>(() => {
-    try { return (localStorage.getItem('nf-mood') as Mood) || 'new'; } catch { return 'new'; }
+    try { return (localStorage.getItem(userKey('nf-mood')) as Mood) || 'new'; } catch { return 'new'; }
   });
   const [dismissInstall, setDismissInstall] = useState(() => {
     try { return localStorage.getItem('nf-install-dismissed') === '1'; } catch { return false; }
@@ -53,7 +54,7 @@ export function Home({ start, go, onResume, startDaily, startReview, startWeekly
   const pending = app.pending;
   const pendingTitle = (pending?.plan as SessionPlan | undefined)?.title;
   const showInstall = !dismissInstall && !isStandalone() && (isIOS() || installEvt);
-  const pickMood = (m: Mood) => { setMood(m); try { localStorage.setItem('nf-mood', m); } catch { /* */ } };
+  const pickMood = (m: Mood) => { setMood(m); try { localStorage.setItem(userKey('nf-mood'), m); } catch { /* */ } };
 
   const waiting: { key: string; title: string; sub: string; action: () => void; label: string }[] = [];
   if (pending) waiting.push({ key: 'pending', title: 'אימון שלא הסתיים', sub: `${pendingTitle} · ${pending.done} מתוך ${pending.total}`, action: onResume, label: 'להמשיך' });

@@ -25,7 +25,7 @@ export function WeeklyCard({ onDrill }: { onDrill?: (pitch: string, clef: 'trebl
   if (w.improved) lines.push(`השיפור הגדול: ${nm(w.improved.pitch)} — ${fmtSec(w.improved.from)} ← ${fmtSec(w.improved.to)}`);
 
   const share = async () => {
-    const text = `NoteFlow · השבוע של ${settings.name || 'דיקלה'}\n${lines.join('\n')}${w.weakest ? `\nעוד לחזק: ${nm(w.weakest.pitch)}` : ''}\n${w.days} ימי תרגול · ${w.minutes} דקות`;
+    const text = `NoteFlow · השבוע של ${settings.name}\n${lines.join('\n')}${w.weakest ? `\nעוד לחזק: ${nm(w.weakest.pitch)}` : ''}\n${w.days} ימי תרגול · ${w.minutes} דקות`;
     try { await navigator.clipboard.writeText(text); setMsg('הסיכום הועתק — אפשר להדביק בווטסאפ.'); } catch { setMsg('לא הצלחתי להעתיק.'); }
   };
 

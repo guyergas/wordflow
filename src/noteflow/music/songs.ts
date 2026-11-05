@@ -1,6 +1,7 @@
 // Song Library — public-domain melodies (verified, in C) and procedurally generated originals.
 // Every melody carries source and license. No copyrighted material and no invented "pop" transcriptions.
 
+import { USER_NAME } from '../../course';
 import { Clef, diatonic, fromDiatonic, midi, naturalRange, parsePitch, Pitch, pitchId } from './pitch';
 
 export interface MelodyNote {
@@ -252,7 +253,7 @@ export function myMelody(m: { id: string; title: string; clef: Clef; notes: stri
   const notes: MelodyNote[] = m.notes.map((n) => ({ pitch: parsePitch(n), beats: 1 }));
   while (notes.length % 4) notes.push({ pitch: null, beats: 1 });
   return {
-    id: `my-${m.id}`, title: m.title, composer: 'דיקלה', category: 'original', source: `כתבת ב־${new Date(m.createdAt).toLocaleDateString('he-IL')}`,
+    id: `my-${m.id}`, title: m.title, composer: USER_NAME, category: 'original', source: `כתבת ב־${new Date(m.createdAt).toLocaleDateString('he-IL')}`,
     license: 'שלך', clef: m.clef, bpm: 90, rhythmic: notes, quarters: notes,
   };
 }

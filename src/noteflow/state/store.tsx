@@ -1,7 +1,7 @@
 // App state: loads raw data from IndexedDB once, keeps derived indexes in memory, writes through.
 
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
-import { STORAGE_KEY } from '../../course';
+import { STORAGE_KEY, USER_NAME } from '../../course';
 import { db, loadSettings, saveSettings, getKV, setKV, resetAll, BackupFile } from '../storage/db';
 import type { Attempt, Favorite, MyMelody, PendingSession, SessionRecord, Settings } from '../storage/types';
 import { DEFAULT_SETTINGS } from '../storage/types';
@@ -58,13 +58,14 @@ class Store {
 
   async load() {
     try {
-      const [settings, attempts, sessions, favorites, achievements, pending, lessonsSeen, myMelodies] = await Promise.all([
+      const [saved, attempts, sessions, favorites, achievements, pending, lessonsSeen, myMelodies] = await Promise.all([
         loadSettings(), db.attempts.orderBy('ts').toArray(), db.sessions.orderBy('startedAt').toArray(),
         db.favorites.orderBy('createdAt').toArray(), getKV<Record<string, number>>('achievements', {}),
         getKV<PendingSession | null>('pending', null), getKV<Record<string, number>>('lessons-seen', {}),
         getKV<MyMelody[]>('my-melodies', []),
       ]);
       shareTime(sessions);
+      const settings = { ...saved, name: USER_NAME || saved.name };
       audio.setVolume(settings.volume);
       audio.feedback = settings.feedbackSounds;
       this.emit({ loaded: true, storageError: false, settings, attempts, sessions, favorites, idx: buildIndex(attempts, settings), achievements, pending, lessonsSeen, myMelodies });

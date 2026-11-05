@@ -141,7 +141,7 @@ export function FreePiano({ onBack, start }: { onBack: () => void; start: (p: Se
           </div>
         </>
       )}
-      {naming && <Sheet title="שם למנגינה" confirmLabel="שמירה" input={{ initial: `המנגינה של ${settings.name || 'דיקלה'}` }} onConfirm={save} onCancel={() => setNaming(false)} />}
+      {naming && <Sheet title="שם למנגינה" confirmLabel="שמירה" input={{ initial: `המנגינה של ${settings.name}` }} onConfirm={save} onCancel={() => setNaming(false)} />}
     </div>
   );
 }

@@ -136,11 +136,6 @@ export function Settings({ onBack }: { onBack: () => void }) {
       <div className="eyebrow">מראה וצליל</div>
       <div className="card">
         <div className="field">
-          <label htmlFor="user-name">שם לברכה</label>
-          <input id="user-name" className="text-input" style={{ marginTop: 0 }} value={s.name} maxLength={30}
-            onChange={(e) => set({ name: e.target.value })} />
-        </div>
-        <div className="field">
           <span className="label">ערכת צבעים</span>
           <Seg value={s.theme} onChange={(theme) => set({ theme })} options={[
             { value: 'system', label: 'לפי המכשיר' }, { value: 'light', label: 'בהיר' }, { value: 'dark', label: 'כהה' }, { value: 'evening', label: 'ערב' },

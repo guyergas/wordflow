@@ -153,7 +153,7 @@ export interface Settings {
 }
 
 export const DEFAULT_SETTINGS: Settings = {
-  name: 'דיקלה',
+  name: '',
   theme: 'system',
   volume: 0.8,
   feedbackSounds: true,
