@@ -95,7 +95,16 @@ carrot|גזר|n|The rabbit ate a big carrot.
 lemon|לימון|n|This lemon is very sour.
 rabbit|ארנב|n|My rabbit sleeps in a small box.
 duck|ברווז|n|A duck swims on the lake.
-garden|גינה|n|We grow flowers in our garden.`,
+garden|גינה|n|We grow flowers in our garden.
+sofa|ספה|n|We sat on the sofa and watched a movie.
+onion|בצל|n|Mom cuts an onion for the soup.
+soap|סבון|n|Wash your hands with soap.
+grape|ענב|n|I ate a sweet grape from the bowl.
+cheese|גבינה|n|I like cheese on my bread.
+lamp|מנורה|n|Please turn on the lamp.
+roof|גג|n|A bird is sitting on the roof.
+moon|ירח|n|The moon is bright tonight.
+key|מפתח|n|I lost the key to my room.`,
 `neighbor|שכן|n|Our neighbor has three cats.
 street|רחוב|n|We live on a quiet street.
 library|ספרייה|n|I borrowed it from the library.
@@ -163,7 +172,11 @@ hat|כובע|n|Put on your hat when it is sunny.
 sing|לשיר|v|We sing together in music class.
 tall|גבוה|a|My brother is very tall.
 stairs|מדרגות|n|We walked up the stairs to our flat.
-mirror|מראה|n|She looked at her hair in the mirror.`,
+mirror|מראה|n|She looked at her hair in the mirror.
+farmer|חקלאי|n|The farmer feeds his cows every morning.
+belong|להשתייך|v|These books belong to my sister.
+collect|לאסוף|v|My brother likes to collect old coins.
+celebrate|לחגוג|v|We celebrate my birthday with a big cake.`,
 `feeling|הרגשה|n|I had a strange feeling.
 angry|כועס|a|She was angry at her brother.
 afraid|מפחד|a|He is afraid of spiders.
@@ -229,7 +242,11 @@ invite|להזמין|v|I want to invite my class to the party.
 village|כפר|n|My grandmother lives in a small village.
 careful|זהיר|a|Be careful when you cross the road.
 wallet|ארנק|n|He keeps his money in a wallet.
-ceiling|תקרה|n|A spider is walking on the ceiling.`,
+ceiling|תקרה|n|A spider is walking on the ceiling.
+accept|לקבל|v|Please accept this small gift.
+connect|לחבר|v|This cable will connect the phone to the computer.
+traffic|תנועת כלי רכב|n|There is a lot of traffic in the morning.
+notice|להבחין|v|Did you notice the new sign on the door?`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -301,7 +318,10 @@ envelope|מעטפה|n|Put the letter in the envelope.
 nearby|בקרבת מקום|d|My aunt lives nearby, so we often visit.
 receipt|קבלה|n|Keep the receipt in case the shoes are too small.
 repair|לתקן|v|Dad can repair my broken bike.
-forecast|תחזית|n|The forecast says it will rain tomorrow.`,
+forecast|תחזית|n|The forecast says it will rain tomorrow.
+prevent|למנוע|v|Washing your hands can prevent illness.
+translate|לתרגם|v|Can you translate this letter into Hebrew?
+responsible|אחראי|a|She is responsible for feeding the dog.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.
