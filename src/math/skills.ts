@@ -417,7 +417,7 @@ export const SKILLS: Skill[] = [
     const days = ['ראשון', 'שני', 'שלישי', 'רביעי'], step = pick(r, [2, 5, 10]), bars = days.map((label) => ({ label, value: ri(r, 1, 8) * step }));
     bars[1].value = bars[0].value === step * 8 ? step : bars[0].value + step * ri(r, 1, 8 - bars[0].value / step);
     const hi = bars[1].value, lo = bars[0].value;
-    return calc({ prompt: 'בגרף מופיע כמה ספרים נקראו בכל יום. כמה ספרים נקראו בימים ראשון ושני יחד?', ans: n(hi + lo), eq: `${hi}+${lo}`, wrong: [[n(hi - lo), 'op'], [n(hi), 'op']], fig: { t: 'chart', bars, step }, needFig: true, steps: ['גובה העמודה קורא מול המספרים שבצד', `ראשון: [[${lo}]]. שני: [[${hi}]]`, `[[${lo}+${hi}=${lo + hi}]]`] });
+    return calc({ prompt: 'הגרף מראה כמה ספרים הושאלו מהספרייה בכל יום. כמה ספרים הושאלו בימים ראשון ושני יחד?', ans: n(hi + lo), eq: `${hi}+${lo}`, wrong: [[n(hi - lo), 'op'], [n(hi), 'op']], fig: { t: 'chart', bars, step }, needFig: true, steps: ['קוראים את גובה כל עמודה מול המספרים שבצד', `ראשון: [[${lo}]]. שני: [[${hi}]]`, `[[${lo}+${hi}=${lo + hi}]]`] });
   } },
   { id: 'mean', station: 8, title: 'ממוצע', needs: ['div'], e: (r) => {
     const k = ri(r, 3, 5), avg = ri(r, 4, 20), v = Array.from({ length: k }, () => avg);
