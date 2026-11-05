@@ -7,6 +7,7 @@ import {
 import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind, sentencePlan, sentencesKnown, tokens, TOPICS, unknownWords } from './sentences';
 import { COURSE_ID, COURSES, HAS_SPELLING, IS_THAI, USER_NAME, x } from './course';
 import { CourseSwitch, SummaryTab, TodayPlan } from './summaryUi';
+import { EnglishReading } from './englishReading';
 import { LEVELS, WORD, WORDS, Word } from './words';
 import { buildReport, drawReport, fileName, Period, toBlob } from './report';
 import { askPersistence, canSpeak, englishVoices, load, save, saveThaiRecordings, sfx, speak } from './platform';
@@ -111,7 +112,7 @@ export function App() {
   return (
     <div className="app">
       <main className="page">
-        {tab === 'home' && <Home st={st} today={today} onStart={startSession} onSentences={() => setInSentences(true)} onSettings={() => setSettings(true)} />}
+        {tab === 'home' && <Home st={st} today={today} onStart={startSession} onSentences={() => setInSentences(true)} onSettings={() => setSettings(true)} onReadTime={(sec) => update((s) => addStudyTime(s, dayNumber(), sec))} />}
         {tab === 'path' && <PathScreen st={st} onWord={setWordSheet} />}
         {tab === 'progress' && <Progress st={st} today={today} onWord={setWordSheet} />}
         {tab === 'words' && <WordsScreen st={st} onWord={setWordSheet} />}
@@ -215,7 +216,7 @@ function Onboarding({ st, update }: { st: State; update: Update }) {
 }
 
 // ---------- Home ----------
-function Home({ st, today, onStart, onSentences, onSettings }: { st: State; today: number; onStart: (o?: StartOpts) => void; onSentences: () => void; onSettings: () => void }) {
+function Home({ st, today, onStart, onSentences, onSettings, onReadTime }: { st: State; today: number; onStart: (o?: StartOpts) => void; onSentences: () => void; onSettings: () => void; onReadTime: (sec: number) => void }) {
   const plan = st.plan && st.plan.day === today && !st.plan.extra ? st.plan : null;
   const log = dayLog(st, today);
   const done = log.done;
@@ -297,6 +298,7 @@ function Home({ st, today, onStart, onSentences, onSettings }: { st: State; toda
         <span className="sent-go" aria-hidden="true">←</span>
       </button>
 
+      {COURSE_ID === 'en' && <EnglishReading onTime={onReadTime} />}
       <TodayPlan />
 
       <section className="card week">

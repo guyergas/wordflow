@@ -78,3 +78,8 @@
 .fam-week td.late small, .fam-week td.miss small { opacity: .8; }
 .fam-bar span.late, .fam-card.me .fam-bar span.late { background: var(--fam-late); }
 .fam-bar span.miss, .fam-card.me .fam-bar span.miss { background: var(--fam-miss); }
+.en-text { font-size: 19px; line-height: 1.7; text-align: left; font-family: var(--font-en, sans-serif); }
+.en-opt { min-height: 54px; padding: 8px 16px; border: 1px solid var(--cs-line); border-radius: 16px; background: var(--cs-surface); font-weight: 600; text-align: start; }
+.en-opt.ok { border-color: var(--cs-good); color: var(--cs-good) !important; font-weight: 700; }
+.en-opt.no { opacity: .55; }
+.en-card { display: grid; gap: 2px; width: 100%; padding: 14px 18px; border: 1px solid var(--cs-line, #e2e3dc); border-radius: 22px; background: var(--surface); text-align: start; color: var(--ink); }
