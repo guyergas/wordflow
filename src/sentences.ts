@@ -5,7 +5,7 @@ import { THAI_SENTENCES, THAI_TOPICS } from './thai';
 import { WORDS, Word } from './words';
 
 export interface Sentence { id: string; en: string; he: string; topic: string; order: number; th?: string; word?: string }
-export const TOPICS: Record<string, string> = IS_THAI ? THAI_TOPICS : { friends: 'חברים', school: 'בית ספר', help: 'לבקש עזרה', food: 'אוכל וקניות', travel: 'בדרך', feel: 'איך אני מרגישה', plans: 'תוכניות', opinion: 'להביע דעה', people: 'אנשים ורגשות', world: 'העולם סביבנו' };
+export const TOPICS: Record<string, string> = IS_THAI ? THAI_TOPICS : { friends: 'חברים', school: 'בית ספר', help: 'לבקש עזרה', food: 'אוכל וקניות', travel: 'בדרך', feel: 'איך אני מרגישה', plans: 'תוכניות', opinion: 'להביע דעה', people: 'אנשים ורגשות', world: 'העולם סביבנו', phrases: 'ביטויים', words: 'מילים' };
 
 const RAW: Record<string, string> = {
   friends: `What is your name?|איך קוראים לך?
@@ -136,14 +136,30 @@ The film had a huge impact.|לסרט הייתה השפעה ענקית.
 Everyone hopes for peace.|כולם מקווים לשלום.
 This was an unprecedented event.|זה היה אירוע חסר תקדים.
 Birds migrate south in winter.|ציפורים נודדות דרומה בחורף.`,
+  // Phrases from the Ministry's lists, alone or in a sentence. Ids follow the order, so only append to the end of this block.
+  phrases: `I have a few friends here.|יש לי כאן כמה חברים.
+She talks about it all the time.|היא מדברת על זה כל הזמן.
+Are you ready?|את מוכנה?
+You can ask for help.|אפשר לבקש עזרה.
+I am at home.|אני בבית.
+We are going to swim.|אנחנו הולכים לשחות.
+Wait at the bus stop.|חכו בתחנת האוטובוס.
+Please come back soon.|בבקשה תחזרו בקרוב.
+Do you have a pen?|יש לך עט?
+Do you know my brother?|את מכירה את אח שלי?`,
 };
 
 let n = 0;
-export const SENTENCES: Sentence[] = IS_THAI ? THAI_SENTENCES : Object.entries(RAW).flatMap(([topic, block]) => block.split('\n').map((line) => {
+const WRITTEN: Sentence[] = IS_THAI ? THAI_SENTENCES : Object.entries(RAW).flatMap(([topic, block]) => block.split('\n').map((line) => {
   const [en, he] = line.split('|');
   const order = n++;
   return { id: `s${order}`, en, he, topic, order };
 }));
+// Every word's example sentence joins the practice once that word has been met, so all the words are covered.
+const written = new Set(WRITTEN.map((s) => s.en));
+const fromWords: Sentence[] = IS_THAI ? [] : WORDS.filter((w) => w.exHe && !written.has(w.ex) && !!written.add(w.ex))
+  .map((w, i) => ({ id: `w:${w.id}`, en: w.ex, he: w.exHe!, topic: 'words', order: WRITTEN.length + i, word: w.id }));
+export const SENTENCES: Sentence[] = [...WRITTEN, ...fromWords];
 
 // Grammar words and very simple words that are not practiced as vocabulary, so they never hold a sentence back.
 export const BASIC = new Set(IS_THAI ? [] : `a an the i you he she it we they me my your our his her their this that these those is am are was were be been being

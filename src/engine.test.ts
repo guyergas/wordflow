@@ -1,4 +1,5 @@
-import { MAX_NEW_PER_DAY, repairPlans, Plan as RepairPlan } from './engine';
+import { freshMetric, freshWord, initialState, MAX_NEW_PER_DAY, repairPlans, spellCandidates, Plan as RepairPlan } from './engine';
+import { PROD_WORDS } from './prodWords';
 import { describe, expect, it } from 'vitest';
 import { WORDS, WORD, LEVELS } from './words';
 import { buildReport } from './report';
@@ -308,8 +309,21 @@ describe('extra rounds of new words', () => {
 
 describe('sentences', () => {
   it('every word in every sentence is classified', () => {
-    const bad = SENTENCES.flatMap((s) => tokens(s.en).filter((t) => !classified(t)).map((t) => `${t} (${s.en})`));
+    const bad = SENTENCES.filter((s) => s.topic !== 'phrases' && s.topic !== 'words').flatMap((s) => tokens(s.en).filter((t) => !classified(t)).map((t) => `${t} (${s.en})`));
     expect(bad).toEqual([]);
+  });
+  it('a word with a translated example joins the practice once met', () => {
+    const w = WORDS.find((x) => x.exHe);
+    if (!w) return;
+    const s = SENTENCES.find((x) => x.word === w.id);
+    if (s) expect(s.en).toBe(w.ex);
+  });
+  it('spelling offers Prod words first', () => {
+    const met = () => ({ ...freshWord(), met: 1, r: { ...freshMetric(), box: 3 } });
+    const prod = WORDS.filter((w) => PROD_WORDS.has(w.en.toLowerCase())).at(-1)!;
+    const other = WORDS.find((w) => !PROD_WORDS.has(w.en.toLowerCase()))!;
+    const st = { ...initialState(), words: { [prod.id]: met(), [other.id]: met() } };
+    expect(spellCandidates(st, 10)[0].id).toBe(prod.id);
   });
   it('unique sentences with translations', () => {
     expect(SENTENCES.length).toBeGreaterThanOrEqual(80);

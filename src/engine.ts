@@ -4,6 +4,7 @@
 //   r = recognition (does she know what it means)  - primary, gates new words
 //   s = spelling (can she write it)                - secondary, never blocks anything
 import { HAS_SPELLING, IS_THAI, x } from './course';
+import { PROD_WORDS } from './prodWords';
 import { LEVELS, WORD, WORDS, Word } from './words';
 
 export interface Metric { box: number; due: number; flag: boolean; clear: number; ok: number; no: number; last: number }
@@ -105,11 +106,14 @@ export function practicePlan(st: State, today: number, count = 10, rnd: () => nu
   return { day: today, steps, at: 0, short: false, extra: true, alreadyKnown: [], newIds: [], consolidating: false, gained: { r: [], s: [] }, flagged: [] };
 }
 
+/** Words the Ministry's lists mark for active use come first in spelling. The others still get their turn after them. */
+const prodFirst = (a: Word, b: Word) => Number(PROD_WORDS.has(b.en.toLowerCase())) - Number(PROD_WORDS.has(a.en.toLowerCase()));
+
 /** Words ready for spelling work: known words first. Words still being learned only fill in when there are too few. */
 export function spellCandidates(st: State, today: number): Word[] {
   if (!HAS_SPELLING) return [];
   const rank = (s: WordState) => (s.s.flag ? 0 : spellMeasured(s) && s.s.due <= today ? 1 : !spellMeasured(s) ? 2 : 3);
-  const sorted = (list: Word[]) => [...list].sort((a, b) => rank(ws(st, a.id)) - rank(ws(st, b.id)) || ws(st, a.id).s.due - ws(st, b.id).s.due || a.order - b.order);
+  const sorted = (list: Word[]) => [...list].sort((a, b) => rank(ws(st, a.id)) - rank(ws(st, b.id)) || prodFirst(a, b) || ws(st, a.id).s.due - ws(st, b.id).s.due || a.order - b.order);
   const ready = WORDS.filter((w) => { const s = ws(st, w.id); return isMet(s) && !s.r.flag && s.r.box >= 2; });
   const learning = WORDS.filter((w) => { const s = ws(st, w.id); return isMet(s) && (s.r.flag || s.r.box < 2); });
   return [...sorted(ready), ...sorted(learning)];
@@ -154,8 +158,8 @@ export function buildPlan(st: State, today: number, opts: { short?: boolean; ext
   // Spelling practice only starts once a word has been seen on at least one earlier day.
   const eligible = entries.filter((e) => isMet(e.s) && (e.s.met as number) < today && e.s.r.box >= 1 && !used.has(e.w.id));
   const spellFlag = eligible.filter((e) => e.s.s.flag);
-  const spellDue = eligible.filter((e) => !e.s.s.flag && spellMeasured(e.s) && e.s.s.due <= today).sort((a, b) => a.s.s.due - b.s.s.due);
-  const spellFresh = eligible.filter((e) => !spellMeasured(e.s)).sort((a, b) => a.w.order - b.w.order);
+  const spellDue = eligible.filter((e) => !e.s.s.flag && spellMeasured(e.s) && e.s.s.due <= today).sort((a, b) => prodFirst(a.w, b.w) || a.s.s.due - b.s.s.due);
+  const spellFresh = eligible.filter((e) => !spellMeasured(e.s)).sort((a, b) => prodFirst(a.w, b.w) || a.w.order - b.w.order);
   const spellPick = opts.bonus || !HAS_SPELLING ? [] : [...spellFlag, ...spellDue, ...spellFresh].slice(0, short ? 2 : 3);
   spellPick.forEach((e) => used.add(e.w.id));
   const spellSteps: Step[] = spellPick.map((e) => ({ part: 'boost', kind: spellKind(spellLevel(e.s.s)), id: e.w.id }));
