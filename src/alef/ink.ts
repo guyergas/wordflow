@@ -16,11 +16,15 @@ const dense = (line: Pt[], step = 3): Pt[] => {
 };
 /** Points filed by area, so that a drawing is judged at once even on an old phone. */
 function field(points: Pt[], tol: number) {
-  const key = (x: number, y: number) => `${Math.floor(x / tol)},${Math.floor(y / tol)}`, map = new Map<string, Pt[]>();
-  for (const p of points) { const k = key(p[0], p[1]); const c = map.get(k); if (c) c.push(p); else map.set(k, [p]); }
+  // A number for each area and no square roots: this runs tens of thousands of times for one drawing.
+  const key = (i: number, j: number) => i * 4096 + j, map = new Map<number, Pt[]>(), reach = tol * tol;
+  for (const p of points) { const k = key(Math.floor(p[0] / tol), Math.floor(p[1] / tol)); const c = map.get(k); if (c) c.push(p); else map.set(k, [p]); }
   return (x: number, y: number) => {
     const cx = Math.floor(x / tol), cy = Math.floor(y / tol);
-    for (let i = cx - 1; i <= cx + 1; i++) for (let j = cy - 1; j <= cy + 1; j++) for (const q of map.get(`${i},${j}`) ?? []) if (Math.hypot(x - q[0], y - q[1]) <= tol) return true;
+    for (let i = cx - 1; i <= cx + 1; i++) for (let j = cy - 1; j <= cy + 1; j++) {
+      const near = map.get(key(i, j));
+      if (near) for (const q of near) { const dx = x - q[0], dy = y - q[1]; if (dx * dx + dy * dy <= reach) return true; }
+    }
     return false;
   };
 }
@@ -30,9 +34,23 @@ export interface Rules { tol: number; shift: number; need: number }
 export const TRACE: Rules = { tol: 15, shift: 0, need: 0.88 }, FREE: Rules = { tol: 13, shift: 1, need: 0.72 };
 const ON_LETTER = 0.8;
 
-function fit(drawn: Pt[], letter: Shape, mode: Rules) {
+// A letter's own points never change, and each drawing is compared with many letters, so they are prepared once.
+const prepared = new Map<Shape, Map<number, ReturnType<typeof prepare>>>();
+function prepare(letter: Shape, tol: number) {
   const targets = letter.strokes.map((s) => dense(s.p)), all = targets.flat();
-  const inked = field(drawn, mode.tol), wide = field(all, mode.tol * 1.5), tight = field(all, mode.tol);
+  return { targets, wide: field(all, tol * 1.5), tight: field(all, tol) };
+}
+function preparedFor(letter: Shape, tol: number) {
+  let byTol = prepared.get(letter);
+  if (!byTol) prepared.set(letter, (byTol = new Map()));
+  let p = byTol.get(tol);
+  if (!p) byTol.set(tol, (p = prepare(letter, tol)));
+  return p;
+}
+
+function fit(drawn: Pt[], letter: Shape, mode: Rules) {
+  const { targets, wide, tight } = preparedFor(letter, mode.tol);
+  const inked = field(drawn, mode.tol);
   let best = { score: -1, missing: letter.strokes.map((_, i) => i), on: 0 };
   // Free writing has no guide to sit on, so the drawing may stand a little to the side.
   const xs = mode.shift ? [-35, -25, -15, -5, 0, 5, 15, 25, 35] : [0], ys = mode.shift ? [-10, -5, 0, 5, 10] : [0];
