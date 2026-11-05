@@ -21,6 +21,8 @@ The alef-bet course (`src/alef`) is for children who cannot read yet, so everyth
 
 Warm-up (known letters) and boost (weakest letters) are free practice that brings no new letter and leaves stages unchanged. Recordings in `public/audio/he` are created by the deploy, and the phone's Hebrew voice is the fallback.
 
+Little math (`src/tots`) is for children of five and six who cannot read: numbers 0-10, order, more and less, adding and taking away up to 10, making 5 and 10, and counting to 20. Skills and speech are in `numbers.ts`, and rules and exercise generation in `engine.ts`. It shares its writing pad with the alef-bet.
+
 The summary tab in every course shows study time and new items across all courses, by day and week, against a weekly schedule of minutes per course.
 
 `npm test` · `npm run dev` · `npm run build`. Pushing to `main` deploys to GitHub Pages.

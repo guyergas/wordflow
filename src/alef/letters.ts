@@ -5,6 +5,7 @@
 export type Pt = [number, number];
 export type Kind = 'small' | 'big' | 'giant' | 'chup' | 'slant' | 'round';
 export interface Stroke { k: Kind; p: Pt[] }
+export interface Shape { strokes: Stroke[] }
 export interface Letter { id: string; name: string; say: string; family: number; base?: string; fresh: number; strokes: Stroke[]; recipe: string }
 
 export const VIEW = { x: -25, y: -55, w: 150, h: 225 };
@@ -12,7 +13,7 @@ const s = (k: Kind, ...c: number[]): Stroke => ({ k, p: c.reduce<Pt[]>((a, v, i)
 const ring = (): Stroke => ({ k: 'round', p: Array.from({ length: 25 }, (_, i): Pt => { const t = (i / 24) * Math.PI * 2; return [50 + 38 * Math.sin(t), 50 - 50 * Math.cos(t)]; }) });
 
 /** The frame for writing one letter: as close as the letter allows, so that the writing area is as large as possible. */
-export function frameOf(l: Letter) {
+export function frameOf(l: Shape) {
   const p = l.strokes.flatMap((s) => s.p), xs = p.map((q) => q[0]), ys = p.map((q) => q[1]);
   const x0 = Math.min(...xs), x1 = Math.max(...xs), w = Math.max(100, x1 - x0 + 34), cx = (x0 + x1) / 2;
   const top = Math.min(0, ...ys) - 22, bottom = Math.max(100, ...ys) + 22;

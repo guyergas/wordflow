@@ -4,11 +4,11 @@ import { saveHebrewRecordings, sayHebrew, sfx } from '../platform';
 import { CourseSwitch, SummaryTab } from '../summaryUi';
 import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, huntCells, initial, meet, mix, nextLetter, noteMix, pairsOf, PlanOptions, record, secure, shaky, SHAKY_LIMIT, Status, statusOf, Step, topMix, validStep, WRITING } from './engine';
 import { Ink, judge, FREE, TRACE } from './ink';
-import { FAMILIES, frameOf, LETTER, Letter, LETTERS, Pt, SAY, firstWords, LETTERS as ALL, spots, Stroke, VIEW, WORDS } from './letters';
+import { FAMILIES, frameOf, LETTER, Letter, LETTERS, Pt, SAY, Shape, firstWords, LETTERS as ALL, spots, Stroke, VIEW, WORDS } from './letters';
 
 type Update = (fn: (s: AState) => AState) => void;
 const VB = `${VIEW.x} ${VIEW.y} ${VIEW.w} ${VIEW.h}`;
-const pts = (p: Pt[]) => p.map((q) => q.join(',')).join(' ');
+export const pts = (p: Pt[]) => p.map((q) => q.join(',')).join(' ');
 const pick = <T,>(a: T[]) => a[Math.floor(Math.random() * a.length)];
 let memory: string | null = null;
 
@@ -27,24 +27,24 @@ function load(): AState {
 function save(st: AState) { memory = JSON.stringify(st); try { localStorage.setItem(STORAGE_KEY, memory); } catch { /* memory only */ } }
 export function recoverAlef() { save({ ...load(), plan: null }); }
 
-function useTimer(active: boolean, update: Update) {
+export function useStudyTimer(active: boolean, onSeconds: (sec: number) => void) {
   useEffect(() => {
     if (!active) return;
     const TICK = 5, IDLE = 45000;
     let last = Date.now(), pending = 0;
     const touch = () => { last = Date.now(); };
-    const flush = () => { if (pending > 0) { const sec = pending; pending = 0; update((s) => addTime(s, dayNumber(), sec)); } };
+    const flush = () => { if (pending > 0) { const sec = pending; pending = 0; onSeconds(sec); } };
     window.addEventListener('pointerdown', touch);
     const id = setInterval(() => { if (document.visibilityState === 'visible' && Date.now() - last < IDLE) pending += TICK; if (pending >= 15) flush(); }, TICK * 1000);
     document.addEventListener('visibilitychange', flush);
     return () => { clearInterval(id); flush(); window.removeEventListener('pointerdown', touch); document.removeEventListener('visibilitychange', flush); };
-  }, [active, update]);
+  }, [active, onSeconds]);
 }
 
 /** The notebook line every letter stands on, so that small, big and giant look different. */
-const Lines = () => <g className="a-lines"><line x1={VIEW.x} x2={VIEW.x + VIEW.w} y1="0" y2="0" /><line x1={VIEW.x} x2={VIEW.x + VIEW.w} y1="100" y2="100" /></g>;
+export const Lines = () => <g className="a-lines"><line x1={VIEW.x} x2={VIEW.x + VIEW.w} y1="0" y2="0" /><line x1={VIEW.x} x2={VIEW.x + VIEW.w} y1="100" y2="100" /></g>;
 
-function Glyph({ strokes, cls, draw, gap = 1.3, start = 0 }: { strokes: Stroke[]; cls?: string; draw?: boolean; gap?: number; start?: number }) {
+export function Glyph({ strokes, cls, draw, gap = 1.3, start = 0 }: { strokes: Stroke[]; cls?: string; draw?: boolean; gap?: number; start?: number }) {
   return <>{strokes.map((s, i) => <polyline key={i} points={pts(s.p)} pathLength={draw ? 1 : undefined} className={`a-stroke ${cls ?? ''} ${draw ? 'draw' : ''}`} style={draw ? { animationDelay: `${start + i * gap}s` } : undefined} />)}</>;
 }
 /** The direction of writing: an arrow along each line, pointing where the finger goes. */
@@ -58,13 +58,13 @@ function arrowOf(p: Pt[]) {
   const wing = (w: number): Pt => [end[0] - size * Math.cos(a + w), end[1] - size * Math.sin(a + w)];
   return { line, head: [wing(0.6), end, wing(-0.6)] };
 }
-const Arrows = ({ strokes }: { strokes: Stroke[] }) => <g className="a-arrows">{strokes.map((s, i) => { const { line, head } = arrowOf(s.p); return <g key={i}><polyline points={pts(line)} /><polyline points={pts(head)} /></g>; })}</g>;
+export const Arrows = ({ strokes }: { strokes: Stroke[] }) => <g className="a-arrows">{strokes.map((s, i) => { const { line, head } = arrowOf(s.p); return <g key={i}><polyline points={pts(line)} /><polyline points={pts(head)} /></g>; })}</g>;
 const Mini = ({ id, print }: { id: string; print?: boolean }) => print
   ? <svg viewBox={VB} className="a-mini" aria-hidden="true"><Lines /><text x="50" y="100" className="a-print-svg">{id}</text></svg>
   : <svg viewBox={VB} className="a-mini" aria-hidden="true"><Lines /><Glyph strokes={LETTER[id].strokes} /></svg>;
 
-const Speaker = ({ text }: { text: string }) => <button type="button" className="a-speak" aria-label="לשמוע שוב" onClick={() => sayHebrew(text)}><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M4 9v6h4l5 4V5L8 9H4Z" /><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11" /></svg></button>;
-const Next = ({ onClick }: { onClick: () => void }) => <button type="button" className="cta a-go" aria-label="ממשיכים" onClick={onClick}><svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" d="M15 5l-7 7 7 7" /></svg></button>;
+export const Speaker = ({ text }: { text: string }) => <button type="button" className="a-speak" aria-label="לשמוע שוב" onClick={() => sayHebrew(text)}><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M4 9v6h4l5 4V5L8 9H4Z" /><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11" /></svg></button>;
+export const Next = ({ onClick }: { onClick: () => void }) => <button type="button" className="cta a-go" aria-label="ממשיכים" onClick={onClick}><svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" d="M15 5l-7 7 7 7" /></svg></button>;
 
 type DrawMode = 'trace' | 'copy' | 'memory' | 'write' | 'opening';
 
@@ -75,7 +75,8 @@ export function AlefApp() {
   const [inSession, setInSession] = useState(false);
   const [settings, setSettings] = useState(false);
   const today = dayNumber();
-  useTimer(inSession, update);
+  const onSeconds = useCallback((sec: number) => update((s) => addTime(s, dayNumber(), sec)), [update]);
+  useStudyTimer(inSession, onSeconds);
   useEffect(() => { void saveHebrewRecordings(); }, []);
   // Exercises fit the screen and never scroll, so a tap or a stroke is never taken for a scroll.
   useEffect(() => {
@@ -366,13 +367,17 @@ function Pair({ st, id, n, sound, onDone }: { st: AState; id: string; n?: number
   );
 }
 
-/** Writing with a finger between two lines: over a dashed letter, then beside a model, then alone. No button to finish: the app sees when the letter is done. */
 function Draw({ l, mode, n, sound, onDone }: { l: Letter; mode: DrawMode; n?: number; sound: boolean; onDone: (ok: boolean) => void }) {
-  const guide = mode === 'trace', rules = guide ? TRACE : FREE;
-  const [ink, setInk] = useState<Ink>([]), [help, setHelp] = useState<number[] | null>(null), [won, setWon] = useState(false), [result, setResult] = useState(false), frame = frameOf(l);
-  const svg = useRef<SVGSVGElement>(null), down = useRef(false), tries = useRef(0), wait = useRef<ReturnType<typeof setTimeout>>(undefined), latest = useRef<Ink>([]);
   const words = firstWords(l.id), heard = words.length ? words[(n ?? 0) % words.length] : null;
-  const said = guide ? SAY.trace(l) : mode === 'copy' ? SAY.copy(l) : mode === 'memory' ? SAY.memory(l) : mode === 'opening' && heard ? SAY.opening(heard[1]) : SAY.write(l);
+  const said = mode === 'trace' ? SAY.trace(l) : mode === 'copy' ? SAY.copy(l) : mode === 'memory' ? SAY.memory(l) : mode === 'opening' && heard ? SAY.opening(heard[1]) : SAY.write(l);
+  return <WritePad shape={l} name={l.name} mode={mode === 'opening' ? 'write' : mode} said={said} praise={pick(SAY.right)} answer={SAY.thisIs(l)} again={SAY.again} rivals={LETTERS} sound={sound} onDone={onDone} side={mode === 'opening' && heard ? <button type="button" className="a-model a-opening" aria-label="לשמוע שוב" onClick={() => sayHebrew(said)}>{heard[2]}</button> : undefined} />;
+}
+
+/** Writing with a finger between two lines: over a dashed shape, then beside a model, then alone. No button to finish: the app sees when it is done. */
+export function WritePad({ shape, name, mode, said, praise, answer: told, again, rivals, side, sound, onDone }: { shape: Shape; name: string; mode: 'trace' | 'copy' | 'memory' | 'write'; said: string; praise: string; answer: string; again: string; rivals: Shape[]; side?: React.ReactNode; sound: boolean; onDone: (ok: boolean) => void }) {
+  const guide = mode === 'trace', rules = guide ? TRACE : FREE, strokes = shape.strokes;
+  const [ink, setInk] = useState<Ink>([]), [help, setHelp] = useState<number[] | null>(null), [won, setWon] = useState(false), [result, setResult] = useState(false), frame = frameOf(shape);
+  const svg = useRef<SVGSVGElement>(null), down = useRef(false), tries = useRef(0), wait = useRef<ReturnType<typeof setTimeout>>(undefined), latest = useRef<Ink>([]);
   const [showing, setShowing] = useState(mode === 'memory');
   useEffect(() => { if (!showing) return; const id = setTimeout(() => setShowing(false), 2500); return () => clearTimeout(id); }, [showing]);
   latest.current = ink;
@@ -382,39 +387,39 @@ function Draw({ l, mode, n, sound, onDone }: { l: Letter; mode: DrawMode; n?: nu
     const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse());
     return [Math.round(p.x * 10) / 10, Math.round(p.y * 10) / 10];
   };
-  const win = (ok: boolean) => { setWon(true); setResult(ok); if (sound) (ok ? sfx.good : sfx.tap)(); sayHebrew(ok ? pick(SAY.right) : SAY.thisIs(l)); };
+  const win = (ok: boolean) => { setWon(true); setResult(ok); if (sound) (ok ? sfx.good : sfx.tap)(); sayHebrew(ok ? praise : told); };
   const giveUp = () => {
-    const v = judge(latest.current, l, rules);
+    const v = judge(latest.current, shape, rules, rivals);
     if (v.ok) { win(true); return; }
     tries.current++;
     setInk([]);
-    if (tries.current >= (guide ? 3 : 2)) { setHelp(l.strokes.map((_, i) => i)); win(guide); return; }
+    if (tries.current >= (guide ? 3 : 2)) { setHelp(strokes.map((_, i) => i)); win(guide); return; }
     if (sound) sfx.bad();
-    sayHebrew(SAY.again); setHelp(v.missing.length ? v.missing : l.strokes.map((_, i) => i));
+    sayHebrew(again); setHelp(v.missing.length ? v.missing : strokes.map((_, i) => i));
   };
   const start = (e: PE) => { if (won) return; const p = at(e); if (!p) return; clearTimeout(wait.current); setShowing(false); (e.target as Element).setPointerCapture?.(e.pointerId); down.current = true; setHelp(null); setInk((k) => [...k, [p]]); };
   const move = (e: PE) => { if (!down.current) return; const p = at(e); if (p) setInk((k) => { const c = [...k]; c[c.length - 1] = [...c[c.length - 1], p]; return c; }); };
-  // Lifting a finger may only be a pause in the letter, so a good letter is accepted soon and a poor one is given time.
+  // Lifting a finger may only be a pause, so a good result is accepted soon and a poor one is given time.
   const end = () => {
     if (!down.current) return;
     down.current = false;
     wait.current = setTimeout(() => {
-      if (judge(latest.current, l, rules).ok) win(true);
+      if (judge(latest.current, shape, rules, rivals).ok) win(true);
       else wait.current = setTimeout(giveUp, 5000);
     }, guide ? 800 : 1500);
   };
   return (
     <div className="a-step">
       <div className={`a-desk ${mode === 'copy' ? 'two' : ''}`}>
-        {mode === 'copy' && <svg viewBox={frame} className="a-model" role="img" aria-label={`דוגמה: ${l.name}`}><Lines /><Glyph strokes={l.strokes} /><Arrows strokes={l.strokes} /></svg>}
-        {mode === 'opening' && heard && <button type="button" className="a-model a-opening" aria-label="לשמוע שוב" onClick={() => sayHebrew(said)}>{heard[2]}</button>}
-        <svg ref={svg} viewBox={frame} className="a-board a-pad" role="img" aria-label={`כתיבת ${l.name}`} onPointerDown={start} onPointerMove={move} onPointerUp={end} onPointerCancel={end}>
+        {mode === 'copy' && <svg viewBox={frame} className="a-model" role="img" aria-label={`דוגמה: ${name}`}><Lines /><Glyph strokes={strokes} /><Arrows strokes={strokes} /></svg>}
+        {side}
+        <svg ref={svg} viewBox={frame} className="a-board a-pad" role="img" aria-label={`כתיבת ${name}`} onPointerDown={start} onPointerMove={move} onPointerUp={end} onPointerCancel={end}>
           <Lines />
-          {guide && <Glyph strokes={l.strokes} cls="dash" />}
-          {showing && <Glyph strokes={l.strokes} />}
-          {guide && !won && <Arrows strokes={l.strokes} />}
-          {guide && !ink.length && l.strokes.map((s, i) => <g key={i}><circle cx={s.p[0][0]} cy={s.p[0][1]} r="6" className="a-dot" /><text x={s.p[0][0]} y={s.p[0][1] + 3} className="a-num">{i + 1}</text></g>)}
-          {help && <Glyph strokes={l.strokes.filter((_, i) => help.includes(i))} cls="new" draw gap={1} />}
+          {guide && <Glyph strokes={strokes} cls="dash" />}
+          {showing && <Glyph strokes={strokes} />}
+          {guide && !won && <Arrows strokes={strokes} />}
+          {guide && !ink.length && strokes.map((s, i) => <g key={i}><circle cx={s.p[0][0]} cy={s.p[0][1]} r="6" className="a-dot" /><text x={s.p[0][0]} y={s.p[0][1] + 3} className="a-num">{i + 1}</text></g>)}
+          {help && <Glyph strokes={strokes.filter((_, i) => help.includes(i))} cls="new" draw gap={1} />}
           {ink.map((k, i) => <polyline key={i} points={pts(k)} className={`a-stroke ink ${won ? 'gold' : ''}`} />)}
         </svg>
       </div>

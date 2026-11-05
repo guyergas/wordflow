@@ -6,7 +6,8 @@ import { Component, ReactNode } from 'react';
 import { App } from './App';
 import { CoursePicker, UserPicker } from './users';
 import { load, save } from './platform';
-import { COURSE_CHOSEN, USER_ID, IS_ALEF, IS_KNOWLEDGE, IS_MATH } from './course';
+import { COURSE_CHOSEN, USER_ID, IS_ALEF, IS_KNOWLEDGE, IS_MATH, IS_TOTS } from './course';
+import { TotsApp, recoverTots } from './tots/TotsApp';
 import { AlefApp, recoverAlef } from './alef/AlefApp';
 import { KnowledgeApp, recoverKnowledge } from './knowledge/KnowledgeApp';
 import { MathApp, recoverMath } from './math/MathApp';
@@ -21,11 +22,11 @@ class Recover extends Component<{ children: ReactNode }, { failed: boolean }> {
       <div className="onb">
         <h1>משהו השתבש</h1>
         <p className="lead">ההתקדמות שלך שמורה. אפשר להתחיל מחדש את האימון של היום.</p>
-        <button type="button" className="cta" onClick={() => { if (IS_ALEF) recoverAlef(); else if (IS_MATH) recoverMath(); else if (IS_KNOWLEDGE) recoverKnowledge(); else save({ ...load(), plan: null, paused: null }); location.reload(); }}>להמשיך</button>
+        <button type="button" className="cta" onClick={() => { if (IS_TOTS) recoverTots(); else if (IS_ALEF) recoverAlef(); else if (IS_MATH) recoverMath(); else if (IS_KNOWLEDGE) recoverKnowledge(); else save({ ...load(), plan: null, paused: null }); location.reload(); }}>להמשיך</button>
       </div>
     );
   }
 }
 
-createRoot(document.getElementById('root')!).render(<Recover>{!USER_ID ? <UserPicker /> : !COURSE_CHOSEN ? <CoursePicker /> : IS_ALEF ? <AlefApp /> : IS_MATH ? <MathApp /> : IS_KNOWLEDGE ? <KnowledgeApp /> : <App />}</Recover>);
+createRoot(document.getElementById('root')!).render(<Recover>{!USER_ID ? <UserPicker /> : !COURSE_CHOSEN ? <CoursePicker /> : IS_TOTS ? <TotsApp /> : IS_ALEF ? <AlefApp /> : IS_MATH ? <MathApp /> : IS_KNOWLEDGE ? <KnowledgeApp /> : <App />}</Recover>);
 

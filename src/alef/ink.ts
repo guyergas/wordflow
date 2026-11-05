@@ -1,7 +1,7 @@
 // Compares what a finger drew with a letter. Order and direction are free: a child of five should not fail on those.
 // Every line of the letter must be covered, and most of the drawing must lie on the letter. Height counts, because
 // the size of the line is the whole difference between י, ו and ן.
-import { Letter, LETTERS, Pt } from './letters';
+import { LETTERS, Pt, Shape } from './letters';
 
 export type Ink = Pt[][];
 export interface Verdict { ok: boolean; missing: number[]; stray: number }
@@ -30,7 +30,7 @@ export interface Rules { tol: number; shift: number; need: number }
 export const TRACE: Rules = { tol: 15, shift: 0, need: 0.88 }, FREE: Rules = { tol: 13, shift: 1, need: 0.72 };
 const ON_LETTER = 0.8;
 
-function fit(drawn: Pt[], letter: Letter, mode: Rules) {
+function fit(drawn: Pt[], letter: Shape, mode: Rules) {
   const targets = letter.strokes.map((s) => dense(s.p)), all = targets.flat();
   const inked = field(drawn, mode.tol), wide = field(all, mode.tol * 1.5), tight = field(all, mode.tol);
   let best = { score: -1, missing: letter.strokes.map((_, i) => i), on: 0 };
@@ -45,12 +45,12 @@ function fit(drawn: Pt[], letter: Letter, mode: Rules) {
   return best;
 }
 
-export function judge(ink: Ink, letter: Letter, mode: Rules = FREE): Verdict {
+export function judge(ink: Ink, letter: Shape, mode: Rules = FREE, rivals: Shape[] = LETTERS): Verdict {
   const drawn = ink.flatMap((l) => dense(l));
   if (drawn.length < 4) return { ok: false, missing: letter.strokes.map((_, i) => i), stray: 0 };
   const mine = fit(drawn, letter, mode);
   let ok = mine.missing.length === 0 && mine.on >= ON_LETTER;
   // A generous tolerance could let one letter pass for another, so the drawing must also look most like this letter.
-  if (ok && mode.shift) ok = !LETTERS.some((o) => o !== letter && fit(drawn, o, mode).score > mine.score + 0.02);
+  if (ok && mode.shift) ok = !rivals.some((o) => o !== letter && fit(drawn, o, mode).score > mine.score + 0.02);
   return { ok, missing: mine.missing, stray: 1 - mine.on };
 }

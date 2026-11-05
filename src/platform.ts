@@ -1,6 +1,7 @@
 // Storage, speech and sound. Everything here fails soft: a missing capability never breaks the lesson.
-import { IS_ALEF, IS_THAI, STORAGE_KEY as KEY, USER_NAME } from './course';
+import { IS_ALEF, IS_THAI, IS_TOTS, STORAGE_KEY as KEY, USER_NAME } from './course';
 import { HEBREW_AUDIO } from './alef/letters';
+import { TOTS_AUDIO } from './tots/numbers';
 import { dropUnpracticed, initialState, repairPlans, State } from './engine';
 import { audioName, THAI_AUDIO } from './thai';
 let memory: string | null = null;
@@ -116,10 +117,10 @@ function speakThai(text: string) {
 
 /** Saves the alef-bet sentences on the device in the background, on the children's course only. */
 export async function saveHebrewRecordings() {
-  if (!IS_ALEF || !('caches' in window)) return;
+  if ((!IS_ALEF && !IS_TOTS) || !('caches' in window)) return;
   try {
     const cache = await caches.open('hebrew-audio');
-    const queue = HEBREW_AUDIO.map((t) => `audio/he/${audioName(t)}.mp3`);
+    const queue = (IS_TOTS ? TOTS_AUDIO : HEBREW_AUDIO).map((t) => `audio/he/${audioName(t)}.mp3`);
     const worker = async () => { for (let url = queue.pop(); url; url = queue.pop()) { try { if (!(await cache.match(url))) await cache.add(url); } catch { /* the next launch tries again */ } } };
     await Promise.all([worker(), worker(), worker()]);
   } catch { /* optional */ }

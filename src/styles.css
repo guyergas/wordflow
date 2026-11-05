@@ -657,3 +657,83 @@ html.a-lock .a-finish { height: 100dvh; min-height: 0; overflow: hidden; }
 .k-size button { min-width: 44px; min-height: 44px; border-radius: 12px; background: var(--surface-2); font-weight: 700; font-size: 16px; color: var(--ink); }
 .k-size button:disabled { opacity: .4; }
 .k-text p { font-size: inherit; }
+
+/* Little math: things to count, big digits, and sums written left to right as in school. */
+.t-digit { font: 700 clamp(44px, 10dvh, 96px)/1 var(--font-ui); }
+.t-ask { flex: 1 1 0; min-height: 0; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; }
+.t-ask .a-speak { position: absolute; top: 0; inset-inline-start: 0; z-index: 1; width: 56px; height: 56px; }
+.t-stage { flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 10px; overflow: hidden; }
+.t-objects { display: grid; grid-template-columns: repeat(5, auto); gap: 4px 8px; justify-content: center; font-size: clamp(26px, 5.5dvh, 46px); line-height: 1.15; }
+.t-objects.grow { font-size: clamp(34px, 7.5dvh, 64px); }
+.t-objects span { display: block; position: relative; }
+.t-objects span.gone { opacity: .35; }
+.t-objects span.gone::after { content: ''; position: absolute; inset-inline: -2px; top: 50%; height: 4px; background: var(--bad); border-radius: 2px; transform: rotate(-35deg); }
+.pop-in { animation: t-pop .35s backwards cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes t-pop { from { transform: scale(0); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .pop-in { animation: none; } }
+.t-empty { width: 110px; height: 70px; border: 4px dashed var(--line); border-radius: 50%; }
+.t-options { flex: none; width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; height: clamp(84px, 17dvh, 150px); }
+.t-options.n2 { grid-template-columns: 1fr 1fr; }
+.t-options.groups { grid-template-columns: 1fr; height: auto; flex: 1.2 1 0; min-height: 0; grid-auto-rows: minmax(0, 1fr); }
+.t-options.groups.n2 { grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; }
+.t-options .a-answer { height: auto; min-height: 0; }
+.t-options .t-objects { font-size: clamp(20px, 4.5dvh, 36px); }
+.t-line { gap: 6px; font: 700 clamp(30px, 7dvh, 60px)/1 var(--font-ui); flex-wrap: wrap; }
+.t-line span, .t-line b { min-width: 1.45em; padding: .2em .1em; text-align: center; border-radius: 14px; background: var(--surface-2); }
+.t-line b { background: var(--sun); color: var(--sun-ink); }
+.t-sum { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+.t-groups { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.t-groups > i { font: 800 36px/1 var(--font-ui); font-style: normal; color: var(--spell); }
+.t-eq { display: flex; align-items: center; gap: .3em; font: 750 clamp(44px, 10dvh, 84px)/1 var(--font-ui); }
+.t-eq.small { font-size: clamp(28px, 5.5dvh, 44px); }
+.t-eq i { font-style: normal; color: var(--spell); }
+.t-eq b { background: var(--sun); color: var(--sun-ink); padding: 0 .3em; border-radius: .25em; }
+.t-hint { position: absolute; top: 0; inset-inline-end: 0; width: 56px; height: 56px; font-size: 26px; border-radius: 50%; background: var(--surface-2); }
+.t-frame { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; width: min(100%, 420px); }
+.t-frame i { aspect-ratio: 1; border-radius: 12px; border: 3px solid var(--line); }
+.t-frame i.on { background: var(--rec); border-color: var(--rec); }
+.t-make { flex: 1.3 1 0; min-height: 0; width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: minmax(0, 1fr); gap: 6px; }
+.t-make button { position: relative; font-size: clamp(30px, 6.5dvh, 56px); background: var(--surface); border: 2px solid var(--line); border-radius: 16px; min-height: 0; }
+.t-make button.on { background: var(--good-soft); border-color: var(--good); }
+.t-make small { position: absolute; top: 2px; inset-inline-start: 6px; font: 700 18px var(--font-ui); color: var(--good); }
+.t-two { gap: 24px; }
+.t-meet-digit { flex: 1 1 0; }
+.t-show { height: 34dvh; flex: none; }
+.t-face { display: grid; place-items: center; }
+.t-label { font: 800 36px/1 var(--font-ui); color: var(--ink); }
+.a-today .t-face { height: 100%; aspect-ratio: 3 / 4; background: var(--surface); border-radius: 18px; }
+.t-strip { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
+.t-strip i { font: 700 15px/2.2 var(--font-ui); font-style: normal; text-align: center; border-radius: 8px; background: var(--surface-2); color: var(--ink-3); white-space: nowrap; overflow: hidden; }
+.t-strip i.learning { background: var(--rec-soft); color: var(--ink); }
+.t-strip i.known { background: var(--sun); color: var(--sun-ink); }
+.t-strip i.hard { background: var(--spell-soft); color: var(--ink); }
+.t-list { display: grid; gap: 6px; }
+.t-row { width: 100%; display: flex; align-items: center; gap: 12px; padding: 8px 12px; text-align: start; background: var(--surface); border: 2px solid var(--line); border-radius: 16px; min-height: 60px; }
+.t-row.new { opacity: .55; }
+.t-row.learning { border-color: var(--rec); }
+.t-row.known { border-color: var(--sun); background: var(--sun-soft); }
+.t-row.hard { border-color: var(--spell); background: var(--spell-soft); }
+.t-row-face { flex: none; min-width: 52px; font: 800 24px var(--font-ui); text-align: center; }
+.t-row-text { display: grid; }
+.t-row-text small { color: var(--ink-2); font-size: 13px; }
+.t-stage, .t-options .a-answer { container-type: inline-size; }
+.t-objects { font-size: min(13cqw, 5.5dvh); gap: .1em .15em; }
+.t-objects.grow { font-size: min(15cqw, 9dvh); }
+.t-options .t-objects { font-size: min(15cqw, 5dvh); }
+.t-groups .t-objects { font-size: min(8cqw, 7dvh); }
+.t-ask.bare { flex: none; align-items: flex-start; }
+.t-ask.bare .a-speak { position: static; }
+.t-options.tall { flex: 1 1 0; height: auto; min-height: 0; grid-template-columns: 1fr; grid-auto-rows: minmax(0, 1fr); }
+.t-options.tall .t-digit { font-size: clamp(56px, 13dvh, 120px); }
+.t-options.groups.n3 { grid-template-columns: 1fr; }
+.t-stage { flex: 1 1 0; }
+.t-meet-digit { min-height: 0; max-height: none; overflow: hidden; }
+.t-eq { font-size: min(13cqw, 11dvh); }
+.t-eq.small { font-size: min(8cqw, 6dvh); }
+.t-sum { gap: 3dvh; }
+.t-groups > i { font-size: min(8cqw, 7dvh); }
+.t-options.groups.n2 .t-objects { grid-template-columns: repeat(3, auto); font-size: min(26cqw, 9dvh); }
+.t-groups.few .t-objects { font-size: min(13cqw, 9dvh); }
+.t-groups.few > i { font-size: min(12cqw, 8dvh); }
+.t-eq { font-size: min(17cqw, 12dvh); }
+.t-eq.small { font-size: min(10cqw, 7dvh); }
