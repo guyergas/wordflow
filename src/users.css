@@ -83,3 +83,7 @@
 .en-opt.ok { border-color: var(--cs-good); color: var(--cs-good) !important; font-weight: 700; }
 .en-opt.no { opacity: .55; }
 .en-card { display: grid; gap: 2px; width: 100%; padding: 14px 18px; border: 1px solid var(--cs-line, #e2e3dc); border-radius: 22px; background: var(--surface); text-align: start; color: var(--ink); }
+.gr-open { min-height: 44px; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: start; cursor: pointer; }
+.en-card .cs-link { justify-self: start; background: none; border: 0; padding: 0; min-height: 36px; font: inherit; font-size: 14px; color: var(--ink-2); text-decoration: underline; cursor: pointer; }
+.gr-rule { margin: 0; font-size: 18px; line-height: 1.6; }
+.gr-q { margin: 0; font-size: 22px; font-weight: 600; }

@@ -8,6 +8,7 @@ import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind
 import { COURSE_ID, COURSES, HAS_SPELLING, IS_THAI, USER_NAME, x } from './course';
 import { CourseSwitch, SummaryTab, TodayPlan } from './summaryUi';
 import { EnglishReading } from './englishReading';
+import { GrammarCard } from './grammar/GrammarCard';
 import { LEVELS, WORD, WORDS, Word } from './words';
 import { buildReport, drawReport, fileName, Period, toBlob } from './report';
 import { askPersistence, canSpeak, englishVoices, load, save, saveThaiRecordings, sfx, speak } from './platform';
@@ -298,6 +299,7 @@ function Home({ st, today, onStart, onSentences, onSettings, onReadTime }: { st:
         <span className="sent-go" aria-hidden="true">←</span>
       </button>
 
+      {COURSE_ID === 'en' && <GrammarCard known={t.known} onTime={onReadTime} />}
       {COURSE_ID === 'en' && <EnglishReading known={t.known} onTime={onReadTime} />}
       <TodayPlan />
 
