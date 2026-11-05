@@ -370,7 +370,12 @@ export function options(st: State, id: string, count: number, rnd: () => number 
   // In Thai, wrong answers come from words already met, so a question does not show words never taught. Others only fill a gap.
   const seen = pool.filter((x) => isMet(ws(st, x.id)));
   const fill = IS_THAI ? [...shuffle(seen, rnd), ...shuffle(pool.filter((x) => !isMet(ws(st, x.id))), rnd)] : shuffle(near.length >= count ? near : pool, rnd);
-  const picks = [...conf, ...fill].slice(0, count - 1);
+  // Two answers that read the same, in either language, would make the question unfair.
+  const picks: Word[] = [];
+  for (const x of [...conf, ...fill, ...shuffle(pool, rnd)]) {
+    if (picks.length >= count - 1) break;
+    if (x.en !== w.en && !picks.some((p) => p.he === x.he || p.en === x.en)) picks.push(x);
+  }
   return shuffle([w, ...picks], rnd);
 }
 
