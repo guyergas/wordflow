@@ -216,7 +216,7 @@ function Write({ l, mode, n, sound, onDone }: { l: AbcLetter; mode: 'trace' | 'c
     else if (key === 'told') say(...named(l));
     else say(he(HE.again));
   };
-  const side = mode === 'opening' ? <button type="button" className="a-model a-opening" aria-label="לשמוע שוב" onClick={() => talk('said')}>{w[1]}</button> : undefined;
+  const side = mode === 'opening' ? <button type="button" className="a-model a-opening" aria-label="לשמוע שוב" onClick={() => talk('said')}><span aria-hidden="true">{w[1]}</span><Highlight word={w[0]} l={l} hide /></button> : undefined;
   return <WritePad shape={l} name={l.id} mode={mode === 'opening' ? 'write' : mode} said="said" praise="praise" answer="told" again="again" rivals={rivals} side={side} talk={talk} sound={sound} onDone={onDone} />;
 }
 
@@ -285,7 +285,7 @@ function WordGame({ st, l, n, sound, onMiss, onDone }: { st: EState; l: AbcLette
   );
 }
 
-/** Hear a letter and choose the picture whose word opens with it. */
+/** Hear a letter and choose the picture whose word opens with it. The words are written, since a child does not know them in English yet. */
 function PictureGame({ st, l, n, sound, onDone }: { st: EState; l: AbcLetter; n: number; sound: boolean; onDone: (ok: boolean) => void }) {
   const { right, options } = useMemo(() => pictureChoices(st, l.id, n), [l.id, n]), q = [he(HE.picture), ...named(l)];
   const [wrong, setWrong] = useState<string[]>([]), [won, setWon] = useState(false);
@@ -298,7 +298,7 @@ function PictureGame({ st, l, n, sound, onDone }: { st: EState; l: AbcLetter; n:
   return (
     <div className="a-step">
       <SpeakBtn parts={q} />
-      <div className="e-options" dir="ltr">{options.map((w) => <button key={w[0]} type="button" disabled={wrong.includes(w[0])} aria-label={w[0]} className={`a-answer ${won && w === right ? 'right' : ''} ${wrong.includes(w[0]) ? 'off' : ''}`} onClick={() => tap(w)}><span aria-hidden="true">{w[1]}</span>{won && w === right && <Highlight word={w[0]} l={l} />}</button>)}</div>
+      <div className="e-options" dir="ltr">{options.map((w) => <button key={w[0]} type="button" disabled={wrong.includes(w[0])} aria-label={w[0]} className={`a-answer ${won && w === right ? 'right' : ''} ${wrong.includes(w[0]) ? 'off' : ''}`} onClick={() => tap(w)}><span aria-hidden="true">{w[1]}</span><Highlight word={w[0]} l={l} right={won && w === right} /></button>)}</div>
       {won ? <Next onClick={() => onDone(wrong.length === 0)} /> : <div className="a-next-space" />}
     </div>
   );
