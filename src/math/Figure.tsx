@@ -69,6 +69,13 @@ export function Figure({ fig }: { fig: Fig }) {
         <T x={L + w - cw / 2} y={ch - 2 > 18 ? ch - 2 : 18} s={`${fig.cutW}`} size={14} /><T x={L + w + 6} y={6 + ch / 2 + 5} s={`${fig.cutH} ${fig.unit}`} a="start" size={14} />
       </>, `מלבן ${fig.w} על ${fig.h} ${fig.unit} שחסרה לו פינה ${fig.cutW} על ${fig.cutH}`);
     }
+    case 'chart': {
+      const W = 400, H = 210, L = 40, B = 178, T0 = 12, top = Math.max(...fig.bars.map((b) => b.value)), max = Math.ceil(top / fig.step) * fig.step, y = (v: number) => B - (v / max) * (B - T0), slot = (W - L - 8) / fig.bars.length;
+      return svg(W, H, <>
+        {Array.from({ length: max / fig.step + 1 }, (_, i) => i * fig.step).map((v) => <g key={v}><line x1={L} x2={W - 8} y1={y(v)} y2={y(v)} stroke={LINE} strokeWidth={v ? .7 : 1.6} /><T x={L - 8} y={y(v) + 5} s={String(v)} size={13} a="end" /></g>)}
+        {fig.bars.map((b, i) => <g key={b.label}><rect x={L + slot * i + slot * .2} y={y(b.value)} width={slot * .6} height={B - y(b.value)} fill={SUN} stroke={INK} strokeWidth={1} rx={3} /><T x={L + slot * (i + .5)} y={B + 22} s={b.label} size={14} /></g>)}
+      </>, 'גרף עמודות');
+    }
     case 'box': {
       const k = 16, w = fig.a * k, h = fig.c * k, d = fig.b * k * 0.55, L = 64, top = 6 + d;
       return svg(w + d + 130, h + d + 44, <>

@@ -15,7 +15,8 @@ export type Fig =
   | { t: 'rect'; w: number; h: number; unit: string }
   | { t: 'tri'; b: number; h: number; unit: string }
   | { t: 'lshape'; w: number; h: number; cutW: number; cutH: number; unit: string }
-  | { t: 'box'; a: number; b: number; c: number; unit: string };
+  | { t: 'box'; a: number; b: number; c: number; unit: string }
+  | { t: 'chart'; bars: { label: string; value: number }[]; step: number };
 
 export interface Choice { label: string; trap?: TrapId }
 export interface Question {
@@ -411,6 +412,12 @@ export const SKILLS: Skill[] = [
     const names = ['נועה', 'מאיה', 'תמר'], v = [ri(r, 4, 19), ri(r, 20, 39), ri(r, 40, 60)], t = pick(r, THINGS);
     const row = names.map((x, i) => `${x}: [[${v[i]}]]`).join(', ');
     return calc({ prompt: `כמה ${t} יש לכל ילדה: ${row}. כמה יותר יש לתמר מלנועה?`, ans: n(v[2] - v[0]), eq: `${v[2]}-${v[0]}`, wrong: [[n(v[2] + v[0]), 'op'], [n(v[1] - v[0]), 'op']], steps: ['מוצאים את שני המספרים בטבלה', `[[${v[2]}−${v[0]}=${v[2] - v[0]}]]`] });
+  } },
+  { id: 'chart', station: 8, title: 'קריאה מגרף', needs: ['table'], e: (r) => {
+    const days = ['ראשון', 'שני', 'שלישי', 'רביעי'], step = pick(r, [2, 5, 10]), bars = days.map((label) => ({ label, value: ri(r, 1, 8) * step }));
+    bars[1].value = bars[0].value === step * 8 ? step : bars[0].value + step * ri(r, 1, 8 - bars[0].value / step);
+    const hi = bars[1].value, lo = bars[0].value;
+    return calc({ prompt: 'בגרף מופיע כמה ספרים נקראו בכל יום. כמה ספרים נקראו בימים ראשון ושני יחד?', ans: n(hi + lo), eq: `${hi}+${lo}`, wrong: [[n(hi - lo), 'op'], [n(hi), 'op']], fig: { t: 'chart', bars, step }, needFig: true, steps: ['גובה העמודה קורא מול המספרים שבצד', `ראשון: [[${lo}]]. שני: [[${hi}]]`, `[[${lo}+${hi}=${lo + hi}]]`] });
   } },
   { id: 'mean', station: 8, title: 'ממוצע', needs: ['div'], e: (r) => {
     const k = ri(r, 3, 5), avg = ri(r, 4, 20), v = Array.from({ length: k }, () => avg);
