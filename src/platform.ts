@@ -1,7 +1,8 @@
 // Storage, speech and sound. Everything here fails soft: a missing capability never breaks the lesson.
-import { IS_ALEF, IS_THAI, IS_TOTS, STORAGE_KEY as KEY, USER_NAME } from './course';
+import { IS_ALEF, IS_THAI, IS_TINYEN, IS_TOTS, STORAGE_KEY as KEY, USER_NAME } from './course';
 import { HEBREW_AUDIO } from './alef/letters';
 import { TOTS_AUDIO } from './tots/numbers';
+import { TINY_EN_AUDIO, TINY_HE_AUDIO } from './tinyen/words';
 import { dropUnpracticed, initialState, repairPlans, State } from './engine';
 import { audioName, THAI_AUDIO } from './thai';
 let memory: string | null = null;
@@ -117,10 +118,12 @@ function speakThai(text: string) {
 
 /** Saves the alef-bet sentences on the device in the background, on the children's course only. */
 export async function saveHebrewRecordings() {
-  if ((!IS_ALEF && !IS_TOTS) || !('caches' in window)) return;
+  if ((!IS_ALEF && !IS_TOTS && !IS_TINYEN) || !('caches' in window)) return;
   try {
     const cache = await caches.open('hebrew-audio');
-    const queue = (IS_TOTS ? TOTS_AUDIO : HEBREW_AUDIO).map((t) => `audio/he/${audioName(t)}.mp3`);
+    const queue = IS_TINYEN
+      ? [...TINY_HE_AUDIO.map((t) => `audio/he/${audioName(t)}.mp3`), ...TINY_EN_AUDIO.map((t) => `audio/en/${audioName(t)}.mp3`)]
+      : (IS_TOTS ? TOTS_AUDIO : HEBREW_AUDIO).map((t) => `audio/he/${audioName(t)}.mp3`);
     const worker = async () => { for (let url = queue.pop(); url; url = queue.pop()) { try { if (!(await cache.match(url))) await cache.add(url); } catch { /* the next launch tries again */ } } };
     await Promise.all([worker(), worker(), worker()]);
   } catch { /* optional */ }
@@ -143,6 +146,31 @@ export function sayHebrew(text: string) {
     src.start();
     playing = src;
   }).catch(() => { if (mine === turn) speakHebrew(text); });
+}
+
+/** Plays sentences one after another, such as a Hebrew question and then an English word. A missing recording falls back to the phone's voice. */
+export function sayInTurn(parts: { text: string; lang: 'he' | 'en' }[]) {
+  const mine = ++turn;
+  try { playing?.stop(); } catch { /* already over */ }
+  playing = null;
+  try { synth()?.cancel(); } catch { /* no voice */ }
+  try { (navigator as unknown as { audioSession?: { type: string } }).audioSession!.type = 'playback'; } catch { /* other phones */ }
+  const c = audio();
+  const voice = (p: { text: string; lang: 'he' | 'en' }) => { const s = synth(); if (!s) return; try { const u = new SpeechSynthesisUtterance(p.text); u.lang = p.lang === 'he' ? 'he-IL' : 'en-US'; const v = s.getVoices().find((o) => (p.lang === 'he' ? /^(he|iw)/i : /^en/i).test(o.lang)); if (v) u.voice = v; u.rate = 0.9; s.speak(u); } catch { /* no audio */ } };
+  if (!c) { parts.forEach(voice); return; }
+  const next = (i: number) => {
+    if (i >= parts.length || mine !== turn) return;
+    recording(parts[i].text, c, parts[i].lang).then((buffer) => {
+      if (mine !== turn) return;
+      const src = c.createBufferSource();
+      src.buffer = buffer;
+      src.connect(c.destination);
+      src.onended = () => next(i + 1);
+      src.start();
+      playing = src;
+    }).catch(() => { if (mine === turn) { voice(parts[i]); next(i + 1); } });
+  };
+  next(0);
 }
 
 export function speak(text: string, opts: { voice?: string; rate?: number } = {}) {
