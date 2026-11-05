@@ -1,4 +1,4 @@
-// The math content: stations 1-7 (the basics up to the start of middle school).
+// The math content: stations 1-7 are the basics, and 8-10 are data, angles and the bridge into middle school.
 // A skill generates a fresh question each time, so she cannot succeed by remembering an answer.
 // Text inside [[...]] is math: it reads left to right, and a/b is drawn as a fraction.
 export type Rnd = () => number;
@@ -56,6 +56,9 @@ export const STATIONS: { id: number; name: string; blurb: string; domain: Domain
   { id: 5, name: 'פעולות בשברים', blurb: 'מרחיבים, מצמצמים ומחשבים', domain: 'frac' },
   { id: 6, name: 'עשרוניים ואחוזים', blurb: 'שלוש דרכים לכתוב חלק', domain: 'frac' },
   { id: 7, name: 'צורות ומדידה', blurb: 'יחידות, שטח, היקף ונפח', domain: 'shape' },
+  { id: 8, name: 'נתונים וזוויות', blurb: 'ממוצע, טבלאות ומעלות', domain: 'shape' },
+  { id: 9, name: 'מספרים שליליים וחזקות', blurb: 'מתחת לאפס, ריבועים ושורשים', domain: 'num' },
+  { id: 10, name: 'ביטויים ומשוואות', blurb: 'אות במקום מספר', domain: 'num' },
 ];
 export const DOMAINS: { id: Domain; name: string }[] = [
   { id: 'num', name: 'מספרים ופעולות' }, { id: 'frac', name: 'שברים, עשרוניים ואחוזים' }, { id: 'shape', name: 'צורות ומדידה' },
@@ -402,6 +405,76 @@ export const SKILLS: Skill[] = [
   { id: 'volume', station: 7, title: 'נפח תיבה', needs: ['area', 'mul1'], e: (r) => {
     const a = ri(r, 2, 8), b = ri(r, 2, 6), c = ri(r, 2, 6);
     return calc({ prompt: 'מה נפח התיבה, בסמ״ק?', ans: n(a * b * c), eq: `${a}*${b}*${c}`, pencil: true, wrong: [[n(2 * (a * b + a * c + b * c)), 'volume'], [n(a + b + c), 'volume']], fig: { t: 'box', a, b, c, unit: 'ס״מ' }, needFig: true, steps: [`קוביות בשכבה אחת: [[${a}×${b}=${a * b}]]`, `יש [[${c}]] שכבות: [[${a * b}×${c}]]`] });
+  } },
+  // ---------- Station 8 ----------
+  { id: 'table', station: 8, title: 'קריאה מטבלה', needs: ['add100'], e: (r) => {
+    const names = ['נועה', 'מאיה', 'תמר'], v = [ri(r, 4, 19), ri(r, 20, 39), ri(r, 40, 60)], t = pick(r, THINGS);
+    const row = names.map((x, i) => `${x}: [[${v[i]}]]`).join(', ');
+    return calc({ prompt: `כמה ${t} יש לכל ילדה: ${row}. כמה יותר יש לתמר מלנועה?`, ans: n(v[2] - v[0]), eq: `${v[2]}-${v[0]}`, wrong: [[n(v[2] + v[0]), 'op'], [n(v[1] - v[0]), 'op']], steps: ['מוצאים את שני המספרים בטבלה', `[[${v[2]}−${v[0]}=${v[2] - v[0]}]]`] });
+  } },
+  { id: 'mean', station: 8, title: 'ממוצע', needs: ['div'], e: (r) => {
+    const k = ri(r, 3, 5), avg = ri(r, 4, 20), v = Array.from({ length: k }, () => avg);
+    for (let i = 0; i + 1 < k; i += 2) { const d = ri(r, 1, Math.min(3, avg - 1)); v[i] += d; v[i + 1] -= d; }
+    const sum = avg * k;
+    return calc({ prompt: `מה הממוצע של המספרים [[${v.join(', ')}]]?`, ans: n(avg), eq: `(${v.join('+')})/${k}`, pencil: true, wrong: [[n(sum), 'op'], [n(Math.max(...v)), 'op']], steps: [`מחברים הכול: [[${v.join('+')}=${sum}]]`, `מחלקים במספר הנתונים: [[${sum}÷${k}=${avg}]]`] });
+  } },
+  { id: 'angletype', station: 8, title: 'סוגי זוויות', needs: [], u: (r) => {
+    const d = pick(r, [[pick(r, [25, 40, 60, 75, 85]), 'חדה'], [90, 'ישרה'], [pick(r, [100, 120, 135, 160]), 'קהה'], [180, 'שטוחה']] as [number, string][]);
+    return conceptQ(`איזו זווית היא בת [[${d[0]}]] מעלות?`, d[1], ['חדה', 'ישרה', 'קהה', 'שטוחה'].filter((x) => x !== d[1]), ['חדה: פחות מ־[[90]]. ישרה: בדיוק [[90]]. קהה: בין [[90]] ל־[[180]]. שטוחה: [[180]]']);
+  } },
+  { id: 'trisum', station: 8, title: 'סכום זוויות במשולש', needs: ['angletype'], e: (r) => {
+    const a = ri(r, 3, 9) * 10, b = ri(r, 3, 8) * 10, c = 180 - a - b;
+    return calc({ prompt: `במשולש יש זוויות של [[${a}]] ושל [[${b}]] מעלות. כמה מעלות יש בזווית השלישית?`, ans: n(c), eq: `180-${a}-${b}`, wrong: [[n(360 - a - b), 'op'], [n(a + b), 'op']], steps: ['סכום הזוויות במשולש הוא [[180]] מעלות', `[[180−${a}−${b}=${c}]]`] });
+  } },
+  { id: 'parallel', station: 8, title: 'מקבילים ומאונכים', needs: [], u: (r) => {
+    const items = [['איך נקראים שני קווים שלעולם לא נפגשים?', 'מקבילים', ['מאונכים', 'נחתכים'], ['קווים מקבילים נשארים באותו מרחק ולא נפגשים']], ['איך נקראים שני קווים שנפגשים בזווית ישרה?', 'מאונכים', ['מקבילים', 'שווים'], ['קווים מאונכים יוצרים זווית של [[90]] מעלות']], ['כמה זוגות של צלעות מקבילות יש במלבן?', '2', ['1', '4'], ['כל צלע מקבילה לצלע שמולה, ולכן יש [[2]] זוגות']]] as [string, string, string[], string[]][];
+    const [p, a, o, s] = pick(r, items);
+    return conceptQ(p, a, o, s);
+  } },
+  // ---------- Station 9 ----------
+  { id: 'negline', station: 9, title: 'מספרים מתחת לאפס', needs: ['sub100'], u: (r) => {
+    const a = -ri(r, 1, 9), b = -ri(r, 10, 20), c = ri(r, 1, 9);
+    return conceptQ(`איזה מספר הוא הקטן ביותר: [[${a}]], [[${b}]] או [[${c}]]?`, `[[${b}]]`, [`[[${a}]]`, `[[${c}]]`], ['על ציר המספרים, מה שמשמאל קטן יותר', 'מתחת לאפס: ככל שהמספר רחוק יותר מאפס, הוא קטן יותר']);
+  } },
+  { id: 'negadd', station: 9, title: 'חיבור וחיסור עם שליליים', needs: ['negline'], u: (r) => {
+    const a = ri(r, 2, 9), b = ri(r, a + 1, a + 9), ans = a - b;
+    return conceptQ(`כמה זה [[${a}−${b}]]?`, `[[${ans}]]`, [`[[${b - a}]]`, `[[${a + b}]]`, `[[${ans - 2}]]`], [`מתחילים ב־[[${a}]] על הציר, והולכים [[${b}]] צעדים שמאלה`, `מגיעים ל־[[${ans}]]`], { pencil: true });
+  } },
+  { id: 'negmul', station: 9, title: 'כפל עם שליליים', needs: ['negadd', 'mul69'], u: (r) => {
+    const a = ri(r, 2, 9), b = ri(r, 2, 9), both = r() < 0.5, ans = both ? a * b : -a * b;
+    const q = both ? `[[(−${a})×(−${b})]]` : `[[(−${a})×${b}]]`;
+    return conceptQ(`כמה זה ${q}?`, `[[${ans}]]`, [`[[${-ans}]]`, `[[${both ? a + b : -a - b}]]`, `[[${ans + (both ? 1 : -1)}]]`], ['שני סימנים זהים נותנים תוצאה חיובית. סימנים שונים נותנים תוצאה שלילית', `[[${a}×${b}=${a * b}]], ומוסיפים את הסימן`]);
+  } },
+  { id: 'power', station: 9, title: 'חזקות', needs: ['mul69'], e: (r) => {
+    const b = ri(r, 2, 5), e = b > 3 ? 2 : ri(r, 2, 4), ans = b ** e;
+    return calc({ prompt: `[[${b}]] בחזקת [[${e}]] הוא [[${b}]] כפול עצמו [[${e}]] פעמים. כמה זה?`, ans: n(ans), eq: Array(e).fill(b).join('*'), wrong: [[n(b * e), 'table'], [n(b + e), 'op']], steps: [`[[${Array(e).fill(b).join('×')}=${ans}]]`, 'חזקה אינה כפל בסיס במעריך'] });
+  } },
+  { id: 'root', station: 9, title: 'שורש ריבועי', needs: ['power'], e: (r) => {
+    const b = ri(r, 2, 12);
+    return calc({ prompt: `איזה מספר כפול עצמו נותן [[${b * b}]]?`, ans: n(b), eq: `${b}`, wrong: [[n(b * b), 'op'], [n(b + 1), 'table']], steps: ['שורש של מספר הוא המספר שכפול עצמו נותן אותו', `[[${b}×${b}=${b * b}]]`] });
+  } },
+  // ---------- Station 10 ----------
+  { id: 'subst', station: 10, title: 'הצבה בביטוי', needs: ['order'], e: (r) => {
+    const a = ri(r, 2, 9), b = ri(r, 1, 20), x = ri(r, 2, 9);
+    return calc({ prompt: `אם [[x=${x}]], כמה שווה [[${a}x+${b}]]?`, ans: n(a * x + b), eq: `${a}*${x}+${b}`, wrong: [[n((a + x) + b), 'order'], [n(a * (x + b)), 'order']], steps: [`[[${a}x]] פירושו [[${a}]] כפול [[x]]`, `[[${a}×${x}+${b}=${a * x + b}]]`] });
+  } },
+  { id: 'like', station: 10, title: 'כינוס איברים', needs: ['subst'], u: (r) => {
+    const a = ri(r, 2, 9), b = ri(r, 1, 9), c = ri(r, 1, 9);
+    return conceptQ(`מה שווה ל־[[${a}x+${b}x+${c}]]?`, `[[${a + b}x+${c}]]`, [`[[${a + b + c}x]]`, `[[${a * b}x+${c}]]`, `[[${a + b}+${c}x]]`], [`מחברים רק איברים מאותו סוג: [[${a}x+${b}x=${a + b}x]]`, `את [[${c}]] משאירים לבד`]);
+  } },
+  { id: 'eq1', station: 10, title: 'משוואה בצעד אחד', needs: ['subst'], e: (r) => {
+    const x = ri(r, 2, 15), a = ri(r, 2, 9), mul = r() < 0.5, b = ri(r, 3, 30);
+    return mul
+      ? calc({ prompt: `מה הערך של [[x]] אם [[${a}x=${a * x}]]?`, ans: n(x), eq: `${a * x}/${a}`, wrong: [[n(a * x - a), 'op'], [n(a * a * x), 'op']], steps: ['עושים פעולה הפוכה לכפל: מחלקים את שני האגפים', `[[${a * x}÷${a}=${x}]]`] })
+      : calc({ prompt: `מה הערך של [[x]] אם [[x+${b}=${x + b}]]?`, ans: n(x), eq: `${x + b}-${b}`, wrong: [[n(x + 2 * b), 'op'], [n(b), 'op']], steps: ['עושים פעולה הפוכה לחיבור: מחסרים משני האגפים', `[[${x + b}−${b}=${x}]]`] });
+  } },
+  { id: 'eq2', station: 10, title: 'משוואה בשני צעדים', needs: ['eq1'], e: (r) => {
+    const x = ri(r, 2, 12), a = ri(r, 2, 9), b = ri(r, 1, 20), c = a * x + b;
+    return calc({ prompt: `מה הערך של [[x]] אם [[${a}x+${b}=${c}]]?`, ans: n(x), eq: `(${c}-${b})/${a}`, pencil: true, wrong: [[n(c - b), 'op'], [n((c + b) / a === Math.floor((c + b) / a) ? (c + b) / a : x + 1), 'op']], steps: [`קודם מחסרים [[${b}]]: [[${a}x=${c - b}]]`, `אחר כך מחלקים ב־[[${a}]]: [[x=${x}]]`] });
+  } },
+  { id: 'eqword', station: 10, title: 'בעיות במשוואה', needs: ['eq2'], e: (r) => {
+    const x = ri(r, 3, 12), k = pick(r, KIDS), a = ri(r, 2, 5), b = ri(r, 2, 15), t = pick(r, THINGS);
+    return calc({ prompt: `ל${k} יש [[x]] שקיות של [[${a}]] ${t}, ועוד [[${b}]] ${t} בנפרד. בסך הכול [[${a * x + b}]] ${t}. כמה שקיות יש לה?`, ans: n(x), eq: `(${a * x + b}-${b})/${a}`, pencil: true, read: true, wrong: [[n(a * x), 'op'], [n(a * x + b - a), 'op']], steps: [`כותבים משוואה: [[${a}x+${b}=${a * x + b}]]`, `מחסרים [[${b}]] ומחלקים ב־[[${a}]]: [[x=${x}]]`] });
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));

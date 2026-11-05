@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { SKILLS, STATIONS, DOMAINS, TRAPS, Question } from './skills';
+import { seeded, SKILLS, STATIONS, DOMAINS, TRAPS, Question } from './skills';
 import { advance, answerPlacement, applyPlacement, buildPlan, checkTyped, hintFor, initialMath, isChoiceRight, isOpen, isLearning, makeQuestion, MathState, nextNew, parseValue, placementDone, placementStep, queueRetry, recordAnswer, sameValue, shown, ss, startPlacement, PACE } from './engine';
 
 const T = 20000;
@@ -110,9 +110,9 @@ describe('placement', () => {
   };
   it('stops each area separately', () => {
     const p = run((s) => (s === 1 ? true : s === 2 ? false : s < 5 ? true : s === 5 ? false : true));
-    expect(p.start).toEqual({ num: 2, frac: 5, shape: 8 });
+    expect(p.start).toEqual({ num: 2, frac: 5, shape: 9 });
   });
-  it('a learner who passes everything goes all the way', () => { expect(run(() => true).start).toEqual({ num: 4, frac: 7, shape: 8 }); });
+  it('a learner who passes everything goes all the way', () => { expect(run(() => true).start).toEqual({ num: 11, frac: 7, shape: 9 }); });
   it('checks again before stopping: one bad round is not enough', () => {
     let p = startPlacement(5);
     [false, false, false, false].forEach((a) => { p = answerPlacement(p, a); });
@@ -216,5 +216,18 @@ describe('grading', () => {
     expect(st.plan!.steps).toHaveLength(2);
     expect(st.plan!.steps[1].retry).toBe(true);
     expect(ss(st, 'add20').e.flag).toBe(true);
+  });
+});
+
+describe('the bridge stations', () => {
+  it('every new question has one right answer and a way to solve it', () => {
+    for (const s of SKILLS.filter((x) => x.station >= 8)) for (let seed = 1; seed < 200; seed++) for (const gen of [s.e, s.u]) {
+      if (!gen) continue;
+      const q = gen(seeded(seed));
+      expect(q.steps.length, s.id).toBeGreaterThan(0);
+      if (q.choices) { expect(q.choices.some((c) => c.label === q.answer), s.id).toBe(true); expect(q.choices.length, `${s.id} ${seed}`).toBeGreaterThanOrEqual(2); }
+      else expect(Number.isInteger(Number(q.answer)), `${s.id} ${q.answer}`).toBe(true);
+      for (const [w] of q.wrong ?? []) expect(w, `${s.id} ${q.prompt}`).not.toBe('NaN');
+    }
   });
 });

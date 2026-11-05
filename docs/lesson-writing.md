@@ -5,7 +5,7 @@ For Hebrew-speaking girls aged 10–12. Read `geo.continents` in `src/knowledge/
 Next lesson: `npx esbuild scripts/next-lesson.ts --bundle --platform=node --outfile=/tmp/next.cjs --log-level=error && node /tmp/next.cjs`
 
 - `kind: expand`: add `'id': { text: `...`, qs: [...] },` before the closing `};` in the given file. Everything in `idea` and `keys` must be stated clearly in the text, since those stay as they are.
-- `kind: new`: add a complete lesson to `NEW_LESSONS`: `L('course', 'short-id', level, 'title', 'Hebrew Wikipedia page name', `text`, 'idea in one sentence', qs, keys),` on a topic not in `existingTitles`, one a curious child would enjoy and that closes a gap in general knowledge. `keys` holds 1–2 review questions. Level: 0 basic, 1 middle, 2 above age level.
+- `kind: new`: add a complete lesson to `NEW_LESSONS`: `L('course', 'short-id', level, 'title', 'Hebrew Wikipedia page name', `text`, 'idea in one sentence', qs, keys),` taking the topic from `docs/new-topics.md` as it says there. `keys` holds 1–2 review questions. Level: 0 basic, 1 middle, 2 above age level.
 
 ## Every lesson
 - Text: 700–900 words of natural Hebrew in backticks (no backticks or ${ inside), feminine address when addressing the reader, paragraphs separated by a blank line. Stories, examples, causes, surprising facts, a link to Israel or daily life where natural. Clear, short sentences; explain every hard word. No clichés or translationese. Reread for grammar.
