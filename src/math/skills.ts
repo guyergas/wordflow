@@ -407,6 +407,39 @@ export const SKILLS: Skill[] = [
     const a = ri(r, 2, 8), b = ri(r, 2, 6), c = ri(r, 2, 6);
     return calc({ prompt: 'מה נפח התיבה, בסמ״ק?', ans: n(a * b * c), eq: `${a}*${b}*${c}`, pencil: true, wrong: [[n(2 * (a * b + a * c + b * c)), 'volume'], [n(a + b + c), 'volume']], fig: { t: 'box', a, b, c, unit: 'ס״מ' }, needFig: true, steps: [`קוביות בשכבה אחת: [[${a}×${b}=${a * b}]]`, `יש [[${c}]] שכבות: [[${a * b}×${c}]]`] });
   } },
+  // ---------- Added to earlier stations, from the curriculum ----------
+  { id: 'round', station: 3, title: 'עיגול ואומדן', needs: ['add100'], e: (r) => {
+    const toH = r() < 0.5, base = toH ? 100 : 10, v = ri(r, 12, 98) * 10 + ri(r, 1, 9) + (toH ? 0 : 0), ans = Math.round(v / base) * base;
+    return calc({ prompt: `מה המספר [[${v}]] מעוגל ל${toH ? 'מאות' : 'עשרות'} הקרובות?`, ans: n(ans), eq: `${ans}`, wrong: [[n(ans === Math.floor(v / base) * base ? ans + base : ans - base), 'place'], [n(v), 'place']], steps: [`מסתכלים על הספרה שאחרי ${toH ? 'המאות' : 'העשרות'}`, 'מ־[[5]] ומעלה מעגלים למעלה, ומתחת ל־[[5]] מעגלים למטה'] });
+  } },
+  { id: 'time', station: 7, title: 'זמן ושעון', needs: ['sub100'], e: (r) => {
+    const h = ri(r, 7, 15), m = pick(r, [10, 15, 20, 30, 40]), d = pick(r, [30, 40, 50, 80, 90]), tot = m + d, end = `${h + Math.floor(tot / 60)}:${String(tot % 60).padStart(2, '0')}`, mins = d;
+    return calc({ prompt: `שיעור מתחיל ב־[[${h}:${String(m).padStart(2, '0')}]] ונגמר ב־[[${end}]]. כמה דקות הוא נמשך?`, ans: n(mins), eq: `${mins}`, wrong: [[n(mins + 40), 'unit'], [n(tot % 60 || 60), 'unit']], steps: ['בשעה יש [[60]] דקות', `מ־[[${h}:${String(m).padStart(2, '0')}]] סופרים עד [[${end}]]: [[${mins}]] דקות`] });
+  } },
+  { id: 'mixed', station: 4, title: 'מספר מעורב', needs: ['mul25'], u: (r) => {
+    const w = ri(r, 1, 4), d = ri(r, 2, 8), a = ri(r, 1, d - 1), top = w * d + a;
+    return conceptQ(`כמה חלקים של [[1/${d}]] יש ב־[[${w}]] שלמים ועוד [[${a}/${d}]]?`, `[[${top}]]`, [`[[${w + a + d}]]`, `[[${w * d}]]`, `[[${top + d}]]`], [`בכל שלם יש [[${d}]] חלקים: [[${w}×${d}=${w * d}]]`, `מוסיפים עוד [[${a}]]: [[${top}]]`]);
+  } },
+  { id: 'ratio', station: 6, title: 'יחס', needs: ['div'], e: (r) => {
+    const a = ri(r, 1, 4), b = ri(r, a + 1, 6), k = ri(r, 2, 9), t = pick(r, THINGS);
+    return calc({ prompt: `היחס בין ${t} אדומים לכחולים הוא [[${a}:${b}]]. יש [[${a * k}]] אדומים. כמה כחולים יש?`, ans: n(b * k), eq: `${a * k}/${a}*${b}`, pencil: true, wrong: [[n(a * k + b - a), 'op'], [n(a * k), 'op']], steps: [`[[${a * k}]] הם [[${k}]] פעמים [[${a}]]`, `לכן גם הכחולים [[${k}]] פעמים [[${b}]]: [[${b * k}]]`] });
+  } },
+  { id: 'price', station: 6, title: 'הנחה ומחיר', needs: ['pctof'], e: (r) => {
+    const p = ri(r, 2, 15) * 20, c = pick(r, [10, 20, 25, 50]), off = p * c / 100;
+    return calc({ prompt: `מוצר עולה [[${p}]] שקלים, ויש עליו הנחה של [[${c}%]]. כמה משלמים?`, ans: n(p - off), eq: `${p}-${p}*${c}/100`, pencil: true, read: true, wrong: [[n(off), 'percent'], [n(p + off), 'percent']], steps: [`ההנחה: [[${c}%]] מ־[[${p}]] הם [[${off}]]`, `[[${p}−${off}=${p - off}]]`] });
+  } },
+  { id: 'scale', station: 7, title: 'קנה מידה', needs: ['mul1', 'units'], e: (r) => {
+    const cm = ri(r, 2, 9), km = pick(r, [2, 5, 10, 20]);
+    return calc({ prompt: `במפה, כל סנטימטר מייצג [[${km}]] ק״מ. המרחק במפה הוא [[${cm}]] ס״מ. מה המרחק במציאות, בק״מ?`, ans: n(cm * km), eq: `${cm}*${km}`, wrong: [[n(cm + km), 'op'], [n(km), 'op']], steps: ['כופלים את המרחק במפה בכמה שכל סנטימטר מייצג', `[[${cm}×${km}=${cm * km}]]`] });
+  } },
+  { id: 'paral', station: 7, title: 'שטח מקבילית', needs: ['area'], e: (r) => {
+    const b = ri(r, 3, 12), h = ri(r, 2, 9), side = h + ri(r, 1, 3);
+    return calc({ prompt: `למקבילית בסיס [[${b}]] ס״מ, גובה [[${h}]] ס״מ וצלע משופעת [[${side}]] ס״מ. מה השטח, בסמ״ר?`, ans: n(b * h), eq: `${b}*${h}`, wrong: [[n(b * side), 'areaPerim'], [n(2 * (b + side)), 'areaPerim']], steps: ['שטח מקבילית הוא בסיס כפול גובה, ולא כפול הצלע המשופעת', `[[${b}×${h}=${b * h}]]`] });
+  } },
+  { id: 'surface', station: 7, title: 'שטח פנים של תיבה', needs: ['volume'], e: (r) => {
+    const a = ri(r, 2, 8), b = ri(r, 2, 6), c = ri(r, 2, 6), ans = 2 * (a * b + a * c + b * c);
+    return calc({ prompt: `לתיבה מידות [[${a}]], [[${b}]] ו־[[${c}]] ס״מ. מה שטח הפנים, בסמ״ר?`, ans: n(ans), eq: `2*(${a}*${b}+${a}*${c}+${b}*${c})`, pencil: true, wrong: [[n(a * b * c), 'volume'], [n(a * b + a * c + b * c), 'volume']], fig: { t: 'box', a, b, c, unit: 'ס״מ' }, steps: ['לתיבה [[6]] פאות, שלושה זוגות שווים', `[[2×(${a}×${b}+${a}×${c}+${b}×${c})=${ans}]]`] });
+  } },
   // ---------- Station 8 ----------
   { id: 'table', station: 8, title: 'קריאה מטבלה', needs: ['add100'], e: (r) => {
     const names = ['נועה', 'מאיה', 'תמר'], v = [ri(r, 4, 19), ri(r, 20, 39), ri(r, 40, 60)], t = pick(r, THINGS);
