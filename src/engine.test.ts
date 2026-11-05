@@ -1,4 +1,4 @@
-import { freshMetric, freshWord, initialState, MAX_NEW_PER_DAY, repairPlans, spellCandidates, Plan as RepairPlan } from './engine';
+import { MAX_NEW_PER_DAY, repairPlans, spellCandidates, Plan as RepairPlan } from './engine';
 import { PROD_WORDS } from './prodWords';
 import { describe, expect, it } from 'vitest';
 import { WORDS, WORD, LEVELS } from './words';
