@@ -81,7 +81,15 @@ student|תלמיד|n|Every student has a notebook.
 color|צבע|n|Blue is my favorite color.
 shoes|נעליים|n|These shoes are too small.
 money|כסף|n|I saved money for a bike.
-music|מוזיקה|n|I love listening to music.`,
+music|מוזיקה|n|I love listening to music.
+spoon|כף|n|I eat my soup with a spoon.
+fork|מזלג|n|Put the fork next to the plate.
+plate|צלחת|n|The plate is on the table.
+pillow|כרית|n|My pillow is very soft.
+blanket|שמיכה|n|This blanket keeps me warm.
+towel|מגבת|n|Take a towel to the beach.
+sock|גרב|n|I can only find one sock.
+button|כפתור|n|Press the green button.`,
 `neighbor|שכן|n|Our neighbor has three cats.
 street|רחוב|n|We live on a quiet street.
 library|ספרייה|n|I borrowed it from the library.
@@ -141,7 +149,9 @@ carry|לסחוב|v|Can you carry this bag?
 because|כי|o|I stayed home because it rained.
 between|בין|o|Sit between us.
 before|לפני|o|Wash your hands before lunch.
-after|אחרי|o|We play after dinner.`,
+after|אחרי|o|We play after dinner.
+wash|לשטוף|v|I wash my hands before lunch.
+thirsty|צמא|a|The thirsty boy drank some water.`,
 `feeling|הרגשה|n|I had a strange feeling.
 angry|כועס|a|She was angry at her brother.
 afraid|מפחד|a|He is afraid of spiders.
@@ -201,7 +211,10 @@ height|גובה|n|What is the height of that wall?
 enough|מספיק|d|We have enough chairs.
 almost|כמעט|d|I almost missed the bus.
 maybe|אולי|d|Maybe we can go tomorrow.
-suddenly|פתאום|d|Suddenly the lights went out.`,
+suddenly|פתאום|d|Suddenly the lights went out.
+lend|להשאיל|v|Can you lend me your book?
+invite|להזמין|v|I want to invite my class to the party.
+village|כפר|n|My grandmother lives in a small village.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -261,7 +274,14 @@ swim|לשחות|v|Can you swim?
 follow|לעקוב אחרי|v|Follow me to the door.
 pack|לארוז|v|I need to pack my bag.
 explore|לחקור|v|Let's explore the cave.
-grow|לגדול|v|Flowers grow fast in spring.`,
+grow|לגדול|v|Flowers grow fast in spring.
+receive|לקבל|v|Did you receive my letter?
+prepare|להכין|v|We prepare for the test together.
+support|לתמוך|v|Good friends support each other.
+describe|לתאר|v|Can you describe your new school?
+fence|גדר|n|The cat jumped over the fence.
+ladder|סולם|n|He climbed the ladder to the roof.
+scissors|מספריים|n|Use the scissors to cut the paper.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.
