@@ -298,7 +298,7 @@ function Home({ st, today, onStart, onSentences, onSettings, onReadTime }: { st:
         <span className="sent-go" aria-hidden="true">←</span>
       </button>
 
-      {COURSE_ID === 'en' && <EnglishReading onTime={onReadTime} />}
+      {COURSE_ID === 'en' && <EnglishReading known={t.known} onTime={onReadTime} />}
       <TodayPlan />
 
       <section className="card week">

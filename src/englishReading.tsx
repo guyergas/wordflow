@@ -6,6 +6,8 @@ import './users.css';
 type Q = [question: string, right: string, wrong: string[]];
 export interface Passage { id: string; title: string; text: string; qs: Q[] }
 export const GAP_DAYS = 3;
+/** Reading comes at an advanced stage: the first text needs 300 solid words, and each later one 60 more. */
+export const wordsNeeded = (index: number) => 300 + 60 * index;
 
 export const PASSAGES: Passage[] = [
   { id: 'pet', title: 'My Dog', text: 'I have a small dog. His name is Max. He is brown and white. Max likes to run in the park. He eats twice a day. Every morning I give him food and water. At night he sleeps next to my bed. Max is my best friend.', qs: [['מה צבע הכלב?', 'חום ולבן', ['שחור', 'אפור']], ['מה מקס אוהב לעשות?', 'לרוץ בפארק', ['לשחות', 'לישון ביום']], ['איפה הוא ישן?', 'ליד המיטה', ['בפארק', 'במטבח']]] },
@@ -44,12 +46,12 @@ function Reader({ p, onClose }: { p: Passage; onClose: (finished: boolean) => vo
 }
 
 /** Practice time here counts like any other practice in the course. */
-export function EnglishReading({ onTime }: { onTime: (sec: number) => void }) {
+export function EnglishReading({ known, onTime }: { known: number; onTime: (sec: number) => void }) {
   const [state, setState] = useState(load);
   const [open, setOpen] = useState(false);
   const started = useRef(0);
   const next = PASSAGES.find((p) => !state.done.includes(p.id));
-  if (!next || nowDay() - state.last < GAP_DAYS) return null;
+  if (!next || known < wordsNeeded(PASSAGES.indexOf(next)) || nowDay() - state.last < GAP_DAYS) return null;
   const close = (finished: boolean) => {
     onTime(Math.min(600, Math.round((Date.now() - started.current) / 1000)));
     setOpen(false);
