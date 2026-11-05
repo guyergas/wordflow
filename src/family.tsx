@@ -31,6 +31,8 @@ function Goals({ user, courses, plan, onChange }: { user: string; courses: Cours
 const Bar = ({ part, state }: { part: number; state: string }) => <div className="fam-bar"><span className={state} style={{ width: `${Math.min(100, part * 100)}%` }} /></div>;
 
 /** A full page for everyone, in every course. Only Guy changes goals; the others see them. */
+const RED_FROM = 20761;
+
 export function FamilySheet({ onClose }: { onClose: () => void }) {
   const [data, setData] = useState<FamilyData | null>(null);
   const [failed, setFailed] = useState(false);
@@ -40,8 +42,9 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
   const today = dayNow(), week = Array.from({ length: 7 }, (_, i) => weekStart(today) + i);
   const days = choice === 'week' ? week : [choice === 'today' ? today : today - 1];
   const secOn = (u: string, c: string, d: number) => Object.values(data?.time?.[u]?.[c]?.[d] ?? {}).reduce((a, b) => a + b, 0);
-  // A goal met is green. Not met yet today is orange, and not met on a past day is red. Future days stay plain.
-  const stateOf = (sec: number, goal: number, day: number) => (goal <= 0 ? '' : sec >= goal * 60 ? 'ok' : day === today ? 'late' : day < today ? 'miss' : '');
+  // A goal met is green. Not met yet today is orange, and not met on a past day is red, counting only from
+  // RED_FROM (Nov 4, 2026). Earlier and future days stay plain.
+  const stateOf = (sec: number, goal: number, day: number) => (goal <= 0 ? '' : sec >= goal * 60 ? 'ok' : day === today ? 'late' : day < today && day >= RED_FROM ? 'miss' : '');
   const people = [...USERS.filter((u) => u.id === USER_ID), ...USERS.filter((u) => u.id !== USER_ID)];
   return (
     <div className="fam-page">
