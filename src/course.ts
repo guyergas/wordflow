@@ -18,7 +18,7 @@ export const COURSES: CourseInfo[] = [
   K('food', 'תזונה', 'תזונה', 'C', 'איך הגוף משתמש באוכל, ומדע במטבח'),
   { id: 'alef', name: 'א״ב', short: 'א״ב', hello: 'אב', note: 'לזהות ולכתוב את האותיות, קו אחרי קו', storageKey: 'wordflow.alef.v1', defaultMinutes: 0, newLabel: 'אותיות חדשות', alef: true },
   { id: 'tots', name: 'חשבון לקטנטנים', short: 'חשבון קטן', hello: '1+1', note: 'מספרים, ספירה, חיבור וחיסור לגיל 5-6', storageKey: 'wordflow.tots.v1', defaultMinutes: 0, newLabel: 'דברים חדשים', tots: true },
-  { id: 'tinyen', name: 'אנגלית לקטנטנים', short: 'אנגלית קטן', hello: 'Hi', note: 'מילים ראשונות באנגלית, בשמיעה ובתמונות', storageKey: 'wordflow.tinyen.v1', defaultMinutes: 0, newLabel: 'מילים חדשות', tinyen: true },
+  { id: 'tinyen', name: 'אנגלית לקטנטנים', short: 'אנגלית קטן', hello: 'ABC', note: 'ה־ABC: לזהות ולכתוב אותיות, עם מילים קלות', storageKey: 'wordflow.tinyen.v1', defaultMinutes: 0, newLabel: 'אותיות חדשות', tinyen: true },
   { id: 'notes', name: 'קריאת תווים בפסנתר', short: 'תווים', hello: '♩', note: 'לקרוא תווים ולנגן על המסך', storageKey: 'wordflow.notes.v1', defaultMinutes: 0, newLabel: 'שיעורים', notes: true },
 ];
 

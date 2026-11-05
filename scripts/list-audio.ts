@@ -1,6 +1,6 @@
 // Prints the recordings the app needs, for scripts/gen-audio.py.
 import { HEBREW_AUDIO } from '../src/alef/letters';
-import { TINY_EN_AUDIO, TINY_HE_AUDIO } from '../src/tinyen/words';
+import { TINY_EN_AUDIO, TINY_HE_AUDIO } from '../src/tinyen/letters';
 import { TOTS_AUDIO } from '../src/tots/numbers';
 import { audioName, THAI_AUDIO } from '../src/thai';
 

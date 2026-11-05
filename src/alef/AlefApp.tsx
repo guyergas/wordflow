@@ -374,20 +374,20 @@ function Draw({ l, mode, n, sound, onDone }: { l: Letter; mode: DrawMode; n?: nu
 }
 
 /** Writing with a finger between two lines: over a dashed shape, then beside a model, then alone. No button to finish: the app sees when it is done. */
-export function WritePad({ shape, name, mode, said, praise, answer: told, again, rivals, side, sound, onDone }: { shape: Shape; name: string; mode: 'trace' | 'copy' | 'memory' | 'write'; said: string; praise: string; answer: string; again: string; rivals: Shape[]; side?: React.ReactNode; sound: boolean; onDone: (ok: boolean) => void }) {
+export function WritePad({ shape, name, mode, said, praise, answer: told, again, rivals, side, talk = sayHebrew, sound, onDone }: { shape: Shape; name: string; mode: 'trace' | 'copy' | 'memory' | 'write'; said: string; praise: string; answer: string; again: string; rivals: Shape[]; side?: React.ReactNode; talk?: (text: string) => void; sound: boolean; onDone: (ok: boolean) => void }) {
   const guide = mode === 'trace', rules = guide ? TRACE : FREE, strokes = shape.strokes;
   const [ink, setInk] = useState<Ink>([]), [help, setHelp] = useState<number[] | null>(null), [won, setWon] = useState(false), [result, setResult] = useState(false), frame = frameOf(shape);
   const svg = useRef<SVGSVGElement>(null), down = useRef(false), tries = useRef(0), wait = useRef<ReturnType<typeof setTimeout>>(undefined), latest = useRef<Ink>([]);
   const [showing, setShowing] = useState(mode === 'memory');
   useEffect(() => { if (!showing) return; const id = setTimeout(() => setShowing(false), 2500); return () => clearTimeout(id); }, [showing]);
   latest.current = ink;
-  useEffect(() => { sayHebrew(said); return () => clearTimeout(wait.current); }, []);
+  useEffect(() => { talk(said); return () => clearTimeout(wait.current); }, []);
   const at = (e: PE): Pt | null => {
     const m = svg.current?.getScreenCTM(); if (!m) return null;
     const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse());
     return [Math.round(p.x * 10) / 10, Math.round(p.y * 10) / 10];
   };
-  const win = (ok: boolean) => { setWon(true); setResult(ok); if (sound) (ok ? sfx.good : sfx.tap)(); sayHebrew(ok ? praise : told); };
+  const win = (ok: boolean) => { setWon(true); setResult(ok); if (sound) (ok ? sfx.good : sfx.tap)(); talk(ok ? praise : told); };
   const giveUp = () => {
     const v = judge(latest.current, shape, rules, rivals);
     if (v.ok) { win(true); return; }
@@ -395,7 +395,7 @@ export function WritePad({ shape, name, mode, said, praise, answer: told, again,
     setInk([]);
     if (tries.current >= (guide ? 3 : 2)) { setHelp(strokes.map((_, i) => i)); win(guide); return; }
     if (sound) sfx.bad();
-    sayHebrew(again); setHelp(v.missing.length ? v.missing : strokes.map((_, i) => i));
+    talk(again); setHelp(v.missing.length ? v.missing : strokes.map((_, i) => i));
   };
   const start = (e: PE) => { if (won) return; const p = at(e); if (!p) return; clearTimeout(wait.current); setShowing(false); (e.target as Element).setPointerCapture?.(e.pointerId); down.current = true; setHelp(null); setInk((k) => [...k, [p]]); };
   const move = (e: PE) => { if (!down.current) return; const p = at(e); if (p) setInk((k) => { const c = [...k]; c[c.length - 1] = [...c[c.length - 1], p]; return c; }); };
@@ -425,7 +425,7 @@ export function WritePad({ shape, name, mode, said, praise, answer: told, again,
       </div>
       {won ? <Next onClick={() => onDone(result)} /> : (
         <div className="a-tools">
-          <Speaker text={said} />
+          <button type="button" className="a-speak" aria-label="לשמוע שוב" onClick={() => talk(said)}><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M4 9v6h4l5 4V5L8 9H4Z" /><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11" /></svg></button>
           <button type="button" className="a-speak" aria-label="למחוק" onClick={() => { clearTimeout(wait.current); setInk([]); }}><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" d="M8 20h12M4 14l9-10 7 6-9 10H8z" /></svg></button>
         </div>
       )}

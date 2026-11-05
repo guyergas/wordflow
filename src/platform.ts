@@ -2,7 +2,7 @@
 import { IS_ALEF, IS_THAI, IS_TINYEN, IS_TOTS, STORAGE_KEY as KEY, USER_NAME } from './course';
 import { HEBREW_AUDIO } from './alef/letters';
 import { TOTS_AUDIO } from './tots/numbers';
-import { TINY_EN_AUDIO, TINY_HE_AUDIO } from './tinyen/words';
+import { TINY_EN_AUDIO, TINY_HE_AUDIO } from './tinyen/letters';
 import { dropUnpracticed, initialState, repairPlans, State } from './engine';
 import { audioName, THAI_AUDIO } from './thai';
 let memory: string | null = null;

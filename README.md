@@ -23,7 +23,7 @@ Warm-up (known letters) and boost (weakest letters) are free practice that bring
 
 Little math (`src/tots`) is for children of five and six who cannot read: numbers 0-10, order, more and less, adding and taking away up to 10, making 5 and 10, and counting to 20. Skills and speech are in `numbers.ts`, and rules and exercise generation in `engine.ts`. It shares its writing pad with the alef-bet.
 
-English for little ones (`src/tinyen`) teaches first words by ear with pictures, three new words at a time. The questions move from Hebrew with an English word to full English. Recordings are in `public/audio/en`.
+English for little ones (`src/tinyen`) teaches the ABC: capitals and then small letters, grouped by shape, recognized and written by finger, with a few easy picture words for each letter. Recordings are in `public/audio/en`.
 
 The summary tab in every course shows study time and new items across all courses, by day and week, against a weekly schedule of minutes per course.
 
