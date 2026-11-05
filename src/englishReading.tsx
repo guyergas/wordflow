@@ -29,17 +29,19 @@ const store = (s: { done: string[]; last: number }) => { try { localStorage.setI
 function Reader({ p, onClose }: { p: Passage; onClose: (finished: boolean) => void }) {
   const [at, setAt] = useState(-1);
   const [chosen, setChosen] = useState<string | null>(null);
+  const [tried, setTried] = useState<string[]>([]);
   const opts = useRef(p.qs.map((q) => [q[1], ...q[2]].sort(() => Math.random() - 0.5)));
   const q = p.qs[at];
   return (
     <div className="fam-page"><div className="fam-inner">
       <div className="cs-row"><h2 dir="ltr">{p.title}</h2><button type="button" className="cs-round" aria-label="סגירה" onClick={() => onClose(false)}>✕</button></div>
-      {(at === -1 || chosen) && <div className="fam-card en-text" dir="ltr">{p.text}</div>}
+      {(at === -1 || tried.length > 0) && <div className="fam-card en-text" dir="ltr">{p.text}</div>}
       {at === -1 && <button type="button" className="fam-open" onClick={() => setAt(0)}>קראתי</button>}
       {q && <>
         <h3>{q[0]}</h3>
-        {opts.current[at].map((o) => <button key={o} type="button" className={`en-opt${chosen ? (o === q[1] ? ' ok' : o === chosen ? ' no' : '') : ''}`} disabled={!!chosen} onClick={() => setChosen(o)}>{o}</button>)}
-        {chosen && <button type="button" className="fam-open" onClick={() => { setChosen(null); if (at + 1 < p.qs.length) setAt(at + 1); else onClose(true); }}>{at + 1 < p.qs.length ? 'הבאה' : 'סיום'}</button>}
+        {tried.length > 0 && !chosen && <p className="cs-note">לא בדיוק. כדאי לקרוא שוב את הקטע ולנסות שוב.</p>}
+        {opts.current[at].map((o) => <button key={o} type="button" className={`en-opt${chosen === o ? ' ok' : tried.includes(o) ? ' no' : ''}`} disabled={!!chosen || tried.includes(o)} onClick={() => { if (o === q[1]) setChosen(o); else setTried([...tried, o]); }}>{o}</button>)}
+        {chosen && <button type="button" className="fam-open" onClick={() => { setChosen(null); setTried([]); if (at + 1 < p.qs.length) setAt(at + 1); else onClose(true); }}>{at + 1 < p.qs.length ? 'הבאה' : 'סיום'}</button>}
       </>}
     </div></div>
   );

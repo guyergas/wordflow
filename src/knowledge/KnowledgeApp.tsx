@@ -136,18 +136,27 @@ function Session({ st, update, onExit, onMore }: { st: KState; update: Update; o
   );
 }
 
-function Quiz({ q, sound, onAnswer, onNext, label, tools }: { q: QuizQ; sound: boolean; onAnswer: (ok: boolean) => void; onNext: () => void; label?: string; tools?: React.ReactNode }) {
+/** In a lesson, a wrong answer sends her back to the text to try again. Only the first try counts. In a review there is no text, so the answer is shown. */
+function Quiz({ q, sound, onAnswer, onNext, label, tools, onWrong }: { q: QuizQ; sound: boolean; onAnswer: (ok: boolean) => void; onNext: () => void; label?: string; tools?: React.ReactNode; onWrong?: () => void }) {
   const [question, right, wrong, why] = q;
   const options = useMemo(() => [right, ...wrong].map((o) => ({ o, k: Math.random() })).sort((a, b) => a.k - b.k).map((x) => x.o), [question]);
   const [picked, setPicked] = useState<string | null>(null);
-  const pick = (o: string) => { if (picked) return; setPicked(o); if (sound) (o === right ? sfx.good : sfx.bad)(); onAnswer(o === right); };
+  const [tried, setTried] = useState<string[]>([]);
+  const pick = (o: string) => {
+    if (picked || tried.includes(o)) return;
+    if (sound) (o === right ? sfx.good : sfx.bad)();
+    if (!tried.length) onAnswer(o === right);
+    if (o !== right && onWrong) { setTried([...tried, o]); onWrong(); return; }
+    setPicked(o);
+  };
   return (
     <div className="q">
       {label && <span className="m-chip-hi center">{label}</span>}
       <p className="m-prompt">{question}</p>
+      {tried.length > 0 && !picked && <div className="feedback soft" role="status"><b>לא בדיוק.</b><span>כדאי לחזור לקטע, למצוא את המקום המתאים ולנסות שוב.</span></div>}
       {tools}
       <div className="answers">
-        {options.map((o) => <button key={o} type="button" className={`ans k-ans ${picked && o === right ? 'right' : ''} ${picked === o && o !== right ? 'wrong' : ''}`} onClick={() => pick(o)}>{o}</button>)}
+        {options.map((o) => <button key={o} type="button" disabled={tried.includes(o)} className={`ans k-ans ${picked && o === right ? 'right' : ''} ${(picked === o && o !== right) || tried.includes(o) ? 'wrong' : ''}`} onClick={() => pick(o)}>{o}</button>)}
       </div>
       {picked && <div className={`feedback ${picked === right ? 'good k-why' : 'soft'}`} role="status"><b>{picked === right ? 'נכון!' : 'לא הפעם.'}</b>{why && <span>{why}</span>}<button type="button" className="btn-next" onClick={onNext}>ממשיכות</button></div>}
     </div>
@@ -180,6 +189,7 @@ function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boo
   if (stage === 'q') return (
     <div className="k-wrap" key={i}>
       <Quiz q={lesson.qs[i]} sound={sound} label={`שאלה ${i + 1} מתוך ${lesson.qs.length}`} onAnswer={(ok) => { if (ok) score.current++; }} onNext={() => { setReread(false); if (i + 1 < lesson.qs.length) setI(i + 1); else setStage('end'); }}
+        onWrong={() => setReread(true)}
         tools={<><button type="button" className="link center-block" aria-expanded={reread} onClick={() => setReread(!reread)}>{reread ? 'להסתיר את הקטע' : 'לראות שוב את הקטע'}</button>{reread && <Text />}</>} />
     </div>
   );
