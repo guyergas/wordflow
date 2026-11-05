@@ -14,7 +14,7 @@ Checked on 5 November 2026 against the documents that could be opened. Full less
 
 ## Not covered, and why
 - Open writing, speaking and projects: the app has only closed questions, and writing was declined for now by the parent.
-- English: short reading texts were added, deliberately few, one every three days. Grammar has its own stops, ordered by common practice, since the official bands were not retrieved. Listening and writing are not covered. Writing was declined for now by the parent.
+- English: short reading texts were added, deliberately few, one every three days. Grammar has its own stops, ordered by common practice, since the official grammar order was not retrieved. Vocabulary is being completed from the official Lexical Bands I and II (`docs/english-words-missing.txt`); their phrases are not included. Listening and writing are not covered. Writing was declined for now by the parent.
 - Literature, art and physical education: curricula not compared in detail.
 - Grade-level detail not retrieved: full math grade 4 to 6 programs, elementary science list. History by grade was read from the state-religious program; state secular may differ.
 - Bible and heritage for secular state schools: not checked separately.
