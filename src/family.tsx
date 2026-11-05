@@ -56,7 +56,7 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
           const rows = list.map((c) => ({ c, name: COURSES.find((x) => x.id === c)?.short ?? COURSES.find((x) => x.id === c)?.name ?? c, sec: days.reduce((a, d) => a + secOn(u.id, c, d), 0), goal: days.reduce((a, d) => a + goalOn(c, d), 0) })).filter((r) => r.sec > 0 || r.goal > 0);
           const goalAll = rows.reduce((a, r) => a + r.goal, 0), secAll = rows.reduce((a, r) => a + r.sec, 0);
           return (
-            <section key={u.id} className="fam-card">
+            <section key={u.id} className={u.id === USER_ID ? 'fam-card me' : 'fam-card'}>
               <div className="cs-row"><h3>{u.name}</h3><b>{timeLabel(secAll)}{goalAll > 0 ? ` מתוך ${timeLabel(goalAll * 60)}` : ''}</b></div>
               {!rows.length && <p className="cs-note">{choice === 'week' ? 'אין השבוע לימוד או יעדים' : 'אין ביום הזה לימוד או יעדים'}</p>}
               {choice !== 'week' && rows.map((r) => (

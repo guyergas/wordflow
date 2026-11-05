@@ -1,5 +1,5 @@
 /* The course menu appears in every app, so it depends on neither app's styles. */
-.who, .cs-sheet { --cs-bg: #f5f4ef; --cs-surface: #fffefa; --cs-soft: #ecebe4; --cs-line: #e2e3dc; --cs-ink: #172b35; --cs-dark: #182c35; --cs-dark-ink: #fffef3; }
+.who, .cs-sheet, .fam-page { --cs-bg: var(--bg, #f5f4ef); --cs-surface: var(--surface, #fffefa); --cs-soft: var(--surface-2, #ecebe4); --cs-line: var(--line, #e2e3dc); --cs-ink: var(--ink, #172b35); --cs-ink-2: var(--ink-2, #4f5d60); --cs-dark: var(--dark, #182c35); --cs-dark-ink: var(--dark-ink, #fffef3); --cs-dark-muted: var(--dark-muted, #b4c2bd); --cs-sun: var(--sun, #ffc83d); --cs-good: var(--good, #1f8a58); }
 .who { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; max-width: 58vw; padding: 0 14px; border: 0; border-radius: 999px; background: var(--cs-soft); font-weight: 600; font-size: 15px; color: var(--cs-ink); cursor: pointer; }
 .who span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .who svg { flex: none; }
@@ -21,24 +21,24 @@
 .fam-card { display: grid; gap: 6px; padding: 14px; border: 1px solid var(--cs-line); border-radius: 18px; background: var(--cs-surface); }
 .fam-line { display: flex; justify-content: space-between; gap: 10px; font-size: 15px; }
 .fam-line small { font-size: 14px; opacity: .8; }
-.fam-line small.ok { color: #1f8a58; font-weight: 700; opacity: 1; }
+.fam-line small.ok { color: var(--cs-good); font-weight: 700; opacity: 1; }
 .fam-seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; padding: 4px; border-radius: 999px; background: var(--cs-soft); }
 .fam-seg button { min-height: 40px; border: 0; border-radius: 999px; background: none; font-weight: 600; }
 .fam-seg button[aria-pressed="true"] { background: var(--cs-surface); }
 .fam-goals { display: grid; gap: 8px; }
 .fam-row { display: flex; align-items: center; gap: 8px; }
 .fam-row span { flex: 1; }
-.fam-row input { width: 72px; min-height: 44px; padding: 0 8px; border: 1px solid var(--cs-line); border-radius: 12px; background: #fff; color: var(--cs-ink); font: inherit; }
+.fam-row input { width: 72px; min-height: 44px; padding: 0 8px; border: 1px solid var(--cs-line); border-radius: 12px; background: var(--cs-surface); color: var(--cs-ink); font: inherit; }
 .fam-open { min-height: 52px; padding: 8px 16px; border: 0; border-radius: 16px; background: var(--cs-soft); font-weight: 700; text-align: start; }
-.fam-page { --cs-bg: #f5f4ef; --cs-surface: #fffefa; --cs-soft: #ecebe4; --cs-line: #e2e3dc; --cs-ink: #172b35; position: fixed; inset: 0; z-index: 95; overflow-y: auto; background: var(--cs-bg); color: var(--cs-ink); text-align: start; }
+.fam-page { position: fixed; inset: 0; z-index: 95; overflow-y: auto; background: var(--cs-bg); color: var(--cs-ink); text-align: start; }
 .fam-inner { display: grid; gap: 14px; max-width: 640px; margin: 0 auto; padding: calc(env(safe-area-inset-top, 0px) + 16px) 16px calc(env(safe-area-inset-bottom, 0px) + 24px); }
 .fam-page h2 { margin: 0; font-size: 28px; color: inherit; } .fam-page h3 { margin: 0; font-size: 19px; color: inherit; }
 .fam-page button { font: inherit; cursor: pointer; color: var(--cs-ink); }
 .fam-card { min-width: 0; }
 .fam-item { display: grid; gap: 4px; }
 .fam-bar { height: 8px; border-radius: 4px; background: var(--cs-soft); overflow: hidden; }
-.fam-bar span { display: block; height: 100%; border-radius: 4px; background: #ffc83d; }
-.fam-bar span.ok { background: #1f8a58; }
+.fam-bar span { display: block; height: 100%; border-radius: 4px; background: var(--cs-sun); }
+.fam-bar span.ok { background: var(--cs-good); }
 .fam-scroll { overflow-x: auto; }
 .fam-week { width: 100%; border-collapse: collapse; font-size: 14px; text-align: center; }
 .fam-week th, .fam-week td { padding: 6px 3px; border-top: 1px solid var(--cs-line); white-space: nowrap; font-weight: 500; }
@@ -46,4 +46,26 @@
 .fam-week thead th { border-top: 0; }
 .fam-week th[aria-current] { font-weight: 800; }
 .fam-week td small { opacity: .6; font-size: 11px; }
-.fam-week td.ok { color: #1f8a58; font-weight: 700; }
+.fam-week td.ok { color: var(--cs-good); font-weight: 700; }
+
+.fam-page, .cs-sheet { font-family: var(--font-ui, sans-serif); }
+.fam-page h2 { font-weight: 750; letter-spacing: -.01em; }
+.fam-page b, .fam-week { font-variant-numeric: tabular-nums; }
+.fam-card { border-radius: 22px; padding: 16px 18px; box-shadow: var(--shadow, none); }
+.fam-card .cs-note, .fam-line small, .cs-link { color: var(--cs-ink-2); opacity: 1; }
+.fam-line small.ok { color: var(--cs-good); }
+.fam-seg button[aria-pressed="true"] { box-shadow: 0 1px 3px rgba(23, 43, 53, .12); }
+.fam-open { background: var(--cs-dark); color: var(--cs-dark-ink) !important; border-radius: 999px; min-height: 54px; text-align: center; }
+/* The person using the app, in the dark card the home screen uses for what matters now. */
+.fam-card.me { background: var(--cs-dark); border-color: var(--cs-dark); border-radius: 28px; padding: 20px; color: var(--cs-dark-ink); box-shadow: var(--lift, none); }
+.fam-card.me h3 { color: var(--cs-sun); }
+.fam-card.me b { font-size: 20px; }
+.fam-card.me small, .fam-card.me .cs-note, .fam-card.me .cs-link { color: var(--cs-dark-muted); }
+.fam-card.me small.ok, .fam-card.me .fam-week td.ok { color: #7fe0a8; }
+.fam-card.me .fam-bar { background: rgba(255, 255, 255, .16); }
+.fam-card.me .fam-week th, .fam-card.me .fam-week td { border-color: rgba(255, 255, 255, .16); }
+.fam-card.me button { color: inherit; }
+.fam-card.me .fam-seg { background: rgba(255, 255, 255, .12); }
+.fam-card.me .fam-seg button[aria-pressed="true"] { background: var(--cs-sun); color: #2d2406; }
+.fam-card.me .fam-row input { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .2); color: inherit; }
+.fam-card.me .fam-bar span.ok { background: #7fe0a8; }
