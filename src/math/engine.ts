@@ -42,6 +42,13 @@ export const isLearning = (st: MathState, id: string) => isMet(st, id) && !isSet
 /** A skill opens once the skills it stands on directly are settled, in both understanding and execution. */
 export const isOpen = (st: MathState, s: Skill) => s.needs.every((id) => isSettled(st, id));
 
+/** Skills that build on each skill directly. */
+const DEPENDENTS: Record<string, string[]> = Object.fromEntries(SKILLS.map((s) => [s.id, SKILLS.filter((x) => x.needs.includes(s.id)).map((x) => x.id)]));
+/** A basic skill is outgrown once she was placed above it, or once a skill built on it is solid. It then stops coming back
+ *  for review, since the harder skill practices it anyway. A real mistake (a flag) still brings it back. */
+export const outgrown = (st: MathState, id: string) => !!ss(st, id).assumed || (DEPENDENTS[id] ?? []).some((d) => isSolid(st, d));
+const flagged = (st: MathState, s: Skill) => measures(s).some((m) => ss(st, s.id)[m].flag);
+
 export const learningCount = (st: MathState) => SKILLS.filter((s) => isLearning(st, s.id)).length;
 export const nextNew = (st: MathState): Skill | null => (learningCount(st) >= PACE[st.settings.pace] ? null : SKILLS.find((s) => !isMet(st, s.id) && isOpen(st, s)) ?? null);
 
@@ -75,7 +82,7 @@ export function buildPlan(st: MathState, today: number, opts: { extra?: boolean;
   const steps: Step[] = [];
   const fresh = opts.extra ? null : nextNew(st);
   if (!opts.bonus) {
-    const met = SKILLS.filter((s) => isMet(st, s.id) && s.id !== fresh?.id);
+    const met = SKILLS.filter((s) => isMet(st, s.id) && s.id !== fresh?.id && (!outgrown(st, s.id) || flagged(st, s)));
     const weak = met.filter((s) => { const x = ss(st, s.id); return measures(s).some((m) => x[m].flag || (x[m].box < SOLID_BOX && x[m].due <= today)); })
       .sort((a, b) => ss(st, a.id).u.box + ss(st, a.id).e.box - ss(st, b.id).u.box - ss(st, b.id).e.box).slice(0, 5);
     const weakIds = new Set(weak.map((s) => s.id));
@@ -92,7 +99,8 @@ export function buildPlan(st: MathState, today: number, opts: { extra?: boolean;
   }
   if (opts.extra && !steps.length) {
     // A practice round when nothing is due: any skill she has already met.
-    shuffle(SKILLS.filter((s) => isMet(st, s.id)), rnd).slice(0, 6).forEach((s) => steps.push(practiceStep(st, s, 'warm', today, rnd)));
+    const all = SKILLS.filter((s) => isMet(st, s.id)), current = all.filter((s) => !outgrown(st, s.id));
+    shuffle(current.length >= 3 ? current : all, rnd).slice(0, 6).forEach((s) => steps.push(practiceStep(st, s, 'warm', today, rnd)));
   }
   return { day: today, steps, at: 0, extra: opts.extra, bonus: opts.bonus, newSkill: fresh?.id ?? null, flagged: [] };
 }

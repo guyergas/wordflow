@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { seeded, SKILLS, STATIONS, DOMAINS, TRAPS, Question } from './skills';
-import { advance, answerPlacement, applyPlacement, buildPlan, checkTyped, hintFor, initialMath, isChoiceRight, isOpen, isLearning, makeQuestion, MathState, nextNew, parseValue, placementDone, placementStep, queueRetry, recordAnswer, sameValue, shown, ss, startPlacement, PACE } from './engine';
+import { outgrown, advance, answerPlacement, applyPlacement, buildPlan, checkTyped, hintFor, initialMath, isChoiceRight, isOpen, isLearning, makeQuestion, MathState, nextNew, parseValue, placementDone, placementStep, queueRetry, recordAnswer, sameValue, shown, ss, startPlacement, PACE } from './engine';
 
 const T = 20000;
 const RUNS = 400;
@@ -231,3 +231,22 @@ describe('the bridge stations', () => {
     }
   });
 });
+
+describe('basic skills fade out', () => {
+  const T = 20000;
+  const solid = (box = 4) => ({ u: { box, due: T, flag: false, clear: 0, ok: 5, no: 0, helped: 0, last: -1 }, e: { box, due: T, flag: false, clear: 0, ok: 5, no: 0, helped: 0, last: -1 }, met: 1 });
+  it('a skill is not reviewed once a skill built on it is solid', () => {
+    const st: MathState = { ...initialMath(), onboarded: true, skills: { add20: solid(), sub20: solid() } };
+    expect(outgrown(st, 'add20')).toBe(true);
+    for (let i = 0; i < 20; i++) expect(buildPlan(st, T, { rnd: Math.random }).steps.some((x) => x.skill === 'add20')).toBe(false);
+  });
+  it('skills she was placed above never come back for review', () => {
+    const st: MathState = { ...initialMath(), onboarded: true, skills: { add20: { ...solid(3), assumed: true } } };
+    expect(buildPlan(st, T).steps.some((x) => x.skill === 'add20')).toBe(false);
+  });
+  it('a mistake still brings a basic skill back', () => {
+    const st: MathState = { ...initialMath(), onboarded: true, skills: { add20: { ...solid(), e: { ...solid().e, flag: true } }, sub20: solid() } };
+    expect(buildPlan(st, T).steps.some((x) => x.skill === 'add20')).toBe(true);
+  });
+});
+
