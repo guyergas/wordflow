@@ -18,6 +18,9 @@ export const dayNumber = () => { const d = new Date(); return Math.floor(new Dat
 export const initial = (name: string): AState => ({ onboarded: true, name, letters: {}, days: {}, plan: null, settings: { sound: true } });
 export const secure = (k: Known) => k.see.box >= 2 && k.write.box >= 3;
 export const shaky = (st: AState) => Object.keys(st.letters).filter((id) => !secure(st.letters[id]));
+/** Letters he keeps getting wrong. Only these hold back a new letter: a letter that is merely young does not. */
+export const struggling = (st: AState) => Object.keys(st.letters).filter((id) => isHard(st.letters[id]));
+export const HARD_LIMIT = 3;
 export const nextLetter = (st: AState) => LETTERS.find((l) => !st.letters[l.id]);
 export const dayLog = (st: AState, day: number) => st.days[day] ?? { sec: 0, fresh: 0 };
 
@@ -105,7 +108,7 @@ export function buildPlan(st: AState, day: number, o: PlanOptions = {}): Plan {
   const due = met.filter((id) => st.letters[id].see.due <= day || st.letters[id].write.due <= day)
     .sort((a, b) => Math.min(st.letters[a].see.due, st.letters[a].write.due) - Math.min(st.letters[b].see.due, st.letters[b].write.due));
   const next = nextLetter(st), freshToday = dayLog(st, day).fresh > 0;
-  const canLearn = !!next && shaky(st).length < SHAKY_LIMIT && (!freshToday || !!o.bonus);
+  const canLearn = !!next && struggling(st).length < HARD_LIMIT && (!freshToday || !!o.bonus);
   // Reviews are short, a few tasks for each letter that is due, so the boys reach new material while they still want to.
   let reviews = due.flatMap((id) => practice(st, id, day, rnd, false, true));
   if (!canLearn && !freshToday && !reviews.length) reviews = shaky(st).flatMap((id) => practice(st, id, day, rnd, true, true));

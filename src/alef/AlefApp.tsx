@@ -2,7 +2,7 @@ import { PointerEvent as PE, useCallback, useEffect, useMemo, useRef, useState }
 import { STORAGE_KEY, USER_NAME } from '../course';
 import { saveHebrewRecordings, sayHebrew, sfx } from '../platform';
 import { CourseSwitch, SummaryTab } from '../summaryUi';
-import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, huntCells, initial, meet, mix, nextLetter, noteMix, pairsOf, PlanOptions, record, secure, shaky, SHAKY_LIMIT, Status, statusOf, Step, topMix, validStep, WRITING } from './engine';
+import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, huntCells, initial, meet, mix, nextLetter, noteMix, pairsOf, PlanOptions, record, secure, shaky, SHAKY_LIMIT, struggling, HARD_LIMIT, Status, statusOf, Step, topMix, validStep, WRITING } from './engine';
 import { Ink, judge, FREE, TRACE } from './ink';
 import { FAMILIES, frameOf, LETTER, Letter, LETTERS, Pt, SAY, Shape, firstWords, LETTERS as ALL, spots, Stroke, VIEW, WORDS } from './letters';
 
@@ -110,7 +110,7 @@ function Home({ st, today, onStart, onProgress, onSettings }: { st: AState; toda
   const open = st.plan && !st.plan.extra && st.plan.day === today && st.plan.at < st.plan.steps.length ? st.plan : null;
   const preview = useMemo(() => open ?? buildPlan(st, today, { rnd: () => 0.5 }), [open?.at, st.letters, today]);
   const left = preview.steps.slice(preview.at), fresh = left.find((s) => s.t === 'meet')?.id, firstId = fresh ?? left[0]?.id;
-  const more = !!nextLetter(st) && shaky(st).length < SHAKY_LIMIT, met = Object.keys(st.letters).length, hard = LETTERS.filter((l) => statusOf(st, l.id) === 'hard').length;
+  const more = !!nextLetter(st) && struggling(st).length < HARD_LIMIT, met = Object.keys(st.letters).length, hard = LETTERS.filter((l) => statusOf(st, l.id) === 'hard').length;
   return (
     <>
       <header className="top"><CourseSwitch /><button type="button" className="round" aria-label="הגדרות" onClick={onSettings}><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="2" /><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2" /></svg></button></header>

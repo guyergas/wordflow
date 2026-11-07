@@ -139,10 +139,12 @@ describe('the plan', () => {
     expect(buildPlan(st, 100).steps.some((s) => s.t === 'meet')).toBe(false);
     expect(buildPlan(st, 100, { bonus: true }).steps.some((s) => s.t === 'meet')).toBe(true);
   });
-  it('holds new letters back while three are shaky', () => {
+  it('young letters do not hold back a new one, but three hard letters do', () => {
     let st = initial('א');
     for (const id of ['י', 'ו', 'ן', 'ר']) st = meet(st, id, 100);
     expect(shaky(st).length).toBe(SHAKY_LIMIT);
+    expect(buildPlan(st, 101).steps[0].t).toBe('meet');
+    for (const id of ['י', 'ו', 'ן']) for (let i = 0; i < 4; i++) st = record(st, id, 'see', false);
     const p = buildPlan(st, 101);
     expect(p.steps.some((s) => s.t === 'meet')).toBe(false);
     expect(p.steps.length).toBeGreaterThan(0);
