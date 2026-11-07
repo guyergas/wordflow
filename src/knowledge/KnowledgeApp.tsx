@@ -4,7 +4,7 @@ import { shortParagraphs } from './kit';
 import { sfx } from '../platform';
 import { readCourses } from '../summary';
 import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
-import { addTime, advance, answerKey, buildPlan, dayLog, dayNumber, finishLesson, finishReview, initial, keyOf, KState, LESSON, lessonsOf, nextLesson, pickQs, RECALL_QS, REVIEW_QS, statusOf, Step } from './engine';
+import { addTime, advance, answerKey, buildPlan, dayLog, dayNumber, finishLesson, finishReview, initial, keyOf, KState, LESSON, lessonsOf, nextLesson, pickQs, recallCount, statusOf, Step } from './engine';
 import { Lesson, QuizQ } from './lessons';
 
 type Update = (fn: (s: KState) => KState) => void;
@@ -99,7 +99,7 @@ function Home({ st, today, onStart, onSettings }: { st: KState; today: number; o
           <>
             <span className="chip-d">{open && open.at > 0 ? 'ממשיכות מאיפה שעצרת' : 'האימון של היום'}</span>
             <h2>{review ? 'שיעור חזרה' : firstLesson && firstLesson.t === 'lesson' ? LESSON[firstLesson.id].title : 'חזרה קצרה על מה שלמדת'}</h2>
-            <p>{review ? 'בלי נושא חדש היום: שאלות על חמשת השיעורים האחרונים.' : [recall ? 'מה זוכרים מהשיעור הקודם' : '', fresh > 0 ? 'נושא אחד' : '', keys > 0 ? `${keys} שאלות חזרה` : ''].filter(Boolean).join(', ')}</p>
+            <p>{review ? 'בלי נושא חדש היום: כל השאלות של חמשת השיעורים האחרונים.' : [recall ? 'מה זוכרים מהשיעור הקודם' : '', fresh > 0 ? 'נושא אחד' : '', keys > 0 ? `${keys} שאלות חזרה` : ''].filter(Boolean).join(', ')}</p>
             <button type="button" className="cta-d" onClick={() => onStart()}>{open && open.at > 0 ? 'להמשיך' : 'להתחיל'}</button>
           </>
         )}
@@ -193,7 +193,7 @@ function Text({ lesson, marks = false }: { lesson: Lesson; marks?: boolean }) {
 
 /** Questions on lessons already read. The text is closed, a tap away. A wrong answer sends her back to it, with no answer shown. */
 function Recall({ step, seed, sound, onDone }: { step: Extract<Step, { t: 'recall' | 'review' }>; seed: number; sound: boolean; onDone: (ok: number, all: number) => void }) {
-  const items = useMemo(() => (step.t === 'recall' ? pickQs(step.id, RECALL_QS, seed) : step.ids.flatMap((id, k) => pickQs(id, REVIEW_QS, seed + k))), [step, seed]);
+  const items = useMemo(() => (step.t === 'recall' ? pickQs(step.id, recallCount(step.id), seed) : step.ids.flatMap((id) => LESSON[id].qs.map((_, i): [string, number] => [id, i]))), [step, seed]);
   const [i, setI] = useState(0), [reread, setReread] = useState(false), score = useRef(0);
   const [id, qi] = items[i], lesson = LESSON[id];
   const label = step.t === 'recall' ? `מה זוכרים מ"${lesson.title}"` : `שיעור חזרה · ${lesson.title}`;

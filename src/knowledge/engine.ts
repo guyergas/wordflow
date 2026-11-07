@@ -12,8 +12,9 @@ export interface KState { v: 1; name: string; onboarded: boolean; lessons: Recor
 
 const INTERVALS = [0, 1, 2, 4, 8, 16, 32, 64];
 export const SOLID = 3, KEYS_PER_DAY = 5, PASS = 2 / 3;
-/** A review lesson after every REVIEW_EVERY new lessons, with REVIEW_QS questions from each. RECALL_QS questions open a day on the previous lesson. */
-export const REVIEW_EVERY = 5, REVIEW_QS = 3, RECALL_QS = 5;
+/** A review lesson after every REVIEW_EVERY new lessons, with all the questions of those lessons. A day opens with RECALL_SHARE of the previous lesson's questions. */
+export const REVIEW_EVERY = 5, RECALL_SHARE = 0.65;
+export const recallCount = (id: string) => Math.max(1, Math.round(LESSON[id].qs.length * RECALL_SHARE));
 export const dayNumber = (d: Date = new Date()) => Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() / 864e5 + 0.5);
 export const initial = (): KState => ({ v: 1, name: '', onboarded: false, lessons: {}, keys: {}, days: {}, plan: null, settings: { sound: true, wiki: false } });
 export const dayLog = (st: KState, d: number): DayLog => st.days[d] ?? { fresh: 0, ok: 0, no: 0, done: false };
