@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { seeded, SKILLS, STATIONS, DOMAINS, TRAPS, Question } from './skills';
-import { outgrown, advance, answerPlacement, applyPlacement, buildPlan, checkTyped, hintFor, initialMath, isChoiceRight, isOpen, isLearning, makeQuestion, MathState, nextNew, parseValue, placementDone, placementStep, queueRetry, recordAnswer, sameValue, shown, ss, startPlacement, PACE } from './engine';
+import { GRADE5_FLOOR, outgrown, advance, answerPlacement, applyPlacement, buildPlan, checkTyped, hintFor, initialMath, isChoiceRight, isOpen, isLearning, makeQuestion, MathState, nextNew, parseValue, placementDone, placementStep, queueRetry, recordAnswer, sameValue, shown, ss, startPlacement, PACE } from './engine';
 
 const T = 20000;
 const RUNS = 400;
@@ -247,6 +247,21 @@ describe('basic skills fade out', () => {
   it('a mistake still brings a basic skill back', () => {
     const st: MathState = { ...initialMath(), onboarded: true, skills: { add20: { ...solid(), e: { ...solid().e, flag: true } }, sub20: solid() } };
     expect(buildPlan(st, T).steps.some((x) => x.skill === 'add20')).toBe(true);
+  });
+});
+
+describe('placement from fifth grade', () => {
+  it('starts each area at its floor, and what lies below counts as known', () => {
+    let p = startPlacement(5, GRADE5_FLOOR);
+    expect(p.station).toBe(3);
+    p = answerPlacement(p, 'notyet');
+    expect(p.station).toBe(5);
+    p = answerPlacement(answerPlacement(p, 'notyet'), 'notyet');
+    expect(placementDone(p)).toBe(true);
+    const st = applyPlacement({ ...initialMath(), placement: p }, p, 100);
+    expect(st.skills.add20?.assumed).toBe(true);
+    expect(st.skills.fracmean?.assumed).toBe(true);
+    expect(st.skills.fracdiff).toBeUndefined();
   });
 });
 

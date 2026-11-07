@@ -9,9 +9,9 @@ export type StepKind = 'worked' | 'partial' | 'solve';
 export interface Step { part: Part; kind: StepKind; skill: string; measure: Measure; seed: number; support: boolean; mode: 'choice' | 'type'; retry?: boolean }
 export interface Plan { day: number; steps: Step[]; at: number; extra?: boolean; bonus?: boolean; newSkill: string | null; flagged: string[] }
 export interface DayLog { ok: number; no: number; helped: number; done: boolean; sec?: number }
-export interface Placement { d: number; station: number; round: number; i: number; score: number; seed: number; start: Partial<Record<Domain, number>>; asked: number }
+export interface Placement { d: number; station: number; round: number; i: number; score: number; seed: number; start: Partial<Record<Domain, number>>; asked: number; floor?: Partial<Record<Domain, number>> }
 export interface MathState {
-  v: 1; name: string; onboarded: boolean; placement: Placement | null; start: Partial<Record<Domain, number>>;
+  v: 1; name: string; onboarded: boolean; moved?: string; placement: Placement | null; start: Partial<Record<Domain, number>>;
   skills: Record<string, SkillState>; days: Record<string, DayLog>; plan: Plan | null; traps: Record<string, number>;
   settings: { sound: boolean; pace: 'calm' | 'normal'; weeklyGoal: number };
 }
@@ -219,7 +219,11 @@ export const trapForTyped = (q: Question, typed: string): TrapId | undefined => 
 export const isChoiceRight = (q: Question, label: string) => label === q.answer || label === shown(q.answer);
 
 // ---------- Placement: three separate areas, and the run stops where she does ----------
-export const startPlacement = (seed: number): Placement => ({ d: 0, station: stationsOf(DOMAINS[0].id)[0], round: 0, i: 0, score: 0, seed, start: {}, asked: 0 });
+/** A placement can start above the basics: with a floor, each area starts at its first station at or above it, and what lies below counts as known. */
+const firstStation = (d: Domain, floor?: Partial<Record<Domain, number>>) => stationsOf(d).find((x) => x >= (floor?.[d] ?? 0)) ?? stationsOf(d)[0];
+export const startPlacement = (seed: number, floor?: Partial<Record<Domain, number>>): Placement => ({ d: 0, station: firstStation(DOMAINS[0].id, floor), round: 0, i: 0, score: 0, seed, start: {}, asked: 0, ...(floor ? { floor } : {}) });
+/** Fifth-grade material: big numbers, operations on fractions and decimals, and measurement. */
+export const GRADE5_FLOOR: Partial<Record<Domain, number>> = { num: 3, frac: 5, shape: 7 };
 export const stationsOf = (d: Domain) => STATIONS.filter((s) => s.domain === d).map((s) => s.id);
 
 export function placementStep(p: Placement): Pick<Step, 'skill' | 'measure' | 'seed' | 'support' | 'mode'> {
@@ -233,7 +237,7 @@ function stopDomain(p: Placement, at: number): Placement {
   const start = { ...p.start, [DOMAINS[p.d].id]: at };
   const d = p.d + 1;
   if (d >= DOMAINS.length) return { ...p, start, d };
-  return { ...p, start, d, station: stationsOf(DOMAINS[d].id)[0], round: 0, i: 0, score: 0 };
+  return { ...p, start, d, station: firstStation(DOMAINS[d].id, p.floor), round: 0, i: 0, score: 0 };
 }
 export const placementDone = (p: Placement) => p.d >= DOMAINS.length;
 

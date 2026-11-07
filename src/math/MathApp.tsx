@@ -2,12 +2,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { pushWin } from '../wins';
 import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
 import { readCourses } from '../summary';
-import { STORAGE_KEY, USER_NAME } from '../course';
+import { STORAGE_KEY, USER_ID, USER_NAME } from '../course';
 import { canSpeak, sfx, speakHebrew } from '../platform';
 import { Figure } from './Figure';
 import {
   addTime, advance, answerPlacement, applyPlacement, buildPlan, checkTyped, dayLog, dayNumber, flaggedSkills, hintFor, initialMath, isChoiceRight, isMet, makeQuestion, markMet, MathState,
-  nextNew, Part, placementDone, placementStep, queueRetry, recordAnswer, shown, startPlacement, stationsOf, statusOf, Step, totals, trapForTyped, weekDays,
+  nextNew, Part, placementDone, placementStep, queueRetry, recordAnswer, shown, startPlacement, stationsOf, statusOf, Step, GRADE5_FLOOR, totals, trapForTyped, weekDays,
 } from './engine';
 import { DOMAINS, Question, SKILL, SKILLS, STATIONS, TRAPS, TrapId } from './skills';
 
@@ -24,6 +24,8 @@ function load(): MathState {
     const p = JSON.parse(raw), base = initialMath();
     const st: MathState = { ...base, ...p, name: USER_NAME || p.name, settings: { ...base.settings, ...p.settings } };
     if (st.plan && st.plan.steps.some((s) => !SKILL[s.skill])) st.plan = null;
+    // Guy moved Ayala up to fifth-grade material: a placement check from there up, once. What she already learned above it stays.
+    if (USER_ID === 'ayala' && st.moved !== 'grade5') return { ...st, moved: 'grade5', onboarded: false, plan: null, placement: startPlacement(Math.floor(Math.random() * 1e8), GRADE5_FLOOR) };
     return st;
   } catch { return initialMath(); }
 }
@@ -284,12 +286,17 @@ function Onboarding({ st, update, running, setRunning }: { st: MathState; update
   return (
     <div className="onb">
       <Mark />
-      <h1>{p ? 'ממשיכות מאיפה שעצרנו' : 'מוצאות יחד מאיפה מתחילים'}</h1>
-      <p className="lead">כמה שאלות קצרות, בלי ציון. {p ? 'ההתקדמות נשמרה.' : 'מתחילות בקל, ועוצרות במקום שעוד לא למדת.'}</p>
+      {p?.floor && p.asked === 0 ? <>
+        <h1>עוברות לחומר של כיתה ה׳</h1>
+        <p className="lead">כמה שאלות קצרות, בלי ציון, כדי לבדוק מה כבר ידוע מכאן והלאה. מה שכבר למדת נשמר, והתרגילים הבסיסיים לא יחזרו.</p>
+      </> : <>
+        <h1>{p ? 'ממשיכות מאיפה שעצרנו' : 'מוצאות יחד מאיפה מתחילים'}</h1>
+        <p className="lead">כמה שאלות קצרות, בלי ציון. {p ? 'ההתקדמות נשמרה.' : 'מתחילות בקל, ועוצרות במקום שעוד לא למדת.'}</p>
+      </>}
       {!p && <><p className="lead"><b>כדאי להכין דף ועט.</b> עושים כאן את החישוב כמו בבית, וכותבים באפליקציה רק את התשובה.</p>
         <label className="field" htmlFor="mn">איך לקרוא לך?</label>
         <input id="mn" className="input" value={name} onChange={(e) => setName(e.target.value)} /></>}
-      <button type="button" className="cta" disabled={!p && !name.trim()} onClick={begin}>{p ? 'להמשיך' : 'מתחילות'}</button>
+      <button type="button" className="cta" disabled={!p && !name.trim()} onClick={begin}>{p && !(p.floor && p.asked === 0) ? 'להמשיך' : 'מתחילות'}</button>
       <p className="small muted center">אפשר לעצור בכל רגע ולהמשיך בפעם אחרת.</p>
     </div>
   );
@@ -321,7 +328,7 @@ function RunResult({ st, update }: { st: MathState; update: Update }) {
     <div className="onb">
       <Mark />
       <h1>מצאנו מאיפה מתחילים</h1>
-      <p className="lead">כל תחום מתחיל במקום שלו. מה שכבר עברת יחזור מדי פעם בחימום.</p>
+      <p className="lead">כל תחום מתחיל במקום שלו. מה שכבר עברת נחשב ידוע, וחוזר רק אם יש טעות.</p>
       <ul className="card m-where">
         {DOMAINS.map((d) => {
           const start = p.start[d.id] ?? 1, last = Math.max(...stationsOf(d.id));
