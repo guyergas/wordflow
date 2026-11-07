@@ -87,7 +87,7 @@ export function AlefApp() {
     return () => { root.classList.remove('a-lock'); document.removeEventListener('touchmove', stop); };
   }, [inSession]);
   const start = (o: PlanOptions = {}) => {
-    update((s) => { const open = !!s.plan && !s.plan.extra && s.plan.day === today && s.plan.at < s.plan.steps.length; return open && !o.bonus && !o.extra && !o.warm && !o.boost ? s : { ...s, plan: buildPlan(s, today, o) }; });
+    update((s) => { const open = !!s.plan && !s.plan.extra && s.plan.day === today && s.plan.at < s.plan.steps.length; if (open && !o.bonus && !o.extra && !o.warm && !o.boost) return s; return { ...s, plan: buildPlan(s, today, o) }; });
     setInSession(true);
   };
   if (inSession && st.plan) return <Session st={st} update={update} onExit={() => setInSession(false)} onMore={start} />;
@@ -121,7 +121,7 @@ function Home({ st, today, onStart, onProgress, onSettings }: { st: AState; toda
             <div className="a-today-letter"><Mini id={firstId} /></div>
             <div className="a-today-text">
               <span className="chip-d">{open && open.at > 0 ? 'ממשיכים מאיפה שעצרנו' : 'האימון של היום'}</span>
-              <h2>{fresh ? `אות חדשה: ${LETTER[fresh].name}` : 'חזרה על אותיות'}</h2>
+              <h2>{fresh ? `אות חדשה: ${LETTER[fresh].name}` : preview.review ? 'חזרה גדולה על כל האותיות' : 'חזרה על אותיות'}</h2>
               <p>{left.length} תרגילים של זיהוי וכתיבה</p>
             </div>
             <button type="button" className="cta-d a-start" onClick={() => onStart()}><Play /> {open && open.at > 0 ? 'להמשיך' : 'להתחיל'}</button>

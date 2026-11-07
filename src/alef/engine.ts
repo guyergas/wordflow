@@ -7,8 +7,8 @@ export interface Box { box: number; due: number }
 export interface Tally { see: [number, number]; write: [number, number]; mixed: Record<string, number> }
 export interface Known { see: Box; write: Box; met: number; tally?: Tally }
 export type Step = { t: 'meet' | 'trace' | 'copy' | 'memory' | 'write' | 'opening' | 'find' | 'word' | 'sound' | 'hunt' | 'pair' | 'missing'; id: string; print?: boolean; n?: number };
-export interface Plan { day: number; steps: Step[]; at: number; extra?: boolean; mixed?: boolean }
-export interface AState { onboarded: boolean; name: string; letters: Record<string, Known>; days: Record<number, { sec: number; fresh: number; done?: boolean }>; plan: Plan | null; settings: { sound: boolean } }
+export interface Plan { day: number; steps: Step[]; at: number; extra?: boolean; mixed?: boolean; review?: number }
+export interface AState { onboarded: boolean; name: string; letters: Record<string, Known>; days: Record<number, { sec: number; fresh: number; done?: boolean }>; plan: Plan | null; reviews?: number[]; settings: { sound: boolean } }
 
 const GAPS = [1, 1, 2, 4, 8, 16, 32];
 export const SHAKY_LIMIT = 4;
@@ -25,6 +25,15 @@ const shuffle = <T,>(a: T[], rnd: () => number) => a.map((v) => ({ v, k: rnd() }
 
 /** Each sitting gives a letter this many tasks of each measure, and the recognition tasks are shared among the games it can have. */
 export const REPEAT = { firstSee: 20, see: 10, write: 10 };
+/** A review is short: a few tasks per letter, at most REVIEW_MAX on a day with a new letter and REVIEW_ONLY_MAX on a day without one. */
+export const REVIEW_EACH = 4, REVIEW_MAX = 12, REVIEW_ONLY_MAX = 24;
+/** After every REVIEW_EVERY new letters comes a long review day: no new letter, LONG_EACH recognition and LONG_EACH writing tasks for every letter met so far, at most LONG_MAX. */
+export const REVIEW_EVERY = 6, LONG_EACH = 3, LONG_MAX = 48;
+export function longReviewDue(st: AState, day: number): number | null {
+  const met = Object.values(st.letters), n = Math.floor(met.length / REVIEW_EVERY) * REVIEW_EVERY;
+  if (!n || (st.reviews ?? []).includes(n) || Math.max(...met.map((k) => k.met)) >= day) return null;
+  return n;
+}
 const times = (t: Step['t'], id: string, count: number): Step[] => Array.from({ length: count }, (_, n) => ({ t, id, n }));
 export const WRITING: Step['t'][] = ['trace', 'copy', 'memory', 'write', 'opening'];
 export const pairsOf = (st: AState, id: string) => PAIRS.filter((p) => p.slice(0, 2).includes(id) && st.letters[p[0]] && st.letters[p[1]] && st.letters[id]);
@@ -49,10 +58,10 @@ function writeSet(k: Known, id: string): Step[] {
   return firstWords(id).length ? [...times('memory', id, 4), ...times('write', id, 4), ...times('opening', id, 2)] : [...times('memory', id, 5), ...times('write', id, 5)];
 }
 
-function practice(st: AState, id: string, day: number, rnd: () => number, force = false): Step[] {
+function practice(st: AState, id: string, day: number, rnd: () => number, force = false, short = false): Step[] {
   const k = st.letters[id], out: Step[] = [];
-  if (force || k.see.due <= day) out.push(...seeSet(st, id, REPEAT.see, rnd));
-  if (force || k.write.due <= day) out.push(...writeSet(k, id));
+  if (force || k.see.due <= day) out.push(...seeSet(st, id, short ? REVIEW_EACH : REPEAT.see, rnd));
+  if (force || k.write.due <= day) out.push(...(short ? shuffle(writeSet(k, id), rnd).slice(0, REVIEW_EACH) : writeSet(k, id)));
   return out;
 }
 
@@ -76,25 +85,37 @@ export function buildPlan(st: AState, day: number, o: PlanOptions = {}): Plan {
   if (o.warm || o.boost) {
     const known = met.filter((id) => secure(st.letters[id]));
     const list = o.warm ? shuffle(known.length >= 2 ? known : met, rnd) : shuffle(met, rnd).sort((a, b) => hardness(st.letters[b]) - hardness(st.letters[a]) || level(st.letters[a]) - level(st.letters[b]));
-    return { day, steps: mix(list.slice(0, 3).flatMap((id) => practice(st, id, day, rnd, true)).slice(0, 30), rnd), at: 0, extra: true, mixed: true };
+    // A warm-up: every letter in the list gets its turn (up to eight), with fewer tasks each when there are many, so none is skipped.
+    if (o.boost) return { day, steps: mix(list.slice(0, 3).flatMap((id) => practice(st, id, day, rnd, true)).slice(0, 30), rnd), at: 0, extra: true, mixed: true };
+    const pick = list.slice(0, 8), each = Math.max(2, Math.floor(15 / pick.length));
+    const steps = pick.flatMap((id) => [...seeSet(st, id, each, rnd), ...shuffle(writeSet(st.letters[id], id), rnd).slice(0, each)]);
+    return { day, steps: mix(steps, rnd), at: 0, extra: true, mixed: true };
   }
   if (o.extra) {
     const steps = shuffle(met, rnd).slice(0, 2).flatMap((id) => practice(st, id, day, rnd, true));
     return { day, steps: mix(steps, rnd), at: 0, extra: true, mixed: true };
   }
+  const long = o.bonus ? null : longReviewDue(st, day);
+  if (long) {
+    // A long review: every letter met so far, the weakest first, with recognition and writing mixed.
+    const order = [...met].sort((a, b) => level(st.letters[a]) - level(st.letters[b]));
+    const steps = order.flatMap((id) => [...seeSet(st, id, LONG_EACH, rnd), ...shuffle(writeSet(st.letters[id], id), rnd).slice(0, LONG_EACH)]);
+    return { day, steps: mix(steps, rnd).slice(0, LONG_MAX), at: 0, mixed: true, review: long };
+  }
   const due = met.filter((id) => st.letters[id].see.due <= day || st.letters[id].write.due <= day)
     .sort((a, b) => Math.min(st.letters[a].see.due, st.letters[a].write.due) - Math.min(st.letters[b].see.due, st.letters[b].write.due));
   const next = nextLetter(st), freshToday = dayLog(st, day).fresh > 0;
   const canLearn = !!next && shaky(st).length < SHAKY_LIMIT && (!freshToday || !!o.bonus);
-  let reviews = due.flatMap((id) => practice(st, id, day, rnd));
-  if (!canLearn && !freshToday && !reviews.length) reviews = shaky(st).flatMap((id) => practice(st, id, day, rnd, true));
-  reviews = reviews.slice(0, canLearn ? 20 : 40);
-  // Meeting a new letter stays first, and everything after it is mixed.
+  // Reviews are short, a few tasks for each letter that is due, so the boys reach new material while they still want to.
+  let reviews = due.flatMap((id) => practice(st, id, day, rnd, false, true));
+  if (!canLearn && !freshToday && !reviews.length) reviews = shaky(st).flatMap((id) => practice(st, id, day, rnd, true, true));
+  reviews = mix(reviews, rnd).slice(0, canLearn ? REVIEW_MAX : REVIEW_ONLY_MAX);
+  // The new letter comes first: meeting it and its own tasks. The short review comes after.
   if (canLearn && next) {
     const id = next.id;
-    return { day, steps: [{ t: 'meet', id }, ...mix([...reviews, ...seeSet({ ...st, letters: { ...st.letters, [id]: { see: { box: 0, due: day }, write: { box: 0, due: day }, met: day } } }, id, REPEAT.firstSee, rnd), ...times('trace', id, REPEAT.write)], rnd)], at: 0, mixed: true };
+    return { day, steps: [{ t: 'meet', id }, ...mix([...seeSet({ ...st, letters: { ...st.letters, [id]: { see: { box: 0, due: day }, write: { box: 0, due: day }, met: day } } }, id, REPEAT.firstSee, rnd), ...times('trace', id, REPEAT.write)], rnd), ...reviews], at: 0, mixed: true };
   }
-  return { day, steps: mix(reviews, rnd), at: 0, mixed: true };
+  return { day, steps: reviews, at: 0, mixed: true };
 }
 
 const bump = (b: Box, ok: boolean, day: number): Box => {
@@ -133,7 +154,12 @@ export function answer(st: AState, id: string, what: 'see' | 'write', ok: boolea
   const k = st.letters[id];
   return k ? { ...st, letters: { ...st.letters, [id]: { ...k, [what]: bump(k[what], ok, day) } } } : st;
 }
-export const advance = (st: AState): AState => (st.plan ? { ...st, plan: { ...st.plan, at: st.plan.at + 1 } } : st);
+/** Moves to the next task. Finishing a long review records it, so it does not come back; leaving it in the middle brings it back. */
+export const advance = (st: AState): AState => {
+  if (!st.plan) return st;
+  const plan = { ...st.plan, at: st.plan.at + 1 }, ended = plan.review && plan.at >= plan.steps.length;
+  return { ...st, plan, ...(ended ? { reviews: [...(st.reviews ?? []), plan.review!] } : {}) };
+};
 export const addTime = (st: AState, day: number, sec: number): AState => { const log = dayLog(st, day); return { ...st, days: { ...st.days, [day]: { ...log, sec: log.sec + sec } } }; };
 
 /** The other choices in a find game: look-alikes first, then letters already met, then the coming ones. */

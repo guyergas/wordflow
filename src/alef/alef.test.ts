@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { answer, advance, buildPlan, choices, initial, meet, huntCells, nextLetter, noteMix, pairsOf, record, secure, statusOf, topMix, shaky, SHAKY_LIMIT, validStep, WRITING, writeStage } from './engine';
+import { REVIEW_MAX, answer, advance, buildPlan, choices, initial, meet, huntCells, nextLetter, noteMix, pairsOf, record, secure, statusOf, topMix, shaky, SHAKY_LIMIT, validStep, WRITING, writeStage } from './engine';
 import { judge, FREE, TRACE } from './ink';
 import { FINALS, firstWords, frameOf, HEBREW_AUDIO, LETTER, LETTERS, lookAlikes, PAIRS, Pt, SAY, spots, WORDS } from './letters';
 
@@ -165,7 +165,8 @@ describe('the plan', () => {
   it('can reach the end of the alef-bet', () => {
     let st = initial('א'), day = 100;
     for (let g = 0; g < 400 && nextLetter(st); g++, day++) {
-      let p = buildPlan(st, day);
+      const p = buildPlan(st, day);
+      st = { ...st, plan: { ...p, at: p.steps.length - 1 } };
       for (const s of p.steps) {
         if (s.t === 'meet') st = meet(st, s.id, day);
         if (s.t !== 'meet' && !WRITING.includes(s.t)) st = answer(st, s.id, 'see', true, day);
@@ -183,3 +184,31 @@ describe('the plan', () => {
     expect(c).toContain('ד'); expect(c).toContain('ר'); expect(new Set(c).size).toBe(c.length);
   });
 });
+
+describe('short reviews and a long review day', () => {
+  const D = 500;
+  const known = (n: number, met = D - 3) => Object.fromEntries(LETTERS.slice(0, n).map((l) => [l.id, { see: { box: 3, due: D }, write: { box: 4, due: D }, met }]));
+  it('a day with a new letter starts with it, and the review is short and comes after', () => {
+    const st = { ...initial('עידו'), letters: known(4) };
+    const p = buildPlan(st, D, { rnd: () => 0.3 }), next = LETTERS[4].id;
+    expect(p.steps[0]).toMatchObject({ t: 'meet', id: next });
+    const firstOther = p.steps.findIndex((s) => s.id !== next);
+    expect(p.steps.slice(firstOther).every((s) => s.id !== next)).toBe(true);
+    expect(p.steps.length - firstOther).toBeLessThanOrEqual(REVIEW_MAX);
+  });
+  it('the warm-up asks about every letter already known', () => {
+    const st = { ...initial('עומר'), letters: known(4) };
+    for (let i = 0; i < 10; i++) expect(new Set(buildPlan(st, D, { warm: true }).steps.map((s) => s.id)).size).toBe(4);
+  });
+  it('after six letters comes a long review with no new letter, once', () => {
+    const st = { ...initial('עידו'), letters: known(6) };
+    const p = buildPlan(st, D, { rnd: () => 0.3 });
+    expect(p.review).toBe(6);
+    expect(p.steps.some((s) => s.t === 'meet')).toBe(false);
+    expect(new Set(p.steps.map((s) => s.id)).size).toBe(6);
+    const done = advance({ ...st, plan: { ...p, at: p.steps.length - 1 } });
+    expect(done.reviews).toEqual([6]);
+    expect(buildPlan({ ...st, reviews: [6] }, D, { rnd: () => 0.3 }).steps[0].t).toBe('meet');
+  });
+});
+
