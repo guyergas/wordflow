@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { dbUrl } from '../../../familySync';
-import { FamilySheet } from '../../../family';
+import { FamilySheet, WinsSheet } from '../../../family';
 import type { Route } from '../App';
 import { Icon } from './ui';
 
@@ -14,8 +14,9 @@ const TABS: { route: Route; label: string; icon: string }[] = [
 export function BottomNav({ route, go }: { route: Route; go: (r: Route) => void }) {
   const active = (r: Route) => r === route
     || (r === 'practice' && ['free', 'freetest', 'tests', 'songs', 'workshop', 'piano'].includes(route));
-  const [family, setFamily] = useState(false);
+  const [family, setFamily] = useState(false), [wins, setWins] = useState(false);
   if (family) return <FamilySheet onClose={() => setFamily(false)} />;
+  if (wins) return <WinsSheet onClose={() => setWins(false)} />;
   return (
     <nav className="bottomnav" aria-label="ניווט ראשי">
       {TABS.map((t) => (
@@ -25,6 +26,7 @@ export function BottomNav({ route, go }: { route: Route; go: (r: Route) => void 
         </button>
       ))}
       {dbUrl() && <button onClick={() => setFamily(true)}><span>מערכת</span></button>}
+      {dbUrl() && <button onClick={() => setWins(true)}><span>הישגים</span></button>}
     </nav>
   );
 }

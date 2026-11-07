@@ -39,7 +39,6 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
   const [failed, setFailed] = useState(false);
   const [choice, setChoice] = useState<'today' | 'yesterday' | 'week'>('today');
   const [editing, setEditing] = useState<string | null>(null);
-  const [view, setView] = useState<'board' | 'wins'>('board');
   useEffect(() => { readFamily().then((d) => setData(d ?? {})).catch(() => setFailed(true)); }, []);
   const today = dayNow(), week = Array.from({ length: 7 }, (_, i) => weekStart(today) + i);
   const days = choice === 'week' ? week : [choice === 'today' ? today : today - 1];
@@ -52,8 +51,6 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
     <div className="fam-page">
       <div className="fam-inner">
         <div className="cs-row"><h2>מערכת</h2><button type="button" className="cs-round" aria-label="סגירה" onClick={onClose}><X /></button></div>
-        <div className="fam-seg fam-views" role="group" aria-label="מסך">{([['board', 'לו״ז ויעדים'], ['wins', 'הישגים']] as const).map(([k, t]) => <button key={k} type="button" aria-pressed={view === k} onClick={() => setView(k)}>{t}</button>)}</div>
-        {view === 'wins' ? <Wins /> : <>
         <div className="fam-seg" role="group" aria-label="תקופה">{([['today', 'היום'], ['yesterday', 'אתמול'], ['week', 'השבוע']] as const).map(([k, t]) => <button key={k} type="button" aria-pressed={choice === k} onClick={() => setChoice(k)}>{t}</button>)}</div>
         {failed && <p className="cs-note">אין כרגע חיבור לנתוני המשפחה. נסו שוב כשיש אינטרנט.</p>}
         {!failed && !data && <p className="cs-note">טוען…</p>}
@@ -85,7 +82,18 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
             </section>
           );
         })}
-        </>}
+      </div>
+    </div>
+  );
+}
+
+/** The achievements page, apart from the board. */
+export function WinsSheet({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="fam-page">
+      <div className="fam-inner">
+        <div className="cs-row"><h2>הישגים</h2><button type="button" className="cs-round" aria-label="סגירה" onClick={onClose}><X /></button></div>
+        <Wins />
       </div>
     </div>
   );

@@ -98,7 +98,7 @@ button.tile:active { transform: translateY(2px) scale(.97); }
 
 /* Nav */
 .nav { position: fixed; inset-inline: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 12px); margin: 0 auto; width: fit-content; max-width: calc(100% - 20px); background: var(--dark); border: 1px solid rgba(255, 255, 255, .08); border-radius: 24px; padding: 6px; display: flex; gap: 2px; box-shadow: 0 10px 34px rgba(0, 0, 0, .25); z-index: 5; }
-.nav button { min-height: 44px; padding: 0 15px; border-radius: 18px; color: #bac4c2; font-size: 14.5px; font-weight: 500; white-space: nowrap; }
+.nav button { min-height: 44px; padding: 0 clamp(6px, 2.4vw, 15px); border-radius: 18px; color: #bac4c2; font-size: 14.5px; font-weight: 500; white-space: nowrap; }
 .nav button.on { background: var(--sun); color: var(--sun-ink); font-weight: 700; }
 
 /* Onboarding */
@@ -423,7 +423,7 @@ input[type=range] { width: 100%; accent-color: var(--rec); }
 .m-typed { min-height: 54px; }
 
 /* All courses: today's schedule and the tab */
-.nav button { padding: 0 11px; }
+.nav button { padding: 0 clamp(5px, 2vw, 11px); }
 .today-plan { display: grid; }
 .today-plan li + li { border-top: 1px solid var(--line); }
 .today-plan button { width: 100%; min-height: 46px; display: flex; justify-content: space-between; align-items: center; gap: 10px; text-align: start; font-weight: 600; }

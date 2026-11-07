@@ -1,7 +1,7 @@
 // Shared by every course: moving between courses, today's schedule, and the summary she sends.
 import { useMemo, useState } from 'react';
 import { COURSE_ID, myCourses, switchCourse } from './course';
-import { FamilySheet } from './family';
+import { FamilySheet, WinsSheet } from './family';
 import { loadSchedule, minutes, planOf, readCourses, weekday } from './summary';
 
 const dayNow = () => { const d = new Date(); return Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() / 864e5 + 0.5); };
@@ -37,6 +37,18 @@ export function SummaryTab(_: { name?: string }) {
     <>
       <button type="button" onClick={() => setOpen(true)}>מערכת</button>
       {open && <FamilySheet onClose={() => setOpen(false)} />}
+      <WinsTab />
+    </>
+  );
+}
+
+/** A tab next to the board: the family's achievements. */
+function WinsTab() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button type="button" onClick={() => setOpen(true)}>הישגים</button>
+      {open && <WinsSheet onClose={() => setOpen(false)} />}
     </>
   );
 }

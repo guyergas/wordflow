@@ -131,7 +131,7 @@ function Session({ st, update, onExit, onMore }: { st: KState; update: Update; o
     <div className="session" key={plan.at}>
       <div className="s-top"><button type="button" className="round" aria-label="יציאה. ההתקדמות נשמרת" onClick={onExit}><CloseIcon /></button><div className="thin" style={{ flex: 1 }}><span style={{ width: `${(plan.at / plan.steps.length) * 100}%` }} /></div></div>
       {step.t === 'recall' || step.t === 'review'
-        ? <Recall step={step} seed={plan.day * 7 + plan.at} sound={st.settings.sound} onDone={(ok, all) => update((s) => advance(finishReview(s, step, ok, all, plan.day)))} />
+        ? <Recall step={step} seed={plan.day * 7 + plan.at} nextTitle={(() => { const n = plan.steps[plan.at + 1]; return n?.t === 'lesson' ? LESSON[n.id].title : undefined; })()} sound={st.settings.sound} onDone={(ok, all) => update((s) => advance(finishReview(s, step, ok, all, plan.day)))} />
         : step.t === 'key'
         ? <Quiz q={keyOf(step.id)} sound={st.settings.sound} onAnswer={(ok) => update((s) => answerKey(s, step.id, ok, plan.day))} onNext={() => update(advance)} label="חזרה" />
         : <LessonView lesson={LESSON[step.id]} wiki={st.settings.wiki} sound={st.settings.sound} onDone={(ok, all) => { if (!st.lessons[step.id]) pushWin('lesson', LESSON[step.id].title); update((s) => advance(finishLesson(s, step.id, ok, all, plan.day))); }} />}
@@ -193,15 +193,35 @@ function Text({ lesson, marks = false }: { lesson: Lesson; marks?: boolean }) {
 }
 
 /** Questions on lessons already read. The text is closed, a tap away. A wrong answer sends her back to it, with no answer shown. */
-function Recall({ step, seed, sound, onDone }: { step: Extract<Step, { t: 'recall' | 'review' }>; seed: number; sound: boolean; onDone: (ok: number, all: number) => void }) {
+function Recall({ step, seed, sound, onDone, nextTitle }: { step: Extract<Step, { t: 'recall' | 'review' }>; seed: number; sound: boolean; onDone: (ok: number, all: number) => void; nextTitle?: string }) {
   const items = useMemo(() => (step.t === 'recall' ? pickQs(step.id, recallCount(step.id), seed) : step.ids.flatMap((id) => LESSON[id].qs.map((_, i): [string, number] => [id, i]))), [step, seed]);
   const [i, setI] = useState(0), [reread, setReread] = useState(false), score = useRef(0);
+  const [stage, setStage] = useState<'intro' | 'q' | 'end'>('intro');
+  // The review is a screen of its own: an opening, the questions, and a closing before the day's new topic.
+  if (stage === 'intro') return (
+    <div className="q">
+      <span className="m-chip-hi center">{step.t === 'recall' ? 'חזרה' : 'שיעור חזרה'}</span>
+      <h1 className="k-title">{step.t === 'recall' ? `מה זוכרים מ"${LESSON[step.id].title}"?` : 'חוזרים על חמשת השיעורים האחרונים'}</h1>
+      <p className="k-idea">{step.t === 'recall' ? `${items.length} שאלות על השיעור הקודם, לפני הנושא החדש.` : `${items.length} שאלות, בלי נושא חדש היום.`} הקטע סגור. אם לא זוכרים, אפשר להציץ בו.</p>
+      <div className="grow" />
+      <button type="button" className="cta" onClick={() => setStage('q')}>להתחיל את החזרה</button>
+    </div>
+  );
+  if (stage === 'end') return (
+    <div className="q">
+      <span className="m-chip-hi center">סוף החזרה</span>
+      <h1 className="k-title">{score.current} מתוך {items.length} בניסיון הראשון</h1>
+      <p className="k-idea">{nextTitle ? `ועכשיו לנושא של היום: ${nextTitle}.` : 'כל הכבוד על החזרה!'}</p>
+      <div className="grow" />
+      <button type="button" className="cta" onClick={() => onDone(score.current, items.length)}>{nextTitle ? 'לנושא החדש' : 'סיימתי'}</button>
+    </div>
+  );
   const [id, qi] = items[i], lesson = LESSON[id];
   const label = step.t === 'recall' ? `מה זוכרים מ"${lesson.title}"` : `שיעור חזרה · ${lesson.title}`;
   return (
     <div className="k-wrap" key={i}>
       <Quiz q={lesson.qs[qi]} sound={sound} label={`${label} · ${i + 1}/${items.length}`} onAnswer={(ok) => { if (ok) score.current++; }}
-        onNext={() => { setReread(false); if (i + 1 < items.length) setI(i + 1); else onDone(score.current, items.length); }}
+        onNext={() => { setReread(false); if (i + 1 < items.length) setI(i + 1); else setStage('end'); }}
         onWrong={() => setReread(true)}
         tools={<><button type="button" className="link center-block" aria-expanded={reread} onClick={() => setReread(!reread)}>{reread ? 'להסתיר את הקטע' : 'להציץ בקטע'}</button>{reread && <Text lesson={lesson} />}</>} />
     </div>
