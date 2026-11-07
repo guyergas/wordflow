@@ -769,3 +769,5 @@ html.a-lock .a-finish { height: 100dvh; min-height: 0; overflow: hidden; }
 .e-options > button > span:first-child { font-size: clamp(44px, 10dvh, 96px); }
 .a-opening:has(.e-word) { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: clamp(44px, 10dvh, 80px); }
 .e-options .e-word { font-size: clamp(24px, 5dvh, 40px); }
+.k-sum { margin: 0; padding-inline-start: 1.2em; display: grid; gap: 10px; line-height: 1.6; }
+.k-sum li { padding-inline-start: 4px; }

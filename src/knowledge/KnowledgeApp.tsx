@@ -4,7 +4,7 @@ import { shortParagraphs } from './kit';
 import { sfx } from '../platform';
 import { readCourses } from '../summary';
 import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
-import { addTime, advance, answerKey, buildPlan, dayLog, dayNumber, finishLesson, initial, keyOf, KState, LESSON, lessonsOf, nextLesson, statusOf } from './engine';
+import { addTime, advance, answerKey, buildPlan, dayLog, dayNumber, finishLesson, finishReview, initial, keyOf, KState, LESSON, lessonsOf, nextLesson, pickQs, RECALL_QS, REVIEW_QS, statusOf, Step } from './engine';
 import { Lesson, QuizQ } from './lessons';
 
 type Update = (fn: (s: KState) => KState) => void;
@@ -14,7 +14,7 @@ function load(): KState {
   let raw = memory;
   try { raw = localStorage.getItem(STORAGE_KEY) ?? raw; } catch { /* memory only */ }
   if (!raw) return initial();
-  try { const p = JSON.parse(raw), b = initial(); const st: KState = { ...b, ...p, name: USER_NAME || p.name, settings: { ...b.settings, ...p.settings } }; if (st.plan?.steps.some((x) => (x.t === 'lesson' ? !LESSON[x.id] : !LESSON[x.id.split('#')[0]]))) st.plan = null; if (st.plan && st.plan.at === 0) st.plan = { ...st.plan, steps: [...st.plan.steps].sort((x, y) => Number(x.t === 'key') - Number(y.t === 'key')) }; return st; } catch { return initial(); }
+  try { const p = JSON.parse(raw), b = initial(); const st: KState = { ...b, ...p, name: USER_NAME || p.name, settings: { ...b.settings, ...p.settings } }; if (st.plan?.steps.some((x) => (x.t === 'review' ? x.ids.some((id) => !LESSON[id]) : !LESSON[x.id.split('#')[0]]))) st.plan = null; return st; } catch { return initial(); }
 }
 function save(st: KState) { memory = JSON.stringify(st); try { localStorage.setItem(STORAGE_KEY, memory); } catch { /* memory only */ } }
 export function recoverKnowledge() { save({ ...load(), plan: null }); }
@@ -82,7 +82,7 @@ function Home({ st, today, onStart, onSettings }: { st: KState; today: number; o
   const preview = useMemo(() => open ?? buildPlan(st, today, { rnd: () => 0.5 }), [open?.at, st.lessons, st.keys, today]);
   const all = lessonsOf(), done = all.filter((l) => st.lessons[l.id]).length, log = dayLog(st, today), next = nextLesson(st);
   const fresh = preview.steps.filter((x) => x.t === 'lesson').length, keys = preview.steps.filter((x) => x.t === 'key').length;
-  const firstLesson = preview.steps.find((x) => x.t === 'lesson');
+  const firstLesson = preview.steps.find((x) => x.t === 'lesson'), review = preview.steps.some((x) => x.t === 'review'), recall = preview.steps.some((x) => x.t === 'recall');
   return (
     <>
       <header className="top"><Mark /><CourseSwitch /><button type="button" className="round" aria-label="הגדרות" onClick={onSettings}><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="2" /></svg></button></header>
@@ -98,8 +98,8 @@ function Home({ st, today, onStart, onSettings }: { st: KState; today: number; o
         ) : (
           <>
             <span className="chip-d">{open && open.at > 0 ? 'ממשיכות מאיפה שעצרת' : 'האימון של היום'}</span>
-            <h2>{firstLesson ? LESSON[firstLesson.id].title : 'חזרה קצרה על מה שלמדת'}</h2>
-            <p>{[fresh > 0 ? 'נושא אחד' : '', keys > 0 ? `${keys} שאלות חזרה` : ''].filter(Boolean).join(' ועוד ')}</p>
+            <h2>{review ? 'שיעור חזרה' : firstLesson && firstLesson.t === 'lesson' ? LESSON[firstLesson.id].title : 'חזרה קצרה על מה שלמדת'}</h2>
+            <p>{review ? 'בלי נושא חדש היום: שאלות על חמשת השיעורים האחרונים.' : [recall ? 'מה זוכרים מהשיעור הקודם' : '', fresh > 0 ? 'נושא אחד' : '', keys > 0 ? `${keys} שאלות חזרה` : ''].filter(Boolean).join(', ')}</p>
             <button type="button" className="cta-d" onClick={() => onStart()}>{open && open.at > 0 ? 'להמשיך' : 'להתחיל'}</button>
           </>
         )}
@@ -129,7 +129,9 @@ function Session({ st, update, onExit, onMore }: { st: KState; update: Update; o
   return (
     <div className="session" key={plan.at}>
       <div className="s-top"><button type="button" className="round" aria-label="יציאה. ההתקדמות נשמרת" onClick={onExit}><CloseIcon /></button><div className="thin" style={{ flex: 1 }}><span style={{ width: `${(plan.at / plan.steps.length) * 100}%` }} /></div></div>
-      {step.t === 'key'
+      {step.t === 'recall' || step.t === 'review'
+        ? <Recall step={step} seed={plan.day * 7 + plan.at} sound={st.settings.sound} onDone={(ok, all) => update((s) => advance(finishReview(s, step, ok, all, plan.day)))} />
+        : step.t === 'key'
         ? <Quiz q={keyOf(step.id)} sound={st.settings.sound} onAnswer={(ok) => update((s) => answerKey(s, step.id, ok, plan.day))} onNext={() => update(advance)} label="חזרה" />
         : <LessonView lesson={LESSON[step.id]} wiki={st.settings.wiki} sound={st.settings.sound} onDone={(ok, all) => update((s) => advance(finishLesson(s, step.id, ok, all, plan.day)))} />}
     </div>
@@ -173,7 +175,37 @@ function ReportProblem({ lesson }: { lesson: Lesson }) {
   return <><button type="button" className="link center-block" onClick={send}>משהו לא נכון?</button>{msg && <p className="small center" role="status">{msg}</p>}</>;
 }
 
+/** Three of the sentences marked in yellow, spread over the text. Lessons without marks fall back to their key points. */
+const summaryOf = (l: Lesson): string[] => {
+  const marks = [...l.text.matchAll(/\[\[([\s\S]*?)\]\]/g)].map((m) => m[1].trim());
+  if (marks.length <= 3) return marks.length ? marks : l.keys.slice(0, 3).map((k) => `${k[0]} ${k[1]}`);
+  return [0, Math.floor(marks.length / 2), marks.length - 1].map((i) => marks[i]);
+};
+
 const textSize = () => { try { return Number(localStorage.getItem(userKey('textSize'))) || 18; } catch { return 18; } };
+
+/** The lesson's text with its size buttons. Key sentences are in yellow only when asked (the first reading). */
+function Text({ lesson, marks = false }: { lesson: Lesson; marks?: boolean }) {
+  const [size, setSize] = useState(textSize);
+  const change = (by: number) => { const next = Math.max(14, Math.min(28, size + by)); setSize(next); try { localStorage.setItem(userKey('textSize'), String(next)); } catch { /* this visit only */ } };
+  return <div className="k-text" style={{ fontSize: size }}><div className="k-size" role="group" aria-label="גודל הטקסט"><button type="button" aria-label="הקטנת הטקסט" disabled={size <= 14} onClick={() => change(-2)}>א−</button><button type="button" aria-label="הגדלת הטקסט" disabled={size >= 28} onClick={() => change(2)}>א+</button></div>{shortParagraphs(lesson.text).map((t, i) => <p key={i}>{t.split(/\[\[|\]\]/).map((part, j) => (marks && j % 2 ? <mark key={j} className="k-mark">{part}</mark> : part))}</p>)}</div>;
+}
+
+/** Questions on lessons already read. The text is closed, a tap away. A wrong answer sends her back to it, with no answer shown. */
+function Recall({ step, seed, sound, onDone }: { step: Extract<Step, { t: 'recall' | 'review' }>; seed: number; sound: boolean; onDone: (ok: number, all: number) => void }) {
+  const items = useMemo(() => (step.t === 'recall' ? pickQs(step.id, RECALL_QS, seed) : step.ids.flatMap((id, k) => pickQs(id, REVIEW_QS, seed + k))), [step, seed]);
+  const [i, setI] = useState(0), [reread, setReread] = useState(false), score = useRef(0);
+  const [id, qi] = items[i], lesson = LESSON[id];
+  const label = step.t === 'recall' ? `מה זוכרים מ"${lesson.title}"` : `שיעור חזרה · ${lesson.title}`;
+  return (
+    <div className="k-wrap" key={i}>
+      <Quiz q={lesson.qs[qi]} sound={sound} label={`${label} · ${i + 1}/${items.length}`} onAnswer={(ok) => { if (ok) score.current++; }}
+        onNext={() => { setReread(false); if (i + 1 < items.length) setI(i + 1); else onDone(score.current, items.length); }}
+        onWrong={() => setReread(true)}
+        tools={<><button type="button" className="link center-block" aria-expanded={reread} onClick={() => setReread(!reread)}>{reread ? 'להסתיר את הקטע' : 'להציץ בקטע'}</button>{reread && <Text lesson={lesson} />}</>} />
+    </div>
+  );
+}
 
 function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boolean; sound: boolean; onDone: (ok: number, all: number) => void }) {
   type Stage = 'read' | 'q' | 'end';
@@ -182,22 +214,19 @@ function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boo
   const score = useRef(0);
   const [reread, setReread] = useState(false);
   // Key sentences are in yellow on the first reading only. Back from a question, she looks for the answer herself.
-  const [size, setSize] = useState(textSize);
-  const change = (by: number) => { const next = Math.max(14, Math.min(28, size + by)); setSize(next); try { localStorage.setItem(userKey('textSize'), String(next)); } catch { /* this visit only */ } };
-  const Text = ({ marks = false }: { marks?: boolean }) => <div className="k-text" style={{ fontSize: size }}><div className="k-size" role="group" aria-label="גודל הטקסט"><button type="button" aria-label="הקטנת הטקסט" disabled={size <= 14} onClick={() => change(-2)}>א−</button><button type="button" aria-label="הגדלת הטקסט" disabled={size >= 28} onClick={() => change(2)}>א+</button></div>{shortParagraphs(lesson.text).map((t, i) => <p key={i}>{t.split(/\[\[|\]\]/).map((part, j) => (marks && j % 2 ? <mark key={j} className="k-mark">{part}</mark> : part))}</p>)}</div>;
-  if (stage === 'read') return <div className="q"><span className="m-chip-hi center">{LEVEL[lesson.level]}</span><h1 className="k-title">{lesson.title}</h1>{lesson.text.includes('[[') && <p className="small muted center">במרקר הצהוב: המשפטים החשובים בקטע</p>}<Text marks /><div className="grow" /><button type="button" className="cta" onClick={() => setStage('q')}>קראתי</button></div>;
+  if (stage === 'read') return <div className="q"><span className="m-chip-hi center">{LEVEL[lesson.level]}</span><h1 className="k-title">{lesson.title}</h1>{lesson.text.includes('[[') && <p className="small muted center">במרקר הצהוב: המשפטים החשובים בקטע</p>}<Text lesson={lesson} marks /><div className="grow" /><button type="button" className="cta" onClick={() => setStage('q')}>קראתי</button></div>;
   if (stage === 'q') return (
     <div className="k-wrap" key={i}>
       <Quiz q={lesson.qs[i]} sound={sound} label={`שאלה ${i + 1} מתוך ${lesson.qs.length}`} onAnswer={(ok) => { if (ok) score.current++; }} onNext={() => { setReread(false); if (i + 1 < lesson.qs.length) setI(i + 1); else setStage('end'); }}
         onWrong={() => setReread(true)}
-        tools={<><button type="button" className="link center-block" aria-expanded={reread} onClick={() => setReread(!reread)}>{reread ? 'להסתיר את הקטע' : 'לראות שוב את הקטע'}</button>{reread && <Text />}</>} />
+        tools={<><button type="button" className="link center-block" aria-expanded={reread} onClick={() => setReread(!reread)}>{reread ? 'להסתיר את הקטע' : 'לראות שוב את הקטע'}</button>{reread && <Text lesson={lesson} />}</>} />
     </div>
   );
   return (
     <div className="q">
       <span className="m-chip-hi center">מה לקחת מכאן</span>
       <p className="k-idea">{lesson.idea}</p>
-      <section className="card"><h3>לזכור</h3><ul className="m-where">{lesson.keys.map((k) => <li key={k[0]}><span>{k[0]}</span><b>{k[1]}</b></li>)}</ul></section>
+      <section className="card"><h3>שלושה דברים לזכור</h3><ul className="k-sum">{summaryOf(lesson).map((x) => <li key={x}>{x}</li>)}</ul></section>
       {wiki && <a className="link center-block" href={`https://he.wikipedia.org/wiki/${encodeURIComponent(lesson.wiki.replace(/ /g, '_'))}`} target="_blank" rel="noreferrer">רוצה לדעת עוד? בוויקיפדיה</a>}
       <ReportProblem lesson={lesson} />
       <div className="grow" />

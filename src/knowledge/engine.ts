@@ -4,14 +4,16 @@ import { COURSE_ID, CourseId, USER_ID } from '../course';
 import { Lesson, LESSONS, QuizQ } from './lessons';
 
 export interface Metric { box: number; due: number; flag: boolean; ok: number; no: number; last: number }
-export interface LessonState { done: number; pass: boolean; ok: number; all: number; due: number }
-export type Step = { t: 'key'; id: string } | { t: 'lesson'; id: string };
+export interface LessonState { done: number; pass: boolean; ok: number; all: number; due: number; recalled?: boolean }
+export type Step = { t: 'key'; id: string } | { t: 'lesson'; id: string } | { t: 'recall'; id: string } | { t: 'review'; ids: string[]; n: number };
 export interface Plan { day: number; steps: Step[]; at: number; bonus?: boolean; extra?: boolean }
 export interface DayLog { fresh: number; ok: number; no: number; done: boolean; sec?: number }
-export interface KState { v: 1; name: string; onboarded: boolean; lessons: Record<string, LessonState>; keys: Record<string, Metric>; days: Record<string, DayLog>; plan: Plan | null; settings: { sound: boolean; wiki: boolean } }
+export interface KState { v: 1; name: string; onboarded: boolean; lessons: Record<string, LessonState>; keys: Record<string, Metric>; days: Record<string, DayLog>; plan: Plan | null; reviews?: number[]; settings: { sound: boolean; wiki: boolean } }
 
 const INTERVALS = [0, 1, 2, 4, 8, 16, 32, 64];
 export const SOLID = 3, KEYS_PER_DAY = 5, PASS = 2 / 3;
+/** A review lesson after every REVIEW_EVERY new lessons, with REVIEW_QS questions from each. RECALL_QS questions open a day on the previous lesson. */
+export const REVIEW_EVERY = 5, REVIEW_QS = 3, RECALL_QS = 5;
 export const dayNumber = (d: Date = new Date()) => Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() / 864e5 + 0.5);
 export const initial = (): KState => ({ v: 1, name: '', onboarded: false, lessons: {}, keys: {}, days: {}, plan: null, settings: { sound: true, wiki: false } });
 export const dayLog = (st: KState, d: number): DayLog => st.days[d] ?? { fresh: 0, ok: 0, no: 0, done: false };
@@ -33,11 +35,41 @@ export function buildPlan(st: KState, today: number, o: { bonus?: boolean; extra
   // One topic a day: a lesson that was not understood comes back first, and otherwise the next one opens.
   if (!o.extra) {
     const again = lessonsOf(c).find((l) => { const s = st.lessons[l.id]; return s && !s.pass && s.due <= today; });
+    const review = again ? null : reviewDue(st, today, c);
     const topic = again ?? lessonsOf(c).find((l) => !st.lessons[l.id]);
-    if (topic) steps.push({ t: 'lesson', id: topic.id });
+    if (review) steps.push(review);
+    else if (topic) {
+      // Before a new topic, she recalls the previous lesson. The text is there to look back at, but not open.
+      const prev = learned(st, c).at(-1);
+      if (!again && prev && !st.lessons[prev.id].recalled && st.lessons[prev.id].done < today) steps.push({ t: 'recall', id: prev.id });
+      steps.push({ t: 'lesson', id: topic.id });
+    }
   }
-  steps.sort((x, y) => Number(x.t === 'key') - Number(y.t === 'key'));
+  const rank = (x: Step) => (x.t === 'recall' ? 0 : x.t === 'key' ? 2 : 1);
+  steps.sort((x, y) => rank(x) - rank(y));
   return { day: today, steps, at: 0, bonus: o.bonus, extra: o.extra };
+}
+
+/** Lessons she has read in this course, in the order she read them. */
+export const learned = (st: KState, c: CourseId = COURSE_ID) => lessonsOf(c).filter((l) => st.lessons[l.id]).sort((a, b) => st.lessons[a.id].done - st.lessons[b.id].done);
+/** After every five lessons comes a day of review only: no new text, questions from those five with their texts to look back at. */
+export function reviewDue(st: KState, today: number, c: CourseId = COURSE_ID): Step | null {
+  const list = learned(st, c), n = Math.floor(list.length / REVIEW_EVERY) * REVIEW_EVERY;
+  if (n === 0 || (st.reviews ?? []).includes(n) || st.lessons[list[n - 1].id].done >= today) return null;
+  return { t: 'review', ids: list.slice(n - REVIEW_EVERY, n).map((l) => l.id), n };
+}
+/** Picks questions from a lesson for a recall or a review, in a fixed order for the day so returning to it does not reshuffle. */
+export function pickQs(id: string, count: number, seed: number): [string, number][] {
+  const qs = LESSON[id].qs.map((_, i) => i);
+  let x = seed % 2147483647 || 1; const r = () => (x = (x * 48271) % 2147483647) / 2147483647;
+  return shuffle(qs, r).slice(0, count).sort((a, b) => a - b).map((i) => [id, i]);
+}
+/** Marks a recall or a review as done and counts its first-try answers in the day's log. */
+export function finishReview(st: KState, step: Step, ok: number, all: number, today: number): KState {
+  const log = dayLog(st, today), days = { ...st.days, [today]: { ...log, ok: log.ok + ok, no: log.no + all - ok } };
+  if (step.t === 'recall') return { ...st, days, lessons: { ...st.lessons, [step.id]: { ...st.lessons[step.id], recalled: true } } };
+  if (step.t === 'review') return { ...st, days, reviews: [...(st.reviews ?? []), step.n] };
+  return st;
 }
 
 /** A lesson is passed on two thirds of first-try answers. Otherwise it returns tomorrow, without any label of failure. */

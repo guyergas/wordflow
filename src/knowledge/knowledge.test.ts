@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { COURSES } from '../course';
-import { answerKey, buildPlan, dayLog, finishLesson, initial, isSolid, lessonsOf, LESSON } from './engine';
+import { answerKey, buildPlan, dayLog, finishLesson, finishReview, initial, isSolid, lessonsOf, LESSON, pickQs } from './engine';
 import { DEEP } from './deep';
 import { NEW_LESSONS } from './new-lessons';
 import { shortParagraphs } from './kit';
@@ -60,10 +60,10 @@ describe('learning rules', () => {
     st = finishLesson(st, id, 3, 3, T + 1);
     expect(dayLog(st, T + 1).fresh).toBe(0);
   });
-  it('a day with lessons starts with reading, and review questions come after', () => {
+  it('a day starts by recalling the previous lesson, then reading, and review questions come after', () => {
     const st = finishLesson(initial(), id, 3, 3, T);
     const kinds = buildPlan(st, T + 1, {}, 'geo').steps.map((s) => s.t);
-    expect(kinds[0]).toBe('lesson');
+    expect(kinds.slice(0, 2)).toEqual(['recall', 'lesson']);
     expect(kinds.at(-1)).toBe('key');
   });
   it('a lesson not understood returns the next day', () => {
@@ -80,3 +80,29 @@ describe('learning rules', () => {
     expect(isSolid(st, LESSON[id])).toBe(false);
   });
 });
+
+describe('recall and review lessons', () => {
+  const c = COURSES.find((x) => lessonsOf(x.id as never).length >= 6)!.id as never;
+  const read = (n: number, day0 = 100) => { let st = initial(); lessonsOf(c).slice(0, n).forEach((l, i) => { st = finishLesson(st, l.id, 10, 10, day0 + i); }); return st; };
+  it('a day opens with questions on the previous lesson, then the new one', () => {
+    const st = read(2), p = buildPlan(st, 102, { rnd: () => 0.5 }, c);
+    expect(p.steps[0]).toEqual({ t: 'recall', id: lessonsOf(c)[1].id });
+    expect(p.steps[1].t).toBe('lesson');
+    const after = finishReview(st, p.steps[0], 4, 5, 102);
+    expect(buildPlan(after, 103, { rnd: () => 0.5 }, c).steps.some((x) => x.t === 'recall')).toBe(false);
+  });
+  it('after five lessons comes a review day with no new text', () => {
+    const st = read(5), p = buildPlan(st, 105, { rnd: () => 0.5 }, c);
+    expect(p.steps.some((x) => x.t === 'lesson' || x.t === 'recall')).toBe(false);
+    const r = p.steps.find((x) => x.t === 'review')!;
+    expect(r.t === 'review' && r.ids.length).toBe(5);
+    const after = finishReview(st, r, 12, 15, 105);
+    expect(buildPlan(after, 106, { rnd: () => 0.5 }, c).steps.some((x) => x.t === 'lesson')).toBe(true);
+  });
+  it('picks distinct questions, the same ones for the same day', () => {
+    const id = lessonsOf(c)[0].id, a = pickQs(id, 5, 7);
+    expect(new Set(a.map((x) => x[1])).size).toBe(Math.min(5, LESSON[id].qs.length));
+    expect(pickQs(id, 5, 7)).toEqual(a);
+  });
+});
+

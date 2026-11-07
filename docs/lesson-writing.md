@@ -20,3 +20,7 @@ Next lesson: `npx esbuild scripts/next-lesson.ts --bundle --platform=node --outf
 - `heb`: the writing must be exemplary, with many worked examples; questions apply the rule to new examples. State only well-established etymologies; the Academy of the Hebrew Language is a good source.
 - `jud`: written for secular and religious families alike. Use phrases like ״לפי המסורת״, say what scholars say where relevant, and how streams and communities practise, without preaching or mocking. Quotes from sources must be exact, or paraphrase.
 - `food`: no diets, calorie numbers, intake or portion numbers, weight or body-shape talk, ״good״ or ״bad״ foods, guilt, or anything that could encourage restricting food. Emphasize food groups, vitamins and minerals, and which foods contain what, including Israeli foods. Supplements only with a doctor. Emergencies: call an adult and מד״א 101.
+
+## Answer length
+
+The right answer must not stand out as the longest option. Keep all options about the same length, and let the right one sometimes be the shortest. `npx tsx scripts/answer-length.ts` must not list a new lesson.
