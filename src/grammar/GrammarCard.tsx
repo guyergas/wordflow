@@ -1,4 +1,5 @@
 // A short grammar stop in the English course: a rule, then questions, and a wrong answer gets a hint and another try.
+import { pushWin } from '../wins';
 import { useMemo, useRef, useState } from 'react';
 import { userKey } from '../course';
 import { GRAMMAR, GrammarQ } from './topics';
@@ -65,7 +66,7 @@ export function GrammarCard({ known, onTime }: { known: number; onTime: (sec: nu
   const close = (first: number | null) => {
     onTime(Math.min(900, Math.round((Date.now() - started.current) / 1000)));
     setOpen(false);
-    if (first !== null) { const s = afterGrammar(state, item.topic.id, first, qs.length, today, item.review); save(s); setState(s); }
+    if (first !== null) { if (!item.review) pushWin('grammar', item.topic.title); const s = afterGrammar(state, item.topic.id, first, qs.length, today, item.review); save(s); setState(s); }
   };
   const skip = () => { const s = afterGrammar(state, item.topic.id, 1, 1, today, false); const t = { ...s, last: state.last }; save(t); setState(t); };
   return (

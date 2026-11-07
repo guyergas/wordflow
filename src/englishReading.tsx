@@ -1,4 +1,5 @@
 // A short English text with three questions, offered once in a few days. Most of the practice stays with words.
+import { pushWin } from './wins';
 import { useRef, useState } from 'react';
 import { userKey } from './course';
 import './users.css';
@@ -57,7 +58,7 @@ export function EnglishReading({ known, onTime }: { known: number; onTime: (sec:
   const close = (finished: boolean) => {
     onTime(Math.min(600, Math.round((Date.now() - started.current) / 1000)));
     setOpen(false);
-    if (finished) { const s = { done: [...state.done, next.id], last: nowDay() }; store(s); setState(s); }
+    if (finished) { pushWin('reading', next.title); const s = { done: [...state.done, next.id], last: nowDay() }; store(s); setState(s); }
   };
   return (
     <>

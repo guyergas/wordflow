@@ -48,7 +48,7 @@ function CourseSheet({ onClose }: { onClose: () => void }) {
     <div className="cs-wrap" onClick={onClose}>
       <div className="cs-sheet" role="dialog" aria-label="הקורסים שלי" onClick={(e) => e.stopPropagation()}>
         <div className="cs-row"><h2>הקורסים של {USER_NAME}</h2><button type="button" className="cs-round" aria-label="סגירה" onClick={onClose}><Close /></button></div>
-        {dbUrl() && <button type="button" className="fam-open" onClick={() => setFamily(true)}>לוח המשפחה: לו״ז, יעדים וביצוע</button>}
+        {dbUrl() && <button type="button" className="fam-open" onClick={() => setFamily(true)}>מערכת: לו״ז, יעדים, ביצוע והישגים</button>}
         <div className="my-courses">
           {mine.map((c) => (
             <div key={c.id} className="my-course">

@@ -35,7 +35,7 @@ export function SummaryTab(_: { name?: string }) {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)}>משפחה</button>
+      <button type="button" onClick={() => setOpen(true)}>מערכת</button>
       {open && <FamilySheet onClose={() => setOpen(false)} />}
     </>
   );

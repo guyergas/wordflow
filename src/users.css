@@ -87,3 +87,8 @@
 .en-card .cs-link { justify-self: start; background: none; border: 0; padding: 0; min-height: 36px; font: inherit; font-size: 14px; color: var(--ink-2); text-decoration: underline; cursor: pointer; }
 .gr-rule { margin: 0; font-size: 18px; line-height: 1.6; }
 .gr-q { margin: 0; font-size: 22px; font-weight: 600; }
+.fam-views { margin-bottom: 4px; }
+.fam-wins { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.fam-wins li { display: grid; gap: 4px; }
+.fam-wins p { margin: 0; font-size: 17px; line-height: 1.5; font-weight: 600; }
+.fam-wins small { opacity: .7; }

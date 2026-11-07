@@ -1,6 +1,7 @@
 // The whole family's study time for a day or a week, and each person's daily goals.
 import { useEffect, useState } from 'react';
-import { COURSES, CourseId, USER_ID, USERS } from './course';
+import { COURSES, CourseId, USER_ID, USERS, userKey } from './course';
+import { lineOf, readWins, Win } from './wins';
 import { FamilyData, pushPlan, readFamily } from './familySync';
 import { Schedule, timeLabel, weekday, weekStart } from './summary';
 
@@ -38,6 +39,7 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
   const [failed, setFailed] = useState(false);
   const [choice, setChoice] = useState<'today' | 'yesterday' | 'week'>('today');
   const [editing, setEditing] = useState<string | null>(null);
+  const [view, setView] = useState<'board' | 'wins'>('board');
   useEffect(() => { readFamily().then((d) => setData(d ?? {})).catch(() => setFailed(true)); }, []);
   const today = dayNow(), week = Array.from({ length: 7 }, (_, i) => weekStart(today) + i);
   const days = choice === 'week' ? week : [choice === 'today' ? today : today - 1];
@@ -49,7 +51,9 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
   return (
     <div className="fam-page">
       <div className="fam-inner">
-        <div className="cs-row"><h2>לוח המשפחה</h2><button type="button" className="cs-round" aria-label="סגירה" onClick={onClose}><X /></button></div>
+        <div className="cs-row"><h2>מערכת</h2><button type="button" className="cs-round" aria-label="סגירה" onClick={onClose}><X /></button></div>
+        <div className="fam-seg fam-views" role="group" aria-label="מסך">{([['board', 'לו״ז ויעדים'], ['wins', 'הישגים']] as const).map(([k, t]) => <button key={k} type="button" aria-pressed={view === k} onClick={() => setView(k)}>{t}</button>)}</div>
+        {view === 'wins' ? <Wins /> : <>
         <div className="fam-seg" role="group" aria-label="תקופה">{([['today', 'היום'], ['yesterday', 'אתמול'], ['week', 'השבוע']] as const).map(([k, t]) => <button key={k} type="button" aria-pressed={choice === k} onClick={() => setChoice(k)}>{t}</button>)}</div>
         {failed && <p className="cs-note">אין כרגע חיבור לנתוני המשפחה. נסו שוב כשיש אינטרנט.</p>}
         {!failed && !data && <p className="cs-note">טוען…</p>}
@@ -81,7 +85,24 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
             </section>
           );
         })}
+        </>}
       </div>
     </div>
+  );
+}
+
+/** The family's achievements, newest first. Ones that arrived since this person last looked are highlighted. */
+function Wins() {
+  const [wins, setWins] = useState<Win[] | null>(null), [failed, setFailed] = useState(false);
+  const [seen] = useState(() => { try { return Number(localStorage.getItem(userKey('winsSeen'))) || 0; } catch { return 0; } });
+  useEffect(() => { readWins().then((w) => { setWins(w); try { localStorage.setItem(userKey('winsSeen'), String(Date.now())); } catch { /* highlighted again next time */ } }).catch(() => setFailed(true)); }, []);
+  if (failed) return <p className="cs-note">אין כרגע חיבור לנתוני המשפחה. נסו שוב כשיש אינטרנט.</p>;
+  if (!wins) return <p className="cs-note">טוען…</p>;
+  if (!wins.length) return <p className="cs-note">עוד אין הישגים. בסוף כל שיעור חדש בידע כללי, נושא חדש בחשבון, נושא בדקדוק או קטע קריאה באנגלית, יופיע כאן משפט לכל המשפחה.</p>;
+  const when = (t: number) => { const d = dayNow() - Math.floor(new Date(new Date(t).toDateString()).getTime() / 864e5 + 0.5); return d === 0 ? 'היום' : d === 1 ? 'אתמול' : `לפני ${d} ימים`; };
+  return (
+    <ul className="fam-wins">
+      {wins.map((w) => <li key={`${w.user}${w.at}`} className={`fam-card${w.at > seen ? ' me' : ''}`}><p>{lineOf(w)}</p><small>{when(w.at)}</small></li>)}
+    </ul>
   );
 }

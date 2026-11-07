@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { COURSE_INFO, STORAGE_KEY, USER_NAME, userKey } from '../course';
 import { shortParagraphs } from './kit';
+import { pushWin } from '../wins';
 import { sfx } from '../platform';
 import { readCourses } from '../summary';
 import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
@@ -133,7 +134,7 @@ function Session({ st, update, onExit, onMore }: { st: KState; update: Update; o
         ? <Recall step={step} seed={plan.day * 7 + plan.at} sound={st.settings.sound} onDone={(ok, all) => update((s) => advance(finishReview(s, step, ok, all, plan.day)))} />
         : step.t === 'key'
         ? <Quiz q={keyOf(step.id)} sound={st.settings.sound} onAnswer={(ok) => update((s) => answerKey(s, step.id, ok, plan.day))} onNext={() => update(advance)} label="חזרה" />
-        : <LessonView lesson={LESSON[step.id]} wiki={st.settings.wiki} sound={st.settings.sound} onDone={(ok, all) => update((s) => advance(finishLesson(s, step.id, ok, all, plan.day)))} />}
+        : <LessonView lesson={LESSON[step.id]} wiki={st.settings.wiki} sound={st.settings.sound} onDone={(ok, all) => { if (!st.lessons[step.id]) pushWin('lesson', LESSON[step.id].title); update((s) => advance(finishLesson(s, step.id, ok, all, plan.day))); }} />}
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { pushWin } from '../wins';
 import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
 import { readCourses } from '../summary';
 import { STORAGE_KEY, USER_NAME } from '../course';
@@ -229,7 +230,8 @@ function Session({ st, update, onExit, onMore }: { st: MathState; update: Update
   const hint = useMemo(() => (step && q?.pencil && step.kind !== 'worked' ? hintFor(step, q) : null), [q]);
   if (finished) return <Finish st={st} onExit={onExit} onMore={onMore} />;
   if (!step || !q) return null;
-  const next = () => update(advance);
+  const lastNew = plan.steps.map((s) => s.part).lastIndexOf('new');
+  const next = () => { const s0 = plan.steps[plan.at]; if (plan.newSkill && plan.at === lastNew && s0?.skill === plan.newSkill) pushWin('skill', SKILL[plan.newSkill].title); update(advance); };
   const parts = PARTS.filter((p) => plan.steps.some((s) => s.part === p.id));
   const cur = parts.findIndex((p) => p.id === step.part);
   const inPart = plan.steps.filter((s) => s.part === step.part), idx = plan.steps.slice(0, plan.at).filter((s) => s.part === step.part).length;

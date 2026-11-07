@@ -24,7 +24,7 @@ export function BottomNav({ route, go }: { route: Route; go: (r: Route) => void 
           <span>{t.label}</span>
         </button>
       ))}
-      {dbUrl() && <button onClick={() => setFamily(true)}><span>משפחה</span></button>}
+      {dbUrl() && <button onClick={() => setFamily(true)}><span>מערכת</span></button>}
     </nav>
   );
 }
