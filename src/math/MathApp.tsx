@@ -7,7 +7,7 @@ import { canSpeak, sfx, speakHebrew } from '../platform';
 import { Figure } from './Figure';
 import {
   addTime, advance, answerPlacement, applyPlacement, buildPlan, checkTyped, dayLog, dayNumber, flaggedSkills, hintFor, initialMath, isChoiceRight, isMet, makeQuestion, markMet, MathState,
-  nextNew, Part, placementDone, placementStep, queueRetry, recordAnswer, shown, startPlacement, stationsOf, statusOf, Step, GRADE5_FLOOR, totals, trapForTyped, weekDays,
+  nextNew, Part, placementDone, placementStep, queueRetry, recordAnswer, shown, startPlacement, stationsOf, stationSize, statusOf, Step, GRADE5_FLOOR, totals, trapForTyped, weekDays,
 } from './engine';
 import { DOMAINS, Question, SKILL, SKILLS, STATIONS, TRAPS, TrapId } from './skills';
 
@@ -309,7 +309,7 @@ function Run({ st, update, onPause }: { st: MathState; update: Update; onPause: 
   const hint = useMemo(() => (q.pencil ? hintFor(stepDef, q) : null), [q]);
   const station = STATIONS.find((s) => s.id === p.station)!;
   const total = STATIONS.length;
-  const pct = Math.min(100, ((station.id - 1 + p.i / 4) / total) * 100);
+  const pct = Math.min(100, ((station.id - 1 + p.i / stationSize(p)) / total) * 100);
   const answered = useRef<boolean | null>(null);
   const move = (res: boolean | 'notyet') => update((s) => (s.placement ? { ...s, placement: answerPlacement(s.placement, res) } : s));
   return (

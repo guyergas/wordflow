@@ -74,7 +74,8 @@ describe('content map', () => {
     expect(new Set(SKILLS.map((s) => s.id)).size).toBe(SKILLS.length);
   });
   it('every station has at least four skills to test', () => {
-    for (const st of STATIONS) expect(SKILLS.filter((s) => s.station === st.id).length, st.name).toBeGreaterThanOrEqual(4);
+    // Junior-high stations fill up over time; an empty one is skipped, and one in use has at least one skill.
+    for (const st of STATIONS.filter((x) => x.id <= 10)) expect(SKILLS.filter((s) => s.station === st.id).length, st.name).toBeGreaterThanOrEqual(4);
     expect(DOMAINS).toHaveLength(3);
   });
   it('the words shown to a child never mention a grade', () => {
@@ -113,12 +114,21 @@ describe('placement', () => {
     expect(p.start).toEqual({ num: 2, frac: 5, shape: 9 });
   });
   it('a learner who passes everything goes all the way', () => { expect(run(() => true).start).toEqual({ num: 11, frac: 7, shape: 9 }); });
-  it('checks again before stopping: one bad round is not enough', () => {
+  it('asks every skill of a station, and what she got wrong is left to learn', () => {
     let p = startPlacement(5);
-    [false, false, false, false].forEach((a) => { p = answerPlacement(p, a); });
-    expect([p.station, p.round, p.d]).toEqual([1, 1, 0]);
-    [true, true, true, false].forEach((a) => { p = answerPlacement(p, a); });
+    const ids: string[] = [];
+    while (p.station === 1 && p.d === 0) { ids.push(placementStep(p).skill); p = answerPlacement(p, ids.length !== 2); }
+    expect(new Set(ids)).toEqual(new Set(SKILLS.filter((s) => s.station === 1).map((s) => s.id)));
     expect(p.station).toBe(2);
+    while (!placementDone(p)) p = answerPlacement(p, 'notyet');
+    const st = applyPlacement(initialMath(), p, 100);
+    expect(st.skills[ids[1]]).toBeUndefined();
+    expect(st.skills[ids[0]]).toMatchObject({ assumed: true, checked: true });
+  });
+  it('a station with too many mistakes stops the area there', () => {
+    let p = startPlacement(5);
+    while (p.station === 1 && p.d === 0) p = answerPlacement(p, false);
+    expect(p.start.num).toBe(1);
   });
   it('not yet stops the area right away and is not a mistake', () => {
     const p = answerPlacement(startPlacement(5), 'notyet');
@@ -241,7 +251,7 @@ describe('basic skills fade out', () => {
     for (let i = 0; i < 20; i++) expect(buildPlan(st, T, { rnd: Math.random }).steps.some((x) => x.skill === 'add20')).toBe(false);
   });
   it('skills she was placed above never come back for review', () => {
-    const st: MathState = { ...initialMath(), onboarded: true, skills: { add20: { ...solid(3), assumed: true } } };
+    const st: MathState = { ...initialMath(), onboarded: true, skills: { add20: { ...solid(3), assumed: true, checked: true } } };
     expect(buildPlan(st, T).steps.some((x) => x.skill === 'add20')).toBe(false);
   });
   it('a mistake still brings a basic skill back', () => {
@@ -260,8 +270,19 @@ describe('placement from fifth grade', () => {
     expect(placementDone(p)).toBe(true);
     const st = applyPlacement({ ...initialMath(), placement: p }, p, 100);
     expect(st.skills.add20?.assumed).toBe(true);
+    expect(st.skills.add20?.checked).toBeUndefined();
     expect(st.skills.fracmean?.assumed).toBe(true);
     expect(st.skills.fracdiff).toBeUndefined();
+  });
+  it('skills below the floor are checked one at a time, under 5% of her answers', () => {
+    let p = startPlacement(5, GRADE5_FLOOR);
+    while (!placementDone(p)) p = answerPlacement(p, 'notyet');
+    let st = applyPlacement({ ...initialMath(), placement: p }, p, 100);
+    const plan = buildPlan(st, 101, { rnd: () => 0.5 }), check = plan.steps.filter((x) => x.check);
+    expect(check.length).toBe(1);
+    st = recordAnswer(st, check[0], { correct: true, hinted: false }, 101);
+    expect(st.skills[check[0].skill].checked).toBe(true);
+    expect(buildPlan(st, 102, { rnd: () => 0.5 }).steps.some((x) => x.check)).toBe(false);
   });
 });
 

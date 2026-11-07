@@ -3,15 +3,15 @@
 import { DOMAINS, Domain, fmt, Fig, Measure, Question, Rnd, seeded, Skill, SKILL, SKILLS, STATIONS, TrapId } from './skills';
 
 export interface Metric { box: number; due: number; flag: boolean; clear: number; ok: number; no: number; helped: number; last: number }
-export interface SkillState { u: Metric; e: Metric; met: number | null; assumed?: boolean }
+export interface SkillState { u: Metric; e: Metric; met: number | null; assumed?: boolean; checked?: boolean }
 export type Part = 'warm' | 'boost' | 'new';
 export type StepKind = 'worked' | 'partial' | 'solve';
-export interface Step { part: Part; kind: StepKind; skill: string; measure: Measure; seed: number; support: boolean; mode: 'choice' | 'type'; retry?: boolean }
+export interface Step { part: Part; kind: StepKind; skill: string; measure: Measure; seed: number; support: boolean; mode: 'choice' | 'type'; retry?: boolean; check?: boolean }
 export interface Plan { day: number; steps: Step[]; at: number; extra?: boolean; bonus?: boolean; newSkill: string | null; flagged: string[] }
 export interface DayLog { ok: number; no: number; helped: number; done: boolean; sec?: number }
-export interface Placement { d: number; station: number; round: number; i: number; score: number; seed: number; start: Partial<Record<Domain, number>>; asked: number; floor?: Partial<Record<Domain, number>> }
+export interface Placement { d: number; station: number; round: number; i: number; score: number; seed: number; start: Partial<Record<Domain, number>>; asked: number; floor?: Partial<Record<Domain, number>>; missed?: string[]; passed?: string[] }
 export interface MathState {
-  v: 1; name: string; onboarded: boolean; moved?: string; placement: Placement | null; start: Partial<Record<Domain, number>>;
+  v: 1; name: string; onboarded: boolean; moved?: string; checks?: number; placement: Placement | null; start: Partial<Record<Domain, number>>;
   skills: Record<string, SkillState>; days: Record<string, DayLog>; plan: Plan | null; traps: Record<string, number>;
   settings: { sound: boolean; pace: 'calm' | 'normal'; weeklyGoal: number };
 }
@@ -23,8 +23,10 @@ export const SOLID_BOX = 3;
 /** The next skill can build on this one after two separate successful days. */
 export const OPEN_BOX = 2;
 export const PACE = { calm: 3, normal: 5 };
-export const PLACEMENT_QUESTIONS = 4;
-export const PLACEMENT_PASS = 3;
+/** The placement asks about every skill of a station once, and passes the station at PLACEMENT_SHARE right. */
+export const PLACEMENT_SHARE = 0.75;
+/** Skills counted as known without being asked (below a starting floor) are checked in practice, at most this share of all questions. */
+export const CHECK_SHARE = 0.05;
 
 export const dayNumber = (d: Date = new Date()) => Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() / 864e5 + 0.5);
 export const freshMetric = (): Metric => ({ box: 0, due: 0, flag: false, clear: 0, ok: 0, no: 0, helped: 0, last: -1 });
@@ -90,6 +92,9 @@ export function buildPlan(st: MathState, today: number, opts: { extra?: boolean;
     const dueFirst = [...solid].sort((a, b) => Math.min(...measures(a).map((m) => ss(st, a.id)[m].due)) - Math.min(...measures(b).map((m) => ss(st, b.id)[m].due))).slice(0, 12);
     shuffle(dueFirst, rnd).slice(0, 4).forEach((s) => steps.push(practiceStep(st, s, 'warm', today, rnd)));
     weak.forEach((s) => steps.push(practiceStep(st, s, 'boost', today, rnd)));
+    // One skill counted as known without being asked, the most advanced first, while such checks stay under 5% of all her answers.
+    const unchecked = SKILLS.filter((s) => ss(st, s.id).assumed && !ss(st, s.id).checked && !flagged(st, s)).sort((a, b) => b.station - a.station);
+    if (unchecked.length && !opts.extra && (st.checks ?? 0) + 1 <= CHECK_SHARE * (answered(st) + 20)) steps.push({ ...practiceStep(st, unchecked[0], 'warm', today, rnd), check: true });
   }
   if (fresh) steps.push(...teach(fresh, rnd));
   else if (!opts.extra) {
@@ -119,6 +124,9 @@ function grade(m: Metric, correct: boolean, today: number): Metric {
   return n;
 }
 
+/** First-try answers she has given in practice, over all skills. */
+const answered = (st: MathState) => Object.values(st.skills).reduce((n, x) => n + x.u.ok + x.u.no + x.e.ok + x.e.no, 0);
+
 /** Registers that she met the skill, so leaving in the middle of a lesson does not lose it. */
 export const markMet = (st: MathState, id: string, today: number): MathState => {
   const x = ss(st, id);
@@ -128,6 +136,8 @@ export const markMet = (st: MathState, id: string, today: number): MathState => 
 /** One answered question. A retry and a partly solved example are never graded. A hint means success with help: it is not a mistake, and it does not promote. */
 export function recordAnswer(st: MathState, step: Step, res: { correct: boolean; hinted: boolean; trap?: TrapId }, today: number): MathState {
   let next = markMet(st, step.skill, today);
+  // A check of a skill counted as known: right, and it is confirmed for good; wrong, and it is flagged for practice.
+  if (step.check) next = { ...next, checks: (next.checks ?? 0) + 1, skills: { ...next.skills, [step.skill]: { ...ss(next, step.skill), ...(res.correct && !res.hinted ? { checked: true } : {}) } } };
   if (res.trap && !res.correct) next = { ...next, traps: { ...next.traps, [res.trap]: (next.traps[res.trap] ?? 0) + 1 } };
   if (step.retry || step.kind !== 'solve') return next;
   const x = ss(next, step.skill), m = x[step.measure], log = dayLog(next, today);
@@ -224,13 +234,15 @@ const firstStation = (d: Domain, floor?: Partial<Record<Domain, number>>) => sta
 export const startPlacement = (seed: number, floor?: Partial<Record<Domain, number>>): Placement => ({ d: 0, station: firstStation(DOMAINS[0].id, floor), round: 0, i: 0, score: 0, seed, start: {}, asked: 0, ...(floor ? { floor } : {}) });
 /** Fifth-grade material: big numbers, operations on fractions and decimals, and measurement. */
 export const GRADE5_FLOOR: Partial<Record<Domain, number>> = { num: 3, frac: 5, shape: 7 };
-export const stationsOf = (d: Domain) => STATIONS.filter((s) => s.domain === d).map((s) => s.id);
+export const stationsOf = (d: Domain) => STATIONS.filter((s) => s.domain === d && SKILLS.some((k) => k.station === s.id)).map((s) => s.id);
+
+const stationSkills = (p: Placement) => shuffle(SKILLS.filter((s) => s.station === p.station), seeded(p.seed + p.station * 31));
+export const stationSize = (p: Placement) => SKILLS.filter((s) => s.station === p.station).length;
 
 export function placementStep(p: Placement): Pick<Step, 'skill' | 'measure' | 'seed' | 'support' | 'mode'> {
-  const skills = shuffle(SKILLS.filter((s) => s.station === p.station), seeded(p.seed + p.station * 31 + p.round * 7));
-  const s = skills[p.i % skills.length];
+  const s = stationSkills(p)[p.i];
   const m: Measure = s.e ? 'e' : 'u';
-  return { skill: s.id, measure: m, seed: p.seed + p.station * 1000 + p.round * 100 + p.i, support: false, mode: m === 'u' ? 'choice' : 'type' };
+  return { skill: s.id, measure: m, seed: p.seed + p.station * 1000 + p.i, support: false, mode: m === 'u' ? 'choice' : 'type' };
 }
 
 function stopDomain(p: Placement, at: number): Placement {
@@ -241,18 +253,19 @@ function stopDomain(p: Placement, at: number): Placement {
 }
 export const placementDone = (p: Placement) => p.d >= DOMAINS.length;
 
-/** 'notyet' stops this area and is not counted as a mistake. */
+/** Every skill of the station is asked once. 'notyet' stops this area and is not counted as a mistake.
+ *  A station passed counts as known, except the skills she got wrong, which she will learn. */
 export function answerPlacement(p: Placement, res: boolean | 'notyet'): Placement {
   if (res === 'notyet') return { ...stopDomain(p, p.station), asked: p.asked + 1 };
-  const score = p.score + (res ? 1 : 0), i = p.i + 1, asked = p.asked + 1;
-  if (i < PLACEMENT_QUESTIONS) return { ...p, i, score, asked };
-  if (score >= PLACEMENT_PASS) {
+  const id = stationSkills(p)[p.i].id, i = p.i + 1, asked = p.asked + 1, score = p.score + (res ? 1 : 0);
+  const missed = res ? p.missed ?? [] : [...(p.missed ?? []), id], passed = res ? [...(p.passed ?? []), id] : p.passed ?? [];
+  if (i < stationSize(p)) return { ...p, i, score, asked, missed, passed };
+  if (score >= Math.ceil(stationSize(p) * PLACEMENT_SHARE)) {
     const list = stationsOf(DOMAINS[p.d].id), idx = list.indexOf(p.station);
-    if (idx + 1 < list.length) return { ...p, station: list[idx + 1], round: 0, i: 0, score: 0, asked };
-    return { ...stopDomain(p, p.station + 1), asked };
+    if (idx + 1 < list.length) return { ...p, station: list[idx + 1], round: 0, i: 0, score: 0, asked, missed, passed };
+    return { ...stopDomain({ ...p, missed, passed }, p.station + 1), asked };
   }
-  if (p.round === 0) return { ...p, round: 1, i: 0, score: 0, asked };
-  return { ...stopDomain(p, p.station), asked };
+  return { ...stopDomain({ ...p, missed, passed }, p.station), asked };
 }
 
 /** What she passed counts as known on condition: it comes back in warm-ups, and a mistake sends it to practice. */
@@ -261,9 +274,10 @@ export function applyPlacement(st: MathState, p: Placement, today: number): Math
   let i = 0;
   for (const s of SKILLS) {
     const dom = STATIONS.find((x) => x.id === s.station)!.domain;
-    if (s.station < (p.start[dom] ?? 1)) {
+    // Skills she got wrong are left to learn. Those she answered are known; those below the floor were not asked and get checked later.
+    if (s.station < (p.start[dom] ?? 1) && !(p.missed ?? []).includes(s.id)) {
       const m = (): Metric => ({ ...freshMetric(), box: SOLID_BOX, due: today + 1 + (i++ % 14) });
-      skills[s.id] = { u: s.u ? m() : freshMetric(), e: s.e ? m() : freshMetric(), met: today, assumed: true };
+      skills[s.id] = { u: s.u ? m() : freshMetric(), e: s.e ? m() : freshMetric(), met: today, assumed: true, ...((p.passed ?? []).includes(s.id) || !p.floor ? { checked: true } : {}) };
     }
   }
   const low = (p.start.num ?? 1) <= 2;

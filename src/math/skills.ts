@@ -60,6 +60,18 @@ export const STATIONS: { id: number; name: string; blurb: string; domain: Domain
   { id: 8, name: 'נתונים וזוויות', blurb: 'ממוצע, טבלאות ומעלות', domain: 'shape' },
   { id: 9, name: 'מספרים שליליים וחזקות', blurb: 'מתחת לאפס, ריבועים ושורשים', domain: 'num' },
   { id: 10, name: 'ביטויים ומשוואות', blurb: 'אות במקום מספר', domain: 'num' },
+  // Junior high, grades 7-9. Skills are added to these stations over time (docs/math-junior-high.md); an empty station is skipped.
+  { id: 11, name: 'אלגברה: ביטויים', blurb: 'פילוג, כינוס ופתיחת סוגריים', domain: 'num' },
+  { id: 12, name: 'משוואות ואי־שוויונות', blurb: 'משוואות מכל הסוגים ובעיות מילוליות', domain: 'num' },
+  { id: 13, name: 'פונקציה קווית', blurb: 'שיפוע, נקודות וגרפים', domain: 'num' },
+  { id: 14, name: 'מערכת משוואות', blurb: 'שתי משוואות, שני נעלמים', domain: 'num' },
+  { id: 15, name: 'חזקות ושורשים', blurb: 'חוקי חזקות, כתיב מדעי ושורשים', domain: 'num' },
+  { id: 16, name: 'ביטויים ריבועיים', blurb: 'נוסחאות כפל מקוצר, פירוק ומשוואה ריבועית', domain: 'num' },
+  { id: 17, name: 'יחס, פרופורציה ואחוזים', blurb: 'פרופורציה, שינוי באחוזים וריבית', domain: 'frac' },
+  { id: 18, name: 'זוויות ומשולשים', blurb: 'ישרים מקבילים, סכום זוויות ומשולשים', domain: 'shape' },
+  { id: 19, name: 'פיתגורס ומעגל', blurb: 'משפט פיתגורס, היקף ושטח עיגול', domain: 'shape' },
+  { id: 20, name: 'גופים ודמיון', blurb: 'נפח ושטח פנים, משולשים דומים', domain: 'shape' },
+  { id: 21, name: 'סטטיסטיקה והסתברות', blurb: 'חציון, שכיח והסתברות פשוטה', domain: 'shape' },
 ];
 export const DOMAINS: { id: Domain; name: string }[] = [
   { id: 'num', name: 'מספרים ופעולות' }, { id: 'frac', name: 'שברים, עשרוניים ואחוזים' }, { id: 'shape', name: 'צורות ומדידה' },
