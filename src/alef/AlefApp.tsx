@@ -1,6 +1,6 @@
 import { PointerEvent as PE, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { STORAGE_KEY, USER_NAME } from '../course';
-import { saveHebrewRecordings, sayHebrew, sfx } from '../platform';
+import { saveHebrewRecordings, sayHebrew, sayInTurn, sfx } from '../platform';
 import { CourseSwitch, SummaryTab } from '../summaryUi';
 import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, huntCells, initial, meet, mix, nextLetter, noteMix, pairsOf, PlanOptions, record, secure, shaky, SHAKY_LIMIT, struggling, HARD_LIMIT, Status, statusOf, Step, topMix, validStep, WRITING } from './engine';
 import { Ink, judge, FREE, TRACE } from './ink';
@@ -312,7 +312,9 @@ function SoundGame({ st, id, n, sound, onDone }: { st: AState; id: string; n?: n
     return [right, ...others].sort(() => Math.random() - 0.5);
   }, [id, n]);
   const [wrong, setWrong] = useState<string[]>([]), [right, setRight] = useState(false);
-  useEffect(() => { sayHebrew(say); }, []);
+  // The question names every picture, since a child cannot read the words yet.
+  const ask = () => sayInTurn([{ text: say, lang: 'he' }, ...options.map((w) => ({ text: SAY.heard(w[1]), lang: 'he' as const }))]);
+  useEffect(() => { ask(); }, []);
   const tap = (w: string[]) => {
     if (right) return;
     if (w[0][0] === id) { setRight(true); if (sound) sfx.good(); sayHebrew(SAY.rightWord(w[1])); }
@@ -320,7 +322,7 @@ function SoundGame({ st, id, n, sound, onDone }: { st: AState; id: string; n?: n
   };
   return (
     <div className="a-step">
-      <Speaker text={say} />
+      <button type="button" className="a-speak" aria-label="לשמוע שוב" onClick={ask}><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M4 9v6h4l5 4V5L8 9H4Z" /><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11" /></svg></button>
       <div className="a-answers n1">{options.map((w) => <button key={w[0]} type="button" disabled={wrong.includes(w[0])} className={`a-answer a-picture ${right && w[0][0] === id ? 'right' : ''} ${wrong.includes(w[0]) ? 'off' : ''}`} aria-label={w[0]} onClick={() => tap(w)}>{w[2]}</button>)}</div>
       {right ? <Next onClick={() => onDone(wrong.length === 0)} /> : <div className="a-next-space" />}
     </div>

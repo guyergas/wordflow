@@ -287,7 +287,7 @@ function WordGame({ st, l, n, sound, onMiss, onDone }: { st: EState; l: AbcLette
 
 /** Hear a letter and choose the picture whose word opens with it. The words are written, since a child does not know them in English yet. */
 function PictureGame({ st, l, n, sound, onDone }: { st: EState; l: AbcLetter; n: number; sound: boolean; onDone: (ok: boolean) => void }) {
-  const { right, options } = useMemo(() => pictureChoices(st, l.id, n), [l.id, n]), q = [he(HE.picture), ...named(l)];
+  const { right, options } = useMemo(() => pictureChoices(st, l.id, n), [l.id, n]), q = [he(HE.picture), ...named(l), ...options.map((w) => en(w[0]))];
   const [wrong, setWrong] = useState<string[]>([]), [won, setWon] = useState(false);
   useEffect(() => { say(...q); }, []);
   const tap = (w: [string, string]) => {
