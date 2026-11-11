@@ -77,6 +77,8 @@ export const TRAPS = {
   polyang: { name: 'סכום זוויות במצולע', explain: 'מצולע עם n צלעות מתחלק מקודקוד אחד ל־n−2 משולשים, ולכן סכום הזוויות שלו הוא (n−2)×180. לא כופלים ב־n, ורק במרובע הסכום הוא 360.' },
   congr: { name: 'משפטי חפיפה', explain: 'בצ.ז.צ הזווית נמצאת בין שתי הצלעות, ובז.צ.ז הצלע נמצאת בין שתי הזוויות. שלוש זוויות שוות לא מספיקות: למשולש גדול ולמשולש קטן יכולות להיות אותן זוויות.' },
   pyth: { name: 'משפט פיתגורס', explain: 'במשולש ישר זווית a²+b²=c², ו־c הוא היתר: הצלע שמול הזווית הישרה, והארוכה ביותר. לא מחברים את הצלעות עצמן, ובסוף לא שוכחים להוציא שורש. כשמחפשים ניצב מחסרים: c²−a².' },
+  circle: { name: 'היקף מול שטח עיגול', explain: 'היקף מעגל הוא 2πr, כלומר π כפול הקוטר, ולא π כפול הרדיוס. שטח עיגול הוא πr²: מעלים בריבוע את הרדיוס, ולא את הקוטר. אם נתון קוטר, הרדיוס הוא חצי ממנו.' },
+  sector: { name: 'קשת וגזרה', explain: 'קשת וגזרה הן חלק מהמעגל כולו, לפי הזווית חלקי 360. לקשת כופלים את ההיקף בחלק הזה, ולגזרה כופלים את השטח. לא מחלקים ב־180, ולא שוכחים לקחת רק חלק.' },
 } as const;
 export type TrapId = keyof typeof TRAPS;
 
@@ -1210,6 +1212,29 @@ export const SKILLS: Skill[] = [
       ? `במשולש ישר זווית אורך היתר [[${c}]] ס״מ ואורך ניצב אחד [[${a}]] ס״מ. מה אורך הניצב השני בס״מ?`
       : `סולם באורך [[${c}]] מ׳ נשען על קיר. רגל הסולם נמצאת [[${a}]] מ׳ מהקיר. לאיזה גובה על הקיר מגיע הסולם, במטרים?`;
     return calc({ prompt, ans: n(b), eq: `(${c}*${c}-${a}*${a})/${b}`, pencil: true, read: kind === 1, wrong: wrong.filter(([v]) => v !== n(b) && Number(v) > 0), steps: [...(kind === 1 ? ['הקיר, הרצפה והסולם יוצרים משולש ישר זווית, והסולם הוא היתר'] : []), `מחסרים את ריבוע הניצב מריבוע היתר: [[${c}²−${a}²=${c * c}−${a * a}=${b * b}]]`, `[[√${b * b}=${b}]]`] });
+  } },
+  { id: 'circle', station: 19, title: 'היקף מעגל ושטח עיגול', needs: ['area'], e: (r) => {
+    const k = ri(r, 1, 4), rad = 7 * k, byD = r() < 0.5, given = byD ? `שקוטרו [[${2 * rad}]] ס״מ` : `שרדיוסו [[${rad}]] ס״מ`, pi = 'השתמשו ב־[[π≈22/7]].';
+    const half = byD ? [`הרדיוס הוא חצי מהקוטר: [[${2 * rad}÷2=${rad}]]`] : [];
+    if (r() < 0.5) {
+      const ans = 44 * k;
+      const wrong: [string, TrapId?][] = [[n(154 * k * k), 'circle'], [n(22 * k), 'circle'], [n(88 * k), 'circle']];
+      return calc({ prompt: `מה היקף המעגל ${given}, בס״מ? ${pi}`, ans: n(ans), eq: `2*22/7*${rad}`, pencil: true, wrong, steps: [...half, 'היקף מעגל: [[2πr]], כלומר [[π]] כפול הקוטר', `[[22/7×${2 * rad}=22×${2 * k}=${ans}]]`] });
+    }
+    const ans = 154 * k * k;
+    const wrong: [string, TrapId?][] = [[n(44 * k), 'circle'], [n(616 * k * k), 'circle'], [n(308 * k * k), 'circle']];
+    return calc({ prompt: `מה שטח העיגול ${given}, בסמ״ר? ${pi}`, ans: n(ans), eq: `22/7*${rad}*${rad}`, pencil: true, wrong, steps: [...half, 'שטח עיגול: [[πr²]], ומעלים בריבוע את הרדיוס, לא את הקוטר', `[[22/7×${rad}×${rad}=22×${k}×${rad}=${ans}]]`] });
+  } },
+  { id: 'sector', station: 19, title: 'קשת וגזרה', needs: ['circle'], e: (r) => {
+    const [a, p, q] = pick(r, [[90, 1, 4], [180, 1, 2], [60, 1, 6], [120, 1, 3], [45, 1, 8], [270, 3, 4]] as const), arc = r() < 0.5;
+    const L = (k: number) => 44 * k, A = (k: number) => 154 * k * k, whole = (v: number) => (v * p) % q === 0;
+    const k = pick(r, [1, 2, 3, 4].filter((x) => whole(arc ? L(x) : A(x)))), rad = 7 * k, frac = `${p}/${q}`, pi = 'השתמשו ב־[[π≈22/7]].';
+    const full = arc ? L(k) : A(k), other = arc ? A(k) : L(k), ans = (full * p) / q;
+    const wrong: [string, TrapId?][] = [[n(full), 'sector'], [n((2 * full * p) / q), 'sector'], ...(whole(other) ? [[n((other * p) / q), 'sector'] as [string, TrapId]] : [])];
+    const prompt = arc
+      ? `במעגל שרדיוסו [[${rad}]] ס״מ יש זווית מרכזית של [[${a}]] מעלות. מה אורך הקשת שמולה, בס״מ? ${pi}`
+      : `במעגל שרדיוסו [[${rad}]] ס״מ יש גזרה עם זווית מרכזית של [[${a}]] מעלות. מה שטח הגזרה, בסמ״ר? ${pi}`;
+    return calc({ prompt, ans: n(ans), eq: arc ? `2*22/7*${rad}*${a}/360` : `22/7*${rad}*${rad}*${a}/360`, pencil: true, read: true, wrong: wrong.filter(([v]) => v !== n(ans)), steps: [`${arc ? 'הקשת' : 'הגזרה'} היא [[${a}/360=${frac}]] מה${arc ? 'מעגל' : 'עיגול'}`, arc ? `היקף המעגל: [[2×22/7×${rad}=${full}]]` : `שטח העיגול: [[22/7×${rad}×${rad}=${full}]]`, `[[${full}×${frac}=${ans}]]`] });
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));
