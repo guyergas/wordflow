@@ -1,25 +1,20 @@
-# Adding English reading texts
+# English reading texts
 
-Texts are in `PASSAGES` in `src/englishReading.tsx`, in the order they open. The goal is a path of texts that grows slowly, in length and difficulty, up to what a ninth-grader reads (the Ministry's Band II, about the level of an unseen text in the 3-point bagrut).
+The texts are in `PASSAGES` in `src/readingTexts.ts`, in the order they open: 59 texts that grow slowly in length and difficulty, from fourth grade up to ninth grade (the Ministry's Band II, about the level of an unseen text in the 3-point bagrut). Every text has `grade`, the school grade it fits, and `words`, how many solid words it waits for. Both always go up along the array.
 
-Each run adds one text at the end of `PASSAGES`. It is one step longer or harder than the last text, never easier, following this ladder:
+## Each run: questions
 
-| Grade | Words in the text | Questions | Kind of text |
-|---|---|---|---|
-| ד-ה | 45 to 70 | 3 | simple present, everyday topics |
-| ו | 70 to 120 | 4 to 5 | short stories and facts, simple past |
-| ז | 120 to 180 | 5 to 6 | facts and stories, passive and comparisons |
-| ח | 180 to 250 | 6 | opinion and information, more than one point of view |
-| ט | 250 to 400 | 6 to 7 | articles and stories with questions on the main idea, the writer's opinion and what a line means |
+Every text should have about 15 questions, and most still have 3 to 6. Run `npx tsx scripts/next-reading.ts`. It prints `high`: up to two of the first ten texts, which learners reach first. When none of those is left, it prints `low`: one later text. Bring each listed text to 15 questions, then stop. When `textsLeft` is 0, skip this step.
 
-Stay on a grade for about five texts before moving up. When a grade has enough texts, the next text moves to the next grade. Once the ט range is full (about 400 words), keep adding ט texts of 300 to 400 words on new topics.
+The questions on a text:
 
-Each text needs:
-
-- `id`: short and unique. `title`: in English.
-- `grade`: one of ד, ה, ו, ז, ח, ט, never lower than the text before.
-- `words`: how many solid words it waits for, always more than the text before (about 100 more each time).
-- `text`: original writing, not copied from anywhere. It must be fit for a child, with topics like nature, science, history, technology, people, everyday life and stories. Use words and grammar that fit the grade. Keep Present Perfect out for now.
-- `qs`: `[question, right, [wrong, wrong]]`, all in Hebrew. At higher grades, ask about the main idea, the writer's opinion and what a line means, not only about details. Only one answer may be right according to the text.
+- Use the form `[question, right, [wrong, wrong]]`, all in Hebrew. Only one answer may be right according to the text, and a child who did not read the text must not be able to guess it.
+- Cover the whole text in order, from the first line to the last. Ask about details, and from grade ז up also about the main idea, the reason for something, what a word or line means in context, and the writer's opinion or purpose. At grades ח and ט, about a third of the questions should need some thinking, not only finding a line.
+- Keep all three options about the same length. The right answer must be the longest option in no more than about a third of a text's questions, and sometimes the shortest. When you add questions to a text, also fix its existing questions where the right answer gives itself away by length.
+- Do not change the text itself, its `id`, `grade` or `words`.
 
 Run `npx vitest run src/englishReading.test.ts`.
+
+## New texts
+
+When every text has 15 questions, new texts can be added at the end, one per run, only when Guy asks for more. A new text is ט level, 300 to 400 words, on a new topic, with `words` 38 more than the last text. It must be original writing, fit for a child, and keep Present Perfect out for now.

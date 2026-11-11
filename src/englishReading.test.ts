@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { PASSAGES, wordsNeeded } from './englishReading';
+import { PASSAGES, wordsNeeded } from './readingTexts';
 
 const GRADES = ['ד', 'ה', 'ו', 'ז', 'ח', 'ט'];
 describe('reading', () => {
