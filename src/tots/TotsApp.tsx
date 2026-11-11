@@ -5,7 +5,7 @@ import { Arrows, Glyph, Lines, Next, Speaker, useStudyTimer, WritePad } from '..
 import { frameOf } from '../alef/letters';
 import { STORAGE_KEY, USER_NAME } from '../course';
 import { saveHebrewRecordings, sayHebrew, sfx } from '../platform';
-import { CourseSwitch, SummaryTab } from '../summaryUi';
+import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
 import { addTime, advance, answer, buildPlan, dayNumber, initial, makeTask, meet, nextSkill, noteMiss, PlanOptions, record, secure, shaky, SHAKY_LIMIT, Status, statusOf, Step, Task, topMisses, TState, validStep, WRITING } from './engine';
 import { ALL_DIGITS, DIGITS, SAY, Skill, SKILL, SKILLS, STAGES, WORD } from './numbers';
 
@@ -57,13 +57,13 @@ export function TotsApp() {
     return () => { root.classList.remove('a-lock'); document.removeEventListener('touchmove', stop); };
   }, [inSession]);
   const start = (o: PlanOptions = {}) => {
-    update((s) => { const open = !!s.plan && !s.plan.extra && s.plan.day === today && s.plan.at < s.plan.steps.length; return open && !o.bonus && !o.warm && !o.boost ? s : { ...s, plan: buildPlan(s, today, o) }; });
+    update((s) => { const open = !!s.plan && !s.plan.extra && s.plan.day === today && s.plan.at < s.plan.steps.length; return open && !o.bonus && !o.warm && !o.boost && !o.focus ? s : { ...s, plan: buildPlan(s, today, o) }; });
     setInSession(true);
   };
   if (inSession && st.plan) return <Session st={st} update={update} onExit={() => setInSession(false)} />;
   return (
     <div className="app">
-      <main className="page">{tab === 'home' ? <Home st={st} today={today} onStart={start} onProgress={() => setTab('progress')} onSettings={() => setSettings(true)} /> : <Progress st={st} />}</main>
+      <main className="page">{tab === 'home' ? <Home st={st} today={today} onStart={start} onProgress={() => setTab('progress')} onSettings={() => setSettings(true)} /> : <Progress st={st} onFocus={(id) => start({ focus: id })} />}</main>
       <nav className="nav" aria-label="ניווט">
         {([['home', 'בית'], ['progress', 'התקדמות']] as const).map(([k, label]) => <button key={k} type="button" className={tab === k ? 'on' : ''} aria-current={tab === k ? 'page' : undefined} onClick={() => setTab(k)}>{label}</button>)}
         <SummaryTab name={st.name} />
@@ -114,6 +114,7 @@ function Home({ st, today, onStart, onProgress, onSettings }: { st: TState; toda
           <button type="button" onClick={() => onStart({ boost: true })}><span aria-hidden="true">💪</span><b>חיזוק</b><small>{hard > 0 ? `${hard} דברים קשים` : 'מה שפחות בטוח'}</small></button>
         </div>
       )}
+      <TodayPlan />
       <button type="button" className="card a-strip-card" onClick={onProgress}>
         <span className="row-between"><b>המסע שלי</b><small className="muted">{met} מתוך {SKILLS.length} ›</small></span>
         <span className="t-strip">{SKILLS.map((s) => <i key={s.id} className={statusOf(st, s.id)} dir="ltr">{s.label}</i>)}</span>
@@ -131,7 +132,7 @@ const STATUS: { key: Status; title: string; note: string }[] = [
 const WRITE_STAGE = ['מעבר על מקווקו', 'כתיבה ליד דוגמה', 'מהזיכרון ולבד', 'כתיבה לבד'];
 const share = ([ok, bad]: [number, number]) => (ok + bad ? `${ok} מתוך ${ok + bad} נכון` : 'עוד לא תורגל');
 
-function Progress({ st }: { st: TState }) {
+function Progress({ st, onFocus }: { st: TState; onFocus: (id: string) => void }) {
   const [shown, setShown] = useState<string | null>(null);
   const s = shown ? SKILL[shown] : null, k = shown ? st.skills[shown] : undefined;
   const of = (x: Status) => SKILLS.filter((v) => statusOf(st, v.id) === x);
@@ -160,6 +161,7 @@ function Progress({ st }: { st: TState }) {
             {topMisses(k).length > 0 && <li><span>טעויות נפוצות</span><b dir="ltr">{topMisses(k).join(', ')}</b></li>}
           </ul>
         ) : <p className="small muted">עוד לא למדנו את זה.</p>}
+        {k && <button type="button" className="cta" onClick={() => onFocus(s.id)}>חזרה ממוקדת על {s.kind === 'num' ? <bdi dir="ltr">{s.n}</bdi> : s.title}</button>}
       </div></div>}
     </>
   );

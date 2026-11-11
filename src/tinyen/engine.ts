@@ -8,7 +8,7 @@ export type StepKind = 'meet' | 'trace' | 'copy' | 'memory' | 'write' | 'find' |
 export interface Step { t: StepKind; id: string; n: number }
 export interface Plan { day: number; steps: Step[]; at: number; extra?: boolean }
 export interface EState { onboarded: boolean; name: string; letters: Record<string, Known>; days: Record<number, { sec: number; fresh: number }>; plan: Plan | null; settings: { sound: boolean } }
-export type PlanOptions = { bonus?: boolean; warm?: boolean; boost?: boolean; rnd?: () => number };
+export type PlanOptions = { bonus?: boolean; warm?: boolean; boost?: boolean; focus?: string; rnd?: () => number };
 
 const GAPS = [1, 1, 2, 4, 8, 16, 32];
 export const SHAKY_LIMIT = 4;
@@ -57,6 +57,8 @@ export const isHard = (k: Known) => hardness(k) >= 0.25;
 
 export function buildPlan(st: EState, day: number, o: PlanOptions = {}): Plan {
   const rnd = o.rnd ?? Math.random, met = Object.keys(st.letters);
+  // Focused review: one letter or number the parent picked on the board, as free practice that moves no stage.
+  if (o.focus && st.letters[o.focus]) return { day, steps: mix(practice(st, o.focus, day, rnd, true), rnd).slice(0, 16), at: 0, extra: true };
   // Warm-up and boost are free practice: no new letter, and stages stay as they are.
   if (o.warm || o.boost) {
     const known = met.filter((id) => secure(st.letters[id]));

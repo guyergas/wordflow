@@ -3,7 +3,7 @@ import { PointerEvent as PE, useCallback, useEffect, useMemo, useRef, useState }
 import { pushProgress } from '../progressSync';
 import { STORAGE_KEY, USER_NAME } from '../course';
 import { playPart, saveHebrewRecordings, sayHebrew, sayInTurn, sfx, stopSound } from '../platform';
-import { CourseSwitch, SummaryTab } from '../summaryUi';
+import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
 import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, huntCells, initial, meet, mix, nextLetter, noteMix, pairsOf, PlanOptions, record, secure, shaky, SHAKY_LIMIT, struggling, HARD_LIMIT, Status, statusOf, Step, topMix, validStep, WRITING, OrderQuestion, orderQuestion } from './engine';
 import { Ink, judge, FREE, TRACE } from './ink';
 import { FAMILIES, frameOf, LETTER, Letter, LETTERS, Pt, SAY, Shape, firstWords, LETTERS as ALL, spots, Stroke, VIEW, WORDS, SONG_ORDER, SONG_TIMES, SONG_URL } from './letters';
@@ -90,14 +90,14 @@ export function AlefApp() {
     return () => { root.classList.remove('a-lock'); document.removeEventListener('touchmove', stop); };
   }, [inSession, order]);
   const start = (o: PlanOptions = {}) => {
-    update((s) => { const open = !!s.plan && !s.plan.extra && s.plan.day === today && s.plan.at < s.plan.steps.length; if (open && !o.bonus && !o.extra && !o.warm && !o.boost) return s; return { ...s, plan: buildPlan(s, today, o) }; });
+    update((s) => { const open = !!s.plan && !s.plan.extra && s.plan.day === today && s.plan.at < s.plan.steps.length; if (open && !o.bonus && !o.extra && !o.warm && !o.boost && !o.focus) return s; return { ...s, plan: buildPlan(s, today, o) }; });
     setInSession(true);
   };
   if (order) return <OrderPractice sound={st.settings.sound} onExit={() => setOrder(false)} />;
   if (inSession && st.plan) return <Session st={st} update={update} onExit={() => setInSession(false)} onMore={start} />;
   return (
     <div className="app">
-      <main className="page">{tab === 'home' ? <Home st={st} today={today} onStart={start} onProgress={() => setTab('progress')} onSettings={() => setSettings(true)} onOrder={() => setOrder(true)} /> : <Progress st={st} />}</main>
+      <main className="page">{tab === 'home' ? <Home st={st} today={today} onStart={start} onProgress={() => setTab('progress')} onSettings={() => setSettings(true)} onOrder={() => setOrder(true)} /> : <Progress st={st} onFocus={(id) => start({ focus: id })} />}</main>
       <nav className="nav" aria-label="ניווט">
         {([['home', 'בית'], ['progress', 'התקדמות']] as const).map(([k, label]) => <button key={k} type="button" className={tab === k ? 'on' : ''} aria-current={tab === k ? 'page' : undefined} onClick={() => setTab(k)}>{label}</button>)}
         <SummaryTab name={st.name} />
@@ -149,6 +149,7 @@ function Home({ st, today, onStart, onProgress, onSettings, onOrder }: { st: ASt
         </div>
       )}
       <OrderButton onOpen={onOrder} />
+      <TodayPlan />
       <button type="button" className="card a-strip-card" onClick={onProgress}>
         <span className="row-between"><b>הא״ב שלי</b><small className="muted">{met} מתוך {LETTERS.length} ›</small></span>
         <span className="a-strip">{LETTERS.map((l) => <i key={l.id} className={statusOf(st, l.id)}><Mini id={l.id} /></i>)}</span>
@@ -224,7 +225,7 @@ const STAGE = ['מעבר על מקווקו', 'כתיבה ליד דוגמה', 'כ
 const share = ([ok, bad]: [number, number]) => (ok + bad ? `${ok} מתוך ${ok + bad} נכון` : 'עוד לא תורגל');
 
 /** What was learned, what is hard and why, letter by letter. */
-function Progress({ st }: { st: AState }) {
+function Progress({ st, onFocus }: { st: AState; onFocus: (id: string) => void }) {
   const [shown, setShown] = useState<string | null>(null);
   const l = shown ? LETTER[shown] : null, k = shown ? st.letters[shown] : undefined;
   const of = (s: Status) => LETTERS.filter((x) => statusOf(st, x.id) === s);
@@ -255,6 +256,7 @@ function Progress({ st }: { st: AState }) {
             {topMix(k).length > 0 && <li><span>מתבלבל עם</span><b>{topMix(k).map((c) => LETTER[c].name).join(', ')}</b></li>}
           </ul>
         ) : <p className="small muted">האות הזאת עוד לא נלמדה.</p>}
+        {k && <button type="button" className="cta" onClick={() => onFocus(l.id)}>חזרה ממוקדת על {l.name}</button>}
       </div></div>}
     </>
   );

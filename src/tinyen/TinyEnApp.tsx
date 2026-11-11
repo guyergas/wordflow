@@ -5,7 +5,7 @@ import { Arrows, Glyph, Lines, Next, useStudyTimer, WritePad } from '../alef/Ale
 import { frameOf } from '../alef/letters';
 import { STORAGE_KEY, USER_NAME } from '../course';
 import { saveHebrewRecordings, sayInTurn, sfx } from '../platform';
-import { CourseSwitch, SummaryTab } from '../summaryUi';
+import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
 import { addTime, advance, answer, buildPlan, choices, dayNumber, EState, huntCells, initial, meet, nextLetter, noteMiss, pairsOf, pictureChoices, PlanOptions, secure, shaky, SHAKY_LIMIT, Status, statusOf, Step, topMisses, validStep, WRITING } from './engine';
 import { ABC, AbcLetter, EN, FAMILIES, HE, LETTER, wordsOf } from './letters';
 
@@ -54,13 +54,13 @@ export function TinyEnApp() {
     return () => { root.classList.remove('a-lock'); document.removeEventListener('touchmove', stop); };
   }, [inSession]);
   const start = (o: PlanOptions = {}) => {
-    update((s) => { const open = !!s.plan && !s.plan.extra && s.plan.day === today && s.plan.at < s.plan.steps.length; return open && !o.bonus && !o.warm && !o.boost ? s : { ...s, plan: buildPlan(s, today, o) }; });
+    update((s) => { const open = !!s.plan && !s.plan.extra && s.plan.day === today && s.plan.at < s.plan.steps.length; return open && !o.bonus && !o.warm && !o.boost && !o.focus ? s : { ...s, plan: buildPlan(s, today, o) }; });
     setInSession(true);
   };
   if (inSession && st.plan) return <Session st={st} update={update} onExit={() => setInSession(false)} />;
   return (
     <div className="app">
-      <main className="page">{tab === 'home' ? <Home st={st} today={today} onStart={start} onProgress={() => setTab('progress')} onSettings={() => setSettings(true)} /> : <Progress st={st} />}</main>
+      <main className="page">{tab === 'home' ? <Home st={st} today={today} onStart={start} onProgress={() => setTab('progress')} onSettings={() => setSettings(true)} /> : <Progress st={st} onFocus={(id) => start({ focus: id })} />}</main>
       <nav className="nav" aria-label="ניווט">
         {([['home', 'בית'], ['progress', 'התקדמות']] as const).map(([k, label]) => <button key={k} type="button" className={tab === k ? 'on' : ''} aria-current={tab === k ? 'page' : undefined} onClick={() => setTab(k)}>{label}</button>)}
         <SummaryTab name={st.name} />
@@ -108,6 +108,7 @@ function Home({ st, today, onStart, onProgress, onSettings }: { st: EState; toda
           <button type="button" onClick={() => onStart({ boost: true })}><span aria-hidden="true">💪</span><b>חיזוק</b><small>{hard > 0 ? `${hard} אותיות קשות` : 'האותיות שפחות בטוחות'}</small></button>
         </div>
       )}
+      <TodayPlan />
       <button type="button" className="card a-strip-card" onClick={onProgress}>
         <span className="row-between"><b>ה־ABC שלי</b><small className="muted">{met} מתוך {ABC.length} ›</small></span>
         <span className="e-abc" dir="ltr">{ABC.map((l) => <i key={l.id} className={statusOf(st, l.id)}>{l.id}</i>)}</span>
@@ -125,7 +126,7 @@ const STATUS: { key: Status; title: string; note: string }[] = [
 const STAGE = ['מעבר על מקווקו', 'כתיבה ליד דוגמה', 'מהזיכרון ולבד', 'כתיבה לבד'];
 const share = ([g, b]: [number, number]) => (g + b ? `${g} מתוך ${g + b} נכון` : 'עוד לא תורגל');
 
-function Progress({ st }: { st: EState }) {
+function Progress({ st, onFocus }: { st: EState; onFocus: (id: string) => void }) {
   const [shown, setShown] = useState<string | null>(null);
   const l = shown ? LETTER[shown] : null, k = shown ? st.letters[shown] : undefined;
   const of = (x: Status) => ABC.filter((v) => statusOf(st, v.id) === x);
@@ -149,6 +150,7 @@ function Progress({ st }: { st: EState }) {
         <div className="a-board t-show"><Art key={l.id} id={l.id} draw arrows /></div>
         <div className="e-show-words">{wordsOf(l.id).map((w) => <button key={w[0]} type="button" onClick={() => say(en(w[0]))}><i aria-hidden="true">{w[1]}</i><span dir="ltr">{w[0]}</span></button>)}</div>
         {k ? <ul className="a-facts"><li><span>זיהוי</span><b>{share(k.ok)}</b></li><li><span>כתיבה</span><b>{share(k.wrote)}</b></li><li><span>שלב הכתיבה</span><b>{STAGE[Math.min(3, k.write.box)]}</b></li>{topMisses(k).length > 0 && <li><span>מתבלבל עם</span><b dir="ltr">{topMisses(k).join(', ')}</b></li>}</ul> : <p className="small muted">האות הזאת עוד לא נלמדה.</p>}
+        {k && <button type="button" className="cta" onClick={() => onFocus(l.id)}>חזרה ממוקדת על <bdi dir="ltr">{l.id}</bdi></button>}
       </div></div>}
     </>
   );

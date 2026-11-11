@@ -80,10 +80,12 @@ export function mix(steps: Step[], rnd: () => number): Step[] {
 }
 
 /** A sitting: some review of whole letters, then the new letter. */
-export type PlanOptions = { bonus?: boolean; extra?: boolean; warm?: boolean; boost?: boolean; rnd?: () => number };
+export type PlanOptions = { bonus?: boolean; extra?: boolean; warm?: boolean; boost?: boolean; focus?: string; rnd?: () => number };
 const level = (k: Known) => k.see.box + k.write.box;
 export function buildPlan(st: AState, day: number, o: PlanOptions = {}): Plan {
   const rnd = o.rnd ?? Math.random, met = Object.keys(st.letters);
+  // Focused review: one letter or number the parent picked on the board, as free practice that moves no stage.
+  if (o.focus && st.letters[o.focus]) return { day, steps: mix(practice(st, o.focus, day, rnd, true), rnd).slice(0, 16), at: 0, extra: true, mixed: true };
   // Warm-up and boost are free practice: no new letter, and stages stay as they are.
   if (o.warm || o.boost) {
     const known = met.filter((id) => secure(st.letters[id]));

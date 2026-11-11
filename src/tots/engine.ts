@@ -64,10 +64,12 @@ function practice(st: TState, id: string, day: number, rnd: () => number, force 
 
 export const hardness = (k: Known) => { const r = ([ok, bad]: [number, number]) => (ok + bad >= 4 ? bad / (ok + bad) : 0); return k.tally ? Math.max(r(k.tally.see), r(k.tally.write)) : 0; };
 export const isHard = (k: Known) => hardness(k) >= 0.25;
-export type PlanOptions = { bonus?: boolean; warm?: boolean; boost?: boolean; rnd?: () => number };
+export type PlanOptions = { bonus?: boolean; warm?: boolean; boost?: boolean; focus?: string; rnd?: () => number };
 
 export function buildPlan(st: TState, day: number, o: PlanOptions = {}): Plan {
   const rnd = o.rnd ?? Math.random, met = Object.keys(st.skills);
+  // Focused review: one letter or number the parent picked on the board, as free practice that moves no stage.
+  if (o.focus && st.skills[o.focus]) return { day, steps: mix(practice(st, o.focus, day, rnd, true), rnd).slice(0, 16), at: 0, extra: true };
   // Warm-up and boost are free practice: nothing new, and stages stay as they are.
   if (o.warm || o.boost) {
     const known = met.filter((id) => secure(SKILL[id], st.skills[id]));
