@@ -9,8 +9,6 @@ Run `npx tsc --noEmit` and `npx vitest run src/math`, and fix what fails. The te
 ## List
 
 Elementary gaps first (grades 4 to 6, found against the Ministry's program in Nov 2026):
-- station 7 · diagonals · אלכסונים במצולע · needs poly
-- station 7 · solids · גופים: פאות, מקצועות וקדקודים · needs volume
 - station 7 · calendar · לוח השנה וחישובי זמן · needs time
 - station 7 · decunits · המרת מידות (ק״מ, מ׳, ס״מ, ק״ג, גרם) · needs units, dec10
 - station 8 · tritype · סוגי משולשים לפי צלעות וזוויות · needs angletype
