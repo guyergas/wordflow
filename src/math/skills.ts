@@ -53,6 +53,7 @@ export const TRAPS = {
   symAxis: { name: 'ציר סימטריה', explain: 'ציר סימטריה מחלק צורה לשני חצאים שמתלכדים בקיפול. אלכסון של מלבן אינו ציר כזה.' },
   diag: { name: 'ספירת אלכסונים', explain: 'אלכסון מחבר שני קודקודים שאינם שכנים. מכל קודקוד יוצאים אלכסונים לכל הקודקודים חוץ ממנו ומשני שכניו, וכל אלכסון נספר פעמיים, פעם מכל קצה.' },
   solid: { name: 'פאות, מקצועות וקדקודים', explain: 'פאה היא משטח, מקצוע הוא קו שבו נפגשות שתי פאות, וקדקוד הוא נקודה שבה נפגשים מקצועות. סופרים כל אחד בנפרד, וגם את הבסיסים.' },
+  triType: { name: 'סוגי משולשים', explain: 'לפי הצלעות: שלוש שוות הן שווה צלעות, ושתיים שוות הן שווה שוקיים. לפי הזוויות קובעת הזווית הגדולה: ישרה או קהה. רק כשכל שלוש הזוויות חדות, המשולש חד זווית.' },
   calendar: { name: 'ספירת ימים', explain: 'כשסופרים כמה ימים עוברים מתאריך לתאריך, לא סופרים את היום שממנו מתחילים. וכדאי לבדוק כמה ימים יש בחודש: 30 או 31.' },
 } as const;
 export type TrapId = keyof typeof TRAPS;
@@ -709,6 +710,31 @@ export const SKILLS: Skill[] = [
     const v = dec(t, p), m = t * k / 10 ** p;
     if (r() < 0.5) return calc({ prompt: `כמה ${small} הם [[${v}]] ${big}?`, ans: n(m), eq: `${v}*${k}`, pencil: true, wrong: [[n(m / 10), 'decPoint'], [n(m * 10), 'decPoint']], steps: [`ב${one} אחד יש [[${fmt(k)}]] ${small}`, `מיחידה גדולה לקטנה כופלים: [[${v}×${fmt(k)}=${fmt(m)}]]`, `כופלים ב־[[${fmt(k)}]]: מזיזים את הנקודה [[${digs}]] מקומות ימינה`] });
     return calc({ prompt: `כמה ${big} הם [[${fmt(m)}]] ${small}?`, ans: v, eq: `${m}/${k}`, pencil: true, dot: true, wrong: [[dec(t, p + 1), 'decPoint'], [n(m * k), 'unit']], steps: [`ב${one} אחד יש [[${fmt(k)}]] ${small}`, `מיחידה קטנה לגדולה מחלקים: [[${fmt(m)}:${fmt(k)}=${v}]]`, `מחלקים ב־[[${fmt(k)}]]: מזיזים את הנקודה [[${digs}]] מקומות שמאלה`] });
+  } },
+  { id: 'tritype', station: 8, title: 'סוגי משולשים לפי צלעות וזוויות', needs: ['angletype'], u: (r) => {
+    const order = <T,>(xs: T[]) => { const a = [...xs]; for (let i = a.length - 1; i > 0; i--) { const j = ri(r, 0, i); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+    const list = (xs: number[]) => `[[${xs[0]}]], [[${xs[1]}]] ו־[[${xs[2]}]]`;
+    if (r() < 0.5) {
+      const kind = ri(r, 0, 2), s = ri(r, 4, 9);
+      const sides = kind === 0 ? [s, s, s] : kind === 1 ? order([s, s, pick(r, [s - 2, s - 1, s + 1, s + 2, s + 3])]) : (() => { const a = ri(r, 3, 6), b = a + ri(r, 1, 3); return order([a, b, b + ri(r, 1, a - 1)]); })();
+      const ans = ['שווה צלעות', 'שווה שוקיים', 'שונה צלעות'][kind];
+      const others: (string | [string, TrapId])[] = kind === 0 ? [['שווה שוקיים בלבד', 'triType'], 'שונה צלעות'] : kind === 1 ? [['שווה צלעות', 'triType'], 'שונה צלעות'] : [['שווה שוקיים', 'triType'], 'שווה צלעות'];
+      const why = kind === 0 ? 'כל שלוש הצלעות שוות' : kind === 1 ? `שתי צלעות שוות: [[${sides[0] === sides[1] || sides[0] === sides[2] ? sides[0] : sides[1]}]], והשלישית שונה` : 'אין שתי צלעות שוות';
+      return conceptQ(`אורכי הצלעות של משולש הם ${list(sides)} ס״מ. איזה משולש זה לפי הצלעות?`, ans, others, ['לפי הצלעות: שלוש שוות הן שווה צלעות, שתיים שוות הן שווה שוקיים, ואם אין שוות זה שונה צלעות', `כאן ${why}, ולכן ${ans}`]);
+    }
+    const kind = ri(r, 0, 2);
+    const two = kind === 0 ? [ri(r, 10, 17) * 5, ri(r, 10, 17) * 5] : kind === 1 ? [90, ri(r, 4, 14) * 5] : (() => { const a = ri(r, 10, 15) * 10; return [a, ri(r, 2, Math.floor((170 - a) / 5)) * 5]; })();
+    const angles = order([...two, 180 - two[0] - two[1]]), big = Math.max(...angles), ans = ['חד זווית', 'ישר זווית', 'קהה זווית'][kind];
+    const others: (string | [string, TrapId])[] = kind === 0 ? [['ישר זווית', 'triType'], 'קהה זווית'] : kind === 1 ? [['חד זווית', 'triType'], 'קהה זווית'] : [['חד זווית', 'triType'], 'ישר זווית'];
+    return conceptQ(`הזוויות של משולש הן ${list(angles)} מעלות. איזה משולש זה לפי הזוויות?`, ans, others, ['לפי הזוויות קובעת הזווית הגדולה: אם היא ישרה המשולש ישר זווית, ואם היא קהה הוא קהה זווית', `הזווית הגדולה כאן היא [[${big}]] מעלות, ${kind === 0 ? 'וגם היא חדה, ולכן כל שלוש הזוויות חדות' : kind === 1 ? 'זווית ישרה' : 'זווית קהה'}: ${ans}`]);
+  } },
+  { id: 'eqfrac', station: 12, title: 'משוואה עם שברים', needs: ['eqboth'], e: (r) => {
+    if (r() < 0.5) {
+      const a = ri(r, 2, 6), q = ri(r, 2, 9), b = ri(r, 1, 12), c = q + b, x = a * q;
+      return calc({ prompt: `מה הערך של [[x]] אם [[x/${a}+${b}=${c}]]?`, ans: n(x), eq: `${a}*(${c}-${b})`, pencil: true, wrong: [[n(q), 'op'], [n(a * c - b), 'order']], steps: [`מחסרים [[${b}]] משני האגפים: [[x/${a}=${q}]]`, `כופלים את שני האגפים ב־[[${a}]]: [[x=${a}×${q}=${x}]]`] });
+    }
+    const [a, b] = pick(r, [[2, 3], [3, 4], [2, 5], [2, 6], [4, 6]]), L = lcm(a, b), s = ri(r, 1, 4), x = L * s, c = x / a + x / b, ka = L / a, kb = L / b;
+    return calc({ prompt: `מה הערך של [[x]] אם [[x/${a}+x/${b}=${c}]]?`, ans: n(x), eq: `${L * c}/(${ka}+${kb})`, pencil: true, wrong: [[n(c * (a + b)), 'fracCross'], [n(L * c), 'op']], steps: [`כופלים את שני האגפים במכנה המשותף [[${L}]]: [[${ka}x+${kb}x=${L * c}]]`, `מכנסים: [[${ka + kb}x=${L * c}]]`, `מחלקים ב־[[${ka + kb}]]: [[x=${x}]]`] });
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));
