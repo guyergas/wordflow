@@ -100,3 +100,8 @@
 .wf-round { width: 44px; height: 44px; border: 1px solid var(--cs-line); border-radius: 50%; display: grid; place-items: center; flex: none; background: transparent; color: var(--cs-ink); }
 .wf-top, .wf-round { --cs-ink: var(--ink, #172b35); --cs-line: var(--line, #e2e3dc); }
 @media (max-width: 359px) { .wf-mark span { display: none; } }
+
+.gr-item { display: grid; gap: 8px; }
+.gr-part { margin-top: 10px !important; }
+.gr-topic { cursor: pointer; }
+.gr-topic small { font-size: 14px; }

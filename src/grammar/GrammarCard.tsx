@@ -56,29 +56,63 @@ function Run({ title, rule, example, qs, onClose }: { title: string; rule: strin
   );
 }
 
+const PARTS: { name: string; from: string }[] = [
+  { name: 'יסודות', from: GRAMMAR[0]?.id ?? '' },
+  { name: 'Present Progressive', from: 'pp-form' },
+  { name: 'Past Simple', from: 'past-be' },
+  { name: 'עתיד', from: 'will' },
+];
+
+/** The grammar practice card on the home screen. It opens a page with every topic, and points at the one to do now. */
 export function GrammarCard({ known, onTime }: { known: number; onTime: (sec: number) => void }) {
   const [state, setState] = useState(load);
-  const [open, setOpen] = useState(false);
+  const [page, setPage] = useState(false);
+  const [run, setRun] = useState<{ id: string; review: boolean } | null>(null);
   const started = useRef(0);
   const today = dayNow();
   const item = nextGrammar(state, known, today);
-  // A review keeps the daily practice short: five questions of the topic.
+  const topic = run ? GRAMMAR.find((t) => t.id === run.id) : undefined;
   // A big topic has a bank of questions: each sitting draws a fresh set, so later reviews practice different sentences.
-  const qs = useMemo(() => (item ? [...item.topic.qs].sort(() => Math.random() - 0.5).slice(0, item.review ? REVIEW_QS : NEW_QS) : []), [item?.topic.id, item?.review]);
-  if (!item) return null;
+  const qs = useMemo(() => (topic ? [...topic.qs].sort(() => Math.random() - 0.5).slice(0, run?.review ? REVIEW_QS : NEW_QS) : []), [run]);
+  const learned = GRAMMAR.filter((t) => state.topics[t.id]).length;
+  const open = (id: string) => { started.current = Date.now(); setRun({ id, review: !!state.topics[id] }); };
   const close = (first: number | null) => {
     onTime(Math.min(900, Math.round((Date.now() - started.current) / 1000)));
-    setOpen(false);
-    if (first !== null) { if (!item.review) pushWin('grammar', item.topic.title); const s = afterGrammar(state, item.topic.id, first, qs.length, today, item.review); save(s); setState(s); }
+    if (run && topic && first !== null) { if (!run.review) pushWin('grammar', topic.title); const s = afterGrammar(state, run.id, first, qs.length, today, run.review); save(s); setState(s); }
+    setRun(null);
   };
-  const skip = () => { const s = afterGrammar(state, item.topic.id, 1, 1, today, false); const t = { ...s, last: state.last }; save(t); setState(t); };
+  const status = (id: string) => {
+    const t = state.topics[id];
+    if (!t) return item?.topic.id === id ? 'הבא בתור' : '';
+    return t.due <= today ? 'לחזרה היום' : `נלמד · חזרה בעוד ${t.due - today} ימים`;
+  };
+  const sub = item ? `${item.review ? 'חזרה' : 'נושא חדש'}: ${item.topic.title}` : `${learned} מתוך ${GRAMMAR.length} נושאים נלמדו`;
   return (
     <>
-      <div className="en-card">
-        <button type="button" className="gr-open" onClick={() => { started.current = Date.now(); setOpen(true); }}><b>{item.review ? 'חזרה בדקדוק' : 'דקדוק'}: {item.topic.title}</b></button>
-        {!item.review && <button type="button" className="cs-link" onClick={skip}>כבר יודעת, לדלג</button>}
-      </div>
-      {open && <Run title={item.topic.title} rule={item.topic.rule} example={item.topic.example} qs={qs} onClose={close} />}
+      <button type="button" className="sent-card" onClick={() => setPage(true)}>
+        <span className="sent-txt"><b>אימון דקדוק</b><small>{sub}</small></span>
+        <span className="sent-go" aria-hidden="true">←</span>
+      </button>
+      {page && !run && (
+        <div className="fam-page"><div className="fam-inner">
+          <div className="cs-row"><h2>אימון דקדוק</h2><button type="button" className="cs-round" aria-label="סגירה" onClick={() => setPage(false)}>✕</button></div>
+          <p className="cs-note">{learned} מתוך {GRAMMAR.length} נושאים נלמדו. אפשר לפתוח כל נושא, וכל פעם מגיעות שאלות אחרות.</p>
+          {item && <button type="button" className="fam-open" onClick={() => open(item.topic.id)}>{item.review ? 'חזרה' : 'להתחיל'}: {item.topic.title}</button>}
+          {GRAMMAR.map((t) => {
+            const part = PARTS.find((p) => p.from === t.id);
+            return (
+              <div key={t.id} className="gr-item">
+                {part && <h3 className="gr-part">{part.name}</h3>}
+                <button type="button" className="en-card gr-topic" onClick={() => open(t.id)}>
+                  <b>{t.title}</b>
+                  <small className="cs-note">{[status(t.id), `${t.qs.length} שאלות`, known < t.words ? `מומלץ אחרי ${t.words} מילים` : ''].filter(Boolean).join(' · ')}</small>
+                </button>
+              </div>
+            );
+          })}
+        </div></div>
+      )}
+      {run && topic && <Run title={topic.title} rule={topic.rule} example={topic.example} qs={qs} onClose={close} />}
     </>
   );
 }
