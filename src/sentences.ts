@@ -206,7 +206,17 @@ Well done!|כל הכבוד!
 What fruit do you like?|איזה פרי את אוהבת?
 What color is your bike?|באיזה צבע האופניים שלך?
 What is it?|מה זה?
-What is this?|מה הדבר הזה?`,
+What is this?|מה הדבר הזה?
+What's your name?|מה השם שלך?
+What's the matter?|מה קרה?
+Where is the ball?|איפה הכדור?
+Who has a red pencil?|למי יש עיפרון אדום?
+Who is this?|מי זה?
+Yes, please.|כן, בבקשה.
+You're welcome.|על לא דבר.
+Sit down, please.|שבו, בבקשה.
+I have a lot of books.|יש לי הרבה ספרים.
+It is quarter past seven.|השעה שבע ורבע.`,
 };
 
 let n = 0;

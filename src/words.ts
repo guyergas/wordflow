@@ -147,7 +147,12 @@ no|לא, אין|o|There is no milk in the fridge.|אין חלב במקרר.
 not|לא|o|I am not afraid of the dark.|אני לא מפחד מהחושך.
 on|על|o|The cat is sleeping on the bed.|החתול ישן על המיטה.
 pen|עט|n|Write your name with a pen.|כתבי את השם שלך בעט.
-pet|חיית מחמד|n|A dog is a good pet.|כלב הוא חיית מחמד טובה.`,
+pet|חיית מחמד|n|A dog is a good pet.|כלב הוא חיית מחמד טובה.
+red|אדום|a|I have a red ball.|יש לי כדור אדום.
+sit|לשבת|v|Please sit next to me.|בבקשה שבי לידי.
+six|שש|n|My little brother is six years old.|אחי הקטן בן שש.
+so|כל כך|d|I am so happy today!|אני כל כך שמח היום!
+stand|לעמוד|v|We stand in a line.|אנחנו עומדים בשורה.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -180,26 +185,26 @@ same|אותו דבר|a|We wear the same shirt.|אנחנו לובשים את או
 easy|קל|a|This puzzle is easy.|הפאזל הזה קל.
 difficult|קשה|a|The test was difficult.|המבחן היה קשה.
 expensive|יקר|a|That phone is too expensive.|הטלפון הזה יקר מדי.
-cheap|זול|a|These shoes were cheap.
-early|מוקדם|a|I woke up early.
-late|מאוחר|a|Sorry, I am late.
-quiet|שקט|a|The library is very quiet.
-loud|רועש|a|The music is too loud.
-clean|נקי|a|My room is clean now.
-dirty|מלוכלך|a|Your hands are dirty.
-favorite|אהוב ביותר|a|Pizza is my favorite food.
-important|חשוב|a|This is an important message.
-ready|מוכן|a|Are you ready to go?
-learn|ללמוד|v|I want to learn French.
-teach|ללמד|v|She can teach you to swim.
-understand|להבין|v|I do not understand this word.
-remember|לזכור|v|I remember your name.
-forget|לשכוח|v|Don't forget your keys.
-borrow|לשאול (לזמן מה)|v|Can I borrow your ruler?
-choose|לבחור|v|You can choose any color.
-finish|לסיים|v|I will finish it tonight.
-begin|להתחיל|v|The movie will begin soon.
-wait|לחכות|v|Please wait for me.
+cheap|זול|a|These shoes were cheap.|הנעליים האלה היו זולות.
+early|מוקדם|a|I woke up early.|התעוררתי מוקדם.
+late|מאוחר|a|Sorry, I am late.|סליחה, איחרתי.
+quiet|שקט|a|The library is very quiet.|בספרייה שקט מאוד.
+loud|רועש|a|The music is too loud.|המוזיקה רועשת מדי.
+clean|נקי|a|My room is clean now.|החדר שלי נקי עכשיו.
+dirty|מלוכלך|a|Your hands are dirty.|הידיים שלך מלוכלכות.
+favorite|אהוב ביותר|a|Pizza is my favorite food.|פיצה היא האוכל האהוב עליי.
+important|חשוב|a|This is an important message.|זו הודעה חשובה.
+ready|מוכן|a|Are you ready to go?|אתם מוכנים לצאת?
+learn|ללמוד|v|I want to learn French.|אני רוצה ללמוד צרפתית.
+teach|ללמד|v|She can teach you to swim.|היא יכולה ללמד אותך לשחות.
+understand|להבין|v|I do not understand this word.|אני לא מבין את המילה הזאת.
+remember|לזכור|v|I remember your name.|אני זוכרת את השם שלך.
+forget|לשכוח|v|Don't forget your keys.|אל תשכח את המפתחות שלך.
+borrow|לשאול (לזמן מה)|v|Can I borrow your ruler?|אפשר לשאול את הסרגל שלך?
+choose|לבחור|v|You can choose any color.|אפשר לבחור כל צבע.
+finish|לסיים|v|I will finish it tonight.|אני אסיים את זה הערב.
+begin|להתחיל|v|The movie will begin soon.|הסרט יתחיל בקרוב.
+wait|לחכות|v|Please wait for me.|בבקשה חכי לי.
 meet|לפגוש|v|Let's meet after school.
 visit|לבקר|v|We visit the museum on Sunday.
 send|לשלוח|v|I will send you a message.
@@ -268,7 +273,16 @@ past|אחרי (בשעה), עבר|o|It is ten past five.|השעה חמש ועשר
 plan|תוכנית|n|We have a plan for the weekend.|יש לנו תוכנית לסוף השבוע.
 calendar|לוח שנה|n|Mark the party on the calendar.|סמני את המסיבה בלוח השנה.
 cap|כובע מצחייה|n|He wears a blue cap.|הוא חובש כובע מצחייה כחול.
-cent|סנט|n|I found a cent on the floor.|מצאתי סנט על הרצפה.`,
+cent|סנט|n|I found a cent on the floor.|מצאתי סנט על הרצפה.
+plus|ועוד (פלוס)|o|Two plus two is four.|שתיים ועוד שתיים זה ארבע.
+rent|שכר דירה|n|My parents pay the rent every month.|ההורים שלי משלמים שכר דירה כל חודש.
+rest|לנוח|v|Let's rest under the tree.|בואו ננוח מתחת לעץ.
+soft|רך|a|My kitten is very soft.|החתלתול שלי רך מאוד.
+spend|לבלות, להוציא (כסף)|v|We spend the summer at the beach.|אנחנו מבלים את הקיץ בחוף הים.
+chat|לשוחח, צ'אט|v|I like to chat with my friends.|אני אוהבת לשוחח עם החברים שלי.
+check|לבדוק|v|Please check your answers.|בבקשה בדקו את התשובות שלכם.
+chef|שף|n|The chef made a delicious soup.|השף הכין מרק טעים.
+chip|צ'יפס, שבב|n|Can I have a chip?|אפשר צ'יפס אחד?`,
 `feeling|הרגשה|n|I had a strange feeling.
 angry|כועס|a|She was angry at her brother.
 afraid|מפחד|a|He is afraid of spiders.
@@ -372,7 +386,11 @@ calm|רגוע|a|Stay calm and breathe slowly.|הישארי רגועה ונשמי
 capital|בירה (עיר)|n|Paris is the capital of France.|פריז היא בירת צרפת.
 careless|רשלני, לא זהיר|a|He was careless and broke the glass.|הוא לא נזהר ושבר את הכוס.
 case|מקרה, נרתיק|n|Put your glasses in the case.|שים את המשקפיים בנרתיק.
-cash|מזומן|n|Do you have any cash?|יש לך מזומן?`,
+cash|מזומן|n|Do you have any cash?|יש לך מזומן?
+centimeter|סנטימטר|n|The worm is one centimeter long.|התולעת באורך סנטימטר אחד.
+champion|אלוף|n|She is the school chess champion.|היא אלופת השחמט של בית הספר.
+childhood|ילדות|n|Grandpa told us about his childhood.|סבא סיפר לנו על הילדות שלו.
+church|כנסייה|n|We visited an old church in the village.|ביקרנו בכנסייה עתיקה בכפר.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -461,7 +479,9 @@ approximately|בערך|d|The trip takes approximately two hours.|הנסיעה נ
 battle|קרב|n|The two armies fought a long battle.|שני הצבאות נלחמו בקרב ארוך.
 beauty|יופי|n|We loved the beauty of the sea.|אהבנו את היופי של הים.
 belief|אמונה|n|She has a strong belief in herself.|יש לה אמונה חזקה בעצמה.
-cancer|סרטן (מחלה)|n|Smoking can cause cancer.|עישון יכול לגרום לסרטן.`,
+cancer|סרטן (מחלה)|n|Smoking can cause cancer.|עישון יכול לגרום לסרטן.
+channel|ערוץ|n|What channel is the cartoon on?|באיזה ערוץ מוצג הסרט המצויר?
+charge|להטעין|v|I need to charge my phone.|אני צריך להטעין את הטלפון שלי.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.
