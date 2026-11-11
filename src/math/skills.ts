@@ -48,6 +48,7 @@ export const TRAPS = {
   volume: { name: 'נפח מול שטח פנים', explain: 'נפח הוא כמה קוביות נכנסות. כופלים אורך, רוחב וגובה.' },
   dist: { name: 'פילוג', explain: 'המספר שמחוץ לסוגריים כופל כל אחד מהאיברים שבפנים, ולא רק את הראשון.' },
   sign: { name: 'מינוס לפני סוגריים', explain: 'מינוס לפני סוגריים הופך את הסימן של כל איבר שבתוכם.' },
+  prime: { name: 'ראשוני או פריק', explain: 'למספר ראשוני יש בדיוק שני מחלקים: 1 והוא עצמו. גם מספר אי־זוגי יכול להיות פריק, כמו 21=3×7.' },
 } as const;
 export type TrapId = keyof typeof TRAPS;
 
@@ -599,6 +600,38 @@ export const SKILLS: Skill[] = [
     return calc({ prompt: `איזה מספר מסמנות האותיות ${w}?`, ans: n(ans), eq: `${h * 100}+${t * 10}+${u}`, wrong: [[n(h * 100 + t + u), 'place'], [n(h + t + u), 'place']], steps: [
       special ? `${letters[0]} שווה [[${h * 100}]], ואת [[${10 + u}]] כותבים ${u === 5 ? 'ט״ו' : 'ט״ז'}: [[9+${u + 1}]]` : `${letters[0]} שווה [[${h * 100}]], ${letters[1]} שווה [[${t * 10}]] ו־${letters[2]} שווה [[${u}]]`,
       `מחברים: [[${h * 100}+${t * 10}+${u}=${ans}]]`] });
+  } },
+  { id: 'zeroone', station: 3, title: 'תכונות ה־0 וה־1 בפעולות', needs: ['mul1'], u: (r) => {
+    const a = ri(r, 12, 999), A = fmt(a), m = (v: number) => `[[${fmt(v)}]]`;
+    const items: [string, number, (string | [string, TrapId])[], string[]][] = [
+      [`${A}×0`, 0, [[m(a), 'op'], m(1)], [`[[${A}×0]] הוא [[0]] קבוצות של [[${A}]]`, 'כל מספר כפול [[0]] הוא [[0]]']],
+      [`${A}×1`, a, [[m(0), 'op'], m(1)], [`[[${A}×1]] היא קבוצה אחת של [[${A}]]`, 'כל מספר כפול [[1]] נשאר אותו מספר']],
+      [`${A}+0`, a, [[m(0), 'op'], m(a + 1)], ['חיבור [[0]] לא מוסיף כלום', 'המספר לא משתנה']],
+      [`${A}−0`, a, [[m(0), 'op'], m(a - 1)], ['חיסור [[0]] לא מוריד כלום', 'המספר לא משתנה']],
+      [`${A}:1`, a, [[m(1), 'op'], m(0)], ['מחלקים לקבוצה אחת, והכול נשאר בה', 'חילוק ב־[[1]] לא משנה את המספר']],
+      [`0:${A}`, 0, [[m(a), 'op'], m(1)], [`מחלקים [[0]] ל־[[${A}]] קבוצות: אין מה לחלק`, '[[0]] מחולק בכל מספר הוא [[0]]']],
+      [`${A}:${A}`, 1, [[m(0), 'op'], m(a)], ['מספר מחולק בעצמו הוא [[1]]', `בדיקה: [[${A}×1=${A}]]`]],
+      [`${A}−${A}`, 0, [[m(1), 'op'], m(a)], ['מספר פחות עצמו הוא [[0]]', 'לא נשאר כלום']],
+    ];
+    const [q, ans, others, steps] = pick(r, items);
+    return conceptQ(`כמה זה [[${q}]]?`, m(ans), others, steps);
+  }, e: (r) => {
+    const a = ri(r, 12, 99), b = ri(r, 2, 9), form = ri(r, 0, 2);
+    if (form === 0) return calc({ big: `[[${a}×0+${b}]]`, ans: n(b), wrong: [[n(a + b), 'op'], [n(0), 'op']], steps: [`[[${a}×0=0]]: כל מספר כפול [[0]] הוא [[0]]`, `[[0+${b}=${b}]]`] });
+    if (form === 1) return calc({ big: `[[${a}×1−${b}×0]]`, ans: n(a), wrong: [[n(a - b), 'op'], [n(0), 'op']], steps: [`[[${a}×1=${a}]] ו־[[${b}×0=0]]`, `[[${a}−0=${a}]]`] });
+    return calc({ big: `[[0:${a}+${b}×1]]`, ans: n(b), wrong: [[n(a + b), 'op'], [n(b + 1), 'op']], steps: [`[[0:${a}=0]]: אין מה לחלק`, `[[${b}×1=${b}]], ו־[[0+${b}=${b}]]`] });
+  } },
+  { id: 'primes', station: 5, title: 'מספרים ראשוניים ופריקים', needs: ['factors'], u: (r) => {
+    const PR = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53], ODD = [9, 15, 21, 25, 27, 33, 35, 39, 45, 49, 51, 57], EVEN = [4, 6, 8, 10, 12, 14, 16, 18, 20, 22];
+    const some = (a: number[], k: number) => { const out: number[] = []; while (out.length < k) { const x = pick(r, a); if (!out.includes(x)) out.push(x); } return out; };
+    const fac = (c: number) => { let p = 2; while (c % p) p++; return `[[${c}=${p}×${c / p}]]`; };
+    if (r() < 0.5) {
+      const p = pick(r, PR), cs = [...some(ODD, 2), pick(r, EVEN)], one = r() < 0.3;
+      const others: [string, TrapId][] = [...cs.slice(0, one ? 2 : 3).map((c): [string, TrapId] => [`[[${c}]]`, 'prime']), ...(one ? [['[[1]]', 'prime'] as [string, TrapId]] : [])];
+      return conceptQ('איזה מספר ראשוני?', `[[${p}]]`, others, ['למספר ראשוני יש בדיוק שני מחלקים: [[1]] והוא עצמו', `[[${p}]] מתחלק רק ב־[[1]] וב־[[${p}]]`, `האחרים לא: ${cs.slice(0, one ? 2 : 3).map(fac).join(', ')}${one ? ', ול־[[1]] יש רק מחלק אחד' : ''}`]);
+    }
+    const c = pick(r, ODD), ps = some(PR.filter((x) => x > 2), 3);
+    return conceptQ('איזה מספר פריק?', `[[${c}]]`, ps.map((x): [string, TrapId] => [`[[${x}]]`, 'prime']), [`${fac(c)}, ולכן יש ל־[[${c}]] מחלק נוסף מלבד [[1]] והוא עצמו`, `מספר כזה נקרא פריק. ${ps.map((x) => `[[${x}]]`).join(', ')} ראשוניים`]);
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));

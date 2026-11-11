@@ -9,8 +9,6 @@ Run `npx tsc --noEmit` and `npx vitest run src/math`, and fix what fails. The te
 ## List
 
 Elementary gaps first (grades 4 to 6, found against the Ministry's program in Nov 2026):
-- station 3 · zeroone · תכונות ה־0 וה־1 בפעולות · needs mul1
-- station 5 · primes · מספרים ראשוניים ופריקים · needs factors
 - station 5 · divrules · סימני התחלקות ב־2, 3, 5, 6, 9 ו־10 · needs factors
 - station 7 · symmetry · ציר סימטריה · needs poly
 - station 7 · diagonals · אלכסונים במצולע · needs poly
