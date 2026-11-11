@@ -62,6 +62,8 @@ export const TRAPS = {
   powneg: { name: 'חזקה אפס ושלילית', explain: 'כל מספר חוץ מ־0 בחזקת 0 שווה 1. מעריך שלילי לא הופך את התוצאה לשלילית: 2⁻³ הוא 1 חלקי 2³, כלומר 1/8.' },
   sci: { name: 'כתיב מדעי', explain: 'בכתיב מדעי המספר שלפני ה־10 הוא בין 1 ל־10. המעריך אומר בכמה מקומות זזה הנקודה: ימינה במעריך חיובי ושמאלה במעריך שלילי. סופרים מקומות, ולא את כל הספרות.' },
   rootsimp: { name: 'פישוט שורשים', explain: 'מפרקים את המספר שבשורש למכפלה של ריבוע שלם גדול ככל האפשר במספר אחר. את הריבוע מוציאים מהשורש כשורשו, למשל √(9×2)=3√2, ולא כ־9.' },
+  sqsum: { name: 'כפל מקוצר', explain: '(a+b)² אינו a²+b². זה (a+b) כפול (a+b), ויש בו גם את האיבר האמצעי 2ab. רק ב־(a+b)(a−b) האיברים האמצעיים מבטלים זה את זה, ונשאר a²−b².' },
+  trinom: { name: 'פירוק טרינום', explain: 'מחפשים שני מספרים שמכפלתם היא האיבר החופשי וסכומם הוא המקדם של x. בודקים את הסימנים: מכפלה שלילית פירושה שהמספרים בסימנים שונים.' },
 } as const;
 export type TrapId = keyof typeof TRAPS;
 
@@ -959,6 +961,40 @@ export const SKILLS: Skill[] = [
     }
     const [p, q] = pick(r, [[2, 8], [2, 18], [3, 12], [3, 27], [2, 32], [5, 20], [2, 50], [3, 48], [6, 24], [7, 28]]), s = Math.round(Math.sqrt(p * q));
     return calc({ prompt: `כמה זה [[√${p}×√${q}]]?`, ans: n(s), eq: `${s}`, wrong: [[n(p * q), 'rootsimp'], [n(p + q)]].filter(([v]) => v !== n(s)) as [string, TrapId?][], steps: [`כופלים מתחת לשורש: [[√${p}×√${q}=√${p * q}]]`, `[[${s}×${s}=${p * q}]], ולכן [[√${p * q}=${s}]]`] });
+  } },
+  // ---------- Station 16 ----------
+  { id: 'sqsum', station: 16, title: 'נוסחאות כפל מקוצר: (a+b)², (a−b)², (a+b)(a−b)', needs: ['simplify'], u: (r) => {
+    const a = ri(r, 2, 9), kind = ri(r, 0, 2), a2 = a * a, b2 = 2 * a;
+    if (kind === 0) return conceptQ(`מה שווה ל־[[(x+${a})²]]?`, `[[x²+${b2}x+${a2}]]`, [[`[[x²+${a2}]]`, 'sqsum'], [`[[x²+${a}x+${a2}]]`, 'sqsum'], [`[[x²+${b2}x+${b2}]]`, 'sqsum']], [`[[(x+${a})²=(x+${a})(x+${a})]]`, `לפי הנוסחה: [[x²]], ועוד פעמיים [[x×${a}]], ועוד [[${a}²]]: [[x²+${b2}x+${a2}]]`]);
+    if (kind === 1) return conceptQ(`מה שווה ל־[[(x−${a})²]]?`, `[[x²−${b2}x+${a2}]]`, [[`[[x²−${a2}]]`, 'sqsum'], [`[[x²−${b2}x−${a2}]]`, 'sign'], [`[[x²+${b2}x+${a2}]]`, 'sign']], [`[[(x−${a})²=(x−${a})(x−${a})]]`, `האיבר האמצעי שלילי: [[−2×${a}x=−${b2}x]], והאחרון חיובי: [[(−${a})×(−${a})=${a2}]]`]);
+    return conceptQ(`מה שווה ל־[[(x+${a})(x−${a})]]?`, `[[x²−${a2}]]`, [[`[[x²+${a2}]]`, 'sign'], [`[[x²−${b2}x+${a2}]]`, 'sqsum'], [`[[x²−${b2}]]`, 'sqsum']], [`פותחים סוגריים: [[x²−${a}x+${a}x−${a2}]]`, `האיברים האמצעיים מבטלים זה את זה, ונשאר [[x²−${a2}]]`]);
+  }, e: (r) => {
+    if (r() < 0.5) {
+      const a = ri(r, 2, 9), minus = r() < 0.5, s = minus ? '−' : '+', askB = r() < 0.5;
+      const ans = askB ? (minus ? -2 * a : 2 * a) : a * a;
+      const wrong: [string, TrapId?][] = askB ? [[n(minus ? -a : a), 'sqsum'], [n(minus ? 2 * a : -2 * a), 'sign'], [n(a * a), 'sqsum']] : [[n(2 * a), 'sqsum'], [n(-a * a), 'sign']];
+      return calc({ prompt: `כשפותחים את [[(x${s}${a})²]] מקבלים [[x²+bx+c]]. מה ${askB ? '[[b]]' : '[[c]]'}?`, ans: n(ans), eq: askB ? `${minus ? -2 : 2}*${a}` : `${a}*${a}`, wrong: wrong.filter(([v]) => v !== n(ans)), steps: [`[[(x${s}${a})²=x²${s}2×${a}x+${a}²]]`, `[[x²${s}${2 * a}x+${a * a}]], ולכן ${askB ? `[[b=${sgn(ans)}]]` : `[[c=${ans}]]`}`] });
+    }
+    const t = pick(r, [20, 30, 40, 50, 60, 70, 80, 90]), d = ri(r, 1, 3), ans = t * t - d * d;
+    return calc({ prompt: `בעזרת [[(a+b)(a−b)=a²−b²]], כמה זה [[${t + d}×${t - d}]]?`, ans: n(ans), eq: `${t + d}*${t - d}`, pencil: true, wrong: [[n(t * t), 'sqsum'], [n(t * t + d * d), 'sign'], [n(t * t - 2 * d), 'sqsum']], steps: [`[[${t + d}×${t - d}=(${t}+${d})(${t}−${d})]]`, `[[${t}²−${d}²=${t * t}−${d * d}=${ans}]]`] });
+  } },
+  { id: 'trinom', station: 16, title: 'פירוק טרינום x²+bx+c', needs: ['sqsum', 'factor1'], u: (r) => {
+    const opts = [-6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7];
+    let p = pick(r, opts), q = pick(r, opts);
+    while (p === q || p + q === 0) q = pick(r, opts);
+    const B = p + q, C = p * q, tri = `x²${B > 0 ? '+' : ''}${kx(B)}${term(C)}`;
+    const fac = (u: number, v: number) => `[[(x${term(Math.max(u, v))})(x${term(Math.min(u, v))})]]`;
+    const same = (u: number, v: number) => (u === p && v === q) || (u === q && v === p);
+    const cand: [number, number][] = [[-p, -q], [1, C], [-1, -C], [p + 1, q - 1], [p - 1, q + 1], [p, -q]];
+    const others = cand.filter(([u, v]) => u !== 0 && v !== 0 && !same(u, v)).slice(0, 3).map(([u, v]) => [fac(u, v), 'trinom'] as [string, TrapId]);
+    return conceptQ(`איך מפרקים את [[${tri}]] לגורמים?`, fac(p, q), others, [`מחפשים שני מספרים שמכפלתם [[${sgn(C)}]] וסכומם [[${sgn(B)}]]`, `[[${par(p)}×${par(q)}=${sgn(C)}]] ו־[[${sgn(p)}+${par(q)}=${sgn(B)}]], ולכן ${fac(p, q)}`]);
+  }, e: (r) => {
+    const opts = [-6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7];
+    let p = pick(r, opts), q = pick(r, opts);
+    while (p === q || p + q === 0) q = pick(r, opts);
+    const B = p + q, C = p * q, hi = Math.max(p, q), lo = Math.min(p, q), tri = `x²${B > 0 ? '+' : ''}${kx(B)}${term(C)}`;
+    const wrong = ([[n(-hi), 'trinom'], [n(-lo), 'trinom'], [n(B), 'trinom']] as [string, TrapId][]).filter(([v]) => v !== n(hi));
+    return calc({ prompt: `[[${tri}=(x+p)(x+q)]]. מה הגדול מבין [[p]] ו־[[q]]?`, ans: n(hi), eq: `${hi}`, wrong, steps: [`מחפשים שני מספרים שמכפלתם [[${sgn(C)}]] וסכומם [[${sgn(B)}]]`, `אלה [[${sgn(hi)}]] ו־[[${sgn(lo)}]]: [[${par(hi)}×${par(lo)}=${sgn(C)}]] ו־[[${sgn(hi)}+${par(lo)}=${sgn(B)}]]`, `הגדול מביניהם הוא [[${sgn(hi)}]]`] });
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));

@@ -11,8 +11,6 @@ Run `npx tsc --noEmit` and `npx vitest run src/math`, and fix what fails. The te
 Elementary gaps first (grades 4 to 6, found against the Ministry's program in Nov 2026):
 
 Junior high:
-- station 16 · sqsum · נוסחאות כפל מקוצר: (a+b)², (a−b)², (a+b)(a−b) · needs simplify
-- station 16 · trinom · פירוק טרינום x²+bx+c · needs sqsum, factor1
 - station 16 · quadeq · משוואה ריבועית בפירוק · needs trinom
 - station 16 · quadform · נוסחת השורשים · needs quadeq, rootsimp
 - station 16 · parab · פרבולה: קודקוד ונקודות חיתוך · needs quadeq, linefn
