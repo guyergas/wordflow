@@ -8,7 +8,7 @@ Each topic needs `rule` (one or two short Hebrew sentences), `example` (in Engli
 
 ## Already in
 
-- יסודות: a/an, רבים, am/is/are, have/has, this/that, כינויי גוף (words 40 to 140)
+- יסודות: a/an, רבים, am/is/are, have/has, this/that, כינויי גוף, possessive 's (words 40 to 145)
 - Present Simple: הפועל ו־s, s/es/ies (160 to 170)
 - שלילה: isn't/aren't, don't/doesn't, isn't או doesn't (200 to 220)
 - שאלות: Is/Are, Do/Does, מילות שאלה, מילת שאלה ופועל (240 to 270)
@@ -18,7 +18,6 @@ Each topic needs `rule` (one or two short Hebrew sentences), `example` (in Engli
 
 ## List
 
-- יסודות · possessive 's: Dana's bag, the boys' room · words 145
 - יסודות · שם תואר לפני שם עצם: a big red ball · words 150
 - יסודות · מילות חיבור: and, but, or, because · words 155
 - עוד מבנים בסיסיים · מילות יחס של מקום: in, on, under, next to, between · words 280
