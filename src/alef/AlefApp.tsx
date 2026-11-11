@@ -167,12 +167,16 @@ const ROUNDS = 10;
 function OrderPractice({ sound, onExit }: { sound: boolean; onExit: () => void }) {
   const [round, setRound] = useState(0), [q, setQ] = useState<OrderQuestion>(() => orderQuestion());
   const [wrong, setWrong] = useState<string[]>([]), [right, setRight] = useState(false), [playing, setPlaying] = useState<'part' | 'all' | null>(null), [score, setScore] = useState(0);
-  const part = (ask = true) => { setPlaying('part'); playPart(SONG_URL, q.from, q.to, () => { setPlaying(null); if (ask) sayHebrew(SAY.songNext); }); };
-  const whole = () => { if (playing === 'all') { stopSound(); setPlaying(null); return; } setPlaying('all'); playPart(SONG_URL, 0, 9999, () => setPlaying(null)); };
-  useEffect(() => { if (round < ROUNDS) part(); else { sfx.win(); sayHebrew(SAY.orderDone); } }, [round]);
-  useEffect(() => () => stopSound(), []);
+  const wait = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const part = (ask = true) => { clearTimeout(wait.current); setPlaying('part'); playPart(SONG_URL, q.from, q.to, () => { setPlaying(null); if (ask) sayHebrew(SAY.songNext); }); };
+  // A new question waits two seconds, with the button lit, so that the first letter is not missed.
+  const soon = () => { clearTimeout(wait.current); stopSound(); setPlaying('part'); wait.current = setTimeout(() => part(), 2000); };
+  const whole = () => { clearTimeout(wait.current); if (playing === 'all') { stopSound(); setPlaying(null); return; } setPlaying('all'); playPart(SONG_URL, 0, 9999, () => setPlaying(null)); };
+  useEffect(() => { if (round < ROUNDS) soon(); else { sfx.win(); sayHebrew(SAY.orderDone); } }, [round]);
+  useEffect(() => () => { clearTimeout(wait.current); stopSound(); }, []);
   const tap = (c: string) => {
     if (right) return;
+    clearTimeout(wait.current);
     if (c === q.target) {
       setRight(true); if (!wrong.length) setScore((s) => s + 1); if (sound) sfx.good();
       const k = SONG_ORDER.indexOf(c); setPlaying('part'); playPart(SONG_URL, SONG_TIMES[k][0], SONG_TIMES[k][1], () => setPlaying(null));
