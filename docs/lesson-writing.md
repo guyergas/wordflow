@@ -2,7 +2,7 @@
 
 For Hebrew-speaking girls aged 10–12. Read `geo.continents` in `src/knowledge/deep/geo.ts` first, and match its voice and depth. Follow the lengths below, which are longer than that sample. A lesson should take a fast reader about ten minutes.
 
-Order (the parent's choice): existing lessons come before new ones. The command first gives every short lesson to expand, then every full lesson below 950 words or 18 questions to lengthen, and only then new lessons.
+Order (the parent's choice): existing lessons come before new ones. The command first gives every full lesson below 950 words or 18 questions to lengthen, then every short lesson to expand, and only then new lessons.
 
 Next lesson: `npx esbuild scripts/next-lesson.ts --bundle --platform=node --outfile=/tmp/next.cjs --log-level=error && node /tmp/next.cjs`
 

@@ -1,5 +1,7 @@
 # Adding English words
 
+**Paused (the parent's choice, Nov 2026):** add no new words, sentence translations or phrases until every existing knowledge lesson is lengthened and no lesson is listed by `npx tsx scripts/answer-length.ts`. Existing lessons come first.
+
 The word bank in `src/words.ts` lacks words from the Ministry of Education's official lists (Lexical Bands, 2020). `docs/english-words-missing.txt` lists the missing single words, in the Ministry's order, under four headings. Each run adds 20 words, half for each:
 
 - **10 from Pre-Band I, then Band I (elementary school):** the first words remaining under those headings. Append to level block 0 or 1 of `RAW`, by difficulty.
