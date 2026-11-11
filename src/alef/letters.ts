@@ -142,11 +142,11 @@ export function lookAlikes(id: string): string[] {
   return [...new Set(LOOK_ALIKE.filter((g) => g.includes(id)).join('').split('').filter((c) => c !== id))];
 }
 
-/** The alef-bet song: where each letter is sung, in seconds. Found from the children's voices, which sing above the music.
- * The song sings in groups of three, and after ת come two more sung beats, which are not letters. */
+/** The alef-bet song: where each letter is sung, in seconds. Found from the children's voices and checked by ear.
+ * A letter's clip ends at the next letter, or after 1.3 seconds where the song pauses. */
 export const SONG_URL = 'audio/songs/alef-bet.mp3';
 export const SONG_ORDER = 'אבגדהוזחטיכלמנסעפצקרשת';
-export const SONG_TIMES: [number, number][] = [[0.85, 1.87], [1.87, 2.82], [2.82, 3.92], [4.85, 5.83], [5.83, 6.85], [6.85, 7.95], [8.78, 9.56], [9.56, 10.64], [10.64, 11.74], [12.62, 13.6], [13.6, 14.57], [14.57, 15.67], [16.48, 17.47], [17.47, 18.41], [18.41, 19.51], [20.39, 21.43], [21.43, 22.37], [22.37, 23.47], [24.27, 25.23], [25.23, 26.15], [26.15, 27.25], [28.09, 29.13]];
+export const SONG_TIMES: [number, number][] = [[0.85, 1.87], [1.87, 2.82], [2.82, 4.12], [4.85, 5.83], [5.83, 6.85], [6.85, 8.15], [8.63, 9.93], [10.56, 11.86], [12.34, 13.22], [13.22, 14.25], [14.25, 15.55], [15.82, 17.12], [17.13, 17.97], [17.97, 19.27], [19.96, 21.26], [21.29, 21.98], [21.98, 23.28], [24.02, 25.32], [26.02, 27.32], [27.83, 28.75], [28.75, 29.74], [29.74, 30.69]];
 /** The part of the song to play before asking for this letter: up to three letters before it. */
 export function songLead(id: string): [number, number] | null {
   const k = SONG_ORDER.indexOf(id);
