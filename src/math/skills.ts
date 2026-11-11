@@ -79,6 +79,8 @@ export const TRAPS = {
   pyth: { name: 'משפט פיתגורס', explain: 'במשולש ישר זווית a²+b²=c², ו־c הוא היתר: הצלע שמול הזווית הישרה, והארוכה ביותר. לא מחברים את הצלעות עצמן, ובסוף לא שוכחים להוציא שורש. כשמחפשים ניצב מחסרים: c²−a².' },
   circle: { name: 'היקף מול שטח עיגול', explain: 'היקף מעגל הוא 2πr, כלומר π כפול הקוטר, ולא π כפול הרדיוס. שטח עיגול הוא πr²: מעלים בריבוע את הרדיוס, ולא את הקוטר. אם נתון קוטר, הרדיוס הוא חצי ממנו.' },
   sector: { name: 'קשת וגזרה', explain: 'קשת וגזרה הן חלק מהמעגל כולו, לפי הזווית חלקי 360. לקשת כופלים את ההיקף בחלק הזה, ולגזרה כופלים את השטח. לא מחלקים ב־180, ולא שוכחים לקחת רק חלק.' },
+  prism: { name: 'נפח ושטח פנים של גוף', explain: 'נפח של מנסרה או של גליל הוא שטח הבסיס כפול הגובה. שטח הפנים הוא שני הבסיסים ועוד המעטפת, והמעטפת היא היקף הבסיס כפול הגובה. לא שוכחים אף אחד מהבסיסים.' },
+  similar: { name: 'יחס דמיון', explain: 'במשולשים דומים כל הצלעות גדלות או קטנות פי אותו מספר. מחלקים צלע בצלע המתאימה לה כדי למצוא את היחס, וכופלים בו. לא מוסיפים את ההפרש, ומתאימים צלע לצלע לפי סדר האותיות.' },
 } as const;
 export type TrapId = keyof typeof TRAPS;
 
@@ -1235,6 +1237,38 @@ export const SKILLS: Skill[] = [
       ? `במעגל שרדיוסו [[${rad}]] ס״מ יש זווית מרכזית של [[${a}]] מעלות. מה אורך הקשת שמולה, בס״מ? ${pi}`
       : `במעגל שרדיוסו [[${rad}]] ס״מ יש גזרה עם זווית מרכזית של [[${a}]] מעלות. מה שטח הגזרה, בסמ״ר? ${pi}`;
     return calc({ prompt, ans: n(ans), eq: arc ? `2*22/7*${rad}*${a}/360` : `22/7*${rad}*${rad}*${a}/360`, pencil: true, read: true, wrong: wrong.filter(([v]) => v !== n(ans)), steps: [`${arc ? 'הקשת' : 'הגזרה'} היא [[${a}/360=${frac}]] מה${arc ? 'מעגל' : 'עיגול'}`, arc ? `היקף המעגל: [[2×22/7×${rad}=${full}]]` : `שטח העיגול: [[22/7×${rad}×${rad}=${full}]]`, `[[${full}×${frac}=${ans}]]`] });
+  } },
+  // ---------- Station 20 ----------
+  { id: 'prismvol', station: 20, title: 'נפח ושטח פנים של מנסרה וגליל', needs: ['circle'], e: (r) => {
+    const kind = ri(r, 0, 3), h = ri(r, 2, 10);
+    if (kind < 2) {
+      const [x, y, c] = pick(r, PYTH.slice(0, 4)), base = (x * y) / 2, per = x + y + c;
+      const intro = `בסיס המנסרה הוא משולש ישר זווית שאורכי הניצבים שלו [[${x}]] ו־[[${y}]] ס״מ${kind ? ` (והיתר [[${c}]] ס״מ)` : ''}. גובה המנסרה [[${h}]] ס״מ.`;
+      if (kind === 0) {
+        const ans = base * h;
+        const wrong: [string, TrapId?][] = [[n(x * y * h), 'triHalf'], [n(per * h), 'prism'], [n(base + h), 'op']];
+        return calc({ prompt: `${intro} מה נפח המנסרה, בסמ״ק?`, ans: n(ans), eq: `${x}*${y}/2*${h}`, pencil: true, read: true, wrong: wrong.filter(([v]) => v !== n(ans)), steps: [`שטח הבסיס: [[${x}×${y}÷2=${base}]]`, `נפח המנסרה הוא שטח הבסיס כפול הגובה: [[${base}×${h}=${ans}]]`] });
+      }
+      const ans = 2 * base + per * h;
+      const wrong: [string, TrapId?][] = [[n(per * h), 'prism'], [n(base + per * h), 'prism'], [n(base * h), 'volume']];
+      return calc({ prompt: `${intro} מה שטח הפנים של המנסרה, בסמ״ר?`, ans: n(ans), eq: `2*${x}*${y}/2+(${x}+${y}+${c})*${h}`, pencil: true, read: true, wrong: wrong.filter(([v]) => v !== n(ans)), steps: [`שני הבסיסים: [[2×${base}=${2 * base}]]`, `המעטפת היא היקף הבסיס כפול הגובה: [[(${x}+${y}+${c})×${h}=${per * h}]]`, `[[${2 * base}+${per * h}=${ans}]]`] });
+    }
+    const k = ri(r, 1, 2), rad = 7 * k, B = 154 * k * k, side = 44 * k * h, pi = 'השתמשו ב־[[π≈22/7]].';
+    const intro = `לגליל רדיוס [[${rad}]] ס״מ וגובה [[${h}]] ס״מ.`;
+    if (kind === 2) {
+      const ans = B * h;
+      const wrong: [string, TrapId?][] = [[n(side), 'prism'], [n(4 * B * h), 'circle'], [n(B + h), 'op']];
+      return calc({ prompt: `${intro} מה נפח הגליל, בסמ״ק? ${pi}`, ans: n(ans), eq: `22/7*${rad}*${rad}*${h}`, pencil: true, read: true, wrong: wrong.filter(([v]) => v !== n(ans)), steps: [`שטח הבסיס, עיגול: [[22/7×${rad}×${rad}=${B}]]`, `נפח הגליל הוא שטח הבסיס כפול הגובה: [[${B}×${h}=${ans}]]`] });
+    }
+    const ans = 2 * B + side;
+    const wrong: [string, TrapId?][] = [[n(side), 'prism'], [n(B + side), 'prism'], [n(B * h), 'volume']];
+    return calc({ prompt: `${intro} מה שטח הפנים של הגליל, בסמ״ר? ${pi}`, ans: n(ans), eq: `2*22/7*${rad}*${rad}+2*22/7*${rad}*${h}`, pencil: true, read: true, wrong: wrong.filter(([v]) => v !== n(ans)), steps: [`שני הבסיסים: [[2×22/7×${rad}×${rad}=${2 * B}]]`, `המעטפת היא היקף הבסיס כפול הגובה: [[2×22/7×${rad}×${h}=${side}]]`, `[[${2 * B}+${side}=${ans}]]`] });
+  } },
+  { id: 'similar', station: 20, title: 'משולשים דומים ויחס דמיון', needs: ['prop'], e: (r) => {
+    const [m, d] = pick(r, [[2, 1], [3, 1], [4, 1], [3, 2], [5, 2], [4, 3], [5, 3]] as const), u = ri(r, 1, 6), v = pick(r, [1, 2, 3, 4, 5, 6].filter((x) => x !== u));
+    const big = r() < 0.5, [p, q] = big ? [d, m] : [m, d], AB = p * u, BC = p * v, DE = q * u, ans = q * v;
+    const wrong: [string, TrapId?][] = [[n(BC + DE - AB), 'similar'], [n((BC * AB) / DE), 'similar'], [n(BC), 'similar']];
+    return calc({ prompt: `המשולשים [[ABC]] ו־[[DEF]] דומים, והקודקודים מתאימים לפי הסדר: [[A]] ל־[[D]], [[B]] ל־[[E]] ו־[[C]] ל־[[F]]. נתון [[AB=${AB}]], [[BC=${BC}]] ו־[[DE=${DE}]] ס״מ. מה אורך [[EF]] בס״מ?`, ans: n(ans), eq: `${BC}*${DE}/${AB}`, pencil: true, read: true, wrong: wrong.filter(([w]) => w !== n(ans) && Number.isInteger(Number(w)) && Number(w) > 0), steps: [`יחס הדמיון: [[DE/AB=${DE}/${AB}=${q}/${p}]]`, `[[EF]] מתאימה ל־[[BC]], ולכן [[EF=${BC}×${q}/${p}=${ans}]]`] });
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));
