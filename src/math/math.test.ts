@@ -113,7 +113,11 @@ describe('placement', () => {
     const p = run((s) => (s === 1 ? true : s === 2 ? false : s < 5 ? true : s === 5 ? false : true));
     expect(p.start).toEqual({ num: 2, frac: 5, shape: 9 });
   });
-  it('a learner who passes everything goes all the way', () => { expect(run(() => true).start).toEqual({ num: 11, frac: 7, shape: 9 }); });
+  it('a learner who passes everything goes all the way', () => {
+    // One past the last station in each area that has skills, so the expectation follows the junior-high stations as they fill.
+    const past = (d: string) => Math.max(...SKILLS.filter((s) => STATIONS.find((x) => x.id === s.station)?.domain === d).map((s) => s.station)) + 1;
+    expect(run(() => true).start).toEqual({ num: past('num'), frac: past('frac'), shape: past('shape') });
+  });
   it('asks every skill of a station, and what she got wrong is left to learn', () => {
     let p = startPlacement(5);
     const ids: string[] = [];

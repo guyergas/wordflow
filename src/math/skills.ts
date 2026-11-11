@@ -46,6 +46,8 @@ export const TRAPS = {
   triHalf: { name: 'שטח משולש', explain: 'משולש הוא חצי ממלבן עם אותו בסיס ואותו גובה, ולכן מחלקים ב־2.' },
   unit: { name: 'המרת יחידות', explain: 'יחידה קטנה יותר דורשת מספר גדול יותר: 1 מטר הוא 100 סנטימטרים.' },
   volume: { name: 'נפח מול שטח פנים', explain: 'נפח הוא כמה קוביות נכנסות. כופלים אורך, רוחב וגובה.' },
+  dist: { name: 'פילוג', explain: 'המספר שמחוץ לסוגריים כופל כל אחד מהאיברים שבפנים, ולא רק את הראשון.' },
+  sign: { name: 'מינוס לפני סוגריים', explain: 'מינוס לפני סוגריים הופך את הסימן של כל איבר שבתוכם.' },
 } as const;
 export type TrapId = keyof typeof TRAPS;
 
@@ -535,6 +537,15 @@ export const SKILLS: Skill[] = [
   { id: 'eqword', station: 10, title: 'בעיות במשוואה', needs: ['eq2'], e: (r) => {
     const x = ri(r, 3, 12), k = pick(r, KIDS), a = ri(r, 2, 5), b = ri(r, 2, 15), t = pick(r, THINGS);
     return calc({ prompt: `ל${k} יש [[x]] שקיות של [[${a}]] ${t}, ועוד [[${b}]] ${t} בנפרד. בסך הכול [[${a * x + b}]] ${t}. כמה שקיות יש לה?`, ans: n(x), eq: `(${a * x + b}-${b})/${a}`, pencil: true, read: true, wrong: [[n(a * x), 'op'], [n(a * x + b - a), 'op']], steps: [`כותבים משוואה: [[${a}x+${b}=${a * x + b}]]`, `מחסרים [[${b}]] ומחלקים ב־[[${a}]]: [[x=${x}]]`] });
+  } },
+  // ---------- Station 11 ----------
+  { id: 'dist', station: 11, title: 'פילוג (חוק הפילוג)', needs: ['like'], u: (r) => {
+    const a = ri(r, 2, 9), b = ri(r, 1, 9), s = r() < 0.5 ? '+' : '−';
+    return conceptQ(`מה שווה ל־[[${a}(x${s}${b})]]?`, `[[${a}x${s}${a * b}]]`, [[`[[${a}x${s}${b}]]`, 'dist'], [`[[x${s}${a * b}]]`, 'dist'], [`[[${a}x${s}${a + b}]]`, 'op']], [`כופלים את [[${a}]] בכל איבר שבסוגריים: [[${a}×x=${a}x]]`, `וגם [[${a}×${b}=${a * b}]], ולכן [[${a}x${s}${a * b}]]`]);
+  } },
+  { id: 'brackets', station: 11, title: 'פתיחת סוגריים עם מינוס', needs: ['dist'], u: (r) => {
+    const k = r() < 0.5 ? 1 : ri(r, 2, 4), a = ri(r, k + 2, 9), c = ri(r, 1, 9), ks = k === 1 ? '' : String(k);
+    return conceptQ(`מה שווה ל־[[${a}x−${ks}(x+${c})]]?`, `[[${a - k}x−${k * c}]]`, [[`[[${a - k}x+${k * c}]]`, 'sign'], [`[[${a + k}x+${k * c}]]`, 'sign'], ...(k === 1 ? [] : [[`[[${a - k}x−${c}]]`, 'dist'] as [string, TrapId]])], [`${k === 1 ? 'המינוס שלפני הסוגריים הופך את הסימן של כל איבר בפנים' : `המינוס שייך ל־[[${k}]], ולכן כופלים כל איבר בסוגריים ב־[[−${k}]]`}: [[−${ks}(x+${c})=−${ks}x−${k * c}]]`, `מכנסים: [[${a}x−${ks}x=${a - k}x]], ונשאר [[${a - k}x−${k * c}]]`]);
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));
