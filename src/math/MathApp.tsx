@@ -357,7 +357,7 @@ function RunResult({ st, update }: { st: MathState; update: Update }) {
 function Home({ st, today, onStart, onSettings, onCheck }: { st: MathState; today: number; onStart: (o?: { extra?: boolean; bonus?: boolean }) => void; onSettings: () => void; onCheck: () => void }) {
   const open = st.plan && st.plan.day === today && st.plan.at < st.plan.steps.length && !st.plan.extra ? st.plan : null;
   const preview = useMemo(() => open ?? buildPlan(st, today, { rnd: () => 0.5 }), [open?.at, st.skills, today]);
-  const log = dayLog(st, today), t = totals(st), week = weekDays(st, today);
+  const log = dayLog(st, today), t = totals(st);
   const fresh = preview.newSkill ? SKILL[preview.newSkill] : null;
   const count = (p: Part) => preview.steps.filter((s) => s.part === p && s.kind === 'solve').length;
   const canNew = !!nextNew(st), anyMet = SKILLS.some((s) => isMet(st, s.id));
@@ -405,11 +405,6 @@ function Home({ st, today, onStart, onSettings, onCheck }: { st: MathState; toda
       </section>
       {anyMet && <button type="button" className="sent-card" onClick={() => onStart({ extra: true })}><span className="sent-txt"><b>אימון חיזוק</b><small>סיבוב קצר על מה שכבר למדת</small></span><span className="sent-go" aria-hidden="true">←</span></button>}
       <TodayPlan />
-      <section className="card week">
-        <div className="row-between"><h3>השבוע</h3><span className="muted small">{week.filter(Boolean).length} ימי אימון</span></div>
-        <div className="week-tiles" aria-hidden="true">{['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'].map((d, i) => <span key={d} className={`wd ${week[i] ? 'on' : ''}`}>{d}</span>)}</div>
-        <p className="small muted">יום שפספסת לא מוחק כלום. {g('פשוט ממשיכות.', 'פשוט ממשיכים.')}</p>
-      </section>
     </>
   );
 }

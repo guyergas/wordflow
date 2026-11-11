@@ -231,9 +231,6 @@ function Home({ st, today, onStart, onSentences, onSettings, onReadTime }: { st:
   const inProgress = !!plan && plan.at > 0 && plan.at < plan.steps.length;
   const t = totals(st);
   const way = onTheWay(st);
-  const weekSec = studySeconds(st, today - 6, today);
-  const week = weekDays(st, today);
-  const weekCount = week.filter(Boolean).length;
   const count = (p: Part) => preview.steps.filter((s) => s.part === p && s.kind !== 'intro').length;
   const part = plan && inProgress ? plan.steps[plan.at].part : null;
   const lockCount = preview.consolidating ? 0 : preview.newIds.length;
@@ -302,17 +299,6 @@ function Home({ st, today, onStart, onSentences, onSettings, onReadTime }: { st:
       {COURSE_ID === 'en' && <EnglishReading known={t.known} onTime={onReadTime} />}
       <TodayPlan />
 
-      <section className="card week">
-        <div className="row-between"><h3>השבוע</h3><span className="muted small">{weekCount} ימי אימון</span></div>
-        <div className="time-row">
-          <div><span>היום</span><b>{studyTimeLabel(studySeconds(st, today, today), questionCount(st, today, today))}</b><small>{questionCount(st, today, today)} שאלות</small></div>
-          <div><span>7 ימים</span><b>{studyTimeLabel(weekSec, questionCount(st, today - 6, today))}</b><small>{questionCount(st, today - 6, today)} שאלות</small></div>
-        </div>
-        <div className="week-tiles" aria-hidden="true">
-          {['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'].map((d, i) => <span key={d} className={`wd ${week[i] ? 'on' : ''}`}>{d}</span>)}
-        </div>
-        <p className="small muted">{x('יום שפספסת לא מוחק כלום. פשוט ממשיכות.', 'יום שפספסת לא מוחק כלום. פשוט ממשיכים.')}</p>
-      </section>
     </>
   );
 }
