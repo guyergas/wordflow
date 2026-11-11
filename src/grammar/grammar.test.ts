@@ -8,7 +8,7 @@ describe('grammar', () => {
     expect(new Set(GRAMMAR.map((t) => t.id)).size).toBe(GRAMMAR.length);
     for (const t of GRAMMAR) {
       expect(t.words, t.id).toBeGreaterThanOrEqual(words); words = t.words;
-      expect(t.qs.length, t.id).toBeGreaterThanOrEqual(10);
+      expect(t.qs.length, t.id).toBeGreaterThanOrEqual(25);
       for (const [s, right, wrong, why] of t.qs) {
         expect(s, t.id).toContain('___');
         expect(wrong.length, s).toBeGreaterThanOrEqual(1);
@@ -32,4 +32,8 @@ describe('grammar', () => {
     s = afterGrammar(s, 'plural', 1, 5, T + 4, true);
     expect(s.topics.plural.due).toBe(T + 5);
   });
+});
+
+it('no topic repeats a sentence', () => {
+  for (const t of GRAMMAR) expect(new Set(t.qs.map((q) => q[0])).size, t.id).toBe(t.qs.length);
 });
