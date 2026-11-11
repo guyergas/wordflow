@@ -58,6 +58,8 @@ export const TRAPS = {
   ineq: { name: 'סימן האי־שוויון', explain: 'כשכופלים או מחלקים את שני האגפים במספר שלילי, הופכים את כיוון הסימן. ובסימן < או > המספר שבגבול עצמו אינו פתרון.' },
   slope: { name: 'שיפוע', explain: 'שיפוע הוא השינוי ב־y חלקי השינוי ב־x. מחסרים באותו סדר נקודות למעלה ולמטה, ולא הופכים את השבר.' },
   lineform: { name: 'קריאת y=mx+b', explain: 'כשהמשוואה כתובה כ־y=mx+b, המספר שכופל את x הוא השיפוע, והמספר הבודד הוא ערך y בנקודת החיתוך עם ציר y, שבה x=0. אם לפני y יש מספר, מחלקים בו קודם.' },
+  powlaw: { name: 'חוקי חזקות', explain: 'בכפל חזקות עם אותו בסיס מחברים את המעריכים, ובחילוק מחסרים אותם. את הבסיס לא כופלים. כופלים מעריכים רק בחזקה של חזקה, כמו (x²)³=x⁶.' },
+  powneg: { name: 'חזקה אפס ושלילית', explain: 'כל מספר חוץ מ־0 בחזקת 0 שווה 1. מעריך שלילי לא הופך את התוצאה לשלילית: 2⁻³ הוא 1 חלקי 2³, כלומר 1/8.' },
 } as const;
 export type TrapId = keyof typeof TRAPS;
 
@@ -195,6 +197,8 @@ const par = (v: number) => (v < 0 ? `(${sgn(v)})` : String(v));
 const pt = (x: number, y: number) => `(${sgn(x)},${sgn(y)})`;
 /** The line y=mx+b as shown in math. */
 const line = (m: number, b: number) => `y=${m === 0 ? '' : kx(m)}${m === 0 ? sgn(b) : term(b)}`;
+/** An exponent as superscript digits: 3 → ³, −2 → ⁻². */
+const sup = (v: number) => (v < 0 ? '⁻' : '') + [...String(Math.abs(v))].map((d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(d)]).join('');
 const SOLID_HOW = ['פאה היא משטח: סופרים את הבסיסים ואת הפאות הצדדיות', 'מקצוע הוא קו שבו נפגשות שתי פאות', 'קדקוד הוא נקודה שבה נפגשים מקצועות'];
 
 export const SKILLS: Skill[] = [
@@ -887,6 +891,41 @@ export const SKILLS: Skill[] = [
     const x = ri(r, 3, 15), y = ri(r, 2, 12), H = x + y, L = 2 * x + 4 * y;
     const wrong: [string, TrapId?][] = [[n(x), 'op'], [n(L - 2 * H), 'op'], [n(L / 4)]];
     return calc({ prompt: `בחווה יש תרנגולות וארנבות. סופרים [[${H}]] ראשים ו־[[${L}]] רגליים. כמה ארנבות יש בחווה?`, ans: n(y), eq: `(${L}-2*${H})/2`, pencil: true, read: true, wrong: wrong.filter(([v]) => v !== n(y) && Number.isInteger(Number(v))), steps: [`תרנגולות: [[x]], ארנבות: [[y]]. לכל אחת ראש אחד: [[x+y=${H}]]. לתרנגולת [[2]] רגליים ולארנבת [[4]]: [[2x+4y=${L}]]`, `כופלים את הראשונה ב־[[2]] ומחסרים: [[2y=${L - 2 * H}]]`, `[[y=${y}]]`] });
+  } },
+  // ---------- Station 15 ----------
+  { id: 'powlaw', station: 15, title: 'חוקי חזקות: כפל וחילוק חזקות', needs: ['power'], u: (r) => {
+    const a = pick(r, [2, 3, 5, 7, 10]), m = ri(r, 2, 6), n2 = ri(r, 2, 5);
+    if (r() < 0.5) return conceptQ(`מה שווה ל־[[${a}${sup(m)}×${a}${sup(n2)}]]?`, `[[${a}${sup(m + n2)}]]`, [[`[[${a}${sup(m * n2)}]]`, 'powlaw'], [`[[${a * a}${sup(m + n2)}]]`, 'powlaw'], [`[[${a * a}${sup(m * n2)}]]`, 'powlaw']], ['בכפל חזקות עם אותו בסיס מחברים את המעריכים, והבסיס נשאר', `יש [[${m}]] גורמים של [[${a}]] ועוד [[${n2}]] גורמים: [[${m}+${n2}=${m + n2}]], ולכן [[${a}${sup(m + n2)}]]`]);
+    const big = m + n2;
+    return conceptQ(`מה שווה ל־[[${a}${sup(big)}÷${a}${sup(n2)}]]?`, `[[${a}${sup(m)}]]`, [[`[[${a}${sup(big + n2)}]]`, 'powlaw'], [`[[1${sup(m)}]]`, 'powlaw'], ...(big % n2 === 0 && big / n2 !== m ? [[`[[${a}${sup(big / n2)}]]`, 'powlaw'] as [string, TrapId]] : [])], ['בחילוק חזקות עם אותו בסיס מחסרים את המעריכים, והבסיס נשאר', `[[${big}−${n2}=${m}]], ולכן [[${a}${sup(m)}]]`]);
+  }, e: (r) => {
+    const kind = ri(r, 0, 2), b = pick(r, ['x', 'a', '2', '3', '5']), m = ri(r, 2, 6), k = ri(r, 2, 5);
+    const ask = (ex: string) => `כשכותבים את [[${ex}]] כחזקה אחת של [[${b}]], מה המעריך?`;
+    const keep = (ans: number, w: [string, TrapId?][]) => w.filter(([v]) => v !== n(ans) && Number(v) > 0);
+    if (kind === 0) return calc({ prompt: ask(`${b}${sup(m)}×${b}${sup(k)}`), ans: n(m + k), eq: `${m}+${k}`, wrong: keep(m + k, [[n(m * k), 'powlaw'], [n(Math.abs(m - k)), 'powlaw']]), steps: ['בכפל חזקות עם אותו בסיס מחברים את המעריכים', `[[${b}${sup(m)}×${b}${sup(k)}=${b}${sup(m + k)}]], כי [[${m}+${k}=${m + k}]]`] });
+    if (kind === 1) {
+      const top = m + k;
+      return calc({ prompt: ask(`${b}${sup(top)}÷${b}${sup(k)}`), ans: n(m), eq: `${top}-${k}`, wrong: keep(m, [[n(top + k), 'powlaw'], ...(top % k === 0 ? [[n(top / k), 'powlaw'] as [string, TrapId]] : [])]), steps: ['בחילוק חזקות עם אותו בסיס מחסרים את המעריכים', `[[${b}${sup(top)}÷${b}${sup(k)}=${b}${sup(m)}]], כי [[${top}−${k}=${m}]]`] });
+    }
+    return calc({ prompt: ask(`(${b}${sup(m)})${sup(k)}`), ans: n(m * k), eq: `${m}*${k}`, wrong: keep(m * k, [[n(m + k), 'powlaw'], [n(m ** k)]]), steps: [`[[(${b}${sup(m)})${sup(k)}]] הוא [[${b}${sup(m)}]] כפול עצמו [[${k}]] פעמים`, `מחברים [[${k}]] פעמים את [[${m}]], כלומר כופלים את המעריכים: [[${m}×${k}=${m * k}]]`] });
+  } },
+  { id: 'powneg', station: 15, title: 'חזקה אפס וחזקה שלילית', needs: ['powlaw'], u: (r) => {
+    if (r() < 0.35) {
+      const a = pick(r, [2, 3, 7, 10, 25, 100, 347]);
+      return conceptQ(`כמה זה [[${a}⁰]]?`, '[[1]]', [['[[0]]', 'powneg'], [`[[${a}]]`, 'powneg']], [`[[${a}${sup(3)}÷${a}${sup(3)}=${a}${sup(3 - 3)}=${a}⁰]], ומספר מחולק בעצמו הוא [[1]]`, 'לכן כל מספר חוץ מ־0 בחזקת 0 שווה [[1]]']);
+    }
+    const [a, k] = pick(r, [[2, 2], [2, 3], [2, 4], [3, 2], [3, 3], [4, 2], [5, 2], [10, 2], [10, 3]]), p = a ** k;
+    return conceptQ(`כמה זה [[${a}${sup(-k)}]]?`, `[[1/${p}]]`, [[`[[−${p}]]`, 'powneg'], [`[[−${a * k}]]`, 'powneg'], [`[[1/${a * k}]]`, 'powneg']], [`מעריך שלילי פירושו אחד חלקי החזקה: [[${a}${sup(-k)}=1÷${a}${sup(k)}]]`, `[[${a}${sup(k)}=${p}]], ולכן [[1/${p}]]`]);
+  }, e: (r) => {
+    const kind = ri(r, 0, 2);
+    if (kind === 0) {
+      const a = ri(r, 2, 12), m = ri(r, 2, 5);
+      return calc({ prompt: `כמה זה [[${a}${sup(m)}÷${a}${sup(m)}]]? אפשר לכתוב אותו גם כ־[[${a}⁰]]`, ans: '1', eq: `${a ** m}/${a ** m}`, wrong: [['0', 'powneg'], [n(a), 'powneg']], steps: [`מחסרים מעריכים: [[${a}${sup(m)}÷${a}${sup(m)}=${a}⁰]]`, `וכל מספר מחולק בעצמו הוא [[1]], ולכן [[${a}⁰=1]]`] });
+    }
+    const [a, k] = pick(r, [[2, 1], [2, 2], [2, 3], [3, 1], [3, 2], [4, 2], [5, 2], [10, 1], [10, 2]]), p = a ** k;
+    if (kind === 1) return calc({ prompt: `[[${a}${sup(-k)}]] שווה ל־[[1]] חלקי מספר. מה המספר?`, ans: n(p), eq: `${p}`, wrong: [[n(-p), 'powneg'], ...(k > 1 && a * k !== p ? [[n(a * k), 'powneg'] as [string, TrapId]] : [])], steps: [`מעריך שלילי פירושו אחד חלקי החזקה: [[${a}${sup(-k)}=1÷${a}${sup(k)}]]`, `[[${a}${sup(k)}=${p}]], ולכן [[${a}${sup(-k)}=1/${p}]]. התוצאה חיובית: המינוס במעריך לא הופך את הסימן`] });
+    const m = k + ri(r, 1, 2);
+    return calc({ prompt: `כמה זה [[${a}${sup(m)}×${a}${sup(-k)}]]?`, ans: n(a ** (m - k)), eq: `${a ** m}/${p}`, wrong: [[n(a ** (m + k)), 'powneg'], [n(a ** m), 'powneg']], steps: [`מחברים מעריכים: [[${m}+(−${k})=${m - k}]]`, `[[${a}${sup(m - k)}=${a ** (m - k)}]]`] });
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));
