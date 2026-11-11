@@ -3,6 +3,7 @@ import { IS_ALEF, IS_THAI, IS_TINYEN, IS_TOTS, STORAGE_KEY as KEY, USER_NAME } f
 import { HEBREW_AUDIO } from './alef/letters';
 import { TOTS_AUDIO } from './tots/numbers';
 import { TINY_EN_AUDIO, TINY_HE_AUDIO } from './tinyen/letters';
+import { WORDS_EN_AUDIO, WORDS_HE_AUDIO } from './littleWords/data';
 import { dropUnpracticed, initialState, repairPlans, State } from './engine';
 import { audioName, THAI_AUDIO } from './thai';
 let memory: string | null = null;
@@ -152,8 +153,8 @@ export async function saveHebrewRecordings() {
   try {
     const cache = await caches.open('hebrew-audio');
     const queue = IS_TINYEN
-      ? [...TINY_HE_AUDIO.map((t) => `audio/he/${audioName(t)}.mp3`), ...TINY_EN_AUDIO.map((t) => `audio/en/${audioName(t)}.mp3`)]
-      : (IS_TOTS ? TOTS_AUDIO : HEBREW_AUDIO).map((t) => `audio/he/${audioName(t)}.mp3`);
+      ? [...new Set([...TINY_HE_AUDIO, ...WORDS_HE_AUDIO])].map((t) => `audio/he/${audioName(t)}.mp3`).concat([...new Set([...TINY_EN_AUDIO, ...WORDS_EN_AUDIO])].map((t) => `audio/en/${audioName(t)}.mp3`))
+      : (IS_TOTS ? TOTS_AUDIO : [...new Set([...HEBREW_AUDIO, ...WORDS_HE_AUDIO])]).map((t) => `audio/he/${audioName(t)}.mp3`);
     const worker = async () => { for (let url = queue.pop(); url; url = queue.pop()) { try { if (!(await cache.match(url))) await cache.add(url); } catch { /* the next launch tries again */ } } };
     await Promise.all([worker(), worker(), worker()]);
   } catch { /* optional */ }

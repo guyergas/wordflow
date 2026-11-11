@@ -1,3 +1,4 @@
+import { WordsButton, WordsTrack } from '../littleWords/WordsTrack';
 import { SettingsSheet } from '../settingsSheet';
 import { greeting, TopBar } from '../topBar';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -43,6 +44,7 @@ export function TinyEnApp() {
   const [tab, setTab] = useState<'home' | 'progress'>('home');
   const [inSession, setInSession] = useState(false);
   const [settings, setSettings] = useState(false);
+  const [words, setWords] = useState(false);
   const today = dayNumber();
   const onSeconds = useCallback((sec: number) => update((s) => addTime(s, dayNumber(), sec)), [update]);
   useStudyTimer(inSession, onSeconds);
@@ -58,10 +60,11 @@ export function TinyEnApp() {
     update((s) => { const open = !!s.plan && !s.plan.extra && s.plan.day === today && s.plan.at < s.plan.steps.length; return open && !o.bonus && !o.warm && !o.boost && !o.focus ? s : { ...s, plan: buildPlan(s, today, o) }; });
     setInSession(true);
   };
+  if (words) return <WordsTrack lang="en" met={new Set(Object.keys(st.letters))} sound={st.settings.sound} onSeconds={onSeconds} onExit={() => setWords(false)} />;
   if (inSession && st.plan) return <Session st={st} update={update} onExit={() => setInSession(false)} />;
   return (
     <div className="app">
-      <main className="page">{tab === 'home' ? <Home st={st} today={today} onStart={start} onProgress={() => setTab('progress')} onSettings={() => setSettings(true)} /> : <Progress st={st} onFocus={(id) => start({ focus: id })} />}</main>
+      <main className="page">{tab === 'home' ? <Home st={st} today={today} onStart={start} onProgress={() => setTab('progress')} onSettings={() => setSettings(true)} onWords={() => setWords(true)} /> : <Progress st={st} onFocus={(id) => start({ focus: id })} />}</main>
       <nav className="nav" aria-label="ניווט">
         {([['home', 'בית'], ['progress', 'התקדמות']] as const).map(([k, label]) => <button key={k} type="button" className={tab === k ? 'on' : ''} aria-current={tab === k ? 'page' : undefined} onClick={() => setTab(k)}>{label}</button>)}
         <SummaryTab name={st.name} />
@@ -71,7 +74,7 @@ export function TinyEnApp() {
   );
 }
 
-function Home({ st, today, onStart, onProgress, onSettings }: { st: EState; today: number; onStart: (o?: PlanOptions) => void; onProgress: () => void; onSettings: () => void }) {
+function Home({ st, today, onStart, onProgress, onSettings, onWords }: { st: EState; today: number; onStart: (o?: PlanOptions) => void; onProgress: () => void; onSettings: () => void; onWords: () => void }) {
   const open = st.plan && !st.plan.extra && st.plan.day === today && st.plan.at < st.plan.steps.length ? st.plan : null;
   const preview = useMemo(() => open ?? buildPlan(st, today, { rnd: () => 0.5 }), [open?.at, st.letters, today]);
   const left = preview.steps.slice(preview.at), fresh = left.find((s) => s.t === 'meet')?.id, first = fresh ?? left[0]?.id;
@@ -109,6 +112,7 @@ function Home({ st, today, onStart, onProgress, onSettings }: { st: EState; toda
           <button type="button" onClick={() => onStart({ boost: true })}><span aria-hidden="true">💪</span><b>חיזוק</b><small>{hard > 0 ? `${hard} אותיות קשות` : 'האותיות שפחות בטוחות'}</small></button>
         </div>
       )}
+      <WordsButton lang="en" met={new Set(Object.keys(st.letters))} onOpen={onWords} />
       <TodayPlan />
       <button type="button" className="card a-strip-card" onClick={onProgress}>
         <span className="row-between"><b>ה־ABC שלי</b><small className="muted">{met} מתוך {ABC.length} ›</small></span>

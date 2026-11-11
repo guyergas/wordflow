@@ -1,3 +1,4 @@
+import { WordsButton, WordsTrack } from '../littleWords/WordsTrack';
 import { SettingsSheet } from '../settingsSheet';
 import { greeting, TopBar } from '../topBar';
 import { PointerEvent as PE, useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -77,6 +78,7 @@ export function AlefApp() {
   const [tab, setTab] = useState<'home' | 'progress'>('home');
   const [inSession, setInSession] = useState(false);
   const [order, setOrder] = useState(false);
+  const [words, setWords] = useState(false);
   const [settings, setSettings] = useState(false);
   const today = dayNumber();
   const onSeconds = useCallback((sec: number) => update((s) => addTime(s, dayNumber(), sec)), [update]);
@@ -94,11 +96,12 @@ export function AlefApp() {
     update((s) => { const open = !!s.plan && !s.plan.extra && s.plan.day === today && s.plan.at < s.plan.steps.length; if (open && !o.bonus && !o.extra && !o.warm && !o.boost && !o.focus) return s; return { ...s, plan: buildPlan(s, today, o) }; });
     setInSession(true);
   };
+  if (words) return <WordsTrack lang="he" met={new Set(Object.keys(st.letters))} sound={st.settings.sound} onSeconds={onSeconds} onExit={() => setWords(false)} />;
   if (order) return <OrderPractice sound={st.settings.sound} onExit={() => setOrder(false)} />;
   if (inSession && st.plan) return <Session st={st} update={update} onExit={() => setInSession(false)} onMore={start} />;
   return (
     <div className="app">
-      <main className="page">{tab === 'home' ? <Home st={st} today={today} onStart={start} onProgress={() => setTab('progress')} onSettings={() => setSettings(true)} onOrder={() => setOrder(true)} /> : <Progress st={st} onFocus={(id) => start({ focus: id })} />}</main>
+      <main className="page">{tab === 'home' ? <Home st={st} today={today} onStart={start} onProgress={() => setTab('progress')} onSettings={() => setSettings(true)} onOrder={() => setOrder(true)} onWords={() => setWords(true)} /> : <Progress st={st} onFocus={(id) => start({ focus: id })} />}</main>
       <nav className="nav" aria-label="ניווט">
         {([['home', 'בית'], ['progress', 'התקדמות']] as const).map(([k, label]) => <button key={k} type="button" className={tab === k ? 'on' : ''} aria-current={tab === k ? 'page' : undefined} onClick={() => setTab(k)}>{label}</button>)}
         <SummaryTab name={st.name} />
@@ -111,7 +114,7 @@ export function AlefApp() {
 const Play = () => <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M18 5v14L6 12z" /></svg>;
 
 /** Says plainly what today holds and what each button does. */
-function Home({ st, today, onStart, onProgress, onSettings, onOrder }: { st: AState; today: number; onStart: (o?: PlanOptions) => void; onProgress: () => void; onSettings: () => void; onOrder: () => void }) {
+function Home({ st, today, onStart, onProgress, onSettings, onOrder, onWords }: { st: AState; today: number; onStart: (o?: PlanOptions) => void; onProgress: () => void; onSettings: () => void; onOrder: () => void; onWords: () => void }) {
   const open = st.plan && !st.plan.extra && st.plan.day === today && st.plan.at < st.plan.steps.length ? st.plan : null;
   const preview = useMemo(() => open ?? buildPlan(st, today, { rnd: () => 0.5 }), [open?.at, st.letters, today]);
   const left = preview.steps.slice(preview.at), fresh = left.find((s) => s.t === 'meet')?.id, firstId = fresh ?? left[0]?.id;
@@ -150,6 +153,7 @@ function Home({ st, today, onStart, onProgress, onSettings, onOrder }: { st: ASt
         </div>
       )}
       <OrderButton onOpen={onOrder} />
+      <WordsButton lang="he" met={new Set(Object.keys(st.letters))} onOpen={onWords} />
       <TodayPlan />
       <button type="button" className="card a-strip-card" onClick={onProgress}>
         <span className="row-between"><b>הא״ב שלי</b><small className="muted">{met} מתוך {LETTERS.length} ›</small></span>
