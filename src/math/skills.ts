@@ -81,6 +81,8 @@ export const TRAPS = {
   sector: { name: 'קשת וגזרה', explain: 'קשת וגזרה הן חלק מהמעגל כולו, לפי הזווית חלקי 360. לקשת כופלים את ההיקף בחלק הזה, ולגזרה כופלים את השטח. לא מחלקים ב־180, ולא שוכחים לקחת רק חלק.' },
   prism: { name: 'נפח ושטח פנים של גוף', explain: 'נפח של מנסרה או של גליל הוא שטח הבסיס כפול הגובה. שטח הפנים הוא שני הבסיסים ועוד המעטפת, והמעטפת היא היקף הבסיס כפול הגובה. לא שוכחים אף אחד מהבסיסים.' },
   similar: { name: 'יחס דמיון', explain: 'במשולשים דומים כל הצלעות גדלות או קטנות פי אותו מספר. מחלקים צלע בצלע המתאימה לה כדי למצוא את היחס, וכופלים בו. לא מוסיפים את ההפרש, ומתאימים צלע לצלע לפי סדר האותיות.' },
+  scalearea: { name: 'יחס שטחים ויחס נפחים', explain: 'כשהאורכים גדלים פי k, השטח גדל פי k² והנפח גדל פי k³. לא כופלים את השטח או את הנפח ביחס הדמיון עצמו: משולש גדול פי 2 באורכים גדול פי 4 בשטח.' },
+  median: { name: 'חציון ושכיח', explain: 'כדי למצוא חציון מסדרים קודם את המספרים מהקטן לגדול, ולוקחים את האמצעי. כשמספר הנתונים זוגי, החציון הוא הממוצע של שני האמצעיים. שכיח הוא הערך שמופיע הכי הרבה פעמים, ולא מספר הפעמים שהוא מופיע.' },
 } as const;
 export type TrapId = keyof typeof TRAPS;
 
@@ -1269,6 +1271,38 @@ export const SKILLS: Skill[] = [
     const big = r() < 0.5, [p, q] = big ? [d, m] : [m, d], AB = p * u, BC = p * v, DE = q * u, ans = q * v;
     const wrong: [string, TrapId?][] = [[n(BC + DE - AB), 'similar'], [n((BC * AB) / DE), 'similar'], [n(BC), 'similar']];
     return calc({ prompt: `המשולשים [[ABC]] ו־[[DEF]] דומים, והקודקודים מתאימים לפי הסדר: [[A]] ל־[[D]], [[B]] ל־[[E]] ו־[[C]] ל־[[F]]. נתון [[AB=${AB}]], [[BC=${BC}]] ו־[[DE=${DE}]] ס״מ. מה אורך [[EF]] בס״מ?`, ans: n(ans), eq: `${BC}*${DE}/${AB}`, pencil: true, read: true, wrong: wrong.filter(([w]) => w !== n(ans) && Number.isInteger(Number(w)) && Number(w) > 0), steps: [`יחס הדמיון: [[DE/AB=${DE}/${AB}=${q}/${p}]]`, `[[EF]] מתאימה ל־[[BC]], ולכן [[EF=${BC}×${q}/${p}=${ans}]]`] });
+  } },
+  { id: 'scalearea', station: 20, title: 'יחס שטחים ויחס נפחים', needs: ['similar'], e: (r) => {
+    const vol = r() < 0.4, k = vol ? ri(r, 2, 3) : ri(r, 2, 5), pw = vol ? 3 : 2, f = k ** pw, s = vol ? ri(r, 2, 9) : ri(r, 2, 12), b = s * f, up = r() < 0.5;
+    const what = vol ? 'נפח' : 'שטח', unit = vol ? 'סמ״ק' : 'סמ״ר', small = vol ? 'התיבה הקטנה' : 'המשולש הקטן', large = vol ? 'התיבה הגדולה' : 'המשולש הגדול';
+    const lead = `${vol ? 'שתי תיבות דומות, ויחס הדמיון ביניהן' : 'שני משולשים דומים, ויחס הדמיון ביניהם'} (יחס האורכים) הוא [[1:${k}]].`;
+    const law = vol ? `יחס הנפחים הוא יחס הדמיון בחזקת שלוש: [[${k}³=${f}]]` : `יחס השטחים הוא יחס הדמיון בריבוע: [[${k}²=${f}]]`;
+    if (up) {
+      const wrong: [string, TrapId?][] = [[n(s * k), 'scalearea'], [n(s * (vol ? k * k : k ** 3)), 'scalearea'], [n(s + k), 'op']];
+      return calc({ prompt: `${lead} ${what} ${small} [[${s}]] ${unit}. מה ${what} ${large}, ב${unit}?`, ans: n(b), eq: `${s}*${Array(pw).fill(k).join('*')}`, pencil: true, read: true, wrong: wrong.filter(([v]) => v !== n(b)), steps: [law, `[[${s}×${f}=${b}]]`] });
+    }
+    const wrong: [string, TrapId?][] = [[n(b / k), 'scalearea'], ...(vol ? [] : (b % (k ** 3) === 0 ? [[n(b / k ** 3), 'scalearea'] as [string, TrapId]] : [])), ...(vol ? [[n(b / (k * k)), 'scalearea'] as [string, TrapId]] : []), [n(b - k), 'op']];
+    return calc({ prompt: `${lead} ${what} ${large} [[${b}]] ${unit}. מה ${what} ${small}, ב${unit}?`, ans: n(s), eq: `${b}/${f}`, pencil: true, read: true, wrong: wrong.filter(([v]) => v !== n(s) && Number(v) > 0), steps: [law, `מחלקים: [[${b}÷${f}=${s}]]`] });
+  } },
+  // ---------- Station 21 ----------
+  { id: 'median', station: 21, title: 'חציון ושכיח', needs: ['mean'], e: (r) => {
+    const mix = (a: number[]) => { const o = [...a]; for (let i = o.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [o[i], o[j]] = [o[j], o[i]]; } return o; };
+    const kind = ri(r, 0, 2);
+    if (kind === 0) {
+      const len = pick(r, [5, 7]), mid = (len - 1) / 2, s = Array.from({ length: len }, () => ri(r, 1, 20)).sort((x, y) => x - y), v = mix(s), ans = s[mid];
+      const sum = s.reduce((x, y) => x + y, 0);
+      const wrong: [string, TrapId?][] = [[n(v[mid]), 'median'], ...(sum % len === 0 ? [[n(sum / len), 'median'] as [string, TrapId]] : []), [n(s[mid + 1]), 'median']];
+      return calc({ prompt: `מה החציון של המספרים [[${v.join(', ')}]]?`, ans: n(ans), eq: `${ans}`, pencil: true, wrong: wrong.filter(([w]) => w !== n(ans)), steps: [`מסדרים מהקטן לגדול: [[${s.join(', ')}]]`, `יש [[${len}]] מספרים, והאמצעי הוא המקום ה־[[${mid + 1}]]: [[${ans}]]`] });
+    }
+    if (kind === 1) {
+      const m1 = ri(r, 4, 12), m2 = m1 + 2 * ri(r, 1, 4), s = [ri(r, 1, m1), ri(r, 1, m1), m1, m2, ri(r, m2, m2 + 8), ri(r, m2, m2 + 8)].sort((x, y) => x - y), v = mix(s), ans = (m1 + m2) / 2;
+      const wrong: [string, TrapId?][] = [[n(m1), 'median'], [n(m2), 'median'], ...((v[2] + v[3]) % 2 === 0 ? [[n((v[2] + v[3]) / 2), 'median'] as [string, TrapId]] : [])];
+      return calc({ prompt: `מה החציון של המספרים [[${v.join(', ')}]]?`, ans: n(ans), eq: `(${m1}+${m2})/2`, pencil: true, wrong: wrong.filter(([w]) => w !== n(ans)), steps: [`מסדרים מהקטן לגדול: [[${s.join(', ')}]]`, `יש [[6]] מספרים, מספר זוגי, ולכן יש שני אמצעיים: [[${m1}]] ו־[[${m2}]]`, `החציון הוא הממוצע שלהם: [[(${m1}+${m2})÷2=${ans}]]`] });
+    }
+    const pool = mix(Array.from({ length: 15 }, (_, i) => i + 1)), mode = pool[0], others = pool.slice(1, 4), times = 3;
+    const v = mix([mode, mode, mode, others[0], others[0], others[1], others[2]]);
+    const wrong: [string, TrapId?][] = [[n(times), 'median'], [n(others[0]), 'median'], [n(Math.max(...v)), 'median']];
+    return calc({ prompt: `מה השכיח של המספרים [[${v.join(', ')}]]?`, ans: n(mode), eq: `${mode}`, wrong: wrong.filter(([w]) => w !== n(mode)), steps: ['השכיח הוא הערך שמופיע הכי הרבה פעמים', `[[${mode}]] מופיע [[${times}]] פעמים, ו־[[${others[0]}]] רק פעמיים`] });
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));

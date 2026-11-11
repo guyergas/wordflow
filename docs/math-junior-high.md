@@ -11,7 +11,5 @@ Run `npx tsc --noEmit` and `npx vitest run src/math`, and fix what fails. The te
 Elementary gaps first (grades 4 to 6, found against the Ministry's program in Nov 2026):
 
 Junior high:
-- station 20 · scalearea · יחס שטחים ויחס נפחים · needs similar
-- station 21 · median · חציון ושכיח · needs mean
 - station 21 · probnot · מאורע משלים והסתברות באחוזים · needs prob
 - station 21 · prob2 · הסתברות של שני מאורעות (טבלה או עץ) · needs probnot
