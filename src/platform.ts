@@ -206,31 +206,44 @@ export function sayInTurn(parts: { text: string; lang: 'he' | 'en' }[]) {
         setTimeout(wait, 300);
         return;
       }
-      const [from, to] = soundEdges(buffer);
+      const clip = trim(c, buffer);
       const src = c.createBufferSource();
-      src.buffer = buffer;
+      src.buffer = clip;
       src.connect(c.destination);
-      src.start(at, from, to - from);
+      src.start(at);
       playing = src; queued.push(src);
-      at += to - from + GAP;
+      at += clip.duration + GAP;
       if (buffers[i + 1]) play(i + 1); else src.onended = () => { at = Math.max(at, c.currentTime); play(i + 1); };
     };
     play(0);
   });
 }
 
-/** Where the sound in a recording begins and ends, in seconds, ignoring quiet padding at the edges. */
-const edges = new WeakMap<AudioBuffer, [number, number]>();
+/**
+ * The recording without the quiet padding at its edges, as a buffer of its own.
+ * Playing a copy, with no offset or duration passed to start(), matters on iPhone: Safari counts the duration
+ * at the device's sample rate, so a 24 kHz recording on a 48 kHz phone was cut to half its length.
+ */
+const trimmed = new WeakMap<AudioBuffer, AudioBuffer>();
 export function soundEdges(b: AudioBuffer): [number, number] {
-  const known = edges.get(b);
-  if (known) return known;
   const d = b.getChannelData(0), limit = 0.02, pad = Math.floor(b.sampleRate * 0.04);
   let first = 0, last = d.length - 1;
   while (first < d.length && Math.abs(d[first]) < limit) first++;
   while (last > first && Math.abs(d[last]) < limit) last--;
-  const res: [number, number] = first >= last ? [0, b.duration] : [Math.max(0, first - pad) / b.sampleRate, Math.min(d.length, last + pad) / b.sampleRate];
-  edges.set(b, res);
-  return res;
+  return first >= last ? [0, b.duration] : [Math.max(0, first - pad) / b.sampleRate, Math.min(d.length, last + pad) / b.sampleRate];
+}
+function trim(c: BaseAudioContext, b: AudioBuffer): AudioBuffer {
+  const known = trimmed.get(b);
+  if (known) return known;
+  const [from, to] = soundEdges(b);
+  const start = Math.floor(from * b.sampleRate), length = Math.max(1, Math.floor((to - from) * b.sampleRate));
+  let out = b;
+  try {
+    out = c.createBuffer(b.numberOfChannels, length, b.sampleRate);
+    for (let ch = 0; ch < b.numberOfChannels; ch++) out.getChannelData(ch).set(b.getChannelData(ch).subarray(start, start + length));
+  } catch { out = b; }
+  trimmed.set(b, out);
+  return out;
 }
 
 export function speak(text: string, opts: { voice?: string; rate?: number } = {}) {

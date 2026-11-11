@@ -4,12 +4,20 @@
 // אֲרֻכָּה as "aaruka", and כָּל read with a long a instead of "kol". The voice reads plain Hebrew well,
 // so it gets the text without niqqud. A few words read as a different word without niqqud keep it,
 // and the geresh becomes an apostrophe, so צ׳וּפְּצִ׳יק is read with "ch".
+import { LETTERS } from './alef/letters';
 import { audioName } from './thai';
 
-/** Words that would be read as another word without niqqud: אלף (thousand), בית (house), למד (he learned), פא. */
-const KEEP: Record<string, string> = { 'אלף': 'אָלֶף', 'בית': 'בֵּית', 'למד': 'לָמֶד', 'פא': 'פֵּא' };
+const MARKS = /[\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7]/g;
+const MARKS_ALL = /[\u0591-\u05C7]/g;
 
-const MARKS = /[֑-ׇֽֿׁׂׅׄ]/g;
+/**
+ * Letter names keep their niqqud: without it רֵישׁ is read "rish" and דָּלֶת "delet", the door.
+ * A word counts as a letter name only when it is pointed exactly as one, so דֶּלֶת (door) and בַּיִת (house) are left alone.
+ * דָּלֶת is read with a long "aa" even with niqqud, so it is spelled the way it sounds.
+ */
+const SPOKEN: Record<string, string> = { 'דָּלֶת': 'דאלת' };
+const KEEP: Record<string, string> = Object.fromEntries(LETTERS.map((l) => [l.say.replace(MARKS_ALL, ''), l.say]));
+
 
 /**
  * Full spelling (כתיב מלא) from pointed text, so that the text without niqqud reads right:
@@ -57,7 +65,7 @@ export function forSpeech(text: string): string {
   if (pointed.length !== bare.length) return plain;
   return bare.map((w, i) => {
     const p = pointed[i].replace(/[.,!?:]/g, ''), b = w.replace(/[.,!?:]/g, '');
-    return KEEP[b] === p ? w.replace(b, p) : w;
+    return KEEP[b] === p ? w.replace(b, SPOKEN[p] ?? p) : w;
   }).join(' ');
 }
 
