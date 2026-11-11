@@ -36,6 +36,7 @@ export default defineConfig(({ mode }) => {
                 { urlPattern: /\/assets\/[^/]+\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'piano-samples', expiration: { maxEntries: 60 } } },
                 { urlPattern: /\/audio\/th\/[^/]+\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'thai-audio' } },
                 { urlPattern: /\/audio\/he\/[^/]+\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'hebrew-audio' } },
+                { urlPattern: /\/audio\/songs\/[^/]+\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'hebrew-audio' } },
                 { urlPattern: /\/audio\/en\/[^/]+\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'hebrew-audio' } },
               ],
             },

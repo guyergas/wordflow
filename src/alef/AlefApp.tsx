@@ -146,12 +146,30 @@ function Home({ st, today, onStart, onProgress, onSettings }: { st: AState; toda
           <button type="button" onClick={() => onStart({ boost: true })}><span aria-hidden="true">💪</span><b>חיזוק</b><small>{hard > 0 ? `${hard} אותיות קשות` : 'האותיות שפחות בטוחות'}</small></button>
         </div>
       )}
+      <SongButton />
       <button type="button" className="card a-strip-card" onClick={onProgress}>
         <span className="row-between"><b>הא״ב שלי</b><small className="muted">{met} מתוך {LETTERS.length} ›</small></span>
         <span className="a-strip">{LETTERS.map((l) => <i key={l.id} className={statusOf(st, l.id)}><Mini id={l.id} /></i>)}</span>
       </button>
     </>
   );
+}
+
+let song: HTMLAudioElement | null = null;
+/** A song that says the letters in order, to listen to at any time. */
+function SongButton() {
+  const [playing, setPlaying] = useState(false);
+  useEffect(() => () => { song?.pause(); }, []);
+  const toggle = () => {
+    try {
+      if (!song) song = new Audio('audio/songs/alef-bet.mp3');
+      song.onended = () => setPlaying(false);
+      if (playing) { song.pause(); setPlaying(false); return; }
+      song.currentTime = 0;
+      void song.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    } catch { setPlaying(false); }
+  };
+  return <button type="button" className={`card a-song ${playing ? 'on' : ''}`} aria-pressed={playing} onClick={toggle}><span aria-hidden="true">{playing ? '⏸' : '🎵'}</span><b>שיר האותיות</b><small>{playing ? 'לעצור' : 'לשמוע את כל האותיות לפי הסדר'}</small></button>;
 }
 
 /** The whole alef-bet: a letter lights up when met and turns gold when it is known and written over several days. */
