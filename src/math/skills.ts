@@ -55,6 +55,7 @@ export const TRAPS = {
   solid: { name: 'פאות, מקצועות וקדקודים', explain: 'פאה היא משטח, מקצוע הוא קו שבו נפגשות שתי פאות, וקדקוד הוא נקודה שבה נפגשים מקצועות. סופרים כל אחד בנפרד, וגם את הבסיסים.' },
   triType: { name: 'סוגי משולשים', explain: 'לפי הצלעות: שלוש שוות הן שווה צלעות, ושתיים שוות הן שווה שוקיים. לפי הזוויות קובעת הזווית הגדולה: ישרה או קהה. רק כשכל שלוש הזוויות חדות, המשולש חד זווית.' },
   calendar: { name: 'ספירת ימים', explain: 'כשסופרים כמה ימים עוברים מתאריך לתאריך, לא סופרים את היום שממנו מתחילים. וכדאי לבדוק כמה ימים יש בחודש: 30 או 31.' },
+  ineq: { name: 'סימן האי־שוויון', explain: 'כשכופלים או מחלקים את שני האגפים במספר שלילי, הופכים את כיוון הסימן. ובסימן < או > המספר שבגבול עצמו אינו פתרון.' },
 } as const;
 export type TrapId = keyof typeof TRAPS;
 
@@ -177,6 +178,15 @@ const WEEKDAY = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי
 const MONTHS: [string, number][] = [['ינואר', 31], ['פברואר', 28], ['מרץ', 31], ['אפריל', 30], ['מאי', 31], ['יוני', 30], ['יולי', 31], ['אוגוסט', 31], ['ספטמבר', 30], ['אוקטובר', 31], ['נובמבר', 30], ['דצמבר', 31]];
 /** A unit and a smaller one: plural of each, singular of the larger, and how many small ones make a large one. */
 const DEC_UNITS: [string, string, string, number][] = [['קילומטרים', 'מטרים', 'קילומטר', 1000], ['מטרים', 'סנטימטרים', 'מטר', 100], ['קילוגרמים', 'גרמים', 'קילוגרם', 1000]];
+/** A number as shown in math, with a true minus sign. */
+const sgn = (v: number) => (v < 0 ? `−${-v}` : String(v));
+/** A signed term to follow another one: +3, −3, or nothing for 0. */
+const term = (v: number) => (v > 0 ? `+${v}` : v < 0 ? `−${-v}` : '');
+/** A coefficient of x: x, −x, 3x, −3x. */
+const kx = (k: number, x = 'x') => (k === 1 ? x : k === -1 ? `−${x}` : `${sgn(k)}${x}`);
+/** A fraction a/b as shown in math, reduced, with its sign in front. */
+const sfrac = (a: number, b: number) => (a % b === 0 ? sgn(a / b) : `${a * b < 0 ? '−' : ''}${reduced(Math.abs(a), Math.abs(b))}`);
+const FLIP: Record<string, string> = { '<': '>', '>': '<' };
 const SOLID_HOW = ['פאה היא משטח: סופרים את הבסיסים ואת הפאות הצדדיות', 'מקצוע הוא קו שבו נפגשות שתי פאות', 'קדקוד הוא נקודה שבה נפגשים מקצועות'];
 
 export const SKILLS: Skill[] = [
@@ -735,6 +745,36 @@ export const SKILLS: Skill[] = [
     }
     const [a, b] = pick(r, [[2, 3], [3, 4], [2, 5], [2, 6], [4, 6]]), L = lcm(a, b), s = ri(r, 1, 4), x = L * s, c = x / a + x / b, ka = L / a, kb = L / b;
     return calc({ prompt: `מה הערך של [[x]] אם [[x/${a}+x/${b}=${c}]]?`, ans: n(x), eq: `${L * c}/(${ka}+${kb})`, pencil: true, wrong: [[n(c * (a + b)), 'fracCross'], [n(L * c), 'op']], steps: [`כופלים את שני האגפים במכנה המשותף [[${L}]]: [[${ka}x+${kb}x=${L * c}]]`, `מכנסים: [[${ka + kb}x=${L * c}]]`, `מחלקים ב־[[${ka + kb}]]: [[x=${x}]]`] });
+  } },
+  { id: 'eqword2', station: 12, title: 'בעיה מילולית במשוואה (גילים, כסף, תנועה)', needs: ['eqbrk'], e: (r) => {
+    const kind = ri(r, 0, 2), k = pick(r, KIDS);
+    if (kind === 0) {
+      const x = ri(r, 6, 14), d = ri(r, 20, 32), m = ri(r, 2, 6), S = 2 * x + d + 2 * m;
+      return calc({ prompt: `האם מבוגרת מ${k} ב־[[${d}]] שנים. בעוד [[${m}]] שנים, סכום הגילים שלהן יהיה [[${S}]]. בת כמה ${k} היום?`, ans: n(x), eq: `(${S}-${d}-2*${m})/2`, pencil: true, read: true, wrong: [[n(x + d), 'op'], [n(x + m), 'op']], steps: [`הגיל של ${k} היום: [[x]], והגיל של האם: [[x+${d}]]. בעוד [[${m}]] שנים: [[x+${m}]] ו־[[x+${d + m}]]`, `משוואה: [[(x+${m})+(x+${d + m})=${S}]], ולכן [[2x+${d + 2 * m}=${S}]]`, `[[2x=${S - d - 2 * m}]], ולכן [[x=${x}]]`] });
+    }
+    if (kind === 1) {
+      const x = ri(r, 2, 9), a = ri(r, 2, 5), b = ri(r, 2, 5), c = ri(r, 1, 4), T = (a + b) * x + b * c, slip = (T - c) / (a + b);
+      const wrong: [string, TrapId][] = [[n(x + c), 'op'], ...(Number.isInteger(slip) && slip !== x ? [[n(slip), 'dist'] as [string, TrapId]] : [])];
+      return calc({ prompt: `${k} קנתה [[${a}]] מחברות ו־[[${b}]] עטים. כל עט יקר ממחברת ב־[[${c}]] שקלים, ובסך הכול היא שילמה [[${T}]] שקלים. כמה שקלים עולה מחברת אחת?`, ans: n(x), eq: `(${T}-${b}*${c})/(${a}+${b})`, pencil: true, read: true, wrong, steps: [`מחיר מחברת: [[x]], ומחיר עט: [[x+${c}]]`, `משוואה: [[${a}x+${b}(x+${c})=${T}]], ולכן [[${a + b}x+${b * c}=${T}]]`, `[[${a + b}x=${T - b * c}]], ולכן [[x=${x}]]`] });
+    }
+    const x = 10 * ri(r, 4, 8), c = 10 * ri(r, 1, 3), t = ri(r, 2, 3), D = t * (2 * x + c);
+    return calc({ prompt: `שתי רכבות יוצאות באותה שעה זו לקראת זו, משתי ערים שהמרחק ביניהן [[${D}]] ק״מ. הרכבת השנייה מהירה מהראשונה ב־[[${c}]] קמ״ש, והן נפגשות אחרי [[${t}]] שעות. מה המהירות של הרכבת הראשונה, בקמ״ש?`, ans: n(x), eq: `(${D}/${t}-${c})/2`, pencil: true, read: true, wrong: [[n(x + c), 'op'], [n(x + c / 2), 'op']], steps: [`המהירות של הראשונה: [[x]], ושל השנייה: [[x+${c}]]. בכל שעה הן מתקרבות זו לזו ב־[[2x+${c}]] ק״מ`, `משוואה: [[${t}(2x+${c})=${D}]], ולכן [[2x+${c}=${D / t}]]`, `[[2x=${D / t - c}]], ולכן [[x=${x}]]`] });
+  } },
+  { id: 'ineq', station: 12, title: 'אי־שוויון ופתרונו', needs: ['eqboth'], u: (r) => {
+    const a = ri(r, 2, 5), neg = r() < 0.5, k = neg ? -a : a, q = neg ? ri(r, a + 1, a + 5) : ri(r, 1, 5), p = q + k;
+    const x0 = pick(r, [-6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6]), b = ri(r, 1, 12), d = k * x0 + b, op = pick(r, ['<', '>']), sol = neg ? FLIP[op] : op;
+    const ans = `[[x${sol}${sgn(x0)}]]`;
+    return conceptQ(`מה הפתרון של [[${kx(p)}+${b}${op}${kx(q)}${term(d)}]]?`, ans, [[`[[x${FLIP[sol]}${sgn(x0)}]]`, 'ineq'], [`[[x${sol}${sgn(k * x0)}]]`, 'op'], [`[[x${FLIP[sol]}${sgn(-x0)}]]`, 'ineq']], [
+      `מעבירים את [[${kx(q)}]] לאגף השמאלי ואת [[${b}]] לימני, כמו במשוואה: [[${kx(k)}${op}${sgn(d - b)}]]`,
+      neg ? `מחלקים ב־[[${k}]]. זה מספר שלילי, ולכן הופכים את כיוון הסימן: ${ans}` : `מחלקים ב־[[${k}]]. זה מספר חיובי, ולכן הסימן נשאר: ${ans}`]);
+  }, e: (r) => {
+    const a = ri(r, 2, 6), b = ri(r, 1, 12), s = ri(r, 1, a);
+    if (r() < 0.5) {
+      const ans = ri(r, 1, 9), c = b + a * ans + s;
+      return calc({ prompt: `מה המספר השלם הגדול ביותר שמקיים [[${a}x+${b}<${c}]]?`, ans: n(ans), eq: `(${c}-${b}-${s})/${a}`, pencil: true, wrong: [[n(ans + 1), 'ineq'], [n(c - b), 'op']], steps: [`מחסרים [[${b}]] משני האגפים: [[${a}x<${c - b}]]`, `מחלקים ב־[[${a}]], מספר חיובי, והסימן נשאר: [[x<${sfrac(c - b, a)}]]`, `המספר השלם הגדול ביותר שקטן מ־[[${sfrac(c - b, a)}]] הוא [[${ans}]]`] });
+    }
+    const ans = ri(r, -4, 6), c = b - a * ans + s;
+    return calc({ prompt: `מה המספר השלם הקטן ביותר שמקיים [[${b}−${a}x<${sgn(c)}]]?`, ans: n(ans), eq: `(${b}-(${c})+${s})/${a}`, pencil: true, wrong: [[n(ans - 1), 'ineq'], [n(ans + 1), 'op']], steps: [`מחסרים [[${b}]] משני האגפים: [[−${a}x<${sgn(c - b)}]]`, `מחלקים ב־[[−${a}]], מספר שלילי, ולכן הופכים את הסימן: [[x>${sfrac(b - c, a)}]]`, `המספר השלם הקטן ביותר שגדול מ־[[${sfrac(b - c, a)}]] הוא [[${ans}]]`] });
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));

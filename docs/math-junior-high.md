@@ -11,8 +11,6 @@ Run `npx tsc --noEmit` and `npx vitest run src/math`, and fix what fails. The te
 Elementary gaps first (grades 4 to 6, found against the Ministry's program in Nov 2026):
 
 Junior high:
-- station 12 · eqword2 · בעיה מילולית במשוואה (גילים, כסף, תנועה) · needs eqbrk
-- station 12 · ineq · אי־שוויון ופתרונו · needs eqboth
 - station 13 · slope · שיפוע משתי נקודות · needs coord, negadd
 - station 13 · linefn · y=mx+b: שיפוע ונקודת חיתוך עם ציר y · needs slope
 - station 13 · lineval · ערך הפונקציה ונקודה על הישר · needs linefn
