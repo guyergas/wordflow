@@ -16,11 +16,11 @@ Each topic needs `rule` (one or two short Hebrew sentences), `example` (in Engli
 - Present Progressive: 4 topics (300 to 340)
 - Past Simple: 6 topics (450 to 590)
 - כמויות והשוואה: some/any, much/many, bigger/more, the biggest/the most, good/better/best (600 to 640)
-- עתיד: will, won't, going to, will מול going to (650 to 700)- מתקדמים: quick/quickly, must/have to/could, should, can/may/mustn't, said/told, before/after/when/first/then, who/which (720 to 770); Past Progressive, while/when, Present Progressive לתוכניות, ing כשם, used to, could בעבר, סביל, if ו־when, If I had, I would, a school bus (800 to 910)
+- עתיד: will, won't, going to, will מול going to (650 to 700)
+- מתקדמים: quick/quickly, must/have to/could, should, can/may/mustn't, said/told, before/after/when/first/then, who/which (720 to 770); Past Progressive, while/when, Present Progressive לתוכניות, ing כשם, used to, could בעבר, סביל, if ו־when, If I had, I would, a school bus (800 to 910)
 
 ## List
 
 The list is finished: every topic in the Ministry's plan is in, except Present Perfect. A run with nothing to add skips this step.
-
 
 Present Perfect (experiences with ever and never, since and for, just and yet, and the passive in Present Perfect) is in the Ministry's plan for grades 8 and 9, but leave it out until Guy asks for it.
