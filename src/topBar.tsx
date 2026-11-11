@@ -13,3 +13,8 @@ export function greeting(name?: string) {
   const hour = new Date().getHours(), hi = hour < 5 ? 'לילה טוב' : hour < 12 ? 'בוקר טוב' : hour < 17 ? 'צהריים טובים' : 'ערב טוב';
   return name ? `${hi}, ${name}` : hi;
 }
+
+/** The top of a first-run screen: it always lets you switch to another course, so nobody gets stuck in one. */
+export function FirstRunTop() {
+  return <header className="wf-top onb-top"><WfMark /><CourseSwitch /></header>;
+}

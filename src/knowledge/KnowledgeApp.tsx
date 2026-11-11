@@ -1,5 +1,5 @@
 import { g } from '../course';
-import { greeting, TopBar } from '../topBar';
+import { FirstRunTop, greeting, TopBar } from '../topBar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { pushProgress } from '../progressSync';
 import { COURSE_INFO, STORAGE_KEY, USER_NAME, userKey } from '../course';
@@ -71,7 +71,7 @@ function Hello({ st, update }: { st: KState; update: Update }) {
   const [name, setName] = useState(() => USER_NAME || st.name || readCourses().find((c) => c.name)?.name || '');
   return (
     <div className="onb">
-      <Mark />
+      <FirstRunTop />
       <h1>{COURSE_INFO.name}</h1>
       <p className="lead">{COURSE_INFO.note}. בכל שיעור קוראים קטע קצר ועונים על כמה שאלות. לא צריך לזכור כל פרט, אלא להבין את הרעיון.</p>
       {!USER_NAME && <><label className="field" htmlFor="kn">איך לקרוא לך?</label><input id="kn" className="input" value={name} onChange={(e) => setName(e.target.value)} /></>}

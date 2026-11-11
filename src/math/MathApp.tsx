@@ -1,5 +1,5 @@
 import { g } from '../course';
-import { greeting, TopBar } from '../topBar';
+import { FirstRunTop, greeting, TopBar } from '../topBar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { pushProgress } from '../progressSync';
 import { pushWin } from '../wins';
@@ -290,7 +290,7 @@ function Onboarding({ st, update, running, setRunning }: { st: MathState; update
   if (running && p) return <Run st={st} update={update} onPause={() => setRunning(false)} />;
   return (
     <div className="onb">
-      <Mark />
+      <FirstRunTop />
       {p?.floor && p.asked === 0 ? <>
         <h1>עוברות לחומר של כיתה ה׳</h1>
         <p className="lead">כמה שאלות קצרות, בלי ציון, כדי לבדוק מה כבר ידוע מכאן והלאה. מה שכבר למדת נשמר, והתרגילים הבסיסיים לא יחזרו.</p>
@@ -330,7 +330,7 @@ function RunResult({ st, update }: { st: MathState; update: Update }) {
   const p = st.placement!;
   return (
     <div className="onb">
-      <Mark />
+      <FirstRunTop />
       <h1>מצאנו מאיפה מתחילים</h1>
       <p className="lead">כל תחום מתחיל במקום שלו. מה שכבר עברת נחשב ידוע, וחוזר רק אם יש טעות.</p>
       <ul className="card m-where">

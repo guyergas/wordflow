@@ -1,4 +1,4 @@
-import { greeting, TopBar } from './topBar';
+import { FirstRunTop, greeting, TopBar } from './topBar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { pushProgress } from './progressSync';
 import {
@@ -170,7 +170,7 @@ function Onboarding({ st, update }: { st: State; update: Update }) {
 
   if (step === 'hello') return (
     <div className="onb">
-      <Wordmark />
+      <FirstRunTop />
       <div className="onb-tiles" dir="ltr" aria-hidden="true">{[...x('HELLO', 'SAWATDII')].map((c, n) => <Tile key={n} ch={c} state="pop" small={IS_THAI} />)}</div>
       <h1>כל יום קצת.<br />והמילים נשארות.</h1>
       <p className="lead">{x('אימון קצר ביום: חימום על מילים שאת מכירה, חיזוק קליל, ואז מילים חדשות שמחכות לך בסוף.', 'אימון קצר ביום: חימום על מילים שאתה מכיר, חיזוק קליל, ואז מילים חדשות שמחכות לך בסוף.')}</p>
@@ -186,7 +186,7 @@ function Onboarding({ st, update }: { st: State; update: Update }) {
     const lv = LEVELS[startLevel];
     return (
       <div className="onb">
-        <Wordmark />
+        <FirstRunTop />
         <div className="next-card static">
           <span className="chip-d">נקודת ההתחלה שלך</span>
           <h2>תחנה {startLevel + 1}: {lv.name}</h2>
