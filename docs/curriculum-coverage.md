@@ -1,6 +1,6 @@
 # Coverage of the Ministry of Education curriculum
 
-Checked on 5 November 2026 against the documents that could be opened. Full lessons come from `docs/new-topics.md`, which is written so that these are covered: 60 lessons per course, 75 in geo and sci, 90 in hist, 72 in heb and 70 in jud, enough for every topic on the list.
+Checked on 5 November 2026 against the documents that could be opened. Full lessons come from `docs/new-topics.md`, which is written so that these are covered: 60 lessons per course, 75 in geo, 80 in sci and jud, 95 in hist and 72 in heb, enough for every topic on the list.
 
 ## Covered or scheduled
 - Math, grades 2 to 7: operations, fractions, decimals, percent, ratio, price, rounding, time, scale, areas, volume, surface, data, angles, signed numbers, powers, roots, expressions, equations.
@@ -18,3 +18,14 @@ Checked on 5 November 2026 against the documents that could be opened. Full less
 - Literature, art and physical education: curricula not compared in detail.
 - Grade-level detail not retrieved: full math grade 4 to 6 programs, elementary science list. History by grade was read from the state-religious program; state secular may differ.
 - Bible and heritage for secular state schools: not checked separately.
+
+## Second check, 11 November 2026
+Compared again with the documents that could be opened:
+- Math, grades 4 to 6: the grade 4 program (Tochniyot_Limudim/Math/Yesodi/kita4.pdf), the grade 4 to 6 milestones page and the grade 5 and 6 test specs. Missing skills (numbers to a million, gematria, 0 and 1, primes, divisibility rules, symmetry, diagonals, solids, calendar, unit conversion, triangle types) were added at the top of the list in `docs/math-junior-high.md`.
+- Science, grades 4 to 6: the grade 5 and 6 test specs (Rama). Missing topics (volume and amount, fuels, electrical safety, technological systems, information, scientific and non-scientific questions, models) were added to `docs/new-topics.md`.
+- Bible, state elementary (Yesodi30-70.pdf, the 70% core by grade): added the Garden of Eden and Cain and Abel, Solomon and the split of the kingdom, Elijah and Elisha, and Psalms. Joshua, Judges, Samuel, Jonah, Esther and Ruth were already covered or listed.
+- Israeli-Jewish culture, state schools (grades 1 to 9): added Pirkei Avot, piyyut, Tu B'Av and "love your neighbour". Most other items (holidays, prayer and communities, bar and bat mitzvah, hospitality) were already covered or listed.
+- History, state junior high (MafmarHistoria/History.pdf): added the Enlightenment, totalitarian regimes between the wars, the departure and expulsion of Jews from Arab lands and Iran, and the Rabin memorial day.
+- Literature, grades 7 to 9 (Curriculum/literature-7-9.pdf): added Rachel, Tchernichovsky and the ballad, Molière, and Mizrahi writers, a required unit. Agnon and Bialik were already covered.
+
+Still not checked: the grade 5 and 6 math programs in full, the grade 4 to 6 science content specs (Word files that could not be read), the grade 6 elementary history program, and physical education.
