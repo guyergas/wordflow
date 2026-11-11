@@ -5,6 +5,7 @@ import { DEEP } from './deep';
 import { NEW_LESSONS } from './new-lessons';
 import { shortParagraphs } from './kit';
 import { LESSONS } from './lessons';
+import { guessable } from './answer-length';
 
 const T = 20000;
 describe('lesson bank', () => {
@@ -17,6 +18,10 @@ describe('lesson bank', () => {
     for (const l of LESSONS) expect(l.text.split('[[').length, l.id).toBe(l.text.split(']]').length);
     for (const l of NEW_LESSONS) { expect(l.text.split('[[').length - 1, l.id).toBeGreaterThanOrEqual(5); expect(l.text.split(/\s+/).length, l.id).toBeGreaterThanOrEqual(600); }
     for (const id of Object.keys(DEEP)) expect(DEEP[id].text.split('[[').length - 1, id).toBeGreaterThanOrEqual(5);
+  });
+  it('lessons at the full standard cannot be guessed by answer length', () => {
+    // Older lessons are fixed a few at a time (docs/answer-length.md); a lesson written or lengthened to about 1,000 words must already pass.
+    for (const l of LESSONS) if (l.text.split(/\s+/).length >= 950) expect(guessable(l), `${l.id}: run npx tsx scripts/answer-length.ts`).toBe(false);
   });
   it('short paragraphs keep every word and every mark whole', () => {
     for (const l of LESSONS) {

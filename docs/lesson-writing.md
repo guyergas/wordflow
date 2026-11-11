@@ -26,4 +26,4 @@ Next lesson: `npx esbuild scripts/next-lesson.ts --bundle --platform=node --outf
 
 ## Answer length
 
-The right answer must not stand out as the longest option. Keep all options about the same length, and let the right one sometimes be the shortest. `npx tsx scripts/answer-length.ts` must not list a new lesson.
+A child must not be able to guess the right answer by its length. In every question of the lesson, `qs` and `keys` alike, keep all options about the same length, and vary which one is longest: the right answer should be the longest in no more than about a third of the questions, and sometimes the shortest. Do it by cutting the right answer to its core or by giving the wrong ones plausible detail. For `expand` and `lengthen`, this applies to the existing questions too. `npx tsx scripts/answer-length.ts 1000` must not list the lesson, and the knowledge tests fail for any lesson of 950 words or more that does.
