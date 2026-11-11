@@ -547,5 +547,22 @@ export const SKILLS: Skill[] = [
     const k = r() < 0.5 ? 1 : ri(r, 2, 4), a = ri(r, k + 2, 9), c = ri(r, 1, 9), ks = k === 1 ? '' : String(k);
     return conceptQ(`מה שווה ל־[[${a}x−${ks}(x+${c})]]?`, `[[${a - k}x−${k * c}]]`, [[`[[${a - k}x+${k * c}]]`, 'sign'], [`[[${a + k}x+${k * c}]]`, 'sign'], ...(k === 1 ? [] : [[`[[${a - k}x−${c}]]`, 'dist'] as [string, TrapId]])], [`${k === 1 ? 'המינוס שלפני הסוגריים הופך את הסימן של כל איבר בפנים' : `המינוס שייך ל־[[${k}]], ולכן כופלים כל איבר בסוגריים ב־[[−${k}]]`}: [[−${ks}(x+${c})=−${ks}x−${k * c}]]`, `מכנסים: [[${a}x−${ks}x=${a - k}x]], ונשאר [[${a - k}x−${k * c}]]`]);
   } },
+  { id: 'simplify', station: 11, title: 'פישוט ביטוי עם סוגריים', needs: ['brackets'], u: (r) => {
+    const sg = (v: number) => (v < 0 ? `−${-v}` : String(v));
+    const lin = (A: number, K: number) => `[[${A === 1 ? '' : A}x${K > 0 ? `+${K}` : K < 0 ? `−${-K}` : ''}]]`;
+    const minus = r() < 0.5, a = ri(r, 3, 6), b = ri(r, 1, 6), c = minus ? ri(r, 2, a - 1) : ri(r, 2, 5), d = ri(r, 1, 6);
+    if (minus) {
+      const A = a - c, K = a * b - c * d;
+      return conceptQ(`מה שווה ל־[[${a}(x+${b})−${c}(x+${d})]]?`, lin(A, K), [[lin(A, a * b + c * d), 'sign'], [lin(a + c, K), 'sign'], [lin(A, a * b - d), 'dist']], [`פותחים סוגריים: [[${a}(x+${b})=${a}x+${a * b}]], ו־[[−${c}(x+${d})=−${c}x−${c * d}]]`, `מכנסים: [[${a}x−${c}x=${A === 1 ? '' : A}x]] ו־[[${a * b}−${c * d}=${sg(K)}]]`]);
+    }
+    const A = a + c, K = a * b - c * d;
+    return conceptQ(`מה שווה ל־[[${a}(x+${b})+${c}(x−${d})]]?`, lin(A, K), [[lin(A, a * b - d), 'dist'], [lin(A, a * b + c * d), 'sign'], [lin(A, b - d), 'dist']], [`פותחים סוגריים: [[${a}(x+${b})=${a}x+${a * b}]], ו־[[${c}(x−${d})=${c}x−${c * d}]]`, `מכנסים: [[${a}x+${c}x=${A}x]] ו־[[${a * b}−${c * d}=${sg(K)}]]`]);
+  } },
+  { id: 'factor1', station: 11, title: 'הוצאת גורם משותף', needs: ['dist'], u: (r) => {
+    const g = ri(r, 2, 9), pairs = [[1, 2], [1, 3], [2, 3], [3, 4], [2, 5], [3, 5], [1, 4], [4, 5]], [p0, q0] = pick(r, pairs), swap = r() < 0.5, p = swap ? q0 : p0, q = swap ? p0 : q0;
+    const two = r() < 0.5, u = two ? 'a' : 'x', v = two ? 'b' : '', t = (k: number, s: string) => `${k === 1 && s ? '' : k}${s}`;
+    const expr = `${t(g * p, u)}+${t(g * q, v)}`, ans = `[[${g}(${t(p, u)}+${t(q, v)})]]`;
+    return conceptQ(`מה מתקבל מ־[[${expr}]] אחרי הוצאת הגורם המשותף הגדול ביותר?`, ans, [[`[[${g}(${t(p, u)}+${t(g * q, v)})]]`, 'dist'], [`[[${t(g * p, '')}(${u}+${t(q, v)})]]`, 'dist'], [`[[${g}(${t(p + q, u)})]]`, 'op']], [`מחפשים את המספר הגדול ביותר שמחלק את [[${g * p}]] ואת [[${g * q}]]: זה [[${g}]]`, `מחלקים כל איבר ב־[[${g}]] וכותבים בסוגריים: ${ans}`, `בודקים בפילוג: [[${g}×${t(p, u)}=${t(g * p, u)}]] ו־[[${g}×${t(q, v)}=${t(g * q, v)}]]`]);
+  } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));

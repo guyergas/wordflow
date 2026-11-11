@@ -8,8 +8,6 @@ Run `npx tsc --noEmit` and `npx vitest run src/math`, and fix what fails. The te
 
 ## List
 
-- station 11 · simplify · פישוט ביטוי עם סוגריים · needs brackets
-- station 11 · factor1 · הוצאת גורם משותף · needs dist
 - station 12 · eqboth · משוואה עם נעלם בשני האגפים · needs eq2
 - station 12 · eqbrk · משוואה עם סוגריים · needs eqboth, brackets
 - station 12 · eqfrac · משוואה עם שברים · needs eqboth
