@@ -24,21 +24,6 @@ export const DIGITS: Record<number, Shape & { recipe: string }> = {
 };
 export const ALL_DIGITS = Object.values(DIGITS);
 
-/** Something each digit looks like, which a child already knows. It helps to remember the shape, and is said before how to write it. */
-export const LIKE: Record<number, { pic: string; say: string }> = {
-  0: { pic: '🥚', say: 'אֶפֶס נִרְאֶה כְּמוֹ בֵּיצָה.' },
-  1: { pic: '✏️', say: 'אַחַת נִרְאֵית כְּמוֹ עִפָּרוֹן.' },
-  2: { pic: '🦢', say: 'שְׁתַּיִם נִרְאֵית כְּמוֹ בַּרְבּוּר.' },
-  3: { pic: '👂', say: 'שָׁלוֹשׁ נִרְאֵית כְּמוֹ אֹזֶן.' },
-  4: { pic: '⛵', say: 'אַרְבַּע נִרְאֵית כְּמוֹ סִירָה עִם מִפְרָשׂ.' },
-  5: { pic: '🪝', say: 'חָמֵשׁ נִרְאֵית כְּמוֹ וָו עִם כּוֹבַע.' },
-  6: { pic: '🐌', say: 'שֵׁשׁ נִרְאֵית כְּמוֹ חִלָּזוֹן.' },
-  7: { pic: '🪃', say: 'שֶׁבַע נִרְאֵית כְּמוֹ בּוּמֶרַנְג.' },
-  8: { pic: '⛄', say: 'שְׁמוֹנֶה נִרְאֵית כְּמוֹ אִישׁ שֶׁלֶג.' },
-  9: { pic: '🎈', say: 'תֵּשַׁע נִרְאֵית כְּמוֹ בָּלוֹן עַל חוּט.' },
-  10: { pic: '✏️🥚', say: 'עֶשֶׂר זֶה עִפָּרוֹן וּבֵיצָה: אַחַת וְאֶפֶס.' },
-};
-
 export const WORD: Record<number, string> = {
   0: 'אֶפֶס', 1: 'אַחַת', 2: 'שְׁתַּיִם', 3: 'שָׁלוֹשׁ', 4: 'אַרְבַּע', 5: 'חָמֵשׁ', 6: 'שֵׁשׁ', 7: 'שֶׁבַע', 8: 'שְׁמוֹנֶה', 9: 'תֵּשַׁע', 10: 'עֶשֶׂר',
   11: 'אַחַת עֶשְׂרֵה', 12: 'שְׁתֵּים עֶשְׂרֵה', 13: 'שְׁלוֹשׁ עֶשְׂרֵה', 14: 'אַרְבַּע עֶשְׂרֵה', 15: 'חֲמֵשׁ עֶשְׂרֵה', 16: 'שֵׁשׁ עֶשְׂרֵה', 17: 'שְׁבַע עֶשְׂרֵה', 18: 'שְׁמוֹנֶה עֶשְׂרֵה', 19: 'תְּשַׁע עֶשְׂרֵה', 20: 'עֶשְׂרִים',
@@ -79,7 +64,7 @@ export const SAY = {
   howMany: 'כַּמָּה יֵשׁ?',
   more: 'אֵיפֹה יֵשׁ יוֹתֵר?',
   less: 'אֵיפֹה יֵשׁ פָּחוֹת?',
-  meet: (n: number) => (n === 0 ? `אֶפֶס. זֶה כְּלוּם, אֵין שׁוּם דָּבָר. ${LIKE[0].say}` : `${count(n)}. זֶה הַמִּסְפָּר ${WORD[n]}. ${LIKE[n].say}`),
+  meet: (n: number) => (n === 0 ? 'אֶפֶס. זֶה כְּלוּם, אֵין שׁוּם דָּבָר.' : `${count(n)}. זֶה הַמִּסְפָּר ${WORD[n]}.`),
   find: (n: number) => `אֵיפֹה הַמִּסְפָּר ${WORD[n]}?`,
   match: (n: number) => `אֵיפֹה יֵשׁ ${WORD[n]}?`,
   make: (n: number) => `לוֹחֲצִים וְסוֹפְרִים עַד ${WORD[n]}.`,
@@ -92,10 +77,10 @@ export const SAY = {
   bond: (t: number) => `כַּמָּה חָסֵר עַד ${WORD[t]}?`,
   isRight: (n: number) => `נָכוֹן! ${WORD[n]}.`,
   notThis: (n: number) => `זֶה ${WORD[n]}. מְנַסִּים עוֹד.`,
-  trace: (n: number) => `עוֹבְרִים עִם הָאֶצְבַּע עַל הַמִּסְפָּר ${WORD[n]}. ${LIKE[n].say} ${DIGITS[n].recipe}`,
-  copy: (n: number) => `כּוֹתְבִים ${WORD[n]}, כְּמוֹ הַמִּסְפָּר שֶׁלְּמַעְלָה. ${LIKE[n].say} ${DIGITS[n].recipe}`,
-  memory: (n: number) => `מִסְתַּכְּלִים טוֹב עַל הַמִּסְפָּר ${WORD[n]}, וְכוֹתְבִים אוֹתוֹ מֵהַזִּכָּרוֹן. ${LIKE[n].say} ${DIGITS[n].recipe}`,
-  write: (n: number) => `עַכְשָׁו כּוֹתְבִים ${WORD[n]}, לְבַד. ${LIKE[n].say} ${DIGITS[n].recipe}`,
+  trace: (n: number) => `עוֹבְרִים עִם הָאֶצְבַּע עַל הַמִּסְפָּר ${WORD[n]}. ${DIGITS[n].recipe}`,
+  copy: (n: number) => `כּוֹתְבִים ${WORD[n]}, כְּמוֹ הַמִּסְפָּר שֶׁלְּמַעְלָה. ${DIGITS[n].recipe}`,
+  memory: (n: number) => `מִסְתַּכְּלִים טוֹב עַל הַמִּסְפָּר ${WORD[n]}, וְכוֹתְבִים אוֹתוֹ מֵהַזִּכָּרוֹן. ${DIGITS[n].recipe}`,
+  write: (n: number) => `עַכְשָׁו כּוֹתְבִים ${WORD[n]}, לְבַד. ${DIGITS[n].recipe}`,
   thisIs: (n: number) => `זֶה הַמִּסְפָּר ${WORD[n]}.`,
 };
 

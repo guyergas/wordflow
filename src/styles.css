@@ -788,10 +788,3 @@ html.a-lock .a-finish { height: 100dvh; min-height: 0; overflow: hidden; }
 .a-order-lead > b { background: var(--sun-soft); border: 2px dashed var(--sun); font: 800 44px var(--font-ui); color: var(--sun-ink); }
 .a-order-answers.n5 { grid-template-columns: repeat(3, 1fr); }
 .a-order-answers.n5 > :first-child { grid-column: auto; width: auto; justify-self: stretch; }
-/* What a digit looks like: beside it when meeting it, and in a small band above the writing pad. */
-.t-like-row { flex: 1 1 0; min-height: 0; width: 100%; display: flex; gap: 8px; }
-.t-like-row > .a-board { flex: 2 1 0; min-width: 0; }
-.t-like { flex: 1 1 0; min-width: 0; display: grid; place-items: center; background: var(--sun-soft); border: 1px solid var(--line); border-radius: 24px; font-size: clamp(54px, 13dvh, 120px); line-height: 1; }
-.t-like-side { flex: 0 0 auto; height: clamp(48px, 9dvh, 76px); display: grid; place-items: center; font-size: clamp(34px, 7dvh, 60px); line-height: 1; background: var(--sun-soft); border-radius: 18px; }
-.a-show .t-like-row { flex: none; height: 34dvh; }
-.a-show .t-like-row .t-show { height: auto; }
