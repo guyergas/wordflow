@@ -166,7 +166,17 @@ How much is this ball?|כמה עולה הכדור הזה?
 How old are you?|בת כמה את?
 I'm fine, thank you.|אני בסדר, תודה.
 I'm eleven years old.|אני בת אחת עשרה.
-I feel well today.|אני מרגישה טוב היום.`,
+I feel well today.|אני מרגישה טוב היום.
+I have a new bike.|יש לי אופניים חדשים.
+I like pizza, but I don't like fish.|אני אוהבת פיצה, אבל אני לא אוהבת דגים.
+I live in Haifa.|אני גרה בחיפה.
+I'm a girl.|אני ילדה.
+I'm ready!|אני מוכנה!
+I'm sorry.|אני מצטערת.
+I'll be there in a minute.|אני אגיע בעוד דקה.
+The bus stops in front of the school.|האוטובוס עוצר מול בית הספר.
+It doesn't matter.|זה לא משנה.
+It is an orange.|זה תפוז.`,
 };
 
 let n = 0;

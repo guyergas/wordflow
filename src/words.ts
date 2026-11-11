@@ -62,26 +62,26 @@ sleep|לישון|v|Babies sleep a lot.|תינוקות ישנים הרבה.
 walk|ללכת ברגל|v|Let's walk to the park.|בואו נלך ברגל לפארק.
 run|לרוץ|v|I can run very fast.|אני יכול לרוץ מהר מאוד.
 read|לקרוא|v|I read before bed.|אני קורא לפני השינה.
-write|לכתוב|v|Please write your name here.
-speak|לדבר|v|Do you speak Hebrew?
-listen|להקשיב|v|Listen to the teacher.
-open|לפתוח|v|Can you open the box?
-close|לסגור|v|Please close your eyes.
-buy|לקנות|v|I want to buy new shoes.
-give|לתת|v|Give me the ball.
-take|לקחת|v|Take an umbrella with you.
-want|לרצות|v|I want some ice cream.
-help|לעזור|v|Can you help me?
-brother|אח|n|My brother plays guitar.
-sister|אחות|n|My sister likes to dance.
-mother|אמא|n|My mother works at a hospital.
-father|אבא|n|My father drives a bus.
-teacher|מורה|n|Our teacher is very funny.
-student|תלמיד|n|Every student has a notebook.
-color|צבע|n|Blue is my favorite color.
-shoes|נעליים|n|These shoes are too small.
-money|כסף|n|I saved money for a bike.
-music|מוזיקה|n|I love listening to music.
+write|לכתוב|v|Please write your name here.|בבקשה כתבו את השם שלכם כאן.
+speak|לדבר|v|Do you speak Hebrew?|את מדברת עברית?
+listen|להקשיב|v|Listen to the teacher.|הקשיבי למורה.
+open|לפתוח|v|Can you open the box?|את יכולה לפתוח את הקופסה?
+close|לסגור|v|Please close your eyes.|בבקשה עצמי את העיניים.
+buy|לקנות|v|I want to buy new shoes.|אני רוצה לקנות נעליים חדשות.
+give|לתת|v|Give me the ball.|תני לי את הכדור.
+take|לקחת|v|Take an umbrella with you.|קחי איתך מטרייה.
+want|לרצות|v|I want some ice cream.|אני רוצה קצת גלידה.
+help|לעזור|v|Can you help me?|את יכולה לעזור לי?
+brother|אח|n|My brother plays guitar.|אחי מנגן בגיטרה.
+sister|אחות|n|My sister likes to dance.|אחותי אוהבת לרקוד.
+mother|אמא|n|My mother works at a hospital.|אמא שלי עובדת בבית חולים.
+father|אבא|n|My father drives a bus.|אבא שלי נוהג באוטובוס.
+teacher|מורה|n|Our teacher is very funny.|המורה שלנו מצחיקה מאוד.
+student|תלמיד|n|Every student has a notebook.|לכל תלמיד יש מחברת.
+color|צבע|n|Blue is my favorite color.|כחול הוא הצבע האהוב עליי.
+shoes|נעליים|n|These shoes are too small.|הנעליים האלה קטנות מדי.
+money|כסף|n|I saved money for a bike.|חסכתי כסף בשביל אופניים.
+music|מוזיקה|n|I love listening to music.|אני אוהבת להקשיב למוזיקה.
 spoon|כף|n|I eat my soup with a spoon.
 fork|מזלג|n|Put the fork next to the plate.
 plate|צלחת|n|The plate is on the table.
@@ -124,7 +124,17 @@ cat|חתול|n|The cat is sleeping on the sofa.|החתול ישן על הספה.
 cut|לחתוך|v|Mom will cut the cake.|אמא תחתוך את העוגה.
 dad|אבא|n|My dad makes the best pancakes.|אבא שלי מכין את הפנקייקים הכי טובים.
 desk|שולחן כתיבה|n|My books are on my desk.|הספרים שלי על שולחן הכתיבה שלי.
-do|לעשות|v|I do my homework after lunch.|אני עושה את שיעורי הבית אחרי ארוחת הצהריים.`,
+do|לעשות|v|I do my homework after lunch.|אני עושה את שיעורי הבית אחרי ארוחת הצהריים.
+dog|כלב|n|The dog runs in the park.|הכלב רץ בפארק.
+egg|ביצה|n|I eat an egg for breakfast.|אני אוכלת ביצה לארוחת הבוקר.
+end|סוף|n|We clapped at the end of the show.|מחאנו כפיים בסוף ההצגה.
+fan|מאוורר|n|The fan keeps the room cool.|המאוורר שומר על החדר קריר.
+fast|מהר|d|She can run very fast.|היא יכולה לרוץ מהר מאוד.
+fifth|חמישי|a|We live on the fifth floor.|אנחנו גרים בקומה החמישית.
+film|סרט|n|We watched a funny film last night.|ראינו אתמול בערב סרט מצחיק.
+fun|כיף|n|The trip was a lot of fun.|הטיול היה כיף גדול.
+get|לקבל|v|I get a present on my birthday.|אני מקבלת מתנה ביום ההולדת שלי.
+gift|מתנה|n|This gift is for you.|המתנה הזאת בשבילך.`,
 `neighbor|שכן|n|Our neighbor has three cats.
 street|רחוב|n|We live on a quiet street.
 library|ספרייה|n|I borrowed it from the library.
@@ -215,7 +225,11 @@ camp|מחנה|n|We sleep in tents at camp.|אנחנו ישנים באוהלים 
 cost|לעלות (מחיר)|v|How much does this book cost?|כמה עולה הספר הזה?
 album|אלבום|n|She showed me her photo album.|היא הראתה לי את אלבום התמונות שלה.
 amazing|מדהים|a|The view from the mountain is amazing.|הנוף מההר מדהים.
-apartment|דירה|n|We live in an apartment on the third floor.|אנחנו גרים בדירה בקומה השלישית.`,
+apartment|דירה|n|We live in an apartment on the third floor.|אנחנו גרים בדירה בקומה השלישית.
+area|אזור|n|This area has many parks.|באזור הזה יש הרבה פארקים.
+army|צבא|n|My brother joined the army last year.|אחי התגייס לצבא בשנה שעברה.
+awake|ער|a|I was still awake at midnight.|בחצות עוד הייתי ערה.
+baker|אופה|n|The baker makes fresh bread every morning.|האופה מכין לחם טרי בכל בוקר.`,
 `feeling|הרגשה|n|I had a strange feeling.
 angry|כועס|a|She was angry at her brother.
 afraid|מפחד|a|He is afraid of spiders.
@@ -297,7 +311,12 @@ adverb|תואר הפועל|n|"Quickly" is an adverb.|"מהר" הוא תואר ה
 aim|מטרה|n|Our aim is to finish the project by Friday.|המטרה שלנו היא לסיים את הפרויקט עד יום שישי.
 alive|חי|a|The fish is still alive.|הדג עדיין חי.
 aloud|בקול|d|The teacher read the story aloud.|המורה הקריאה את הסיפור בקול.
-anymore|כבר לא|d|We don't live there anymore.|אנחנו כבר לא גרים שם.`,
+anymore|כבר לא|d|We don't live there anymore.|אנחנו כבר לא גרים שם.
+apology|התנצלות|n|He wrote a short apology to his friend.|הוא כתב התנצלות קצרה לחבר שלו.
+appointment|תור, פגישה|n|I have a dentist appointment on Monday.|יש לי תור לרופא שיניים ביום שני.
+arrival|הגעה|n|We waited for the arrival of the train.|חיכינו להגעת הרכבת.
+attention|תשומת לב|n|The children gave the story all their attention.|הילדים הקדישו לסיפור את כל תשומת הלב שלהם.
+available|פנוי, זמין|a|Is this seat available?|המקום הזה פנוי?`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -381,7 +400,8 @@ adjust|לכוונן|v|You can adjust the seat to your height.|אפשר לכוו�
 admit|להודות|v|He did not want to admit his mistake.|הוא לא רצה להודות בטעות שלו.
 advertise|לפרסם|v|Companies advertise their products on TV.|חברות מפרסמות את המוצרים שלהן בטלוויזיה.
 alter|לשנות|v|We had to alter our plans because of the rain.|היינו צריכים לשנות את התוכניות שלנו בגלל הגשם.
-announce|להכריז|v|The principal will announce the winners tomorrow.|המנהלת תכריז מחר על הזוכים.`,
+announce|להכריז|v|The principal will announce the winners tomorrow.|המנהלת תכריז מחר על הזוכים.
+approximately|בערך|d|The trip takes approximately two hours.|הנסיעה נמשכת בערך שעתיים.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.
