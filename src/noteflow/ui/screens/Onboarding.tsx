@@ -1,7 +1,7 @@
 // First run of the piano course: the user's name comes from the app, and the sound needs no separate check.
 
 import { g, USER_NAME } from '../../../course';
-import { WfMark } from '../../../topBar';
+import { FirstRunTop } from '../../../topBar';
 import { useStore } from '../../state/store';
 
 export function Onboarding({ onDone }: { onDone: () => void }) {
@@ -14,7 +14,7 @@ export function Onboarding({ onDone }: { onDone: () => void }) {
 
   return (
     <div className="page onboarding">
-      <WfMark />
+      <FirstRunTop />
       <div className="ob-card">
         <h1 className="ob-title">מה נלמד</h1>
         <ul className="ob-list">

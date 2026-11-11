@@ -1,9 +1,10 @@
+import { SettingsSheet } from '../settingsSheet';
 import { g } from '../course';
 import { FirstRunTop, greeting, TopBar } from '../topBar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { pushProgress } from '../progressSync';
 import { pushWin } from '../wins';
-import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
+import { SummaryTab, TodayPlan } from '../summaryUi';
 import { readCourses } from '../summary';
 import { STORAGE_KEY, USER_ID, USER_NAME } from '../course';
 import { canSpeak, sfx, speakHebrew } from '../platform';
@@ -466,7 +467,6 @@ function Progress({ st }: { st: MathState }) {
 
 // ---------- Settings ----------
 function Settings({ st, update, onClose }: { st: MathState; update: Update; onClose: () => void }) {
-  const [confirm, setConfirm] = useState(false);
   const [msg, setMsg] = useState('');
   const set = (patch: Partial<MathState['settings']>) => update((s) => ({ ...s, settings: { ...s.settings, ...patch } }));
   const backup = () => {
@@ -479,29 +479,17 @@ function Settings({ st, update, onClose }: { st: MathState; update: Update; onCl
     catch { setMsg('הקובץ הזה אינו גיבוי של חשבון ב-WordFlow.'); }
   };
   return (
-    <div className="sheet-wrap" onClick={onClose}>
-      <div className="sheet" role="dialog" aria-label="הגדרות" onClick={(e) => e.stopPropagation()}>
-        <div className="row-between"><h2>הגדרות</h2><button type="button" className="round" aria-label="סגירה" onClick={onClose}><CloseIcon /></button></div>
-        <div className="set-row"><span>מה לומדים</span><CourseSwitch /></div>
-        <p className="small muted">לכל קורס התקדמות משלו, והיא נשמרת כשעוברים ביניהם.</p>
-        {!USER_NAME && <><label className="field" htmlFor="m2">שם</label><input id="m2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} /></>}
-        <div className="set-row"><span>קצב מיומנויות חדשות</span>
-          <div className="seg lang" role="group" aria-label="קצב">
-            <button type="button" aria-pressed={st.settings.pace === 'calm'} onClick={() => set({ pace: 'calm' })}>רגוע</button>
-            <button type="button" aria-pressed={st.settings.pace === 'normal'} onClick={() => set({ pace: 'normal' })}>רגיל</button>
-          </div></div>
-        <div className="set-row"><label htmlFor="m3">צלילי משחק</label><input id="m3" type="checkbox" checked={st.settings.sound} onChange={(e) => set({ sound: e.target.checked })} /></div>
-        <div className="set-row"><label htmlFor="m4">יעד ימי אימון בשבוע</label><select id="m4" className="input tiny" value={st.settings.weeklyGoal} onChange={(e) => set({ weeklyGoal: +e.target.value })}>{[2, 3, 4, 5, 6, 7].map((n) => <option key={n} value={n}>{n}</option>)}</select></div>
-        <h3 className="sub">גיבוי</h3>
-        <p className="small muted">ההתקדמות נשמרת רק במכשיר הזה.</p>
-        <div className="btns"><button type="button" className="btn" onClick={backup}>שמירת גיבוי</button><label className="btn" htmlFor="m5">שחזור מקובץ</label><input id="m5" type="file" accept="application/json" hidden onChange={(e) => restore(e.target.files?.[0])} /></div>
-        {msg && <p className="small" role="status">{msg}</p>}
-        <div className="danger">
-          {!confirm ? <button type="button" className="link" onClick={() => setConfirm(true)}>איפוס ההתקדמות בחשבון</button> : <>
-            <p className="small">למחוק את ההתקדמות בחשבון? אי אפשר לבטל את זה.</p>
-            <div className="btns"><button type="button" className="btn" onClick={() => setConfirm(false)}>ביטול</button><button type="button" className="btn del" onClick={() => { update(() => ({ ...initialMath(), name: st.name })); onClose(); }}>מחיקה</button></div></>}
-        </div>
-      </div>
-    </div>
+    <SettingsSheet onClose={onClose} sound={{ on: st.settings.sound, set: (v) => set({ sound: v }) }} onReset={() => update(() => ({ ...initialMath(), name: st.name }))}>
+      {!USER_NAME && <><label className="field" htmlFor="m2">שם</label><input id="m2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} /></>}
+      <div className="st-row"><span>קצב מיומנויות חדשות</span>
+        <div className="fam-seg" role="group" aria-label="קצב">
+          <button type="button" aria-pressed={st.settings.pace === 'calm'} onClick={() => set({ pace: 'calm' })}>רגוע</button>
+          <button type="button" aria-pressed={st.settings.pace === 'normal'} onClick={() => set({ pace: 'normal' })}>רגיל</button>
+        </div></div>
+      <div className="st-row"><label htmlFor="m4">יעד ימי אימון בשבוע</label><select id="m4" value={st.settings.weeklyGoal} onChange={(e) => set({ weeklyGoal: +e.target.value })}>{[2, 3, 4, 5, 6, 7].map((n) => <option key={n} value={n}>{n}</option>)}</select></div>
+      <p className="cs-note">גיבוי: ההתקדמות נשמרת רק במכשיר הזה.</p>
+      <div className="cs-row"><button type="button" className="st-btn" onClick={backup}>שמירת גיבוי</button><label className="st-btn" htmlFor="m5" style={{ display: 'inline-flex', alignItems: 'center' }}>שחזור מקובץ</label><input id="m5" type="file" accept="application/json" hidden onChange={(e) => restore(e.target.files?.[0])} /></div>
+      {msg && <p className="cs-note" role="status">{msg}</p>}
+    </SettingsSheet>
   );
 }

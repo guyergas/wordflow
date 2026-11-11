@@ -1,9 +1,10 @@
+import { SettingsSheet } from '../settingsSheet';
 import { greeting, TopBar } from '../topBar';
 import { PointerEvent as PE, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { pushProgress } from '../progressSync';
 import { STORAGE_KEY, USER_NAME } from '../course';
 import { playPart, saveHebrewRecordings, sayHebrew, sayInTurn, sfx, stopSound } from '../platform';
-import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
+import { SummaryTab, TodayPlan } from '../summaryUi';
 import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, huntCells, initial, meet, mix, nextLetter, noteMix, pairsOf, PlanOptions, record, secure, shaky, SHAKY_LIMIT, struggling, HARD_LIMIT, Status, statusOf, Step, topMix, validStep, WRITING, OrderQuestion, orderQuestion } from './engine';
 import { Ink, judge, FREE, TRACE } from './ink';
 import { FAMILIES, frameOf, LETTER, Letter, LETTERS, Pt, SAY, Shape, firstWords, LETTERS as ALL, spots, Stroke, VIEW, WORDS, SONG_ORDER, SONG_TIMES, SONG_URL } from './letters';
@@ -263,19 +264,7 @@ function Progress({ st, onFocus }: { st: AState; onFocus: (id: string) => void }
 }
 
 function Settings({ st, update, onClose }: { st: AState; update: Update; onClose: () => void }) {
-  const [confirm, setConfirm] = useState(false);
-  return (
-    <div className="sheet-wrap" onClick={onClose}>
-      <div className="sheet" role="dialog" aria-label="הגדרות" onClick={(e) => e.stopPropagation()}>
-        <div className="row-between"><h2>הגדרות</h2><button type="button" className="round" aria-label="סגירה" onClick={onClose}><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg></button></div>
-        {!USER_NAME && <><label className="field" htmlFor="a0">שם הילד או הילדה</label><input id="a0" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} /></>}
-        <div className="set-row"><label htmlFor="a1">צלילי משחק</label><input id="a1" type="checkbox" checked={st.settings.sound} onChange={(e) => update((s) => ({ ...s, settings: { ...s.settings, sound: e.target.checked } }))} /></div>
-        <div className="danger">
-          {!confirm ? <button type="button" className="link" onClick={() => setConfirm(true)}>איפוס ההתקדמות</button> : <><p className="small">למחוק את ההתקדמות בקורס? אי אפשר לבטל את זה.</p><div className="row-between"><button type="button" className="link" onClick={() => setConfirm(false)}>ביטול</button><button type="button" className="link" onClick={() => { update(() => initial(USER_NAME)); setConfirm(false); onClose(); }}>למחוק</button></div></>}
-        </div>
-      </div>
-    </div>
-  );
+  return <SettingsSheet onClose={onClose} sound={{ on: st.settings.sound, set: (v) => update((s) => ({ ...s, settings: { ...s.settings, sound: v } })) }} onReset={() => update(() => initial(USER_NAME))} />;
 }
 
 function Session({ st, update, onExit, onMore }: { st: AState; update: Update; onExit: () => void; onMore: (o?: PlanOptions) => void }) {

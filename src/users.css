@@ -1,5 +1,5 @@
 /* The course menu appears in every app, so it depends on neither app's styles. */
-.who, .cs-sheet, .fam-page { --cs-bg: var(--bg, #f5f4ef); --cs-surface: var(--surface, #fffefa); --cs-soft: var(--surface-2, #ecebe4); --cs-line: var(--line, #e2e3dc); --cs-ink: var(--ink, #172b35); --cs-ink-2: var(--ink-2, #4f5d60); --cs-dark: var(--dark, #182c35); --cs-dark-ink: var(--dark-ink, #fffef3); --cs-dark-muted: var(--dark-muted, #b4c2bd); --cs-sun: var(--sun, #ffc83d); --cs-good: var(--good, #1f8a58); }
+.who, .cs-sheet, .fam-page, .st-inline, .wf-label { --cs-bg: var(--bg, #f5f4ef); --cs-surface: var(--surface, #fffefa); --cs-soft: var(--surface-2, #ecebe4); --cs-line: var(--line, #e2e3dc); --cs-ink: var(--ink, #172b35); --cs-ink-2: var(--ink-2, #4f5d60); --cs-dark: var(--dark, #182c35); --cs-dark-ink: var(--dark-ink, #fffef3); --cs-dark-muted: var(--dark-muted, #b4c2bd); --cs-sun: var(--sun, #ffc83d); --cs-good: var(--good, #1f8a58); }
 .who { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; max-width: 58vw; padding: 0 14px; border: 0; border-radius: 999px; background: var(--cs-soft); font-weight: 600; font-size: 15px; color: var(--cs-ink); cursor: pointer; }
 .who span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .who svg { flex: none; }
@@ -108,3 +108,23 @@
 .gr-topic.locked { opacity: .55; cursor: default; }
 .gr-again { justify-self: start; margin-top: 6px; font-size: 14px; font-weight: 700; text-decoration: underline; }
 .gr-part small { display: block; font-weight: 400; font-size: 14px; }
+
+/* The shared settings sheet */
+.st-sheet { gap: 18px; }
+.st-sec { display: grid; gap: 10px; padding-top: 14px; border-top: 1px solid var(--cs-line); }
+.st-sec h3 { font-size: 13px !important; letter-spacing: .04em; font-weight: 700; opacity: .7; }
+.st-who { font-size: 19px; }
+.st-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 48px; }
+.st-row + .st-row { border-top: 1px solid var(--cs-line); }
+.st-row input[type=checkbox] { width: 24px; height: 24px; accent-color: var(--cs-dark); }
+.st-sheet select, .st-sheet input[type=text], .st-sheet .input { min-height: 44px; padding: 0 12px; border: 1px solid var(--cs-line); border-radius: 12px; background: var(--cs-surface); color: var(--cs-ink); font: inherit; }
+.st-sheet input[type=range] { width: 100%; accent-color: var(--cs-dark); }
+.st-btn { min-height: 44px; padding: 0 18px; border: 1px solid var(--cs-line); border-radius: 999px; background: var(--cs-surface); font-weight: 600; }
+.st-del { background: #c8502d; border-color: transparent; color: #fff !important; }
+.st-danger { border-top-style: dashed; }
+.wf-label { display: inline-flex; align-items: center; min-height: 36px; max-width: 52vw; padding: 0 12px; border-radius: 999px; background: var(--cs-soft, #ecebe4); color: var(--cs-ink, #172b35); font-weight: 600; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.st-inline { display: grid; gap: 14px; color: var(--cs-ink); text-align: start; }
+.st-inline button { font: inherit; cursor: pointer; color: var(--cs-ink); }
+.st-inline h3 { margin: 0; }
+.st-inline .st-sec:first-child { border-top: 0; padding-top: 0; }
+.st-row .fam-seg { flex: none; min-width: 150px; } .st-row .fam-seg button { padding: 0 14px; white-space: nowrap; }

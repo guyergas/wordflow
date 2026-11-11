@@ -1,3 +1,4 @@
+import { SettingsSheet, Toggle } from './settingsSheet';
 import { FirstRunTop, greeting, TopBar } from './topBar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { pushProgress } from './progressSync';
@@ -8,7 +9,7 @@ import {
 } from './engine';
 import { metricOf, readyCount, recordSentence, Sentence, SENTENCES, sentenceKind, sentencePlan, sentencesKnown, tokens, TOPICS, unknownWords } from './sentences';
 import { COURSE_ID, COURSES, HAS_SPELLING, IS_THAI, USER_NAME, x } from './course';
-import { CourseSwitch, SummaryTab, TodayPlan } from './summaryUi';
+import { SummaryTab, TodayPlan } from './summaryUi';
 import { EnglishReading } from './englishReading';
 import { GrammarCard } from './grammar/GrammarCard';
 import { LEVELS, WORD, WORDS, Word } from './words';
@@ -1064,7 +1065,6 @@ function WordSheet({ st, update, id, onClose }: { st: State; update: Update; id:
 
 // ---------- Settings ----------
 function Settings({ st, update, onClose }: { st: State; update: Update; onClose: () => void }) {
-  const [confirmReset, setConfirmReset] = useState(false);
   const [msg, setMsg] = useState('');
   const set = (patch: Partial<State['settings']>) => update((s) => ({ ...s, settings: { ...s.settings, ...patch } }));
   const voices = IS_THAI ? [] : englishVoices();
@@ -1087,38 +1087,27 @@ function Settings({ st, update, onClose }: { st: State; update: Update; onClose:
       setMsg('הגיבוי שוחזר.');
     } catch { setMsg(`הקובץ הזה אינו גיבוי של ${COURSES.find((c) => c.id === COURSE_ID)!.name} ב-WordFlow.`); }
   };
-  return (
-    <Sheet title="הגדרות" onClose={onClose}>
-      <div className="set-row"><span>מה לומדים</span>
-        <CourseSwitch /></div>
-      <p className="small muted">לכל קורס התקדמות משלו, והיא נשמרת כשעוברים ביניהם.</p>
-      {!USER_NAME && <><label className="field" htmlFor="n2">שם</label><input id="n2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} /></>}
-      <div className="set-row"><label htmlFor="s1">צלילי משחק</label><input id="s1" type="checkbox" checked={st.settings.sound} onChange={(e) => set({ sound: e.target.checked })} /></div>
-      <div className="set-row"><label htmlFor="s2">הקראה אוטומטית של מילים</label><input id="s2" type="checkbox" checked={st.settings.autoSpeak} onChange={(e) => set({ autoSpeak: e.target.checked })} /></div>
-      {voices.length > 1 && <>
-        <label className="field" htmlFor="vc">קול</label>
-        <select id="vc" className="input" dir="ltr" value={st.settings.voice} onChange={(e) => { set({ voice: e.target.value }); speak('Hello, this is my voice', { voice: e.target.value, rate: st.settings.rate }); }}>
-          <option value="">אוטומטי</option>
-          {voices.map((v) => <option key={v.name} value={v.name}>{v.name} ({v.lang})</option>)}
-        </select></>}
-      {IS_THAI ? <ToneNote /> : <><label className="field" htmlFor="rt">מהירות הקראה</label>
+  const audio = <>
+    <Toggle id="s2" label="הקראה אוטומטית של מילים" checked={st.settings.autoSpeak} onChange={(v) => set({ autoSpeak: v })} />
+    {voices.length > 1 && <div className="st-row"><label htmlFor="vc">קול</label>
+      <select id="vc" dir="ltr" value={st.settings.voice} onChange={(e) => { set({ voice: e.target.value }); speak('Hello, this is my voice', { voice: e.target.value, rate: st.settings.rate }); }}>
+        <option value="">אוטומטי</option>
+        {voices.map((v) => <option key={v.name} value={v.name}>{v.name} ({v.lang})</option>)}
+      </select></div>}
+    {IS_THAI ? <ToneNote /> : <><label htmlFor="rt">מהירות הקראה</label>
       <input id="rt" type="range" min="0.6" max="1.1" step="0.1" value={st.settings.rate} onChange={(e) => { set({ rate: +e.target.value }); speak('listen', { voice: st.settings.voice, rate: +e.target.value }); }} /></>}
-      <div className="set-row"><label htmlFor="wg">יעד ימי אימון בשבוע</label>
-        <select id="wg" className="input tiny" value={st.settings.weeklyGoal} onChange={(e) => set({ weeklyGoal: +e.target.value })}>{[2, 3, 4, 5, 6, 7].map((n) => <option key={n} value={n}>{n}</option>)}</select></div>
-      <h3 className="sub">גיבוי</h3>
-      <p className="small muted">ההתקדמות נשמרת רק במכשיר הזה. קובץ גיבוי מאפשר להעביר אותה למכשיר אחר.</p>
-      <div className="btns"><button type="button" className="btn" onClick={backup}>שמירת גיבוי</button>
-        <label className="btn" htmlFor="restore">שחזור מקובץ</label><input id="restore" type="file" accept="application/json" hidden onChange={(e) => restore(e.target.files?.[0])} /></div>
-      {msg && <p className="small" role="status">{msg}</p>}
-      <p className="small muted">גרסה {__APP_VERSION__}</p>
-      <div className="danger">
-        {!confirmReset ? <button type="button" className="link" onClick={() => setConfirmReset(true)}>איפוס כל ההתקדמות</button> : (
-          <><p className="small">למחוק את כל ההתקדמות? אי אפשר לבטל את זה.</p>
-            <div className="btns"><button type="button" className="btn" onClick={() => setConfirmReset(false)}>ביטול</button>
-              <button type="button" className="btn del" onClick={() => { update(() => ({ ...load(), words: {}, sentences: {}, days: {}, plan: null, traps: {}, confusions: {}, onboarded: false })); onClose(); }}>מחיקה</button></div></>
-        )}
-      </div>
-    </Sheet>
+  </>;
+  return (
+    <SettingsSheet onClose={onClose} sound={{ on: st.settings.sound, set: (v) => set({ sound: v }) }} audio={audio}
+      onReset={() => update(() => ({ ...load(), words: {}, sentences: {}, days: {}, plan: null, traps: {}, confusions: {}, onboarded: false }))}>
+      {!USER_NAME && <><label className="field" htmlFor="n2">שם</label><input id="n2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} /></>}
+      <div className="st-row"><label htmlFor="wg">יעד ימי אימון בשבוע</label>
+        <select id="wg" value={st.settings.weeklyGoal} onChange={(e) => set({ weeklyGoal: +e.target.value })}>{[2, 3, 4, 5, 6, 7].map((n) => <option key={n} value={n}>{n}</option>)}</select></div>
+      <p className="cs-note">גיבוי: ההתקדמות נשמרת רק במכשיר הזה. קובץ גיבוי מעביר אותה למכשיר אחר.</p>
+      <div className="cs-row"><button type="button" className="st-btn" onClick={backup}>שמירת גיבוי</button>
+        <label className="st-btn" htmlFor="restore" style={{ display: 'inline-flex', alignItems: 'center' }}>שחזור מקובץ</label><input id="restore" type="file" accept="application/json" hidden onChange={(e) => restore(e.target.files?.[0])} /></div>
+      {msg && <p className="cs-note" role="status">{msg}</p>}
+    </SettingsSheet>
   );
 }
 

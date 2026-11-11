@@ -1,3 +1,4 @@
+import { SettingsSheet, Toggle } from '../settingsSheet';
 import { g } from '../course';
 import { FirstRunTop, greeting, TopBar } from '../topBar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -7,7 +8,7 @@ import { shortParagraphs } from './kit';
 import { pushWin } from '../wins';
 import { sfx } from '../platform';
 import { readCourses } from '../summary';
-import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
+import { SummaryTab, TodayPlan } from '../summaryUi';
 import { addTime, advance, answerKey, buildPlan, dayLog, dayNumber, finishLesson, finishReview, initial, keyOf, KState, LESSON, lessonsOf, nextLesson, pickQs, recallCount, statusOf, Step } from './engine';
 import { Lesson, QuizQ } from './lessons';
 
@@ -282,20 +283,11 @@ function Finish({ st, onExit }: { st: KState; onExit: () => void }) {
 }
 
 function Settings({ st, update, onClose }: { st: KState; update: Update; onClose: () => void }) {
-  const [confirm, setConfirm] = useState(false);
   const set = (p: Partial<KState['settings']>) => update((s) => ({ ...s, settings: { ...s.settings, ...p } }));
   return (
-    <div className="sheet-wrap" onClick={onClose}>
-      <div className="sheet" role="dialog" aria-label="הגדרות" onClick={(e) => e.stopPropagation()}>
-        <div className="row-between"><h2>הגדרות</h2><button type="button" className="round" aria-label="סגירה" onClick={onClose}><CloseIcon /></button></div>
-        <div className="set-row"><span>מה לומדים</span><CourseSwitch /></div>
-        {!USER_NAME && <><label className="field" htmlFor="k2">שם</label><input id="k2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} /></>}
-        <div className="set-row"><label htmlFor="k3">צלילי משחק</label><input id="k3" type="checkbox" checked={st.settings.sound} onChange={(e) => set({ sound: e.target.checked })} /></div>
-        <div className="set-row"><label htmlFor="k4">קישור לוויקיפדיה בסוף שיעור</label><input id="k4" type="checkbox" checked={st.settings.wiki} onChange={(e) => set({ wiki: e.target.checked })} /></div>
-        <div className="danger">
-          {!confirm ? <button type="button" className="link" onClick={() => setConfirm(true)}>איפוס ההתקדמות בקורס</button> : <><p className="small">למחוק את ההתקדמות בקורס הזה? אי אפשר לבטל את זה.</p><div className="btns"><button type="button" className="btn" onClick={() => setConfirm(false)}>ביטול</button><button type="button" className="btn del" onClick={() => { update(() => ({ ...initial(), name: st.name, onboarded: true })); onClose(); }}>מחיקה</button></div></>}
-        </div>
-      </div>
-    </div>
+    <SettingsSheet onClose={onClose} sound={{ on: st.settings.sound, set: (v) => set({ sound: v }) }} onReset={() => update(() => ({ ...initial(), name: st.name, onboarded: true }))}>
+      {!USER_NAME && <><label className="field" htmlFor="k2">שם</label><input id="k2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} /></>}
+      <Toggle id="k4" label="קישור לוויקיפדיה בסוף שיעור" checked={st.settings.wiki} onChange={(v) => set({ wiki: v })} />
+    </SettingsSheet>
   );
 }

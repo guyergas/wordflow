@@ -1,3 +1,4 @@
+import { WhoPanel } from '../../../settingsSheet';
 import { useRef, useState } from 'react';
 import { audio } from '../../audio/engine';
 import { importAll, requestPersistence, BackupFile } from '../../storage/db';
@@ -132,6 +133,8 @@ export function Settings({ onBack }: { onBack: () => void }) {
   return (
     <div className="page">
       <TopBar title="הגדרות" onBack={onBack} />
+
+      <div className="card st-inline"><WhoPanel /></div>
 
       <div className="eyebrow">מראה וצליל</div>
       <div className="card">

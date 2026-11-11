@@ -1,20 +1,25 @@
 // The same top of the home screen in every course, so moving between courses feels like one app.
-import { CourseSwitch } from './users';
+// The person and course are shown, not switched: switching lives in settings.
+import { useState } from 'react';
+import { COURSE_INFO, USER_NAME } from './course';
+import { SettingsIcon, SettingsSheet } from './settingsSheet';
 
 export const WfMark = () => <div className="wf-mark" aria-label="WordFlow"><b aria-hidden="true">W</b><span aria-hidden="true">ordFlow</span></div>;
-const SettingsIcon = () => <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="2" /></svg>;
+const Where = () => <span className="wf-label">{[USER_NAME, COURSE_INFO.short ?? COURSE_INFO.name].filter(Boolean).join(' · ')}</span>;
+const Gear = ({ onClick }: { onClick: () => void }) => <button type="button" className="wf-round" aria-label="הגדרות" onClick={onClick}><SettingsIcon /></button>;
 
 export function TopBar({ onSettings, className = '' }: { onSettings: () => void; className?: string }) {
-  return <header className={`wf-top ${className}`}><WfMark /><CourseSwitch /><button type="button" className="wf-round" aria-label="הגדרות" onClick={onSettings}><SettingsIcon /></button></header>;
+  return <header className={`wf-top ${className}`}><WfMark /><Where /><Gear onClick={onSettings} /></header>;
+}
+
+/** The top of a first-run screen: the same settings button, so nobody gets stuck in one course. */
+export function FirstRunTop() {
+  const [open, setOpen] = useState(false);
+  return <><header className="wf-top onb-top"><WfMark /><Where /><Gear onClick={() => setOpen(true)} /></header>{open && <SettingsSheet onClose={() => setOpen(false)} />}</>;
 }
 
 /** The home screen's greeting, by the hour, in every course. */
 export function greeting(name?: string) {
   const hour = new Date().getHours(), hi = hour < 5 ? 'לילה טוב' : hour < 12 ? 'בוקר טוב' : hour < 17 ? 'צהריים טובים' : 'ערב טוב';
   return name ? `${hi}, ${name}` : hi;
-}
-
-/** The top of a first-run screen: it always lets you switch to another course, so nobody gets stuck in one. */
-export function FirstRunTop() {
-  return <header className="wf-top onb-top"><WfMark /><CourseSwitch /></header>;
 }
