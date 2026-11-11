@@ -854,5 +854,39 @@ export const SKILLS: Skill[] = [
     const wrong: [string, TrapId?][] = [[n(-y), 'sign'], [n(x)], [n(c1 - a1 * x), 'op']];
     return calc({ prompt: `במערכת ${sys}, מה הערך של [[y]]?`, ans: n(y), eq: `(${c1}-(${a1 * x}))/${b}`, pencil: true, wrong: wrong.filter(([v]) => v !== n(y)), steps: [sum, `מציבים בראשונה: [[${sgn(a1 * x)}+${by}=${sgn(c1)}]], ולכן [[${by}=${sgn(c1 - a1 * x)}]]`, `[[y=${sgn(y)}]]`] });
   } },
+  { id: 'syssub', station: 14, title: 'מערכת משוואות בשיטת ההצבה', needs: ['sysadd'], u: (r) => {
+    const k = pick(r, [-2, -1, 1, 2, 3]), b = ri(r, 2, 4), c = pick(r, [-5, -4, -3, -2, -1, 1, 2, 3, 4, 5]), a = pick(r, [1, 2, 3, 4, 5, 6].filter((v) => v + b * k !== 0 && v - b * k !== 0 && v + k !== 0)), d = ri(r, 1, 20);
+    const res = (A: number, C: number) => `[[${kx(A)}${term(C)}=${d}]]`;
+    return conceptQ(`במערכת [[y=${kx(k)}${term(c)}]] ו־[[${kx(a)}+${b}y=${d}]] מציבים את [[y]] במשוואה השנייה. איזו משוואה מתקבלת אחרי פתיחת הסוגריים?`, res(a + b * k, b * c), [[res(a + b * k, c), 'dist'], [res(a + k, c), 'dist'], [res(a - b * k, -b * c), 'sign']], [
+      `כותבים במקום [[y]] את מה שהוא שווה לו, בסוגריים: [[${kx(a)}+${b}(${kx(k)}${term(c)})=${d}]]`,
+      `פותחים סוגריים: [[${b}]] כופל את שני האיברים, [[${b}×${kx(k)}=${kx(b * k)}]] ו־[[${b}×${par(c)}=${sgn(b * c)}]]`,
+      `מכנסים: ${res(a + b * k, b * c)}`]);
+  }, e: (r) => {
+    const x = pick(r, [-3, -2, -1, 1, 2, 3, 4, 5]), k = pick(r, [-2, -1, 1, 2, 3]), b = ri(r, 1, 4), c = pick(r, [-5, -4, -3, -2, -1, 1, 2, 3, 4, 5]), a = pick(r, [1, 2, 3, 4, 5].filter((v) => v + b * k !== 0)), y = k * x + c, d = a * x + b * y, A = a + b * k;
+    const sys = `[[y=${kx(k)}${term(c)}]] ו־[[${kx(a)}+${kx(b, 'y')}=${sgn(d)}]]`, bs = b === 1 ? '' : String(b);
+    const st = [`מציבים את [[y]] במשוואה השנייה: [[${kx(a)}+${bs}(${kx(k)}${term(c)})=${sgn(d)}]]`, `פותחים סוגריים ומכנסים: [[${kx(A)}${term(b * c)}=${sgn(d)}]], ולכן [[x=${sgn(x)}]]`];
+    if (r() < 0.5) {
+      const slip = (d - c) / A, wrong: [string, TrapId?][] = [[n(y)], ...(b > 1 && Number.isInteger(slip) ? [[n(slip), 'dist'] as [string, TrapId]] : []), [n(-x), 'sign']];
+      return calc({ prompt: `במערכת ${sys}, מה הערך של [[x]]?`, ans: n(x), eq: `(${d}-(${b * c}))/(${A})`, pencil: true, wrong: wrong.filter(([v]) => v !== n(x)), steps: st });
+    }
+    const wrong: [string, TrapId?][] = [[n(x)], [n(k * x), 'op'], [n(-y), 'sign']];
+    return calc({ prompt: `במערכת ${sys}, מה הערך של [[y]]?`, ans: n(y), eq: `${k}*(${x})+(${c})`, pencil: true, wrong: wrong.filter(([v]) => v !== n(y)), steps: [...st, `מציבים את [[x]] במשוואה הראשונה: [[y=${sgn(k)}×${par(x)}${term(c)}=${sgn(y)}]]`] });
+  } },
+  { id: 'sysword', station: 14, title: 'בעיה מילולית בשני נעלמים', needs: ['syssub'], e: (r) => {
+    const kind = ri(r, 0, 2);
+    if (kind === 0) {
+      const [k1, k2] = [pick(r, KIDS.slice(0, 3)), pick(r, KIDS.slice(3))], t = pick(r, THINGS), y = ri(r, 5, 20), D = ri(r, 2, 10), x = y + D, S = x + y;
+      const wrong: [string, TrapId?][] = [[n(y), 'op'], [n(S - D), 'op']];
+      return calc({ prompt: `ל${k1} ול${k2} יש יחד [[${S}]] ${t}. ל${k1} יש [[${D}]] ${t} יותר מאשר ל${k2}. כמה ${t} יש ל${k1}?`, ans: n(x), eq: `(${S}+${D})/2`, pencil: true, read: true, wrong: wrong.filter(([v]) => v !== n(x)), steps: [`ל${k1} יש [[x]] ול${k2} יש [[y]]: [[x+y=${S}]] ו־[[x−y=${D}]]`, `מחברים את המשוואות: [[2x=${S + D}]]`, `[[x=${x}]]`] });
+    }
+    if (kind === 1) {
+      const x = ri(r, 2, 12), y = ri(r, 2, 12), p = 5 * ri(r, 6, 12), q = 5 * ri(r, 2, 5), N = x + y, M = p * x + q * y;
+      const wrong: [string, TrapId?][] = [[n(y), 'op'], [n(M - q * N), 'op']];
+      return calc({ prompt: `בהצגה נמכרו [[${N}]] כרטיסים. כרטיס למבוגר עולה [[${p}]] שקלים, וכרטיס לילד [[${q}]] שקלים. בסך הכול שולמו [[${M}]] שקלים. כמה כרטיסים למבוגרים נמכרו?`, ans: n(x), eq: `(${M}-${q}*${N})/(${p}-${q})`, pencil: true, read: true, wrong: wrong.filter(([v]) => v !== n(x)), steps: [`מבוגרים: [[x]], ילדים: [[y]]. [[x+y=${N}]] ו־[[${p}x+${q}y=${M}]]`, `מהראשונה [[y=${N}−x]], ומציבים: [[${p}x+${q}(${N}−x)=${M}]], ולכן [[${p - q}x+${q * N}=${M}]]`, `[[${p - q}x=${M - q * N}]], ולכן [[x=${x}]]`] });
+    }
+    const x = ri(r, 3, 15), y = ri(r, 2, 12), H = x + y, L = 2 * x + 4 * y;
+    const wrong: [string, TrapId?][] = [[n(x), 'op'], [n(L - 2 * H), 'op'], [n(L / 4)]];
+    return calc({ prompt: `בחווה יש תרנגולות וארנבות. סופרים [[${H}]] ראשים ו־[[${L}]] רגליים. כמה ארנבות יש בחווה?`, ans: n(y), eq: `(${L}-2*${H})/2`, pencil: true, read: true, wrong: wrong.filter(([v]) => v !== n(y) && Number.isInteger(Number(v))), steps: [`תרנגולות: [[x]], ארנבות: [[y]]. לכל אחת ראש אחד: [[x+y=${H}]]. לתרנגולת [[2]] רגליים ולארנבת [[4]]: [[2x+4y=${L}]]`, `כופלים את הראשונה ב־[[2]] ומחסרים: [[2y=${L - 2 * H}]]`, `[[y=${y}]]`] });
+  } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));
