@@ -16,17 +16,10 @@ Each topic needs `rule` (one or two short Hebrew sentences), `example` (in Engli
 - Present Progressive: 4 topics (300 to 340)
 - Past Simple: 6 topics (450 to 590)
 - כמויות והשוואה: some/any, much/many, bigger/more, the biggest/the most, good/better/best (600 to 640)
-- עתיד: will, won't, going to, will מול going to (650 to 700)
+- עתיד: will, won't, going to, will מול going to (650 to 700)- מתקדמים: quick/quickly, must/have to/could, should, can/may/mustn't, said/told, before/after/when/first/then, who/which (720 to 770)
 
 ## List
 
-- מתקדמים · תואר הפועל: quick, quickly · words 720
-- מתקדמים · בקשה וחובה: can, could, must, have to · words 730
-- מתקדמים · should לעצה, כולל שלילה ושאלה · words 740
-- מתקדמים · רשות ואיסור: can, may I, mustn't · words 745
-- מתקדמים · דיבור עקיף: He said that, She told me that · words 750
-- מתקדמים · זמן ורצף: before, after, when, first, then · words 760
-- מתקדמים · משפט זיקה: who ו־that · words 770
 - מתקדמים · Past Progressive: was playing, were playing · words 800
 - מתקדמים · Past Progressive מול Past Simple: while ו־when · words 810
 - מתקדמים · Present Progressive לתוכניות: I'm meeting her tomorrow · words 820
