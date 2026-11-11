@@ -156,7 +156,17 @@ Go away, little bee!|לכי מכאן, דבורה קטנה!
 Go on, tell me the story.|תמשיכי, תספרי לי את הסיפור.
 Let's go outside and play.|בואי נצא החוצה לשחק.
 Good luck!|בהצלחה!
-Good morning!|בוקר טוב!`,
+Good morning!|בוקר טוב!
+Happy birthday!|יום הולדת שמח!
+Have a good day!|שיהיה לך יום טוב!
+How are you?|מה שלומך?
+How do you say this word in English?|איך אומרים את המילה הזאת באנגלית?
+How many cats do you have?|כמה חתולים יש לך?
+How much is this ball?|כמה עולה הכדור הזה?
+How old are you?|בת כמה את?
+I'm fine, thank you.|אני בסדר, תודה.
+I'm eleven years old.|אני בת אחת עשרה.
+I feel well today.|אני מרגישה טוב היום.`,
 };
 
 let n = 0;

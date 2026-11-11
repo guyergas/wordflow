@@ -42,26 +42,26 @@ today|היום|d|It is very hot today.|חם מאוד היום.
 tomorrow|מחר|d|We have a test tomorrow.|יש לנו מבחן מחר.
 yesterday|אתמול|d|I saw him yesterday.|ראיתי אותו אתמול.
 always|תמיד|d|She is always happy.|היא תמיד שמחה.
-never|אף פעם|d|I never eat meat.
-often|לעתים קרובות|d|We often play outside.
-big|גדול|a|That is a big dog.
-small|קטן|a|I have a small bag.
-happy|שמח|a|The children are happy.
-sad|עצוב|a|Why are you so sad?
-hungry|רעב|a|I am hungry after school.
-tired|עייף|a|He felt tired after the game.
-cold|קר|a|The water is too cold.
-hot|חם|a|This soup is hot.
-new|חדש|a|I got a new phone.
-old|ישן|a|This is an old book.
-young|צעיר|a|My sister is very young.
-beautiful|יפה|a|What a beautiful flower!
-eat|לאכול|v|We eat dinner at seven.
-drink|לשתות|v|Cats drink milk.
-sleep|לישון|v|Babies sleep a lot.
-walk|ללכת ברגל|v|Let's walk to the park.
-run|לרוץ|v|I can run very fast.
-read|לקרוא|v|I read before bed.
+never|אף פעם|d|I never eat meat.|אני אף פעם לא אוכל בשר.
+often|לעתים קרובות|d|We often play outside.|אנחנו משחקים בחוץ לעתים קרובות.
+big|גדול|a|That is a big dog.|זה כלב גדול.
+small|קטן|a|I have a small bag.|יש לי תיק קטן.
+happy|שמח|a|The children are happy.|הילדים שמחים.
+sad|עצוב|a|Why are you so sad?|למה אתה כל כך עצוב?
+hungry|רעב|a|I am hungry after school.|אני רעב אחרי בית הספר.
+tired|עייף|a|He felt tired after the game.|הוא הרגיש עייף אחרי המשחק.
+cold|קר|a|The water is too cold.|המים קרים מדי.
+hot|חם|a|This soup is hot.|המרק הזה חם.
+new|חדש|a|I got a new phone.|קיבלתי טלפון חדש.
+old|ישן|a|This is an old book.|זה ספר ישן.
+young|צעיר|a|My sister is very young.|אחותי צעירה מאוד.
+beautiful|יפה|a|What a beautiful flower!|איזה פרח יפה!
+eat|לאכול|v|We eat dinner at seven.|אנחנו אוכלים ארוחת ערב בשבע.
+drink|לשתות|v|Cats drink milk.|חתולים שותים חלב.
+sleep|לישון|v|Babies sleep a lot.|תינוקות ישנים הרבה.
+walk|ללכת ברגל|v|Let's walk to the park.|בואו נלך ברגל לפארק.
+run|לרוץ|v|I can run very fast.|אני יכול לרוץ מהר מאוד.
+read|לקרוא|v|I read before bed.|אני קורא לפני השינה.
 write|לכתוב|v|Please write your name here.
 speak|לדבר|v|Do you speak Hebrew?
 listen|להקשיב|v|Listen to the teacher.
@@ -116,7 +116,15 @@ bad|רע|a|The milk smells bad.|החלב מריח רע.
 bag|תיק|n|My books are in my bag.|הספרים שלי בתיק.
 bed|מיטה|n|I go to bed at eight.|אני הולך למיטה בשמונה.
 box|קופסה|n|The toys are in a big box.|הצעצועים בקופסה גדולה.
-boy|ילד|n|The boy is playing with a ball.|הילד משחק בכדור.`,
+boy|ילד|n|The boy is playing with a ball.|הילד משחק בכדור.
+bus|אוטובוס|n|We take the bus to school.|אנחנו נוסעים לבית הספר באוטובוס.
+but|אבל|o|I like tea, but I don't like coffee.|אני אוהב תה, אבל אני לא אוהב קפה.
+can|יכול|v|I can swim.|אני יכול לשחות.
+cat|חתול|n|The cat is sleeping on the sofa.|החתול ישן על הספה.
+cut|לחתוך|v|Mom will cut the cake.|אמא תחתוך את העוגה.
+dad|אבא|n|My dad makes the best pancakes.|אבא שלי מכין את הפנקייקים הכי טובים.
+desk|שולחן כתיבה|n|My books are on my desk.|הספרים שלי על שולחן הכתיבה שלי.
+do|לעשות|v|I do my homework after lunch.|אני עושה את שיעורי הבית אחרי ארוחת הצהריים.`,
 `neighbor|שכן|n|Our neighbor has three cats.
 street|רחוב|n|We live on a quiet street.
 library|ספרייה|n|I borrowed it from the library.
@@ -202,7 +210,12 @@ bit|קצת|n|Can I have a bit of your sandwich?|אפשר לקבל קצת מהכ�
 both|שניהם|o|Both of my sisters like to sing.|שתי האחיות שלי אוהבות לשיר.
 accident|תאונה|n|Nobody was hurt in the accident.|אף אחד לא נפגע בתאונה.
 ache|כאב|n|I have an ache in my back.|יש לי כאב בגב.
-activity|פעילות|n|Swimming is my favorite activity.|שחייה היא הפעילות האהובה עליי.`,
+activity|פעילות|n|Swimming is my favorite activity.|שחייה היא הפעילות האהובה עליי.
+camp|מחנה|n|We sleep in tents at camp.|אנחנו ישנים באוהלים במחנה.
+cost|לעלות (מחיר)|v|How much does this book cost?|כמה עולה הספר הזה?
+album|אלבום|n|She showed me her photo album.|היא הראתה לי את אלבום התמונות שלה.
+amazing|מדהים|a|The view from the mountain is amazing.|הנוף מההר מדהים.
+apartment|דירה|n|We live in an apartment on the third floor.|אנחנו גרים בדירה בקומה השלישית.`,
 `feeling|הרגשה|n|I had a strange feeling.
 angry|כועס|a|She was angry at her brother.
 afraid|מפחד|a|He is afraid of spiders.
@@ -280,7 +293,11 @@ remind|להזכיר|v|Please remind me to call Grandma.
 accent|מבטא|n|Her grandmother speaks with a French accent.|סבתא שלה מדברת במבטא צרפתי.
 achieve|להשיג|v|If you work hard, you can achieve your goals.|אם תעבדו קשה, תוכלו להשיג את המטרות שלכם.
 adjective|שם תואר|n|"Happy" is an adjective.|"שמח" הוא שם תואר.
-adverb|תואר הפועל|n|"Quickly" is an adverb.|"מהר" הוא תואר הפועל.`,
+adverb|תואר הפועל|n|"Quickly" is an adverb.|"מהר" הוא תואר הפועל.
+aim|מטרה|n|Our aim is to finish the project by Friday.|המטרה שלנו היא לסיים את הפרויקט עד יום שישי.
+alive|חי|a|The fish is still alive.|הדג עדיין חי.
+aloud|בקול|d|The teacher read the story aloud.|המורה הקריאה את הסיפור בקול.
+anymore|כבר לא|d|We don't live there anymore.|אנחנו כבר לא גרים שם.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -361,7 +378,10 @@ parcel|חבילה|n|A parcel arrived for you this morning.
 harvest|קציר|n|The farmers finished the wheat harvest in spring.
 accompany|ללוות|v|My mom will accompany us on the trip.|אמא שלי תלווה אותנו בטיול.
 adjust|לכוונן|v|You can adjust the seat to your height.|אפשר לכוונן את המושב לגובה שלך.
-admit|להודות|v|He did not want to admit his mistake.|הוא לא רצה להודות בטעות שלו.`,
+admit|להודות|v|He did not want to admit his mistake.|הוא לא רצה להודות בטעות שלו.
+advertise|לפרסם|v|Companies advertise their products on TV.|חברות מפרסמות את המוצרים שלהן בטלוויזיה.
+alter|לשנות|v|We had to alter our plans because of the rain.|היינו צריכים לשנות את התוכניות שלנו בגלל הגשם.
+announce|להכריז|v|The principal will announce the winners tomorrow.|המנהלת תכריז מחר על הזוכים.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.

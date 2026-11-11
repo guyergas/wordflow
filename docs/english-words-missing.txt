@@ -1,14 +1,4 @@
 # Pre-Band I
-bus
-but
-camp
-can
-cat
-cost
-cut
-dad
-desk
-do
 dog
 egg
 end
@@ -760,16 +750,6 @@ yogurt
 yours
 zero
 # Band II Core I
-advertise
-aim
-album
-alive
-aloud
-alter
-amazing
-announce
-anymore
-apartment
 apology
 appointment
 approximately
