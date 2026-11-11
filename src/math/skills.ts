@@ -76,6 +76,7 @@ export const TRAPS = {
   isos: { name: 'זוויות במשולש שווה שוקיים', explain: 'במשולש שווה שוקיים שתי זוויות הבסיס שוות זו לזו, וזווית הראש שונה מהן. מחסרים את זווית הראש מ־180 ומחלקים את מה שנשאר ב־2, כי יש שתי זוויות בסיס.' },
   polyang: { name: 'סכום זוויות במצולע', explain: 'מצולע עם n צלעות מתחלק מקודקוד אחד ל־n−2 משולשים, ולכן סכום הזוויות שלו הוא (n−2)×180. לא כופלים ב־n, ורק במרובע הסכום הוא 360.' },
   congr: { name: 'משפטי חפיפה', explain: 'בצ.ז.צ הזווית נמצאת בין שתי הצלעות, ובז.צ.ז הצלע נמצאת בין שתי הזוויות. שלוש זוויות שוות לא מספיקות: למשולש גדול ולמשולש קטן יכולות להיות אותן זוויות.' },
+  pyth: { name: 'משפט פיתגורס', explain: 'במשולש ישר זווית a²+b²=c², ו־c הוא היתר: הצלע שמול הזווית הישרה, והארוכה ביותר. לא מחברים את הצלעות עצמן, ובסוף לא שוכחים להוציא שורש. כשמחפשים ניצב מחסרים: c²−a².' },
 } as const;
 export type TrapId = keyof typeof TRAPS;
 
@@ -176,6 +177,8 @@ function divSteps(a: number, d: number): string[] {
 
 const THINGS = ['גולות', 'מדבקות', 'קלפים', 'עפרונות', 'ספרים', 'תפוחים'];
 const KIDS = ['נועה', 'מאיה', 'תמר', 'יעל', 'שירה', 'רוני'];
+/** Right triangles with whole sides: two legs, then the hypotenuse. */
+const PYTH: [number, number, number][] = [[3, 4, 5], [6, 8, 10], [5, 12, 13], [9, 12, 15], [8, 15, 17], [12, 16, 20], [7, 24, 25], [15, 20, 25]];
 
 type Opt = Partial<Question> & { big?: string; ans: string; steps: string[] };
 const calc = ({ ans, ...o }: Opt): Question => ({ measure: 'e', prompt: 'כמה זה?', answer: ans, ...o });
@@ -1189,6 +1192,24 @@ export const SKILLS: Skill[] = [
     const [given, ans, steps] = pick(r, items);
     const all = ['צ.ז.צ', 'ז.צ.ז', 'צ.צ.צ', 'אי אפשר לקבוע שהם חופפים'];
     return conceptQ(`במשולשים [[ABC]] ו־[[DEF]] נתון: ${given}. לפי איזה משפט המשולשים חופפים?`, ans, all.filter((x) => x !== ans).map((x) => [x, 'congr'] as [string, TrapId]), steps);
+  } },
+  // ---------- Station 19 ----------
+  { id: 'pyth', station: 19, title: 'משפט פיתגורס: מציאת היתר', needs: ['rootsimp', 'trisum'], e: (r) => {
+    const [a, b, c] = pick(r, PYTH), sw = r() < 0.5, x = sw ? b : a, y = sw ? a : b;
+    const wrong: [string, TrapId?][] = [[n(x + y), 'pyth'], [n(c * c), 'pyth'], [n(y), 'op']];
+    return calc({ prompt: `במשולש ישר זווית אורכי הניצבים הם [[${x}]] ס״מ ו־[[${y}]] ס״מ. מה אורך היתר בס״מ?`, ans: n(c), eq: `(${x}*${x}+${y}*${y})/${c}`, pencil: true, wrong: wrong.filter(([v]) => v !== n(c)), steps: [`מעלים כל ניצב בריבוע ומחברים: [[${x}²+${y}²=${x * x}+${y * y}=${c * c}]]`, `היתר הוא השורש: [[√${c * c}=${c}]]`] });
+  } },
+  { id: 'pyth2', station: 19, title: 'משפט פיתגורס: מציאת ניצב ובעיות', needs: ['pyth'], e: (r) => {
+    const [p, q, c] = pick(r, PYTH), sw = r() < 0.5, a = sw ? q : p, b = sw ? p : q, kind = ri(r, 0, 2);
+    if (kind === 2) {
+      const wrong: [string, TrapId?][] = [[n(a + b), 'pyth'], [n(c * c), 'pyth'], [n(2 * (a + b)), 'op']];
+      return calc({ prompt: `אורכו של מלבן [[${a}]] מ׳ ורוחבו [[${b}]] מ׳. מה אורך האלכסון שלו במטרים?`, ans: n(c), eq: `(${a}*${a}+${b}*${b})/${c}`, pencil: true, read: true, wrong: wrong.filter(([v]) => v !== n(c)), steps: ['האלכסון יוצר עם שתי הצלעות משולש ישר זווית, והוא היתר', `[[${a}²+${b}²=${a * a}+${b * b}=${c * c}]], ולכן האלכסון [[√${c * c}=${c}]]`] });
+    }
+    const wrong: [string, TrapId?][] = [[n(c - a), 'pyth'], [n(c * c - a * a), 'pyth'], [n(c + a), 'op']];
+    const prompt = kind === 0
+      ? `במשולש ישר זווית אורך היתר [[${c}]] ס״מ ואורך ניצב אחד [[${a}]] ס״מ. מה אורך הניצב השני בס״מ?`
+      : `סולם באורך [[${c}]] מ׳ נשען על קיר. רגל הסולם נמצאת [[${a}]] מ׳ מהקיר. לאיזה גובה על הקיר מגיע הסולם, במטרים?`;
+    return calc({ prompt, ans: n(b), eq: `(${c}*${c}-${a}*${a})/${b}`, pencil: true, read: kind === 1, wrong: wrong.filter(([v]) => v !== n(b) && Number(v) > 0), steps: [...(kind === 1 ? ['הקיר, הרצפה והסולם יוצרים משולש ישר זווית, והסולם הוא היתר'] : []), `מחסרים את ריבוע הניצב מריבוע היתר: [[${c}²−${a}²=${c * c}−${a * a}=${b * b}]]`, `[[√${b * b}=${b}]]`] });
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));

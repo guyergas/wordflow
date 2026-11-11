@@ -11,8 +11,6 @@ Run `npx tsc --noEmit` and `npx vitest run src/math`, and fix what fails. The te
 Elementary gaps first (grades 4 to 6, found against the Ministry's program in Nov 2026):
 
 Junior high:
-- station 19 · pyth · משפט פיתגורס: מציאת היתר · needs rootimp, trisum
-- station 19 · pyth2 · משפט פיתגורס: מציאת ניצב ובעיות · needs pyth
 - station 19 · circle · היקף מעגל ושטח עיגול · needs area
 - station 19 · sector · קשת וגזרה · needs circle
 - station 20 · prismvol · נפח ושטח פנים של מנסרה וגליל · needs circle
