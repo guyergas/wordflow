@@ -6,6 +6,8 @@ Order (the parent's choice): existing lessons come before new ones, and the work
 
 Next lesson: `npx esbuild scripts/next-lesson.ts --bundle --platform=node --outfile=/tmp/next.cjs --log-level=error && node /tmp/next.cjs`
 
+One agent per course: add `--course <id>` (for example `node /tmp/next.cjs --course geo`) to get the next lesson of that course only, in the same order. `npx tsx scripts/answer-length.ts 10 <id>` does the same for answer lengths. Each course keeps its lessons in its own file, so agents of different courses do not edit the same lessons.
+
 - `kind: expand`: add `'id': { text: `...`, qs: [...] },` before the closing `};` in the given file. Everything in `idea` and `keys` must be stated clearly in the text, since those stay as they are.
 - `kind: lengthen`: improve an existing full lesson in `file` (in `DEEP` or `NEW_LESSONS`) to the lengths below: about 1,000 words and 18–22 questions. Keep what is there and accurate, fix any errors you find, and add depth: new paragraphs with examples, causes and facts, not padding. Keep `idea` and `keys` as they are, and make sure they stay stated in the text. Bring the marks to 8–11 and add questions in the order of the text; existing questions may be fixed but not removed. Commit message: "Lengthen a lesson: <id>".
 - `kind: new`: add a complete lesson to `NEW_LESSONS`: `L('course', 'short-id', level, 'title', 'Hebrew Wikipedia page name', `text`, 'idea in one sentence', qs, keys),` taking the topic from `docs/new-topics.md` as it says there. `keys` holds 1–2 review questions. Level: 0 basic, 1 middle, 2 above age level.
