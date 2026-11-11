@@ -11,8 +11,6 @@ Run `npx tsc --noEmit` and `npx vitest run src/math`, and fix what fails. The te
 Elementary gaps first (grades 4 to 6, found against the Ministry's program in Nov 2026):
 
 Junior high:
-- station 13 · lineint · חיתוך שני ישרים וחיתוך עם הצירים · needs lineeq
-- station 14 · sysadd · מערכת משוואות בשיטת החיבור · needs eqbrk
 - station 14 · syssub · מערכת משוואות בשיטת ההצבה · needs sysadd
 - station 14 · sysword · בעיה מילולית בשני נעלמים · needs syssub
 - station 15 · powlaw · חוקי חזקות: כפל וחילוק חזקות · needs power

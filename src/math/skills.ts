@@ -826,5 +826,33 @@ export const SKILLS: Skill[] = [
     const m = pick(r, [-4, -3, -2, -1, 1, 2, 3, 4]), b = pick(r, [-7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7].filter((v) => v !== m)), x1 = pick(r, [-3, -2, -1, 1, 2, 3, 4]), x2 = x1 + ri(r, 1, 3), y1 = m * x1 + b, y2 = m * x2 + b;
     return calc({ prompt: `ישר עובר דרך הנקודות [[${pt(x1, y1)}]] ו־[[${pt(x2, y2)}]]. המשוואה שלו היא [[y=mx+b]]. מה הערך של [[b]]?`, ans: n(b), eq: `${y1}-(${m})*(${x1})`, pencil: true, wrong: [[n(y1 + m * x1)], [n(m), 'lineform']], steps: [`השיפוע: [[(${sgn(y2)}−${par(y1)})÷(${sgn(x2)}−${par(x1)})=${sgn(m)}]]`, `מציבים את [[${pt(x1, y1)}]]: [[${sgn(y1)}=${sgn(m)}×${par(x1)}+b]]`, `[[b=${sgn(y1)}−${par(m * x1)}=${sgn(b)}]]`] });
   } },
+  { id: 'lineint', station: 13, title: 'חיתוך שני ישרים וחיתוך עם הצירים', needs: ['lineeq'], u: (r) => {
+    const x0 = pick(r, [-3, -2, -1, 1, 2, 3, 4]), y0 = pick(r, [-5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6]), m1 = pick(r, [-3, -2, -1, 1, 2, 3]), m2 = pick(r, [-3, -2, -1, 1, 2, 3].filter((v) => v !== m1)), b1 = y0 - m1 * x0, b2 = y0 - m2 * x0;
+    return conceptQ(`באיזו נקודה נחתכים הישרים [[${line(m1, b1)}]] ו־[[${line(m2, b2)}]]?`, `[[${pt(x0, y0)}]]`, [`[[${pt(y0, x0)}]]`, [`[[${pt(-x0, -m1 * x0 + b1)}]]`, 'sign'], [`[[${pt(0, b1)}]]`, 'lineform']], [
+      `בנקודת החיתוך ה־[[y]] שווה בשני הישרים: [[${kx(m1)}${term(b1)}=${kx(m2)}${term(b2)}]]`,
+      `מעבירים אגפים: [[${kx(m1 - m2)}=${sgn(b2 - b1)}]], ולכן [[x=${sgn(x0)}]]`,
+      `מציבים בישר הראשון: [[y=${sgn(m1)}×${par(x0)}${term(b1)}=${sgn(y0)}]], והנקודה [[${pt(x0, y0)}]]`]);
+  }, e: (r) => {
+    const m = pick(r, [-4, -3, -2, 2, 3, 4]), x0 = pick(r, [-5, -4, -3, -2, -1, 1, 2, 3, 4, 5]), b = -m * x0;
+    return calc({ prompt: `הישר [[${line(m, b)}]] חותך את ציר ה־[[x]] בנקודה [[(x,0)]]. מה ערך ה־[[x]]?`, ans: n(x0), eq: `-(${b})/(${m})`, pencil: true, wrong: [[n(b), 'lineform'], [n(-x0), 'sign']], steps: [`על ציר ה־[[x]] מתקיים [[y=0]]: [[0=${kx(m)}${term(b)}]]`, `מעבירים אגפים: [[${kx(m)}=${sgn(-b)}]]`, `מחלקים ב־[[${sgn(m)}]]: [[x=${sgn(x0)}]]`] });
+  } },
+  // ---------- Station 14 ----------
+  { id: 'sysadd', station: 14, title: 'מערכת משוואות בשיטת החיבור', needs: ['eqbrk'], u: (r) => {
+    const b = ri(r, 1, 5), a1 = ri(r, 1, 5), a2 = pick(r, [1, 2, 3, 4, 5].filter((v) => v !== a1)), c1 = ri(r, 1, 20), c2 = ri(r, 1, 20), opp = r() < 0.5, by = kx(b, 'y');
+    const add = 'מחברים את שתי המשוואות', sub = 'מחסרים את המשוואה השנייה מהראשונה';
+    return conceptQ(`במערכת [[${kx(a1)}+${by}=${c1}]] ו־[[${kx(a2)}${opp ? '−' : '+'}${by}=${c2}]] רוצים להיפטר מ־[[y]]. מה עושים?`, opp ? add : sub, [[opp ? sub : add, 'sign'], ['כופלים את שתי המשוואות זו בזו', 'op']], [
+      `המקדמים של [[y]] הם [[${b}]] ו־[[${opp ? sgn(-b) : b}]]`,
+      opp ? `הם נגדיים, ולכן בחיבור הם מתבטלים: [[${by}−${by}=0]]` : `הם שווים, ולכן בחיסור הם מתבטלים: [[${by}−${by}=0]]`]);
+  }, e: (r) => {
+    const x = pick(r, [-4, -3, -2, -1, 1, 2, 3, 4, 5, 6]), y = pick(r, [-4, -3, -2, -1, 1, 2, 3, 4, 5, 6]), b = ri(r, 1, 4), a1 = ri(r, 1, 4), a2 = ri(r, 1, 4), c1 = a1 * x + b * y, c2 = a2 * x - b * y, by = kx(b, 'y'), askY = r() < 0.5;
+    const sys = `[[${kx(a1)}+${by}=${sgn(c1)}]] ו־[[${kx(a2)}−${by}=${sgn(c2)}]]`;
+    const sum = `מחברים את שתי המשוואות, ו־[[${by}]] מתבטל: [[${kx(a1 + a2)}=${sgn(c1 + c2)}]], ולכן [[x=${sgn(x)}]]`;
+    if (!askY) {
+      const wrong: [string, TrapId?][] = [[n(c1 + c2), 'op'], [n(y)], [n(-x), 'sign']];
+      return calc({ prompt: `במערכת ${sys}, מה הערך של [[x]]?`, ans: n(x), eq: `(${c1}+(${c2}))/${a1 + a2}`, pencil: true, wrong: wrong.filter(([v]) => v !== n(x)), steps: [sum, `בודקים בשנייה: [[${sgn(a2)}×${par(x)}−${b}×${par(y)}=${sgn(c2)}]]`] });
+    }
+    const wrong: [string, TrapId?][] = [[n(-y), 'sign'], [n(x)], [n(c1 - a1 * x), 'op']];
+    return calc({ prompt: `במערכת ${sys}, מה הערך של [[y]]?`, ans: n(y), eq: `(${c1}-(${a1 * x}))/${b}`, pencil: true, wrong: wrong.filter(([v]) => v !== n(y)), steps: [sum, `מציבים בראשונה: [[${sgn(a1 * x)}+${by}=${sgn(c1)}]], ולכן [[${by}=${sgn(c1 - a1 * x)}]]`, `[[y=${sgn(y)}]]`] });
+  } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));
