@@ -788,3 +788,4 @@ html.a-lock .a-finish { height: 100dvh; min-height: 0; overflow: hidden; }
 .a-order-lead > b { background: var(--sun-soft); border: 2px dashed var(--sun); font: 800 44px var(--font-ui); color: var(--sun-ink); }
 .a-order-answers.n5 { grid-template-columns: repeat(3, 1fr); }
 .a-order-answers.n5 > :first-child { grid-column: auto; width: auto; justify-self: stretch; }
+.m-gaps { display: grid; gap: 4px; padding-inline-start: 18px; list-style: disc; font-size: 15px; }

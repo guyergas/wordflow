@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { seeded, SKILLS, STATIONS, DOMAINS, TRAPS, Question } from './skills';
-import { GRADE5_FLOOR, outgrown, advance, answerPlacement, applyPlacement, buildPlan, checkTyped, hintFor, initialMath, isChoiceRight, isOpen, isLearning, makeQuestion, MathState, nextNew, parseValue, placementDone, placementStep, queueRetry, recordAnswer, sameValue, shown, ss, startPlacement, PACE } from './engine';
+import { GRADE5_FLOOR, IN_PLACEMENT, outgrown, advance, answerPlacement, applyPlacement, buildPlan, checkTyped, hintFor, initialMath, isChoiceRight, isOpen, isLearning, makeQuestion, MathState, nextNew, parseValue, placementDone, placementStep, queueRetry, recordAnswer, sameValue, shown, ss, startPlacement, PACE } from './engine';
 
 const T = 20000;
 const RUNS = 400;
@@ -102,6 +102,9 @@ describe('answers', () => {
   it('recognizes a choice shown as math', () => { expect(isChoiceRight({ ...base, answer: '1234' }, shown('1234'))).toBe(true); });
 });
 
+// One past the last checked station in each area, so expectations follow the stations as they fill.
+const past = (d: string) => Math.max(...SKILLS.filter((s) => IN_PLACEMENT(s.station) && STATIONS.find((x) => x.id === s.station)?.domain === d).map((s) => s.station)) + 1;
+
 describe('placement', () => {
   const run = (answers: (station: number) => boolean | 'notyet') => {
     let p = startPlacement(5);
@@ -109,13 +112,26 @@ describe('placement', () => {
     expect(placementDone(p)).toBe(true);
     return p;
   };
-  it('stops each area separately', () => {
+  it('each area starts at its first weak station', () => {
     const p = run((s) => (s === 1 ? true : s === 2 ? false : s < 5 ? true : s === 5 ? false : true));
-    expect(p.start).toEqual({ num: 2, frac: 5, shape: 9 });
+    expect(p.start).toEqual({ num: 2, frac: 5, shape: past('shape') });
+  });
+  it('keeps checking past a gap, all the way to seventh grade', () => {
+    const seen = new Set<number>();
+    let p = startPlacement(5);
+    while (!placementDone(p)) { seen.add(p.station); p = answerPlacement(p, p.station === 2 ? false : true); }
+    expect(seen.has(9) && seen.has(10) && seen.has(12)).toBe(true);
+    expect(p.start.num).toBe(2);
+    const st = applyPlacement(initialMath(), p, 100);
+    const later = SKILLS.find((k) => k.station === 9)!;
+    expect(st.skills[later.id]).toMatchObject({ assumed: true, checked: true });
+    expect(st.skills[SKILLS.find((k) => k.station === 2)!.id]).toBeUndefined();
+  });
+  it('never asks about eighth or ninth grade', () => {
+    let p = startPlacement(5);
+    while (!placementDone(p)) { expect(IN_PLACEMENT(p.station), String(p.station)).toBe(true); p = answerPlacement(p, true); }
   });
   it('a learner who passes everything goes all the way', () => {
-    // One past the last station in each area that has skills, so the expectation follows the junior-high stations as they fill.
-    const past = (d: string) => Math.max(...SKILLS.filter((s) => STATIONS.find((x) => x.id === s.station)?.domain === d).map((s) => s.station)) + 1;
     expect(run(() => true).start).toEqual({ num: past('num'), frac: past('frac'), shape: past('shape') });
   });
   it('asks every skill of a station, and what she got wrong is left to learn', () => {
@@ -125,19 +141,25 @@ describe('placement', () => {
     expect(new Set(ids)).toEqual(new Set(SKILLS.filter((s) => s.station === 1).map((s) => s.id)));
     expect(p.station).toBe(2);
     while (!placementDone(p)) p = answerPlacement(p, 'notyet');
+    expect(p.start.num).toBe(2);
     const st = applyPlacement(initialMath(), p, 100);
     expect(st.skills[ids[1]]).toBeUndefined();
     expect(st.skills[ids[0]]).toMatchObject({ assumed: true, checked: true });
   });
-  it('a station with too many mistakes stops the area there', () => {
+  it('a station that can no longer pass is cut short, and the area starts there', () => {
     let p = startPlacement(5);
-    while (p.station === 1 && p.d === 0) p = answerPlacement(p, false);
+    let asked = 0;
+    while (p.station === 1 && p.d === 0) { p = answerPlacement(p, false); asked++; }
+    const size = SKILLS.filter((k) => k.station === 1).length;
+    expect(asked).toBe(size - Math.ceil(size * 0.75) + 1);
+    expect(p.d).toBe(0);
+    while (!placementDone(p)) p = answerPlacement(p, true);
     expect(p.start.num).toBe(1);
   });
-  it('not yet stops the area right away and is not a mistake', () => {
+  it('not yet leaves the skill to learn and moves on', () => {
     const p = answerPlacement(startPlacement(5), 'notyet');
-    expect(p.start.num).toBe(1);
-    expect(p.d).toBe(1);
+    expect(p.missed).toHaveLength(1);
+    expect(p.d).toBe(0);
   });
   it('passed skills become known on condition, and a low start sets a calm pace', () => {
     const st = applyPlacement(initialMath(), { ...startPlacement(1), start: { num: 2, frac: 4, shape: 7 } }, T);
@@ -268,10 +290,8 @@ describe('placement from fifth grade', () => {
   it('starts each area at its floor, and what lies below counts as known', () => {
     let p = startPlacement(5, GRADE5_FLOOR);
     expect(p.station).toBe(3);
-    p = answerPlacement(p, 'notyet');
-    expect(p.station).toBe(5);
-    p = answerPlacement(answerPlacement(p, 'notyet'), 'notyet');
-    expect(placementDone(p)).toBe(true);
+    while (!placementDone(p)) p = answerPlacement(p, 'notyet');
+    expect(p.start).toEqual({ num: 3, frac: 5, shape: 7 });
     const st = applyPlacement({ ...initialMath(), placement: p }, p, 100);
     expect(st.skills.add20?.assumed).toBe(true);
     expect(st.skills.add20?.checked).toBeUndefined();

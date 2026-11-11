@@ -9,7 +9,7 @@ export type StepKind = 'worked' | 'partial' | 'solve';
 export interface Step { part: Part; kind: StepKind; skill: string; measure: Measure; seed: number; support: boolean; mode: 'choice' | 'type'; retry?: boolean; check?: boolean }
 export interface Plan { day: number; steps: Step[]; at: number; extra?: boolean; bonus?: boolean; newSkill: string | null; flagged: string[] }
 export interface DayLog { ok: number; no: number; helped: number; done: boolean; sec?: number }
-export interface Placement { d: number; station: number; round: number; i: number; score: number; seed: number; start: Partial<Record<Domain, number>>; asked: number; floor?: Partial<Record<Domain, number>>; missed?: string[]; passed?: string[] }
+export interface Placement { d: number; station: number; round: number; i: number; score: number; seed: number; start: Partial<Record<Domain, number>>; asked: number; floor?: Partial<Record<Domain, number>>; missed?: string[]; passed?: string[]; weak?: number }
 export interface MathState {
   v: 1; name: string; onboarded: boolean; moved?: string; checks?: number; placement: Placement | null; start: Partial<Record<Domain, number>>;
   skills: Record<string, SkillState>; days: Record<string, DayLog>; plan: Plan | null; traps: Record<string, number>;
@@ -228,9 +228,12 @@ export function checkTyped(q: Question, typed: string): boolean {
 export const trapForTyped = (q: Question, typed: string): TrapId | undefined => q.wrong?.find(([v]) => sameValue(v, typed))?.[1];
 export const isChoiceRight = (q: Question, label: string) => label === q.answer || label === shown(q.answer);
 
-// ---------- Placement: three separate areas, and the run stops where she does ----------
+// ---------- Placement: three separate areas, each checked up to seventh grade ----------
+/** Stations the check covers: everything through seventh grade. Eighth and ninth grade (linear functions, systems, powers, quadratics, Pythagoras, solids) are left out. */
+export const IN_PLACEMENT = (station: number) => station <= 12 || station === 17 || station === 18;
+export const placementStations = (d: Domain) => stationsOf(d).filter(IN_PLACEMENT);
 /** A placement can start above the basics: with a floor, each area starts at its first station at or above it, and what lies below counts as known. */
-const firstStation = (d: Domain, floor?: Partial<Record<Domain, number>>) => stationsOf(d).find((x) => x >= (floor?.[d] ?? 0)) ?? stationsOf(d)[0];
+const firstStation = (d: Domain, floor?: Partial<Record<Domain, number>>) => placementStations(d).find((x) => x >= (floor?.[d] ?? 0)) ?? placementStations(d)[0];
 export const startPlacement = (seed: number, floor?: Partial<Record<Domain, number>>): Placement => ({ d: 0, station: firstStation(DOMAINS[0].id, floor), round: 0, i: 0, score: 0, seed, start: {}, asked: 0, ...(floor ? { floor } : {}) });
 /** Fifth-grade material: big numbers, operations on fractions and decimals, and measurement. */
 export const GRADE5_FLOOR: Partial<Record<Domain, number>> = { num: 3, frac: 5, shape: 7 };
@@ -253,19 +256,23 @@ function stopDomain(p: Placement, at: number): Placement {
 }
 export const placementDone = (p: Placement) => p.d >= DOMAINS.length;
 
-/** Every skill of the station is asked once. 'notyet' stops this area and is not counted as a mistake.
- *  A station passed counts as known, except the skills she got wrong, which she will learn. */
+/**
+ * Every station up to seventh grade is visited, so the check finds each gap and not only the first one.
+ * A wrong answer and 'notyet' both leave the skill to learn; 'notyet' is not a mistake.
+ * Once a station can no longer reach the pass mark, the rest of it is skipped and the check moves on.
+ * Each area starts at its first weak station. Skills she answered right above it still count as known.
+ */
 export function answerPlacement(p: Placement, res: boolean | 'notyet'): Placement {
-  if (res === 'notyet') return { ...stopDomain(p, p.station), asked: p.asked + 1 };
-  const id = stationSkills(p)[p.i].id, i = p.i + 1, asked = p.asked + 1, score = p.score + (res ? 1 : 0);
-  const missed = res ? p.missed ?? [] : [...(p.missed ?? []), id], passed = res ? [...(p.passed ?? []), id] : p.passed ?? [];
-  if (i < stationSize(p)) return { ...p, i, score, asked, missed, passed };
-  if (score >= Math.ceil(stationSize(p) * PLACEMENT_SHARE)) {
-    const list = stationsOf(DOMAINS[p.d].id), idx = list.indexOf(p.station);
-    if (idx + 1 < list.length) return { ...p, station: list[idx + 1], round: 0, i: 0, score: 0, asked, missed, passed };
-    return { ...stopDomain({ ...p, missed, passed }, p.station + 1), asked };
-  }
-  return { ...stopDomain({ ...p, missed, passed }, p.station), asked };
+  const id = stationSkills(p)[p.i].id, i = p.i + 1, asked = p.asked + 1, ok = res === true, score = p.score + (ok ? 1 : 0);
+  const missed = ok ? p.missed ?? [] : [...(p.missed ?? []), id], passed = ok ? [...(p.passed ?? []), id] : p.passed ?? [];
+  const size = stationSize(p), need = Math.ceil(size * PLACEMENT_SHARE);
+  const wrongs = i - score;
+  if (i < size && size - wrongs >= need) return { ...p, i, score, asked, missed, passed };
+  const strong = score >= need;
+  const weak = strong ? p.weak : p.weak ?? p.station;
+  const list = placementStations(DOMAINS[p.d].id), idx = list.indexOf(p.station);
+  if (idx + 1 < list.length) return { ...p, station: list[idx + 1], round: 0, i: 0, score: 0, asked, missed, passed, weak };
+  return { ...stopDomain({ ...p, missed, passed, weak: undefined }, weak ?? p.station + 1), asked };
 }
 
 /** What she passed counts as known on condition: it comes back in warm-ups, and a mistake sends it to practice. */
@@ -275,7 +282,7 @@ export function applyPlacement(st: MathState, p: Placement, today: number): Math
   for (const s of SKILLS) {
     const dom = STATIONS.find((x) => x.id === s.station)!.domain;
     // Skills she got wrong are left to learn. Those she answered are known; those below the floor were not asked and get checked later.
-    if (s.station < (p.start[dom] ?? 1) && !(p.missed ?? []).includes(s.id)) {
+    if ((s.station < (p.start[dom] ?? 1) && !(p.missed ?? []).includes(s.id)) || (p.passed ?? []).includes(s.id)) {
       const m = (): Metric => ({ ...freshMetric(), box: SOLID_BOX, due: today + 1 + (i++ % 14) });
       skills[s.id] = { u: s.u ? m() : freshMetric(), e: s.e ? m() : freshMetric(), met: today, assumed: true, ...((p.passed ?? []).includes(s.id) || !p.floor ? { checked: true } : {}) };
     }

@@ -10,7 +10,7 @@ import { canSpeak, sfx, speakHebrew } from '../platform';
 import { Figure } from './Figure';
 import {
   addTime, advance, answerPlacement, applyPlacement, buildPlan, checkTyped, dayLog, dayNumber, flaggedSkills, hintFor, initialMath, isChoiceRight, isMet, makeQuestion, markMet, MathState,
-  nextNew, Part, placementDone, placementStep, queueRetry, recordAnswer, shown, startPlacement, stationsOf, stationSize, statusOf, Step, GRADE5_FLOOR, totals, trapForTyped, weekDays,
+  nextNew, Part, placementDone, placementStations, placementStep, queueRetry, recordAnswer, shown, startPlacement, stationsOf, stationSize, statusOf, Step, GRADE5_FLOOR, totals, trapForTyped, weekDays,
 } from './engine';
 import { DOMAINS, Question, SKILL, SKILLS, STATIONS, TRAPS, TrapId } from './skills';
 
@@ -27,8 +27,9 @@ function load(): MathState {
     const p = JSON.parse(raw), base = initialMath();
     const st: MathState = { ...base, ...p, name: USER_NAME || p.name, settings: { ...base.settings, ...p.settings } };
     if (st.plan && st.plan.steps.some((s) => !SKILL[s.skill])) st.plan = null;
-    // Guy moved Ayala up to fifth-grade material: a placement check from there up, once. What she already learned above it stays.
-    if (USER_ID === 'ayala' && st.moved !== 'grade5') return { ...st, moved: 'grade5', plan: null, placement: startPlacement(Math.floor(Math.random() * 1e8), GRADE5_FLOOR) };
+    // Guy moved Ayala up to fifth-grade material, with a check from there through seventh grade, once. What she already learned stays.
+    // The first version of that check stopped at her first gap, so it runs again with the full range.
+    if (USER_ID === 'ayala' && st.moved !== 'grade7') return { ...st, moved: 'grade7', onboarded: st.onboarded || SKILLS.some((k) => st.skills[k.id]?.met != null), plan: null, placement: startPlacement(Math.floor(Math.random() * 1e8), GRADE5_FLOOR) };
     // A check from a higher grade is for someone already learning: she keeps her home screen while it waits.
     if (st.placement?.floor && !st.onboarded && SKILLS.some((s) => st.skills[s.id]?.met != null)) return { ...st, onboarded: true };
     return st;
@@ -295,8 +296,8 @@ function Onboarding({ st, update, running, setRunning }: { st: MathState; update
     <div className="onb">
       <FirstRunTop />
       {p?.floor && p.asked === 0 ? <>
-        <h1>עוברות לחומר של כיתה ה׳</h1>
-        <p className="lead">כמה שאלות קצרות, בלי ציון, כדי לבדוק מה כבר ידוע מכאן והלאה. מה שכבר למדת נשמר, והתרגילים הבסיסיים לא יחזרו.</p>
+        <h1>בדיקה של החומר מכיתה ה׳ עד כיתה ז׳</h1>
+        <p className="lead">כמה שאלות קצרות, בלי ציון, כדי לראות מה כבר ידוע ומה עוד לא, בכל התחומים עד כיתה ז׳. מה שכבר למדת נשמר, והתרגילים הבסיסיים לא יחזרו.</p>
       </> : <>
         <h1>{p ? g('ממשיכות מאיפה שעצרנו', 'ממשיכים מאיפה שעצרנו') : g('מוצאות יחד מאיפה מתחילים', 'מוצאים יחד מאיפה מתחילים')}</h1>
         <p className="lead">כמה שאלות קצרות, בלי ציון. {p ? 'ההתקדמות נשמרה.' : g('מתחילות בקל, ועוצרות במקום שעוד לא למדת.', 'מתחילים בקל, ועוצרים במקום שעוד לא למדת.')}</p>
@@ -314,9 +315,8 @@ function Run({ st, update, onPause }: { st: MathState; update: Update; onPause: 
   const stepDef = placementStep(p);
   const q = useMemo(() => makeQuestion(stepDef), [p.station, p.round, p.i, p.d]);
   const hint = useMemo(() => (q.pencil ? hintFor(stepDef, q) : null), [q]);
-  const station = STATIONS.find((s) => s.id === p.station)!;
-  const total = STATIONS.length;
-  const pct = Math.min(100, ((station.id - 1 + p.i / stationSize(p)) / total) * 100);
+  const list = placementStations(DOMAINS[p.d].id), at = Math.max(0, list.indexOf(p.station));
+  const pct = Math.min(100, ((p.d + (at + p.i / stationSize(p)) / list.length) / DOMAINS.length) * 100);
   const answered = useRef<boolean | null>(null);
   const move = (res: boolean | 'notyet') => update((s) => (s.placement ? { ...s, placement: answerPlacement(s.placement, res) } : s));
   return (
@@ -342,6 +342,11 @@ function RunResult({ st, update }: { st: MathState; update: Update }) {
           return <li key={d.id}><span>{d.name}</span><b>{start > last ? 'הכול עבר בהצלחה' : STATIONS.find((s) => s.id === start)!.name}</b></li>;
         })}
       </ul>
+      {(p.missed ?? []).length > 0 && <section className="card">
+        <h3>מה עוד לא יודעים ({(p.missed ?? []).length})</h3>
+        <ul className="m-gaps">{(p.missed ?? []).filter((id) => SKILL[id]).map((id) => <li key={id}>{SKILL[id].title}</li>)}</ul>
+        <p className="small muted">אלה ייכנסו לאימונים לפי הסדר. {(p.passed ?? []).length > 0 ? `${(p.passed ?? []).length} מיומנויות נענו נכון ונחשבות ידועות.` : ''}</p>
+      </section>}
       <button type="button" className="cta" onClick={() => { pushProgress(); update((s) => applyPlacement(s, s.placement!, dayNumber())); }}>לאימון הראשון</button>
     </div>
   );
@@ -363,7 +368,7 @@ function Home({ st, today, onStart, onSettings, onCheck }: { st: MathState; toda
         {st.placement ? (
           <>
             <span className="chip-d">{st.placement.asked > 0 ? g('ממשיכות מאיפה שעצרת', 'ממשיכים מאיפה שעצרת') : 'לפני האימון הבא'}</span>
-            <h2>{st.placement.floor ? 'בדיקה קצרה לחומר של כיתה ה׳' : 'בדיקה קצרה של נקודת ההתחלה'}</h2>
+            <h2>{st.placement.floor ? 'בדיקה של החומר מכיתה ה׳ עד ז׳' : 'בדיקה של נקודת ההתחלה'}</h2>
             <p>כמה שאלות בלי ציון, כדי לדעת מאיפה ממשיכים. אפשר לעצור באמצע, וההתקדמות נשמרת.</p>
             <button type="button" className="cta-d" onClick={onCheck}>{st.placement.asked > 0 ? 'להמשיך את הבדיקה' : 'להתחיל את הבדיקה'}</button>
           </>
