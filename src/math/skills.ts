@@ -564,5 +564,16 @@ export const SKILLS: Skill[] = [
     const expr = `${t(g * p, u)}+${t(g * q, v)}`, ans = `[[${g}(${t(p, u)}+${t(q, v)})]]`;
     return conceptQ(`מה מתקבל מ־[[${expr}]] אחרי הוצאת הגורם המשותף הגדול ביותר?`, ans, [[`[[${g}(${t(p, u)}+${t(g * q, v)})]]`, 'dist'], [`[[${t(g * p, '')}(${u}+${t(q, v)})]]`, 'dist'], [`[[${g}(${t(p + q, u)})]]`, 'op']], [`מחפשים את המספר הגדול ביותר שמחלק את [[${g * p}]] ואת [[${g * q}]]: זה [[${g}]]`, `מחלקים כל איבר ב־[[${g}]] וכותבים בסוגריים: ${ans}`, `בודקים בפילוג: [[${g}×${t(p, u)}=${t(g * p, u)}]] ו־[[${g}×${t(q, v)}=${t(g * q, v)}]]`]);
   } },
+  // ---------- Station 12 ----------
+  { id: 'eqboth', station: 12, title: 'משוואה עם נעלם בשני האגפים', needs: ['eq2'], e: (r) => {
+    const x = ri(r, 1, 12), a = ri(r, 4, 9), c = ri(r, 1, a - 2), b = ri(r, 1, 15), k = a - c, d = k * x + b, cx = `${c === 1 ? '' : c}x`;
+    const flip = (d + b) % k === 0 && (d + b) / k !== x ? (d + b) / k : x + k;
+    return calc({ prompt: `מה הערך של [[x]] אם [[${a}x+${b}=${cx}+${d}]]?`, ans: n(x), eq: `(${d}-${b})/(${a}-${c})`, pencil: true, wrong: [[n(d - b), 'op'], [n(flip), 'sign']], steps: [`מחסרים [[${cx}]] משני האגפים, כדי שהנעלם יהיה רק בצד אחד: [[${k}x+${b}=${d}]]`, `מחסרים [[${b}]]: [[${k}x=${d - b}]]`, `מחלקים ב־[[${k}]]: [[x=${x}]]`] });
+  } },
+  { id: 'eqbrk', station: 12, title: 'משוואה עם סוגריים', needs: ['eqboth', 'brackets'], e: (r) => {
+    const x = ri(r, 1, 10), a = ri(r, 3, 6), c = ri(r, 1, a - 2), b = ri(r, 1, 6), k = a - c, ab = a * b, d = k * x + ab, cx = `${c === 1 ? '' : c}x`;
+    const half = (d - b) % k === 0 ? (d - b) / k : d - b;
+    return calc({ prompt: `מה הערך של [[x]] אם [[${a}(x+${b})=${cx}+${d}]]?`, ans: n(x), eq: `(${d}-${ab})/(${a}-${c})`, pencil: true, wrong: [[n(half), 'dist'], [n(d - ab), 'op']], steps: [`פותחים סוגריים: [[${a}(x+${b})=${a}x+${ab}]]`, `מחסרים [[${cx}]] ו־[[${ab}]] משני האגפים: [[${k}x=${d - ab}]]`, `מחלקים ב־[[${k}]]: [[x=${x}]]`] });
+  } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));

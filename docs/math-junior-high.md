@@ -8,8 +8,6 @@ Run `npx tsc --noEmit` and `npx vitest run src/math`, and fix what fails. The te
 
 ## List
 
-- station 12 · eqboth · משוואה עם נעלם בשני האגפים · needs eq2
-- station 12 · eqbrk · משוואה עם סוגריים · needs eqboth, brackets
 - station 12 · eqfrac · משוואה עם שברים · needs eqboth
 - station 12 · eqword2 · בעיה מילולית במשוואה (גילים, כסף, תנועה) · needs eqbrk
 - station 12 · ineq · אי־שוויון ופתרונו · needs eqboth
