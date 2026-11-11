@@ -6,6 +6,7 @@ import { TINY_EN_AUDIO, TINY_HE_AUDIO } from './tinyen/letters';
 import { WORDS_EN_AUDIO, WORDS_HE_AUDIO } from './littleWords/data';
 import { dropUnpracticed, initialState, repairPlans, State } from './engine';
 import { audioName, THAI_AUDIO } from './thai';
+import { forSpeech, recordingName } from './speech';
 let memory: string | null = null;
 
 export function load(): State {
@@ -88,7 +89,7 @@ export function stopSound() { ++turn; try { playing?.stop(); } catch { /* alread
 function recording(th: string, c: AudioContext, dir = 'th') {
   let p = recordings.get(th);
   if (!p) {
-    p = fetch(`audio/${dir}/${audioName(th)}.mp3`)
+    p = fetch(`audio/${dir}/${recordingName(th, dir)}.mp3`)
       .then((r) => { if (!r.ok) throw new Error('missing'); return r.arrayBuffer(); })
       .then((b) => c.decodeAudioData(b));
     p.catch(() => recordings.delete(th));
@@ -153,8 +154,8 @@ export async function saveHebrewRecordings() {
   try {
     const cache = await caches.open('hebrew-audio');
     const queue = IS_TINYEN
-      ? [...new Set([...TINY_HE_AUDIO, ...WORDS_HE_AUDIO])].map((t) => `audio/he/${audioName(t)}.mp3`).concat([...new Set([...TINY_EN_AUDIO, ...WORDS_EN_AUDIO])].map((t) => `audio/en/${audioName(t)}.mp3`))
-      : (IS_TOTS ? TOTS_AUDIO : [...new Set([...HEBREW_AUDIO, ...WORDS_HE_AUDIO])]).map((t) => `audio/he/${audioName(t)}.mp3`);
+      ? [...new Set([...TINY_HE_AUDIO, ...WORDS_HE_AUDIO])].map((t) => `audio/he/${recordingName(t, 'he')}.mp3`).concat([...new Set([...TINY_EN_AUDIO, ...WORDS_EN_AUDIO])].map((t) => `audio/en/${audioName(t)}.mp3`))
+      : (IS_TOTS ? TOTS_AUDIO : [...new Set([...HEBREW_AUDIO, ...WORDS_HE_AUDIO])]).map((t) => `audio/he/${recordingName(t, 'he')}.mp3`);
     const worker = async () => { for (let url = queue.pop(); url; url = queue.pop()) { try { if (!(await cache.match(url))) await cache.add(url); } catch { /* the next launch tries again */ } } };
     await Promise.all([worker(), worker(), worker()]);
   } catch { /* optional */ }
@@ -187,7 +188,7 @@ export function sayInTurn(parts: { text: string; lang: 'he' | 'en' }[]) {
   try { synth()?.cancel(); } catch { /* no voice */ }
   try { (navigator as unknown as { audioSession?: { type: string } }).audioSession!.type = 'playback'; } catch { /* other phones */ }
   const c = audio();
-  const voice = (p: { text: string; lang: 'he' | 'en' }) => { const s = synth(); if (!s) return; try { const u = new SpeechSynthesisUtterance(p.text); u.lang = p.lang === 'he' ? 'he-IL' : 'en-US'; const v = s.getVoices().find((o) => (p.lang === 'he' ? /^(he|iw)/i : /^en/i).test(o.lang)); if (v) u.voice = v; u.rate = 0.9; s.speak(u); } catch { /* no audio */ } };
+  const voice = (p: { text: string; lang: 'he' | 'en' }) => { const s = synth(); if (!s) return; try { const u = new SpeechSynthesisUtterance(p.lang === 'he' ? forSpeech(p.text) : p.text); u.lang = p.lang === 'he' ? 'he-IL' : 'en-US'; const v = s.getVoices().find((o) => (p.lang === 'he' ? /^(he|iw)/i : /^en/i).test(o.lang)); if (v) u.voice = v; u.rate = 0.9; s.speak(u); } catch { /* no audio */ } };
   if (!c) { parts.forEach(voice); return; }
   // All parts load together and play back to back, with the silence at each recording's edges cut,
   // so there is no pause between the Hebrew question and the English letter for a child to answer into.
@@ -253,7 +254,7 @@ export function speakHebrew(text: string) {
   if (!s) return;
   try {
     s.cancel();
-    const u = new SpeechSynthesisUtterance(text.replace(/\[\[|\]\]/g, '').replace(/(\d+)%/g, '$1 אחוז').replace(/[־]/g, ' '));
+    const u = new SpeechSynthesisUtterance(forSpeech(text).replace(/\[\[|\]\]/g, '').replace(/(\d+)%/g, '$1 אחוז').replace(/[־]/g, ' '));
     u.lang = 'he-IL';
     const v = s.getVoices().find((o) => /^(he|iw)/i.test(o.lang));
     if (v) u.voice = v;
