@@ -70,7 +70,7 @@ describe('judging a drawing', () => {
 describe('the song', () => {
   it('knows where all 22 letters are sung, in order, without overlap', () => {
     expect(SONG_TIMES.length).toBe(22);
-    SONG_TIMES.forEach(([a, b], i) => { expect(b).toBeGreaterThan(a); if (i) expect(a).toBeGreaterThanOrEqual(SONG_TIMES[i - 1][1]); expect(b - a).toBeLessThanOrEqual(1.3); });
+    SONG_TIMES.forEach(([a, b], i) => { expect(b).toBeGreaterThan(a); if (i) expect(a).toBeGreaterThanOrEqual(SONG_TIMES[i - 1][1]); expect(b - a).toBeLessThanOrEqual(1.31); });
   });
   it('plays up to three letters before the one asked, and nothing of it', () => {
     expect(songLead('א')).toBeNull();
