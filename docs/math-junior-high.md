@@ -11,8 +11,6 @@ Run `npx tsc --noEmit` and `npx vitest run src/math`, and fix what fails. The te
 Elementary gaps first (grades 4 to 6, found against the Ministry's program in Nov 2026):
 
 Junior high:
-- station 17 · interest · ריבית פשוטה וריבית דריבית בשנתיים · needs pctchg
-- station 17 · directinv · יחס ישר ויחס הפוך · needs prop
 - station 18 · extang · זווית חיצונית במשולש · needs trisum
 - station 18 · isos · משולש שווה שוקיים · needs trisum
 - station 18 · polyang · סכום זוויות במצולע · needs trisum
