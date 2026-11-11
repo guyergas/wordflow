@@ -2,15 +2,18 @@
 
 For Hebrew-speaking girls aged 10–12. Read `geo.continents` in `src/knowledge/deep/geo.ts` first, and match its voice and depth. Follow the lengths below, which are longer than that sample. A lesson should take a fast reader about ten minutes.
 
+Order (the parent's choice): existing lessons come before new ones. The command first gives every short lesson to expand, then every full lesson below 950 words or 18 questions to lengthen, and only then new lessons.
+
 Next lesson: `npx esbuild scripts/next-lesson.ts --bundle --platform=node --outfile=/tmp/next.cjs --log-level=error && node /tmp/next.cjs`
 
 - `kind: expand`: add `'id': { text: `...`, qs: [...] },` before the closing `};` in the given file. Everything in `idea` and `keys` must be stated clearly in the text, since those stay as they are.
+- `kind: lengthen`: improve an existing full lesson in `file` (in `DEEP` or `NEW_LESSONS`) to the lengths below: about 1,000 words and 18–22 questions. Keep what is there and accurate, fix any errors you find, and add depth: new paragraphs with examples, causes and facts, not padding. Keep `idea` and `keys` as they are, and make sure they stay stated in the text. Bring the marks to 8–11 and add questions in the order of the text; existing questions may be fixed but not removed. Commit message: "Lengthen a lesson: <id>".
 - `kind: new`: add a complete lesson to `NEW_LESSONS`: `L('course', 'short-id', level, 'title', 'Hebrew Wikipedia page name', `text`, 'idea in one sentence', qs, keys),` taking the topic from `docs/new-topics.md` as it says there. `keys` holds 1–2 review questions. Level: 0 basic, 1 middle, 2 above age level.
 
 ## Every lesson
-- Text: 820–1,050 words of natural Hebrew in backticks (no backticks or ${ inside), feminine address when addressing the reader, paragraphs separated by a blank line. Stories, examples, causes, surprising facts, a link to Israel or daily life where natural. Clear, short sentences; explain every hard word. No clichés or translationese. Reread for grammar.
+- Text: 950–1,100 words (about 1,000) of natural Hebrew in backticks (no backticks or ${ inside), feminine address when addressing the reader, paragraphs separated by a blank line. Stories, examples, causes, surprising facts, a link to Israel or daily life where natural. Clear, short sentences; explain every hard word. No clichés or translationese. Reread for grammar.
 - Marks: wrap 8–11 whole important sentences in [[...]], the yellow marker. A mark holds whole sentences, ends after the final punctuation, and never contains a blank line. Mark main ideas, not trivia. About half of the questions are answered by marked sentences, half by unmarked text.
-- Questions: 16–19 multiple-choice, in the order of the text, `[question, right, [wrong, wrong], why]`. At least 2 plausible wrong options, all unique; mostly why/how and the general idea; `why` is one short sentence. Inside single-quoted strings use Hebrew ׳ and ״.
+- Questions: 18–22 multiple-choice, in the order of the text, `[question, right, [wrong, wrong], why]`. At least 2 plausible wrong options, all unique; mostly why/how and the general idea; `why` is one short sentence. Inside single-quoted strings use Hebrew ׳ and ״.
 - Accuracy matters most. Only well-established facts, numbers rounded. If unsure of a name, date or figure, check with WebSearch or WebFetch, or leave it out. Never invent quotes, studies or anecdotes; label legends as legends. Records and medal counts change: check them and state the year.
 - Contested politics, religion or history: present the sides fairly and take none; on the Israeli–Arab conflict give both narratives in their own words. Nothing graphic. Holocaust: a separate unit exists in `src/knowledge/holocaust.ts`, shown only to one child by parent's decision. Do not write about it in detail in other lessons.
 

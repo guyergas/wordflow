@@ -7,6 +7,29 @@ const ORDER = ['geo', 'sci', 'nature', 'hist', 'art', 'sport', 'heb', 'jud', 'fo
 const targetOf = (c: string) => TARGET[c] ?? 60;
 const full = (c: string) => Object.keys(DEEP).filter((id) => id.startsWith(`${c}.`)).length + NEW_LESSONS.filter((l) => l.course === c).length;
 const counts = ORDER.map((c) => ({ c, n: full(c) }));
+// The parent asked to improve existing lessons before adding new ones:
+// first expand the short lessons, then lengthen full lessons below the standard in docs/lesson-writing.md.
+const MIN_WORDS = 950, MIN_QS = 18;
+const words = (t: string) => t.split(/\s+/).length;
+const short = LESSONS.filter((l) => !DEEP[l.id] && !NEW_LESSONS.includes(l) && !l.only);
+if (short.length) {
+  const withShort = counts.filter((x) => short.some((l) => l.course === x.c));
+  const low0 = Math.min(...withShort.map((x) => x.n));
+  const c = withShort.find((x) => x.n === low0)!.c;
+  const l = short.filter((x) => x.course === c).sort((a, b) => a.level - b.level)[0];
+  console.log(JSON.stringify({ kind: 'expand', file: `src/knowledge/deep/${c}.ts`, id: l.id, level: l.level, title: l.title, idea: l.idea, keys: l.keys, text: l.text, counts }, null, 1));
+  process.exit(0);
+}
+const allFull = [
+  ...Object.entries(DEEP).map(([id, d]) => ({ id, file: `src/knowledge/deep/${id.split('.')[0]}.ts`, words: words(d.text), qs: d.qs.length })),
+  ...NEW_LESSONS.map((l) => ({ id: l.id, file: 'src/knowledge/new-lessons.ts', words: words(l.text), qs: l.qs.length })),
+].filter((x) => LESSONS.some((l) => l.id === x.id && !l.only));
+const thin = allFull.filter((x) => x.words < MIN_WORDS || x.qs < MIN_QS).sort((a, b) => a.words - b.words || a.qs - b.qs);
+if (thin.length) {
+  const t = thin[0], l = LESSONS.find((x) => x.id === t.id)!;
+  console.log(JSON.stringify({ kind: 'lengthen', ...t, title: l.title, level: l.level, idea: l.idea, keys: l.keys, left: thin.length, counts }, null, 1));
+  process.exit(0);
+}
 // The parent asked for the Hebrew grammar topics now, ahead of the rotation.
 const GRAMMAR_FIRST = 16;
 const hebNew = NEW_LESSONS.filter((l) => l.course === 'heb');
