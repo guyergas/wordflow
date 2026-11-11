@@ -189,6 +189,12 @@ const kx = (k: number, x = 'x') => (k === 1 ? x : k === -1 ? `−${x}` : `${sgn(
 /** A fraction a/b as shown in math, reduced, with its sign in front. */
 const sfrac = (a: number, b: number) => (a % b === 0 ? sgn(a / b) : `${a * b < 0 ? '−' : ''}${reduced(Math.abs(a), Math.abs(b))}`);
 const FLIP: Record<string, string> = { '<': '>', '>': '<' };
+/** A number in brackets when it is negative, to follow an operation sign. */
+const par = (v: number) => (v < 0 ? `(${sgn(v)})` : String(v));
+/** A point (x,y) as shown in math. */
+const pt = (x: number, y: number) => `(${sgn(x)},${sgn(y)})`;
+/** The line y=mx+b as shown in math. */
+const line = (m: number, b: number) => `y=${m === 0 ? '' : kx(m)}${m === 0 ? sgn(b) : term(b)}`;
 const SOLID_HOW = ['פאה היא משטח: סופרים את הבסיסים ואת הפאות הצדדיות', 'מקצוע הוא קו שבו נפגשות שתי פאות', 'קדקוד הוא נקודה שבה נפגשים מקצועות'];
 
 export const SKILLS: Skill[] = [
@@ -787,7 +793,6 @@ export const SKILLS: Skill[] = [
   }, e: (r) => {
     const m = pick(r, [-4, -3, -2, -1, 1, 2, 3, 4]), d = ri(r, 1, 4), swap = r() < 0.5, ax = ri(r, -5, 4), ay = ri(r, -6, 6);
     const [x1, y1, x2, y2] = swap ? [ax + d, ay + m * d, ax, ay] : [ax, ay, ax + d, ay + m * d], dx = x2 - x1, dy = y2 - y1;
-    const par = (v: number) => (v < 0 ? `(${sgn(v)})` : String(v));
     const wrong: [string, TrapId][] = [[n(-m), 'slope'], ...(Math.abs(m) > 1 ? [[`${m < 0 ? '-' : ''}1/${Math.abs(m)}`, 'slope'] as [string, TrapId]] : []), ...(d > 1 ? [[n(dy), 'op'] as [string, TrapId]] : [])];
     return calc({ prompt: `מה השיפוע של הישר שעובר דרך הנקודות [[(${sgn(x1)},${sgn(y1)})]] ו־[[(${sgn(x2)},${sgn(y2)})]]?`, ans: n(m), eq: `(${y2}-(${y1}))/(${x2}-(${x1}))`, pencil: true, wrong, steps: [`השינוי ב־[[y]]: [[${sgn(y2)}−${par(y1)}=${sgn(dy)}]]`, `השינוי ב־[[x]], באותו סדר: [[${sgn(x2)}−${par(x1)}=${sgn(dx)}]]`, `השיפוע הוא השינוי ב־[[y]] חלקי השינוי ב־[[x]]: [[${par(dy)}÷${par(dx)}=${sgn(m)}]]`] });
   } },
@@ -800,6 +805,26 @@ export const SKILLS: Skill[] = [
     const m = pick(r, [-4, -3, -2, -1, 1, 2, 3, 4]), b = pick(r, [-6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6].filter((v) => v !== m)), c = ri(r, 2, 4), slope = r() < 0.5;
     const ans = slope ? m : b, eqn = `${c}y=${kx(c * m)}${term(c * b)}`;
     return calc({ prompt: slope ? `מה השיפוע של הישר [[${eqn}]]?` : `הישר [[${eqn}]] חותך את ציר ה־[[y]] בנקודה [[(0,y)]]. מה ערך ה־[[y]]?`, ans: n(ans), eq: `${c * ans}/${c}`, pencil: true, wrong: [[n(c * ans), 'lineform'], [n(slope ? b : m), 'lineform']], steps: [`מחלקים את שני האגפים ב־[[${c}]]: [[y=${kx(m)}${term(b)}]]`, slope ? `המספר שכופל את [[x]] הוא השיפוע: [[${sgn(m)}]]` : `מציבים [[x=0]]: [[y=${sgn(b)}]]. זו נקודת החיתוך עם ציר ה־[[y]]`] });
+  } },
+  { id: 'lineval', station: 13, title: 'ערך הפונקציה ונקודה על הישר', needs: ['linefn'], u: (r) => {
+    const m = pick(r, [-3, -2, -1, 2, 3, 4]), b = pick(r, [-5, -4, -3, -2, -1, 1, 2, 3, 4, 5]), k = pick(r, [-3, -2, -1, 1, 2, 3, 4]), y = m * k + b;
+    return conceptQ(`איזו נקודה נמצאת על הישר [[${line(m, b)}]]?`, `[[${pt(k, y)}]]`, [`[[${pt(y, k)}]]`, `[[${pt(k, m * k - b)}]]`, `[[${pt(k + 1, y)}]]`], [`מציבים את ה־[[x]] של הנקודה ובודקים אם יוצא ה־[[y]] שלה`, `[[${sgn(m)}×${par(k)}${term(b)}=${sgn(y)}]], ולכן הנקודה [[${pt(k, y)}]] על הישר`]);
+  }, e: (r) => {
+    const m = pick(r, [-3, -2, 2, 3, 4, 5]), b = pick(r, [-7, -5, -4, -3, -2, -1, 1, 2, 3, 4, 6]), k = pick(r, [-4, -3, -2, -1, 2, 3, 4, 5]), y = m * k + b, f = `f(x)=${kx(m)}${term(b)}`;
+    if (r() < 0.5) return calc({ prompt: `נתונה הפונקציה [[${f}]]. כמה זה [[f(${sgn(k)})]]?`, ans: n(y), eq: `${m}*(${k})+(${b})`, pencil: true, wrong: [[n(m * k - b)], [n(m + k + b), 'op']], steps: [`מציבים [[x=${sgn(k)}]] במקום [[x]]`, `[[${sgn(m)}×${par(k)}${term(b)}=${sgn(m * k)}${term(b)}=${sgn(y)}]]`] });
+    const back = (y + b) / m;
+    const wrong: [string, TrapId?][] = [[n(m * y + b), 'op'], ...(Number.isInteger(back) && back !== k ? [[n(back)] as [string, TrapId?]] : [])];
+    return calc({ prompt: `נתונה הפונקציה [[${f}]]. לאיזה [[x]] מתקיים [[f(x)=${sgn(y)}]]?`, ans: n(k), eq: `(${y}-(${b}))/(${m})`, pencil: true, wrong, steps: [`כותבים משוואה: [[${kx(m)}${term(b)}=${sgn(y)}]]`, `${b > 0 ? 'מחסרים' : 'מוסיפים'} [[${Math.abs(b)}]]: [[${kx(m)}=${sgn(y - b)}]]`, `מחלקים ב־[[${sgn(m)}]]: [[x=${sgn(k)}]]`] });
+  } },
+  { id: 'lineeq', station: 13, title: 'משוואת ישר דרך שתי נקודות', needs: ['linefn'], u: (r) => {
+    const m = pick(r, [-3, -2, -1, 1, 2, 3]), b = pick(r, [-6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6].filter((v) => v !== m)), x1 = pick(r, [-3, -2, -1, 1, 2, 3]), x2 = x1 + ri(r, 1, 3), y1 = m * x1 + b, y2 = m * x2 + b;
+    return conceptQ(`מה המשוואה של הישר שעובר דרך הנקודות [[${pt(x1, y1)}]] ו־[[${pt(x2, y2)}]]?`, `[[${line(m, b)}]]`, [[`[[${line(-m, y1 + m * x1)}]]`, 'slope'], `[[${line(m, y1 + m * x1)}]]`, [`[[${line(b, m)}]]`, 'lineform']], [
+      `השיפוע: [[(${sgn(y2)}−${par(y1)})÷(${sgn(x2)}−${par(x1)})=${sgn(y2 - y1)}÷${x2 - x1}=${sgn(m)}]]`,
+      `מציבים את [[${pt(x1, y1)}]] ב־[[y=${kx(m)}+b]]: [[${sgn(y1)}=${sgn(m * x1)}+b]], ולכן [[b=${sgn(b)}]]`,
+      `המשוואה: [[${line(m, b)}]]`]);
+  }, e: (r) => {
+    const m = pick(r, [-4, -3, -2, -1, 1, 2, 3, 4]), b = pick(r, [-7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7].filter((v) => v !== m)), x1 = pick(r, [-3, -2, -1, 1, 2, 3, 4]), x2 = x1 + ri(r, 1, 3), y1 = m * x1 + b, y2 = m * x2 + b;
+    return calc({ prompt: `ישר עובר דרך הנקודות [[${pt(x1, y1)}]] ו־[[${pt(x2, y2)}]]. המשוואה שלו היא [[y=mx+b]]. מה הערך של [[b]]?`, ans: n(b), eq: `${y1}-(${m})*(${x1})`, pencil: true, wrong: [[n(y1 + m * x1)], [n(m), 'lineform']], steps: [`השיפוע: [[(${sgn(y2)}−${par(y1)})÷(${sgn(x2)}−${par(x1)})=${sgn(m)}]]`, `מציבים את [[${pt(x1, y1)}]]: [[${sgn(y1)}=${sgn(m)}×${par(x1)}+b]]`, `[[b=${sgn(y1)}−${par(m * x1)}=${sgn(b)}]]`] });
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));
