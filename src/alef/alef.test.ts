@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { REVIEW_MAX, answer, advance, buildPlan, choices, initial, meet, huntCells, nextLetter, noteMix, pairsOf, record, secure, statusOf, topMix, shaky, SHAKY_LIMIT, validStep, WRITING, writeStage } from './engine';
+import { REVIEW_MAX, answer, advance, buildPlan, choices, initial, meet, huntCells, nextLetter, noteMix, pairsOf, record, secure, statusOf, topMix, shaky, SHAKY_LIMIT, validStep, WRITING, writeStage, orderQuestion } from './engine';
 import { judge, FREE, TRACE } from './ink';
 import { FINALS, firstWords, frameOf, HEBREW_AUDIO, LETTER, LETTERS, lookAlikes, PAIRS, Pt, SAY, spots, WORDS, SONG_ORDER, SONG_TIMES, songLead } from './letters';
 
@@ -79,12 +79,24 @@ describe('the song', () => {
     expect(lead[0]).toBe(SONG_TIMES[k - 3][0]);
     expect(lead[1]).toBeLessThanOrEqual(SONG_TIMES[k][0]);
   });
-  it('asks with the song only after a letter was met', () => {
-    let st = meet(initial('א'), 'ד', 100);
-    expect(buildPlan(st, 100, { extra: true }).steps.some((s) => s.t === 'song')).toBe(false);
-    st = answer(st, 'ד', 'see', true, 100);
-    const kinds = new Set(Array.from({ length: 6 }, () => buildPlan(st, 100, { extra: true }).steps.map((s) => s.t)).flat());
-    expect(kinds.has('song')).toBe(true);
+  it('asks for the letter after one to four in a row, among three to five choices', () => {
+    let seed = 7; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    const lens = new Set<number>(), sizes = new Set<number>();
+    for (let i = 0; i < 400; i++) {
+      const q = orderQuestion(rnd), k = SONG_ORDER.indexOf(q.target);
+      expect(k).toBeGreaterThan(0);
+      expect(q.lead.join('')).toBe(SONG_ORDER.slice(k - q.lead.length, k));
+      expect(q.options.filter((c) => c === q.target).length).toBe(1);
+      expect(new Set(q.options).size).toBe(q.options.length);
+      expect(q.options.some((c) => q.lead.includes(c))).toBe(false);
+      expect(q.from).toBe(SONG_TIMES[k - q.lead.length][0]); expect(q.to).toBeLessThanOrEqual(SONG_TIMES[k][0]);
+      lens.add(q.lead.length); sizes.add(q.options.length);
+    }
+    expect([...lens].sort()).toEqual([1, 2, 3, 4]); expect([...sizes].sort()).toEqual([3, 4, 5]);
+  });
+  it('keeps the song out of the daily practice', () => {
+    let st = meet(initial('א'), 'ד', 100); st = answer(st, 'ד', 'see', true, 100);
+    for (let i = 0; i < 6; i++) expect(buildPlan(st, 100, { extra: true }).steps.some((s) => (s.t as string) === 'song')).toBe(false);
   });
 });
 

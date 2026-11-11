@@ -1,6 +1,6 @@
 // Rules of the course. One new letter at a time, and a new one waits while three letters are still shaky.
 // Knowing a letter and writing it are two separate measures, each with its own spaced review.
-import { FINALS, firstWords, LETTER, LETTERS, lookAlikes, PAIRS, songLead } from './letters';
+import { FINALS, firstWords, LETTER, LETTERS, lookAlikes, PAIRS, SONG_ORDER, SONG_TIMES } from './letters';
 
 export interface Box { box: number; due: number }
 /** Right and wrong counts, and which letters this one was mistaken for. Practice counts here too, though it moves no stage. */
@@ -47,8 +47,6 @@ function seeSet(st: AState, id: string, count: number, rnd: () => number): Step[
   if (opens) kinds.push('sound');
   if (opens && k && k.see.box >= 1) kinds.push('missing');
   if (pairsOf(st, id).length) kinds.push('pair');
-  // The song comes in after the letter has been met, as it asks for the letter by ear alone.
-  if (songLead(id) && k && k.see.box >= 1) kinds.push('song');
   const seen: Record<string, number> = {}, order = shuffle(kinds, rnd);
   return Array.from({ length: count }, (_, i) => {
     const t = order[i % order.length], n = seen[t] ?? 0;
@@ -179,12 +177,26 @@ export function choices(st: AState, id: string, rnd: () => number = Math.random)
   return shuffle([id, ...others], rnd);
 }
 
-const STEPS = ['meet', 'trace', 'copy', 'memory', 'write', 'opening', 'find', 'word', 'sound', 'hunt', 'pair', 'missing', 'song'];
+const STEPS = ['meet', 'trace', 'copy', 'memory', 'write', 'opening', 'find', 'word', 'sound', 'hunt', 'pair', 'missing'];
 /** The look-alikes and other letters that fill a hunt: 5 to find among 16. */
 export function huntCells(st: AState, id: string, rnd: () => number = Math.random): string[] {
   const others = choices({ ...st, letters: { ...st.letters } }, id, rnd).filter((c) => c !== id);
   const fill = Array.from({ length: 11 }, (_, i) => others[i % others.length]);
   return shuffle([...Array<string>(5).fill(id), ...fill], rnd);
+}
+
+/** A question on the order of the alef-bet: the song sings one to four letters in a row, and the child picks the letter that comes next.
+ * The choices hold the right letter and two to four others: its neighbours in the alef-bet first, since those are the real mix-ups, then look-alikes. */
+export interface OrderQuestion { target: string; lead: string[]; from: number; to: number; options: string[] }
+export function orderQuestion(rnd: () => number = Math.random, avoid?: string): OrderQuestion {
+  let k = 1 + Math.floor(rnd() * (SONG_ORDER.length - 1));
+  if (SONG_ORDER[k] === avoid) k = k === SONG_ORDER.length - 1 ? 1 : k + 1;
+  const len = 1 + Math.floor(rnd() * Math.min(4, k)), lead = SONG_ORDER.slice(k - len, k).split('');
+  const target = SONG_ORDER[k], size = 3 + Math.floor(rnd() * 3);
+  const near = [k + 1, k + 2, k - len - 1, k + 3].filter((i) => i >= 0 && i < SONG_ORDER.length).map((i) => SONG_ORDER[i]);
+  const others = [...new Set([...shuffle(near, rnd), ...shuffle(lookAlikes(target).filter((c) => SONG_ORDER.includes(c)), rnd), ...shuffle(SONG_ORDER.split(''), rnd)])]
+    .filter((c) => c !== target && !lead.includes(c)).slice(0, size - 1);
+  return { target, lead, from: SONG_TIMES[k - len][0], to: SONG_TIMES[k - 1][1], options: shuffle([target, ...others], rnd) };
 }
 
 export const validStep = (s: Step) => !!LETTER[s.id] && STEPS.includes(s.t);

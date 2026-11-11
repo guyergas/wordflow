@@ -163,6 +163,8 @@ export const SAY = {
   write: (l: Letter) => `עַכְשָׁו כּוֹתְבִים ${l.say}, לְבַד. ${l.recipe}`,
   copy: (l: Letter) => `כּוֹתְבִים ${l.say}, כְּמוֹ הָאוֹת שֶׁבַּצַּד. ${l.recipe}`,
   songNext: 'אֵיזוֹ אוֹת בָּאָה עַכְשָׁו?',
+  orderStart: 'סֵדֶר הָאוֹתִיּוֹת. מַקְשִׁיבִים לַשִּׁיר, וּמְגַלִּים אֵיזוֹ אוֹת בָּאָה אַחַר כָּךְ.',
+  orderDone: 'כָּל הַכָּבוֹד! אַתָּה מַכִּיר אֶת סֵדֶר הָאוֹתִיּוֹת.',
   thisIs: (l: Letter) => `זֹאת ${l.say}.`,
   sound: (l: Letter) => `מַה מַּתְחִיל בָּאוֹת ${l.say}?`,
   hunt: (l: Letter) => `מוֹצְאִים אֶת כָּל הָאוֹתִיּוֹת ${l.say}.`,
@@ -176,7 +178,7 @@ export const SAY = {
 
 /** Every sentence the app can say. The deploy creates a recording for each one. */
 export const HEBREW_AUDIO: string[] = [...new Set([
-  ...SAY.right, SAY.again, SAY.finish, SAY.songNext,
+  ...SAY.right, SAY.again, SAY.finish, SAY.songNext, SAY.orderStart, SAY.orderDone,
   ...PAIRS.map((p) => p[2]),
   ...LETTERS.flatMap((l) => [l.say, l.recipe, SAY.find(l), SAY.trace(l), SAY.write(l), SAY.copy(l), SAY.thisIs(l), SAY.rightIs(l), SAY.sound(l), SAY.hunt(l), SAY.memory(l), ...firstWords(l.id).flatMap((w) => [SAY.opening(w[1]), SAY.heard(w[1]), SAY.rightWord(w[1]), SAY.word(w[1], 'first')]), ...WORDS[l.id].flatMap((w) => spots(w[0], l.id).map((s) => SAY.word(w[1], s.where)))]),
 ])];

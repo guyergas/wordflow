@@ -4,9 +4,9 @@ import { pushProgress } from '../progressSync';
 import { STORAGE_KEY, USER_NAME } from '../course';
 import { playPart, saveHebrewRecordings, sayHebrew, sayInTurn, sfx, stopSound } from '../platform';
 import { CourseSwitch, SummaryTab } from '../summaryUi';
-import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, huntCells, initial, meet, mix, nextLetter, noteMix, pairsOf, PlanOptions, record, secure, shaky, SHAKY_LIMIT, struggling, HARD_LIMIT, Status, statusOf, Step, topMix, validStep, WRITING } from './engine';
+import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, huntCells, initial, meet, mix, nextLetter, noteMix, pairsOf, PlanOptions, record, secure, shaky, SHAKY_LIMIT, struggling, HARD_LIMIT, Status, statusOf, Step, topMix, validStep, WRITING, OrderQuestion, orderQuestion } from './engine';
 import { Ink, judge, FREE, TRACE } from './ink';
-import { FAMILIES, frameOf, LETTER, Letter, LETTERS, Pt, SAY, Shape, firstWords, LETTERS as ALL, spots, Stroke, VIEW, WORDS, SONG_ORDER, SONG_TIMES, SONG_URL, songLead } from './letters';
+import { FAMILIES, frameOf, LETTER, Letter, LETTERS, Pt, SAY, Shape, firstWords, LETTERS as ALL, spots, Stroke, VIEW, WORDS, SONG_ORDER, SONG_TIMES, SONG_URL } from './letters';
 
 type Update = (fn: (s: AState) => AState) => void;
 const VB = `${VIEW.x} ${VIEW.y} ${VIEW.w} ${VIEW.h}`;
@@ -75,27 +75,29 @@ export function AlefApp() {
   const update: Update = useCallback((fn) => setSt((s) => { const n = fn(s); save(n); return n; }), []);
   const [tab, setTab] = useState<'home' | 'progress'>('home');
   const [inSession, setInSession] = useState(false);
+  const [order, setOrder] = useState(false);
   const [settings, setSettings] = useState(false);
   const today = dayNumber();
   const onSeconds = useCallback((sec: number) => update((s) => addTime(s, dayNumber(), sec)), [update]);
-  useStudyTimer(inSession, onSeconds);
+  useStudyTimer(inSession || order, onSeconds);
   useEffect(() => { void saveHebrewRecordings(); }, []);
   // Exercises fit the screen and never scroll, so a tap or a stroke is never taken for a scroll.
   useEffect(() => {
-    if (!inSession) return;
+    if (!inSession && !order) return;
     const root = document.documentElement, stop = (e: TouchEvent) => e.preventDefault();
     root.classList.add('a-lock');
     document.addEventListener('touchmove', stop, { passive: false });
     return () => { root.classList.remove('a-lock'); document.removeEventListener('touchmove', stop); };
-  }, [inSession]);
+  }, [inSession, order]);
   const start = (o: PlanOptions = {}) => {
     update((s) => { const open = !!s.plan && !s.plan.extra && s.plan.day === today && s.plan.at < s.plan.steps.length; if (open && !o.bonus && !o.extra && !o.warm && !o.boost) return s; return { ...s, plan: buildPlan(s, today, o) }; });
     setInSession(true);
   };
+  if (order) return <OrderPractice sound={st.settings.sound} onExit={() => setOrder(false)} />;
   if (inSession && st.plan) return <Session st={st} update={update} onExit={() => setInSession(false)} onMore={start} />;
   return (
     <div className="app">
-      <main className="page">{tab === 'home' ? <Home st={st} today={today} onStart={start} onProgress={() => setTab('progress')} onSettings={() => setSettings(true)} /> : <Progress st={st} />}</main>
+      <main className="page">{tab === 'home' ? <Home st={st} today={today} onStart={start} onProgress={() => setTab('progress')} onSettings={() => setSettings(true)} onOrder={() => setOrder(true)} /> : <Progress st={st} />}</main>
       <nav className="nav" aria-label="ניווט">
         {([['home', 'בית'], ['progress', 'התקדמות']] as const).map(([k, label]) => <button key={k} type="button" className={tab === k ? 'on' : ''} aria-current={tab === k ? 'page' : undefined} onClick={() => setTab(k)}>{label}</button>)}
         <SummaryTab name={st.name} />
@@ -108,7 +110,7 @@ export function AlefApp() {
 const Play = () => <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M18 5v14L6 12z" /></svg>;
 
 /** Says plainly what today holds and what each button does. */
-function Home({ st, today, onStart, onProgress, onSettings }: { st: AState; today: number; onStart: (o?: PlanOptions) => void; onProgress: () => void; onSettings: () => void }) {
+function Home({ st, today, onStart, onProgress, onSettings, onOrder }: { st: AState; today: number; onStart: (o?: PlanOptions) => void; onProgress: () => void; onSettings: () => void; onOrder: () => void }) {
   const open = st.plan && !st.plan.extra && st.plan.day === today && st.plan.at < st.plan.steps.length ? st.plan : null;
   const preview = useMemo(() => open ?? buildPlan(st, today, { rnd: () => 0.5 }), [open?.at, st.letters, today]);
   const left = preview.steps.slice(preview.at), fresh = left.find((s) => s.t === 'meet')?.id, firstId = fresh ?? left[0]?.id;
@@ -146,7 +148,7 @@ function Home({ st, today, onStart, onProgress, onSettings }: { st: AState; toda
           <button type="button" onClick={() => onStart({ boost: true })}><span aria-hidden="true">💪</span><b>חיזוק</b><small>{hard > 0 ? `${hard} אותיות קשות` : 'האותיות שפחות בטוחות'}</small></button>
         </div>
       )}
-      <SongButton />
+      <OrderButton onOpen={onOrder} />
       <button type="button" className="card a-strip-card" onClick={onProgress}>
         <span className="row-between"><b>הא״ב שלי</b><small className="muted">{met} מתוך {LETTERS.length} ›</small></span>
         <span className="a-strip">{LETTERS.map((l) => <i key={l.id} className={statusOf(st, l.id)}><Mini id={l.id} /></i>)}</span>
@@ -155,37 +157,50 @@ function Home({ st, today, onStart, onProgress, onSettings }: { st: AState; toda
   );
 }
 
-/** The song that says the letters in order, to listen to at any time. */
-function SongButton() {
-  const [playing, setPlaying] = useState(false);
-  useEffect(() => () => { stopSound(); }, []);
-  const toggle = () => {
-    if (playing) { stopSound(); setPlaying(false); return; }
-    setPlaying(true);
-    playPart(SONG_URL, 0, 9999, () => setPlaying(false));
-  };
-  return <button type="button" className={`card a-song ${playing ? 'on' : ''}`} aria-pressed={playing} onClick={toggle}><span aria-hidden="true">{playing ? '⏸' : '🎵'}</span><b>שיר האותיות</b><small>{playing ? 'לעצור' : 'לשמוע את כל האותיות לפי הסדר'}</small></button>;
+/** On the home screen: the order of the alef-bet, apart from which letters are being learned to write. */
+function OrderButton({ onOpen }: { onOpen: () => void }) {
+  return <button type="button" className="card a-song" onClick={onOpen}><span aria-hidden="true">🎵</span><b>סדר האותיות</b><small>מקשיבים לשיר ומגלים מה האות הבאה</small></button>;
 }
 
-/** The song plays a few letters and stops. Which letter comes next? */
-function SongNext({ st, id, sound, onMix, onDone }: { st: AState; id: string; sound: boolean; onMix: (c: string) => void; onDone: (ok: boolean) => void }) {
-  const l = LETTER[id], lead = songLead(id)!, options = useMemo(() => choices(st, id), [id]);
-  const [wrong, setWrong] = useState<string[]>([]), [right, setRight] = useState(false), [listening, setListening] = useState(false);
-  const ask = () => { setListening(true); playPart(SONG_URL, lead[0], lead[1], () => { setListening(false); sayHebrew(SAY.songNext); }); };
-  useEffect(() => { ask(); return () => stopSound(); }, []);
+const ROUNDS = 10;
+/** Order practice. It moves no letter on and stands apart from the daily plan. */
+function OrderPractice({ sound, onExit }: { sound: boolean; onExit: () => void }) {
+  const [round, setRound] = useState(0), [q, setQ] = useState<OrderQuestion>(() => orderQuestion());
+  const [wrong, setWrong] = useState<string[]>([]), [right, setRight] = useState(false), [playing, setPlaying] = useState<'part' | 'all' | null>(null), [score, setScore] = useState(0);
+  const part = (ask = true) => { setPlaying('part'); playPart(SONG_URL, q.from, q.to, () => { setPlaying(null); if (ask) sayHebrew(SAY.songNext); }); };
+  const whole = () => { if (playing === 'all') { stopSound(); setPlaying(null); return; } setPlaying('all'); playPart(SONG_URL, 0, 9999, () => setPlaying(null)); };
+  useEffect(() => { if (round < ROUNDS) part(); else { sfx.win(); sayHebrew(SAY.orderDone); } }, [round]);
+  useEffect(() => () => stopSound(), []);
   const tap = (c: string) => {
     if (right) return;
-    if (c === id) {
-      setRight(true); if (sound) sfx.good();
-      // The answer is the letter as the song sings it.
-      const k = SONG_ORDER.indexOf(id); playPart(SONG_URL, SONG_TIMES[k][0], SONG_TIMES[k][1]);
-    } else { setWrong([...wrong, c]); onMix(c); if (sound) sfx.bad(); sayHebrew(SAY.thisIs(LETTER[c])); }
+    if (c === q.target) {
+      setRight(true); if (!wrong.length) setScore((s) => s + 1); if (sound) sfx.good();
+      const k = SONG_ORDER.indexOf(c); setPlaying('part'); playPart(SONG_URL, SONG_TIMES[k][0], SONG_TIMES[k][1], () => setPlaying(null));
+    } else { setWrong([...wrong, c]); if (sound) sfx.bad(); sayHebrew(SAY.thisIs(LETTER[c])); }
   };
+  const next = () => { setQ(orderQuestion(Math.random, q.target)); setWrong([]); setRight(false); setRound(round + 1); };
+  const close = <button type="button" className="round" aria-label="יציאה" onClick={onExit}><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg></button>;
+  if (round >= ROUNDS) return (
+    <div className="session finish a-finish">
+      <span className="a-star" aria-hidden="true">★</span>
+      <h1>{score} מתוך {ROUNDS} בפעם הראשונה</h1>
+      <div className="grow" />
+      <button type="button" className="cta a-go" onClick={() => { setScore(0); setQ(orderQuestion()); setWrong([]); setRight(false); setRound(0); }}>עוד סבב</button>
+      <button type="button" className="link center-block" onClick={onExit}>סיום</button>
+    </div>
+  );
   return (
-    <div className="a-step">
-      <button type="button" className={`a-song-ask ${listening ? 'on' : ''}`} aria-label="לשמוע שוב את השיר" onClick={ask}><span aria-hidden="true">🎵</span></button>
-      <div className={`a-answers n${options.length}`}>{options.map((c) => <button key={c} type="button" disabled={wrong.includes(c)} className={`a-answer ${right && c === id ? 'right' : ''} ${wrong.includes(c) ? 'off' : ''}`} aria-label={LETTER[c].name} onClick={() => tap(c)}><Mini id={c} /></button>)}</div>
-      {right ? <Next onClick={() => onDone(wrong.length === 0)} /> : <div className="a-next-space" />}
+    <div className="session a-session">
+      <div className="s-top">{close}<div className="thin" style={{ flex: 1 }}><span style={{ width: `${(round / ROUNDS) * 100}%` }} /></div></div>
+      <div className="a-step">
+        <div className="a-order-play">
+          <button type="button" className={`a-song-ask ${playing === 'part' ? 'on' : ''}`} onClick={() => part()}><span aria-hidden="true">🔁</span><small>לשמוע שוב</small></button>
+          <button type="button" className={`a-song-ask ${playing === 'all' ? 'on' : ''}`} onClick={whole}><span aria-hidden="true">{playing === 'all' ? '⏸' : '🎵'}</span><small>{playing === 'all' ? 'לעצור' : 'כל השיר'}</small></button>
+        </div>
+        <div className="a-order-lead" aria-label="האותיות ששמענו">{q.lead.map((c) => <span key={c}><Mini id={c} /></span>)}<b aria-hidden="true">{right ? <Mini id={q.target} /> : '?'}</b></div>
+        <div className={`a-answers a-order-answers n${q.options.length}`}>{q.options.map((c) => <button key={c} type="button" disabled={wrong.includes(c)} className={`a-answer ${right && c === q.target ? 'right' : ''} ${wrong.includes(c) ? 'off' : ''}`} aria-label={LETTER[c].name} onClick={() => tap(c)}><Mini id={c} /></button>)}</div>
+        {right ? <Next onClick={next} /> : <div className="a-next-space" />}
+      </div>
     </div>
   );
 }
@@ -273,7 +288,6 @@ function Session({ st, update, onExit, onMore }: { st: AState; update: Update; o
         if (step.t === 'missing') return <WordGame st={st} id={l.id} n={step.n} missing onMix={onMix} sound={sound} onDone={done} />;
         if (step.t === 'sound') return <SoundGame st={st} id={l.id} n={step.n} sound={sound} onDone={done} />;
         if (step.t === 'hunt') return <Hunt st={st} id={l.id} onMix={onMix} sound={sound} onDone={done} />;
-        if (step.t === 'song' && songLead(l.id)) return <SongNext st={st} id={l.id} sound={sound} onMix={onMix} onDone={done} />;
         if (step.t === 'pair' && pairsOf(st, l.id).length) return <Pair st={st} id={l.id} n={step.n} sound={sound} onDone={done} />;
         return <Find st={st} step={step} onMix={onMix} sound={sound} onDone={done} />;
       })()}
