@@ -186,7 +186,17 @@ My name is Noa.|קוראים לי נועה.
 The cat sits next to the dog.|החתול יושב ליד הכלב.
 No one is at home.|אין אף אחד בבית.
 No problem!|אין בעיה!
-Of course I will help you.|ברור שאעזור לך.`,
+Of course I will help you.|ברור שאעזור לך.
+Once upon a time there was a little king.|היה היה פעם מלך קטן.
+Say it again, please.|תגידי את זה שוב, בבקשה.
+See you later!|נתראה אחר כך!
+Show me your picture.|תראי לי את הציור שלך.
+Dad will take a picture of us.|אבא יצלם אותנו.
+Take care!|שמרי על עצמך!
+Please tell a story before bed.|בבקשה תספרי סיפור לפני השינה.
+Thank you!|תודה!
+We have the same bag.|יש לנו אותו תיק.
+There is a cat in the garden.|יש חתול בגינה.`,
 };
 
 let n = 0;

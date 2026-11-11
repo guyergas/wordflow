@@ -1,16 +1,4 @@
 # Pre-Band I
-kid
-last
-left
-let
-let's
-lost
-lot
-mad
-man
-me
-milk
-mix
 mom
 net
 next
@@ -724,17 +712,6 @@ yogurt
 yours
 zero
 # Band II Core I
-belief
-beside
-Bible
-blow
-boil
-boot
-boss
-bowl
-boyfriend
-brain
-burn
 business
 calendar
 calm

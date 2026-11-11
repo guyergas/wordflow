@@ -102,14 +102,14 @@ soap|סבון|n|Wash your hands with soap.|רחץ את הידיים בסבון.
 grape|ענב|n|I ate a sweet grape from the bowl.|אכלתי ענב מתוק מהקערה.
 cheese|גבינה|n|I like cheese on my bread.|אני אוהב גבינה על הלחם שלי.
 lamp|מנורה|n|Please turn on the lamp.|בבקשה תדליק את המנורה.
-roof|גג|n|A bird is sitting on the roof.
-moon|ירח|n|The moon is bright tonight.
-key|מפתח|n|I lost the key to my room.
-shelf|מדף|n|The books are on the top shelf.
-jacket|מעיל קצר|n|Take your jacket, it is cold outside.
-candle|נר|n|She lit a candle on the cake.
-wing|כנף|n|The bird hurt its wing.
-tail|זנב|n|The dog wagged its tail.
+roof|גג|n|A bird is sitting on the roof.|ציפור יושבת על הגג.
+moon|ירח|n|The moon is bright tonight.|הירח בהיר הלילה.
+key|מפתח|n|I lost the key to my room.|איבדתי את המפתח לחדר שלי.
+shelf|מדף|n|The books are on the top shelf.|הספרים על המדף העליון.
+jacket|מעיל קצר|n|Take your jacket, it is cold outside.|קח את המעיל שלך, קר בחוץ.
+candle|נר|n|She lit a candle on the cake.|היא הדליקה נר על העוגה.
+wing|כנף|n|The bird hurt its wing.|הציפור פצעה את הכנף שלה.
+tail|זנב|n|The dog wagged its tail.|הכלב כשכש בזנב.
 add|להוסיף|v|We add two eggs to the bowl.|אנחנו מוסיפים שתי ביצים לקערה.
 ask|לשאול|v|You can ask the teacher for help.|אפשר לשאול את המורה כשצריך עזרה.
 bad|רע|a|The milk smells bad.|החלב מריח רע.
@@ -139,19 +139,21 @@ go|ללכת|v|We go to the park on Friday.|אנחנו הולכים לפארק ב
 hand|יד|n|Raise your hand, please.|הרימי את היד, בבקשה.
 have|יש ל-|v|We have a big garden.|יש לנו גינה גדולה.
 hello|שלום|o|Say hello to your grandma.|תגידי שלום לסבתא שלך.
-in|בתוך|o|The cat is in the box.|החתול בתוך הקופסה.`,
-`neighbor|שכן|n|Our neighbor has three cats.
-street|רחוב|n|We live on a quiet street.
-library|ספרייה|n|I borrowed it from the library.
-hospital|בית חולים|n|The nurse works at the hospital.
-store|חנות|n|The store closes at nine.
-restaurant|מסעדה|n|We ate at a new restaurant.
-ticket|כרטיס|n|I bought a ticket for the movie.
-homework|שיעורי בית|n|I finished my homework early.
-lesson|שיעור|n|The English lesson was fun.
-question|שאלה|n|May I ask a question?
-answer|תשובה|n|I know the answer.
-mistake|טעות|n|Everyone makes a mistake sometimes.
+in|בתוך|o|The cat is in the box.|החתול בתוך הקופסה.
+man|איש, גבר|n|The man is reading a newspaper.|האיש קורא עיתון.
+milk|חלב|n|I drink milk every morning.|אני שותה חלב כל בוקר.`,
+`neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
+street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
+library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
+hospital|בית חולים|n|The nurse works at the hospital.|האחות עובדת בבית החולים.
+store|חנות|n|The store closes at nine.|החנות נסגרת בתשע.
+restaurant|מסעדה|n|We ate at a new restaurant.|אכלנו במסעדה חדשה.
+ticket|כרטיס|n|I bought a ticket for the movie.|קניתי כרטיס לסרט.
+homework|שיעורי בית|n|I finished my homework early.|סיימתי את שיעורי הבית מוקדם.
+lesson|שיעור|n|The English lesson was fun.|השיעור באנגלית היה כיף.
+question|שאלה|n|May I ask a question?|אפשר לשאול שאלה?
+answer|תשובה|n|I know the answer.|אני יודע את התשובה.
+mistake|טעות|n|Everyone makes a mistake sometimes.|כל אחד עושה לפעמים טעות.
 pencil|עיפרון|n|Can I borrow a pencil?
 notebook|מחברת|n|Write it in your notebook.
 language|שפה|n|English is a useful language.
@@ -243,7 +245,17 @@ job|עבודה|n|My dad has a new job.|לאבא שלי יש עבודה חדשה.
 balloon|בלון|n|The red balloon flew away.|הבלון האדום עף.
 baseball|בייסבול|n|They play baseball after school.|הם משחקים בייסבול אחרי בית הספר.
 bear|דוב|n|A brown bear lives in the forest.|דוב חום חי ביער.
-bedtime|שעת השינה|n|At bedtime, Mom reads me a story.|בשעת השינה, אמא מקריאה לי סיפור.`,
+bedtime|שעת השינה|n|At bedtime, Mom reads me a story.|בשעת השינה, אמא מקריאה לי סיפור.
+kid|ילד|n|Every kid in the class got a sticker.|כל ילד בכיתה קיבל מדבקה.
+last|אחרון|a|This is the last cookie.|זאת העוגייה האחרונה.
+left|שמאלה, שמאל|d|Turn left at the corner.|פנה שמאלה בפינה.
+let|לתת, להרשות|v|Mom let us stay up late.|אמא נתנה לנו להישאר ערים עד מאוחר.
+lost|אבוד|a|We found a lost puppy.|מצאנו גור כלבים אבוד.
+lot|הרבה|n|I have a lot of friends.|יש לי הרבה חברים.
+mad|כועס|a|Dad was mad about the broken window.|אבא כעס בגלל החלון השבור.
+mix|לערבב|v|Please mix the flour and the eggs.|בבקשה ערבבי את הקמח ואת הביצים.
+boot|מגף|n|I can't find my left boot.|אני לא מוצאת את המגף השמאלי שלי.
+bowl|קערה|n|She ate a bowl of cereal.|היא אכלה קערה של דגני בוקר.`,
 `feeling|הרגשה|n|I had a strange feeling.
 angry|כועס|a|She was angry at her brother.
 afraid|מפחד|a|He is afraid of spiders.
@@ -334,7 +346,14 @@ available|פנוי, זמין|a|Is this seat available?|המקום הזה פנו�
 bar|חטיף, מוט|n|I ate a chocolate bar.|אכלתי חטיף שוקולד.
 barbecue|מנגל|n|We had a barbecue in the park.|עשינו מנגל בפארק.
 battery|סוללה|n|My phone battery is empty.|הסוללה של הטלפון שלי ריקה.
-behave|להתנהג|v|Please behave well in class.|בבקשה תתנהגו יפה בכיתה.`,
+behave|להתנהג|v|Please behave well in class.|בבקשה תתנהגו יפה בכיתה.
+beside|ליד|o|Come and sit beside me.|בואי שבי לידי.
+blow|לנשוף|v|Make a wish and blow out the candles.|תביעי משאלה ותכבי את הנרות.
+boil|להרתיח|v|We boil water for tea.|אנחנו מרתיחים מים לתה.
+boss|בוס, מנהל|n|My mom is the boss at her office.|אמא שלי היא המנהלת במשרד שלה.
+boyfriend|חבר (בן זוג)|n|My big sister has a boyfriend.|לאחותי הגדולה יש חבר.
+brain|מוח|n|Your brain needs sleep.|המוח שלך צריך שינה.
+burn|לשרוף, לכוות|v|Be careful, the stove can burn you.|זהירות, הכיריים יכולות לכוות אותך.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -421,7 +440,8 @@ alter|לשנות|v|We had to alter our plans because of the rain.|היינו צ�
 announce|להכריז|v|The principal will announce the winners tomorrow.|המנהלת תכריז מחר על הזוכים.
 approximately|בערך|d|The trip takes approximately two hours.|הנסיעה נמשכת בערך שעתיים.
 battle|קרב|n|The two armies fought a long battle.|שני הצבאות נלחמו בקרב ארוך.
-beauty|יופי|n|We loved the beauty of the sea.|אהבנו את היופי של הים.`,
+beauty|יופי|n|We loved the beauty of the sea.|אהבנו את היופי של הים.
+belief|אמונה|n|She has a strong belief in herself.|יש לה אמונה חזקה בעצמה.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.
