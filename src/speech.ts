@@ -13,9 +13,10 @@ const MARKS_ALL = /[\u0591-\u05C7]/g;
 /**
  * Letter names keep their niqqud: without it רֵישׁ is read "rish" and דָּלֶת "delet", the door.
  * A word counts as a letter name only when it is pointed exactly as one, so דֶּלֶת (door) and בַּיִת (house) are left alone.
- * דָּלֶת is read with a long "aa" even with niqqud, so it is spelled the way it sounds.
+ * A dagesh makes the voice stretch the vowel after it (דָּלֶת as "daalet"; Guy picked דָלֶת by ear), so it is
+ * dropped wherever it does not change the sound. It stays in ב, כ and פ, where it is the difference between b and v.
  */
-const SPOKEN: Record<string, string> = { 'דָּלֶת': 'דאלת' };
+const noDagesh = (w: string) => w.replace(/([^בכפ\u05B0-\u05C7][\u05B0-\u05BB\u05C1\u05C2]*)\u05BC/g, '$1');
 const KEEP: Record<string, string> = Object.fromEntries(LETTERS.map((l) => [l.say.replace(MARKS_ALL, ''), l.say]));
 
 
@@ -67,7 +68,7 @@ export function forSpeech(text: string): string {
   if (pointed.length !== bare.length) return plain;
   return bare.map((w, i) => {
     const p = pointed[i].replace(/[.,!?:]/g, ''), b = w.replace(/[.,!?:]/g, '');
-    return KEEP[b] === p ? w.replace(b, SPOKEN[p] ?? p) : w;
+    return KEEP[b] === p ? w.replace(b, noDagesh(p)) : w;
   }).join(' ');
 }
 
@@ -79,8 +80,5 @@ export const recordingName = (text: string, dir: string) => audioName(dir === 'h
  * and the settings page plays them side by side so a parent can pick the one that sounds right.
  */
 export const TRIALS: { label: string; options: string[] }[] = [
-  { label: 'האות ד (דָּלֶת)', options: ['דָּלֶת', 'דָלֶת', 'דַּלֶת', 'דאלת', 'דאלֶת', 'דָּאלֶת', 'הָאוֹת דָּלֶת', 'האות דאלת'] },
-  { label: 'האות ר (רֵישׁ)', options: ['רֵישׁ', 'רֵיש', 'רֵשׁ', 'רייש', 'הָאוֹת רֵישׁ', 'האות רייש'] },
-  { label: 'סיימנו', options: ['סיימנו', 'סִיַּמְנוּ', 'סיימנו!', 'סיימנו להיום'] },
 ];
 export const trialName = (text: string) => audioName(`trial|${text}`);

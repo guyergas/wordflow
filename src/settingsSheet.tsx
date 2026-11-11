@@ -94,6 +94,7 @@ export function SettingsSheet({ onClose, sound, audio, children, onReset }: Sett
 function Pronounce() {
   const [open, setOpen] = useState(false), [on, setOn] = useState('');
   const play = (t: string) => { setOn(t); const a = new Audio(`audio/he/${trialName(t)}.mp3`); a.onended = () => setOn(''); a.play().catch(() => setOn('')); };
+  if (!TRIALS.length) return null;
   if (!open) return <button type="button" className="cs-link" onClick={() => setOpen(true)}>בדיקת הגייה</button>;
   return (
     <section className="st-sec">

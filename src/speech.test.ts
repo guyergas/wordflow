@@ -38,8 +38,7 @@ describe('Hebrew given to the voice', () => {
     expect(forSpeech('עַכְשָׁו')).toBe('עכשיו');
     expect(forSpeech('סְתָו')).toBe('סתיו');
     expect(forSpeech('וָו')).toBe('וָו');
-    expect(forSpeech('תָּו')).toBe('תָּו');
-    expect(forSpeech('שְׁתַּיִם')).toBe('שתיים');
+        expect(forSpeech('שְׁתַּיִם')).toBe('שתיים');
     expect(forSpeech('רַגְלַיִם')).toBe('רגליים');
     expect(forSpeech('מַיִם')).toBe('מים');
     expect(forSpeech('עַיִן')).toBe('עַיִן');
@@ -52,7 +51,13 @@ describe('Hebrew given to the voice', () => {
     expect(forSpeech('אָלֶף')).toBe('אָלֶף');
     expect(forSpeech('זֹאת הָאוֹת בֵּית.')).toBe('זאת האות בֵּית.');
     expect(forSpeech('בַּיִת')).toBe('בית');
-    expect(forSpeech('הָאוֹת דָּלֶת')).toBe('האות דאלת');
+    expect(forSpeech('הָאוֹת דָּלֶת')).toBe('האות דָלֶת');
+    expect(forSpeech('דָּלֶת')).toBe('דָלֶת');
+    expect(forSpeech('גִּימֶל')).toBe('גִימֶל');
+    expect(forSpeech('תָּו')).toBe('תָו');
+    expect(forSpeech('בֵּית')).toBe('בֵּית');
+    expect(forSpeech('כַּף')).toBe('כַּף');
+    expect(forSpeech('פֵּא')).toBe('פֵּא');
     expect(forSpeech('דֶּלֶת')).toBe('דלת');
     expect(forSpeech('רֵישׁ')).toBe('רֵישׁ');
     expect(forSpeech('מוֹצְאִים אֶת כָּל הָאוֹתִיּוֹת וָו.')).toBe('מוצאים את כל האותיות וָו.');
