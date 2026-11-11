@@ -146,7 +146,17 @@ We are going to swim.|אנחנו הולכים לשחות.
 Wait at the bus stop.|חכו בתחנת האוטובוס.
 Please come back soon.|בבקשה תחזרו בקרוב.
 Do you have a pen?|יש לך עט?
-Do you know my brother?|את מכירה את אח שלי?`,
+Do you know my brother?|את מכירה את אח שלי?
+Do you like pizza?|את אוהבת פיצה?
+Excuse me, please.|סליחה, בבקשה.
+She wants to be a film star.|היא רוצה להיות כוכבת קולנוע.
+Fine!|בסדר!
+I get up at seven.|אני קמה בשבע.
+Go away, little bee!|לכי מכאן, דבורה קטנה!
+Go on, tell me the story.|תמשיכי, תספרי לי את הסיפור.
+Let's go outside and play.|בואי נצא החוצה לשחק.
+Good luck!|בהצלחה!
+Good morning!|בוקר טוב!`,
 };
 
 let n = 0;

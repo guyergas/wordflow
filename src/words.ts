@@ -22,26 +22,26 @@ const EN_LEVELS: { name: string; cefr: string; blurb: string }[] = [
 ];
 
 const RAW: string[] = [
-`family|משפחה|n|My family lives in a small house.
-friend|חבר|n|She is my best friend.
-house|בית|n|Their house has a red door.
-school|בית ספר|n|I walk to school every day.
-water|מים|n|Please drink some water.
-food|אוכל|n|The food smells great.
-apple|תפוח|n|He ate a green apple.
-bread|לחם|n|We bought fresh bread.
-chair|כיסא|n|Sit on this chair.
-table|שולחן|n|The keys are on the table.
-window|חלון|n|Open the window, please.
-door|דלת|n|Someone is at the door.
-kitchen|מטבח|n|Dad is cooking in the kitchen.
-bedroom|חדר שינה|n|My bedroom is very small.
-morning|בוקר|n|I run every morning.
-night|לילה|n|The stars shine at night.
-today|היום|d|It is very hot today.
-tomorrow|מחר|d|We have a test tomorrow.
-yesterday|אתמול|d|I saw him yesterday.
-always|תמיד|d|She is always happy.
+`family|משפחה|n|My family lives in a small house.|המשפחה שלי גרה בבית קטן.
+friend|חבר|n|She is my best friend.|היא החברה הכי טובה שלי.
+house|בית|n|Their house has a red door.|לבית שלהם יש דלת אדומה.
+school|בית ספר|n|I walk to school every day.|אני הולך ברגל לבית הספר כל יום.
+water|מים|n|Please drink some water.|בבקשה תשתה קצת מים.
+food|אוכל|n|The food smells great.|האוכל מריח נהדר.
+apple|תפוח|n|He ate a green apple.|הוא אכל תפוח ירוק.
+bread|לחם|n|We bought fresh bread.|קנינו לחם טרי.
+chair|כיסא|n|Sit on this chair.|שב על הכיסא הזה.
+table|שולחן|n|The keys are on the table.|המפתחות על השולחן.
+window|חלון|n|Open the window, please.|תפתח את החלון, בבקשה.
+door|דלת|n|Someone is at the door.|מישהו בדלת.
+kitchen|מטבח|n|Dad is cooking in the kitchen.|אבא מבשל במטבח.
+bedroom|חדר שינה|n|My bedroom is very small.|חדר השינה שלי קטן מאוד.
+morning|בוקר|n|I run every morning.|אני רץ כל בוקר.
+night|לילה|n|The stars shine at night.|הכוכבים זורחים בלילה.
+today|היום|d|It is very hot today.|חם מאוד היום.
+tomorrow|מחר|d|We have a test tomorrow.|יש לנו מבחן מחר.
+yesterday|אתמול|d|I saw him yesterday.|ראיתי אותו אתמול.
+always|תמיד|d|She is always happy.|היא תמיד שמחה.
 never|אף פעם|d|I never eat meat.
 often|לעתים קרובות|d|We often play outside.
 big|גדול|a|That is a big dog.
@@ -109,7 +109,14 @@ shelf|מדף|n|The books are on the top shelf.
 jacket|מעיל קצר|n|Take your jacket, it is cold outside.
 candle|נר|n|She lit a candle on the cake.
 wing|כנף|n|The bird hurt its wing.
-tail|זנב|n|The dog wagged its tail.`,
+tail|זנב|n|The dog wagged its tail.
+add|להוסיף|v|We add two eggs to the bowl.|אנחנו מוסיפים שתי ביצים לקערה.
+ask|לשאול|v|You can ask the teacher for help.|אפשר לשאול את המורה כשצריך עזרה.
+bad|רע|a|The milk smells bad.|החלב מריח רע.
+bag|תיק|n|My books are in my bag.|הספרים שלי בתיק.
+bed|מיטה|n|I go to bed at eight.|אני הולך למיטה בשמונה.
+box|קופסה|n|The toys are in a big box.|הצעצועים בקופסה גדולה.
+boy|ילד|n|The boy is playing with a ball.|הילד משחק בכדור.`,
 `neighbor|שכן|n|Our neighbor has three cats.
 street|רחוב|n|We live on a quiet street.
 library|ספרייה|n|I borrowed it from the library.
@@ -189,7 +196,13 @@ sleepy|מנומנם|a|The baby is sleepy after lunch.
 hurry|למהר|v|We must hurry or we will miss the bus.
 guest|אורח|n|Our guest stayed for dinner.
 puddle|שלולית|n|The kids jumped into a puddle.
-recipe|מתכון|n|Grandma gave me her cake recipe.`,
+recipe|מתכון|n|Grandma gave me her cake recipe.
+best|הכי טוב|a|This is the best cake I have ever eaten.|זו העוגה הכי טובה שאכלתי אי פעם.
+bit|קצת|n|Can I have a bit of your sandwich?|אפשר לקבל קצת מהכריך שלך?
+both|שניהם|o|Both of my sisters like to sing.|שתי האחיות שלי אוהבות לשיר.
+accident|תאונה|n|Nobody was hurt in the accident.|אף אחד לא נפגע בתאונה.
+ache|כאב|n|I have an ache in my back.|יש לי כאב בגב.
+activity|פעילות|n|Swimming is my favorite activity.|שחייה היא הפעילות האהובה עליי.`,
 `feeling|הרגשה|n|I had a strange feeling.
 angry|כועס|a|She was angry at her brother.
 afraid|מפחד|a|He is afraid of spiders.
@@ -263,7 +276,11 @@ notice|להבחין|v|Did you notice the new sign on the door?
 chew|ללעוס|v|Please chew your food slowly.
 tidy|מסודר|a|Her room is always tidy.
 stir|לערבב|v|Stir the soup with a big spoon.
-remind|להזכיר|v|Please remind me to call Grandma.`,
+remind|להזכיר|v|Please remind me to call Grandma.
+accent|מבטא|n|Her grandmother speaks with a French accent.|סבתא שלה מדברת במבטא צרפתי.
+achieve|להשיג|v|If you work hard, you can achieve your goals.|אם תעבדו קשה, תוכלו להשיג את המטרות שלכם.
+adjective|שם תואר|n|"Happy" is an adjective.|"שמח" הוא שם תואר.
+adverb|תואר הפועל|n|"Quickly" is an adverb.|"מהר" הוא תואר הפועל.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -341,7 +358,10 @@ translate|לתרגם|v|Can you translate this letter into Hebrew?
 responsible|אחראי|a|She is responsible for feeding the dog.
 sew|לתפור|v|My aunt can sew a button on a shirt.
 parcel|חבילה|n|A parcel arrived for you this morning.
-harvest|קציר|n|The farmers finished the wheat harvest in spring.`,
+harvest|קציר|n|The farmers finished the wheat harvest in spring.
+accompany|ללוות|v|My mom will accompany us on the trip.|אמא שלי תלווה אותנו בטיול.
+adjust|לכוונן|v|You can adjust the seat to your height.|אפשר לכוונן את המושב לגובה שלך.
+admit|להודות|v|He did not want to admit his mistake.|הוא לא רצה להודות בטעות שלו.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.
