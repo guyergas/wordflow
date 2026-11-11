@@ -196,7 +196,17 @@ Take care!|שמרי על עצמך!
 Please tell a story before bed.|בבקשה תספרי סיפור לפני השינה.
 Thank you!|תודה!
 We have the same bag.|יש לנו אותו תיק.
-There is a cat in the garden.|יש חתול בגינה.`,
+There is a cat in the garden.|יש חתול בגינה.
+This is an apple.|זה תפוח.
+This is my room.|זה החדר שלי.
+Today is a sunny day.|היום יום שמשי.
+We wait for the bus every morning.|אנחנו מחכים לאוטובוס כל בוקר.
+We like to sing.|אנחנו אוהבים לשיר.
+Well done!|כל הכבוד!
+What fruit do you like?|איזה פרי את אוהבת?
+What color is your bike?|באיזה צבע האופניים שלך?
+What is it?|מה זה?
+What is this?|מה הדבר הזה?`,
 };
 
 let n = 0;

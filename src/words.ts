@@ -141,7 +141,13 @@ have|יש ל-|v|We have a big garden.|יש לנו גינה גדולה.
 hello|שלום|o|Say hello to your grandma.|תגידי שלום לסבתא שלך.
 in|בתוך|o|The cat is in the box.|החתול בתוך הקופסה.
 man|איש, גבר|n|The man is reading a newspaper.|האיש קורא עיתון.
-milk|חלב|n|I drink milk every morning.|אני שותה חלב כל בוקר.`,
+milk|חלב|n|I drink milk every morning.|אני שותה חלב כל בוקר.
+mom|אמא|n|My mom makes the best pancakes.|אמא שלי מכינה את הפנקייקים הכי טובים.
+no|לא, אין|o|There is no milk in the fridge.|אין חלב במקרר.
+not|לא|o|I am not afraid of the dark.|אני לא מפחד מהחושך.
+on|על|o|The cat is sleeping on the bed.|החתול ישן על המיטה.
+pen|עט|n|Write your name with a pen.|כתבי את השם שלך בעט.
+pet|חיית מחמד|n|A dog is a good pet.|כלב הוא חיית מחמד טובה.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -154,26 +160,26 @@ lesson|שיעור|n|The English lesson was fun.|השיעור באנגלית הי
 question|שאלה|n|May I ask a question?|אפשר לשאול שאלה?
 answer|תשובה|n|I know the answer.|אני יודע את התשובה.
 mistake|טעות|n|Everyone makes a mistake sometimes.|כל אחד עושה לפעמים טעות.
-pencil|עיפרון|n|Can I borrow a pencil?
-notebook|מחברת|n|Write it in your notebook.
-language|שפה|n|English is a useful language.
-holiday|חג|n|Passover is my favorite holiday.
-birthday|יום הולדת|n|Her birthday is in June.
-present|מתנה|n|I wrapped the present in blue paper.
-party|מסיבה|n|Are you coming to the party?
-game|משחק|n|We won the game!
-team|קבוצה|n|Our team practices on Monday.
-sport|ספורט|n|Swimming is my favorite sport.
-weekend|סוף שבוע|n|We visit grandma every weekend.
-minute|דקה|n|Wait a minute, please.
-hour|שעה|n|The trip takes one hour.
-month|חודש|n|We move next month.
-middle|אמצע|n|The ball is in the middle.
-different|שונה|a|We have very different ideas.
-same|אותו דבר|a|We wear the same shirt.
-easy|קל|a|This puzzle is easy.
-difficult|קשה|a|The test was difficult.
-expensive|יקר|a|That phone is too expensive.
+pencil|עיפרון|n|Can I borrow a pencil?|אפשר לשאול עיפרון?
+notebook|מחברת|n|Write it in your notebook.|כתוב את זה במחברת שלך.
+language|שפה|n|English is a useful language.|אנגלית היא שפה שימושית.
+holiday|חג|n|Passover is my favorite holiday.|פסח הוא החג האהוב עליי.
+birthday|יום הולדת|n|Her birthday is in June.|יום ההולדת שלה ביוני.
+present|מתנה|n|I wrapped the present in blue paper.|עטפתי את המתנה בנייר כחול.
+party|מסיבה|n|Are you coming to the party?|אתה בא למסיבה?
+game|משחק|n|We won the game!|ניצחנו במשחק!
+team|קבוצה|n|Our team practices on Monday.|הקבוצה שלנו מתאמנת ביום שני.
+sport|ספורט|n|Swimming is my favorite sport.|שחייה היא הספורט האהוב עליי.
+weekend|סוף שבוע|n|We visit grandma every weekend.|אנחנו מבקרים את סבתא כל סוף שבוע.
+minute|דקה|n|Wait a minute, please.|חכה רגע, בבקשה.
+hour|שעה|n|The trip takes one hour.|הנסיעה נמשכת שעה אחת.
+month|חודש|n|We move next month.|אנחנו עוברים דירה בחודש הבא.
+middle|אמצע|n|The ball is in the middle.|הכדור נמצא באמצע.
+different|שונה|a|We have very different ideas.|יש לנו רעיונות שונים מאוד.
+same|אותו דבר|a|We wear the same shirt.|אנחנו לובשים את אותה חולצה.
+easy|קל|a|This puzzle is easy.|הפאזל הזה קל.
+difficult|קשה|a|The test was difficult.|המבחן היה קשה.
+expensive|יקר|a|That phone is too expensive.|הטלפון הזה יקר מדי.
 cheap|זול|a|These shoes were cheap.
 early|מוקדם|a|I woke up early.
 late|מאוחר|a|Sorry, I am late.
@@ -255,7 +261,14 @@ lot|הרבה|n|I have a lot of friends.|יש לי הרבה חברים.
 mad|כועס|a|Dad was mad about the broken window.|אבא כעס בגלל החלון השבור.
 mix|לערבב|v|Please mix the flour and the eggs.|בבקשה ערבבי את הקמח ואת הביצים.
 boot|מגף|n|I can't find my left boot.|אני לא מוצאת את המגף השמאלי שלי.
-bowl|קערה|n|She ate a bowl of cereal.|היא אכלה קערה של דגני בוקר.`,
+bowl|קערה|n|She ate a bowl of cereal.|היא אכלה קערה של דגני בוקר.
+net|רשת|n|The ball went into the net.|הכדור נכנס לרשת.
+next|הבא|a|We will meet next week.|ניפגש בשבוע הבא.
+past|אחרי (בשעה), עבר|o|It is ten past five.|השעה חמש ועשרה.
+plan|תוכנית|n|We have a plan for the weekend.|יש לנו תוכנית לסוף השבוע.
+calendar|לוח שנה|n|Mark the party on the calendar.|סמני את המסיבה בלוח השנה.
+cap|כובע מצחייה|n|He wears a blue cap.|הוא חובש כובע מצחייה כחול.
+cent|סנט|n|I found a cent on the floor.|מצאתי סנט על הרצפה.`,
 `feeling|הרגשה|n|I had a strange feeling.
 angry|כועס|a|She was angry at her brother.
 afraid|מפחד|a|He is afraid of spiders.
@@ -353,7 +366,13 @@ boil|להרתיח|v|We boil water for tea.|אנחנו מרתיחים מים לת
 boss|בוס, מנהל|n|My mom is the boss at her office.|אמא שלי היא המנהלת במשרד שלה.
 boyfriend|חבר (בן זוג)|n|My big sister has a boyfriend.|לאחותי הגדולה יש חבר.
 brain|מוח|n|Your brain needs sleep.|המוח שלך צריך שינה.
-burn|לשרוף, לכוות|v|Be careful, the stove can burn you.|זהירות, הכיריים יכולות לכוות אותך.`,
+burn|לשרוף, לכוות|v|Be careful, the stove can burn you.|זהירות, הכיריים יכולות לכוות אותך.
+business|עסק|n|My uncle has a small business.|לדוד שלי יש עסק קטן.
+calm|רגוע|a|Stay calm and breathe slowly.|הישארי רגועה ונשמי לאט.
+capital|בירה (עיר)|n|Paris is the capital of France.|פריז היא בירת צרפת.
+careless|רשלני, לא זהיר|a|He was careless and broke the glass.|הוא לא נזהר ושבר את הכוס.
+case|מקרה, נרתיק|n|Put your glasses in the case.|שים את המשקפיים בנרתיק.
+cash|מזומן|n|Do you have any cash?|יש לך מזומן?`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -441,7 +460,8 @@ announce|להכריז|v|The principal will announce the winners tomorrow.|המנ
 approximately|בערך|d|The trip takes approximately two hours.|הנסיעה נמשכת בערך שעתיים.
 battle|קרב|n|The two armies fought a long battle.|שני הצבאות נלחמו בקרב ארוך.
 beauty|יופי|n|We loved the beauty of the sea.|אהבנו את היופי של הים.
-belief|אמונה|n|She has a strong belief in herself.|יש לה אמונה חזקה בעצמה.`,
+belief|אמונה|n|She has a strong belief in herself.|יש לה אמונה חזקה בעצמה.
+cancer|סרטן (מחלה)|n|Smoking can cause cancer.|עישון יכול לגרום לסרטן.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.
