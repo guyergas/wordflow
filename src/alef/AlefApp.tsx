@@ -2,11 +2,11 @@ import { greeting, TopBar } from '../topBar';
 import { PointerEvent as PE, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { pushProgress } from '../progressSync';
 import { STORAGE_KEY, USER_NAME } from '../course';
-import { saveHebrewRecordings, sayHebrew, sayInTurn, sfx } from '../platform';
+import { playPart, saveHebrewRecordings, sayHebrew, sayInTurn, sfx, stopSound } from '../platform';
 import { CourseSwitch, SummaryTab } from '../summaryUi';
 import { addTime, advance, answer, AState, buildPlan, choices, dayNumber, huntCells, initial, meet, mix, nextLetter, noteMix, pairsOf, PlanOptions, record, secure, shaky, SHAKY_LIMIT, struggling, HARD_LIMIT, Status, statusOf, Step, topMix, validStep, WRITING } from './engine';
 import { Ink, judge, FREE, TRACE } from './ink';
-import { FAMILIES, frameOf, LETTER, Letter, LETTERS, Pt, SAY, Shape, firstWords, LETTERS as ALL, spots, Stroke, VIEW, WORDS } from './letters';
+import { FAMILIES, frameOf, LETTER, Letter, LETTERS, Pt, SAY, Shape, firstWords, LETTERS as ALL, spots, Stroke, VIEW, WORDS, SONG_ORDER, SONG_TIMES, SONG_URL, songLead } from './letters';
 
 type Update = (fn: (s: AState) => AState) => void;
 const VB = `${VIEW.x} ${VIEW.y} ${VIEW.w} ${VIEW.h}`;
@@ -155,21 +155,39 @@ function Home({ st, today, onStart, onProgress, onSettings }: { st: AState; toda
   );
 }
 
-let song: HTMLAudioElement | null = null;
-/** A song that says the letters in order, to listen to at any time. */
+/** The song that says the letters in order, to listen to at any time. */
 function SongButton() {
   const [playing, setPlaying] = useState(false);
-  useEffect(() => () => { song?.pause(); }, []);
+  useEffect(() => () => { stopSound(); }, []);
   const toggle = () => {
-    try {
-      if (!song) song = new Audio('audio/songs/alef-bet.mp3');
-      song.onended = () => setPlaying(false);
-      if (playing) { song.pause(); setPlaying(false); return; }
-      song.currentTime = 0;
-      void song.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
-    } catch { setPlaying(false); }
+    if (playing) { stopSound(); setPlaying(false); return; }
+    setPlaying(true);
+    playPart(SONG_URL, 0, 9999, () => setPlaying(false));
   };
   return <button type="button" className={`card a-song ${playing ? 'on' : ''}`} aria-pressed={playing} onClick={toggle}><span aria-hidden="true">{playing ? '⏸' : '🎵'}</span><b>שיר האותיות</b><small>{playing ? 'לעצור' : 'לשמוע את כל האותיות לפי הסדר'}</small></button>;
+}
+
+/** The song plays a few letters and stops. Which letter comes next? */
+function SongNext({ st, id, sound, onMix, onDone }: { st: AState; id: string; sound: boolean; onMix: (c: string) => void; onDone: (ok: boolean) => void }) {
+  const l = LETTER[id], lead = songLead(id)!, options = useMemo(() => choices(st, id), [id]);
+  const [wrong, setWrong] = useState<string[]>([]), [right, setRight] = useState(false), [listening, setListening] = useState(false);
+  const ask = () => { setListening(true); playPart(SONG_URL, lead[0], lead[1], () => { setListening(false); sayHebrew(SAY.songNext); }); };
+  useEffect(() => { ask(); return () => stopSound(); }, []);
+  const tap = (c: string) => {
+    if (right) return;
+    if (c === id) {
+      setRight(true); if (sound) sfx.good();
+      // The answer is the letter as the song sings it.
+      const k = SONG_ORDER.indexOf(id); playPart(SONG_URL, SONG_TIMES[k][0], SONG_TIMES[k][1]);
+    } else { setWrong([...wrong, c]); onMix(c); if (sound) sfx.bad(); sayHebrew(SAY.thisIs(LETTER[c])); }
+  };
+  return (
+    <div className="a-step">
+      <button type="button" className={`a-song-ask ${listening ? 'on' : ''}`} aria-label="לשמוע שוב את השיר" onClick={ask}><span aria-hidden="true">🎵</span></button>
+      <div className={`a-answers n${options.length}`}>{options.map((c) => <button key={c} type="button" disabled={wrong.includes(c)} className={`a-answer ${right && c === id ? 'right' : ''} ${wrong.includes(c) ? 'off' : ''}`} aria-label={LETTER[c].name} onClick={() => tap(c)}><Mini id={c} /></button>)}</div>
+      {right ? <Next onClick={() => onDone(wrong.length === 0)} /> : <div className="a-next-space" />}
+    </div>
+  );
 }
 
 /** The whole alef-bet: a letter lights up when met and turns gold when it is known and written over several days. */
@@ -255,6 +273,7 @@ function Session({ st, update, onExit, onMore }: { st: AState; update: Update; o
         if (step.t === 'missing') return <WordGame st={st} id={l.id} n={step.n} missing onMix={onMix} sound={sound} onDone={done} />;
         if (step.t === 'sound') return <SoundGame st={st} id={l.id} n={step.n} sound={sound} onDone={done} />;
         if (step.t === 'hunt') return <Hunt st={st} id={l.id} onMix={onMix} sound={sound} onDone={done} />;
+        if (step.t === 'song' && songLead(l.id)) return <SongNext st={st} id={l.id} sound={sound} onMix={onMix} onDone={done} />;
         if (step.t === 'pair' && pairsOf(st, l.id).length) return <Pair st={st} id={l.id} n={step.n} sound={sound} onDone={done} />;
         return <Find st={st} step={step} onMix={onMix} sound={sound} onDone={done} />;
       })()}

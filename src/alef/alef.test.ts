@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { REVIEW_MAX, answer, advance, buildPlan, choices, initial, meet, huntCells, nextLetter, noteMix, pairsOf, record, secure, statusOf, topMix, shaky, SHAKY_LIMIT, validStep, WRITING, writeStage } from './engine';
 import { judge, FREE, TRACE } from './ink';
-import { FINALS, firstWords, frameOf, HEBREW_AUDIO, LETTER, LETTERS, lookAlikes, PAIRS, Pt, SAY, spots, WORDS } from './letters';
+import { FINALS, firstWords, frameOf, HEBREW_AUDIO, LETTER, LETTERS, lookAlikes, PAIRS, Pt, SAY, spots, WORDS, SONG_ORDER, SONG_TIMES, songLead } from './letters';
 
 const ink = (id: string) => LETTER[id].strokes.map((s) => s.p);
 const wobble = (lines: Pt[][], a = 5): Pt[][] => lines.map((l) => l.flatMap((p, i) => { if (!i) return [p]; const [x0, y0] = l[i - 1], out: Pt[] = []; for (let k = 1; k <= 8; k++) { const t = k / 8; out.push([x0 + (p[0] - x0) * t + Math.sin(k * 1.7) * a, y0 + (p[1] - y0) * t + Math.cos(k * 2.3) * a]); } return out; }));
@@ -64,6 +64,27 @@ describe('judging a drawing', () => {
   it('rejects a scribble and an empty page', () => {
     expect(judge([], LETTER['ר']).ok).toBe(false);
     expect(judge([[[0, 0], [100, 100], [0, 100], [100, 0], [50, 160]]], LETTER['ר']).ok).toBe(false);
+  });
+});
+
+describe('the song', () => {
+  it('knows where all 22 letters are sung, in order, without overlap', () => {
+    expect(SONG_TIMES.length).toBe(22);
+    SONG_TIMES.forEach(([a, b], i) => { expect(b).toBeGreaterThan(a); if (i) expect(a).toBeGreaterThanOrEqual(SONG_TIMES[i - 1][1]); expect(b - a).toBeLessThan(1.2); });
+  });
+  it('plays up to three letters before the one asked, and nothing of it', () => {
+    expect(songLead('א')).toBeNull();
+    expect(songLead('ך')).toBeNull();
+    const k = SONG_ORDER.indexOf('ה'), lead = songLead('ה')!;
+    expect(lead[0]).toBe(SONG_TIMES[k - 3][0]);
+    expect(lead[1]).toBeLessThanOrEqual(SONG_TIMES[k][0]);
+  });
+  it('asks with the song only after a letter was met', () => {
+    let st = meet(initial('א'), 'ד', 100);
+    expect(buildPlan(st, 100, { extra: true }).steps.some((s) => s.t === 'song')).toBe(false);
+    st = answer(st, 'ד', 'see', true, 100);
+    const kinds = new Set(Array.from({ length: 6 }, () => buildPlan(st, 100, { extra: true }).steps.map((s) => s.t)).flat());
+    expect(kinds.has('song')).toBe(true);
   });
 });
 

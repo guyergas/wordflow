@@ -54,6 +54,33 @@ const recordings = new Map<string, Promise<AudioBuffer>>();
 let playing: AudioBufferSourceNode | null = null;
 let turn = 0;
 
+/** Plays part of a longer recording, such as a song, exactly from one second to another. */
+const longs = new Map<string, Promise<AudioBuffer>>();
+export function playPart(url: string, from: number, to: number, onEnd?: () => void) {
+  const mine = ++turn;
+  try { playing?.stop(); } catch { /* already over */ }
+  playing = null;
+  try { synth()?.cancel(); } catch { /* no voice */ }
+  try { (navigator as unknown as { audioSession?: { type: string } }).audioSession!.type = 'playback'; } catch { /* other phones */ }
+  const c = audio();
+  if (!c) { onEnd?.(); return; }
+  let p = longs.get(url);
+  if (!p) { p = fetch(url).then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.arrayBuffer(); }).then((b) => c.decodeAudioData(b)); p.catch(() => longs.delete(url)); longs.set(url, p); }
+  p.then((buffer) => {
+    if (mine !== turn) return;
+    const src = c.createBufferSource(), gain = c.createGain();
+    src.buffer = buffer; src.connect(gain); gain.connect(c.destination);
+    const now = c.currentTime, len = Math.max(0.05, to - from);
+    // A short fade at the end, so that a cut in the middle of the music does not click.
+    gain.gain.setValueAtTime(1, now + len - 0.06); gain.gain.linearRampToValueAtTime(0, now + len);
+    src.onended = () => { if (mine === turn) onEnd?.(); };
+    src.start(now, from, len);
+    playing = src;
+  }).catch(() => { if (mine === turn) onEnd?.(); });
+}
+/** Stops whatever is playing. */
+export function stopSound() { ++turn; try { playing?.stop(); } catch { /* already over */ } playing = null; try { synth()?.cancel(); } catch { /* no voice */ } }
+
 function recording(th: string, c: AudioContext, dir = 'th') {
   let p = recordings.get(th);
   if (!p) {

@@ -1,12 +1,12 @@
 // Rules of the course. One new letter at a time, and a new one waits while three letters are still shaky.
 // Knowing a letter and writing it are two separate measures, each with its own spaced review.
-import { FINALS, firstWords, LETTER, LETTERS, lookAlikes, PAIRS } from './letters';
+import { FINALS, firstWords, LETTER, LETTERS, lookAlikes, PAIRS, songLead } from './letters';
 
 export interface Box { box: number; due: number }
 /** Right and wrong counts, and which letters this one was mistaken for. Practice counts here too, though it moves no stage. */
 export interface Tally { see: [number, number]; write: [number, number]; mixed: Record<string, number> }
 export interface Known { see: Box; write: Box; met: number; tally?: Tally }
-export type Step = { t: 'meet' | 'trace' | 'copy' | 'memory' | 'write' | 'opening' | 'find' | 'word' | 'sound' | 'hunt' | 'pair' | 'missing'; id: string; print?: boolean; n?: number };
+export type Step = { t: 'meet' | 'trace' | 'copy' | 'memory' | 'write' | 'opening' | 'find' | 'word' | 'sound' | 'hunt' | 'pair' | 'missing' | 'song'; id: string; print?: boolean; n?: number };
 export interface Plan { day: number; steps: Step[]; at: number; extra?: boolean; mixed?: boolean; review?: number }
 export interface AState { onboarded: boolean; name: string; letters: Record<string, Known>; days: Record<number, { sec: number; fresh: number; done?: boolean }>; plan: Plan | null; reviews?: number[]; settings: { sound: boolean } }
 
@@ -47,6 +47,8 @@ function seeSet(st: AState, id: string, count: number, rnd: () => number): Step[
   if (opens) kinds.push('sound');
   if (opens && k && k.see.box >= 1) kinds.push('missing');
   if (pairsOf(st, id).length) kinds.push('pair');
+  // The song comes in after the letter has been met, as it asks for the letter by ear alone.
+  if (songLead(id) && k && k.see.box >= 1) kinds.push('song');
   const seen: Record<string, number> = {}, order = shuffle(kinds, rnd);
   return Array.from({ length: count }, (_, i) => {
     const t = order[i % order.length], n = seen[t] ?? 0;
@@ -177,7 +179,7 @@ export function choices(st: AState, id: string, rnd: () => number = Math.random)
   return shuffle([id, ...others], rnd);
 }
 
-const STEPS = ['meet', 'trace', 'copy', 'memory', 'write', 'opening', 'find', 'word', 'sound', 'hunt', 'pair', 'missing'];
+const STEPS = ['meet', 'trace', 'copy', 'memory', 'write', 'opening', 'find', 'word', 'sound', 'hunt', 'pair', 'missing', 'song'];
 /** The look-alikes and other letters that fill a hunt: 5 to find among 16. */
 export function huntCells(st: AState, id: string, rnd: () => number = Math.random): string[] {
   const others = choices({ ...st, letters: { ...st.letters } }, id, rnd).filter((c) => c !== id);

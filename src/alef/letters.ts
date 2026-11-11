@@ -142,6 +142,18 @@ export function lookAlikes(id: string): string[] {
   return [...new Set(LOOK_ALIKE.filter((g) => g.includes(id)).join('').split('').filter((c) => c !== id))];
 }
 
+/** The alef-bet song: where each letter is sung, in seconds. Found from the children's voices, which sing above the music.
+ * The song sings in groups of three, and after ת come two more sung beats, which are not letters. */
+export const SONG_URL = 'audio/songs/alef-bet.mp3';
+export const SONG_ORDER = 'אבגדהוזחטיכלמנסעפצקרשת';
+export const SONG_TIMES: [number, number][] = [[0.85, 1.87], [1.87, 2.82], [2.82, 3.92], [4.85, 5.83], [5.83, 6.85], [6.85, 7.95], [8.78, 9.56], [9.56, 10.64], [10.64, 11.74], [12.62, 13.6], [13.6, 14.57], [14.57, 15.67], [16.48, 17.47], [17.47, 18.41], [18.41, 19.51], [20.39, 21.43], [21.43, 22.37], [22.37, 23.47], [24.27, 25.23], [25.23, 26.15], [26.15, 27.25], [28.09, 29.13]];
+/** The part of the song to play before asking for this letter: up to three letters before it. */
+export function songLead(id: string): [number, number] | null {
+  const k = SONG_ORDER.indexOf(id);
+  if (k < 1) return null;
+  return [SONG_TIMES[Math.max(0, k - 3)][0], SONG_TIMES[k - 1][1]];
+}
+
 export const SAY = {
   right: ['נָכוֹן!', 'יָפֶה מְאוֹד!', 'כָּל הַכָּבוֹד!', 'מְצֻיָּן!'],
   again: 'כִּמְעַט! מְנַסִּים עוֹד פַּעַם.',
@@ -150,6 +162,7 @@ export const SAY = {
   find: (l: Letter) => `אֵיפֹה הָאוֹת ${l.say}?`,
   write: (l: Letter) => `עַכְשָׁו כּוֹתְבִים ${l.say}, לְבַד. ${l.recipe}`,
   copy: (l: Letter) => `כּוֹתְבִים ${l.say}, כְּמוֹ הָאוֹת שֶׁבַּצַּד. ${l.recipe}`,
+  songNext: 'אֵיזוֹ אוֹת בָּאָה עַכְשָׁו?',
   thisIs: (l: Letter) => `זֹאת ${l.say}.`,
   sound: (l: Letter) => `מַה מַּתְחִיל בָּאוֹת ${l.say}?`,
   hunt: (l: Letter) => `מוֹצְאִים אֶת כָּל הָאוֹתִיּוֹת ${l.say}.`,
@@ -163,7 +176,7 @@ export const SAY = {
 
 /** Every sentence the app can say. The deploy creates a recording for each one. */
 export const HEBREW_AUDIO: string[] = [...new Set([
-  ...SAY.right, SAY.again, SAY.finish,
+  ...SAY.right, SAY.again, SAY.finish, SAY.songNext,
   ...PAIRS.map((p) => p[2]),
   ...LETTERS.flatMap((l) => [l.say, l.recipe, SAY.find(l), SAY.trace(l), SAY.write(l), SAY.copy(l), SAY.thisIs(l), SAY.rightIs(l), SAY.sound(l), SAY.hunt(l), SAY.memory(l), ...firstWords(l.id).flatMap((w) => [SAY.opening(w[1]), SAY.heard(w[1]), SAY.rightWord(w[1]), SAY.word(w[1], 'first')]), ...WORDS[l.id].flatMap((w) => spots(w[0], l.id).map((s) => SAY.word(w[1], s.where)))]),
 ])];
