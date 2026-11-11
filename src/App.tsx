@@ -303,7 +303,7 @@ function Home({ st, today, onStart, onSentences, onSettings, onReadTime }: { st:
       <TodayPlan />
 
       <section className="card week">
-        <div className="row-between"><h3>השבוע</h3><span className="muted small">{weekCount} מתוך {st.settings.weeklyGoal} ימים</span></div>
+        <div className="row-between"><h3>השבוע</h3><span className="muted small">{weekCount} ימי אימון</span></div>
         <div className="time-row">
           <div><span>היום</span><b>{studyTimeLabel(studySeconds(st, today, today), questionCount(st, today, today))}</b><small>{questionCount(st, today, today)} שאלות</small></div>
           <div><span>7 ימים</span><b>{studyTimeLabel(weekSec, questionCount(st, today - 6, today))}</b><small>{questionCount(st, today - 6, today)} שאלות</small></div>
@@ -311,7 +311,7 @@ function Home({ st, today, onStart, onSentences, onSettings, onReadTime }: { st:
         <div className="week-tiles" aria-hidden="true">
           {['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'].map((d, i) => <span key={d} className={`wd ${week[i] ? 'on' : ''}`}>{d}</span>)}
         </div>
-        <p className="small muted">{weekCount >= st.settings.weeklyGoal ? 'הגעת ליעד השבועי. כל הכבוד!' : x('יום שפספסת לא מוחק כלום. פשוט ממשיכות.', 'יום שפספסת לא מוחק כלום. פשוט ממשיכים.')}</p>
+        <p className="small muted">{x('יום שפספסת לא מוחק כלום. פשוט ממשיכות.', 'יום שפספסת לא מוחק כלום. פשוט ממשיכים.')}</p>
       </section>
     </>
   );
@@ -1101,8 +1101,6 @@ function Settings({ st, update, onClose }: { st: State; update: Update; onClose:
     <SettingsSheet onClose={onClose} sound={{ on: st.settings.sound, set: (v) => set({ sound: v }) }} audio={audio}
       onReset={() => update(() => ({ ...load(), words: {}, sentences: {}, days: {}, plan: null, traps: {}, confusions: {}, onboarded: false }))}>
       {!USER_NAME && <><label className="field" htmlFor="n2">שם</label><input id="n2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} /></>}
-      <div className="st-row"><label htmlFor="wg">יעד ימי אימון בשבוע</label>
-        <select id="wg" value={st.settings.weeklyGoal} onChange={(e) => set({ weeklyGoal: +e.target.value })}>{[2, 3, 4, 5, 6, 7].map((n) => <option key={n} value={n}>{n}</option>)}</select></div>
       <p className="cs-note">גיבוי: ההתקדמות נשמרת רק במכשיר הזה. קובץ גיבוי מעביר אותה למכשיר אחר.</p>
       <div className="cs-row"><button type="button" className="st-btn" onClick={backup}>שמירת גיבוי</button>
         <label className="st-btn" htmlFor="restore" style={{ display: 'inline-flex', alignItems: 'center' }}>שחזור מקובץ</label><input id="restore" type="file" accept="application/json" hidden onChange={(e) => restore(e.target.files?.[0])} /></div>

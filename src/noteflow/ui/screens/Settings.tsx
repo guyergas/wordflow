@@ -185,10 +185,6 @@ export function Settings({ onBack }: { onBack: () => void }) {
           <span className="label">אורך אימון מומלץ</span>
           <Seg value={s.sessionLength} onChange={(sessionLength) => set({ sessionLength })} ltr options={[12, 20, 30, 40].map((v) => ({ value: v, label: String(v) }))} />
         </div>
-        <div className="field">
-          <span className="label">יעד שבועי (ימים)</span>
-          <Seg value={s.weeklyGoalDays} onChange={(weeklyGoalDays) => set({ weeklyGoalDays })} ltr options={[2, 3, 4, 5, 6, 7].map((v) => ({ value: v, label: String(v) }))} />
-        </div>
       </div>
 
       <Reminder />

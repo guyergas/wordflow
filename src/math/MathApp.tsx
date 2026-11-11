@@ -406,7 +406,7 @@ function Home({ st, today, onStart, onSettings, onCheck }: { st: MathState; toda
       {anyMet && <button type="button" className="sent-card" onClick={() => onStart({ extra: true })}><span className="sent-txt"><b>אימון חיזוק</b><small>סיבוב קצר על מה שכבר למדת</small></span><span className="sent-go" aria-hidden="true">←</span></button>}
       <TodayPlan />
       <section className="card week">
-        <div className="row-between"><h3>השבוע</h3><span className="muted small">{week.filter(Boolean).length} מתוך {st.settings.weeklyGoal} ימים</span></div>
+        <div className="row-between"><h3>השבוע</h3><span className="muted small">{week.filter(Boolean).length} ימי אימון</span></div>
         <div className="week-tiles" aria-hidden="true">{['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'].map((d, i) => <span key={d} className={`wd ${week[i] ? 'on' : ''}`}>{d}</span>)}</div>
         <p className="small muted">יום שפספסת לא מוחק כלום. {g('פשוט ממשיכות.', 'פשוט ממשיכים.')}</p>
       </section>
@@ -486,7 +486,6 @@ function Settings({ st, update, onClose }: { st: MathState; update: Update; onCl
           <button type="button" aria-pressed={st.settings.pace === 'calm'} onClick={() => set({ pace: 'calm' })}>רגוע</button>
           <button type="button" aria-pressed={st.settings.pace === 'normal'} onClick={() => set({ pace: 'normal' })}>רגיל</button>
         </div></div>
-      <div className="st-row"><label htmlFor="m4">יעד ימי אימון בשבוע</label><select id="m4" value={st.settings.weeklyGoal} onChange={(e) => set({ weeklyGoal: +e.target.value })}>{[2, 3, 4, 5, 6, 7].map((n) => <option key={n} value={n}>{n}</option>)}</select></div>
       <p className="cs-note">גיבוי: ההתקדמות נשמרת רק במכשיר הזה.</p>
       <div className="cs-row"><button type="button" className="st-btn" onClick={backup}>שמירת גיבוי</button><label className="st-btn" htmlFor="m5" style={{ display: 'inline-flex', alignItems: 'center' }}>שחזור מקובץ</label><input id="m5" type="file" accept="application/json" hidden onChange={(e) => restore(e.target.files?.[0])} /></div>
       {msg && <p className="cs-note" role="status">{msg}</p>}

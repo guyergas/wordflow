@@ -35,11 +35,10 @@ export function WeeklyCard({ onDrill }: { onDrill?: (pitch: string, clef: 'trebl
         <h2 style={{ margin: 0 }}>השבוע שלך</h2>
         <span className="faint num">{w.days} ימים · {w.minutes} דקות</span>
       </div>
-      <div className="weekbar" aria-label={`יעד שבועי: ${days} מתוך ${settings.weeklyGoalDays} ימים`}>
-        {Array.from({ length: settings.weeklyGoalDays }, (_, i) => <i key={i} className={i < days ? 'on' : ''} />)}
-        <span className="faint">{days >= settings.weeklyGoalDays ? 'עמדת ביעד השבועי' : `יעד: ${settings.weeklyGoalDays} ימים`}</span>
+      <div className="weekbar" aria-label={`${days} ימי תרגול השבוע`}>
+        {Array.from({ length: 7 }, (_, i) => <i key={i} className={i < days ? 'on' : ''} />)}
       </div>
-      {w.notes === 0 ? <p className="faint" style={{ margin: '8px 0 0' }}>עוד לא תרגלת השבוע. אין רצפים ואין עונש — רק יעד לשבוע.</p> : (
+      {w.notes === 0 ? <p className="faint" style={{ margin: '8px 0 0' }}>עוד לא תרגלת השבוע. אין רצפים ואין עונש.</p> : (
         <ul className="week-lines">{lines.map((l) => <li key={l}>{l}</li>)}</ul>
       )}
       {w.weakest && (
