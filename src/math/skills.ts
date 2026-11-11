@@ -83,6 +83,8 @@ export const TRAPS = {
   similar: { name: 'יחס דמיון', explain: 'במשולשים דומים כל הצלעות גדלות או קטנות פי אותו מספר. מחלקים צלע בצלע המתאימה לה כדי למצוא את היחס, וכופלים בו. לא מוסיפים את ההפרש, ומתאימים צלע לצלע לפי סדר האותיות.' },
   scalearea: { name: 'יחס שטחים ויחס נפחים', explain: 'כשהאורכים גדלים פי k, השטח גדל פי k² והנפח גדל פי k³. לא כופלים את השטח או את הנפח ביחס הדמיון עצמו: משולש גדול פי 2 באורכים גדול פי 4 בשטח.' },
   median: { name: 'חציון ושכיח', explain: 'כדי למצוא חציון מסדרים קודם את המספרים מהקטן לגדול, ולוקחים את האמצעי. כשמספר הנתונים זוגי, החציון הוא הממוצע של שני האמצעיים. שכיח הוא הערך שמופיע הכי הרבה פעמים, ולא מספר הפעמים שהוא מופיע.' },
+  probnot: { name: 'מאורע משלים', explain: 'המאורע המשלים הוא "לא קרה". הסיכויים של מאורע ושל המשלים שלו מסתכמים ב־100%, או ב־1, ולכן מחסרים מ־100. וכשסופרים את מה שלא קרה, סופרים את כל השאר, ולא רק צבע אחד.' },
+  prob2: { name: 'הסתברות של שני מאורעות', explain: 'כשרוצים ששני מאורעות בלתי תלויים יקרו שניהם, כופלים את ההסתברויות שלהם, ולא מחברים. בשתי קוביות יש 36 תוצאות שוות בסיכוי, ו־3 ואחריו 4 היא תוצאה אחרת מ־4 ואחריו 3.' },
 } as const;
 export type TrapId = keyof typeof TRAPS;
 
@@ -1303,6 +1305,40 @@ export const SKILLS: Skill[] = [
     const v = mix([mode, mode, mode, others[0], others[0], others[1], others[2]]);
     const wrong: [string, TrapId?][] = [[n(times), 'median'], [n(others[0]), 'median'], [n(Math.max(...v)), 'median']];
     return calc({ prompt: `מה השכיח של המספרים [[${v.join(', ')}]]?`, ans: n(mode), eq: `${mode}`, wrong: wrong.filter(([w]) => w !== n(mode)), steps: ['השכיח הוא הערך שמופיע הכי הרבה פעמים', `[[${mode}]] מופיע [[${times}]] פעמים, ו־[[${others[0]}]] רק פעמיים`] });
+  } },
+  { id: 'probnot', station: 21, title: 'מאורע משלים והסתברות באחוזים', needs: ['prob'], e: (r) => {
+    const kind = ri(r, 0, 2);
+    if (kind === 0) {
+      const p = pick(r, [5, 10, 15, 20, 25, 30, 35, 40, 45, 55, 60, 65, 70, 75, 80, 85, 90, 95]), ev = pick(r, [['שירד גשם מחר', 'שלא ירד גשם'], ['שהאוטובוס יאחר', 'שהאוטובוס לא יאחר'], ['לזכות בהגרלה', 'לא לזכות']] as const);
+      return calc({ prompt: `הסיכוי ${ev[0]} הוא [[${p}%]]. מה הסיכוי ${ev[1]}, באחוזים?`, ans: n(100 - p), eq: `100-${p}`, wrong: [[n(p), 'probnot'], [dec(100 - p, 2), 'percent']], steps: ['מאורע והמאורע המשלים לו מסתכמים ב־[[100%]]', `[[100−${p}=${100 - p}]]`] });
+    }
+    if (kind === 1) {
+      const t = pick(r, [10, 20, 25]), a = ri(r, 1, t - 2), b = ri(r, 1, t - a - 1), c = t - a - b, ans = ((t - a) * 100) / t;
+      const wrong: [string, TrapId?][] = [[n((a * 100) / t), 'probnot'], [n((b * 100) / t), 'probnot'], [n(t - a), 'percent']];
+      return calc({ prompt: `בקופסה [[${a}]] כדורים אדומים, [[${b}]] כחולים ו־[[${c}]] ירוקים. מוציאים כדור אחד בלי להסתכל. מה הסיכוי באחוזים שהכדור לא יהיה אדום?`, ans: n(ans), eq: `(${t}-${a})/${t}*100`, pencil: true, read: true, wrong: wrong.filter(([v]) => v !== n(ans)), steps: [`יש [[${a}+${b}+${c}=${t}]] כדורים, ומהם [[${t}−${a}=${t - a}]] לא אדומים`, `[[${t - a}/${t}=${ans}/100]], כלומר [[${ans}%]]`] });
+    }
+    const d = pick(r, [4, 5, 10, 20, 25, 50]), a = pick(r, Array.from({ length: d - 1 }, (_, i) => i + 1).filter((x) => gcd(x, d) === 1)), m = 100 / d, ans = 100 - a * m;
+    const wrong: [string, TrapId?][] = [[n(a * m), 'probnot'], [n(100 - a), 'percent'], [n(d - a), 'percent']];
+    return calc({ prompt: `ההסתברות לזכות במשחק היא [[${a}/${d}]]. מה הסיכוי לא לזכות, באחוזים?`, ans: n(ans), eq: `(1-${a}/${d})*100`, pencil: true, wrong: wrong.filter(([v]) => v !== n(ans)), steps: [`מרחיבים למכנה [[100]]: [[${a}/${d}=${a * m}/100]], כלומר [[${a * m}%]]`, `הסיכוי המשלים: [[100−${a * m}=${ans}]]`] });
+  } },
+  { id: 'prob2', station: 21, title: 'הסתברות של שני מאורעות (טבלה או עץ)', needs: ['probnot'], u: (r) => {
+    const val = (x: string) => { const [p, q] = x.split('/').map(Number); return q ? p / q : p; };
+    const keep = (ans: string, w: [string, TrapId][]) => w.filter(([v], i) => Math.abs(val(v) - val(ans)) > 1e-9 && w.findIndex(([u]) => Math.abs(val(u) - val(v)) < 1e-9) === i).map(([v, t]): [string, TrapId] => [`[[${v}]]`, t]);
+    if (r() < 0.5) {
+      const s = ri(r, 3, 11), pairs: string[] = [];
+      for (let x = 1; x <= 6; x++) if (s - x >= 1 && s - x <= 6) pairs.push(`(${x},${s - x})`);
+      const c = pairs.length, ans = reduced(c, 36);
+      return conceptQ(`מטילים שתי קוביות רגילות. מה ההסתברות שסכום שתי התוצאות יהיה [[${s}]]?`, `[[${ans}]]`, keep(ans, [['1/11', 'prob2'], ['1/36', 'prob2'], [reduced(Math.ceil(c / 2), 36), 'prob2']]), ['בטבלה של שתי קוביות יש [[6×6=36]] תוצאות, וכולן באותו סיכוי', `הזוגות שסכומם [[${s}]]: [[${pairs.join(', ')}]], כלומר [[${c}]] זוגות`, `[[${c}/36=${ans}]]`], { pencil: true });
+    }
+    const F: [number, number][] = [[1, 2], [1, 3], [2, 3], [1, 4], [3, 4], [1, 5], [2, 5], [3, 5], [4, 5]];
+    const [a1, b1] = pick(r, F), [a2, b2] = pick(r, F), [k1, k2] = pick(r, KIDS.map((x, i) => [x, KIDS[(i + 1) % KIDS.length]] as const)), none = r() < 0.4;
+    const lead = `ההסתברות ש${k1} תקלע לסל בזריקה היא [[${a1}/${b1}]], וההסתברות ש${k2} תקלע היא [[${a2}/${b2}]]. כל אחת זורקת פעם אחת, והזריקות לא תלויות זו בזו.`;
+    if (!none) {
+      const ans = reduced(a1 * a2, b1 * b2);
+      return conceptQ(`${lead} מה ההסתברות ששתיהן יקלעו?`, `[[${ans}]]`, keep(ans, [[reduced(a1 * b2 + a2 * b1, b1 * b2), 'prob2'], [reduced(a1 + a2, b1 + b2), 'fracCross'], [reduced(b1 * b2 - a1 * a2, b1 * b2), 'probnot']]), ['בעץ הולכים בענף "קולעת" ואחריו שוב בענף "קולעת", וכופלים את ההסתברויות לאורך הענפים', `[[${a1}/${b1}×${a2}/${b2}=${a1 * a2}/${b1 * b2}]]${ans !== f(a1 * a2, b1 * b2) ? `, ומצמצמים: [[${ans}]]` : ''}`], { pencil: true });
+    }
+    const m1 = b1 - a1, m2 = b2 - a2, ans = reduced(m1 * m2, b1 * b2);
+    return conceptQ(`${lead} מה ההסתברות ששתיהן יחטיאו?`, `[[${ans}]]`, keep(ans, [[reduced(b1 * b2 - a1 * a2, b1 * b2), 'probnot'], [reduced(a1 * a2, b1 * b2), 'probnot'], [reduced(m1 * b2 + m2 * b1, b1 * b2), 'prob2']]), [`ההסתברות להחטיא היא המשלים: [[1−${a1}/${b1}=${m1}/${b1}]] ו־[[1−${a2}/${b2}=${m2}/${b2}]]`, `כופלים לאורך הענפים: [[${m1}/${b1}×${m2}/${b2}=${m1 * m2}/${b1 * b2}]]${ans !== f(m1 * m2, b1 * b2) ? `, ומצמצמים: [[${ans}]]` : ''}`], { pencil: true });
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));
