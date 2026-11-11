@@ -8,23 +8,17 @@ Each topic needs `rule` (one or two short Hebrew sentences), `example` (in Engli
 
 ## Already in
 
-- יסודות: a/an, רבים, am/is/are, have/has, this/that, כינויי גוף, possessive 's (words 40 to 145)
+- יסודות: a/an, רבים, am/is/are, have/has, this/that, כינויי גוף, possessive 's, שם תואר לפני שם עצם, and/but/or/because (words 40 to 155)
 - Present Simple: הפועל ו־s, s/es/ies (160 to 170)
 - שלילה: isn't/aren't, don't/doesn't, isn't או doesn't (200 to 220)
 - שאלות: Is/Are, Do/Does, מילות שאלה, מילת שאלה ופועל (240 to 270)
+- עוד מבנים בסיסיים: מילות יחס של מקום ושל זמן, there is/are, ציווי ו־Let's, can/can't (280 to 296)
 - Present Progressive: 4 topics (300 to 340)
 - Past Simple: 6 topics (450 to 590)
 - עתיד: will, won't, going to, will מול going to (650 to 700)
 
 ## List
 
-- יסודות · שם תואר לפני שם עצם: a big red ball · words 150
-- יסודות · מילות חיבור: and, but, or, because · words 155
-- עוד מבנים בסיסיים · מילות יחס של מקום: in, on, under, next to, between · words 280
-- עוד מבנים בסיסיים · מילות יחס של זמן: in, on, at · words 284
-- עוד מבנים בסיסיים · there is ו־there are, כולל שלילה ושאלה · words 288
-- עוד מבנים בסיסיים · ציווי ו־Let's: Sit down, Don't run, Let's go · words 292
-- עוד מבנים בסיסיים · can ו־can't ליכולת, כולל שאלה · words 296
 - כמויות והשוואה · some ו־any · words 600
 - כמויות והשוואה · נספר ולא נספר: much, many, a lot of · words 610
 - כמויות והשוואה · השוואה: bigger, more beautiful, than · words 620
