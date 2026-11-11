@@ -15,15 +15,11 @@ Each topic needs `rule` (one or two short Hebrew sentences), `example` (in Engli
 - עוד מבנים בסיסיים: מילות יחס של מקום ושל זמן, there is/are, ציווי ו־Let's, can/can't (280 to 296)
 - Present Progressive: 4 topics (300 to 340)
 - Past Simple: 6 topics (450 to 590)
+- כמויות והשוואה: some/any, much/many, bigger/more, the biggest/the most, good/better/best (600 to 640)
 - עתיד: will, won't, going to, will מול going to (650 to 700)
 
 ## List
 
-- כמויות והשוואה · some ו־any · words 600
-- כמויות והשוואה · נספר ולא נספר: much, many, a lot of · words 610
-- כמויות והשוואה · השוואה: bigger, more beautiful, than · words 620
-- כמויות והשוואה · the biggest, the most beautiful · words 630
-- כמויות והשוואה · good, better, the best ועוד חריגים · words 640
 - מתקדמים · תואר הפועל: quick, quickly · words 720
 - מתקדמים · בקשה וחובה: can, could, must, have to · words 730
 - מתקדמים · should לעצה, כולל שלילה ושאלה · words 740
