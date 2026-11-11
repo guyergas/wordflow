@@ -11,12 +11,16 @@ const counts = ORDER.map((c) => ({ c, n: full(c) }));
 // first lengthen the existing full lessons below the standard in docs/lesson-writing.md
 // (more questions, answers that cannot be guessed by length), then expand the short lessons, and only then write new ones.
 const MIN_WORDS = 950, MIN_QS = 18;
+// The parent asked that the work always go in order: a lesson's place within its course comes first
+// (the first lesson of every course, then the second of every course, and so on), then the course order.
+const rank = (id: string) => LESSONS.filter((l) => l.course === id.split('.')[0]).findIndex((l) => l.id === id);
+const byOrder = (a: { id: string }, b: { id: string }) => rank(a.id) - rank(b.id) || ORDER.indexOf(a.id.split('.')[0]) - ORDER.indexOf(b.id.split('.')[0]);
 const words = (t: string) => t.split(/\s+/).length;
 const allFull = [
   ...Object.entries(DEEP).map(([id, d]) => ({ id, file: `src/knowledge/deep/${id.split('.')[0]}.ts`, words: words(d.text), qs: d.qs.length })),
   ...NEW_LESSONS.map((l) => ({ id: l.id, file: 'src/knowledge/new-lessons.ts', words: words(l.text), qs: l.qs.length })),
 ].filter((x) => LESSONS.some((l) => l.id === x.id && !l.only));
-const thin = allFull.filter((x) => x.words < MIN_WORDS || x.qs < MIN_QS).sort((a, b) => a.words - b.words || a.qs - b.qs);
+const thin = allFull.filter((x) => x.words < MIN_WORDS || x.qs < MIN_QS).sort(byOrder);
 if (thin.length) {
   const t = thin[0], l = LESSONS.find((x) => x.id === t.id)!;
   console.log(JSON.stringify({ kind: 'lengthen', ...t, title: l.title, level: l.level, idea: l.idea, keys: l.keys, left: thin.length, counts }, null, 1));
@@ -24,10 +28,7 @@ if (thin.length) {
 }
 const short = LESSONS.filter((l) => !DEEP[l.id] && !NEW_LESSONS.includes(l) && !l.only);
 if (short.length) {
-  const withShort = counts.filter((x) => short.some((l) => l.course === x.c));
-  const low0 = Math.min(...withShort.map((x) => x.n));
-  const c = withShort.find((x) => x.n === low0)!.c;
-  const l = short.filter((x) => x.course === c).sort((a, b) => a.level - b.level)[0];
+  const l = [...short].sort(byOrder)[0], c = l.course;
   console.log(JSON.stringify({ kind: 'expand', file: `src/knowledge/deep/${c}.ts`, id: l.id, level: l.level, title: l.title, idea: l.idea, keys: l.keys, text: l.text, counts }, null, 1));
   process.exit(0);
 }
