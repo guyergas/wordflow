@@ -1,7 +1,5 @@
 # Adding English grammar topics
 
-**Paused (the parent's choice, Nov 2026):** add no new topics until every existing knowledge lesson is lengthened and no lesson is listed by `npx tsx scripts/answer-length.ts`. Existing lessons come first.
-
 Topics are in `src/grammar/topics.ts`. Each run adds one: the first topic in the list below that is not there yet. The order follows the Ministry of Education's English curriculum (Curriculum 2020, elementary Table 6 and the junior-high grammar table for grades 7-9).
 
 `words` is how many known words the topic waits for. It must not go down along the array, so insert each new topic at its place by `words`, not at the end. The learner gets the first topic in the array not yet seen. A topic's part on the grammar page comes from `GRAMMAR_PARTS` in the same file: it belongs to the last part whose `from` is at most its `words`.
