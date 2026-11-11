@@ -8,6 +8,8 @@ import '../users.css';
 /** A new topic at most once in this many days. A learned topic returns after 1, 3, 7, 14 and 30 days. */
 export const NEW_GAP = 3;
 const INTERVALS = [1, 3, 7, 14, 30];
+/** Questions in a first sitting and in a review, drawn at random from the topic's bank. */
+export const NEW_QS = 20, REVIEW_QS = 10;
 export interface GState { topics: Record<string, { box: number; due: number }>; last: number }
 const dayNow = () => { const d = new Date(); return Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() / 864e5 + 0.5); };
 const KEY = () => userKey('enGrammar');
@@ -61,7 +63,8 @@ export function GrammarCard({ known, onTime }: { known: number; onTime: (sec: nu
   const today = dayNow();
   const item = nextGrammar(state, known, today);
   // A review keeps the daily practice short: five questions of the topic.
-  const qs = useMemo(() => (item ? (item.review ? [...item.topic.qs].sort(() => Math.random() - 0.5).slice(0, 5) : item.topic.qs) : []), [item?.topic.id, item?.review]);
+  // A big topic has a bank of questions: each sitting draws a fresh set, so later reviews practice different sentences.
+  const qs = useMemo(() => (item ? [...item.topic.qs].sort(() => Math.random() - 0.5).slice(0, item.review ? REVIEW_QS : NEW_QS) : []), [item?.topic.id, item?.review]);
   if (!item) return null;
   const close = (first: number | null) => {
     onTime(Math.min(900, Math.round((Date.now() - started.current) / 1000)));
