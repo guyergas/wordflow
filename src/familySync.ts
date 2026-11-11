@@ -1,7 +1,7 @@
 // Study time and goals, shared by the whole family across devices. Only minutes and goals leave the device.
 // The data is open by the family's choice. Each device writes its own numbers, so devices add up without overwriting each other.
 import { enrolledCourses, USER_ID, userKey } from './course';
-import { loadSchedule, readCourses, saveSchedule, Schedule } from './summary';
+import { cleanSchedule, loadSchedule, readCourses, saveSchedule, Schedule } from './summary';
 import { dbUrl, deviceId } from './db';
 export { dbUrl };
 const get = (k: string) => { try { return localStorage.getItem(k); } catch { return null; } };
@@ -22,8 +22,8 @@ export const pushPlan = (user: string, plan: Schedule) => (dbUrl() ? send(`plans
 async function pullPlan() {
   if (!USER_ID) return;
   try {
-    const plan = await (await fetch(`${dbUrl()}/plans/${USER_ID}.json`)).json() as Schedule | null;
-    if (plan) saveSchedule(plan);
+    const raw = await (await fetch(`${dbUrl()}/plans/${USER_ID}.json`)).json();
+    if (raw) saveSchedule(cleanSchedule(raw));
     else if (get(userKey('schedule'))) await pushPlan(USER_ID, loadSchedule());
   } catch { /* the next launch tries again */ }
 }

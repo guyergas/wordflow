@@ -17,10 +17,23 @@ export const planOf = (s: Schedule, id: CourseId) => s[id] ?? defaults(COURSES.f
 export function loadSchedule(): Schedule {
   try {
     const saved = localStorage.getItem(userKey('schedule'));
-    if (saved) return JSON.parse(saved) as Schedule;
+    if (saved) return cleanSchedule(JSON.parse(saved));
     const old = JSON.parse(localStorage.getItem(userKey('goals')) ?? '{}') as Record<string, { day: number }>;
     return Object.fromEntries(Object.entries(old).map(([id, g]) => [id, defaults(g.day)])) as Schedule;
   } catch { return {}; }
+}
+/**
+ * A schedule as seven numbers per course, Sunday first. The sync service can hand back a week with missing days
+ * as an object instead of a list, so every read goes through here and the week never comes back short or empty.
+ */
+export function cleanSchedule(raw: unknown): Schedule {
+  if (!raw || typeof raw !== 'object') return {};
+  const out: Schedule = {};
+  for (const [id, row] of Object.entries(raw as Record<string, unknown>)) {
+    if (!row || typeof row !== 'object') continue;
+    out[id as CourseId] = Array.from({ length: 7 }, (_, i) => Math.max(0, Number((row as Record<number, unknown>)[i]) || 0));
+  }
+  return out;
 }
 export function saveSchedule(s: Schedule) { try { localStorage.setItem(userKey('schedule'), JSON.stringify(s)); } catch { /* this visit only */ } }
 

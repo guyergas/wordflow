@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { COURSES, CourseId, USER_ID, USERS, userKey } from './course';
 import { lineOf, readWins, Win } from './wins';
 import { FamilyData, pushPlan, readFamily } from './familySync';
-import { Schedule, timeLabel, weekday, weekStart } from './summary';
+import { cleanSchedule, Schedule, timeLabel, weekday, weekStart } from './summary';
 
 const dayNow = () => { const d = new Date(); return Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() / 864e5 + 0.5); };
 const DAYS = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'];
@@ -21,6 +21,7 @@ function Goals({ user, courses, plan, onChange }: { user: string; courses: Cours
   return (
     <div className="fam-goals">
       <div className="fam-seg" role="group" aria-label="יום בשבוע">{DAYS.map((d, i) => <button key={d} type="button" aria-pressed={i === day} onClick={() => setDay(i)}>{d}</button>)}</div>
+      <p className="cs-note">יעד שנקבע ליום בשבוע חוזר בכל שבוע באותו יום, עד שמשנים אותו.</p>
       {courses.map((id) => {
         const c = COURSES.find((x) => x.id === id);
         return c && <label key={id} className="fam-row"><span>{c.name}</span><input type="number" inputMode="numeric" min="0" value={plan[id]?.[day] ?? 0} onChange={(e) => set(id, +e.target.value)} /><small>דק׳</small></label>;
@@ -55,7 +56,7 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
         {failed && <p className="cs-note">אין כרגע חיבור לנתוני המשפחה. נסו שוב כשיש אינטרנט.</p>}
         {!failed && !data && <p className="cs-note">טוען…</p>}
         {data && people.map((u) => {
-          const plan = data.plans?.[u.id] ?? {};
+          const plan = cleanSchedule(data.plans?.[u.id]);
           const mine = (data.courses?.[u.id] ?? []) as CourseId[];
           const goalOn = (c: CourseId, d: number) => (plan[c] ? plan[c]![weekday(d)] ?? 0 : 0);
           const list = [...new Set([...mine, ...Object.keys(plan) as CourseId[], ...Object.keys(data.time?.[u.id] ?? {}) as CourseId[]])];
