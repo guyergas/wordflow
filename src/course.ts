@@ -32,7 +32,7 @@ function moveOld(v: string | null) {
 }
 
 // Each member of the family has courses of their own and separate progress in each, on the same device.
-export const USERS = [{ id: 'guy', name: 'גיא' }, { id: 'dikla', name: 'דיקלה' }, { id: 'ayala', name: 'איילה' }, { id: 'ofir', name: 'אופיר' }, { id: 'omer', name: 'עומר' }, { id: 'ido', name: 'עידו' }];
+export const USERS = [{ id: 'guy', name: 'גיא', she: false }, { id: 'dikla', name: 'דיקלה', she: true }, { id: 'ayala', name: 'איילה', she: true }, { id: 'ofir', name: 'אופיר', she: true }, { id: 'omer', name: 'עומר', she: false }, { id: 'ido', name: 'עידו', she: false }];
 const USER_KEY = 'wordflow.user', MOVED_KEY = 'wordflow.moved';
 const uKey = (u: string, k: string) => `wordflow.u.${u}.${k}`;
 const get = (k: string) => { try { return localStorage.getItem(k); } catch { return null; } };
@@ -42,6 +42,8 @@ const listOf = (raw: string | null): CourseId[] => { try { return (JSON.parse(ra
 const savedUser = get(USER_KEY);
 export const USER_ID = USERS.some((u) => u.id === savedUser) ? savedUser! : null;
 export const USER_NAME = USERS.find((u) => u.id === USER_ID)?.name ?? '';
+/** Wording for the person using the app: feminine for a girl or woman, and before anyone has signed in. */
+export const g = (she: string, he: string) => (USERS.find((u) => u.id === USER_ID)?.she ?? true ? she : he);
 /** A setting of the person using the app. Before anyone has signed in, it is the device's old setting. */
 export const userKey = (k: string) => (USER_ID ? uKey(USER_ID, k) : `wordflow.${k}`);
 let enrolled = USER_ID ? listOf(get(uKey(USER_ID, 'courses'))) : [];

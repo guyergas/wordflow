@@ -1,3 +1,5 @@
+import { g } from '../course';
+import { greeting, TopBar } from '../topBar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { pushWin } from '../wins';
 import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
@@ -168,7 +170,7 @@ function QuestionView({ q, sound, hint, onDone, onNext, neutral, extraAction, sh
         <div className="feedback soft" role="status">
           <b>לא הפעם, וזה בסדר.</b>
           <span className="m-result">התשובה: <MT s={ANS(q.answer)} /></span>
-          <button type="button" className="btn-next" onClick={onNext}>ממשיכות</button>
+          <button type="button" className="btn-next" onClick={onNext}>{g('ממשיכות', 'ממשיכים')}</button>
         </div>
       )}
       {!neutral && result && !result.correct && (
@@ -278,7 +280,7 @@ function Finish({ st, onExit, onMore }: { st: MathState; onExit: () => void; onM
 
 // ---------- Onboarding and the opening run ----------
 function Onboarding({ st, update, running, setRunning }: { st: MathState; update: Update; running: boolean; setRunning: (v: boolean) => void }) {
-  const [name, setName] = useState(() => st.name || USER_NAME || readCourses().find((c) => c.name)?.name || '');
+  const [name, setName] = useState(() => USER_NAME || st.name || readCourses().find((c) => c.name)?.name || '');
   const p = st.placement;
   const begin = () => { update((s) => ({ ...s, name: name.trim(), placement: s.placement ?? startPlacement(Math.floor(Math.random() * 1e8)) })); setRunning(true); };
   if (p && placementDone(p)) return <RunResult st={st} update={update} />;
@@ -290,13 +292,12 @@ function Onboarding({ st, update, running, setRunning }: { st: MathState; update
         <h1>עוברות לחומר של כיתה ה׳</h1>
         <p className="lead">כמה שאלות קצרות, בלי ציון, כדי לבדוק מה כבר ידוע מכאן והלאה. מה שכבר למדת נשמר, והתרגילים הבסיסיים לא יחזרו.</p>
       </> : <>
-        <h1>{p ? 'ממשיכות מאיפה שעצרנו' : 'מוצאות יחד מאיפה מתחילים'}</h1>
-        <p className="lead">כמה שאלות קצרות, בלי ציון. {p ? 'ההתקדמות נשמרה.' : 'מתחילות בקל, ועוצרות במקום שעוד לא למדת.'}</p>
+        <h1>{p ? g('ממשיכות מאיפה שעצרנו', 'ממשיכים מאיפה שעצרנו') : g('מוצאות יחד מאיפה מתחילים', 'מוצאים יחד מאיפה מתחילים')}</h1>
+        <p className="lead">כמה שאלות קצרות, בלי ציון. {p ? 'ההתקדמות נשמרה.' : g('מתחילות בקל, ועוצרות במקום שעוד לא למדת.', 'מתחילים בקל, ועוצרים במקום שעוד לא למדת.')}</p>
       </>}
       {!p && <><p className="lead"><b>כדאי להכין דף ועט.</b> עושים כאן את החישוב כמו בבית, וכותבים באפליקציה רק את התשובה.</p>
-        <label className="field" htmlFor="mn">איך לקרוא לך?</label>
-        <input id="mn" className="input" value={name} onChange={(e) => setName(e.target.value)} /></>}
-      <button type="button" className="cta" disabled={!p && !name.trim()} onClick={begin}>{p && !(p.floor && p.asked === 0) ? 'להמשיך' : 'מתחילות'}</button>
+        {!USER_NAME && <><label className="field" htmlFor="mn">איך לקרוא לך?</label><input id="mn" className="input" value={name} onChange={(e) => setName(e.target.value)} /></>}</>}
+      <button type="button" className="cta" disabled={!p && !name.trim()} onClick={begin}>{p && !(p.floor && p.asked === 0) ? 'להמשיך' : g('מתחילות', 'מתחילים')}</button>
       <p className="small muted center">אפשר לעצור בכל רגע ולהמשיך בפעם אחרת.</p>
     </div>
   );
@@ -347,12 +348,11 @@ function Home({ st, today, onStart, onSettings }: { st: MathState; today: number
   const log = dayLog(st, today), t = totals(st), week = weekDays(st, today);
   const fresh = preview.newSkill ? SKILL[preview.newSkill] : null;
   const count = (p: Part) => preview.steps.filter((s) => s.part === p && s.kind === 'solve').length;
-  const hour = new Date().getHours(), hi = hour < 12 ? 'בוקר טוב' : hour < 17 ? 'צהריים טובים' : 'ערב טוב';
   const canNew = !!nextNew(st), anyMet = SKILLS.some((s) => isMet(st, s.id));
   return (
     <>
-      <header className="top"><Mark /><CourseSwitch /><button type="button" className="round" aria-label="הגדרות" onClick={onSettings}><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="2" /></svg></button></header>
-      <h1 className="greet">{hi}{st.name ? `, ${st.name}` : ''}</h1>
+      <TopBar onSettings={onSettings} />
+      <h1 className="greet">{greeting(st.name)}</h1>
       <div className="next-card">
         {log.done && !open ? (
           <>
@@ -370,7 +370,7 @@ function Home({ st, today, onStart, onSettings }: { st: MathState; today: number
           </>
         ) : (
           <>
-            <span className="chip-d">{open && open.at > 0 ? 'ממשיכות מאיפה שעצרת' : 'האימון של היום'}</span>
+            <span className="chip-d">{open && open.at > 0 ? g('ממשיכות מאיפה שעצרת', 'ממשיכים מאיפה שעצרת') : 'האימון של היום'}</span>
             <h2>{fresh ? `מחכה לך: ${fresh.title}` : 'היום מחזקות את מה שלמדת'}</h2>
             <ol className="route">
               {PARTS.map((p) => <li key={p.id}><b>{p.name}</b><small>{p.id === 'new' ? (fresh ? 'דוגמה ותרגול' : count(p.id) || '-') : `${count(p.id) || 0} שאלות`}</small></li>)}
@@ -389,7 +389,7 @@ function Home({ st, today, onStart, onSettings }: { st: MathState; today: number
       <section className="card week">
         <div className="row-between"><h3>השבוע</h3><span className="muted small">{week.filter(Boolean).length} מתוך {st.settings.weeklyGoal} ימים</span></div>
         <div className="week-tiles" aria-hidden="true">{['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'].map((d, i) => <span key={d} className={`wd ${week[i] ? 'on' : ''}`}>{d}</span>)}</div>
-        <p className="small muted">יום שפספסת לא מוחק כלום. פשוט ממשיכות.</p>
+        <p className="small muted">יום שפספסת לא מוחק כלום. {g('פשוט ממשיכות.', 'פשוט ממשיכים.')}</p>
       </section>
     </>
   );
@@ -466,8 +466,7 @@ function Settings({ st, update, onClose }: { st: MathState; update: Update; onCl
         <div className="row-between"><h2>הגדרות</h2><button type="button" className="round" aria-label="סגירה" onClick={onClose}><CloseIcon /></button></div>
         <div className="set-row"><span>מה לומדים</span><CourseSwitch /></div>
         <p className="small muted">לכל קורס התקדמות משלו, והיא נשמרת כשעוברים ביניהם.</p>
-        <label className="field" htmlFor="m2">שם</label>
-        <input id="m2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} />
+        {!USER_NAME && <><label className="field" htmlFor="m2">שם</label><input id="m2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} /></>}
         <div className="set-row"><span>קצב מיומנויות חדשות</span>
           <div className="seg lang" role="group" aria-label="קצב">
             <button type="button" aria-pressed={st.settings.pace === 'calm'} onClick={() => set({ pace: 'calm' })}>רגוע</button>

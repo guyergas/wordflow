@@ -13,9 +13,9 @@ import { Icon, TopBar } from '../components/ui';
 const W = 1080;
 const H = 1350;
 const C = {
-  paper: '#fffefa', sky: '#f5f4ef', rule: '#d5d9d2', ink: '#172b35', ink2: '#4f5d60', ink3: '#8a938f', coral: '#6f9a2c',
+  paper: '#fffefa', sky: '#f5f4ef', rule: '#d5d9d2', ink: '#172b35', ink2: '#4f5d60', ink3: '#8a938f', coral: '#a87a12',
   keyLine: '#cfd3cc', black: '#1a1d22',
-  notes: new Proxy({}, { get: () => '#6f9a2c' }) as Record<string, string>,
+  notes: new Proxy({}, { get: () => '#a87a12' }) as Record<string, string>,
 };
 const DISPLAY = '"Heebo Variable", Heebo, sans-serif';
 

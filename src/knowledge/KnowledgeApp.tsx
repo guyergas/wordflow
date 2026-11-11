@@ -1,3 +1,5 @@
+import { g } from '../course';
+import { greeting, TopBar } from '../topBar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { COURSE_INFO, STORAGE_KEY, USER_NAME, userKey } from '../course';
 import { shortParagraphs } from './kit';
@@ -65,15 +67,14 @@ export function KnowledgeApp() {
 }
 
 function Hello({ st, update }: { st: KState; update: Update }) {
-  const [name, setName] = useState(() => st.name || USER_NAME || readCourses().find((c) => c.name)?.name || '');
+  const [name, setName] = useState(() => USER_NAME || st.name || readCourses().find((c) => c.name)?.name || '');
   return (
     <div className="onb">
       <Mark />
       <h1>{COURSE_INFO.name}</h1>
       <p className="lead">{COURSE_INFO.note}. בכל שיעור קוראים קטע קצר ועונים על כמה שאלות. לא צריך לזכור כל פרט, אלא להבין את הרעיון.</p>
-      <label className="field" htmlFor="kn">איך לקרוא לך?</label>
-      <input id="kn" className="input" value={name} onChange={(e) => setName(e.target.value)} />
-      <button type="button" className="cta" disabled={!name.trim()} onClick={() => update((s) => ({ ...s, name: name.trim(), onboarded: true }))}>מתחילות</button>
+      {!USER_NAME && <><label className="field" htmlFor="kn">איך לקרוא לך?</label><input id="kn" className="input" value={name} onChange={(e) => setName(e.target.value)} /></>}
+      <button type="button" className="cta" disabled={!name.trim()} onClick={() => update((s) => ({ ...s, name: name.trim(), onboarded: true }))}>{g('מתחילות', 'מתחילים')}</button>
     </div>
   );
 }
@@ -86,8 +87,8 @@ function Home({ st, today, onStart, onSettings }: { st: KState; today: number; o
   const firstLesson = preview.steps.find((x) => x.t === 'lesson'), review = preview.steps.some((x) => x.t === 'review'), recall = preview.steps.some((x) => x.t === 'recall');
   return (
     <>
-      <header className="top"><Mark /><CourseSwitch /><button type="button" className="round" aria-label="הגדרות" onClick={onSettings}><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="2" /></svg></button></header>
-      <h1 className="greet">{COURSE_INFO.name}</h1>
+      <TopBar onSettings={onSettings} />
+      <h1 className="greet">{greeting(st.name)}</h1>
       <div className="next-card">
         {preview.steps.length === 0 || (log.done && !open) ? (
           <>
@@ -98,7 +99,7 @@ function Home({ st, today, onStart, onSettings }: { st: KState; today: number; o
           </>
         ) : (
           <>
-            <span className="chip-d">{open && open.at > 0 ? 'ממשיכות מאיפה שעצרת' : 'האימון של היום'}</span>
+            <span className="chip-d">{open && open.at > 0 ? g('ממשיכות מאיפה שעצרת', 'ממשיכים מאיפה שעצרת') : 'האימון של היום'}</span>
             <h2>{review ? 'שיעור חזרה' : firstLesson && firstLesson.t === 'lesson' ? LESSON[firstLesson.id].title : 'חזרה קצרה על מה שלמדת'}</h2>
             <p>{review ? 'בלי נושא חדש היום: כל השאלות של חמשת השיעורים האחרונים.' : [recall ? 'מה זוכרים מהשיעור הקודם' : '', fresh > 0 ? 'נושא אחד' : '', keys > 0 ? `${keys} שאלות חזרה` : ''].filter(Boolean).join(', ')}</p>
             <button type="button" className="cta-d" onClick={() => onStart()}>{open && open.at > 0 ? 'להמשיך' : 'להתחיל'}</button>
@@ -161,7 +162,7 @@ function Quiz({ q, sound, onAnswer, onNext, label, tools, onWrong }: { q: QuizQ;
       <div className="answers">
         {options.map((o) => <button key={o} type="button" disabled={tried.includes(o)} className={`ans k-ans ${picked && o === right ? 'right' : ''} ${(picked === o && o !== right) || tried.includes(o) ? 'wrong' : ''}`} onClick={() => pick(o)}>{o}</button>)}
       </div>
-      {picked && <div className={`feedback ${picked === right ? 'good k-why' : 'soft'}`} role="status"><b>{picked === right ? 'נכון!' : 'לא הפעם.'}</b>{why && <span>{why}</span>}<button type="button" className="btn-next" onClick={onNext}>ממשיכות</button></div>}
+      {picked && <div className={`feedback ${picked === right ? 'good k-why' : 'soft'}`} role="status"><b>{picked === right ? 'נכון!' : 'לא הפעם.'}</b>{why && <span>{why}</span>}<button type="button" className="btn-next" onClick={onNext}>{g('ממשיכות', 'ממשיכים')}</button></div>}
     </div>
   );
 }
@@ -228,11 +229,19 @@ function Recall({ step, seed, sound, onDone, nextTitle }: { step: Extract<Step, 
   );
 }
 
+type Spot = { id: string; stage: 'read' | 'q' | 'end'; i: number; score: number };
+const SPOT = () => userKey(`lessonSpot.${COURSE_INFO.id}`);
+const readSpot = (): Spot | null => { try { return JSON.parse(localStorage.getItem(SPOT()) ?? 'null') as Spot | null; } catch { return null; } };
+const writeSpot = (s: Spot | null) => { try { if (s) localStorage.setItem(SPOT(), JSON.stringify(s)); else localStorage.removeItem(SPOT()); } catch { /* this visit only */ } };
+
 function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boolean; sound: boolean; onDone: (ok: number, all: number) => void }) {
   type Stage = 'read' | 'q' | 'end';
-  const [stage, setStage] = useState<Stage>('read');
-  const [i, setI] = useState(0);
-  const score = useRef(0);
+  // Leaving in the middle of a lesson, or closing the app, brings her back to the same question with the same score.
+  const [saved] = useState(() => { const s = readSpot(); return s?.id === lesson.id ? s : null; });
+  const [stage, setStage] = useState<Stage>(saved?.stage ?? 'read');
+  const [i, setI] = useState(saved?.i ?? 0);
+  const score = useRef(saved?.score ?? 0);
+  useEffect(() => { writeSpot({ id: lesson.id, stage, i, score: score.current }); }, [lesson.id, stage, i]);
   const [reread, setReread] = useState(false);
   // Key sentences are in yellow on the first reading only. Back from a question, she looks for the answer herself.
   if (stage === 'read') return <div className="q"><span className="m-chip-hi center">{LEVEL[lesson.level]}</span><h1 className="k-title">{lesson.title}</h1>{lesson.text.includes('[[') && <p className="small muted center">במרקר הצהוב: המשפטים החשובים בקטע</p>}<Text lesson={lesson} marks /><div className="grow" /><button type="button" className="cta" onClick={() => setStage('q')}>קראתי</button></div>;
@@ -251,7 +260,7 @@ function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boo
       {wiki && <a className="link center-block" href={`https://he.wikipedia.org/wiki/${encodeURIComponent(lesson.wiki.replace(/ /g, '_'))}`} target="_blank" rel="noreferrer">רוצה לדעת עוד? בוויקיפדיה</a>}
       <ReportProblem lesson={lesson} />
       <div className="grow" />
-      <button type="button" className="cta" onClick={() => onDone(score.current, lesson.qs.length)}>סיימתי</button>
+      <button type="button" className="cta" onClick={() => { writeSpot(null); onDone(score.current, lesson.qs.length); }}>סיימתי</button>
     </div>
   );
 }
@@ -277,8 +286,7 @@ function Settings({ st, update, onClose }: { st: KState; update: Update; onClose
       <div className="sheet" role="dialog" aria-label="הגדרות" onClick={(e) => e.stopPropagation()}>
         <div className="row-between"><h2>הגדרות</h2><button type="button" className="round" aria-label="סגירה" onClick={onClose}><CloseIcon /></button></div>
         <div className="set-row"><span>מה לומדים</span><CourseSwitch /></div>
-        <label className="field" htmlFor="k2">שם</label>
-        <input id="k2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} />
+        {!USER_NAME && <><label className="field" htmlFor="k2">שם</label><input id="k2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} /></>}
         <div className="set-row"><label htmlFor="k3">צלילי משחק</label><input id="k3" type="checkbox" checked={st.settings.sound} onChange={(e) => set({ sound: e.target.checked })} /></div>
         <div className="set-row"><label htmlFor="k4">קישור לוויקיפדיה בסוף שיעור</label><input id="k4" type="checkbox" checked={st.settings.wiki} onChange={(e) => set({ wiki: e.target.checked })} /></div>
         <div className="danger">

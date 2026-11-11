@@ -17,7 +17,7 @@ export function Path({ start, onBack, onLesson }: { start: (p: SessionPlan) => v
 
   return (
     <div className="page with-nav">
-      <TopBar title="מסלול הלימוד" onBack={onBack} />
+      <TopBar title="המסע" onBack={onBack} />
       <p className="muted" style={{ marginTop: -6 }}>
         הסדר הוא המלצה — שום שלב לא נעול. בשלבי התווים והמנגינות נמדדות בנפרד שתי מיומנויות: שם התו, ומציאתו על המקלדת.
       </p>

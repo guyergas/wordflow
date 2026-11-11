@@ -1,3 +1,4 @@
+import { greeting, TopBar } from '../topBar';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Arrows, Glyph, Lines, Next, useStudyTimer, WritePad } from '../alef/AlefApp';
 import { frameOf } from '../alef/letters';
@@ -75,8 +76,8 @@ function Home({ st, today, onStart, onProgress, onSettings }: { st: EState; toda
   const more = !!nextLetter(st) && shaky(st).length < SHAKY_LIMIT, met = Object.keys(st.letters).length, hard = ABC.filter((l) => statusOf(st, l.id) === 'hard').length;
   return (
     <>
-      <header className="top"><CourseSwitch /><button type="button" className="round" aria-label="הגדרות" onClick={onSettings}><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="2" /><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2" /></svg></button></header>
-      <h1 className="greet">{st.name ? `שלום ${st.name}` : 'אנגלית לקטנטנים'}</h1>
+      <TopBar onSettings={onSettings} />
+      <h1 className="greet">{greeting(st.name)}</h1>
       <div className="next-card a-today-card">
         {first ? (
           <>

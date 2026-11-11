@@ -6,7 +6,7 @@ import { Icon } from './ui';
 
 const TABS: { route: Route; label: string; icon: string }[] = [
   { route: 'home', label: 'בית', icon: 'home' },
-  { route: 'path', label: 'מסלול', icon: 'path' },
+  { route: 'path', label: 'המסע', icon: 'path' },
   { route: 'practice', label: 'תרגול', icon: 'keys' },
   { route: 'stats', label: 'התקדמות', icon: 'chart' },
 ];

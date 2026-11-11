@@ -104,7 +104,8 @@ button.tile:active { transform: translateY(2px) scale(.97); }
 /* Onboarding */
 .onb { max-width: 520px; min-height: 100%; margin: 0 auto; padding: calc(env(safe-area-inset-top, 0px) + 20px) max(20px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 24px) max(20px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 14px; }
 .onb h1 { font-size: 36px; line-height: 1.12; font-weight: 750; }
-.onb-tiles { display: flex; justify-content: center; gap: 7px; padding: 26px 0 8px; }
+.onb-tiles { display: flex; justify-content: center; gap: clamp(3px, 1.6vw, 7px); padding: 26px 0 8px; }
+.onb-tiles .tile.small { --s: min(36px, calc((100vw - 36px - 7 * 3px) / 8)); }
 .lead { color: var(--ink-2); font-size: 17px; }
 .field { font-weight: 600; font-size: 15px; }
 .input { width: 100%; min-height: 50px; padding: 0 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }

@@ -1,5 +1,5 @@
-import { userKey } from '../../../course';
-import { CourseSwitch } from '../../../users';
+import { g, userKey } from '../../../course';
+import { greeting, TopBar } from '../../../topBar';
 import { useEffect, useState } from 'react';
 import { ACHIEVEMENTS } from '../../engine/achievements';
 import { ltrTitle, stageById, TRACKS } from '../../engine/curriculum';
@@ -73,13 +73,9 @@ export function Home({ start, go, onResume, startDaily, startReview, startWeekly
 
   return (
     <div className="page with-nav home">
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}><CourseSwitch /></div>
-      <div className="topbar home-top">
-        <h1 className="wordmark" aria-label="NoteFlow"><span className="brandmark" aria-hidden="true">♫</span>NoteFlow<i>.</i></h1>
-        <button className="icon-btn" onClick={() => go('settings')} aria-label="הגדרות"><Icon name="settings" /></button>
-      </div>
+      <TopBar className="home-top" onSettings={() => go('settings')} />
 
-      <h2 className="hh-greet">{first ? 'נעים להכיר' : 'נעים לנגן'}{settings.name ? `, ${settings.name}.` : '.'}</h2>
+      <h2 className="hh-greet">{greeting(settings.name)}</h2>
       <p className="hh-sub">{first ? 'עשר דקות ביום. תו אחר תו, בקצב שלך.' : minutes >= 10 ? 'עשר הדקות של היום מאחורייך. אפשר להמשיך בכיף.' : 'עשרה רגעים קטנים. עוד צעד בדרך למוזיקה.'}</p>
 
       <section className="next-card" aria-label="האימון הבא">
@@ -88,7 +84,7 @@ export function Home({ start, go, onResume, startDaily, startReview, startWeekly
         <h3 className="nc-title"><span className={ltrTitle(st) ? 'ltr' : undefined}>{headline[0]}</span><br />{headline[1]}</h3>
         <p className="nc-text">{first ? 'מתחילים בחמישה תווים במפתח סול, וכל תו מושמע כשהוא מופיע.' : `${track.title}: ${st.subtitle}`}</p>
         <button className="btn nc-cta" onClick={() => (first ? start(recommendedSession(idx, sessions, settings)) : rec.action === 'test' ? start(stageTest(rec.stageId, rec.skill, settings)) : startDaily(mood))}>
-          {first ? 'מתחילים' : rec.action === 'test' ? 'למבחן' : 'מתחילים את האימון'}
+          {first ? g('מתחילות', 'מתחילים') : rec.action === 'test' ? 'למבחן' : 'להתחיל את האימון'}
         </button>
       </section>
 

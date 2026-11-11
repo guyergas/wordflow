@@ -1,7 +1,7 @@
 @import '@fontsource-variable/heebo/index.css';
 
 /* NoteFlow — calm and confident.
-   Warm paper, deep ink-teal, one lime accent for the next step. One strong focal point per screen
+   Warm paper, deep ink-teal, one sun-yellow accent (as in the other WordFlow courses) for the next step. One strong focal point per screen
    (the dark "next practice" card), generous space, short warm copy. The piano stays black and white. */
 
 :root {
@@ -22,23 +22,23 @@
   --dark-muted: #b4c2bd;
   --accent: #172b35;
   --accent-ink: #fffef3;
-  --accent-soft: #e9f6d2;
-  --lime: #b6e963;
-  --lime-ink: #1d332b;
-  --lime-deep: #6f9a2c;
-  --coral: #b6e963;
-  --coral-ink: #1d332b;
-  --coral-soft: #e9f6d2;
+  --accent-soft: #fff0c4;
+  --lime: #ffc83d;
+  --lime-ink: #2d2406;
+  --lime-deep: #a87a12;
+  --coral: #ffc83d;
+  --coral-ink: #2d2406;
+  --coral-soft: #fff0c4;
   --pink: #efe2db;
   --orange: #bf6842;
-  --brass: #6f9a2c;
-  --brass-soft: #e9f6d2;
+  --brass: #a87a12;
+  --brass-soft: #fff0c4;
   --felt: #bf6842;
   --mint: #6f9a2c;
   --gold: #bf8a2c;
   --gold-soft: #f5ead2;
-  --good: #4f8a2a;
-  --good-soft: #e9f6d2;
+  --good: #1f8a58;
+  --good-soft: #dcf2e4;
   --bad: #bf6842;
   --bad-soft: #f5e4da;
   --staff-bg: #fffefa;
@@ -61,9 +61,9 @@
   :root:not([data-theme="light"]) {
     --bg: #101c23; --surface: #1a2b33; --surface-2: #22363f; --sky: #22363f; --sky-2: #2b414a;
     --line: #33454b; --rule: #3d5158; --ink: #f3f4ea; --ink-2: #c4cec9; --ink-3: #8fa09b;
-    --dark: #0b151c; --accent: #f3f4ea; --accent-ink: #101c23; --accent-soft: #2c3d24;
-    --coral-soft: #2c3d24; --brass: #b6e963; --brass-soft: #2c3d24; --mint: #b6e963; --pink: #3a3435;
-    --good: #b6e963; --good-soft: #2c3d24; --bad: #e59a74; --bad-soft: #3d2e2a; --gold: #e8c06a; --gold-soft: #3b3423;
+    --dark: #0b151c; --accent: #f3f4ea; --accent-ink: #101c23; --accent-soft: #40371c;
+    --coral-soft: #40371c; --brass: #ffc83d; --brass-soft: #40371c; --mint: #b6e963; --pink: #3a3435;
+    --good: #6fd79a; --good-soft: #1d3d30; --bad: #e59a74; --bad-soft: #3d2e2a; --gold: #e8c06a; --gold-soft: #3b3423;
     --staff-bg: #1a2b33; --staff-ink: #eef0e6; --note-target: #ffffff; --note-current: #b6e963; --note-ghost: #5d6f6c;
     --shadow: none; --key-black: #0b0d10; --key-white: #eef0e8; --key-white-ink: #101c23;
     color-scheme: dark;
@@ -72,9 +72,9 @@
 :root[data-theme="dark"] {
   --bg: #101c23; --surface: #1a2b33; --surface-2: #22363f; --sky: #22363f; --sky-2: #2b414a;
   --line: #33454b; --rule: #3d5158; --ink: #f3f4ea; --ink-2: #c4cec9; --ink-3: #8fa09b;
-  --dark: #0b151c; --accent: #f3f4ea; --accent-ink: #101c23; --accent-soft: #2c3d24;
-  --coral-soft: #2c3d24; --brass: #b6e963; --brass-soft: #2c3d24; --mint: #b6e963; --pink: #3a3435;
-  --good: #b6e963; --good-soft: #2c3d24; --bad: #e59a74; --bad-soft: #3d2e2a; --gold: #e8c06a; --gold-soft: #3b3423;
+  --dark: #0b151c; --accent: #f3f4ea; --accent-ink: #101c23; --accent-soft: #40371c;
+  --coral-soft: #40371c; --brass: #ffc83d; --brass-soft: #40371c; --mint: #b6e963; --pink: #3a3435;
+  --good: #6fd79a; --good-soft: #1d3d30; --bad: #e59a74; --bad-soft: #3d2e2a; --gold: #e8c06a; --gold-soft: #3b3423;
   --staff-bg: #1a2b33; --staff-ink: #eef0e6; --note-target: #ffffff; --note-current: #b6e963; --note-ghost: #5d6f6c;
   --shadow: none; --key-black: #0b0d10; --key-white: #eef0e8; --key-white-ink: #101c23;
   color-scheme: dark;

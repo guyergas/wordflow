@@ -1,3 +1,4 @@
+import { greeting, TopBar } from './topBar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   applyPlacement, buildPlan, clozeOf, currentLevel, dayLog, dayNumber, hardWords, isKnown, isMet, Kind, label, levelStats, LEARNING_CAP, options,
@@ -133,7 +134,7 @@ export function App() {
 // ---------- Onboarding + placement ----------
 function Onboarding({ st, update }: { st: State; update: Update }) {
   const [step, setStep] = useState<'hello' | 'test' | 'result'>('hello');
-  const [name, setName] = useState(st.name || USER_NAME);
+  const [name, setName] = useState(USER_NAME || st.name);
   const [level, setLevel] = useState(0);
   const [queue, setQueue] = useState<Word[]>(() => placementWords(0));
   const [i, setI] = useState(0);
@@ -174,8 +175,7 @@ function Onboarding({ st, update }: { st: State; update: Update }) {
       <p className="lead">{x('אימון קצר ביום: חימום על מילים שאת מכירה, חיזוק קליל, ואז מילים חדשות שמחכות לך בסוף.', 'אימון קצר ביום: חימום על מילים שאתה מכיר, חיזוק קליל, ואז מילים חדשות שמחכות לך בסוף.')}</p>
       {IS_THAI && <p className="lead"><b>מקשיבים וחוזרים בקול רם על כל מילה.</b> ככה הפה מתרגל, ולא רק האוזן.</p>}
       {IS_THAI && <ToneNote />}
-      <label className="field" htmlFor="nm">איך לקרוא לך?</label>
-      <input id="nm" className="input" value={name} onChange={(e) => setName(e.target.value)} />
+      {!USER_NAME && <><label className="field" htmlFor="nm">איך לקרוא לך?</label><input id="nm" className="input" value={name} onChange={(e) => setName(e.target.value)} /></>}
       <button type="button" className="cta" disabled={!name.trim()} onClick={() => { if (st.settings.sound) sfx.tap(); if (IS_THAI) finish(0, {}); else setStep('test'); }}>{x('נתחיל בבדיקה קצרה', 'נתחיל')}</button>
       {!IS_THAI && <p className="small muted center">כמה דקות, בלי ציון. היא רק מוצאת לך את נקודת ההתחלה. אם מילה לא מוכרת, זה בסדר גמור.</p>}
     </div>
@@ -232,17 +232,14 @@ function Home({ st, today, onStart, onSentences, onSettings, onReadTime }: { st:
   const weekSec = studySeconds(st, today - 6, today);
   const week = weekDays(st, today);
   const weekCount = week.filter(Boolean).length;
-  const hour = new Date().getHours();
-  const hi = hour < 12 ? 'בוקר טוב' : hour < 17 ? 'צהריים טובים' : 'ערב טוב';
   const count = (p: Part) => preview.steps.filter((s) => s.part === p && s.kind !== 'intro').length;
   const part = plan && inProgress ? plan.steps[plan.at].part : null;
   const lockCount = preview.consolidating ? 0 : preview.newIds.length;
 
   return (
     <>
-      <header className="top"><Wordmark /><CourseSwitch /><button type="button" className="round" aria-label="הגדרות" onClick={onSettings}>
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="2" /></svg></button></header>
-      <h1 className="greet">{hi}, {st.name}</h1>
+      <TopBar onSettings={onSettings} />
+      <h1 className="greet">{greeting(st.name)}</h1>
       <div className="next-card">
         {done ? (
           <>
@@ -1092,8 +1089,7 @@ function Settings({ st, update, onClose }: { st: State; update: Update; onClose:
       <div className="set-row"><span>מה לומדים</span>
         <CourseSwitch /></div>
       <p className="small muted">לכל קורס התקדמות משלו, והיא נשמרת כשעוברים ביניהם.</p>
-      <label className="field" htmlFor="n2">שם</label>
-      <input id="n2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} />
+      {!USER_NAME && <><label className="field" htmlFor="n2">שם</label><input id="n2" className="input" value={st.name} onChange={(e) => update((s) => ({ ...s, name: e.target.value }))} /></>}
       <div className="set-row"><label htmlFor="s1">צלילי משחק</label><input id="s1" type="checkbox" checked={st.settings.sound} onChange={(e) => set({ sound: e.target.checked })} /></div>
       <div className="set-row"><label htmlFor="s2">הקראה אוטומטית של מילים</label><input id="s2" type="checkbox" checked={st.settings.autoSpeak} onChange={(e) => set({ autoSpeak: e.target.checked })} /></div>
       {voices.length > 1 && <>

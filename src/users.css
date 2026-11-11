@@ -92,3 +92,11 @@
 .fam-wins li { display: grid; gap: 4px; }
 .fam-wins p { margin: 0; font-size: 17px; line-height: 1.5; font-weight: 600; }
 .fam-wins small { opacity: .7; }
+
+/* One header for every course: the WordFlow mark, the person and course, and settings. It depends on neither app's styles. */
+.wf-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.wf-mark { display: flex; align-items: center; gap: 3px; direction: ltr; font: 600 25px/1 'Fredoka Variable', 'Fredoka', ui-rounded, 'Avenir Next', 'Segoe UI', sans-serif; letter-spacing: -.01em; color: var(--cs-ink); flex: none; }
+.wf-mark b { width: 32px; height: 34.5px; display: inline-grid; place-items: center; margin-inline-end: 1px; border-radius: 7px; background: #ffe9ad; color: #172b35; font-weight: 600; box-shadow: inset 0 -4px 0 #dfae3f, 0 3px 8px rgba(23, 43, 53, .08); }
+.wf-round { width: 44px; height: 44px; border: 1px solid var(--cs-line); border-radius: 50%; display: grid; place-items: center; flex: none; background: transparent; color: var(--cs-ink); }
+.wf-top, .wf-round { --cs-ink: var(--ink, #172b35); --cs-line: var(--line, #e2e3dc); }
+@media (max-width: 359px) { .wf-mark span { display: none; } }
