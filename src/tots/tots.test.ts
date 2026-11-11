@@ -40,6 +40,16 @@ describe('the path', () => {
     expect(p.steps.filter((s) => WRITING.includes(s.t)).length).toBe(10);
     expect(p.steps.filter((s) => s.t !== 'meet' && !WRITING.includes(s.t)).length).toBe(20);
   });
+  it('gives four twice as much writing', () => {
+    let st = initial('א');
+    for (const id of ['n1', 'n2', 'n3']) st = meet(st, id, 90);
+    for (const id of ['n1', 'n2', 'n3']) for (const d of [90, 91, 93, 97]) st = answer(answer(st, id, 'see', true, d), id, 'write', true, d);
+    const p = buildPlan(st, 120), fours = p.steps.filter((s) => s.id === 'n4' && WRITING.includes(s.t));
+    expect(p.steps[0]).toMatchObject({ t: 'meet', id: 'n4' });
+    expect(fours.length).toBe(20);
+    const four = buildPlan(meet(initial('א'), 'n4', 100), 101, { warm: true }).steps.filter((s) => WRITING.includes(s.t));
+    expect(four.length).toBe(20);
+  });
   it('mixes kinds of exercise', () => {
     const p = buildPlan(initial('א'), 100, { rnd: seeded(5) }), kinds = p.steps.slice(1).map((s) => WRITING.includes(s.t) ? 'w' : s.t);
     expect(kinds.filter((k, i) => i > 0 && k === kinds[i - 1]).length).toBeLessThan(6);

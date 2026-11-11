@@ -13,6 +13,9 @@ export interface TState { onboarded: boolean; name: string; skills: Record<strin
 const GAPS = [1, 1, 2, 4, 8, 16, 32];
 export const SHAKY_LIMIT = 4;
 export const REPEAT = { first: 20, see: 10, write: 10 };
+/** Digits that are harder to write get more writing each time. Four has three lines that meet, unlike any digit before it. */
+export const HARD_TO_WRITE: Record<string, number> = { n4: 2 };
+export const writeCount = (id: string) => REPEAT.write * (HARD_TO_WRITE[id] ?? 1);
 export const WRITING: StepKind[] = ['trace', 'copy', 'memory', 'write'];
 export const dayNumber = () => { const d = new Date(); return Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() / 864e5 + 0.5); };
 export const initial = (name: string): TState => ({ onboarded: true, name, skills: {}, days: {}, plan: null, settings: { sound: true } });
@@ -47,9 +50,10 @@ function seeSet(s: Skill, box: number, count: number, rnd: () => number): Step[]
 }
 const times = (t: StepKind, id: string, count: number): Step[] => Array.from({ length: count }, (_, n) => ({ t, id, n }));
 function writeSet(id: string, box: number): Step[] {
-  if (box === 0) return times('trace', id, REPEAT.write);
-  if (box === 1) return times('copy', id, REPEAT.write);
-  return [...times('memory', id, 5), ...times('write', id, 5)];
+  const n = writeCount(id);
+  if (box === 0) return times('trace', id, n);
+  if (box === 1) return times('copy', id, n);
+  return [...times('memory', id, n / 2), ...times('write', id, n / 2)];
 }
 function practice(st: TState, id: string, day: number, rnd: () => number, force = false): Step[] {
   const s = SKILL[id], k = st.skills[id], out: Step[] = [];
@@ -79,7 +83,7 @@ export function buildPlan(st: TState, day: number, o: PlanOptions = {}): Plan {
   if (!canLearn && !freshToday && !reviews.length) reviews = shaky(st).flatMap((id) => practice(st, id, day, rnd, true));
   reviews = reviews.slice(0, canLearn ? 20 : 40);
   if (canLearn && next) {
-    const first = [...seeSet(next, 0, REPEAT.first, rnd), ...(hasWriting(next) ? times('trace', next.id, REPEAT.write) : [])];
+    const first = [...seeSet(next, 0, REPEAT.first, rnd), ...(hasWriting(next) ? times('trace', next.id, writeCount(next.id)) : [])];
     return { day, steps: [{ t: 'meet', id: next.id, n: 0 }, ...mix([...reviews, ...first], rnd)], at: 0 };
   }
   return { day, steps: mix(reviews, rnd), at: 0 };
