@@ -64,6 +64,8 @@ export const TRAPS = {
   rootsimp: { name: 'פישוט שורשים', explain: 'מפרקים את המספר שבשורש למכפלה של ריבוע שלם גדול ככל האפשר במספר אחר. את הריבוע מוציאים מהשורש כשורשו, למשל √(9×2)=3√2, ולא כ־9.' },
   sqsum: { name: 'כפל מקוצר', explain: '(a+b)² אינו a²+b². זה (a+b) כפול (a+b), ויש בו גם את האיבר האמצעי 2ab. רק ב־(a+b)(a−b) האיברים האמצעיים מבטלים זה את זה, ונשאר a²−b².' },
   trinom: { name: 'פירוק טרינום', explain: 'מחפשים שני מספרים שמכפלתם היא האיבר החופשי וסכומם הוא המקדם של x. בודקים את הסימנים: מכפלה שלילית פירושה שהמספרים בסימנים שונים.' },
+  quadeq: { name: 'פתרונות ממכפלה', explain: 'מכפלה שווה 0 רק כשאחד הגורמים שווה 0. הפתרון הוא המספר שמאפס את הסוגר: מ־(x−3)=0 יוצא x=3, ולא −3. ולרוב יש שני פתרונות.' },
+  quadform: { name: 'נוסחת השורשים', explain: 'הדיסקרימיננטה היא b²−4ac. כש־c שלילי, −4ac חיובי. כשהיא חיובית יש שני פתרונות, כשהיא 0 יש פתרון אחד, וכשהיא שלילית אין פתרון.' },
 } as const;
 export type TrapId = keyof typeof TRAPS;
 
@@ -995,6 +997,37 @@ export const SKILLS: Skill[] = [
     const B = p + q, C = p * q, hi = Math.max(p, q), lo = Math.min(p, q), tri = `x²${B > 0 ? '+' : ''}${kx(B)}${term(C)}`;
     const wrong = ([[n(-hi), 'trinom'], [n(-lo), 'trinom'], [n(B), 'trinom']] as [string, TrapId][]).filter(([v]) => v !== n(hi));
     return calc({ prompt: `[[${tri}=(x+p)(x+q)]]. מה הגדול מבין [[p]] ו־[[q]]?`, ans: n(hi), eq: `${hi}`, wrong, steps: [`מחפשים שני מספרים שמכפלתם [[${sgn(C)}]] וסכומם [[${sgn(B)}]]`, `אלה [[${sgn(hi)}]] ו־[[${sgn(lo)}]]: [[${par(hi)}×${par(lo)}=${sgn(C)}]] ו־[[${sgn(hi)}+${par(lo)}=${sgn(B)}]]`, `הגדול מביניהם הוא [[${sgn(hi)}]]`] });
+  } },
+  { id: 'quadeq', station: 16, title: 'משוואה ריבועית בפירוק', needs: ['trinom'], u: (r) => {
+    const opts = [-6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7];
+    let s = pick(r, opts), t = pick(r, opts);
+    while (s === t || s + t === 0) t = pick(r, opts);
+    const hi = Math.max(s, t), lo = Math.min(s, t), B = -(s + t), C = s * t, tri = `x²${B > 0 ? '+' : ''}${kx(B)}${term(C)}=0`;
+    const sol = (u: number, v: number) => `[[x=${sgn(Math.max(u, v))}]] או [[x=${sgn(Math.min(u, v))}]]`;
+    return conceptQ(`מה הפתרונות של [[${tri}]]?`, sol(hi, lo), [[sol(-hi, -lo), 'quadeq'], [`רק [[x=${sgn(hi)}]]`, 'quadeq'], [sol(-hi, lo), 'quadeq']], [`מפרקים: [[(x${term(-hi)})(x${term(-lo)})=0]]`, `מכפלה שווה [[0]] כשאחד הגורמים שווה [[0]]: [[x${term(-hi)}=0]] או [[x${term(-lo)}=0]]`, `ולכן ${sol(hi, lo)}`]);
+  }, e: (r) => {
+    const opts = [-6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7];
+    let s = pick(r, opts), t = pick(r, opts);
+    while (s === t || s + t === 0) t = pick(r, opts);
+    const hi = Math.max(s, t), lo = Math.min(s, t), B = -(s + t), C = s * t, tri = `x²${B > 0 ? '+' : ''}${kx(B)}${term(C)}=0`;
+    return calc({ prompt: `למשוואה [[${tri}]] יש שני פתרונות. מה הגדול מביניהם?`, ans: n(hi), eq: `${hi}`, pencil: true, wrong: ([[n(-lo), 'quadeq'], [n(-hi), 'quadeq'], [n(lo)]] as [string, TrapId?][]).filter(([v]) => v !== n(hi)), steps: [`מפרקים: [[(x${term(-hi)})(x${term(-lo)})=0]]`, `[[x${term(-hi)}=0]] או [[x${term(-lo)}=0]], כלומר [[x=${sgn(hi)}]] או [[x=${sgn(lo)}]]`, `הגדול הוא [[${sgn(hi)}]]`] });
+  } },
+  { id: 'quadform', station: 16, title: 'נוסחת השורשים', needs: ['quadeq', 'rootsimp'], u: (r) => {
+    const kind = ri(r, 0, 2), a = kind === 1 ? 1 : ri(r, 1, 3), b = pick(r, [-6, -4, -2, 2, 4, 6]);
+    const c = kind === 0 ? -ri(r, 1, 5) : kind === 1 ? (b * b) / (4 * a) : Math.floor((b * b) / (4 * a)) + ri(r, 1, 4);
+    const D = b * b - 4 * a * c, eq = `${a === 1 ? '' : a}x²${b > 0 ? '+' : ''}${kx(b)}${term(c)}=0`;
+    const ans = kind === 0 ? 'שני פתרונות' : kind === 1 ? 'פתרון אחד' : 'אין פתרון';
+    const others = ['שני פתרונות', 'פתרון אחד', 'אין פתרון'].filter((x) => x !== ans).map((x) => [x, 'quadform'] as [string, TrapId]);
+    return conceptQ(`כמה פתרונות יש ל־[[${eq}]]?`, ans, others, [`מחשבים את הדיסקרימיננטה: [[b²−4ac=${par(b)}²−4×${a}×${par(c)}=${sgn(D)}]]`, D > 0 ? 'היא חיובית, ולכן יש שני פתרונות' : D === 0 ? 'היא [[0]], ולכן יש פתרון אחד' : 'היא שלילית, ואין שורש למספר שלילי, ולכן אין פתרון']);
+  }, e: (r) => {
+    const a = ri(r, 1, 3), s = ri(r, -5, 5), t0 = ri(r, -5, 5), t = t0 === s ? s + 1 : t0, b = -a * (s + t), c = a * s * t, D = b * b - 4 * a * c;
+    const eqs = `${a === 1 ? '' : a}x²${b > 0 ? '+' : ''}${b ? kx(b) : ''}${term(c)}=0`;
+    if (r() < 0.5) {
+      const wrong = ([[n(b * b + 4 * a * c), 'quadform'], [n(-(b * b) - 4 * a * c), 'quadform'], [n(b * b - a * c), 'quadform']] as [string, TrapId][]).filter(([v]) => v !== n(D));
+      return calc({ prompt: `במשוואה [[${eqs}]], כמה שווה [[b²−4ac]]?`, ans: n(D), eq: `(${b})*(${b})-4*${a}*(${c})`, pencil: true, wrong, steps: [`[[a=${a}]], [[b=${sgn(b)}]], [[c=${sgn(c)}]]`, `[[${par(b)}²−4×${a}×${par(c)}=${b * b}${c > 0 ? '−' : '+'}${Math.abs(4 * a * c)}=${sgn(D)}]]`] });
+    }
+    const hi = Math.max(s, t), lo = Math.min(s, t), sq = Math.round(Math.sqrt(D));
+    return calc({ prompt: `פותרים את [[${eqs}]] בנוסחת השורשים. מה הפתרון הגדול?`, ans: n(hi), eq: `(-(${b})+${sq})/(2*${a})`, pencil: true, wrong: ([[n(-lo), 'quadeq'], [n(lo)], [n(-hi), 'quadeq']] as [string, TrapId?][]).filter(([v]) => v !== n(hi)), steps: [`[[b²−4ac=${b * b}${c > 0 ? '−' : '+'}${Math.abs(4 * a * c)}=${D}]], ושורשה [[${sq}]]`, `[[x=(${sgn(-b)}±${sq})÷${2 * a}]]`, `הגדול: [[(${sgn(-b)}+${sq})÷${2 * a}=${sgn(hi)}]]`] });
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));
