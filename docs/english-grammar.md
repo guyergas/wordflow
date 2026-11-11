@@ -1,11 +1,52 @@
 # Adding English grammar topics
 
-Topics are in `src/grammar/topics.ts`. Each run adds one, the first in this list not yet there. The Ministry's official grammar bands could not be retrieved, so the order follows common A1 and A2 practice. `words` is how many known words the topic waits for, and it must not go down along the array, so insert each new topic at its place by `words` rather than at the end (the learner gets the first topic in the array not yet seen).
+Topics are in `src/grammar/topics.ts`. Each run adds one: the first topic in the list below that is not there yet. The order follows the Ministry of Education's English curriculum (Curriculum 2020, elementary Table 6 and the junior-high grammar table for grades 7-9).
 
-The tenses are already in, split into several topics each with plenty of practice: Present Progressive (`pp-form`, `pp-ing`, `pp-neg-q`, `ps-vs-pp`, words 300 to 340), Past Simple (`past-be`, `past-regular`, `past-irregular-1`, `past-irregular-2`, `past-neg-q`, `past-mix`, words 450 to 590) and the future (`will`, `will-neg-q`, `going-to`, `will-vs-going`, words 650 to 700). Present Perfect is left for later.
+`words` is how many known words the topic waits for. It must not go down along the array, so insert each new topic at its place by `words`, not at the end. The learner gets the first topic in the array not yet seen. A topic's part on the grammar page comes from `GRAMMAR_PARTS` in the same file: it belongs to the last part whose `from` is at most its `words`.
 
-Basics: this/that/these/those (done); כינויי גוף: I, me, my; מילות יחס: in, on, at, under; there is / there are; ציווי; do ו־does בשאלה; don't ו־doesn't בשלילה, all with words 190 to 290, before Present Progressive; then can ו־can't, words 350 to 400.
-Continuing, words 600 to 800: some ו־any; much ו־many; השוואה: bigger, the biggest, words 600 to 640, between Past Simple and will; then סדר מילים, words 720 to 800.
-Advanced, words 850 to 1,200: Present Perfect; should ו־have to; תנאי ראשון; who/which; adverbs: quick, quickly; passive פשוט.
+Each topic needs `rule` (one or two short Hebrew sentences), `example` (in English) and at least 25 questions in the form `[sentence with ___, right, [wrong, ...], why]`. Why is one short Hebrew sentence. Sentences are fit for a child and use common words. Only one answer may fit: if a wrong answer would also be correct English, add a word like "yesterday" or "now" that rules it out. Run `npx vitest run src/grammar`.
 
-Each topic: `rule` of one or two short Hebrew sentences, `example` in English, and at least 10 questions in the form `[sentence with ___, right, [wrong, ...], why]`. Why is one short Hebrew sentence. Sentences are fit for a child and use common words. Run `npx vitest run src/grammar`.
+## Already in
+
+- יסודות: a/an, רבים, am/is/are, have/has, this/that, כינויי גוף (words 40 to 140)
+- Present Simple: הפועל ו־s, s/es/ies (160 to 170)
+- שלילה: isn't/aren't, don't/doesn't, isn't או doesn't (200 to 220)
+- שאלות: Is/Are, Do/Does, מילות שאלה, מילת שאלה ופועל (240 to 270)
+- Present Progressive: 4 topics (300 to 340)
+- Past Simple: 6 topics (450 to 590)
+- עתיד: will, won't, going to, will מול going to (650 to 700)
+
+## List
+
+- יסודות · possessive 's: Dana's bag, the boys' room · words 145
+- יסודות · שם תואר לפני שם עצם: a big red ball · words 150
+- יסודות · מילות חיבור: and, but, or, because · words 155
+- עוד מבנים בסיסיים · מילות יחס של מקום: in, on, under, next to, between · words 280
+- עוד מבנים בסיסיים · מילות יחס של זמן: in, on, at · words 284
+- עוד מבנים בסיסיים · there is ו־there are, כולל שלילה ושאלה · words 288
+- עוד מבנים בסיסיים · ציווי ו־Let's: Sit down, Don't run, Let's go · words 292
+- עוד מבנים בסיסיים · can ו־can't ליכולת, כולל שאלה · words 296
+- כמויות והשוואה · some ו־any · words 600
+- כמויות והשוואה · נספר ולא נספר: much, many, a lot of · words 610
+- כמויות והשוואה · השוואה: bigger, more beautiful, than · words 620
+- כמויות והשוואה · the biggest, the most beautiful · words 630
+- כמויות והשוואה · good, better, the best ועוד חריגים · words 640
+- מתקדמים · תואר הפועל: quick, quickly · words 720
+- מתקדמים · בקשה וחובה: can, could, must, have to · words 730
+- מתקדמים · should לעצה, כולל שלילה ושאלה · words 740
+- מתקדמים · רשות ואיסור: can, may I, mustn't · words 745
+- מתקדמים · דיבור עקיף: He said that, She told me that · words 750
+- מתקדמים · זמן ורצף: before, after, when, first, then · words 760
+- מתקדמים · משפט זיקה: who ו־that · words 770
+- מתקדמים · Past Progressive: was playing, were playing · words 800
+- מתקדמים · Past Progressive מול Past Simple: while ו־when · words 810
+- מתקדמים · Present Progressive לתוכניות: I'm meeting her tomorrow · words 820
+- מתקדמים · ing כשם: Swimming is fun, I like reading · words 830
+- מתקדמים · used to ו־didn't use to · words 840
+- מתקדמים · could ליכולת בעבר · words 845
+- מתקדמים · סביל בהווה ובעבר: is made, was built · words 880
+- מתקדמים · תנאי אמיתי: if ו־when · words 890
+- מתקדמים · תנאי שני: If I had, I would · words 900
+- מתקדמים · שם עצם כתואר: a school bus, an English teacher · words 910
+
+Present Perfect (experiences with ever and never, since and for, just and yet, and the passive in Present Perfect) is in the Ministry's plan for grades 8 and 9, but leave it out until Guy asks for it.

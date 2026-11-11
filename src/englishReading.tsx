@@ -1,7 +1,7 @@
-// A short English text with three questions, offered once in a few days. Most of the practice stays with words.
+// Reading: short English texts with questions, each opening at a word count and at most once in a few days. Most of the practice stays with words.
 import { pushWin } from './wins';
 import { useRef, useState } from 'react';
-import { userKey } from './course';
+import { g, userKey } from './course';
 import './users.css';
 
 type Q = [question: string, right: string, wrong: string[]];
@@ -48,22 +48,52 @@ function Reader({ p, onClose }: { p: Passage; onClose: (finished: boolean) => vo
   );
 }
 
-/** Practice time here counts like any other practice in the course. */
+/** The reading card on the home screen. It opens a page with every text: read ones can be read again, and the rest say when they open. */
 export function EnglishReading({ known, onTime }: { known: number; onTime: (sec: number) => void }) {
   const [state, setState] = useState(load);
-  const [open, setOpen] = useState(false);
+  const [page, setPage] = useState(false);
+  const [reading, setReading] = useState<Passage | null>(null);
   const started = useRef(0);
+  const today = nowDay();
   const next = PASSAGES.find((p) => !state.done.includes(p.id));
-  if (!next || known < wordsNeeded(PASSAGES.indexOf(next)) || nowDay() - state.last < GAP_DAYS) return null;
+  const wait = Math.max(0, GAP_DAYS - (today - state.last));
+  const lockText = (p: Passage) => {
+    const need = wordsNeeded(PASSAGES.indexOf(p));
+    if (p !== next) return 'ייפתח אחרי הקטע הקודם';
+    if (known < need) return `ייפתח כש${g('תכירי', 'תכיר')} ${need} מילים (עכשיו ${known})`;
+    return wait > 0 ? `ייפתח בעוד ${wait === 1 ? 'יום' : `${wait} ימים`}` : '';
+  };
+  const ready = next && !lockText(next);
+  const open = (p: Passage) => { started.current = Date.now(); setReading(p); };
   const close = (finished: boolean) => {
     onTime(Math.min(600, Math.round((Date.now() - started.current) / 1000)));
-    setOpen(false);
-    if (finished) { pushWin('reading', next.title); const s = { done: [...state.done, next.id], last: nowDay() }; store(s); setState(s); }
+    if (finished && reading && !state.done.includes(reading.id)) { pushWin('reading', reading.title); const s = { done: [...state.done, reading.id], last: today }; store(s); setState(s); }
+    setReading(null);
   };
+  const sub = !next ? `כל ${PASSAGES.length} הקטעים נקראו` : ready ? `קטע חדש: ${next.title}` : lockText(next);
   return (
     <>
-      <button type="button" className="en-card" onClick={() => { started.current = Date.now(); setOpen(true); }}><b>קטע קצר באנגלית</b><small dir="ltr">{next.title}</small></button>
-      {open && <Reader p={next} onClose={close} />}
+      <button type="button" className="sent-card" onClick={() => setPage(true)}>
+        <span className="sent-txt"><b>קריאה</b><small>{sub}</small></span>
+        <span className="sent-go" aria-hidden="true">←</span>
+      </button>
+      {page && !reading && (
+        <div className="fam-page"><div className="fam-inner">
+          <div className="cs-row"><h2>קריאה</h2><button type="button" className="cs-round" aria-label="סגירה" onClick={() => setPage(false)}>✕</button></div>
+          <p className="cs-note">קטע קצר באנגלית, ואחריו שאלות הבנה בעברית. קטע חדש נפתח כשמגיעים למספר המילים שלו, ולכל היותר פעם ב־{GAP_DAYS} ימים. קטע שכבר נקרא אפשר לקרוא שוב.</p>
+          {PASSAGES.map((p) => {
+            const done = state.done.includes(p.id), lock = done ? '' : lockText(p);
+            return (
+              <button key={p.id} type="button" className={`en-card gr-topic${lock ? ' locked' : ''}`} disabled={!!lock} onClick={() => open(p)}>
+                <b dir="ltr">{p.title}</b>
+                <small className="cs-note">{done ? 'נקרא' : lock || 'פתוח לקריאה'} · {p.text.split(/\s+/).length} מילים · {p.qs.length} שאלות</small>
+                {done && <span className="gr-again">לקרוא שוב</span>}
+              </button>
+            );
+          })}
+        </div></div>
+      )}
+      {reading && <Reader p={reading} onClose={close} />}
     </>
   );
 }

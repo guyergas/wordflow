@@ -1,8 +1,8 @@
 // A short grammar stop in the English course: a rule, then questions, and a wrong answer gets a hint and another try.
 import { pushWin } from '../wins';
 import { useMemo, useRef, useState } from 'react';
-import { userKey } from '../course';
-import { GRAMMAR, GrammarQ } from './topics';
+import { g, userKey } from '../course';
+import { GRAMMAR, GRAMMAR_PARTS, GrammarQ, partOf } from './topics';
 import '../users.css';
 
 /** A new topic at most once in this many days. A learned topic returns after 1, 3, 7, 14 and 30 days. */
@@ -56,13 +56,6 @@ function Run({ title, rule, example, qs, onClose }: { title: string; rule: strin
   );
 }
 
-const PARTS: { name: string; from: string }[] = [
-  { name: 'יסודות', from: GRAMMAR[0]?.id ?? '' },
-  { name: 'Present Progressive', from: 'pp-form' },
-  { name: 'Past Simple', from: 'past-be' },
-  { name: 'עתיד', from: 'will' },
-];
-
 /** The grammar practice card on the home screen. It opens a page with every topic, and points at the one to do now. */
 export function GrammarCard({ known, onTime }: { known: number; onTime: (sec: number) => void }) {
   const [state, setState] = useState(load);
@@ -81,10 +74,12 @@ export function GrammarCard({ known, onTime }: { known: number; onTime: (sec: nu
     if (run && topic && first !== null) { if (!run.review) pushWin('grammar', topic.title); const s = afterGrammar(state, run.id, first, qs.length, today, run.review); save(s); setState(s); }
     setRun(null);
   };
-  const status = (id: string) => {
+  // The first topic is always open, so a beginner has somewhere to start.
+  const unlocked = (id: string, words: number) => !!state.topics[id] || known >= words || id === GRAMMAR[0].id;
+  const status = (id: string, words: number) => {
     const t = state.topics[id];
-    if (!t) return item?.topic.id === id ? 'הבא בתור' : '';
-    return t.due <= today ? 'לחזרה היום' : `נלמד · חזרה בעוד ${t.due - today} ימים`;
+    if (!t) return unlocked(id, words) ? (item?.topic.id === id ? 'הבא בתור' : 'פתוח') : `נעול: ייפתח כש${g('תכירי', 'תכיר')} ${words} מילים (עכשיו ${known})`;
+    return t.due <= today ? 'לחזרה היום' : `נלמד · חזרה ${t.due - today === 1 ? 'מחר' : `בעוד ${t.due - today} ימים`}`;
   };
   const sub = item ? `${item.review ? 'חזרה' : 'נושא חדש'}: ${item.topic.title}` : `${learned} מתוך ${GRAMMAR.length} נושאים נלמדו`;
   return (
@@ -96,17 +91,25 @@ export function GrammarCard({ known, onTime }: { known: number; onTime: (sec: nu
       {page && !run && (
         <div className="fam-page"><div className="fam-inner">
           <div className="cs-row"><h2>אימון דקדוק</h2><button type="button" className="cs-round" aria-label="סגירה" onClick={() => setPage(false)}>✕</button></div>
-          <p className="cs-note">{learned} מתוך {GRAMMAR.length} נושאים נלמדו. אפשר לפתוח כל נושא, וכל פעם מגיעות שאלות אחרות.</p>
+          <p className="cs-note">{learned} מתוך {GRAMMAR.length} נושאים נלמדו. נושא נפתח כשמגיעים למספר המילים שלו. נושא שכבר נלמד אפשר לתרגל שוב בכל זמן, וכל פעם מגיעות שאלות אחרות.</p>
           {item && <button type="button" className="fam-open" onClick={() => open(item.topic.id)}>{item.review ? 'חזרה' : 'להתחיל'}: {item.topic.title}</button>}
-          {GRAMMAR.map((t) => {
-            const part = PARTS.find((p) => p.from === t.id);
+          {GRAMMAR_PARTS.map((part) => {
+            const ts = GRAMMAR.filter((t) => partOf(t) === part);
+            if (!ts.length) return null;
+            const done = ts.filter((t) => state.topics[t.id]).length;
             return (
-              <div key={t.id} className="gr-item">
-                {part && <h3 className="gr-part">{part.name}</h3>}
-                <button type="button" className="en-card gr-topic" onClick={() => open(t.id)}>
-                  <b>{t.title}</b>
-                  <small className="cs-note">{[status(t.id), `${t.qs.length} שאלות`, known < t.words ? `מומלץ אחרי ${t.words} מילים` : ''].filter(Boolean).join(' · ')}</small>
-                </button>
+              <div key={part.name} className="gr-item">
+                <h3 className="gr-part">{part.name} <small className="cs-note">{done} מתוך {ts.length} נלמדו</small></h3>
+                {ts.map((t) => {
+                  const open1 = unlocked(t.id, t.words);
+                  return (
+                    <button key={t.id} type="button" className={`en-card gr-topic${open1 ? '' : ' locked'}`} disabled={!open1} onClick={() => open(t.id)}>
+                      <b>{t.title}</b>
+                      <small className="cs-note">{[status(t.id, t.words), `${t.qs.length} שאלות`].join(' · ')}</small>
+                      {state.topics[t.id] && <span className="gr-again">לתרגל שוב</span>}
+                    </button>
+                  );
+                })}
               </div>
             );
           })}

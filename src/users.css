@@ -105,3 +105,6 @@
 .gr-part { margin-top: 10px !important; }
 .gr-topic { cursor: pointer; }
 .gr-topic small { font-size: 14px; }
+.gr-topic.locked { opacity: .55; cursor: default; }
+.gr-again { justify-self: start; margin-top: 6px; font-size: 14px; font-weight: 700; text-decoration: underline; }
+.gr-part small { display: block; font-weight: 400; font-size: 14px; }
