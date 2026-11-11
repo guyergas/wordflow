@@ -132,3 +132,7 @@
 .st-trial-row { display: flex; flex-wrap: wrap; gap: 6px; }
 .st-trial-row .st-btn { min-width: 48px; padding: 0 12px; }
 .st-trial-row .st-btn[aria-pressed="true"] { background: var(--cs-dark); color: var(--cs-dark-ink) !important; }
+.st-trial-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.st-trial-list .st-btn { text-align: start; display: flex; gap: 8px; align-items: center; }
+.st-trial-list .st-btn[aria-pressed="true"] { background: var(--cs-dark); color: var(--cs-dark-ink) !important; }
+.st-trial-list small { opacity: .75; font-size: 13px; }

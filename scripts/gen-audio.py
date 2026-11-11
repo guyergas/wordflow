@@ -20,7 +20,7 @@ async def make(item, gate, failed):
     async with gate:
         for attempt in range(3):
             try:
-                await edge_tts.Communicate(item["th"], item["voice"], rate=RATE).save(str(path))
+                await edge_tts.Communicate(item["th"], item["voice"], rate=item.get("rate", RATE)).save(str(path))
                 if path.stat().st_size > 500:
                     return
             except Exception as err:  # the service is remote, so any error here is worth a retry

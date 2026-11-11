@@ -79,6 +79,15 @@ export const recordingName = (text: string, dir: string) => audioName(dir === 'h
  * Spellings to compare by ear, for sounds the voice gets wrong. Each is recorded as written,
  * and the settings page plays them side by side so a parent can pick the one that sounds right.
  */
-export const TRIALS: { label: string; options: string[] }[] = [
+export interface Trial { text: string; rate: string; note: string }
+const speeds = (text: string): Trial[] => [
+  { text, rate: '-10%', note: 'כמו היום (איטי)' }, { text, rate: '+0%', note: 'מהירות רגילה' }, { text, rate: '+15%', note: 'קצת מהר' }, { text, rate: '+30%', note: 'מהר' },
 ];
-export const trialName = (text: string) => audioName(`trial|${text}`);
+export const TRIALS: { label: string; options: Trial[] }[] = [
+  { label: 'ח (חֵית)', options: [...speeds('חֵית'), { text: 'חית', rate: '+0%', note: 'בלי ניקוד' }, { text: 'הָאוֹת חֵית', rate: '+0%', note: 'עם "האות"' }] },
+  { label: 'ת (תָּו)', options: [...speeds('תָו'), { text: 'תָּו', rate: '+0%', note: 'עם דגש' }, { text: 'תָּב', rate: '+0%', note: 'כתוב עם ב' }, { text: 'תאב', rate: '+0%', note: 'תאב בלי ניקוד' }, { text: 'הָאוֹת תָּו', rate: '+0%', note: 'עם "האות"' }] },
+  { label: 'ק (קוּף)', options: [...speeds('קוּף'), { text: 'קוף', rate: '+0%', note: 'בלי ניקוד' }, { text: 'הָאוֹת קוּף', rate: '+0%', note: 'עם "האות"' }] },
+  { label: 'ל (לָמֶד)', options: [...speeds('לָמֶד'), { text: 'לָמֶד.', rate: '+0%', note: 'עם נקודה' }, { text: 'הָאוֹת לָמֶד', rate: '+0%', note: 'עם "האות"' }] },
+  { label: 'ש (שִׁין)', options: [...speeds('שִׁין'), { text: 'שין', rate: '+0%', note: 'בלי ניקוד' }, { text: 'הָאוֹת שִׁין', rate: '+0%', note: 'עם "האות"' }] },
+];
+export const trialName = (t: Trial) => audioName(`trial|${t.rate}|${t.text}`);

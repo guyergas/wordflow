@@ -12,6 +12,6 @@ console.log(JSON.stringify([
     // Different sentences can be read the same once niqqud is dropped; each recording is made once.
     .filter((x, i, all) => all.findIndex((y) => y.name === x.name) === i),
   // Spellings to compare by ear, recorded exactly as written.
-  ...TRIALS.flatMap((t) => t.options).map((t) => ({ th: t, name: trialName(t), dir: 'he', voice: 'he-IL-HilaNeural' })),
+  ...TRIALS.flatMap((t) => t.options).map((t) => ({ th: t.text, rate: t.rate, name: trialName(t), dir: 'he', voice: 'he-IL-HilaNeural' })),
   ...[...new Set([...TINY_EN_AUDIO, ...WORDS_EN_AUDIO])].map((t) => ({ th: t, name: audioName(t), dir: 'en', voice: 'en-US-JennyNeural' })),
 ]));
