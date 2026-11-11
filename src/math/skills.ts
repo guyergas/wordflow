@@ -66,6 +66,8 @@ export const TRAPS = {
   trinom: { name: 'פירוק טרינום', explain: 'מחפשים שני מספרים שמכפלתם היא האיבר החופשי וסכומם הוא המקדם של x. בודקים את הסימנים: מכפלה שלילית פירושה שהמספרים בסימנים שונים.' },
   quadeq: { name: 'פתרונות ממכפלה', explain: 'מכפלה שווה 0 רק כשאחד הגורמים שווה 0. הפתרון הוא המספר שמאפס את הסוגר: מ־(x−3)=0 יוצא x=3, ולא −3. ולרוב יש שני פתרונות.' },
   quadform: { name: 'נוסחת השורשים', explain: 'הדיסקרימיננטה היא b²−4ac. כש־c שלילי, −4ac חיובי. כשהיא חיובית יש שני פתרונות, כשהיא 0 יש פתרון אחד, וכשהיא שלילית אין פתרון.' },
+  parab: { name: 'קודקוד הפרבולה', explain: 'ב־y=(x−h)²+k הקודקוד הוא (h,k): מ־(x−3)² יוצא 3, ולא −3. ב־y=x²+bx+c שיעור ה־x של הקודקוד הוא −b חלקי 2, עם המינוס. בחיתוך עם ציר x מתקיים y=0, ובחיתוך עם ציר y מתקיים x=0.' },
+  prop: { name: 'פרופורציה', explain: 'בפרופורציה שמים באותו מקום את אותו סוג כמות: אם בשבר הראשון הכמות למעלה והמחיר למטה, גם בשבר השני. במכפלה בהצלבה, אם a/b=c/d אז a×d=b×c. ביחס כופלים באותו מספר, ולא מוסיפים אותו.' },
 } as const;
 export type TrapId = keyof typeof TRAPS;
 
@@ -1028,6 +1030,40 @@ export const SKILLS: Skill[] = [
     }
     const hi = Math.max(s, t), lo = Math.min(s, t), sq = Math.round(Math.sqrt(D));
     return calc({ prompt: `פותרים את [[${eqs}]] בנוסחת השורשים. מה הפתרון הגדול?`, ans: n(hi), eq: `(-(${b})+${sq})/(2*${a})`, pencil: true, wrong: ([[n(-lo), 'quadeq'], [n(lo)], [n(-hi), 'quadeq']] as [string, TrapId?][]).filter(([v]) => v !== n(hi)), steps: [`[[b²−4ac=${b * b}${c > 0 ? '−' : '+'}${Math.abs(4 * a * c)}=${D}]], ושורשה [[${sq}]]`, `[[x=(${sgn(-b)}±${sq})÷${2 * a}]]`, `הגדול: [[(${sgn(-b)}+${sq})÷${2 * a}=${sgn(hi)}]]`] });
+  } },
+  { id: 'parab', station: 16, title: 'פרבולה: קודקוד ונקודות חיתוך', needs: ['quadeq', 'linefn'], u: (r) => {
+    const opts = [-5, -4, -3, -2, -1, 1, 2, 3, 4, 5];
+    if (r() < 0.5) {
+      const h = pick(r, opts), k = pick(r, opts.filter((v) => v !== h)), f = `y=(x${term(-h)})²${term(k)}`;
+      return conceptQ(`מה הקודקוד של הפרבולה [[${f}]]?`, `[[${pt(h, k)}]]`, [[`[[${pt(-h, k)}]]`, 'parab'], [`[[${pt(h, -k)}]]`, 'parab'], [`[[${pt(k, h)}]]`, 'parab']], [`ב־[[y=(x−h)²+k]] הקודקוד הוא [[(h,k)]]`, `[[x${term(-h)}=0]] כש־[[x=${sgn(h)}]], ואז [[y=${sgn(k)}]]: הקודקוד [[${pt(h, k)}]]`]);
+    }
+    let s = pick(r, opts), t = pick(r, opts);
+    while (s === t || s + t === 0) t = pick(r, opts);
+    const hi = Math.max(s, t), lo = Math.min(s, t), B = -(s + t), C = s * t, f = `y=x²${B > 0 ? '+' : ''}${kx(B)}${term(C)}`;
+    const two = (a: string, b: string) => `[[${a}]] ו־[[${b}]]`;
+    return conceptQ(`באילו נקודות הפרבולה [[${f}]] חותכת את ציר ה־[[x]]?`, two(pt(lo, 0), pt(hi, 0)), [[two(pt(-hi, 0), pt(-lo, 0)), 'quadeq'], [two(pt(0, lo), pt(0, hi)), 'parab'], [`רק [[${pt(0, C)}]]`, 'parab']], [
+      `על ציר ה־[[x]] מתקיים [[y=0]]: [[x²${B > 0 ? '+' : ''}${kx(B)}${term(C)}=0]]`,
+      `מפרקים: [[(x${term(-hi)})(x${term(-lo)})=0]], ולכן [[x=${sgn(hi)}]] או [[x=${sgn(lo)}]]`,
+      `הנקודות ${two(pt(lo, 0), pt(hi, 0))}`]);
+  }, e: (r) => {
+    const h = pick(r, [-4, -3, -2, -1, 1, 2, 3, 4]), k = pick(r, [-9, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6]), B = -2 * h, C = h * h + k, f = `y=x²${B > 0 ? '+' : ''}${kx(B)}${term(C)}`;
+    const xs = `שיעור ה־[[x]] של הקודקוד: [[x=−b÷2=${sgn(-B)}÷2=${sgn(h)}]]`;
+    if (r() < 0.5) return calc({ prompt: `מה שיעור ה־[[x]] של קודקוד הפרבולה [[${f}]]?`, ans: n(h), eq: `-(${B})/2`, pencil: true, wrong: ([[n(-h), 'parab'], [n(B), 'parab']] as [string, TrapId][]).filter(([v]) => v !== n(h)), steps: [xs, 'בקודקוד הפרבולה מחליפה כיוון, והיא סימטרית סביבו'] });
+    return calc({ prompt: `מה שיעור ה־[[y]] של קודקוד הפרבולה [[${f}]]?`, ans: n(k), eq: `(${h})*(${h})+(${B})*(${h})+(${C})`, pencil: true, wrong: ([[n(C), 'parab'], [n(4 * h * h + k), 'sign']] as [string, TrapId][]).filter(([v]) => v !== n(k)), steps: [xs, `מציבים [[x=${sgn(h)}]]: [[y=${par(h)}²${term(B)}×${par(h)}${term(C)}=${h * h}${term(B * h)}${term(C)}=${sgn(k)}]]`] });
+  } },
+  // ---------- Station 17 ----------
+  { id: 'prop', station: 17, title: 'פרופורציה ומכפלה בהצלבה', needs: ['ratio'], u: (r) => {
+    const t = pick(r, ['מחברות', 'מדבקות', 'גלויות', 'קופסאות']), a = ri(r, 2, 5), u = ri(r, 2, 9), p = a * u, b = pick(r, [6, 7, 8, 9, 10, 11, 12].filter((v) => v !== a));
+    return conceptQ(`[[${a}]] ${t} עולות [[${p}]] שקלים. איזו פרופורציה מתאימה לחישוב המחיר [[x]] של [[${b}]] ${t}?`, `[[${a}/${p}=${b}/x]]`, [[`[[${a}/${p}=x/${b}]]`, 'prop'], [`[[${a}/x=${b}/${p}]]`, 'prop'], [`[[${a}/${b}=x/${p}]]`, 'prop']], [
+      `בשני השברים שמים את מספר ה${t} למעלה ואת המחיר למטה`,
+      `[[${a}/${p}=${b}/x]], ובמכפלה בהצלבה: [[${a}x=${p}×${b}]]`,
+      `[[x=${p * b}÷${a}=${u * b}]]`]);
+  }, e: (r) => {
+    const a = ri(r, 1, 9), b = pick(r, [2, 3, 4, 5, 6, 7, 8, 9].filter((v) => v !== a)), k = ri(r, 2, 6), d = b * k, x = a * k, top = r() < 0.5;
+    const wrong: [string, TrapId?][] = [[n(a + d - b), 'prop'], [n(a * d), 'op']];
+    if (top) return calc({ prompt: `מה הערך של [[x]] אם [[${a}/${b}=x/${d}]]?`, ans: n(x), eq: `${a}*${d}/${b}`, pencil: true, wrong: wrong.filter(([v]) => v !== n(x) && Number(v) > 0), steps: [`מכפלה בהצלבה: [[${b}×x=${a}×${d}]]`, `[[${b}x=${a * d}]], ומחלקים ב־[[${b}]]: [[x=${x}]]`] });
+    const w2: [string, TrapId?][] = [[n(b + x - a), 'prop'], [n(b * x), 'op']];
+    return calc({ prompt: `מה הערך של [[x]] אם [[${a}/${b}=${x}/x]]?`, ans: n(d), eq: `${b}*${x}/${a}`, pencil: true, wrong: w2.filter(([v]) => v !== n(d) && Number(v) > 0), steps: [`מכפלה בהצלבה: [[${a}×x=${b}×${x}]]`, `[[${a}x=${b * x}]], ומחלקים ב־[[${a}]]: [[x=${d}]]`] });
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));
