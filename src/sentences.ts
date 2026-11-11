@@ -216,7 +216,17 @@ Yes, please.|כן, בבקשה.
 You're welcome.|על לא דבר.
 Sit down, please.|שבו, בבקשה.
 I have a lot of books.|יש לי הרבה ספרים.
-It is quarter past seven.|השעה שבע ורבע.`,
+It is quarter past seven.|השעה שבע ורבע.
+The plane flies over the sea.|המטוס טס מעל הים.
+Are you all right?|את בסדר?
+Do you want anything else?|את רוצה עוד משהו?
+I like cats, and I like dogs as well.|אני אוהבת חתולים, ואני אוהבת גם כלבים.
+My aunt lives in Eilat.|הדודה שלי גרה באילת.
+My dog is called Max.|הכלב שלי נקרא מקס.
+Write your name with a capital letter.|כתבי את השם שלך באות גדולה.
+Where do you come from?|מאיפה את?
+Don't forget your hat!|אל תשכחי את הכובע שלך!
+Don't worry about the test.|אל תדאגי בקשר למבחן.`,
 };
 
 let n = 0;

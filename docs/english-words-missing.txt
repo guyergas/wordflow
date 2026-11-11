@@ -1,15 +1,4 @@
 # Pre-Band I
-stop
-sun
-talk
-ten
-test
-than
-that
-the
-their
-them
-then
 they
 this
 three
@@ -691,17 +680,6 @@ yogurt
 yours
 zero
 # Band II Core I
-Circassian
-circus
-clap
-click
-coach
-code
-coin
-comb
-combine
-comma
-communication
 compete
 concert
 connection

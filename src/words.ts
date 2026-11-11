@@ -152,7 +152,15 @@ red|אדום|a|I have a red ball.|יש לי כדור אדום.
 sit|לשבת|v|Please sit next to me.|בבקשה שבי לידי.
 six|שש|n|My little brother is six years old.|אחי הקטן בן שש.
 so|כל כך|d|I am so happy today!|אני כל כך שמח היום!
-stand|לעמוד|v|We stand in a line.|אנחנו עומדים בשורה.`,
+stand|לעמוד|v|We stand in a line.|אנחנו עומדים בשורה.
+stop|לעצור|v|Please stop at the red light.|בבקשה תעצרו ברמזור האדום.
+sun|שמש|n|The sun is very bright today.|השמש בהירה מאוד היום.
+talk|לדבר|v|I like to talk with my grandma.|אני אוהבת לדבר עם סבתא שלי.
+ten|עשר|n|I have ten fingers.|יש לי עשר אצבעות.
+that|ההוא, ההיא|o|I want that red ball.|אני רוצה את הכדור האדום ההוא.
+their|שלהם|o|I like their little dog.|אני אוהב את הכלב הקטן שלהם.
+them|אותם|o|I see them in the park every day.|אני רואה אותם בפארק כל יום.
+then|אחר כך|d|We eat lunch and then we play.|אנחנו אוכלים ארוחת צהריים ואחר כך משחקים.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -282,7 +290,13 @@ spend|לבלות, להוציא (כסף)|v|We spend the summer at the beach.|אנ
 chat|לשוחח, צ'אט|v|I like to chat with my friends.|אני אוהבת לשוחח עם החברים שלי.
 check|לבדוק|v|Please check your answers.|בבקשה בדקו את התשובות שלכם.
 chef|שף|n|The chef made a delicious soup.|השף הכין מרק טעים.
-chip|צ'יפס, שבב|n|Can I have a chip?|אפשר צ'יפס אחד?`,
+chip|צ'יפס, שבב|n|Can I have a chip?|אפשר צ'יפס אחד?
+test|מבחן|n|I studied hard for the test.|למדתי קשה למבחן.
+than|מאשר, מ-|o|My brother is taller than me.|אחי גבוה ממני.
+circus|קרקס|n|We saw a funny clown at the circus.|ראינו ליצן מצחיק בקרקס.
+clap|למחוא כפיים|v|Let's clap for the singer!|בואו נמחא כפיים לזמרת!
+coin|מטבע|n|I put a coin in my piggy bank.|שמתי מטבע בקופה שלי.
+comb|מסרק|n|I need a comb for my hair.|אני צריכה מסרק לשיער שלי.`,
 `feeling|הרגשה|n|I had a strange feeling.
 angry|כועס|a|She was angry at her brother.
 afraid|מפחד|a|He is afraid of spiders.
@@ -390,7 +404,11 @@ cash|מזומן|n|Do you have any cash?|יש לך מזומן?
 centimeter|סנטימטר|n|The worm is one centimeter long.|התולעת באורך סנטימטר אחד.
 champion|אלוף|n|She is the school chess champion.|היא אלופת השחמט של בית הספר.
 childhood|ילדות|n|Grandpa told us about his childhood.|סבא סיפר לנו על הילדות שלו.
-church|כנסייה|n|We visited an old church in the village.|ביקרנו בכנסייה עתיקה בכפר.`,
+church|כנסייה|n|We visited an old church in the village.|ביקרנו בכנסייה עתיקה בכפר.
+click|ללחוץ (בעכבר)|v|You can click on the picture to open it.|אפשר ללחוץ על התמונה כדי לפתוח אותה.
+coach|מאמן|n|Our coach tells us to run faster.|המאמן שלנו אומר לנו לרוץ מהר יותר.
+code|קוד|n|Type the secret code to open the door.|הקלידו את הקוד הסודי כדי לפתוח את הדלת.
+comma|פסיק|n|Put a comma after the word "yes".|שימו פסיק אחרי המילה "yes".`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -481,7 +499,9 @@ beauty|יופי|n|We loved the beauty of the sea.|אהבנו את היופי ש�
 belief|אמונה|n|She has a strong belief in herself.|יש לה אמונה חזקה בעצמה.
 cancer|סרטן (מחלה)|n|Smoking can cause cancer.|עישון יכול לגרום לסרטן.
 channel|ערוץ|n|What channel is the cartoon on?|באיזה ערוץ מוצג הסרט המצויר?
-charge|להטעין|v|I need to charge my phone.|אני צריך להטעין את הטלפון שלי.`,
+charge|להטעין|v|I need to charge my phone.|אני צריך להטעין את הטלפון שלי.
+combine|לשלב, לחבר|v|Let's combine the red and the blue paint.|בואו נשלב את הצבע האדום ואת הכחול.
+communication|תקשורת|n|Good communication helps a team win.|תקשורת טובה עוזרת לקבוצה לנצח.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.
