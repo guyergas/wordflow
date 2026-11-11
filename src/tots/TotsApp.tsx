@@ -7,7 +7,7 @@ import { STORAGE_KEY, USER_NAME } from '../course';
 import { saveHebrewRecordings, sayHebrew, sfx } from '../platform';
 import { CourseSwitch, SummaryTab } from '../summaryUi';
 import { addTime, advance, answer, buildPlan, dayNumber, initial, makeTask, meet, nextSkill, noteMiss, PlanOptions, record, secure, shaky, SHAKY_LIMIT, Status, statusOf, Step, Task, topMisses, TState, validStep, WRITING } from './engine';
-import { ALL_DIGITS, DIGITS, SAY, Skill, SKILL, SKILLS, STAGES, WORD } from './numbers';
+import { ALL_DIGITS, DIGITS, SAY, Skill, SKILL, SKILLS, STAGES, WORD, LIKE } from './numbers';
 
 type Update = (fn: (s: TState) => TState) => void;
 const pick = <T,>(a: T[]) => a[Math.floor(Math.random() * a.length)];
@@ -151,7 +151,7 @@ function Progress({ st }: { st: TState }) {
       ); })}
       {s && <div className="sheet-wrap" onClick={() => setShown(null)}><div className="sheet a-show" role="dialog" aria-label={s.title} onClick={(e) => e.stopPropagation()}>
         <h2>{s.title}</h2>
-        {s.kind === 'num' && <div className="a-board t-show"><DigitArt key={s.id} n={s.n} draw arrows /></div>}
+        {s.kind === 'num' && <div className="t-like-row"><div className="a-board t-show"><DigitArt key={s.id} n={s.n} draw arrows /></div><Like n={s.n} /></div>}
         {k ? (
           <ul className="a-facts">
             <li><span>תרגילים</span><b>{share(k.tally?.see ?? [0, 0])}</b></li>
@@ -196,8 +196,11 @@ function Session({ st, update, onExit }: { st: TState; update: Update; onExit: (
   );
 }
 
+/** The familiar thing a digit looks like, beside it. */
+const Like = ({ n }: { n: number }) => <button type="button" className="t-like" aria-label={LIKE[n].say} onClick={() => sayHebrew(LIKE[n].say)}><span aria-hidden="true">{LIKE[n].pic}</span></button>;
+
 function Write({ n, mode, sound, onDone }: { n: number; mode: 'trace' | 'copy' | 'memory' | 'write'; sound: boolean; onDone: (ok: boolean) => void }) {
-  return <WritePad shape={DIGITS[n]} name={String(n)} mode={mode} said={SAY[mode](n)} praise={SAY.isRight(n)} answer={SAY.thisIs(n)} again={SAY.again} rivals={ALL_DIGITS} sound={sound} onDone={onDone} />;
+  return <WritePad shape={DIGITS[n]} name={String(n)} mode={mode} said={SAY[mode](n)} praise={SAY.isRight(n)} answer={SAY.thisIs(n)} again={SAY.again} rivals={ALL_DIGITS} side={<div className="t-like-side" aria-hidden="true">{LIKE[n].pic}</div>} sound={sound} onDone={onDone} />;
 }
 
 /** A new number: things appear one by one while the voice counts, and then its digit draws itself. A new skill is shown and told. */
@@ -207,7 +210,7 @@ function Meet({ s, onDone }: { s: Skill; onDone: () => void }) {
   return (
     <div className="a-step" key={run}>
       {s.kind === 'num' && <div className="t-stage"><Objects n={s.n} thing={thing} animate grow /></div>}
-      {s.kind === 'num' && <div className="a-board t-meet-digit"><DigitArt n={s.n} draw arrows /></div>}
+      {s.kind === 'num' && <div className="t-like-row"><div className="a-board t-meet-digit"><DigitArt n={s.n} draw arrows /></div><Like n={s.n} /></div>}
       {s.kind === 'add' && <div className="t-stage"><SumArt a={s.n === 3 ? 2 : 2} b={1} op="+" thing={thing} /></div>}
       {s.kind === 'sub' && <div className="t-stage"><SumArt a={3} b={1} op="−" thing={thing} /></div>}
       {s.kind === 'seq' && <div className="t-stage t-line" dir="ltr">{Array.from({ length: Math.min(s.n, 10) }, (_, i) => <span key={i} className="pop-in" style={{ animationDelay: `${i * 0.5}s` }}>{s.n === 20 ? 11 + i : i + 1}</span>)}</div>}

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { answer, answerChoices, advance, buildPlan, ceiling, initial, makeTask, meet, nextSkill, noteMiss, record, secure, shaky, SHAKY_LIMIT, statusOf, Step, topMisses, TState, WRITING } from './engine';
 import { judge, FREE, TRACE } from '../alef/ink';
 import { Pt } from '../alef/letters';
-import { ALL_DIGITS, DIGITS, SAY, SKILL, SKILLS, TOTS_AUDIO } from './numbers';
+import { ALL_DIGITS, DIGITS, SAY, SKILL, SKILLS, TOTS_AUDIO, LIKE } from './numbers';
 
 const ink = (n: number) => DIGITS[n].strokes.map((s) => s.p);
 const wobble = (lines: Pt[][], a = 4): Pt[][] => lines.map((l) => l.map(([x, y], i): Pt => [x + Math.sin(i * 1.7) * a, y + Math.cos(i * 2.3) * a]));
@@ -23,6 +23,15 @@ describe('writing digits', () => {
     for (const a of nums) for (const b of nums) if (a !== b && judge(ink(b), DIGITS[a], FREE, ALL_DIGITS).ok) passed.push(`${b}→${a}`);
     expect(passed).toEqual([]);
   }, 60000);
+});
+
+describe('what digits look like', () => {
+  it('gives every digit a familiar picture, said in every writing task and when it is met', () => {
+    for (let n = 0; n <= 10; n++) {
+      expect(LIKE[n].pic.length).toBeGreaterThan(0);
+      for (const say of [SAY.meet(n), SAY.trace(n), SAY.copy(n), SAY.memory(n), SAY.write(n)]) { expect(say).toContain(LIKE[n].say); expect(TOTS_AUDIO).toContain(say); }
+    }
+  });
 });
 
 describe('the path', () => {
