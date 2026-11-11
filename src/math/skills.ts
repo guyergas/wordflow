@@ -56,6 +56,8 @@ export const TRAPS = {
   triType: { name: 'סוגי משולשים', explain: 'לפי הצלעות: שלוש שוות הן שווה צלעות, ושתיים שוות הן שווה שוקיים. לפי הזוויות קובעת הזווית הגדולה: ישרה או קהה. רק כשכל שלוש הזוויות חדות, המשולש חד זווית.' },
   calendar: { name: 'ספירת ימים', explain: 'כשסופרים כמה ימים עוברים מתאריך לתאריך, לא סופרים את היום שממנו מתחילים. וכדאי לבדוק כמה ימים יש בחודש: 30 או 31.' },
   ineq: { name: 'סימן האי־שוויון', explain: 'כשכופלים או מחלקים את שני האגפים במספר שלילי, הופכים את כיוון הסימן. ובסימן < או > המספר שבגבול עצמו אינו פתרון.' },
+  slope: { name: 'שיפוע', explain: 'שיפוע הוא השינוי ב־y חלקי השינוי ב־x. מחסרים באותו סדר נקודות למעלה ולמטה, ולא הופכים את השבר.' },
+  lineform: { name: 'קריאת y=mx+b', explain: 'כשהמשוואה כתובה כ־y=mx+b, המספר שכופל את x הוא השיפוע, והמספר הבודד הוא ערך y בנקודת החיתוך עם ציר y, שבה x=0. אם לפני y יש מספר, מחלקים בו קודם.' },
 } as const;
 export type TrapId = keyof typeof TRAPS;
 
@@ -775,6 +777,29 @@ export const SKILLS: Skill[] = [
     }
     const ans = ri(r, -4, 6), c = b - a * ans + s;
     return calc({ prompt: `מה המספר השלם הקטן ביותר שמקיים [[${b}−${a}x<${sgn(c)}]]?`, ans: n(ans), eq: `(${b}-(${c})+${s})/${a}`, pencil: true, wrong: [[n(ans - 1), 'ineq'], [n(ans + 1), 'op']], steps: [`מחסרים [[${b}]] משני האגפים: [[−${a}x<${sgn(c - b)}]]`, `מחלקים ב־[[−${a}]], מספר שלילי, ולכן הופכים את הסימן: [[x>${sfrac(b - c, a)}]]`, `המספר השלם הקטן ביותר שגדול מ־[[${sfrac(b - c, a)}]] הוא [[${ans}]]`] });
+  } },
+  // ---------- Station 13 ----------
+  { id: 'slope', station: 13, title: 'שיפוע משתי נקודות', needs: ['coord', 'negadd'], u: (r) => {
+    const x1 = ri(r, -5, 4), dx = ri(r, 1, 5), y1 = ri(r, -6, 6), m = ri(r, -3, 3), x2 = x1 + dx, y2 = y1 + m * dx;
+    const ans = m > 0 ? 'חיובי' : m < 0 ? 'שלילי' : 'אפס';
+    const why = m > 0 ? `[[x]] גדל ב־[[${dx}]] וגם [[y]] גדל, ב־[[${m * dx}]]: הישר עולה, והשיפוע חיובי` : m < 0 ? `[[x]] גדל ב־[[${dx}]] ו־[[y]] קטן ב־[[${-m * dx}]]: הישר יורד, והשיפוע שלילי` : `[[x]] גדל ב־[[${dx}]] ו־[[y]] לא משתנה: הישר אופקי, והשיפוע אפס`;
+    return conceptQ(`הישר עובר דרך הנקודות [[(${sgn(x1)},${sgn(y1)})]] ו־[[(${sgn(x2)},${sgn(y2)})]]. איך השיפוע שלו?`, ans, ['חיובי', 'שלילי', 'אפס'].filter((x) => x !== ans).map((x): [string, TrapId] => [x, 'slope']), ['הולכים משמאל לימין, מהנקודה שה־[[x]] שלה קטן יותר', why]);
+  }, e: (r) => {
+    const m = pick(r, [-4, -3, -2, -1, 1, 2, 3, 4]), d = ri(r, 1, 4), swap = r() < 0.5, ax = ri(r, -5, 4), ay = ri(r, -6, 6);
+    const [x1, y1, x2, y2] = swap ? [ax + d, ay + m * d, ax, ay] : [ax, ay, ax + d, ay + m * d], dx = x2 - x1, dy = y2 - y1;
+    const par = (v: number) => (v < 0 ? `(${sgn(v)})` : String(v));
+    const wrong: [string, TrapId][] = [[n(-m), 'slope'], ...(Math.abs(m) > 1 ? [[`${m < 0 ? '-' : ''}1/${Math.abs(m)}`, 'slope'] as [string, TrapId]] : []), ...(d > 1 ? [[n(dy), 'op'] as [string, TrapId]] : [])];
+    return calc({ prompt: `מה השיפוע של הישר שעובר דרך הנקודות [[(${sgn(x1)},${sgn(y1)})]] ו־[[(${sgn(x2)},${sgn(y2)})]]?`, ans: n(m), eq: `(${y2}-(${y1}))/(${x2}-(${x1}))`, pencil: true, wrong, steps: [`השינוי ב־[[y]]: [[${sgn(y2)}−${par(y1)}=${sgn(dy)}]]`, `השינוי ב־[[x]], באותו סדר: [[${sgn(x2)}−${par(x1)}=${sgn(dx)}]]`, `השיפוע הוא השינוי ב־[[y]] חלקי השינוי ב־[[x]]: [[${par(dy)}÷${par(dx)}=${sgn(m)}]]`] });
+  } },
+  { id: 'linefn', station: 13, title: 'y=mx+b: שיפוע ונקודת חיתוך עם ציר y', needs: ['slope'], u: (r) => {
+    const m = pick(r, [-5, -4, -3, -2, -1, 1, 2, 3, 4, 5]), b = pick(r, [-9, -7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9].filter((v) => Math.abs(v) !== Math.abs(m)));
+    const mx = `${m > 0 ? '+' : '−'}${Math.abs(m) === 1 ? '' : Math.abs(m)}x`, eqn = r() < 0.5 ? `y=${kx(m)}${term(b)}` : `y=${sgn(b)}${mx}`;
+    const say = (s: number, x: number, y: number) => `שיפוע [[${sgn(s)}]], חיתוך עם ציר [[y]] ב־[[(${sgn(x)},${sgn(y)})]]`;
+    return conceptQ(`מה השיפוע של הישר [[${eqn}]], ובאיזו נקודה הוא חותך את ציר ה־[[y]]?`, say(m, 0, b), [[say(b, 0, m), 'lineform'], [say(m, 0, -b), 'lineform'], [say(m, b, 0), 'lineform']], [`המספר שכופל את [[x]] הוא השיפוע: [[${sgn(m)}]]`, `על ציר ה־[[y]] מתקיים [[x=0]], ולכן [[y=${sgn(b)}]]: הנקודה [[(0,${sgn(b)})]]`]);
+  }, e: (r) => {
+    const m = pick(r, [-4, -3, -2, -1, 1, 2, 3, 4]), b = pick(r, [-6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6].filter((v) => v !== m)), c = ri(r, 2, 4), slope = r() < 0.5;
+    const ans = slope ? m : b, eqn = `${c}y=${kx(c * m)}${term(c * b)}`;
+    return calc({ prompt: slope ? `מה השיפוע של הישר [[${eqn}]]?` : `הישר [[${eqn}]] חותך את ציר ה־[[y]] בנקודה [[(0,y)]]. מה ערך ה־[[y]]?`, ans: n(ans), eq: `${c * ans}/${c}`, pencil: true, wrong: [[n(c * ans), 'lineform'], [n(slope ? b : m), 'lineform']], steps: [`מחלקים את שני האגפים ב־[[${c}]]: [[y=${kx(m)}${term(b)}]]`, slope ? `המספר שכופל את [[x]] הוא השיפוע: [[${sgn(m)}]]` : `מציבים [[x=0]]: [[y=${sgn(b)}]]. זו נקודת החיתוך עם ציר ה־[[y]]`] });
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));
