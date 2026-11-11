@@ -161,6 +161,9 @@ export interface Skill { id: string; station: number; title: string; needs: stri
 
 function cmpAnswer(a: number, b: number) { return a > b ? '>' : a < b ? '<' : '='; }
 const CMP = ['>', '<', '='];
+/** "במקום ה..." for each place, from the units up. */
+const AT = ['היחידות', 'העשרות', 'המאות', 'האלפים', 'עשרות האלפים', 'מאות האלפים'];
+const HE_UNITS = 'אבגדהוזחט', HE_TENS = 'יכלמנסעפצ', HE_HUNDREDS = 'קרשת';
 
 export const SKILLS: Skill[] = [
   // ---------- Station 1 ----------
@@ -574,6 +577,28 @@ export const SKILLS: Skill[] = [
     const x = ri(r, 1, 10), a = ri(r, 3, 6), c = ri(r, 1, a - 2), b = ri(r, 1, 6), k = a - c, ab = a * b, d = k * x + ab, cx = `${c === 1 ? '' : c}x`;
     const half = (d - b) % k === 0 ? (d - b) / k : d - b;
     return calc({ prompt: `מה הערך של [[x]] אם [[${a}(x+${b})=${cx}+${d}]]?`, ans: n(x), eq: `(${d}-${ab})/(${a}-${c})`, pencil: true, wrong: [[n(half), 'dist'], [n(d - ab), 'op']], steps: [`פותחים סוגריים: [[${a}(x+${b})=${a}x+${ab}]]`, `מחסרים [[${cx}]] ו־[[${ab}]] משני האגפים: [[${k}x=${d - ab}]]`, `מחלקים ב־[[${k}]]: [[x=${x}]]`] });
+  } },
+  // ---------- Elementary gaps, from the Ministry's program ----------
+  { id: 'bignum', station: 3, title: 'מספרים עד מיליון', needs: ['place4'], u: (r) => {
+    const ds = Array.from({ length: 6 }, () => ri(r, 1, 9)), v = ds.reduce((s, d, i) => s + d * 10 ** i, 0), p = pick(r, [3, 4, 5]), d = ds[p];
+    const val = (k: number) => `[[${fmt(d * 10 ** k)}]]`;
+    return conceptQ(`כמה שווה הספרה שבמקום ${AT[p]} במספר [[${fmt(v)}]]?`, val(p), [[val(p - 1), 'place'], [val(p + 1), 'place'], [`[[${d}]]`, 'place']], [`סופרים מימין: ${PLACE.slice(0, p + 1).join(', ')}`, `במקום ${AT[p]} נמצאת הספרה [[${d}]]`, `לכן היא שווה ${val(p)}`]);
+  }, e: (r) => {
+    const p = pick(r, [3, 4, 5]), k = 10 ** p, ds = Array.from({ length: 6 }, () => ri(r, 1, 9));
+    ds[p] = ri(r, 1, 8);
+    const v = ds.reduce((s, d, i) => s + d * 10 ** i, 0);
+    return calc({ prompt: `איזה מספר גדול ב־[[${fmt(k)}]] מ־[[${fmt(v)}]]?`, ans: n(v + k), eq: `${v}+${k}`, pencil: true, wrong: [[n(v + k / 10), 'place'], [n(v + k * 10), 'place']], steps: [`[[${fmt(k)}]] הוא [[1]] במקום ${AT[p]}`, `הספרה שבמקום ${AT[p]} גדלה מ־[[${ds[p]}]] ל־[[${ds[p] + 1}]], ושאר הספרות לא משתנות`, `[[${fmt(v)}+${fmt(k)}=${fmt(v + k)}]]`] });
+  } },
+  { id: 'gematria', station: 3, title: 'אותיות כמספרים (גימטריה)', needs: ['place4'], u: (r) => {
+    const i = ri(r, 0, 21), L = (HE_UNITS + HE_TENS + HE_HUNDREDS)[i], k = i < 9 ? 0 : i < 18 ? 1 : 2, d = i < 18 ? (i % 9) + 1 : i - 17, v = d * 10 ** k;
+    const group = ['היחידות', 'העשרות', 'המאות'][k];
+    return conceptQ(`איזה מספר מסמנת האות ${L}?`, `[[${v}]]`, [[`[[${d * 10 ** ((k + 1) % 3)}]]`, 'place'], [`[[${d * 10 ** ((k + 2) % 3)}]]`, 'place'], `[[${i + 1}]]`], ['האותיות א עד ט הן היחידות, י עד צ הן העשרות, ו־ק עד ת הן המאות', `${L} היא האות ה־[[${d}]] בקבוצת ${group}, ולכן היא שווה [[${v}]]`]);
+  }, e: (r) => {
+    const h = ri(r, 1, 4), t = ri(r, 1, 9), u = ri(r, 1, 9), ans = h * 100 + t * 10 + u, special = t === 1 && (u === 5 || u === 6);
+    const letters = HE_HUNDREDS[h - 1] + (special ? `ט${HE_UNITS[u]}` : HE_TENS[t - 1] + HE_UNITS[u - 1]), w = `${letters.slice(0, -1)}״${letters.slice(-1)}`;
+    return calc({ prompt: `איזה מספר מסמנות האותיות ${w}?`, ans: n(ans), eq: `${h * 100}+${t * 10}+${u}`, wrong: [[n(h * 100 + t + u), 'place'], [n(h + t + u), 'place']], steps: [
+      special ? `${letters[0]} שווה [[${h * 100}]], ואת [[${10 + u}]] כותבים ${u === 5 ? 'ט״ו' : 'ט״ז'}: [[9+${u + 1}]]` : `${letters[0]} שווה [[${h * 100}]], ${letters[1]} שווה [[${t * 10}]] ו־${letters[2]} שווה [[${u}]]`,
+      `מחברים: [[${h * 100}+${t * 10}+${u}=${ans}]]`] });
   } },
 ];
 export const SKILL: Record<string, Skill> = Object.fromEntries(SKILLS.map((s) => [s.id, s]));
