@@ -16,6 +16,8 @@ const MARKS_ALL = /[\u0591-\u05C7]/g;
  * A dagesh makes the voice stretch the vowel after it (דָּלֶת as "daalet"; Guy picked דָלֶת by ear), so it is
  * dropped wherever it does not change the sound. It stays in ב, כ and פ, where it is the difference between b and v.
  */
+/** Letter names Guy chose a different spelling for by ear. */
+const SPOKEN: Record<string, string> = { 'תָּו': 'תָּב' };
 const noDagesh = (w: string) => w.replace(/([^בכפ\u05B0-\u05C7][\u05B0-\u05BB\u05C1\u05C2]*)\u05BC/g, '$1');
 const KEEP: Record<string, string> = Object.fromEntries(LETTERS.map((l) => [l.say.replace(MARKS_ALL, ''), l.say]));
 
@@ -68,12 +70,26 @@ export function forSpeech(text: string): string {
   if (pointed.length !== bare.length) return plain;
   return bare.map((w, i) => {
     const p = pointed[i].replace(/[.,!?:]/g, ''), b = w.replace(/[.,!?:]/g, '');
-    return KEEP[b] === p ? w.replace(b, noDagesh(p)) : w;
+    return KEEP[b] === p ? w.replace(b, SPOKEN[p] ?? noDagesh(p)) : w;
   }).join(' ');
 }
 
 /** The file name of a recording. Hebrew is named by what is actually read, so a change in reading makes a new recording. */
-export const recordingName = (text: string, dir: string) => audioName(dir === 'he' ? forSpeech(text) : text);
+/**
+ * A letter name said on its own is drawn out at the slow speed used for everything else (חייית, קווף), so it is
+ * recorded faster. Guy picked 15% faster by ear for ח and ק; ת was picked at normal speed.
+ */
+export function speechRate(text: string): string | undefined {
+  const bare = text.replace(/[.,!?:\s]/g, '');
+  const name = LETTERS.find((l) => l.say.replace(/[.,!?:\s]/g, '') === bare);
+  if (!name) return undefined;
+  return name.say === 'תָּו' ? '+0%' : '+15%';
+}
+export const recordingName = (text: string, dir: string) => {
+  if (dir !== 'he') return audioName(text);
+  const rate = speechRate(text);
+  return audioName(rate ? `${forSpeech(text)}|${rate}` : forSpeech(text));
+};
 
 /**
  * Spellings to compare by ear, for sounds the voice gets wrong. Each is recorded as written,
@@ -84,10 +100,13 @@ const speeds = (text: string): Trial[] => [
   { text, rate: '-10%', note: 'כמו היום (איטי)' }, { text, rate: '+0%', note: 'מהירות רגילה' }, { text, rate: '+15%', note: 'קצת מהר' }, { text, rate: '+30%', note: 'מהר' },
 ];
 export const TRIALS: { label: string; options: Trial[] }[] = [
-  { label: 'ח (חֵית)', options: [...speeds('חֵית'), { text: 'חית', rate: '+0%', note: 'בלי ניקוד' }, { text: 'הָאוֹת חֵית', rate: '+0%', note: 'עם "האות"' }] },
-  { label: 'ת (תָּו)', options: [...speeds('תָו'), { text: 'תָּו', rate: '+0%', note: 'עם דגש' }, { text: 'תָּב', rate: '+0%', note: 'כתוב עם ב' }, { text: 'תאב', rate: '+0%', note: 'תאב בלי ניקוד' }, { text: 'הָאוֹת תָּו', rate: '+0%', note: 'עם "האות"' }] },
-  { label: 'ק (קוּף)', options: [...speeds('קוּף'), { text: 'קוף', rate: '+0%', note: 'בלי ניקוד' }, { text: 'הָאוֹת קוּף', rate: '+0%', note: 'עם "האות"' }] },
-  { label: 'ל (לָמֶד)', options: [...speeds('לָמֶד'), { text: 'לָמֶד.', rate: '+0%', note: 'עם נקודה' }, { text: 'הָאוֹת לָמֶד', rate: '+0%', note: 'עם "האות"' }] },
-  { label: 'ש (שִׁין)', options: [...speeds('שִׁין'), { text: 'שין', rate: '+0%', note: 'בלי ניקוד' }, { text: 'הָאוֹת שִׁין', rate: '+0%', note: 'עם "האות"' }] },
+  { label: 'ל (לָמֶד)', options: [
+    { text: 'לָמֶד', rate: '+30%', note: 'מהר' }, { text: 'לָמֶד', rate: '+45%', note: 'מהר מאוד' }, { text: 'לַמֶד', rate: '+15%', note: 'פתח' },
+    { text: 'לֶמֶד', rate: '+15%', note: 'סגול' }, { text: 'לָמְד', rate: '+15%', note: 'בלי סגול' }, { text: 'לָמֶד, מֵם, נוּן', rate: '+0%', note: 'ברצף אותיות' },
+    { text: 'הָאוֹת לָמֶד הִיא', rate: '+0%', note: 'בתוך משפט' }, { text: 'למד', rate: '+15%', note: 'בלי ניקוד' }] },
+  { label: 'ש (שִׁין)', options: [
+    { text: 'שִׁין', rate: '+30%', note: 'מהר' }, { text: 'שִׁין', rate: '+45%', note: 'מהר מאוד' }, { text: 'שִׁן', rate: '+15%', note: 'בלי י' },
+    { text: 'שִׁנ', rate: '+15%', note: 'נ רגילה' }, { text: 'שין', rate: '+30%', note: 'בלי ניקוד, מהר' }, { text: 'רֵישׁ, שִׁין, תָּו', rate: '+0%', note: 'ברצף אותיות' },
+    { text: 'הָאוֹת שִׁין הִיא', rate: '+0%', note: 'בתוך משפט' }, { text: 'shin', rate: '+0%', note: 'באותיות לטיניות' }] },
 ];
 export const trialName = (t: Trial) => audioName(`trial|${t.rate}|${t.text}`);

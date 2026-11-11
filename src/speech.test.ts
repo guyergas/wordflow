@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { forSpeech } from './speech';
+import { forSpeech, recordingName, speechRate } from './speech';
 
 describe('Hebrew given to the voice', () => {
   it('drops niqqud from the words that came out stretched', () => {
@@ -54,12 +54,24 @@ describe('Hebrew given to the voice', () => {
     expect(forSpeech('הָאוֹת דָּלֶת')).toBe('האות דָלֶת');
     expect(forSpeech('דָּלֶת')).toBe('דָלֶת');
     expect(forSpeech('גִּימֶל')).toBe('גִימֶל');
-    expect(forSpeech('תָּו')).toBe('תָו');
     expect(forSpeech('בֵּית')).toBe('בֵּית');
     expect(forSpeech('כַּף')).toBe('כַּף');
     expect(forSpeech('פֵּא')).toBe('פֵּא');
     expect(forSpeech('דֶּלֶת')).toBe('דלת');
     expect(forSpeech('רֵישׁ')).toBe('רֵישׁ');
     expect(forSpeech('מוֹצְאִים אֶת כָּל הָאוֹתִיּוֹת וָו.')).toBe('מוצאים את כל האותיות וָו.');
+  });
+});
+
+describe('letter names said alone', () => {
+  it('are recorded faster, and ת is said as תָּב', () => {
+    expect(speechRate('חֵית')).toBe('+15%');
+    expect(speechRate('קוּף')).toBe('+15%');
+    expect(speechRate('תָּו')).toBe('+0%');
+    expect(forSpeech('תָּו')).toBe('תָּב');
+    expect(forSpeech('הָאוֹת תָּו')).toBe('האות תָּב');
+    expect(speechRate('הָאוֹת חֵית')).toBeUndefined();
+    expect(speechRate('חָתוּל')).toBeUndefined();
+    expect(recordingName('חֵית', 'he')).not.toBe(recordingName('הָאוֹת חֵית', 'he'));
   });
 });
