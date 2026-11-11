@@ -52,13 +52,16 @@ function bestVoice(name: string) {
 const THAI_TEXT = new Map(THAI_AUDIO.map((a) => [a.en, a.th]));
 const recordings = new Map<string, Promise<AudioBuffer>>();
 let playing: AudioBufferSourceNode | null = null;
+/** Parts of a joined prompt already scheduled to play. They are stopped with it. */
+let queued: AudioBufferSourceNode[] = [];
+const stopQueued = () => { for (const q of queued) { try { q.stop(); } catch { /* already over */ } } queued = []; };
 let turn = 0;
 
 /** Plays part of a longer recording, such as a song, exactly from one second to another. */
 const longs = new Map<string, Promise<AudioBuffer>>();
 export function playPart(url: string, from: number, to: number, onEnd?: () => void) {
   const mine = ++turn;
-  try { playing?.stop(); } catch { /* already over */ }
+  try { playing?.stop(); } catch { /* already over */ } stopQueued();
   playing = null;
   try { synth()?.cancel(); } catch { /* no voice */ }
   try { (navigator as unknown as { audioSession?: { type: string } }).audioSession!.type = 'playback'; } catch { /* other phones */ }
@@ -79,7 +82,7 @@ export function playPart(url: string, from: number, to: number, onEnd?: () => vo
   }).catch(() => { if (mine === turn) onEnd?.(); });
 }
 /** Stops whatever is playing. */
-export function stopSound() { ++turn; try { playing?.stop(); } catch { /* already over */ } playing = null; try { synth()?.cancel(); } catch { /* no voice */ } }
+export function stopSound() { ++turn; try { playing?.stop(); } catch { /* already over */ } stopQueued(); playing = null; try { synth()?.cancel(); } catch { /* no voice */ } }
 
 function recording(th: string, c: AudioContext, dir = 'th') {
   let p = recordings.get(th);
@@ -127,7 +130,7 @@ function speakThai(text: string) {
   const th = THAI_TEXT.get(text);
   if (!th) return;
   const mine = ++turn;
-  try { playing?.stop(); } catch { /* already over */ }
+  try { playing?.stop(); } catch { /* already over */ } stopQueued();
   playing = null;
   // On iPhone this lets the recording play when the silent switch is on, as a video would.
   try { (navigator as unknown as { audioSession?: { type: string } }).audioSession!.type = 'playback'; } catch { /* other phones */ }
@@ -159,7 +162,7 @@ export async function saveHebrewRecordings() {
 /** Says a sentence from the alef-bet course: its recording if there is one, otherwise the phone's Hebrew voice. */
 export function sayHebrew(text: string) {
   const mine = ++turn;
-  try { playing?.stop(); } catch { /* already over */ }
+  try { playing?.stop(); } catch { /* already over */ } stopQueued();
   playing = null;
   try { synth()?.cancel(); } catch { /* no voice */ }
   try { (navigator as unknown as { audioSession?: { type: string } }).audioSession!.type = 'playback'; } catch { /* other phones */ }
@@ -178,26 +181,54 @@ export function sayHebrew(text: string) {
 /** Plays sentences one after another, such as a Hebrew question and then an English word. A missing recording falls back to the phone's voice. */
 export function sayInTurn(parts: { text: string; lang: 'he' | 'en' }[]) {
   const mine = ++turn;
-  try { playing?.stop(); } catch { /* already over */ }
+  try { playing?.stop(); } catch { /* already over */ } stopQueued();
   playing = null;
   try { synth()?.cancel(); } catch { /* no voice */ }
   try { (navigator as unknown as { audioSession?: { type: string } }).audioSession!.type = 'playback'; } catch { /* other phones */ }
   const c = audio();
   const voice = (p: { text: string; lang: 'he' | 'en' }) => { const s = synth(); if (!s) return; try { const u = new SpeechSynthesisUtterance(p.text); u.lang = p.lang === 'he' ? 'he-IL' : 'en-US'; const v = s.getVoices().find((o) => (p.lang === 'he' ? /^(he|iw)/i : /^en/i).test(o.lang)); if (v) u.voice = v; u.rate = 0.9; s.speak(u); } catch { /* no audio */ } };
   if (!c) { parts.forEach(voice); return; }
-  const next = (i: number) => {
-    if (i >= parts.length || mine !== turn) return;
-    recording(parts[i].text, c, parts[i].lang).then((buffer) => {
-      if (mine !== turn) return;
+  // All parts load together and play back to back, with the silence at each recording's edges cut,
+  // so there is no pause between the Hebrew question and the English letter for a child to answer into.
+  const GAP = 0.12;
+  Promise.all(parts.map((p) => recording(p.text, c, p.lang).catch(() => null))).then((buffers) => {
+    if (mine !== turn) return;
+    let at = c.currentTime + 0.02;
+    const play = (i: number) => {
+      if (i >= parts.length || mine !== turn) return;
+      const buffer = buffers[i];
+      if (!buffer) {
+        // A missing recording: the phone's voice says it, and the next part follows when it ends.
+        const s = synth(); voice(parts[i]);
+        const wait = () => { if (mine !== turn) return; if (s?.speaking) setTimeout(wait, 100); else { at = c.currentTime + GAP; play(i + 1); } };
+        setTimeout(wait, 300);
+        return;
+      }
+      const [from, to] = soundEdges(buffer);
       const src = c.createBufferSource();
       src.buffer = buffer;
       src.connect(c.destination);
-      src.onended = () => next(i + 1);
-      src.start();
-      playing = src;
-    }).catch(() => { if (mine === turn) { voice(parts[i]); next(i + 1); } });
-  };
-  next(0);
+      src.start(at, from, to - from);
+      playing = src; queued.push(src);
+      at += to - from + GAP;
+      if (buffers[i + 1]) play(i + 1); else src.onended = () => { at = Math.max(at, c.currentTime); play(i + 1); };
+    };
+    play(0);
+  });
+}
+
+/** Where the sound in a recording begins and ends, in seconds, ignoring quiet padding at the edges. */
+const edges = new WeakMap<AudioBuffer, [number, number]>();
+export function soundEdges(b: AudioBuffer): [number, number] {
+  const known = edges.get(b);
+  if (known) return known;
+  const d = b.getChannelData(0), limit = 0.02, pad = Math.floor(b.sampleRate * 0.04);
+  let first = 0, last = d.length - 1;
+  while (first < d.length && Math.abs(d[first]) < limit) first++;
+  while (last > first && Math.abs(d[last]) < limit) last--;
+  const res: [number, number] = first >= last ? [0, b.duration] : [Math.max(0, first - pad) / b.sampleRate, Math.min(d.length, last + pad) / b.sampleRate];
+  edges.set(b, res);
+  return res;
 }
 
 export function speak(text: string, opts: { voice?: string; rate?: number } = {}) {
