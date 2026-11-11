@@ -5,6 +5,7 @@ import { ReactNode, useState } from 'react';
 import './users.css';
 import { FamilySheet } from './family';
 import { dbUrl } from './familySync';
+import { trialName, TRIALS } from './speech';
 import { COURSE_ID, COURSES, joinCourses, leaveCourse, myCourses, signOut, switchCourse, USER_NAME } from './course';
 
 const Close = () => <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg>;
@@ -82,8 +83,28 @@ export function SettingsSheet({ onClose, sound, audio, children, onReset }: Sett
             <div className="cs-row"><button type="button" className="st-btn" onClick={() => setConfirm(false)}>ביטול</button><button type="button" className="st-btn st-del" onClick={() => { onReset(); setConfirm(false); onClose(); }}>מחיקה</button></div>
           </>}
         </section>}
+        <Pronounce />
         <p className="cs-note">גרסה {__APP_VERSION__}</p>
       </div>
     </div>
+  );
+}
+
+/** A listening test: a few spellings of a word the voice reads wrong, to pick the one that sounds right. */
+function Pronounce() {
+  const [open, setOpen] = useState(false), [on, setOn] = useState('');
+  const play = (t: string) => { setOn(t); const a = new Audio(`audio/he/${trialName(t)}.mp3`); a.onended = () => setOn(''); a.play().catch(() => setOn('')); };
+  if (!open) return <button type="button" className="cs-link" onClick={() => setOpen(true)}>בדיקת הגייה</button>;
+  return (
+    <section className="st-sec">
+      <h3>בדיקת הגייה</h3>
+      <p className="cs-note">לכל מילה כמה דרכי כתיבה, בהקלטה שלו. מקשיבים, ומספרים לי איזה מספר נשמע נכון.</p>
+      {TRIALS.map((t) => (
+        <div key={t.label} className="st-trial">
+          <b>{t.label}</b>
+          <div className="st-trial-row">{t.options.map((o, i) => <button key={o} type="button" className="st-btn" aria-pressed={on === o} onClick={() => play(o)}>{i + 1}</button>)}</div>
+        </div>
+      ))}
+    </section>
   );
 }

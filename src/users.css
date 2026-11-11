@@ -128,3 +128,7 @@
 .st-inline h3 { margin: 0; }
 .st-inline .st-sec:first-child { border-top: 0; padding-top: 0; }
 .st-row .fam-seg { flex: none; min-width: 150px; } .st-row .fam-seg button { padding: 0 14px; white-space: nowrap; }
+.st-trial { display: grid; gap: 6px; }
+.st-trial-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.st-trial-row .st-btn { min-width: 48px; padding: 0 12px; }
+.st-trial-row .st-btn[aria-pressed="true"] { background: var(--cs-dark); color: var(--cs-dark-ink) !important; }

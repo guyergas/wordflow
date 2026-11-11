@@ -25,10 +25,14 @@ describe('Hebrew given to the voice', () => {
     expect(forSpeech('וְקַו')).toBe('וקו');
     expect(forSpeech('שׁוּב')).toBe('שוב');
     expect(forSpeech('תִּיק')).toBe('תיק');
+    expect(forSpeech('הָאוֹתִיּוֹת')).toBe('האותיות');
+    expect(forSpeech('אֲלַכְסוֹנִיִּים')).toBe('אלכסוניים');
     expect(forSpeech('יֶלֶד')).toBe('ילד');
     expect(forSpeech('חָתוּל')).toBe('חתול');
     expect(forSpeech('כּוֹתְבִים')).toBe('כותבים');
     expect(forSpeech('אֵיפֹה')).toBe('איפה');
+    expect(forSpeech('סִיַּמְנוּ!')).toBe('סיימנו!');
+    expect(forSpeech('תִּיק')).toBe('תיק');
     expect(forSpeech('מִתַּחַת')).toBe('מתחת');
     expect(forSpeech('עִם')).toBe('עם');
     expect(forSpeech('עַכְשָׁו')).toBe('עכשיו');

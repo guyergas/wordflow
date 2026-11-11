@@ -50,6 +50,8 @@ export function toPlene(text: string): string {
     // Hiriq: no י before a shva, or in a short closed word (עִם, אִם).
     const closedEnd = last(i + 1) && !/[\u05B1-\u05BB]/.test(next!.marks);
     if (u.marks.includes('\u05B4') && u.ch !== 'י' && next?.ch !== 'י' && isLetter(next) && !next!.marks.includes('\u05B0') && !closedEnd) out += 'י';
+    // A consonant י after hiriq is written twice: סִיַּמְנוּ → סיימנו. Not when the י has no vowel (תִּיק), takes hiriq (אֲלַכְסוֹנִיִּים), or comes before ו (אוֹתִיּוֹת).
+    if (u.marks.includes('\u05B4') && u.ch !== 'י' && next?.ch === 'י' && /[\u05B0-\u05B3\u05B5-\u05B8]/.test(next.marks) && isLetter(units[i + 2]) && units[i + 2].ch !== 'ו') out += 'י';
     // Qamatz before a final ו in a longer word takes a י: עַכְשָׁו → עכשיו, סְתָו → סתיו (but וָו, תָּו stay).
     if (u.marks.includes('\u05B8') && next?.ch === 'ו' && last(i + 1) && !next.marks && i >= 1 && isLetter(units[i - 1])) out += 'י';
     // A dual ending ַיִם doubles the י in words longer than מַיִם: שְׁתַּיִם → שתיים, רַגְלַיִם → רגליים.
@@ -71,3 +73,14 @@ export function forSpeech(text: string): string {
 
 /** The file name of a recording. Hebrew is named by what is actually read, so a change in reading makes a new recording. */
 export const recordingName = (text: string, dir: string) => audioName(dir === 'he' ? forSpeech(text) : text);
+
+/**
+ * Spellings to compare by ear, for sounds the voice gets wrong. Each is recorded as written,
+ * and the settings page plays them side by side so a parent can pick the one that sounds right.
+ */
+export const TRIALS: { label: string; options: string[] }[] = [
+  { label: 'האות ד (דָּלֶת)', options: ['דָּלֶת', 'דָלֶת', 'דַּלֶת', 'דאלת', 'דאלֶת', 'דָּאלֶת', 'הָאוֹת דָּלֶת', 'האות דאלת'] },
+  { label: 'האות ר (רֵישׁ)', options: ['רֵישׁ', 'רֵיש', 'רֵשׁ', 'רייש', 'הָאוֹת רֵישׁ', 'האות רייש'] },
+  { label: 'סיימנו', options: ['סיימנו', 'סִיַּמְנוּ', 'סיימנו!', 'סיימנו להיום'] },
+];
+export const trialName = (text: string) => audioName(`trial|${text}`);
