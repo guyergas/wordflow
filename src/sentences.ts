@@ -176,7 +176,17 @@ I'm sorry.|אני מצטערת.
 I'll be there in a minute.|אני אגיע בעוד דקה.
 The bus stops in front of the school.|האוטובוס עוצר מול בית הספר.
 It doesn't matter.|זה לא משנה.
-It is an orange.|זה תפוז.`,
+It is an orange.|זה תפוז.
+It's hot!|חם!
+That's not fair!|זה לא הוגן!
+Let's go!|בואי נלך!
+Let's play ball.|בואי נשחק בכדור.
+My address is 12 Herzl Street.|הכתובת שלי היא רחוב הרצל 12.
+My name is Noa.|קוראים לי נועה.
+The cat sits next to the dog.|החתול יושב ליד הכלב.
+No one is at home.|אין אף אחד בבית.
+No problem!|אין בעיה!
+Of course I will help you.|ברור שאעזור לך.`,
 };
 
 let n = 0;

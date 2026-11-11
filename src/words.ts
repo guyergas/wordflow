@@ -82,26 +82,26 @@ color|צבע|n|Blue is my favorite color.|כחול הוא הצבע האהוב ע
 shoes|נעליים|n|These shoes are too small.|הנעליים האלה קטנות מדי.
 money|כסף|n|I saved money for a bike.|חסכתי כסף בשביל אופניים.
 music|מוזיקה|n|I love listening to music.|אני אוהבת להקשיב למוזיקה.
-spoon|כף|n|I eat my soup with a spoon.
-fork|מזלג|n|Put the fork next to the plate.
-plate|צלחת|n|The plate is on the table.
-pillow|כרית|n|My pillow is very soft.
-blanket|שמיכה|n|This blanket keeps me warm.
-towel|מגבת|n|Take a towel to the beach.
-sock|גרב|n|I can only find one sock.
-button|כפתור|n|Press the green button.
-cup|כוס|n|I drink tea from a blue cup.
-carrot|גזר|n|The rabbit ate a big carrot.
-lemon|לימון|n|This lemon is very sour.
-rabbit|ארנב|n|My rabbit sleeps in a small box.
-duck|ברווז|n|A duck swims on the lake.
-garden|גינה|n|We grow flowers in our garden.
-sofa|ספה|n|We sat on the sofa and watched a movie.
-onion|בצל|n|Mom cuts an onion for the soup.
-soap|סבון|n|Wash your hands with soap.
-grape|ענב|n|I ate a sweet grape from the bowl.
-cheese|גבינה|n|I like cheese on my bread.
-lamp|מנורה|n|Please turn on the lamp.
+spoon|כף|n|I eat my soup with a spoon.|אני אוכל את המרק שלי עם כף.
+fork|מזלג|n|Put the fork next to the plate.|שים את המזלג ליד הצלחת.
+plate|צלחת|n|The plate is on the table.|הצלחת על השולחן.
+pillow|כרית|n|My pillow is very soft.|הכרית שלי רכה מאוד.
+blanket|שמיכה|n|This blanket keeps me warm.|השמיכה הזאת מחממת אותי.
+towel|מגבת|n|Take a towel to the beach.|קח מגבת לחוף.
+sock|גרב|n|I can only find one sock.|אני מוצא רק גרב אחת.
+button|כפתור|n|Press the green button.|לחץ על הכפתור הירוק.
+cup|כוס|n|I drink tea from a blue cup.|אני שותה תה מכוס כחולה.
+carrot|גזר|n|The rabbit ate a big carrot.|הארנב אכל גזר גדול.
+lemon|לימון|n|This lemon is very sour.|הלימון הזה חמוץ מאוד.
+rabbit|ארנב|n|My rabbit sleeps in a small box.|הארנב שלי ישן בקופסה קטנה.
+duck|ברווז|n|A duck swims on the lake.|ברווז שוחה באגם.
+garden|גינה|n|We grow flowers in our garden.|אנחנו מגדלים פרחים בגינה שלנו.
+sofa|ספה|n|We sat on the sofa and watched a movie.|ישבנו על הספה וצפינו בסרט.
+onion|בצל|n|Mom cuts an onion for the soup.|אמא חותכת בצל למרק.
+soap|סבון|n|Wash your hands with soap.|רחץ את הידיים בסבון.
+grape|ענב|n|I ate a sweet grape from the bowl.|אכלתי ענב מתוק מהקערה.
+cheese|גבינה|n|I like cheese on my bread.|אני אוהב גבינה על הלחם שלי.
+lamp|מנורה|n|Please turn on the lamp.|בבקשה תדליק את המנורה.
 roof|גג|n|A bird is sitting on the roof.
 moon|ירח|n|The moon is bright tonight.
 key|מפתח|n|I lost the key to my room.
@@ -134,7 +134,12 @@ fifth|חמישי|a|We live on the fifth floor.|אנחנו גרים בקומה ה
 film|סרט|n|We watched a funny film last night.|ראינו אתמול בערב סרט מצחיק.
 fun|כיף|n|The trip was a lot of fun.|הטיול היה כיף גדול.
 get|לקבל|v|I get a present on my birthday.|אני מקבלת מתנה ביום ההולדת שלי.
-gift|מתנה|n|This gift is for you.|המתנה הזאת בשבילך.`,
+gift|מתנה|n|This gift is for you.|המתנה הזאת בשבילך.
+go|ללכת|v|We go to the park on Friday.|אנחנו הולכים לפארק ביום שישי.
+hand|יד|n|Raise your hand, please.|הרימי את היד, בבקשה.
+have|יש ל-|v|We have a big garden.|יש לנו גינה גדולה.
+hello|שלום|o|Say hello to your grandma.|תגידי שלום לסבתא שלך.
+in|בתוך|o|The cat is in the box.|החתול בתוך הקופסה.`,
 `neighbor|שכן|n|Our neighbor has three cats.
 street|רחוב|n|We live on a quiet street.
 library|ספרייה|n|I borrowed it from the library.
@@ -229,7 +234,16 @@ apartment|דירה|n|We live in an apartment on the third floor.|אנחנו גר
 area|אזור|n|This area has many parks.|באזור הזה יש הרבה פארקים.
 army|צבא|n|My brother joined the army last year.|אחי התגייס לצבא בשנה שעברה.
 awake|ער|a|I was still awake at midnight.|בחצות עוד הייתי ערה.
-baker|אופה|n|The baker makes fresh bread every morning.|האופה מכין לחם טרי בכל בוקר.`,
+baker|אופה|n|The baker makes fresh bread every morning.|האופה מכין לחם טרי בכל בוקר.
+glad|שמח|a|I am glad you came.|אני שמח שבאת.
+half|חצי|n|I ate half of the cake.|אכלתי חצי מהעוגה.
+hit|לחבוט, להכות|v|She hit the ball over the fence.|היא חבטה בכדור מעל הגדר.
+if|אם|o|We stay home if it rains.|אנחנו נשארים בבית אם יורד גשם.
+job|עבודה|n|My dad has a new job.|לאבא שלי יש עבודה חדשה.
+balloon|בלון|n|The red balloon flew away.|הבלון האדום עף.
+baseball|בייסבול|n|They play baseball after school.|הם משחקים בייסבול אחרי בית הספר.
+bear|דוב|n|A brown bear lives in the forest.|דוב חום חי ביער.
+bedtime|שעת השינה|n|At bedtime, Mom reads me a story.|בשעת השינה, אמא מקריאה לי סיפור.`,
 `feeling|הרגשה|n|I had a strange feeling.
 angry|כועס|a|She was angry at her brother.
 afraid|מפחד|a|He is afraid of spiders.
@@ -316,7 +330,11 @@ apology|התנצלות|n|He wrote a short apology to his friend.|הוא כתב �
 appointment|תור, פגישה|n|I have a dentist appointment on Monday.|יש לי תור לרופא שיניים ביום שני.
 arrival|הגעה|n|We waited for the arrival of the train.|חיכינו להגעת הרכבת.
 attention|תשומת לב|n|The children gave the story all their attention.|הילדים הקדישו לסיפור את כל תשומת הלב שלהם.
-available|פנוי, זמין|a|Is this seat available?|המקום הזה פנוי?`,
+available|פנוי, זמין|a|Is this seat available?|המקום הזה פנוי?
+bar|חטיף, מוט|n|I ate a chocolate bar.|אכלתי חטיף שוקולד.
+barbecue|מנגל|n|We had a barbecue in the park.|עשינו מנגל בפארק.
+battery|סוללה|n|My phone battery is empty.|הסוללה של הטלפון שלי ריקה.
+behave|להתנהג|v|Please behave well in class.|בבקשה תתנהגו יפה בכיתה.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -401,7 +419,9 @@ admit|להודות|v|He did not want to admit his mistake.|הוא לא רצה ל
 advertise|לפרסם|v|Companies advertise their products on TV.|חברות מפרסמות את המוצרים שלהן בטלוויזיה.
 alter|לשנות|v|We had to alter our plans because of the rain.|היינו צריכים לשנות את התוכניות שלנו בגלל הגשם.
 announce|להכריז|v|The principal will announce the winners tomorrow.|המנהלת תכריז מחר על הזוכים.
-approximately|בערך|d|The trip takes approximately two hours.|הנסיעה נמשכת בערך שעתיים.`,
+approximately|בערך|d|The trip takes approximately two hours.|הנסיעה נמשכת בערך שעתיים.
+battle|קרב|n|The two armies fought a long battle.|שני הצבאות נלחמו בקרב ארוך.
+beauty|יופי|n|We loved the beauty of the sea.|אהבנו את היופי של הים.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.
