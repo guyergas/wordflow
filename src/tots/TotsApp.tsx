@@ -1,5 +1,6 @@
 import { greeting, TopBar } from '../topBar';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { pushProgress } from '../progressSync';
 import { Arrows, Glyph, Lines, Next, Speaker, useStudyTimer, WritePad } from '../alef/AlefApp';
 import { frameOf } from '../alef/letters';
 import { STORAGE_KEY, USER_NAME } from '../course';
@@ -275,6 +276,8 @@ function Make({ n, sound, onDone }: { n: number; sound: boolean; onDone: (ok: bo
 }
 
 function Finish({ st, onExit }: { st: TState; onExit: () => void }) {
+  // A finished practice is a whole point: the progress goes to the person's other devices.
+  useEffect(() => { pushProgress(); }, []);
   useEffect(() => { sfx.win(); sayHebrew(SAY.finish); }, []);
   const day = st.plan!.day, today = Object.keys(st.skills).filter((id) => st.skills[id].met === day);
   return (

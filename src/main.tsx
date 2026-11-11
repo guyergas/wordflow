@@ -1,11 +1,14 @@
 // Piano notes has its own look, so each app's styles load only with that app.
-import { COURSE_CHOSEN, IS_NOTES, USER_ID } from './course';
-import { startSync } from './familySync';
+import { pullProgress, startProgressSync } from './progressSync';
 
-startSync();
-
-if (USER_ID && COURSE_CHOSEN && IS_NOTES) void import('./noteflow/mount');
-else void import('./wordMount');
+// Progress from another device arrives before the course is read, so the course opens with it.
+void pullProgress().then(async () => {
+  startProgressSync();
+  const [{ COURSE_CHOSEN, IS_NOTES, USER_ID }, { startSync }] = await Promise.all([import('./course'), import('./familySync')]);
+  startSync();
+  if (USER_ID && COURSE_CHOSEN && IS_NOTES) void import('./noteflow/mount');
+  else void import('./wordMount');
+});
 
 // A new version takes over as soon as it is ready, so nobody stays on an old one.
 if ('serviceWorker' in navigator) {

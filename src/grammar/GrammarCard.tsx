@@ -1,5 +1,6 @@
 // A short grammar stop in the English course: a rule, then questions, and a wrong answer gets a hint and another try.
 import { pushWin } from '../wins';
+import { pushProgress } from '../progressSync';
 import { useMemo, useRef, useState } from 'react';
 import { g, userKey } from '../course';
 import { GRAMMAR, GRAMMAR_PARTS, GrammarQ, partOf } from './topics';
@@ -71,7 +72,7 @@ export function GrammarCard({ known, onTime }: { known: number; onTime: (sec: nu
   const open = (id: string) => { started.current = Date.now(); setRun({ id, review: !!state.topics[id] }); };
   const close = (first: number | null) => {
     onTime(Math.min(900, Math.round((Date.now() - started.current) / 1000)));
-    if (run && topic && first !== null) { if (!run.review) pushWin('grammar', topic.title); const s = afterGrammar(state, run.id, first, qs.length, today, run.review); save(s); setState(s); }
+    if (run && topic && first !== null) { if (!run.review) pushWin('grammar', topic.title); const s = afterGrammar(state, run.id, first, qs.length, today, run.review); save(s); setState(s); pushProgress(); }
     setRun(null);
   };
   // The first topic is always open, so a beginner has somewhere to start.

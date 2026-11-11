@@ -2,17 +2,10 @@
 // The data is open by the family's choice. Each device writes its own numbers, so devices add up without overwriting each other.
 import { enrolledCourses, USER_ID, userKey } from './course';
 import { loadSchedule, readCourses, saveSchedule, Schedule } from './summary';
-
-/** Firebase Realtime Database address, such as https://name-default-rtdb.firebaseio.com */
-const DB_URL = 'https://wordflow-family-default-rtdb.asia-southeast1.firebasedatabase.app';
+import { dbUrl, deviceId } from './db';
+export { dbUrl };
 const get = (k: string) => { try { return localStorage.getItem(k); } catch { return null; } };
-export const dbUrl = () => (get('wordflow.dbUrl') || DB_URL).replace(/\/$/, '');
 
-function deviceId() {
-  let id = get('wordflow.device');
-  if (!id) { id = Math.random().toString(36).slice(2, 12); try { localStorage.setItem('wordflow.device', id); } catch { /* a new id next time */ } }
-  return id;
-}
 const send = (path: string, method: string, body: unknown) => fetch(`${dbUrl()}/${path}.json`, { method, body: JSON.stringify(body) }).then((r) => { if (!r.ok) throw new Error(String(r.status)); });
 
 export function pushTime() {

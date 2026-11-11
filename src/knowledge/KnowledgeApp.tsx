@@ -1,6 +1,7 @@
 import { g } from '../course';
 import { greeting, TopBar } from '../topBar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { pushProgress } from '../progressSync';
 import { COURSE_INFO, STORAGE_KEY, USER_NAME, userKey } from '../course';
 import { shortParagraphs } from './kit';
 import { pushWin } from '../wins';
@@ -132,10 +133,10 @@ function Session({ st, update, onExit, onMore }: { st: KState; update: Update; o
     <div className="session" key={plan.at}>
       <div className="s-top"><button type="button" className="round" aria-label="יציאה. ההתקדמות נשמרת" onClick={onExit}><CloseIcon /></button><div className="thin" style={{ flex: 1 }}><span style={{ width: `${(plan.at / plan.steps.length) * 100}%` }} /></div></div>
       {step.t === 'recall' || step.t === 'review'
-        ? <Recall step={step} seed={plan.day * 7 + plan.at} nextTitle={(() => { const n = plan.steps[plan.at + 1]; return n?.t === 'lesson' ? LESSON[n.id].title : undefined; })()} sound={st.settings.sound} onDone={(ok, all) => update((s) => advance(finishReview(s, step, ok, all, plan.day)))} />
+        ? <Recall step={step} seed={plan.day * 7 + plan.at} nextTitle={(() => { const n = plan.steps[plan.at + 1]; return n?.t === 'lesson' ? LESSON[n.id].title : undefined; })()} sound={st.settings.sound} onDone={(ok, all) => { pushProgress(); update((s) => advance(finishReview(s, step, ok, all, plan.day))); }} />
         : step.t === 'key'
         ? <Quiz q={keyOf(step.id)} sound={st.settings.sound} onAnswer={(ok) => update((s) => answerKey(s, step.id, ok, plan.day))} onNext={() => update(advance)} label="חזרה" />
-        : <LessonView lesson={LESSON[step.id]} wiki={st.settings.wiki} sound={st.settings.sound} onDone={(ok, all) => { if (!st.lessons[step.id]) pushWin('lesson', LESSON[step.id].title); update((s) => advance(finishLesson(s, step.id, ok, all, plan.day))); }} />}
+        : <LessonView lesson={LESSON[step.id]} wiki={st.settings.wiki} sound={st.settings.sound} onDone={(ok, all) => { if (!st.lessons[step.id]) pushWin('lesson', LESSON[step.id].title); pushProgress(); update((s) => advance(finishLesson(s, step.id, ok, all, plan.day))); }} />}
     </div>
   );
 }
@@ -266,6 +267,8 @@ function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boo
 }
 
 function Finish({ st, onExit }: { st: KState; onExit: () => void }) {
+  // A finished practice is a whole point: the progress goes to the person's other devices.
+  useEffect(() => { pushProgress(); }, []);
   const log = dayLog(st, st.plan!.day);
   return (
     <div className="session finish">

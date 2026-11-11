@@ -1,5 +1,6 @@
 import { greeting, TopBar } from './topBar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { pushProgress } from './progressSync';
 import {
   applyPlacement, buildPlan, clozeOf, currentLevel, dayLog, dayNumber, hardWords, isKnown, isMet, Kind, label, levelStats, LEARNING_CAP, options,
   Part, Plan, placementWords, PLACEMENT_PASS, recordRecognition, recordSpelling, givenLetters, spellLevel, spellAlign, spellDiff, spellKnown, spellMeasured, State, Step, tileSet,
@@ -165,7 +166,7 @@ function Onboarding({ st, update }: { st: State; update: Update }) {
     }, 450);
   };
 
-  const finish = (from: number, res: Record<string, boolean>) => update((s) => applyPlacement({ ...s, name: name.trim() || s.name }, res, from, dayNumber()));
+  const finish = (from: number, res: Record<string, boolean>) => { pushProgress(); update((s) => applyPlacement({ ...s, name: name.trim() || s.name }, res, from, dayNumber())); };
 
   if (step === 'hello') return (
     <div className="onb">
@@ -813,6 +814,8 @@ function Confetti() {
 }
 
 function Finish({ st, plan, onExit, onMore, onMoreNew }: { st: State; plan: Plan; onExit: () => void; onMore: () => void; onMoreNew: () => void }) {
+  // A finished practice is a whole point: the progress goes to the person's other devices.
+  useEffect(() => { pushProgress(); }, []);
   const log = dayLog(st, plan.day);
   const total = log.rOk + log.rNo + log.sOk + log.sNo;
   const pct = total ? Math.round(((log.rOk + log.sOk) / total) * 100) : 100;
@@ -1129,7 +1132,7 @@ function SentenceSession({ st, update, today, onExit }: { st: State; update: Upd
   const [score, setScore] = useState({ ok: 0, all: 0 });
   const item = queue[at];
 
-  useEffect(() => { if (at >= queue.length && st.settings.sound) sfx.win(); }, [at, queue.length]);
+  useEffect(() => { if (at >= queue.length) { pushProgress(); if (st.settings.sound) sfx.win(); } }, [at, queue.length]);
 
   if (!item) return (
     <div className="session finish">

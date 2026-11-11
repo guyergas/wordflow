@@ -2,6 +2,7 @@
 // Like the study times, they are open by the family's choice, and hold only a name, a course and a title.
 import { COURSE_INFO, USER_ID, USERS } from './course';
 import { dbUrl } from './familySync';
+import { pushProgress } from './progressSync';
 
 export interface Win { user: string; course: string; title: string; kind: 'lesson' | 'skill' | 'grammar' | 'reading'; at: number; style: number }
 
@@ -34,6 +35,7 @@ export const lineOf = (w: Win) => STYLES[w.style % STYLES.length](USERS.find((u)
 
 /** Records an achievement of the signed-in user. Without a network it is lost, which is acceptable for a cheer. */
 export function pushWin(kind: Win['kind'], title: string) {
+  pushProgress();
   if (!dbUrl() || !USER_ID) return;
   const win: Win = { user: USER_ID, course: COURSE_INFO.short ?? COURSE_INFO.name, title, kind, at: Date.now(), style: Math.floor(Math.random() * STYLES.length) };
   void fetch(`${dbUrl()}/wins.json`, { method: 'POST', body: JSON.stringify(win) }).catch(() => undefined);

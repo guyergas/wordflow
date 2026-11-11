@@ -1,6 +1,7 @@
 import { g } from '../course';
 import { greeting, TopBar } from '../topBar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { pushProgress } from '../progressSync';
 import { pushWin } from '../wins';
 import { CourseSwitch, SummaryTab, TodayPlan } from '../summaryUi';
 import { readCourses } from '../summary';
@@ -259,6 +260,8 @@ function Session({ st, update, onExit, onMore }: { st: MathState; update: Update
 }
 
 function Finish({ st, onExit, onMore }: { st: MathState; onExit: () => void; onMore: (o?: { extra?: boolean; bonus?: boolean }) => void }) {
+  // A finished practice is a whole point: the progress goes to the person's other devices.
+  useEffect(() => { pushProgress(); }, []);
   const plan = st.plan!, log = dayLog(st, plan.day);
   const fresh = plan.newSkill ? SKILL[plan.newSkill] : null;
   return (
@@ -336,7 +339,7 @@ function RunResult({ st, update }: { st: MathState; update: Update }) {
           return <li key={d.id}><span>{d.name}</span><b>{start > last ? 'הכול עבר בהצלחה' : STATIONS.find((s) => s.id === start)!.name}</b></li>;
         })}
       </ul>
-      <button type="button" className="cta" onClick={() => update((s) => applyPlacement(s, s.placement!, dayNumber()))}>לאימון הראשון</button>
+      <button type="button" className="cta" onClick={() => { pushProgress(); update((s) => applyPlacement(s, s.placement!, dayNumber())); }}>לאימון הראשון</button>
     </div>
   );
 }

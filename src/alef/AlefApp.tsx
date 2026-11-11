@@ -1,5 +1,6 @@
 import { greeting, TopBar } from '../topBar';
 import { PointerEvent as PE, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { pushProgress } from '../progressSync';
 import { STORAGE_KEY, USER_NAME } from '../course';
 import { saveHebrewRecordings, sayHebrew, sayInTurn, sfx } from '../platform';
 import { CourseSwitch, SummaryTab } from '../summaryUi';
@@ -437,6 +438,8 @@ export function WritePad({ shape, name, mode, said, praise, answer: told, again,
 }
 
 function Finish({ st, onExit }: { st: AState; onExit: () => void; onMore: (o?: PlanOptions) => void }) {
+  // A finished practice is a whole point: the progress goes to the person's other devices.
+  useEffect(() => { pushProgress(); }, []);
   useEffect(() => { sfx.win(); sayHebrew(SAY.finish); }, []);
   const day = st.plan!.day, today = Object.keys(st.letters).filter((id) => st.letters[id].met === day);
   return (

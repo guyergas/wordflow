@@ -1,5 +1,6 @@
 // Reading: short English texts with questions, each opening at a word count and at most once in a few days. Most of the practice stays with words.
 import { pushWin } from './wins';
+import { pushProgress } from './progressSync';
 import { useRef, useState } from 'react';
 import { g, userKey } from './course';
 import { PASSAGES, Passage, wordsNeeded } from './readingTexts';
@@ -55,7 +56,7 @@ export function EnglishReading({ known, onTime }: { known: number; onTime: (sec:
   const open = (p: Passage) => { started.current = Date.now(); setReading(p); };
   const close = (finished: boolean) => {
     onTime(Math.min(600, Math.round((Date.now() - started.current) / 1000)));
-    if (finished && reading && !state.done.includes(reading.id)) { pushWin('reading', reading.title); const s = { done: [...state.done, reading.id], last: today }; store(s); setState(s); }
+    if (finished && reading && !state.done.includes(reading.id)) { pushWin('reading', reading.title); const s = { done: [...state.done, reading.id], last: today }; store(s); setState(s); pushProgress(); }
     setReading(null);
   };
   const sub = !next ? `כל ${PASSAGES.length} הקטעים נקראו` : ready ? `קטע חדש: ${next.title}` : lockText(next);
