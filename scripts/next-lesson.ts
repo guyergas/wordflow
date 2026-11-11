@@ -3,7 +3,7 @@ import { LESSONS } from '../src/knowledge/lessons';
 import { DEEP } from '../src/knowledge/deep';
 import { NEW_LESSONS } from '../src/knowledge/new-lessons';
 
-const ORDER = ['geo', 'sci', 'nature', 'hist', 'art', 'sport', 'heb', 'jud', 'food'], TARGET: Record<string, number> = { geo: 75, sci: 75, hist: 75 };
+const ORDER = ['geo', 'sci', 'nature', 'hist', 'art', 'sport', 'heb', 'jud', 'food'], TARGET: Record<string, number> = { geo: 75, sci: 75, hist: 90, heb: 72, jud: 70 }; // hist, heb and jud are higher so that every topic in docs/new-topics.md gets a lesson
 const targetOf = (c: string) => TARGET[c] ?? 60;
 const full = (c: string) => Object.keys(DEEP).filter((id) => id.startsWith(`${c}.`)).length + NEW_LESSONS.filter((l) => l.course === c).length;
 const counts = ORDER.map((c) => ({ c, n: full(c) }));
