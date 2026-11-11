@@ -28,7 +28,9 @@ function load(): MathState {
     const st: MathState = { ...base, ...p, name: USER_NAME || p.name, settings: { ...base.settings, ...p.settings } };
     if (st.plan && st.plan.steps.some((s) => !SKILL[s.skill])) st.plan = null;
     // Guy moved Ayala up to fifth-grade material: a placement check from there up, once. What she already learned above it stays.
-    if (USER_ID === 'ayala' && st.moved !== 'grade5') return { ...st, moved: 'grade5', onboarded: false, plan: null, placement: startPlacement(Math.floor(Math.random() * 1e8), GRADE5_FLOOR) };
+    if (USER_ID === 'ayala' && st.moved !== 'grade5') return { ...st, moved: 'grade5', plan: null, placement: startPlacement(Math.floor(Math.random() * 1e8), GRADE5_FLOOR) };
+    // A check from a higher grade is for someone already learning: she keeps her home screen while it waits.
+    if (st.placement?.floor && !st.onboarded && SKILLS.some((s) => st.skills[s.id]?.met != null)) return { ...st, onboarded: true };
     return st;
   } catch { return initialMath(); }
 }
@@ -86,12 +88,13 @@ export function MathApp() {
     setInSession(true);
   };
 
-  if (!st.onboarded) return <Onboarding st={st} update={update} running={running} setRunning={setRunning} />;
+  const recheck = st.onboarded && !!st.placement;
+  if (!st.onboarded || (recheck && (running || placementDone(st.placement!)))) return <Onboarding st={st} update={update} running={running} setRunning={setRunning} />;
   if (inSession && st.plan) return <Session st={st} update={update} onExit={() => { setInSession(false); setTab('home'); }} onMore={start} />;
   return (
     <div className="app">
       <main className="page">
-        {tab === 'home' && <Home st={st} today={today} onStart={start} onSettings={() => setSettings(true)} />}
+        {tab === 'home' && <Home st={st} today={today} onStart={start} onSettings={() => setSettings(true)} onCheck={() => setRunning(true)} />}
         {tab === 'path' && <PathScreen st={st} />}
         {tab === 'progress' && <Progress st={st} />}
       </main>
@@ -345,7 +348,7 @@ function RunResult({ st, update }: { st: MathState; update: Update }) {
 }
 
 // ---------- Home ----------
-function Home({ st, today, onStart, onSettings }: { st: MathState; today: number; onStart: (o?: { extra?: boolean; bonus?: boolean }) => void; onSettings: () => void }) {
+function Home({ st, today, onStart, onSettings, onCheck }: { st: MathState; today: number; onStart: (o?: { extra?: boolean; bonus?: boolean }) => void; onSettings: () => void; onCheck: () => void }) {
   const open = st.plan && st.plan.day === today && st.plan.at < st.plan.steps.length && !st.plan.extra ? st.plan : null;
   const preview = useMemo(() => open ?? buildPlan(st, today, { rnd: () => 0.5 }), [open?.at, st.skills, today]);
   const log = dayLog(st, today), t = totals(st), week = weekDays(st, today);
@@ -357,7 +360,14 @@ function Home({ st, today, onStart, onSettings }: { st: MathState; today: number
       <TopBar onSettings={onSettings} />
       <h1 className="greet">{greeting(st.name)}</h1>
       <div className="next-card">
-        {log.done && !open ? (
+        {st.placement ? (
+          <>
+            <span className="chip-d">{st.placement.asked > 0 ? g('ממשיכות מאיפה שעצרת', 'ממשיכים מאיפה שעצרת') : 'לפני האימון הבא'}</span>
+            <h2>{st.placement.floor ? 'בדיקה קצרה לחומר של כיתה ה׳' : 'בדיקה קצרה של נקודת ההתחלה'}</h2>
+            <p>כמה שאלות בלי ציון, כדי לדעת מאיפה ממשיכים. אפשר לעצור באמצע, וההתקדמות נשמרת.</p>
+            <button type="button" className="cta-d" onClick={onCheck}>{st.placement.asked > 0 ? 'להמשיך את הבדיקה' : 'להתחיל את הבדיקה'}</button>
+          </>
+        ) : log.done && !open ? (
           <>
             <span className="chip-d">היום הושלם</span>
             <h2>סיימת את האימון של היום</h2>
