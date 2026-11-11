@@ -226,7 +226,17 @@ My dog is called Max.|הכלב שלי נקרא מקס.
 Write your name with a capital letter.|כתבי את השם שלך באות גדולה.
 Where do you come from?|מאיפה את?
 Don't forget your hat!|אל תשכחי את הכובע שלך!
-Don't worry about the test.|אל תדאגי בקשר למבחן.`,
+Don't worry about the test.|אל תדאגי בקשר למבחן.
+Excuse me, where is the library?|סליחה, איפה הספרייה?
+I don't eat fast food.|אני לא אוכלת מזון מהיר.
+What is your first name?|מה השם הפרטי שלך?
+Mom gets me up at seven.|אמא מעירה אותי בשבע.
+Go down the stairs, please.|רדי במדרגות, בבקשה.
+Please go into the classroom.|בבקשה היכנסי לכיתה.
+We go shopping on Friday.|אנחנו הולכים לקניות ביום שישי.
+How about a game of chess?|מה דעתך על משחק שחמט?
+I saw a good film last night.|ראיתי סרט טוב אתמול בלילה.
+I am tired, so I lie down on the sofa.|אני עייפה, אז אני נשכבת על הספה.`,
 };
 
 let n = 0;

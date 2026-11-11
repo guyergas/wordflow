@@ -160,7 +160,16 @@ ten|עשר|n|I have ten fingers.|יש לי עשר אצבעות.
 that|ההוא, ההיא|o|I want that red ball.|אני רוצה את הכדור האדום ההוא.
 their|שלהם|o|I like their little dog.|אני אוהב את הכלב הקטן שלהם.
 them|אותם|o|I see them in the park every day.|אני רואה אותם בפארק כל יום.
-then|אחר כך|d|We eat lunch and then we play.|אנחנו אוכלים ארוחת צהריים ואחר כך משחקים.`,
+then|אחר כך|d|We eat lunch and then we play.|אנחנו אוכלים ארוחת צהריים ואחר כך משחקים.
+they|הם, הן|o|My friends say they are hungry.|החברים שלי אומרים שהם רעבים.
+this|זה, זאת|o|I love this song.|אני אוהבת את השיר הזה.
+three|שלוש|n|I have three pencils in my bag.|יש לי שלושה עפרונות בתיק.
+to|אל, ל-|o|We go to the park after school.|אנחנו הולכים לפארק אחרי בית הספר.
+top|ראש, חלק עליון|n|The cat is on the top of the tree.|החתול בראש העץ.
+up|למעלה|d|Look up at the sky!|תסתכלו למעלה לשמיים!
+us|אותנו, לנו|o|Mom takes us to school.|אמא לוקחת אותנו לבית הספר.
+yes|כן|o|I said yes to the party.|אמרתי כן למסיבה.
+you|אתה, את|o|Can you help me, please?|אתה יכול לעזור לי, בבקשה?`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -296,7 +305,11 @@ than|מאשר, מ-|o|My brother is taller than me.|אחי גבוה ממני.
 circus|קרקס|n|We saw a funny clown at the circus.|ראינו ליצן מצחיק בקרקס.
 clap|למחוא כפיים|v|Let's clap for the singer!|בואו נמחא כפיים לזמרת!
 coin|מטבע|n|I put a coin in my piggy bank.|שמתי מטבע בקופה שלי.
-comb|מסרק|n|I need a comb for my hair.|אני צריכה מסרק לשיער שלי.`,
+comb|מסרק|n|I need a comb for my hair.|אני צריכה מסרק לשיער שלי.
+trip|טיול|n|We went on a school trip to the zoo.|יצאנו לטיול כיתתי לגן החיות.
+concert|הופעה, קונצרט|n|We went to a concert in the park.|הלכנו להופעה בפארק.
+cooking|בישול|n|My dad loves cooking for the family.|אבא שלי אוהב בישול בשביל המשפחה.
+copy|להעתיק|v|Please copy the words from the board.|בבקשה העתיקו את המילים מהלוח.`,
 `feeling|הרגשה|n|I had a strange feeling.
 angry|כועס|a|She was angry at her brother.
 afraid|מפחד|a|He is afraid of spiders.
@@ -408,7 +421,12 @@ church|כנסייה|n|We visited an old church in the village.|ביקרנו בכ
 click|ללחוץ (בעכבר)|v|You can click on the picture to open it.|אפשר ללחוץ על התמונה כדי לפתוח אותה.
 coach|מאמן|n|Our coach tells us to run faster.|המאמן שלנו אומר לנו לרוץ מהר יותר.
 code|קוד|n|Type the secret code to open the door.|הקלידו את הקוד הסודי כדי לפתוח את הדלת.
-comma|פסיק|n|Put a comma after the word "yes".|שימו פסיק אחרי המילה "yes".`,
+comma|פסיק|n|Put a comma after the word "yes".|שימו פסיק אחרי המילה "yes".
+compete|להתחרות|v|Ten teams compete in the game.|עשר קבוצות מתחרות במשחק.
+contact|קשר, ליצור קשר|v|You can contact me by phone.|אפשר ליצור איתי קשר בטלפון.
+continue|להמשיך|v|Let's continue the story tomorrow.|בואו נמשיך את הסיפור מחר.
+control|שליטה, לשלוט|v|I can control the toy car with my phone.|אני יכול לשלוט במכונית הצעצוע עם הטלפון שלי.
+contents|תוכן העניינים, תוכן|n|Look at the contents page of the book.|תסתכלו בעמוד תוכן העניינים של הספר.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -501,7 +519,9 @@ cancer|סרטן (מחלה)|n|Smoking can cause cancer.|עישון יכול לג�
 channel|ערוץ|n|What channel is the cartoon on?|באיזה ערוץ מוצג הסרט המצויר?
 charge|להטעין|v|I need to charge my phone.|אני צריך להטעין את הטלפון שלי.
 combine|לשלב, לחבר|v|Let's combine the red and the blue paint.|בואו נשלב את הצבע האדום ואת הכחול.
-communication|תקשורת|n|Good communication helps a team win.|תקשורת טובה עוזרת לקבוצה לנצח.`,
+communication|תקשורת|n|Good communication helps a team win.|תקשורת טובה עוזרת לקבוצה לנצח.
+connection|חיבור, קשר|n|The internet connection is very slow.|החיבור לאינטרנט איטי מאוד.
+contract|חוזה|n|The player signed a contract with the team.|השחקן חתם על חוזה עם הקבוצה.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.
