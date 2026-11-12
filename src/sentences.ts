@@ -636,7 +636,17 @@ We have loads of homework today.|יש לנו המון שיעורי בית היו
 It is easy to make friends at camp.|קל להכיר חברים במחנה.
 Don't miss the chance to see the show.|אל תפספס את ההזדמנות לראות את ההצגה.
 He no longer lives here.|הוא כבר לא גר כאן.
-No way!|אין מצב!`,
+No way!|אין מצב!
+There is not even one cookie left.|לא נשארה אפילו עוגייה אחת.
+I'm not really hungry.|אני לא ממש רעב.
+I had an omelette for breakfast.|אכלתי חביתה לארוחת בוקר.
+He didn't do it on purpose.|הוא לא עשה את זה בכוונה.
+I saw a rainbow on the way to school.|ראיתי קשת בענן בדרך לבית הספר.
+Let's read the story once again.|בואו נקרא את הסיפור עוד פעם.
+Some day I will visit Paris.|יום אחד אבקר בפריז.
+The cat jumped onto the table.|החתול קפץ על השולחן.
+Tell me if you like it or not.|תגיד לי אם זה מוצא חן בעיניך או לא.
+You ought to say sorry.|כדאי שתבקש סליחה.`,
 };
 
 let n = 0;

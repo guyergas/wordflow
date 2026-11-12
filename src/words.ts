@@ -388,7 +388,10 @@ crazy|משוגע, מטורף|a|My cat runs around like crazy.|החתול שלי 
 doll|בובה|n|My sister plays with her doll.|אחותי משחקת עם הבובה שלה.
 downstairs|למטה (בקומה)|d|Mom is waiting downstairs.|אמא מחכה למטה.
 drawing|ציור|n|Look at my drawing of a horse.|תסתכל על הציור שלי של סוס.
-each|כל אחד|o|The teacher gave each child a balloon.|המורה נתנה לכל ילד בלון.`,
+each|כל אחד|o|The teacher gave each child a balloon.|המורה נתנה לכל ילד בלון.
+elephant|פיל|n|The elephant has big ears.|לפיל יש אוזניים גדולות.
+exam|מבחן|n|I studied hard for the exam.|למדתי קשה למבחן.
+eighth|שמיני|a|Our class is on the eighth floor.|הכיתה שלנו בקומה השמינית.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -812,7 +815,17 @@ direct|ישיר|a|We took a direct flight to London.|טסנו בטיסה ישי�
 double|כפול|a|I ordered a double ice cream.|הזמנתי גלידה כפולה.
 during|במהלך|o|Don't talk during the movie.|אל תדבר במהלך הסרט.
 awful|נורא, איום|a|The soup tastes awful.|למרק יש טעם נורא.
-babysit|לשמור על ילדים|v|My cousin will babysit us tonight.|בת הדודה שלי תשמור עלינו הערב.`,
+babysit|לשמור על ילדים|v|My cousin will babysit us tonight.|בת הדודה שלי תשמור עלינו הערב.
+earlier|מוקדם יותר|d|I came home earlier than my brother.|הגעתי הביתה מוקדם יותר מאחי.
+effort|מאמץ|n|She made a big effort to finish the race.|היא עשתה מאמץ גדול כדי לסיים את המרוץ.
+either|גם (בשלילה)|o|I can't swim, and my sister can't either.|אני לא יודע לשחות, וגם אחותי לא.
+else|עוד, אחר|d|Do you want anything else?|אתה רוצה עוד משהו?
+ever|אי פעם|d|Have you ever seen a rainbow?|ראית פעם קשת בענן?
+exactly|בדיוק|d|The movie starts at exactly five o'clock.|הסרט מתחיל בדיוק בחמש.
+bean|שעועית|n|I planted a bean in a cup.|שתלתי גרגר שעועית בכוס.
+barber|ספר (מספרה)|n|The barber cut my hair short.|הספר קיצר לי את השיער.
+excellent|מצוין|a|You did an excellent job!|עשית עבודה מצוינת!
+bandage|תחבושת|n|The nurse put a bandage on my knee.|האחות שמה לי תחבושת על הברך.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1103,7 +1116,13 @@ arrest|לעצור (משטרה)|v|The police will arrest the thief.|המשטרה 
 attack|לתקוף|v|The dog did not attack the cat.|הכלב לא תקף את החתול.
 attend|להשתתף, לבקר ב-|v|All the students attend the school party.|כל התלמידים משתתפים במסיבת בית הספר.
 award|פרס|n|She won an award for her story.|היא זכתה בפרס על הסיפור שלה.
-aware|מודע|a|Are you aware of the danger?|אתה מודע לסכנה?`,
+aware|מודע|a|Are you aware of the danger?|אתה מודע לסכנה?
+basin|כיור, קערה|n|Wash your hands in the basin.|שטוף את הידיים בכיור.
+basic|בסיסי|a|I know some basic words in French.|אני יודע כמה מילים בסיסיות בצרפתית.
+balance|שיווי משקל, איזון|n|I lost my balance and fell.|איבדתי את שיווי המשקל ונפלתי.
+beat|לנצח|v|Our team beat them in the final.|הקבוצה שלנו ניצחה אותם בגמר.
+base|בסיס|n|The base of the lamp is heavy.|הבסיס של המנורה כבד.
+become|להפוך ל-, להיות|v|The little caterpillar will become a butterfly.|הזחל הקטן יהפוך לפרפר.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1315,7 +1334,8 @@ arrange|לסדר, לארגן|v|Let's arrange the chairs in a circle.|בואו נ
 attempt|ניסיון|n|He jumped over the wall on his first attempt.|הוא קפץ מעל הקיר בניסיון הראשון שלו.
 attract|למשוך|v|Flowers attract bees.|פרחים מושכים דבורים.
 authority|סמכות|n|The principal has the authority to close the school.|למנהלת יש סמכות לסגור את בית הספר.
-avatar|דמות (במשחק), אווטאר|n|I chose a funny avatar for the game.|בחרתי דמות מצחיקה למשחק.`,
+avatar|דמות (במשחק), אווטאר|n|I chose a funny avatar for the game.|בחרתי דמות מצחיקה למשחק.
+basis|בסיס, יסוד|n|Trust is the basis of a good friendship.|אמון הוא הבסיס של חברות טובה.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1636,26 +1656,26 @@ humble|צנוע|a|He stayed humble after the win.|הוא נשאר צנוע אח�
 sensitive|רגיש|a|She is sensitive to loud noise.|היא רגישה לרעש חזק.
 cautious|זהיר|a|Be cautious on the wet road.|תהיה זהיר בכביש הרטוב.
 embarrassed|נבוך|a|I felt embarrassed by my mistake.|הרגשתי נבוך בגלל הטעות שלי.
-exhausted|מותש|a|We were exhausted after the climb.
-frustrated|מתוסכל|a|He got frustrated with the puzzle.
-grateful|אסיר תודה|a|I am grateful for your help.
-jealous|מקנא|a|She was jealous of her sister.
-overwhelmed|מוצף|a|I feel overwhelmed by all this homework.
-relieved|חש הקלה|a|We were relieved to hear the news.
-encourage|לעודד|v|Good teachers encourage their students.
-admire|להעריץ|v|I admire your courage.
-complain|להתלונן|v|Customers often complain about the price.
-insist|להתעקש|v|They insist on paying.
-negotiate|לנהל משא ומתן|v|They had to negotiate a better price.
-mention|להזכיר|v|Did she mention the party?
-pretend|להעמיד פנים|v|He likes to pretend he is asleep.
-reveal|לחשוף|v|The final scene will reveal the truth.
-compliment|מחמאה|n|That was a lovely compliment.
-conversation|שיחה|n|We had a long conversation.
-misunderstanding|אי הבנה|n|It was just a misunderstanding.`,
-`drought|בצורת|n|The drought killed the crops.
-earthquake|רעידת אדמה|n|The earthquake woke the whole city.
-flood|שיטפון|n|The flood destroyed the bridge.
+exhausted|מותש|a|We were exhausted after the climb.|היינו מותשים אחרי הטיפוס.
+frustrated|מתוסכל|a|He got frustrated with the puzzle.|הוא התוסכל מהפאזל.
+grateful|אסיר תודה|a|I am grateful for your help.|אני אסיר תודה על העזרה שלך.
+jealous|מקנא|a|She was jealous of her sister.|היא קינאה באחותה.
+overwhelmed|מוצף|a|I feel overwhelmed by all this homework.|אני מרגיש מוצף מכל שיעורי הבית האלה.
+relieved|חש הקלה|a|We were relieved to hear the news.|הרגשנו הקלה כששמענו את החדשות.
+encourage|לעודד|v|Good teachers encourage their students.|מורים טובים מעודדים את התלמידים שלהם.
+admire|להעריץ|v|I admire your courage.|אני מעריץ את האומץ שלך.
+complain|להתלונן|v|Customers often complain about the price.|לקוחות מתלוננים לעיתים קרובות על המחיר.
+insist|להתעקש|v|They insist on paying.|הם מתעקשים לשלם.
+negotiate|לנהל משא ומתן|v|They had to negotiate a better price.|הם נאלצו לנהל משא ומתן על מחיר טוב יותר.
+mention|להזכיר|v|Did she mention the party?|היא הזכירה את המסיבה?
+pretend|להעמיד פנים|v|He likes to pretend he is asleep.|הוא אוהב להעמיד פנים שהוא ישן.
+reveal|לחשוף|v|The final scene will reveal the truth.|הסצנה האחרונה תחשוף את האמת.
+compliment|מחמאה|n|That was a lovely compliment.|זו הייתה מחמאה מקסימה.
+conversation|שיחה|n|We had a long conversation.|ניהלנו שיחה ארוכה.
+misunderstanding|אי הבנה|n|It was just a misunderstanding.|זו הייתה סתם אי הבנה.`,
+`drought|בצורת|n|The drought killed the crops.|הבצורת הרסה את היבולים.
+earthquake|רעידת אדמה|n|The earthquake woke the whole city.|רעידת האדמה העירה את כל העיר.
+flood|שיטפון|n|The flood destroyed the bridge.|השיטפון הרס את הגשר.
 resource|משאב|n|Water is a precious resource.
 extinct|נכחד|a|Dinosaurs have been extinct for millions of years.
 endangered|בסכנת הכחדה|a|The tiger is an endangered animal.
