@@ -239,7 +239,13 @@ flower|פרח|n|I gave Mom a red flower.|נתתי לאמא פרח אדום.
 fly|לעוף|v|Birds can fly high.|ציפורים יכולות לעוף גבוה.
 foot|כף רגל|n|My left foot hurts.|כף הרגל השמאלית שלי כואבת.
 four|ארבע|n|A dog has four legs.|לכלב יש ארבע רגליים.
-fruit|פרי|n|An apple is a fruit.|תפוח הוא פרי.`,
+fruit|פרי|n|An apple is a fruit.|תפוח הוא פרי.
+girl|ילדה|n|The girl has long hair.|לילדה יש שיער ארוך.
+glass|כוס זכוכית, זכוכית|n|Can I have a glass of water?|אפשר לקבל כוס מים?
+good|טוב|a|This cake is very good.|העוגה הזאת טובה מאוד.
+grandfather|סבא|n|My grandfather tells funny stories.|סבא שלי מספר סיפורים מצחיקים.
+grandmother|סבתא|n|My grandmother bakes cookies for us.|סבתא שלי אופה לנו עוגיות.
+gray|אפור|a|The elephant is gray.|הפיל אפור.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -480,7 +486,13 @@ fourth|רביעי|a|We live on the fourth floor.|אנחנו גרים בקומה 
 friendly|ידידותי|a|Our new neighbor is very friendly.|השכן החדש שלנו מאוד ידידותי.
 garlic|שום|n|Dad puts garlic in the soup.|אבא שם שום במרק.
 instrument|כלי נגינה, מכשיר|n|The piano is my favorite instrument.|הפסנתר הוא כלי הנגינה האהוב עליי.
-interest|עניין|n|He has a big interest in stars.|יש לו עניין גדול בכוכבים.`,
+interest|עניין|n|He has a big interest in stars.|יש לו עניין גדול בכוכבים.
+goal|שער (בכדורגל), מטרה|n|He scored a goal in the game.|הוא הבקיע שער במשחק.
+grade|ציון, כיתה|n|I got a good grade on the test.|קיבלתי ציון טוב במבחן.
+grandchild|נכד|n|Grandma has one grandchild.|לסבתא יש נכד אחד.
+grandparent|סבא או סבתא|n|A grandparent is the parent of your mom or dad.|סבא או סבתא הם ההורים של אמא או של אבא.
+joke|בדיחה|n|Tell me a funny joke.|ספר לי בדיחה מצחיקה.
+kite|עפיפון|n|We flew a kite at the beach.|הטסנו עפיפון בחוף.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -653,7 +665,12 @@ housewife|עקרת בית|n|My grandma was a housewife.|סבתא שלי היית
 insult|להעליב|v|It is not nice to insult your friends.|לא יפה להעליב את החברים שלך.
 introduce|להציג, להכיר|v|Let me introduce my friend Dan.|הרשו לי להכיר לכם את החבר שלי דן.
 included|כלול|a|Breakfast is included in the price.|ארוחת הבוקר כלולה במחיר.
-ingredient|מרכיב|n|Flour is the main ingredient in bread.|קמח הוא המרכיב העיקרי בלחם.`,
+ingredient|מרכיב|n|Flour is the main ingredient in bread.|קמח הוא המרכיב העיקרי בלחם.
+joy|שמחה|n|She jumped with joy.|היא קפצה משמחה.
+jewelry|תכשיטים|n|Mom keeps her jewelry in a small box.|אמא שומרת את התכשיטים שלה בקופסה קטנה.
+kilogram|קילוגרם|n|This bag of rice weighs one kilogram.|שקית האורז הזאת שוקלת קילוגרם אחד.
+kilometer|קילומטר|n|My school is one kilometer from home.|בית הספר שלי נמצא קילומטר אחד מהבית.
+land|אדמה, יבשה|n|The farmer works on his land.|החקלאי עובד על האדמה שלו.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -692,26 +709,26 @@ grass|דשא|n|The grass is wet.|הדשא רטוב.
 insect|חרק|n|An insect landed on my arm.|חרק נחת לי על היד.
 butterfly|פרפר|n|A butterfly landed on the flower.|פרפר נחת על הפרח.
 camel|גמל|n|We rode a camel in the desert.|רכבנו על גמל במדבר.
-danger|סכנה|n|There is danger in these waters.
-adventure|הרפתקה|n|Our trip was a real adventure.
-tent|אוהל|n|We slept in a tent.
-wild|פראי|a|Wild animals live here.
-deep|עמוק|a|The pool is very deep.
-narrow|צר|a|This road is very narrow.
-wide|רחב|a|The door is wide.
-dangerous|מסוכן|a|This road is dangerous at night.
-foreign|זר|a|She speaks a foreign language.
-crowded|צפוף|a|The bus was very crowded.
-empty|ריק|a|The room was empty.
-far|רחוק|a|The city is far from here.
-travel|לטייל|v|I love to travel by train.
-arrive|להגיע|v|We will arrive at eight.
-leave|לעזוב|v|We must leave right now.
-cross|לחצות|v|Look before you cross the road.
-climb|לטפס|v|Monkeys climb trees.
-swim|לשחות|v|Can you swim?
-follow|לעקוב אחרי|v|Follow me to the door.
-pack|לארוז|v|I need to pack my bag.
+danger|סכנה|n|There is danger in these waters.|יש סכנה במים האלה.
+adventure|הרפתקה|n|Our trip was a real adventure.|הטיול שלנו היה הרפתקה אמיתית.
+tent|אוהל|n|We slept in a tent.|ישנו באוהל.
+wild|פראי|a|Wild animals live here.|חיות פרא חיות כאן.
+deep|עמוק|a|The pool is very deep.|הבריכה עמוקה מאוד.
+narrow|צר|a|This road is very narrow.|הכביש הזה צר מאוד.
+wide|רחב|a|The door is wide.|הדלת רחבה.
+dangerous|מסוכן|a|This road is dangerous at night.|הכביש הזה מסוכן בלילה.
+foreign|זר|a|She speaks a foreign language.|היא מדברת בשפה זרה.
+crowded|צפוף|a|The bus was very crowded.|האוטובוס היה צפוף מאוד.
+empty|ריק|a|The room was empty.|החדר היה ריק.
+far|רחוק|a|The city is far from here.|העיר רחוקה מכאן.
+travel|לטייל|v|I love to travel by train.|אני אוהב לטייל ברכבת.
+arrive|להגיע|v|We will arrive at eight.|נגיע בשמונה.
+leave|לעזוב|v|We must leave right now.|אנחנו חייבים ללכת עכשיו.
+cross|לחצות|v|Look before you cross the road.|תסתכל לפני שאתה חוצה את הכביש.
+climb|לטפס|v|Monkeys climb trees.|קופים מטפסים על עצים.
+swim|לשחות|v|Can you swim?|אתה יודע לשחות?
+follow|לעקוב אחרי|v|Follow me to the door.|לך אחריי עד הדלת.
+pack|לארוז|v|I need to pack my bag.|אני צריך לארוז את התיק שלי.
 explore|לחקור|v|Let's explore the cave.
 grow|לגדול|v|Flowers grow fast in spring.
 receive|לקבל|v|Did you receive my letter?
@@ -781,7 +798,10 @@ importance|חשיבות|n|The teacher spoke about the importance of sleep.|המ�
 inform|להודיע|v|Please inform the teacher if you are late.|בבקשה תודיע למורה אם אתה מאחר.
 inner|פנימי|a|The inner part of the fruit is sweet.|החלק הפנימי של הפרי מתוק.
 international|בינלאומי|a|We went to an international food fair.|הלכנו ליריד אוכל בינלאומי.
-interval|הפסקה, מרווח|n|We bought ice cream in the interval.|קנינו גלידה בהפסקה.`,
+interval|הפסקה, מרווח|n|We bought ice cream in the interval.|קנינו גלידה בהפסקה.
+jazz|ג'אז|n|My uncle plays jazz on the piano.|הדוד שלי מנגן ג'אז בפסנתר.
+jail|כלא|n|The thief went to jail.|הגנב הלך לכלא.
+judge|שופט|n|The judge listened to both sides.|השופט הקשיב לשני הצדדים.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.

@@ -366,7 +366,17 @@ I can't stand loud noise.|אני לא סובל רעש חזק.
 I can't wait for summer!|אני לא יכול לחכות לקיץ!
 Carry on reading, please.|תמשיכו לקרוא, בבקשה.
 The children carried out the plan.|הילדים ביצעו את התוכנית.
-Paper can catch fire easily.|נייר יכול להתלקח בקלות.`,
+Paper can catch fire easily.|נייר יכול להתלקח בקלות.
+We waited at the check-in desk at the airport.|חיכינו בדלפק הצ'ק-אין בשדה התעופה.
+The shop is quiet at closing time.|החנות שקטה בשעת הסגירה.
+Please come down from the tree!|בבקשה תרד מהעץ!
+Congratulations!|מזל טוב!
+Dad cut up the apple for me.|אבא חתך לי את התפוח לחתיכות.
+Write your date of birth here.|כתוב כאן את תאריך הלידה שלך.
+We bought shoes at the department store.|קנינו נעליים בחנות הכלבו.
+The twins help each other.|התאומים עוזרים זה לזה.
+Be careful, don't fall down!|זהירות, אל תיפול!
+Please fill in your name.|בבקשה תמלא את השם שלך.`,
 };
 
 let n = 0;
