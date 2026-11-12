@@ -299,7 +299,13 @@ pink|ורוד|a|She has a pink dress.|יש לה שמלה ורודה.
 pizza|פיצה|n|We eat pizza on Friday.|אנחנו אוכלים פיצה ביום שישי.
 play|לשחק|v|The children play in the yard.|הילדים משחקים בחצר.
 please|בבקשה|o|Can you help me, please?|אתה יכול לעזור לי, בבקשה?
-potato|תפוח אדמה|n|Mom cut a potato for the soup.|אמא חתכה תפוח אדמה למרק.`,
+potato|תפוח אדמה|n|Mom cut a potato for the soup.|אמא חתכה תפוח אדמה למרק.
+radio|רדיו|n|Grandpa listens to the radio.|סבא מקשיב לרדיו.
+rice|אורז|n|We eat rice with chicken.|אנחנו אוכלים אורז עם עוף.
+road|כביש, דרך|n|Look both ways before you cross the road.|תסתכל לשני הצדדים לפני שאתה חוצה את הכביש.
+room|חדר|n|My room is very small.|החדר שלי קטן מאוד.
+salad|סלט|n|I made a salad for lunch.|הכנתי סלט לארוחת צהריים.
+salt|מלח|n|Please pass me the salt.|בבקשה תעביר לי את המלח.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -603,7 +609,13 @@ price|מחיר|n|What is the price of this toy?|מה המחיר של הצעצו�
 pupil|תלמיד|n|Every pupil has a new book.|לכל תלמיד יש ספר חדש.
 puppy|גור כלבים|n|Our puppy sleeps in a little bed.|הגור שלנו ישן במיטה קטנה.
 purple|סגול|a|She has a purple bag.|יש לה תיק סגול.
-puzzle|פאזל, חידה|n|We finished the puzzle together.|סיימנו את הפאזל ביחד.`,
+puzzle|פאזל, חידה|n|We finished the puzzle together.|סיימנו את הפאזל ביחד.
+rainy|גשום|a|It is a rainy day, so we stay inside.|זה יום גשום, אז אנחנו נשארים בבית.
+really|באמת, ממש|d|I really like your new shoes.|אני ממש אוהב את הנעליים החדשות שלך.
+rich|עשיר|a|The rich king had a lot of gold.|למלך העשיר היה הרבה זהב.
+right|ימין, נכון|a|Raise your right hand.|תרימו את היד הימנית.
+rat|חולדה|n|A rat ran under the table.|חולדה רצה מתחת לשולחן.
+race|מרוץ, תחרות|n|She won the race at school.|היא ניצחה במרוץ בבית הספר.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -821,7 +833,11 @@ position|מקום, תנוחה|n|Sit in a comfortable position.|שבו בתנוח
 preparation|הכנה|n|The party needs a lot of preparation.|המסיבה דורשת הרבה הכנה.
 purse|ארנק|n|Mom keeps her money in her purse.|אמא שומרת את הכסף שלה בארנק.
 quite|די, למדי|d|The test was quite easy.|המבחן היה די קל.
-pure|טהור, נקי|a|The air in the mountains is pure.|האוויר בהרים נקי.`,
+pure|טהור, נקי|a|The air in the mountains is pure.|האוויר בהרים נקי.
+reach|להגיע, להושיט יד|v|I can't reach the top shelf.|אני לא מצליח להגיע למדף העליון.
+record|שיא|n|He broke the school record.|הוא שבר את השיא של בית הספר.
+recent|עדכני, מהזמן האחרון|a|This is a recent photo of my dog.|זאת תמונה עדכנית של הכלב שלי.
+remain|להישאר|v|Please remain in your seats.|בבקשה הישארו במקומות שלכם.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -981,7 +997,11 @@ prison|בית סוהר|n|The bad king was sent to prison.|המלך הרע נשל
 professional|מקצועי|a|She is a professional singer.|היא זמרת מקצועית.
 property|רכוש|n|This ball is school property.|הכדור הזה הוא רכוש של בית הספר.
 proposal|הצעה|n|The class liked my proposal for the trip.|הכיתה אהבה את ההצעה שלי לטיול.
-quality|איכות|n|These shoes are of good quality.|הנעליים האלה באיכות טובה.`,
+quality|איכות|n|These shoes are of good quality.|הנעליים האלה באיכות טובה.
+range|טווח, מגוון|n|The shop has a wide range of toys.|בחנות יש מגוון רחב של צעצועים.
+reaction|תגובה|n|His reaction made us laugh.|התגובה שלו הצחיקה אותנו.
+reasonable|הגיוני, סביר|a|That is a reasonable price.|זה מחיר סביר.
+relations|יחסים|n|The two countries have good relations.|לשתי המדינות יש יחסים טובים.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

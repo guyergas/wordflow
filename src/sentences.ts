@@ -466,7 +466,17 @@ Let's take a break.|בואו ניקח הפסקה.
 We will take an exam tomorrow.|מחר יש לנו מבחן.
 Please take your homework seriously.|בבקשה תתייחס לשיעורי הבית ברצינות.
 I'm sorry, I take it back.|סליחה, אני חוזר בי.
-Please take out the trash.|בבקשה תוציא את הזבל.`,
+Please take out the trash.|בבקשה תוציא את הזבל.
+Mom told me to clean my room.|אמא אמרה לי לנקות את החדר שלי.
+Cats tend to sleep a lot.|חתולים נוטים לישון הרבה.
+That's all right.|זה בסדר.
+We need clean air.|אנחנו צריכים אוויר נקי.
+My cousin is in the army.|בן הדוד שלי בצבא.
+You are the best!|אתה הכי טוב!
+We met again the day after.|נפגשנו שוב למחרת.
+I saw him the day before.|ראיתי אותו יום קודם.
+I help Mom with the dishes.|אני עוזר לאמא עם הכלים.
+She was the first to arrive.|היא הייתה הראשונה שהגיעה.`,
 };
 
 let n = 0;
