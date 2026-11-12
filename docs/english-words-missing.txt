@@ -1,16 +1,6 @@
 # Pre-Band I
 # Band I
 Arabic
-contain
-cookie
-countryside
-cover
-crazy
-cream
-dance
-dead
-dear
-department
 depth
 dictionary
 die
@@ -274,16 +264,6 @@ zero
 # Band II Core I
 well-made
 # Band II Core II
-apart
-appear
-application
-apply
-approve
-architect
-arrange
-arrest
-athlete
-attach
 attack
 attempt
 attend

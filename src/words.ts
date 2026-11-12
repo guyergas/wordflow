@@ -380,7 +380,11 @@ camera|מצלמה|n|I took a photo with my new camera.|צילמתי תמונה �
 candy|ממתק, סוכריה|n|I got a candy from my teacher.|קיבלתי סוכריה מהמורה שלי.
 circle|עיגול|n|Draw a circle on the page.|צייר עיגול על הדף.
 classmate|חבר לכיתה|n|My classmate sits next to me.|החבר שלי לכיתה יושב לידי.
-clown|ליצן|n|The clown made us laugh.|הליצן הצחיק אותנו.`,
+clown|ליצן|n|The clown made us laugh.|הליצן הצחיק אותנו.
+cookie|עוגייה|n|I ate a chocolate cookie.|אכלתי עוגיית שוקולד.
+cream|קצפת, שמנת|n|I like strawberries with cream.|אני אוהב תותים עם קצפת.
+dance|לרקוד|v|We dance at the party.|אנחנו רוקדים במסיבה.
+crazy|משוגע, מטורף|a|My cat runs around like crazy.|החתול שלי מתרוצץ כמו משוגע.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -789,7 +793,14 @@ competition|תחרות|n|Our class won the singing competition.|הכיתה של�
 complete|שלם, גמור|a|My puzzle is complete.|הפאזל שלי שלם.
 angel|מלאך|n|The little girl looks like an angel.|הילדה הקטנה נראית כמו מלאך.
 ankle|קרסול|n|I hurt my ankle in the game.|נפגעתי בקרסול במשחק.
-allow|להרשות|v|My parents allow me to play outside.|ההורים שלי מרשים לי לשחק בחוץ.`,
+allow|להרשות|v|My parents allow me to play outside.|ההורים שלי מרשים לי לשחק בחוץ.
+contain|להכיל|v|These boxes contain old toys.|הקופסאות האלה מכילות צעצועים ישנים.
+countryside|כפר, אזור כפרי|n|We spent the weekend in the countryside.|בילינו את סוף השבוע באזור כפרי.
+cover|לכסות|v|Please cover the cake with a cloth.|בבקשה כסה את העוגה במפית.
+dead|מת|a|The flower is dead because nobody watered it.|הפרח מת כי אף אחד לא השקה אותו.
+dear|יקר|a|She is my dear friend.|היא החברה היקרה שלי.
+department|מחלקה|n|The toys are in the children's department.|הצעצועים נמצאים במחלקת הילדים.
+athlete|ספורטאי|n|The athlete runs every morning.|הספורטאי רץ כל בוקר.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1072,7 +1083,11 @@ aircraft|כלי טיס, מטוס|n|The aircraft landed safely.|המטוס נחת
 adapt|להסתגל|v|Animals adapt to the cold.|בעלי חיים מסתגלים לקור.
 alike|דומים|a|The two sisters look alike.|שתי האחיות נראות דומות.
 alcohol|אלכוהול|n|Children should not drink alcohol.|ילדים לא צריכים לשתות אלכוהול.
-anniversary|יום נישואים, יום שנה|n|My parents had their wedding anniversary yesterday.|להורים שלי היה אתמול יום נישואים.`,
+anniversary|יום נישואים, יום שנה|n|My parents had their wedding anniversary yesterday.|להורים שלי היה אתמול יום נישואים.
+apart|בנפרד, זה מזה|d|The two houses are far apart.|שני הבתים רחוקים זה מזה.
+appear|להופיע|v|The stars appear at night.|הכוכבים מופיעים בלילה.
+attach|לצרף, להצמיד|v|Please attach a photo to the form.|בבקשה צרפו תמונה לטופס.
+arrest|לעצור (משטרה)|v|The police will arrest the thief.|המשטרה תעצור את הגנב.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1275,7 +1290,12 @@ agency|סוכנות|n|We booked the trip through a travel agency.|הזמנו א�
 alphabetical|אלפביתי|a|Put the names in alphabetical order.|סדרו את השמות לפי סדר אלפביתי.
 alternative|חלופה, אפשרות אחרת|n|If it rains, we need an alternative.|אם ירד גשם, נצטרך אפשרות אחרת.
 annual|שנתי|a|The school has an annual sports day.|בבית הספר יש יום ספורט שנתי.
-anyhow|בכל זאת|d|It was raining, but we went out anyhow.|ירד גשם, אבל בכל זאת יצאנו.`,
+anyhow|בכל זאת|d|It was raining, but we went out anyhow.|ירד גשם, אבל בכל זאת יצאנו.
+application|בקשה, טופס הרשמה|n|I filled in an application for the summer camp.|מילאתי טופס הרשמה לקייטנה.
+apply|להגיש מועמדות, לבקש|v|My sister wants to apply to a music school.|אחותי רוצה להגיש מועמדות לבית ספר למוזיקה.
+approve|לאשר|v|The principal must approve the trip.|המנהלת צריכה לאשר את הטיול.
+architect|אדריכל|n|The architect drew a plan of the new school.|האדריכל שרטט תוכנית של בית הספר החדש.
+arrange|לסדר, לארגן|v|Let's arrange the chairs in a circle.|בואו נסדר את הכיסאות במעגל.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1556,26 +1576,26 @@ nevertheless|אף על פי כן|d|She was tired; nevertheless, she finished.|ה
 whereas|בעוד ש|d|He likes tea, whereas I prefer coffee.|הוא אוהב תה, בעוד שאני מעדיף קפה.
 furthermore|נוסף על כך|d|The hotel is clean; furthermore, it is quiet.|המלון נקי; נוסף על כך, הוא שקט.
 consequently|כתוצאה מכך|d|He missed the bus and consequently came late.|הוא פספס את האוטובוס וכתוצאה מכך איחר.
-roughly|בערך|d|The trip takes roughly two hours.
-mainly|בעיקר|d|The team is mainly young players.
-briefly|בקצרה|d|Let me explain it briefly.
-contribute|לתרום|v|Everyone can contribute an idea.
-establish|לבסס|v|They want to establish clear rules.
-identify|לאתר ולזהות|v|Can you identify this bird?
-involve|לערב|v|The game will involve the whole class.
-maintain|לשמור על|v|It is hard to maintain this speed.
-obtain|לקבל, להשיג|v|You must obtain permission first.
-occur|להתרחש|v|Accidents occur on this road.
-require|לדרוש|v|Good photos require patience.
-respond|להגיב|v|She did not respond to my message.
-assess|להעריך מצב|v|The doctor will assess the injury.
-clarify|להבהיר|v|Could you clarify your question?`,
-`performance|הופעה|n|Her performance moved everyone.
-rehearsal|חזרה (להצגה)|n|The rehearsal starts at five.
-stage|במה|n|He walked nervously onto the stage.
-script|תסריט|n|The actor forgot the script.
-director|במאי|n|The director shouted, "Cut!"
-masterpiece|יצירת מופת|n|This painting is a masterpiece.
+roughly|בערך|d|The trip takes roughly two hours.|הנסיעה נמשכת בערך שעתיים.
+mainly|בעיקר|d|The team is mainly young players.|הקבוצה מורכבת בעיקר משחקנים צעירים.
+briefly|בקצרה|d|Let me explain it briefly.|תן לי להסביר את זה בקצרה.
+contribute|לתרום|v|Everyone can contribute an idea.|כל אחד יכול לתרום רעיון.
+establish|לבסס|v|They want to establish clear rules.|הם רוצים לקבוע כללים ברורים.
+identify|לאתר ולזהות|v|Can you identify this bird?|אתה יכול לזהות את הציפור הזאת?
+involve|לערב|v|The game will involve the whole class.|המשחק ישתף את כל הכיתה.
+maintain|לשמור על|v|It is hard to maintain this speed.|קשה לשמור על המהירות הזאת.
+obtain|לקבל, להשיג|v|You must obtain permission first.|קודם אתה חייב לקבל רשות.
+occur|להתרחש|v|Accidents occur on this road.|תאונות מתרחשות בכביש הזה.
+require|לדרוש|v|Good photos require patience.|תמונות טובות דורשות סבלנות.
+respond|להגיב|v|She did not respond to my message.|היא לא הגיבה להודעה שלי.
+assess|להעריך מצב|v|The doctor will assess the injury.|הרופא יעריך את הפציעה.
+clarify|להבהיר|v|Could you clarify your question?|תוכל להבהיר את השאלה שלך?`,
+`performance|הופעה|n|Her performance moved everyone.|ההופעה שלה ריגשה את כולם.
+rehearsal|חזרה (להצגה)|n|The rehearsal starts at five.|החזרה מתחילה בחמש.
+stage|במה|n|He walked nervously onto the stage.|הוא עלה לבמה בעצבנות.
+script|תסריט|n|The actor forgot the script.|השחקן שכח את התסריט.
+director|במאי|n|The director shouted, "Cut!"|הבמאי צעק: "קאט!"
+masterpiece|יצירת מופת|n|This painting is a masterpiece.|הציור הזה הוא יצירת מופת.
 exhibition|תערוכה|n|We saw an exhibition of old photos.
 sculpture|פסל|n|The sculpture stands in the garden.
 novel|רומן|n|I could not put the novel down.

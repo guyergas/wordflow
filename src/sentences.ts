@@ -616,7 +616,17 @@ In a way, my dog is my best friend.|במובן מסוים, הכלב שלי הו�
 We bought the tickets in advance.|קנינו את הכרטיסים מראש.
 What do you and your friend have in common?|מה משותף לך ולחבר שלך?
 The teacher explained the story in detail.|המורה הסבירה את הסיפור בפירוט.
-I thought it was hard, but in fact it was easy.|חשבתי שזה קשה, אבל בעצם זה היה קל.`,
+I thought it was hard, but in fact it was easy.|חשבתי שזה קשה, אבל בעצם זה היה קל.
+In general, I like school.|באופן כללי, אני אוהב את בית הספר.
+I woke up early in order to catch the bus.|קמתי מוקדם כדי להספיק לאוטובוס.
+In other words, we won!|במילים אחרות, ניצחנו!
+I love animals, cats in particular.|אני אוהב בעלי חיים, במיוחד חתולים.
+We played outside in spite of the rain.|שיחקנו בחוץ למרות הגשם.
+It seems that nobody is home.|נראה שאין אף אחד בבית.
+Take an umbrella just in case.|קח מטרייה, ליתר ביטחון.
+Please keep this a secret.|בבקשה תשמור את זה בסוד.
+Let's keep in touch after the summer.|בוא נשמור על קשר אחרי הקיץ.
+I'll call you later on.|אתקשר אליך מאוחר יותר.`,
 };
 
 let n = 0;
