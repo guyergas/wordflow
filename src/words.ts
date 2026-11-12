@@ -319,7 +319,12 @@ slow|איטי|a|The turtle is very slow.|הצב איטי מאוד.
 some|קצת, כמה|o|I want some milk.|אני רוצה קצת חלב.
 son|בן|n|Their son is five years old.|הבן שלהם בן חמש.
 song|שיר, מנגינה|n|We sang a happy song.|שרנו שיר שמח.
-soon|בקרוב|d|Dinner will be ready soon.|ארוחת הערב תהיה מוכנה בקרוב.`,
+soon|בקרוב|d|Dinner will be ready soon.|ארוחת הערב תהיה מוכנה בקרוב.
+sorry|מצטער|a|I am sorry I was late.|אני מצטער שאיחרתי.
+start|להתחיל, לפתוח|v|Let's start the game!|בואו נתחיל את המשחק!
+story|סיפור|n|Mom reads me a story at night.|אמא מקריאה לי סיפור בלילה.
+sugar|סוכר|n|I don't put sugar in my tea.|אני לא שם סוכר בתה שלי.
+summer|קיץ|n|We go to the beach in summer.|אנחנו הולכים לים בקיץ.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -652,7 +657,13 @@ sometimes|לפעמים|d|Sometimes I walk to school.|לפעמים אני הול�
 somewhere|איפשהו|d|My keys are somewhere in this room.|המפתחות שלי איפשהו בחדר הזה.
 ship|ספינה, אונייה|n|The big ship sailed across the sea.|הספינה הגדולה הפליגה על פני הים.
 shopping|קניות|n|Mom went shopping for food.|אמא הלכה לקנות אוכל.
-silly|מטופש, מצחיק|a|He made a silly face.|הוא עשה פרצוף מצחיק.`,
+silly|מטופש, מצחיק|a|He made a silly face.|הוא עשה פרצוף מצחיק.
+spring|אביב|n|Flowers grow in spring.|פרחים צומחים באביב.
+stay|להישאר, לשהות|v|Can I stay at your house tonight?|אני יכול להישאר אצלך הלילה?
+straight|ישר (לא עקום)|a|Draw a straight line.|תצייר קו ישר.
+study|ללמוד, לשנן|v|I study for my test every day.|אני לומד למבחן שלי כל יום.
+smart|חכם, נבון|a|My dog is very smart.|הכלב שלי חכם מאוד.
+soccer|כדורגל|n|We play soccer after school.|אנחנו משחקים כדורגל אחרי בית הספר.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -888,7 +899,11 @@ sheet|סדין, דף|n|Take a sheet of paper.|קחו דף נייר.
 shoot|לירות, לבעוט לשער|v|He can shoot the ball into the goal.|הוא יודע לבעוט את הכדור לתוך השער.
 silver|כסוף, עשוי כסף|a|She has a silver ring.|יש לה טבעת כסף.
 sink|כיור|n|Put the dishes in the sink.|שימו את הכלים בכיור.
-sir|אדוני|n|Excuse me, sir, is this your bag?|סליחה, אדוני, זה התיק שלך?`,
+sir|אדוני|n|Excuse me, sir, is this your bag?|סליחה, אדוני, זה התיק שלך?
+skate|להחליק (בגלגיליות או על קרח)|v|I can skate on ice.|אני יודע להחליק על הקרח.
+ski|לגלוש בסקי|v|We ski in the mountains in winter.|אנחנו גולשים בסקי בהרים בחורף.
+slice|פרוסה|n|Can I have a slice of bread?|אפשר לקבל פרוסת לחם?
+soldier|חייל|n|The soldier wore a green uniform.|החייל לבש מדים ירוקים.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1059,7 +1074,11 @@ select|לבחור, לסמן|v|Select a color for your drawing.|בחרו צבע �
 sense|חוש|n|Dogs have a great sense of smell.|לכלבים יש חוש ריח מצוין.
 separate|נפרד|a|We sleep in separate rooms.|אנחנו ישנים בחדרים נפרדים.
 sight|מראה, ראייה|n|What a beautiful sight!|איזה מראה יפה!
-single|יחיד, אחד|a|I did not make a single mistake.|לא עשיתי אף טעות אחת.`,
+single|יחיד, אחד|a|I did not make a single mistake.|לא עשיתי אף טעות אחת.
+situation|מצב|n|This is a hard situation.|זה מצב קשה.
+slim|רזה, תמיר|a|The dancer is tall and slim.|הרקדנית גבוהה ורזה.
+software|תוכנה|n|This software helps me learn math.|התוכנה הזאת עוזרת לי ללמוד חשבון.
+somehow|איכשהו|d|Somehow we found the way home.|איכשהו מצאנו את הדרך הביתה.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1120,26 +1139,26 @@ protect|להגן|v|The wall will protect the city.|החומה תגן על העי
 rescue|להציל|v|They came to rescue the sailors.|הם באו להציל את המלחים.
 imagine|לדמיין|v|Imagine a world without rain.|דמיינו עולם בלי גשם.
 disappear|להיעלם|v|The sun will disappear soon.|השמש תיעלם בקרוב.`,
-`opinion|דעה|n|What is your opinion?
-reason|סיבה|n|Give me one good reason.
-example|דוגמה|n|Can you give an example?
-problem|בעיה|n|We can solve this problem.
-solution|פתרון|n|She found a simple solution.
-choice|בחירה|n|You made a good choice.
-decision|החלטה|n|It was a hard decision.
-idea|רעיון|n|That is a great idea!
-difference|הבדל|n|What is the difference?
-result|תוצאה|n|The result surprised us.
-purpose|מטרה|n|What is the purpose of this meeting?
-chance|הזדמנות|n|Give me one more chance.
-experience|ניסיון|n|She has a lot of experience.
-knowledge|ידע|n|Books give you knowledge.
-ability|יכולת|n|He has the ability to learn fast.
-success|הצלחה|n|Hard work leads to success.
-failure|כישלון|n|One failure is not the end.
-rule|כלל|n|Every game has a rule like this.
-truth|אמת|n|Tell me the truth.
-fact|עובדה|n|That is a fact.
+`opinion|דעה|n|What is your opinion?|מה דעתך?
+reason|סיבה|n|Give me one good reason.|תן לי סיבה טובה אחת.
+example|דוגמה|n|Can you give an example?|אתה יכול לתת דוגמה?
+problem|בעיה|n|We can solve this problem.|אנחנו יכולים לפתור את הבעיה הזאת.
+solution|פתרון|n|She found a simple solution.|היא מצאה פתרון פשוט.
+choice|בחירה|n|You made a good choice.|עשית בחירה טובה.
+decision|החלטה|n|It was a hard decision.|זאת הייתה החלטה קשה.
+idea|רעיון|n|That is a great idea!|זה רעיון מצוין!
+difference|הבדל|n|What is the difference?|מה ההבדל?
+result|תוצאה|n|The result surprised us.|התוצאה הפתיעה אותנו.
+purpose|מטרה|n|What is the purpose of this meeting?|מה המטרה של הפגישה הזאת?
+chance|הזדמנות|n|Give me one more chance.|תן לי עוד הזדמנות אחת.
+experience|ניסיון|n|She has a lot of experience.|יש לה הרבה ניסיון.
+knowledge|ידע|n|Books give you knowledge.|ספרים נותנים לך ידע.
+ability|יכולת|n|He has the ability to learn fast.|יש לו את היכולת ללמוד מהר.
+success|הצלחה|n|Hard work leads to success.|עבודה קשה מובילה להצלחה.
+failure|כישלון|n|One failure is not the end.|כישלון אחד הוא לא הסוף.
+rule|כלל|n|Every game has a rule like this.|לכל משחק יש כלל כזה.
+truth|אמת|n|Tell me the truth.|תגיד לי את האמת.
+fact|עובדה|n|That is a fact.|זאת עובדה.
 rumor|שמועה|n|I heard a rumor about her.
 attitude|גישה|n|She has a positive attitude.
 respect|כבוד|n|Treat others with respect.

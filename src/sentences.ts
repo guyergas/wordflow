@@ -506,7 +506,17 @@ I read the book again and again.|קראתי את הספר שוב ושוב.
 It rained all day long.|ירד גשם כל היום.
 We bought apples, bananas, oranges and so on.|קנינו תפוחים, בננות, תפוזים וכן הלאה.
 Apart from Dan, everyone came.|חוץ מדן, כולם באו.
-Are you kidding?|אתה צוחק עליי?`,
+Are you kidding?|אתה צוחק עליי?
+He looked at me as if he knew the answer.|הוא הסתכל עליי כאילו הוא יודע את התשובה.
+As far as I know, the shop is open.|עד כמה שידוע לי, החנות פתוחה.
+You can play as long as you finish your homework.|אתה יכול לשחק בתנאי שתסיים את שיעורי הבית.
+At last, summer is here!|סוף סוף הקיץ כאן!
+I am not tired at all.|אני בכלל לא עייף.
+The garden looks its best in spring.|הגינה נראית במיטבה באביב.
+Come here at once!|בוא לכאן מיד!
+We both laughed at the same time.|שנינו צחקנו באותו הזמן.
+My grandparents attend a synagogue every Saturday.|סבא וסבתא שלי הולכים לבית כנסת כל שבת.
+The movie is based on a book.|הסרט מבוסס על ספר.`,
 };
 
 let n = 0;
