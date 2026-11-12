@@ -286,7 +286,17 @@ Have fun!|תיהנו!
 I have got a new bike.|יש לי אופניים חדשים.
 Hold on tight!|תחזיקו חזק!
 I don't mind.|לא אכפת לי.
-I like it. I mean, I love it!|אני אוהבת את זה. כלומר, אני מתה על זה!`,
+I like it. I mean, I love it!|אני אוהבת את זה. כלומר, אני מתה על זה!
+You had better hurry!|כדאי לך למהר!
+I love chocolate ice cream.|אני אוהב גלידת שוקולד.
+Dad came home just now.|אבא הגיע הביתה הרגע.
+We went to the zoo last week.|הלכנו לגן החיות בשבוע שעבר.
+Listen!|תקשיבו!
+We watch TV in the living room.|אנחנו צופים בטלוויזיה בסלון.
+I look after my little sister.|אני שומרת על אחותי הקטנה.
+My mom makes me eat vegetables.|אמא שלי גורמת לי לאכול ירקות.
+I need to finish my homework.|אני צריך לסיים את שיעורי הבית.
+Not bad!|לא רע!`,
 };
 
 let n = 0;

@@ -1,16 +1,5 @@
 # Pre-Band I
 # Band I
-butter
-by
-bye
-cake
-call
-car
-card
-care
-cellphone
-center
-chicken
 child
 chocolate
 cinema
@@ -618,16 +607,6 @@ yogurt
 yours
 zero
 # Band II Core I
-enter
-equipment
-error
-euro
-even
-event
-everyday
-exact
-examine
-exit
 explanation
 express
 extremely

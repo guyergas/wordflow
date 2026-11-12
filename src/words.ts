@@ -197,7 +197,12 @@ book|ספר|n|I read a book before I go to sleep.|אני קורא ספר לפנ�
 bottle|בקבוק|n|I take a bottle of water to school.|אני לוקח בקבוק מים לבית הספר.
 breakfast|ארוחת בוקר|n|I eat eggs for breakfast.|אני אוכל ביצים לארוחת בוקר.
 bring|להביא|v|Please bring your pencils tomorrow.|בבקשה תביאו מחר את העפרונות שלכם.
-brown|חום|a|My teddy bear is brown.|הדובי שלי חום.`,
+brown|חום|a|My teddy bear is brown.|הדובי שלי חום.
+butter|חמאה|n|I put butter on my bread.|אני מורח חמאה על הלחם שלי.
+bye|ביי, להתראות|o|Bye, see you tomorrow!|ביי, נתראה מחר!
+cake|עוגה|n|Grandma made a chocolate cake for my birthday.|סבתא הכינה עוגת שוקולד ליום ההולדת שלי.
+car|מכונית|n|Dad drives a red car.|אבא נוהג במכונית אדומה.
+chicken|עוף, תרנגולת|n|We have chicken and rice for dinner.|יש לנו עוף ואורז לארוחת ערב.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -377,7 +382,15 @@ busy|עסוק|a|Mom is busy right now.|אמא עסוקה עכשיו.
 earring|עגיל|n|I lost my earring in the garden.|איבדתי את העגיל שלי בגינה.
 elevator|מעלית|n|We took the elevator to the tenth floor.|עלינו במעלית לקומה העשירית.
 email|אימייל|n|I sent my teacher an email.|שלחתי אימייל למורה שלי.
-emoji|אימוג'י|n|She sent me a smiling emoji.|היא שלחה לי אימוג'י מחייך.`,
+emoji|אימוג'י|n|She sent me a smiling emoji.|היא שלחה לי אימוג'י מחייך.
+call|להתקשר, לקרוא|v|I call my grandpa every Friday.|אני מתקשר לסבא שלי בכל יום שישי.
+card|כרטיס, כרטיסייה|n|I made a birthday card for my mom.|הכנתי כרטיס ברכה ליום ההולדת של אמא שלי.
+care|לדאוג, אכפת|v|I care about my friends.|אכפת לי מהחברים שלי.
+cellphone|טלפון נייד|n|My sister got a new cellphone.|אחותי קיבלה טלפון נייד חדש.
+center|מרכז|n|There is a big tree in the center of the park.|יש עץ גדול במרכז הפארק.
+enter|להיכנס|v|Please knock before you enter the room.|בבקשה תדפקו לפני שאתם נכנסים לחדר.
+euro|יורו|n|This pen costs one euro.|העט הזה עולה יורו אחד.
+exit|יציאה|n|The exit is next to the stairs.|היציאה נמצאת ליד המדרגות.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -515,7 +528,11 @@ discuss|לדון|v|Let's discuss the plan for the trip.|בואו נדון בתו
 distance|מרחק|n|What is the distance from here to the beach?|מה המרחק מכאן לחוף?
 earn|להרוויח|v|I earn money when I walk our neighbor's dog.|אני מרוויח כסף כשאני מוציא לטיול את הכלב של השכנים.
 education|חינוך, השכלה|n|Education is important for every child.|חינוך חשוב לכל ילד.
-electricity|חשמל|n|The lights went out because there was no electricity.|האורות כבו כי לא היה חשמל.`,
+electricity|חשמל|n|The lights went out because there was no electricity.|האורות כבו כי לא היה חשמל.
+error|טעות|n|There is an error in my answer.|יש טעות בתשובה שלי.
+even|אפילו|d|Even my dad laughed at the joke.|אפילו אבא שלי צחק מהבדיחה.
+event|אירוע|n|The school play is a big event.|ההצגה של בית הספר היא אירוע גדול.
+everyday|יומיומי|a|Brushing your teeth is an everyday habit.|צחצוח שיניים הוא הרגל יומיומי.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -621,7 +638,10 @@ doubt|ספק|n|There is no doubt that she will win.|אין ספק שהיא תנ�
 due|צריך להגיש, צפוי|a|The homework is due on Monday.|צריך להגיש את שיעורי הבית ביום שני.
 duty|חובה, תפקיד|n|It is my duty to feed the cat.|התפקיד שלי הוא להאכיל את החתול.
 effect|השפעה|n|The medicine had a good effect.|לתרופה הייתה השפעה טובה.
-employ|להעסיק|v|The shop will employ two new workers.|החנות תעסיק שני עובדים חדשים.`,
+employ|להעסיק|v|The shop will employ two new workers.|החנות תעסיק שני עובדים חדשים.
+equipment|ציוד|n|We packed our camping equipment.|ארזנו את ציוד הקמפינג שלנו.
+exact|מדויק|a|What is the exact time?|מה השעה המדויקת?
+examine|לבדוק|v|The doctor will examine your ear.|הרופא יבדוק לך את האוזן.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.
