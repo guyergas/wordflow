@@ -220,7 +220,11 @@ dark|חשוך, כהה|a|It is dark outside at night.|בלילה חשוך בחו�
 day|יום|n|Today is a sunny day.|היום יום שמשי.
 dinner|ארוחת ערב|n|We eat dinner at seven.|אנחנו אוכלים ארוחת ערב בשבע.
 down|למטה|d|The cat jumped down from the table.|החתול קפץ למטה מהשולחן.
-draw|לצייר|v|I like to draw cats.|אני אוהב לצייר חתולים.`,
+draw|לצייר|v|I like to draw cats.|אני אוהב לצייר חתולים.
+dress|שמלה|n|She wears a pink dress.|היא לובשת שמלה ורודה.
+dry|יבש|a|My towel is dry.|המגבת שלי יבשה.
+ear|אוזן|n|The dog has one black ear.|לכלב יש אוזן שחורה אחת.
+eight|שמונה|n|A spider has eight legs.|לעכביש יש שמונה רגליים.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -431,7 +435,15 @@ document|מסמך|n|Mom signed an important document.|אמא חתמה על מס�
 dollar|דולר|n|This toy costs one dollar.|הצעצוע הזה עולה דולר אחד.
 gas|גז, דלק|n|The car needs gas.|המכונית צריכה דלק.
 garbage|זבל|n|Please take out the garbage.|בבקשה תוציא את הזבל.
-geography|גאוגרפיה|n|In geography we learn about maps.|בגאוגרפיה אנחנו לומדים על מפות.`,
+geography|גאוגרפיה|n|In geography we learn about maps.|בגאוגרפיה אנחנו לומדים על מפות.
+drive|לנהוג|v|Mom will drive us to school.|אמא תסיע אותנו לבית הספר.
+driver|נהג|n|The bus driver says good morning.|נהג האוטובוס אומר בוקר טוב.
+easily|בקלות|d|She can easily climb the tree.|היא יכולה לטפס על העץ בקלות.
+east|מזרח|n|The sun comes up in the east.|השמש זורחת במזרח.
+eighteen|שמונה עשרה|n|My cousin is eighteen years old.|בן הדוד שלי בן שמונה עשרה.
+eighty|שמונים|n|My grandpa is eighty years old.|סבא שלי בן שמונים.
+gold|זהב|n|The queen has a crown of gold.|למלכה יש כתר מזהב.
+gym|אולם ספורט, חדר כושר|n|We play basketball in the gym.|אנחנו משחקים כדורסל באולם הספורט.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -585,7 +597,13 @@ friendship|חברות|n|Their friendship started in first grade.|החברות ש
 fur|פרווה|n|The cat has soft fur.|לחתול יש פרווה רכה.
 furniture|רהיטים|n|We bought new furniture for my room.|קנינו רהיטים חדשים לחדר שלי.
 gap|רווח, פער|n|There is a gap between his teeth.|יש רווח בין השיניים שלו.
-gather|לאסוף, להתאסף|v|We gather around the fire at night.|בלילה אנחנו מתאספים סביב המדורה.`,
+gather|לאסוף, להתאסף|v|We gather around the fire at night.|בלילה אנחנו מתאספים סביב המדורה.
+girlfriend|חברה (בת זוג)|n|My big brother has a girlfriend.|לאח הגדול שלי יש חברה.
+golden|מוזהב, זהוב|a|The girl has golden hair.|לילדה יש שיער זהוב.
+grammar|דקדוק|n|We learn English grammar at school.|אנחנו לומדים דקדוק אנגלי בבית הספר.
+guard|שומר|n|A guard stands at the gate.|שומר עומד בשער.
+guy|בחור|n|He is a nice guy.|הוא בחור נחמד.
+handbag|תיק יד|n|Grandma keeps her keys in her handbag.|סבתא שומרת את המפתחות שלה בתיק היד.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -701,7 +719,9 @@ extremely|מאוד, ביותר|d|The test was extremely easy.|המבחן היה 
 frame|מסגרת|n|The photo is in a gold frame.|התמונה נמצאת במסגרת זהב.
 fully|לגמרי, במלואו|d|The battery is fully charged.|הסוללה טעונה לגמרי.
 gain|לצבור, להשיג|v|You gain points for every right answer.|אתה צובר נקודות על כל תשובה נכונה.
-general|כללי|a|The teacher asked a general question.|המורה שאלה שאלה כללית.`,
+general|כללי|a|The teacher asked a general question.|המורה שאלה שאלה כללית.
+god|אל|n|Poseidon was the Greek god of the sea.|פוסידון היה אל הים היווני.
+hardly|בקושי|d|I can hardly see in the dark.|אני בקושי רואה בחושך.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.

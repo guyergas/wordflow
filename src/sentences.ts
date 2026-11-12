@@ -326,7 +326,17 @@ Thank you very much!|תודה רבה!
 I help Mom wash up after dinner.|אני עוזרת לאמא לשטוף כלים אחרי ארוחת הערב.
 I am a little bit tired.|אני קצת עייף.
 What a pity!|חבל!
-It is a shame you can't come.|חבל שאתה לא יכול לבוא.`,
+It is a shame you can't come.|חבל שאתה לא יכול לבוא.
+The shop sells a variety of toys.|החנות מוכרת מגוון צעצועים.
+According to the map, the park is near.|לפי המפה, הפארק קרוב.
+We played, and afterwards we ate lunch.|שיחקנו, ואחר כך אכלנו ארוחת צהריים.
+All the best!|כל טוב!
+Come as quickly as you can!|בוא כמה שיותר מהר!
+Call me as soon as you get home.|תתקשר אליי ברגע שתגיע הביתה.
+As you know, the test is tomorrow.|כמו שאתם יודעים, המבחן מחר.
+At first I was afraid of the dog.|בהתחלה פחדתי מהכלב.
+At present we live in Haifa.|כרגע אנחנו גרים בחיפה.
+I am busy at the moment.|אני עסוק כרגע.`,
 };
 
 let n = 0;
