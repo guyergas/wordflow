@@ -446,7 +446,17 @@ Don't put off your homework.|אל תדחה את שיעורי הבית.
 Put on your coat, it's cold.|תלבש את המעיל, קר בחוץ.
 We put on a show for our parents.|העלינו הצגה בשביל ההורים שלנו.
 Grandma can put us up for the night.|סבתא יכולה לארח אותנו ללילה.
-Please put it in writing.|בבקשה תעלה את זה על הכתב.`,
+Please put it in writing.|בבקשה תעלה את זה על הכתב.
+Let's put the puzzle together.|בואו נרכיב את הפאזל.
+We put up a tent in the garden.|הקמנו אוהל בגינה.
+Put a question mark at the end.|שים סימן שאלה בסוף.
+The teacher read out our names.|המורה הקריאה את השמות שלנו.
+Please refer to the map on page five.|בבקשה היעזרו במפה שבעמוד חמש.
+Come here right away!|בוא לכאן מיד!
+My brother rides an electric scooter.|אחי נוסע על קורקינט חשמלי.
+You seem happy today.|אתה נראה שמח היום.
+The players shake hands after the game.|השחקנים לוחצים ידיים אחרי המשחק.
+We watch TV in the sitting room.|אנחנו צופים בטלוויזיה בסלון.`,
 };
 
 let n = 0;

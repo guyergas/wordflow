@@ -289,7 +289,13 @@ one|אחד, אחת|n|I have one sister.|יש לי אחות אחת.
 or|או|o|Do you want tea or juice?|אתה רוצה תה או מיץ?
 orange|תפוז, כתום|n|I eat an orange every morning.|אני אוכל תפוז כל בוקר.
 our|שלנו|o|This is our house.|זה הבית שלנו.
-out|החוצה, בחוץ|d|The kids went out to play.|הילדים יצאו החוצה לשחק.`,
+out|החוצה, בחוץ|d|The kids went out to play.|הילדים יצאו החוצה לשחק.
+nose|אף|n|The clown has a red nose.|לליצן יש אף אדום.
+paper|נייר|n|I need a piece of paper.|אני צריך דף נייר.
+park|פארק, גן ציבורי|n|We play in the park after school.|אנחנו משחקים בפארק אחרי בית הספר.
+people|אנשים|n|There are many people at the beach.|יש הרבה אנשים בחוף.
+picture|תמונה, ציור|n|Look at this picture of a cat.|תסתכל על התמונה הזאת של חתול.
+pink|ורוד|a|She has a pink dress.|יש לה שמלה ורודה.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -576,7 +582,15 @@ only|רק, היחיד|d|I have only one pencil.|יש לי רק עיפרון אח
 ours|שייך לנו|o|That ball is ours.|הכדור הזה שלנו.
 pepper|פלפל|n|Mom put pepper in the soup.|אמא שמה פלפל במרק.
 piano|פסנתר|n|My sister plays the piano.|אחותי מנגנת בפסנתר.
-playground|גן שעשועים|n|We met at the playground.|נפגשנו בגן השעשועים.`,
+playground|גן שעשועים|n|We met at the playground.|נפגשנו בגן השעשועים.
+page|עמוד, דף|n|Open your book to page ten.|פתחו את הספר בעמוד עשר.
+parent|הורה|n|Every parent wants a happy child.|כל הורה רוצה ילד מאושר.
+pass|להעביר, לעבור|v|Please pass the salt.|בבקשה תעביר את המלח.
+picnic|פיקניק|n|We had a picnic by the lake.|עשינו פיקניק ליד האגם.
+popcorn|פופקורן|n|We ate popcorn at the movies.|אכלנו פופקורן בקולנוע.
+poem|שיר|n|I wrote a poem for my mom.|כתבתי שיר לאמא שלי.
+press|ללחוץ|v|Press the red button.|תלחץ על הכפתור האדום.
+post|לשלוח בדואר|v|I will post the letter today.|אשלח את המכתב בדואר היום.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -788,7 +802,10 @@ palace|ארמון|n|The queen lives in a big palace.|המלכה גרה בארמ�
 patient|סבלני|a|Be patient, the cake is almost ready.|תהיה סבלני, העוגה כמעט מוכנה.
 personal|אישי|a|A diary is very personal.|יומן הוא דבר אישי מאוד.
 physical|גופני|a|Running is good physical exercise.|ריצה היא פעילות גופנית טובה.
-pleased|מרוצה|a|The teacher was pleased with my work.|המורה הייתה מרוצה מהעבודה שלי.`,
+pleased|מרוצה|a|The teacher was pleased with my work.|המורה הייתה מרוצה מהעבודה שלי.
+pleasure|הנאה|n|Reading is a real pleasure.|קריאה היא הנאה אמיתית.
+position|מקום, תנוחה|n|Sit in a comfortable position.|שבו בתנוחה נוחה.
+preparation|הכנה|n|The party needs a lot of preparation.|המסיבה דורשת הרבה הכנה.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -941,7 +958,10 @@ pattern|דוגמה, דפוס|n|I like the pattern on your shirt.|אני אוהב
 pension|פנסיה|n|My grandpa lives on his pension.|סבא שלי חי מהפנסיה שלו.
 period|תקופה|n|We lived in Haifa for a short period.|גרנו בחיפה לתקופה קצרה.
 petrol|דלק, בנזין|n|The car needs petrol.|המכונית צריכה דלק.
-physics|פיזיקה|n|My brother studies physics.|אחי לומד פיזיקה.`,
+physics|פיזיקה|n|My brother studies physics.|אחי לומד פיזיקה.
+possibility|אפשרות, סיכוי|n|There is a possibility of rain tomorrow.|יש סיכוי לגשם מחר.
+potential|פוטנציאל|n|This young player has great potential.|לשחקן הצעיר הזה יש פוטנציאל גדול.
+prison|בית סוהר|n|The bad king was sent to prison.|המלך הרע נשלח לבית הסוהר.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
