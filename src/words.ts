@@ -337,7 +337,13 @@ too|גם|d|I want to come too.|גם אני רוצה לבוא.
 train|רכבת|n|We go to the city by train.|אנחנו נוסעים לעיר ברכבת.
 together|ביחד|d|We play together every day.|אנחנו משחקים ביחד כל יום.
 those|ההם, ההן|o|Those birds are very loud.|הציפורים ההן רועשות מאוד.
-tonight|הערב, הלילה|d|We will watch a movie tonight.|נראה סרט הערב.`,
+tonight|הערב, הלילה|d|We will watch a movie tonight.|נראה סרט הערב.
+tree|עץ|n|A bird sits in the tree.|ציפור יושבת על העץ.
+two|שתיים, שניים|n|I have two hands.|יש לי שתי ידיים.
+under|מתחת ל-|o|The cat is under the table.|החתול מתחת לשולחן.
+uncle|דוד|n|My uncle has a red car.|לדוד שלי יש מכונית אדומה.
+try|לנסות|v|Try again, you can do it!|תנסה שוב, אתה יכול!
+use|להשתמש|v|Can I use your pencil?|אפשר להשתמש בעיפרון שלך?`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -687,7 +693,14 @@ thirteen|שלוש עשרה, שלושה עשר|n|My brother is thirteen years old
 thirty|שלושים|n|There are thirty children in my class.|יש שלושים ילדים בכיתה שלי.
 sunglasses|משקפי שמש|n|Wear your sunglasses at the beach.|תרכיב משקפי שמש בחוף.
 taste|טעם|n|I love the taste of honey.|אני אוהב את הטעם של דבש.
-teaspoon|כפית|n|Add a teaspoon of sugar.|תוסיף כפית סוכר.`,
+teaspoon|כפית|n|Add a teaspoon of sugar.|תוסיף כפית סוכר.
+turn|תור|n|It is your turn to play.|זה התור שלך לשחק.
+twelve|שתים עשרה, שנים עשר|n|My sister is twelve years old.|אחותי בת שתים עשרה.
+twenty|עשרים|n|I can count to twenty.|אני יודע לספור עד עשרים.
+thanks|תודה|o|Thanks for the gift!|תודה על המתנה!
+thick|עבה|a|This rope is very thick.|החבל הזה עבה מאוד.
+thumb|אגודל|n|I hurt my thumb.|נפגעתי באגודל.
+throat|גרון|n|My throat hurts.|הגרון שלי כואב.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -935,7 +948,11 @@ steam|אדים|n|Steam came out of the hot soup.|אדים יצאו מהמרק ה
 synagogue|בית כנסת|n|We walk to the synagogue on Saturday.|אנחנו הולכים לבית הכנסת בשבת.
 tear|דמעה|n|A tear ran down her face.|דמעה זלגה על הפנים שלה.
 style|סגנון|n|I like your style.|אני אוהב את הסגנון שלך.
-suppose|להניח, לשער|v|I suppose you are right.|אני מניח שאתה צודק.`,
+suppose|להניח, לשער|v|I suppose you are right.|אני מניח שאתה צודק.
+teenager|נער מתבגר, נערה מתבגרת|n|My cousin is a teenager.|בת הדודה שלי נערה מתבגרת.
+theater|תיאטרון|n|We saw a play at the theater.|ראינו הצגה בתיאטרון.
+thought|מחשבה|n|I had a happy thought.|הייתה לי מחשבה שמחה.
+themselves|בעצמם, בעצמן|o|The children made the cake themselves.|הילדים הכינו את העוגה בעצמם.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1117,7 +1134,9 @@ state|מדינה (במדינה פדרלית)|n|Texas is a big state.|טקסס ה
 strength|כוח|n|He lifted the box with all his strength.|הוא הרים את הקופסה בכל הכוח שלו.
 strongly|בתוקף, מאוד|d|I strongly believe in you.|אני מאמין בך מאוד.
 surely|בוודאי, בטח|d|Surely you know the answer.|בטח אתה יודע את התשובה.
-teaching|הוראה|n|My mom loves teaching.|אמא שלי אוהבת את עבודת ההוראה.`,
+teaching|הוראה|n|My mom loves teaching.|אמא שלי אוהבת את עבודת ההוראה.
+though|למרות ש-|o|I went out, though it was cold.|יצאתי החוצה, למרות שהיה קר.
+threat|איום|n|Pollution is a threat to the sea.|זיהום הוא איום על הים.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1238,26 +1257,26 @@ convince|לשכנע|v|You can't convince me.|אתה לא יכול לשכנע א�
 realize|להבין פתאום|v|I realize that I was wrong.|אני מבין שטעיתי.
 recognize|לזהות|v|I did not recognize him.|לא זיהיתי אותו.
 expect|לצפות|v|I expect a good grade.|אני מצפה לציון טוב.`,
-`science|מדע|n|Science explains how things work.
-experiment|ניסוי|n|We did an experiment with water.
-research|מחקר|n|Her research is about whales.
-scientist|מדען|n|A scientist studies the stars.
-planet|כוכב לכת|n|Mars is a red planet.
-energy|אנרגיה|n|Solar energy comes from the sun.
-pollution|זיהום|n|Pollution harms the sea.
-environment|סביבה|n|We must protect the environment.
-climate|אקלים|n|The climate is changing.
-disease|מחלה|n|This disease spreads quickly.
-vaccine|חיסון|n|The vaccine protects children.
-government|ממשלה|n|The government made a new law.
-election|בחירות|n|The election is in November.
-law|חוק|n|Everyone must obey the law.
-society|חברה (ציבור)|n|Society needs good teachers.
-population|אוכלוסייה|n|The city's population is growing.
-culture|תרבות|n|I love learning about Thai culture.
-tradition|מסורת|n|It is a family tradition.
-religion|דת|n|We studied religion in class.
-history|היסטוריה|n|History is my best subject.
+`science|מדע|n|Science explains how things work.|המדע מסביר איך דברים עובדים.
+experiment|ניסוי|n|We did an experiment with water.|עשינו ניסוי עם מים.
+research|מחקר|n|Her research is about whales.|המחקר שלה עוסק בלווייתנים.
+scientist|מדען|n|A scientist studies the stars.|מדען חוקר את הכוכבים.
+planet|כוכב לכת|n|Mars is a red planet.|מאדים הוא כוכב לכת אדום.
+energy|אנרגיה|n|Solar energy comes from the sun.|אנרגיה סולארית מגיעה מהשמש.
+pollution|זיהום|n|Pollution harms the sea.|זיהום פוגע בים.
+environment|סביבה|n|We must protect the environment.|אנחנו חייבים לשמור על הסביבה.
+climate|אקלים|n|The climate is changing.|האקלים משתנה.
+disease|מחלה|n|This disease spreads quickly.|המחלה הזאת מתפשטת מהר.
+vaccine|חיסון|n|The vaccine protects children.|החיסון מגן על ילדים.
+government|ממשלה|n|The government made a new law.|הממשלה חוקקה חוק חדש.
+election|בחירות|n|The election is in November.|הבחירות יהיו בנובמבר.
+law|חוק|n|Everyone must obey the law.|כולם חייבים לציית לחוק.
+society|חברה (ציבור)|n|Society needs good teachers.|החברה צריכה מורים טובים.
+population|אוכלוסייה|n|The city's population is growing.|האוכלוסייה של העיר גדלה.
+culture|תרבות|n|I love learning about Thai culture.|אני אוהב ללמוד על התרבות התאילנדית.
+tradition|מסורת|n|It is a family tradition.|זו מסורת משפחתית.
+religion|דת|n|We studied religion in class.|למדנו על דתות בכיתה.
+history|היסטוריה|n|History is my best subject.|היסטוריה היא המקצוע הכי טוב שלי.
 century|מאה (שנים)|n|This house is a century old.
 generation|דור|n|Each generation learns something new.
 technology|טכנולוגיה|n|Technology changes fast.

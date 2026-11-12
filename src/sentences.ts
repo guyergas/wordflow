@@ -536,7 +536,17 @@ Blow your nose, please.|תקנח את האף, בבקשה.
 She wants to break a record.|היא רוצה לשבור שיא.
 Please break the cookie in two.|בבקשה תשבור את העוגייה לשניים.
 Music brings me happiness.|מוזיקה מביאה לי אושר.
-I broke the glass by accident.|שברתי את הכוס בטעות.`,
+I broke the glass by accident.|שברתי את הכוס בטעות.
+Grandma made this hat by hand.|סבתא הכינה את הכובע הזה בעבודת יד.
+I know the poem by heart.|אני יודע את השיר בעל פה.
+He did his homework by himself.|הוא הכין את שיעורי הבית לבד.
+My room is small; by contrast, his room is huge.|החדר שלי קטן; לעומת זאת, החדר שלו ענק.
+I will call for you at eight.|אבוא לאסוף אותך בשמונה.
+I couldn't help laughing.|לא יכולתי שלא לצחוק.
+She is capable of great things.|היא מסוגלת לדברים גדולים.
+The bright sign caught my attention.|השלט הבוהק משך את תשומת הלב שלי.
+Run fast and catch up with us!|רוץ מהר ותשיג אותנו!
+Did you change your mind?|שינית את דעתך?`,
 };
 
 let n = 0;
