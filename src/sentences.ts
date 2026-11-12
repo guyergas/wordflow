@@ -486,7 +486,17 @@ Please tidy up your room.|בבקשה תסדר את החדר שלך.
 Too bad!|חבל!
 Can I try on these shoes?|אפשר למדוד את הנעליים האלה?
 I always try my best.|אני תמיד משתדל כמיטב יכולתי.
-The library is up the street.|הספרייה נמצאת בהמשך הרחוב.`,
+The library is up the street.|הספרייה נמצאת בהמשך הרחוב.
+I used to be afraid of the dark.|פעם פחדתי מהחושך.
+Watch out!|זהירות!
+What is your new teacher like?|איך המורה החדשה שלך?
+I don't know whether to laugh or cry.|אני לא יודע אם לצחוק או לבכות.
+Why don't you come with us?|למה שלא תבוא איתנו?
+Why not?|למה לא?
+I would love a cup of hot chocolate.|הייתי שמח לכוס שוקו חם.
+I would love to visit you.|הייתי שמח לבקר אותך.
+I would prefer to stay home.|הייתי מעדיף להישאר בבית.
+Wow!|וואו!`,
 };
 
 let n = 0;

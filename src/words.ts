@@ -309,7 +309,12 @@ salt|מלח|n|Please pass me the salt.|בבקשה תעביר לי את המלח.
 sandwich|כריך|n|I have a cheese sandwich for lunch.|יש לי כריך גבינה לארוחת צהריים.
 sea|ים|n|We swim in the sea in summer.|אנחנו שוחים בים בקיץ.
 see|לראות|v|I can see a bird in the tree.|אני יכול לראות ציפור על העץ.
-seven|שבע, שבעה|n|My brother is seven years old.|אחי בן שבע.`,
+seven|שבע, שבעה|n|My brother is seven years old.|אחי בן שבע.
+she|היא|o|She is my little sister.|היא אחותי הקטנה.
+sheep|כבשה|n|The sheep eats green grass.|הכבשה אוכלת דשא ירוק.
+shoe|נעל|n|I lost my left shoe.|איבדתי את הנעל השמאלית שלי.
+show|להראות|v|Show me your new bag.|תראה לי את התיק החדש שלך.
+sky|שמיים|n|The sky is blue today.|השמיים כחולים היום.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -628,7 +633,13 @@ seventy|שבעים|n|Grandma is seventy years old.|סבתא בת שבעים.
 rock|סלע|n|We sat on a big rock.|ישבנו על סלע גדול.
 sauce|רוטב|n|I like pasta with tomato sauce.|אני אוהב פסטה ברוטב עגבניות.
 sausage|נקניקייה|n|He ate a sausage at the party.|הוא אכל נקניקייה במסיבה.
-scarf|צעיף|n|Wear a scarf, it is cold outside.|תלבש צעיף, קר בחוץ.`,
+scarf|צעיף|n|Wear a scarf, it is cold outside.|תלבש צעיף, קר בחוץ.
+shut|לסגור|v|Shut the door, it is cold.|תסגור את הדלת, קר.
+sign|שלט, סימן|n|Read the sign on the door.|תקרא את השלט על הדלת.
+singer|זמר|n|She is a famous singer.|היא זמרת מפורסמת.
+sixteen|שש עשרה, שישה עשר|n|My cousin is sixteen years old.|בן הדוד שלי בן שש עשרה.
+sixty|שישים|n|There are sixty minutes in an hour.|יש שישים דקות בשעה.
+shape|צורה|n|A circle is a round shape.|עיגול הוא צורה עגולה.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -854,7 +865,12 @@ remain|להישאר|v|Please remain in your seats.|בבקשה הישארו במ�
 remove|להסיר, להוציא|v|Please remove your shoes at the door.|בבקשה תורידו את הנעליים ליד הדלת.
 reply|לענות, להשיב|v|Please reply to my message.|בבקשה תענה להודעה שלי.
 roll|לגלגל, להתגלגל|v|The ball will roll down the hill.|הכדור יתגלגל במורד הגבעה.
-row|שורה|n|I sit in the first row.|אני יושב בשורה הראשונה.`,
+row|שורה|n|I sit in the first row.|אני יושב בשורה הראשונה.
+score|ניקוד, תוצאה|n|What is the score of the game?|מה התוצאה של המשחק?
+scream|לצרוח|v|The children scream on the roller coaster.|הילדים צורחים ברכבת ההרים.
+secretary|מזכיר, מזכירה|n|The school secretary gave me a note.|המזכירה של בית הספר נתנה לי פתק.
+selfie|סלפי|n|We took a selfie at the beach.|צילמנו סלפי בחוף.
+serve|להגיש|v|They serve lunch at twelve.|הם מגישים ארוחת צהריים בשתים עשרה.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1020,7 +1036,10 @@ reaction|תגובה|n|His reaction made us laugh.|התגובה שלו הצחיק
 reasonable|הגיוני, סביר|a|That is a reasonable price.|זה מחיר סביר.
 relations|יחסים|n|The two countries have good relations.|לשתי המדינות יש יחסים טובים.
 role|תפקיד|n|She got the main role in the play.|היא קיבלה את התפקיד הראשי בהצגה.
-scientific|מדעי|a|We did a scientific experiment in class.|עשינו ניסוי מדעי בכיתה.`,
+scientific|מדעי|a|We did a scientific experiment in class.|עשינו ניסוי מדעי בכיתה.
+select|לבחור, לסמן|v|Select a color for your drawing.|בחרו צבע לציור שלכם.
+sense|חוש|n|Dogs have a great sense of smell.|לכלבים יש חוש ריח מצוין.
+separate|נפרד|a|We sleep in separate rooms.|אנחנו ישנים בחדרים נפרדים.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1041,26 +1060,26 @@ clue|רמז|n|The detective found a clue.|הבלש מצא רמז.
 mystery|תעלומה|n|The missing key is a mystery.|המפתח שנעלם הוא תעלומה.
 journal|יומן|n|She writes in her journal at night.|היא כותבת ביומן שלה בלילה.
 author|סופר|n|The author signed my book.|הסופר חתם על הספר שלי.
-character|דמות|n|Who is your favorite character?
-ending|סוף|n|The ending made me cry.
-fear|פחד|n|He hid his fear.
-courage|אומץ|n|It takes courage to tell the truth.
-wisdom|חוכמה|n|The old woman was famous for her wisdom.
-gentle|עדין|a|Be gentle with the baby.
-fierce|עז|a|The fierce dog guards the gate.
-ancient|עתיק|a|We visited an ancient temple.
-huge|ענק|a|A huge wave hit the boat.
-tiny|קטנטן|a|Look at that tiny bug!
-strange|מוזר|a|What a strange idea!
-magic|קסום|a|He has a magic ring.
-hidden|חבוי|a|We found a hidden door.
-broken|שבור|a|My phone screen is broken.
-silent|שותק|a|The room went silent.
-terrible|נורא|a|We had terrible weather.
-wonderful|נפלא|a|What a wonderful surprise!
-curious|סקרן|a|The curious cat opened the box.
-clever|פיקח|a|That was a clever plan.
-foolish|טיפשי|a|It was a foolish mistake.
+character|דמות|n|Who is your favorite character?|מי הדמות האהובה עליך?
+ending|סוף|n|The ending made me cry.|הסוף גרם לי לבכות.
+fear|פחד|n|He hid his fear.|הוא הסתיר את הפחד שלו.
+courage|אומץ|n|It takes courage to tell the truth.|צריך אומץ כדי להגיד את האמת.
+wisdom|חוכמה|n|The old woman was famous for her wisdom.|האישה הזקנה הייתה מפורסמת בחוכמה שלה.
+gentle|עדין|a|Be gentle with the baby.|תהיה עדין עם התינוק.
+fierce|עז|a|The fierce dog guards the gate.|הכלב העז שומר על השער.
+ancient|עתיק|a|We visited an ancient temple.|ביקרנו במקדש עתיק.
+huge|ענק|a|A huge wave hit the boat.|גל ענק פגע בסירה.
+tiny|קטנטן|a|Look at that tiny bug!|תראה את החרק הקטנטן הזה!
+strange|מוזר|a|What a strange idea!|איזה רעיון מוזר!
+magic|קסום|a|He has a magic ring.|יש לו טבעת קסם.
+hidden|חבוי|a|We found a hidden door.|מצאנו דלת חבויה.
+broken|שבור|a|My phone screen is broken.|המסך של הטלפון שלי שבור.
+silent|שותק|a|The room went silent.|החדר השתתק.
+terrible|נורא|a|We had terrible weather.|היה לנו מזג אוויר נורא.
+wonderful|נפלא|a|What a wonderful surprise!|איזו הפתעה נפלאה!
+curious|סקרן|a|The curious cat opened the box.|החתול הסקרן פתח את הקופסה.
+clever|פיקח|a|That was a clever plan.|זאת הייתה תוכנית פיקחית.
+foolish|טיפשי|a|It was a foolish mistake.|זאת הייתה טעות טיפשית.
 gradually|בהדרגה|d|The sky gradually turned dark.
 slowly|לאט|d|She slowly opened the door.
 quickly|במהירות|d|He quickly ran away.
