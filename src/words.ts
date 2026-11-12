@@ -169,7 +169,13 @@ top|ראש, חלק עליון|n|The cat is on the top of the tree.|החתול ב
 up|למעלה|d|Look up at the sky!|תסתכלו למעלה לשמיים!
 us|אותנו, לנו|o|Mom takes us to school.|אמא לוקחת אותנו לבית הספר.
 yes|כן|o|I said yes to the party.|אמרתי כן למסיבה.
-you|אתה, את|o|Can you help me, please?|אתה יכול לעזור לי, בבקשה?`,
+you|אתה, את|o|Can you help me, please?|אתה יכול לעזור לי, בבקשה?
+about|על, בערך|o|This story is about a little fox.|הסיפור הזה הוא על שועל קטן.
+above|מעל|o|The bird is flying above the house.|הציפור עפה מעל הבית.
+afternoon|אחר הצהריים|n|We play in the park in the afternoon.|אנחנו משחקים בפארק אחר הצהריים.
+again|שוב|d|Please read the story again.|בבקשה תקרא את הסיפור שוב.
+air|אוויר|n|Open the window to let in fresh air.|תפתח את החלון כדי להכניס אוויר צח.
+also|גם|d|I like dogs, and I also like cats.|אני אוהב כלבים, ואני גם אוהב חתולים.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -222,26 +228,26 @@ choose|לבחור|v|You can choose any color.|אפשר לבחור כל צבע.
 finish|לסיים|v|I will finish it tonight.|אני אסיים את זה הערב.
 begin|להתחיל|v|The movie will begin soon.|הסרט יתחיל בקרוב.
 wait|לחכות|v|Please wait for me.|בבקשה חכי לי.
-meet|לפגוש|v|Let's meet after school.
-visit|לבקר|v|We visit the museum on Sunday.
-send|לשלוח|v|I will send you a message.
-carry|לסחוב|v|Can you carry this bag?
-because|כי|o|I stayed home because it rained.
-between|בין|o|Sit between us.
-before|לפני|o|Wash your hands before lunch.
-after|אחרי|o|We play after dinner.
-wash|לשטוף|v|I wash my hands before lunch.
-thirsty|צמא|a|The thirsty boy drank some water.
-shirt|חולצה|n|He is wearing a clean white shirt.
-hat|כובע|n|Put on your hat when it is sunny.
-sing|לשיר|v|We sing together in music class.
-tall|גבוה|a|My brother is very tall.
-stairs|מדרגות|n|We walked up the stairs to our flat.
-mirror|מראה|n|She looked at her hair in the mirror.
-farmer|חקלאי|n|The farmer feeds his cows every morning.
-belong|להשתייך|v|These books belong to my sister.
-collect|לאסוף|v|My brother likes to collect old coins.
-celebrate|לחגוג|v|We celebrate my birthday with a big cake.
+meet|לפגוש|v|Let's meet after school.|בואו ניפגש אחרי בית הספר.
+visit|לבקר|v|We visit the museum on Sunday.|אנחנו מבקרים במוזיאון ביום ראשון.
+send|לשלוח|v|I will send you a message.|אני אשלח לך הודעה.
+carry|לסחוב|v|Can you carry this bag?|אתה יכול לסחוב את התיק הזה?
+because|כי|o|I stayed home because it rained.|נשארתי בבית כי ירד גשם.
+between|בין|o|Sit between us.|שב בינינו.
+before|לפני|o|Wash your hands before lunch.|תשטוף ידיים לפני ארוחת הצהריים.
+after|אחרי|o|We play after dinner.|אנחנו משחקים אחרי ארוחת הערב.
+wash|לשטוף|v|I wash my hands before lunch.|אני שוטף ידיים לפני ארוחת הצהריים.
+thirsty|צמא|a|The thirsty boy drank some water.|הילד הצמא שתה קצת מים.
+shirt|חולצה|n|He is wearing a clean white shirt.|הוא לובש חולצה לבנה ונקייה.
+hat|כובע|n|Put on your hat when it is sunny.|תחבוש את הכובע שלך כשיש שמש.
+sing|לשיר|v|We sing together in music class.|אנחנו שרים יחד בשיעור מוזיקה.
+tall|גבוה|a|My brother is very tall.|אחי גבוה מאוד.
+stairs|מדרגות|n|We walked up the stairs to our flat.|עלינו במדרגות לדירה שלנו.
+mirror|מראה|n|She looked at her hair in the mirror.|היא הסתכלה על השיער שלה במראה.
+farmer|חקלאי|n|The farmer feeds his cows every morning.|החקלאי מאכיל את הפרות שלו כל בוקר.
+belong|להשתייך|v|These books belong to my sister.|הספרים האלה שייכים לאחותי.
+collect|לאסוף|v|My brother likes to collect old coins.|אחי אוהב לאסוף מטבעות ישנים.
+celebrate|לחגוג|v|We celebrate my birthday with a big cake.|אנחנו חוגגים את יום ההולדת שלי עם עוגה גדולה.
 glove|כפפה|n|I lost one glove in the snow.
 basket|סל|n|We put the apples in a basket.
 noisy|רועש|a|The classroom was very noisy today.
@@ -309,7 +315,15 @@ comb|מסרק|n|I need a comb for my hair.|אני צריכה מסרק לשיער
 trip|טיול|n|We went on a school trip to the zoo.|יצאנו לטיול כיתתי לגן החיות.
 concert|הופעה, קונצרט|n|We went to a concert in the park.|הלכנו להופעה בפארק.
 cooking|בישול|n|My dad loves cooking for the family.|אבא שלי אוהב בישול בשביל המשפחה.
-copy|להעתיק|v|Please copy the words from the board.|בבקשה העתיקו את המילים מהלוח.`,
+copy|להעתיק|v|Please copy the words from the board.|בבקשה העתיקו את המילים מהלוח.
+adult|מבוגר|n|A child must swim with an adult.|ילד חייב לשחות עם מבוגר.
+age|גיל|n|At the age of six, I started school.|בגיל שש התחלתי ללכת לבית הספר.
+ago|לפני (זמן)|d|We moved here two years ago.|עברנו לגור כאן לפני שנתיים.
+alphabet|האלף-בית|n|There are 26 letters in the English alphabet.|יש 26 אותיות באלף-בית האנגלי.
+corn|תירס|n|We ate hot corn at the beach.|אכלנו תירס חם בחוף.
+cough|להשתעל, שיעול|v|The sick boy began to cough.|הילד החולה התחיל להשתעל.
+could|יכול (בעבר)|v|I could swim when I was five.|יכולתי לשחות כשהייתי בן חמש.
+cousin|בן דוד, בת דודה|n|My cousin is coming to visit us.|בן הדוד שלי בא לבקר אותנו.`,
 `feeling|הרגשה|n|I had a strange feeling.
 angry|כועס|a|She was angry at her brother.
 afraid|מפחד|a|He is afraid of spiders.
@@ -426,7 +440,12 @@ compete|להתחרות|v|Ten teams compete in the game.|עשר קבוצות מת
 contact|קשר, ליצור קשר|v|You can contact me by phone.|אפשר ליצור איתי קשר בטלפון.
 continue|להמשיך|v|Let's continue the story tomorrow.|בואו נמשיך את הסיפור מחר.
 control|שליטה, לשלוט|v|I can control the toy car with my phone.|אני יכול לשלוט במכונית הצעצוע עם הטלפון שלי.
-contents|תוכן העניינים, תוכן|n|Look at the contents page of the book.|תסתכלו בעמוד תוכן העניינים של הספר.`,
+contents|תוכן העניינים, תוכן|n|Look at the contents page of the book.|תסתכלו בעמוד תוכן העניינים של הספר.
+cotton|כותנה|n|My shirt is made of cotton.|החולצה שלי עשויה מכותנה.
+course|קורס|n|My mom is taking a cooking course.|אמא שלי לומדת בקורס בישול.
+create|ליצור|v|Let's create a poster for our class.|בואו ניצור פוסטר בשביל הכיתה שלנו.
+crisp|פריך|a|This apple is crisp and sweet.|התפוח הזה פריך ומתוק.
+crossing|מעבר חצייה|n|Wait at the crossing for the green light.|חכו במעבר החצייה לאור הירוק.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -521,7 +540,8 @@ charge|להטעין|v|I need to charge my phone.|אני צריך להטעין א
 combine|לשלב, לחבר|v|Let's combine the red and the blue paint.|בואו נשלב את הצבע האדום ואת הכחול.
 communication|תקשורת|n|Good communication helps a team win.|תקשורת טובה עוזרת לקבוצה לנצח.
 connection|חיבור, קשר|n|The internet connection is very slow.|החיבור לאינטרנט איטי מאוד.
-contract|חוזה|n|The player signed a contract with the team.|השחקן חתם על חוזה עם הקבוצה.`,
+contract|חוזה|n|The player signed a contract with the team.|השחקן חתם על חוזה עם הקבוצה.
+credit|אשראי|n|Dad paid with a credit card.|אבא שילם בכרטיס אשראי.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.

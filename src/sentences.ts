@@ -236,7 +236,17 @@ Please go into the classroom.|בבקשה היכנסי לכיתה.
 We go shopping on Friday.|אנחנו הולכים לקניות ביום שישי.
 How about a game of chess?|מה דעתך על משחק שחמט?
 I saw a good film last night.|ראיתי סרט טוב אתמול בלילה.
-I am tired, so I lie down on the sofa.|אני עייפה, אז אני נשכבת על הספה.`,
+I am tired, so I lie down on the sofa.|אני עייפה, אז אני נשכבת על הספה.
+We live in a small village.|אנחנו גרים בכפר קטן.
+See you on Monday!|נתראה ביום שני!
+How tall are you?|מה הגובה שלך?
+We watched the Olympic Games on TV.|צפינו באולימפיאדה בטלוויזיה.
+The library is on your right.|הספרייה נמצאת מימינך.
+Put your bag on the chair.|שימי את התיק שלך על הכיסא.
+See you soon!|נתראה בקרוב!
+I ate the rest of the cake.|אכלתי את שארית העוגה.
+I would like to go home now.|הייתי רוצה ללכת הביתה עכשיו.
+Would you like some tea?|את רוצה קצת תה?`,
 };
 
 let n = 0;
