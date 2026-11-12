@@ -362,7 +362,14 @@ why|למה|o|Why are you sad?|למה אתה עצוב?
 win|לנצח|v|I hope our team will win.|אני מקווה שהקבוצה שלנו תנצח.
 winter|חורף|n|It is cold in winter.|קר בחורף.
 with|עם|o|I play with my sister.|אני משחקת עם אחותי.
-woman|אישה|n|The woman has a red umbrella.|לאישה יש מטרייה אדומה.`,
+woman|אישה|n|The woman has a red umbrella.|לאישה יש מטרייה אדומה.
+word|מילה|n|Write a new word in your notebook.|כתוב מילה חדשה במחברת שלך.
+work|לעבוד|v|My parents work in the city.|ההורים שלי עובדים בעיר.
+world|עולם|n|I want to travel around the world.|אני רוצה לטייל מסביב לעולם.
+year|שנה|n|This year I am in third grade.|השנה אני בכיתה ג'.
+yellow|צהוב|a|The sun is yellow.|השמש צהובה.
+your|שלך|o|Is this your bag?|זה התיק שלך?
+zoo|גן חיות|n|We saw lions at the zoo.|ראינו אריות בגן החיות.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -739,7 +746,13 @@ winner|מנצח, זוכה|n|The winner gets a medal.|המנצח מקבל מדל�
 wine|יין|n|Grapes are used to make wine.|מענבים מכינים יין.
 truck|משאית|n|A big truck stopped near our house.|משאית גדולה עצרה ליד הבית שלנו.
 ugly|מכוער|a|The ugly duckling became a swan.|הברווזון המכוער הפך לברבור.
-uniform|מדים, תלבושת אחידה|n|We wear a uniform to school.|אנחנו לובשים תלבושת אחידה לבית הספר.`,
+uniform|מדים, תלבושת אחידה|n|We wear a uniform to school.|אנחנו לובשים תלבושת אחידה לבית הספר.
+worker|עובד, פועל|n|The worker fixed the road.|הפועל תיקן את הכביש.
+account|חשבון|n|Dad has a bank account.|לאבא יש חשבון בנק.
+across|לרוחב, מעבר ל-|o|We walked across the bridge.|חצינו את הגשר ברגל.
+video|סרטון|n|We watched a funny video.|צפינו בסרטון מצחיק.
+voice|קול|n|She has a beautiful voice.|יש לה קול יפה.
+wheel|גלגל|n|One wheel of my bike is broken.|גלגל אחד של האופניים שלי שבור.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1005,7 +1018,11 @@ tune|מנגינה, לחן|n|She hummed a happy tune.|היא זמזמה מנגי�
 turning|פנייה|n|Take the second turning on the left.|תפנה בפנייה השנייה שמאלה.
 unit|יחידה|n|We finished the first unit of the book.|סיימנו את היחידה הראשונה בספר.
 usual|הרגיל, כרגיל|a|I woke up later than usual.|קמתי מאוחר מהרגיל.
-unpleasant|לא נעים|a|The smell was unpleasant.|הריח היה לא נעים.`,
+unpleasant|לא נעים|a|The smell was unpleasant.|הריח היה לא נעים.
+website|אתר אינטרנט|n|Our school has a new website.|לבית הספר שלנו יש אתר אינטרנט חדש.
+weekly|שבועי|a|We have a weekly spelling test.|יש לנו מבחן כתיב שבועי.
+warn|להזהיר|v|I want to warn you about the dog.|אני רוצה להזהיר אותך מפני הכלב.
+virus|נגיף, וירוס|n|A virus can make you sick.|נגיף יכול לגרום לך לחלות.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1195,7 +1212,10 @@ topic|נושא|n|The topic of my project is space.|הנושא של העבודה 
 total|סכום כולל, סך הכול|n|The total is fifty shekels.|הסכום הכולל הוא חמישים שקלים.
 trade|מסחר|n|Trade between the two countries grew.|המסחר בין שתי המדינות גדל.
 understanding|הבנה|n|She has a good understanding of math.|יש לה הבנה טובה במתמטיקה.
-unnecessary|מיותר, לא נחוץ|a|Don't buy unnecessary things.|אל תקנה דברים מיותרים.`,
+unnecessary|מיותר, לא נחוץ|a|Don't buy unnecessary things.|אל תקנה דברים מיותרים.
+volume|עוצמת קול|n|Please turn down the volume.|בבקשה תנמיך את עוצמת הקול.
+whether|אם|o|I don't know whether it will rain.|אני לא יודע אם ירד גשם.
+whenever|בכל פעם ש-|o|Whenever it rains, I wear boots.|בכל פעם שיורד גשם, אני נועל מגפיים.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1396,26 +1416,26 @@ recommendation|המלצה|n|Thanks for the book recommendation.|תודה על ה
 sacrifice|הקרבה|n|Parents often make a sacrifice for their kids.|הורים מקריבים הרבה למען הילדים שלהם.
 strategy|אסטרטגיה|n|We need a better strategy.|אנחנו צריכים אסטרטגיה טובה יותר.
 tendency|נטייה|n|He has a tendency to arrive late.|יש לו נטייה להגיע באיחור.
-accurate|מדויק|a|This clock is very accurate.
-anxious|חרד|a|She felt anxious before the show.
-awkward|מביך|a|There was an awkward silence.
-capable|מסוגל|a|You are capable of great things.
-confident|בטוח בעצמו|a|She looks confident on stage.
-conscious|מודע|a|He is conscious of his mistakes.
-convenient|נוח|a|This bus is very convenient.
-definite|מוחלט|a|We need a definite answer.
-enthusiastic|נלהב|a|The kids were enthusiastic about the trip.
-essential|חיוני|a|Water is essential for life.
-generous|נדיב|a|She is a generous friend.
-independent|עצמאי|a|She is an independent thinker.
-inevitable|בלתי נמנע|a|Change is inevitable.
-reliable|אמין|a|He is a reliable friend.
-stubborn|עקשן|a|My stubborn brother never gives up.
-sufficient|מספק|a|One cup is sufficient.
-unique|ייחודי|a|Every snowflake is unique.
-vulnerable|פגיע|a|Baby birds are vulnerable.
-absolutely|בהחלט|d|You are absolutely right.
-definitely|בוודאות|d|I will definitely be there.
+accurate|מדויק|a|This clock is very accurate.|השעון הזה מדויק מאוד.
+anxious|חרד|a|She felt anxious before the show.|היא הרגישה חרדה לפני ההופעה.
+awkward|מביך|a|There was an awkward silence.|הייתה שתיקה מביכה.
+capable|מסוגל|a|You are capable of great things.|אתה מסוגל לדברים גדולים.
+confident|בטוח בעצמו|a|She looks confident on stage.|היא נראית בטוחה בעצמה על הבמה.
+conscious|מודע|a|He is conscious of his mistakes.|הוא מודע לטעויות שלו.
+convenient|נוח|a|This bus is very convenient.|האוטובוס הזה מאוד נוח.
+definite|מוחלט|a|We need a definite answer.|אנחנו צריכים תשובה סופית.
+enthusiastic|נלהב|a|The kids were enthusiastic about the trip.|הילדים התלהבו מהטיול.
+essential|חיוני|a|Water is essential for life.|מים חיוניים לחיים.
+generous|נדיב|a|She is a generous friend.|היא חברה נדיבה.
+independent|עצמאי|a|She is an independent thinker.|היא חושבת באופן עצמאי.
+inevitable|בלתי נמנע|a|Change is inevitable.|שינוי הוא בלתי נמנע.
+reliable|אמין|a|He is a reliable friend.|הוא חבר אמין.
+stubborn|עקשן|a|My stubborn brother never gives up.|אחי העקשן אף פעם לא מוותר.
+sufficient|מספק|a|One cup is sufficient.|כוס אחת מספיקה.
+unique|ייחודי|a|Every snowflake is unique.|כל פתית שלג הוא ייחודי.
+vulnerable|פגיע|a|Baby birds are vulnerable.|גוזלים הם פגיעים.
+absolutely|בהחלט|d|You are absolutely right.|אתה צודק בהחלט.
+definitely|בוודאות|d|I will definitely be there.|אני בהחלט אהיה שם.
 eventually|בסופו של דבר|d|We eventually found the way.
 immediately|מיד|d|Call me immediately.
 occasionally|לפעמים|d|We occasionally eat out.

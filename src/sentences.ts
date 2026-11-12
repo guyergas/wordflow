@@ -576,7 +576,17 @@ Please come in and feel at home.|בבקשה תיכנס ותרגיש בבית.
 I feel bad about the broken vase.|אני מרגיש רע בגלל האגרטל השבור.
 I feel like eating pizza.|בא לי לאכול פיצה.
 I feel as if I can fly.|אני מרגיש כאילו אני יכול לעוף.
-I feel sorry for the lost puppy.|אני מרחם על הגור שהלך לאיבוד.`,
+I feel sorry for the lost puppy.|אני מרחם על הגור שהלך לאיבוד.
+I find math easy.|מתמטיקה קלה לי.
+The fire truck is at the fire station.|הכבאית נמצאת בתחנת הכיבוי.
+It rained for days.|ירד גשם במשך ימים.
+I like fruit, for instance apples.|אני אוהב פירות, למשל תפוחים.
+I will come for sure.|אני בטוח אבוא.
+We have lived here for years.|אנחנו גרים כאן כבר שנים.
+We get around the city by bike.|אנחנו מתניידים בעיר באופניים.
+We need to get rid of these old toys.|אנחנו צריכים להיפטר מהצעצועים הישנים האלה.
+I got used to my new school.|התרגלתי לבית הספר החדש שלי.
+It is late, so go to sleep.|מאוחר, אז לך לישון.`,
 };
 
 let n = 0;
