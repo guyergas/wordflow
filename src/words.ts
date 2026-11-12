@@ -270,7 +270,14 @@ letter|מכתב, אות|n|I wrote a letter to my grandma.|כתבתי מכתב ל
 light|אור|n|Please turn on the light.|בבקשה תדליק את האור.
 like|לאהוב, לחבב|v|I like ice cream.|אני אוהב גלידה.
 little|קטן|a|We have a little dog.|יש לנו כלב קטן.
-look|להסתכל|v|Look at the bird!|תסתכל על הציפור!`,
+look|להסתכל|v|Look at the bird!|תסתכל על הציפור!
+lunch|ארוחת צהריים|n|We eat lunch at school.|אנחנו אוכלים ארוחת צהריים בבית הספר.
+make|להכין, לעשות|v|Let's make a cake.|בואו נכין עוגה.
+many|הרבה|a|There are many birds in the tree.|יש הרבה ציפורים על העץ.
+monkey|קוף|n|The monkey is eating a banana.|הקוף אוכל בננה.
+more|עוד, יותר|d|Can I have more water, please?|אפשר עוד מים, בבקשה?
+mouth|פה|n|Open your mouth, please.|תפתח את הפה, בבקשה.
+movie|סרט|n|We watched a funny movie.|צפינו בסרט מצחיק.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -539,7 +546,12 @@ lie|שקר|n|Don't tell a lie.|אל תגיד שקר.
 life|חיים|n|My grandpa had a long and happy life.|לסבא שלי היו חיים ארוכים ומאושרים.
 line|שורה, קו|n|Please stand in a line.|בבקשה לעמוד בשורה.
 lose|לאבד, להפסיד|v|Don't lose your key.|אל תאבד את המפתח שלך.
-myself|בעצמי, את עצמי|o|I made this cake myself.|הכנתי את העוגה הזאת בעצמי.`,
+myself|בעצמי, את עצמי|o|I made this cake myself.|הכנתי את העוגה הזאת בעצמי.
+meal|ארוחה|n|Breakfast is my favorite meal.|ארוחת הבוקר היא הארוחה האהובה עליי.
+meat|בשר|n|My brother does not eat meat.|אחי לא אוכל בשר.
+mobile|נייד|a|My mom has a new mobile phone.|לאמא שלי יש טלפון נייד חדש.
+nothing|כלום|o|There is nothing in the box.|אין כלום בקופסה.
+oh|אוי, הו|o|Oh, I forgot my bag!|אוי, שכחתי את התיק!`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -739,7 +751,12 @@ muscle|שריר|n|I hurt a muscle in my arm.|נפגע לי שריר ביד.
 musical|מוזיקלי|a|My sister is very musical.|אחותי מאוד מוזיקלית.
 musician|מוזיקאי|n|The musician played the guitar.|המוזיקאי ניגן בגיטרה.
 necklace|שרשרת|n|She wears a silver necklace.|היא עונדת שרשרת כסף.
-normally|בדרך כלל|d|I normally walk to school.|בדרך כלל אני הולך לבית הספר ברגל.`,
+normally|בדרך כלל|d|I normally walk to school.|בדרך כלל אני הולך לבית הספר ברגל.
+noun|שם עצם|n|The word "dog" is a noun.|המילה "כלב" היא שם עצם.
+object|חפץ|n|What is that strange object?|מה החפץ המוזר הזה?
+officer|קצין, שוטר|n|The police officer helped us.|השוטר עזר לנו.
+option|אפשרות|n|We have one more option.|יש לנו עוד אפשרות אחת.
+organize|לארגן|v|Let's organize a party.|בואו נארגן מסיבה.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -881,7 +898,10 @@ mostly|בעיקר|d|The sky was mostly blue today.|השמיים היו בעיק�
 murder|רצח|n|The detective solved the murder.|הבלש פענח את הרצח.
 nation|אומה|n|The whole nation watched the game.|כל האומה צפתה במשחק.
 nationality|אזרחות, לאום|n|What is your nationality?|מה האזרחות שלך?
-neither|אף אחד מהשניים|o|Neither of my friends came.|אף אחד משני החברים שלי לא בא.`,
+neither|אף אחד מהשניים|o|Neither of my friends came.|אף אחד משני החברים שלי לא בא.
+noticeboard|לוח מודעות|n|The list is on the noticeboard.|הרשימה תלויה על לוח המודעות.
+operate|להפעיל|v|Can you operate this machine?|אתה יודע להפעיל את המכונה הזאת?
+organization|ארגון|n|She works for an organization that helps animals.|היא עובדת בארגון שעוזר לבעלי חיים.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

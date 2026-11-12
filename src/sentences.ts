@@ -416,7 +416,17 @@ It isn't nice to laugh at people.|לא יפה לצחוק על אנשים.
 Don't leave out any words.|אל תדלג על אף מילה.
 Please let me know when you get home.|בבקשה תודיע לי כשתגיע הביתה.
 My dad has a driving license.|לאבא שלי יש רישיון נהיגה.
-Let's look around the old city.|בואו נסתובב בעיר העתיקה.`,
+Let's look around the old city.|בואו נסתובב בעיר העתיקה.
+My brother and I look like our dad.|אחי ואני דומים לאבא שלנו.
+You look nice today!|אתה נראה יפה היום!
+Look out!|זהירות!
+I look up new words in the dictionary.|אני מחפש מילים חדשות במילון.
+With love, Grandma.|באהבה, סבתא.
+The baby made a face when she tasted the lemon.|התינוקת עשתה פרצוף כשטעמה את הלימון.
+Make sure you close the door.|תוודא שסגרת את הדלת.
+My friend Ali is Muslim.|החבר שלי עלי הוא מוסלמי.
+Our new neighbors move in next week.|השכנים החדשים שלנו עוברים לגור כאן בשבוע הבא.
+Never mind.|לא משנה.`,
 };
 
 let n = 0;
