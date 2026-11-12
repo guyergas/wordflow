@@ -17,7 +17,7 @@ const MARKS_ALL = /[\u0591-\u05C7]/g;
  * dropped wherever it does not change the sound. It stays in ב, כ and פ, where it is the difference between b and v.
  */
 /** Letter names Guy chose a different spelling for by ear. */
-const SPOKEN: Record<string, string> = { 'תָּו': 'תָּב' };
+const SPOKEN: Record<string, string> = { 'תָּו': 'תָּב', 'שִׁין': 'שִׁן' };
 const noDagesh = (w: string) => w.replace(/([^בכפ\u05B0-\u05C7][\u05B0-\u05BB\u05C1\u05C2]*)\u05BC/g, '$1');
 const KEEP: Record<string, string> = Object.fromEntries(LETTERS.map((l) => [l.say.replace(MARKS_ALL, ''), l.say]));
 
@@ -95,18 +95,15 @@ export const recordingName = (text: string, dir: string) => {
  * Spellings to compare by ear, for sounds the voice gets wrong. Each is recorded as written,
  * and the settings page plays them side by side so a parent can pick the one that sounds right.
  */
-export interface Trial { text: string; rate: string; note: string }
+export interface Trial { text: string; rate: string; note: string; voice?: string }
 const speeds = (text: string): Trial[] => [
   { text, rate: '-10%', note: 'כמו היום (איטי)' }, { text, rate: '+0%', note: 'מהירות רגילה' }, { text, rate: '+15%', note: 'קצת מהר' }, { text, rate: '+30%', note: 'מהר' },
 ];
+// ל: לָמֶד is stressed on its first syllable, and the voice stresses the second. Niqqud has marks for stress.
 export const TRIALS: { label: string; options: Trial[] }[] = [
   { label: 'ל (לָמֶד)', options: [
-    { text: 'לָמֶד', rate: '+30%', note: 'מהר' }, { text: 'לָמֶד', rate: '+45%', note: 'מהר מאוד' }, { text: 'לַמֶד', rate: '+15%', note: 'פתח' },
-    { text: 'לֶמֶד', rate: '+15%', note: 'סגול' }, { text: 'לָמְד', rate: '+15%', note: 'בלי סגול' }, { text: 'לָמֶד, מֵם, נוּן', rate: '+0%', note: 'ברצף אותיות' },
-    { text: 'הָאוֹת לָמֶד הִיא', rate: '+0%', note: 'בתוך משפט' }, { text: 'למד', rate: '+15%', note: 'בלי ניקוד' }] },
-  { label: 'ש (שִׁין)', options: [
-    { text: 'שִׁין', rate: '+30%', note: 'מהר' }, { text: 'שִׁין', rate: '+45%', note: 'מהר מאוד' }, { text: 'שִׁן', rate: '+15%', note: 'בלי י' },
-    { text: 'שִׁנ', rate: '+15%', note: 'נ רגילה' }, { text: 'שין', rate: '+30%', note: 'בלי ניקוד, מהר' }, { text: 'רֵישׁ, שִׁין, תָּו', rate: '+0%', note: 'ברצף אותיות' },
-    { text: 'הָאוֹת שִׁין הִיא', rate: '+0%', note: 'בתוך משפט' }, { text: 'shin', rate: '+0%', note: 'באותיות לטיניות' }] },
+    { text: 'לָֽמֶד', rate: '+15%', note: 'מתג' }, { text: 'לָ֥מֶד', rate: '+15%', note: 'טעם מרכא' }, { text: 'לָ֣מֶד', rate: '+15%', note: 'טעם מונח' },
+    { text: 'לָ֫מֶד', rate: '+15%', note: 'סימן הטעמה' }, { text: 'לָה מֶד', rate: '+15%', note: 'בשתי מילים' }, { text: 'לַאמֶד', rate: '+15%', note: 'עם א' },
+    { text: 'לָמֶד', rate: '+15%', note: 'קול גברי', voice: 'he-IL-AvriNeural' }, { text: 'לָֽמֶד', rate: '+15%', note: 'קול גברי עם מתג', voice: 'he-IL-AvriNeural' }] },
 ];
-export const trialName = (t: Trial) => audioName(`trial|${t.rate}|${t.text}`);
+export const trialName = (t: Trial) => audioName(`trial|${t.rate}|${t.voice ?? ''}|${t.text}`);
