@@ -420,7 +420,9 @@ live|לגור; לחיות|v|We live near the sea.|אנחנו גרים ליד ה�
 long|ארוך|a|My sister has long hair.|לאחותי יש שיער ארוך.
 love|לאהוב; אהבה|v|I love my grandma.|אני אוהב את סבתא שלי.
 lovely|מקסים, נחמד|a|What a lovely day!|איזה יום מקסים!
-low|נמוך|a|The table is too low for me.|השולחן נמוך מדי בשבילי.`,
+low|נמוך|a|The table is too low for me.|השולחן נמוך מדי בשבילי.
+market|שוק|n|We buy fruit at the market.|אנחנו קונים פירות בשוק.
+message|הודעה|n|I sent my friend a message.|שלחתי הודעה לחבר שלי.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -905,7 +907,15 @@ chest|חזה|n|He held the ball to his chest.|הוא החזיק את הכדור 
 least|הכי מעט, הכי פחות|o|Who ate the least candy?|מי אכל הכי מעט ממתקים?
 leather|עור (חומר)|n|My dad has a leather belt.|לאבא שלי יש חגורת עור.
 less|פחות|d|I want less sugar in my tea.|אני רוצה פחות סוכר בתה שלי.
-chin|סנטר|n|Grandpa has a beard on his chin.|לסבא יש זקן על הסנטר.`,
+chin|סנטר|n|Grandpa has a beard on his chin.|לסבא יש זקן על הסנטר.
+lunchtime|שעת ארוחת הצהריים|n|We play outside at lunchtime.|אנחנו משחקים בחוץ בשעת ארוחת הצהריים.
+magazine|מגזין, ירחון|n|I read a magazine about animals.|קראתי מגזין על בעלי חיים.
+mark|ציון; סימן|n|I got a good mark on my test.|קיבלתי ציון טוב במבחן.
+married|נשוי|a|My aunt is married.|הדודה שלי נשואה.
+mean|להתכוון; פירושו|v|What does this word mean?|מה פירוש המילה הזאת?
+medical|רפואי|a|The nurse has a medical bag.|לאחות יש תיק רפואי.
+meeting|פגישה|n|Dad has a meeting at work.|לאבא יש פגישה בעבודה.
+member|חבר (בקבוצה)|n|I am a member of the chess club.|אני חבר במועדון השחמט.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1227,7 +1237,11 @@ circular|עגול|a|We sat at a circular table.|ישבנו ליד שולחן ע�
 coast|חוף|n|We drove along the coast.|נסענו לאורך החוף.
 college|מכללה|n|My brother goes to college.|אחי לומד במכללה.
 column|טור; עמוד|n|Write the answers in the first column.|כתוב את התשובות בטור הראשון.
-comedy|קומדיה|n|We watched a funny comedy.|צפינו בקומדיה מצחיקה.`,
+comedy|קומדיה|n|We watched a funny comedy.|צפינו בקומדיה מצחיקה.
+comment|הערה, תגובה|n|The teacher wrote a nice comment on my story.|המורה כתבה הערה נחמדה על הסיפור שלי.
+common|נפוץ; משותף|a|Cats are common pets.|חתולים הם חיות מחמד נפוצות.
+communicate|לתקשר|v|Dolphins communicate with sounds.|דולפינים מתקשרים בעזרת צלילים.
+confidence|ביטחון עצמי|n|Practice gives you confidence.|תרגול נותן לך ביטחון עצמי.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1455,7 +1469,13 @@ chief|ראש, מנהיג|n|The fire chief spoke to our class.|מפקד הכבא�
 circumstance|נסיבה, מצב|n|The circumstance was strange, but we stayed calm.|המצב היה מוזר, אבל נשארנו רגועים.
 client|לקוח|n|The shop owner smiled at a client.|בעל החנות חייך אל לקוח.
 colleague|עמית לעבודה|n|My mom's colleague came for dinner.|העמיתה של אמא שלי מהעבודה באה לארוחת ערב.
-combined|משולב, משותף|a|Our combined score was the highest.|הניקוד המשותף שלנו היה הגבוה ביותר.`,
+combined|משולב, משותף|a|Our combined score was the highest.|הניקוד המשותף שלנו היה הגבוה ביותר.
+commit|להתחייב; לבצע|v|I commit to practicing every day.|אני מתחייב להתאמן כל יום.
+commitment|מחויבות|n|Playing in a band is a big commitment.|לנגן בלהקה זו מחויבות גדולה.
+committee|ועדה|n|The school committee planned the party.|ועדת בית הספר תכננה את המסיבה.
+concern|דאגה|n|My mom's main concern is my health.|הדאגה העיקרית של אמא שלי היא הבריאות שלי.
+conclusion|מסקנה; סיום|n|Write a short conclusion at the end.|כתוב מסקנה קצרה בסוף.
+conference|כנס|n|My dad went to a science conference.|אבא שלי נסע לכנס מדע.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

@@ -1,15 +1,5 @@
 # Pre-Band I
 # Band I
-lunchtime
-magazine
-mark
-market
-married
-mean
-medical
-meeting
-member
-message
 million
 mine
 model
@@ -178,16 +168,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-comment
-commit
-commitment
-committee
-common
-communicate
-concern
-conclusion
-conference
-confidence
 confirm
 confusion
 consciousness

@@ -706,7 +706,9 @@ What if it rains tomorrow?|מה אם ירד גשם מחר?
 What's up?|מה קורה?
 Wish me luck!|תאחלו לי בהצלחה!
 We found the way with the help of a map.|מצאנו את הדרך בעזרת מפה.
-Please come home without delay.|בבקשה תבוא הביתה בלי עיכוב.`,
+Please come home without delay.|בבקשה תבוא הביתה בלי עיכוב.
+I would rather stay home today.|אני מעדיף להישאר היום בבית.
+Would you mind closing the window?|אכפת לך לסגור את החלון?`,
 };
 
 let n = 0;
