@@ -376,7 +376,11 @@ artist|אמן, צייר|n|The artist painted a big picture.|האמן צייר ת
 away|הרחק, משם|d|The bird flew away.|הציפור עפה משם.
 bathroom|חדר אמבטיה|n|I brush my teeth in the bathroom.|אני מצחצח שיניים בחדר האמבטיה.
 bicycle|אופניים|n|I ride my bicycle to the park.|אני רוכב על האופניים שלי לפארק.
-camera|מצלמה|n|I took a photo with my new camera.|צילמתי תמונה עם המצלמה החדשה שלי.`,
+camera|מצלמה|n|I took a photo with my new camera.|צילמתי תמונה עם המצלמה החדשה שלי.
+candy|ממתק, סוכריה|n|I got a candy from my teacher.|קיבלתי סוכריה מהמורה שלי.
+circle|עיגול|n|Draw a circle on the page.|צייר עיגול על הדף.
+classmate|חבר לכיתה|n|My classmate sits next to me.|החבר שלי לכיתה יושב לידי.
+clown|ליצן|n|The clown made us laugh.|הליצן הצחיק אותנו.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -776,7 +780,16 @@ beer|בירה|n|Beer is a drink for adults.|בירה היא משקה למבוג�
 bottom|תחתית|n|The ball is at the bottom of the pool.|הכדור נמצא בתחתית הבריכה.
 break|הפסקה|n|We play outside during the break.|אנחנו משחקים בחוץ בהפסקה.
 bright|בהיר, מואר|a|The room is bright and sunny.|החדר מואר ושטוף שמש.
-active|פעיל|a|My grandma is very active.|סבתא שלי מאוד פעילה.`,
+active|פעיל|a|My grandma is very active.|סבתא שלי מאוד פעילה.
+change|לשנות, להחליף|v|I want to change my shirt.|אני רוצה להחליף את החולצה שלי.
+clear|צלול, ברור|a|The water in the lake is clear.|המים באגם צלולים.
+closed|סגור|a|The shop is closed on Saturday.|החנות סגורה בשבת.
+comfortable|נוח|a|This chair is very comfortable.|הכיסא הזה נוח מאוד.
+competition|תחרות|n|Our class won the singing competition.|הכיתה שלנו ניצחה בתחרות השירה.
+complete|שלם, גמור|a|My puzzle is complete.|הפאזל שלי שלם.
+angel|מלאך|n|The little girl looks like an angel.|הילדה הקטנה נראית כמו מלאך.
+ankle|קרסול|n|I hurt my ankle in the game.|נפגעתי בקרסול במשחק.
+allow|להרשות|v|My parents allow me to play outside.|ההורים שלי מרשים לי לשחק בחוץ.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1056,7 +1069,10 @@ ahead|קדימה, לפנים|d|Look straight ahead.|תסתכל ישר קדימה
 adopt|לאמץ|v|We want to adopt a dog.|אנחנו רוצים לאמץ כלב.
 aid|עזרה, סיוע|n|The nurse gave him first aid.|האחות נתנה לו עזרה ראשונה.
 aircraft|כלי טיס, מטוס|n|The aircraft landed safely.|המטוס נחת בשלום.
-adapt|להסתגל|v|Animals adapt to the cold.|בעלי חיים מסתגלים לקור.`,
+adapt|להסתגל|v|Animals adapt to the cold.|בעלי חיים מסתגלים לקור.
+alike|דומים|a|The two sisters look alike.|שתי האחיות נראות דומות.
+alcohol|אלכוהול|n|Children should not drink alcohol.|ילדים לא צריכים לשתות אלכוהול.
+anniversary|יום נישואים, יום שנה|n|My parents had their wedding anniversary yesterday.|להורים שלי היה אתמול יום נישואים.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1255,7 +1271,11 @@ abstract|מופשט|a|She paints abstract pictures.|היא מציירת ציור
 academic|אקדמי, לימודי|a|The academic year starts in September.|שנת הלימודים מתחילה בספטמבר.
 accommodation|מקום לינה|n|We found cheap accommodation near the beach.|מצאנו מקום לינה זול ליד החוף.
 actual|ממשי, אמיתי|a|The actual size of the whale is huge.|הגודל האמיתי של הלווייתן עצום.
-agency|סוכנות|n|We booked the trip through a travel agency.|הזמנו את הטיול דרך סוכנות נסיעות.`,
+agency|סוכנות|n|We booked the trip through a travel agency.|הזמנו את הטיול דרך סוכנות נסיעות.
+alphabetical|אלפביתי|a|Put the names in alphabetical order.|סדרו את השמות לפי סדר אלפביתי.
+alternative|חלופה, אפשרות אחרת|n|If it rains, we need an alternative.|אם ירד גשם, נצטרך אפשרות אחרת.
+annual|שנתי|a|The school has an annual sports day.|בבית הספר יש יום ספורט שנתי.
+anyhow|בכל זאת|d|It was raining, but we went out anyhow.|ירד גשם, אבל בכל זאת יצאנו.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1516,26 +1536,26 @@ essay|חיבור|n|I wrote an essay about the sea.|כתבתי חיבור על ה
 source|מקור|n|Check the source of this story.|בדוק את המקור של הסיפור הזה.
 criticism|ביקורת|n|He did not take the criticism well.|הוא לא קיבל את הביקורת יפה.
 approach|דרך פעולה|n|We need a new approach to this problem.|אנחנו צריכים דרך חדשה לגשת לבעיה הזאת.
-aspect|היבט|n|Money is only one aspect of the job.
-concept|מושג|n|Gravity is a difficult concept.
-context|הקשר|n|The word changes with the context.
-factor|גורם|n|Sleep is an important factor in health.
-issue|סוגיה|n|Pollution is a serious issue.
-method|שיטה|n|This method saves a lot of time.
-principle|עיקרון|n|Honesty is my main principle.
-theory|תיאוריה|n|Nobody could prove the theory.
-significant|משמעותי|a|This is a significant change.
-relevant|רלוונטי|a|Your question is very relevant.
-complex|מורכב|a|The human brain is complex.
-consistent|עקבי|a|Be consistent and practice daily.
-logical|הגיוני|a|That is a logical next step.
-vague|מעורפל|a|His directions were vague.
-valid|תקף|a|Your ticket is still valid.
-moreover|יתרה מזאת|d|It is cheap; moreover, it works well.
-nevertheless|אף על פי כן|d|She was tired; nevertheless, she finished.
-whereas|בעוד ש|d|He likes tea, whereas I prefer coffee.
-furthermore|נוסף על כך|d|The hotel is clean; furthermore, it is quiet.
-consequently|כתוצאה מכך|d|He missed the bus and consequently came late.
+aspect|היבט|n|Money is only one aspect of the job.|כסף הוא רק היבט אחד של העבודה.
+concept|מושג|n|Gravity is a difficult concept.|כוח המשיכה הוא מושג קשה.
+context|הקשר|n|The word changes with the context.|המילה משתנה לפי ההקשר.
+factor|גורם|n|Sleep is an important factor in health.|שינה היא גורם חשוב בבריאות.
+issue|סוגיה|n|Pollution is a serious issue.|זיהום הוא סוגיה רצינית.
+method|שיטה|n|This method saves a lot of time.|השיטה הזאת חוסכת הרבה זמן.
+principle|עיקרון|n|Honesty is my main principle.|יושר הוא העיקרון המרכזי שלי.
+theory|תיאוריה|n|Nobody could prove the theory.|אף אחד לא הצליח להוכיח את התיאוריה.
+significant|משמעותי|a|This is a significant change.|זה שינוי משמעותי.
+relevant|רלוונטי|a|Your question is very relevant.|השאלה שלך מאוד רלוונטית.
+complex|מורכב|a|The human brain is complex.|המוח האנושי מורכב.
+consistent|עקבי|a|Be consistent and practice daily.|תהיה עקבי ותתאמן כל יום.
+logical|הגיוני|a|That is a logical next step.|זה הצעד ההגיוני הבא.
+vague|מעורפל|a|His directions were vague.|ההוראות שלו היו מעורפלות.
+valid|תקף|a|Your ticket is still valid.|הכרטיס שלך עדיין תקף.
+moreover|יתרה מזאת|d|It is cheap; moreover, it works well.|זה זול; יתרה מזאת, זה עובד טוב.
+nevertheless|אף על פי כן|d|She was tired; nevertheless, she finished.|היא הייתה עייפה; אף על פי כן, היא סיימה.
+whereas|בעוד ש|d|He likes tea, whereas I prefer coffee.|הוא אוהב תה, בעוד שאני מעדיף קפה.
+furthermore|נוסף על כך|d|The hotel is clean; furthermore, it is quiet.|המלון נקי; נוסף על כך, הוא שקט.
+consequently|כתוצאה מכך|d|He missed the bus and consequently came late.|הוא פספס את האוטובוס וכתוצאה מכך איחר.
 roughly|בערך|d|The trip takes roughly two hours.
 mainly|בעיקר|d|The team is mainly young players.
 briefly|בקצרה|d|Let me explain it briefly.

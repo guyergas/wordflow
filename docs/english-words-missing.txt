@@ -1,16 +1,6 @@
 # Pre-Band I
 # Band I
 Arabic
-candy
-change
-circle
-classmate
-clear
-closed
-clown
-comfortable
-competition
-complete
 contain
 cookie
 countryside
@@ -284,16 +274,6 @@ zero
 # Band II Core I
 well-made
 # Band II Core II
-alcohol
-alike
-allow
-alphabetical
-alternative
-angel
-ankle
-anniversary
-annual
-anyhow
 apart
 appear
 application

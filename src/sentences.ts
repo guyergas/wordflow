@@ -606,7 +606,17 @@ Hold your breath under the water.|תעצור את הנשימה מתחת למים
 We learn about the Holocaust at school.|אנחנו לומדים על השואה בבית הספר.
 I hope to see you soon.|אני מקווה לראות אותך בקרוב.
 I bet you can't catch me!|אני בטוח שאתה לא יכול לתפוס אותי!
-I guess it will rain.|אני מניח שירד גשם.`,
+I guess it will rain.|אני מניח שירד גשם.
+I suppose so.|אני מניח שכן.
+I suppose you are hungry after the trip.|אני מניח שאתה רעב אחרי הטיול.
+If I were you, I would wear a coat.|אם הייתי במקומך, הייתי לובש מעיל.
+If only I could fly!|הלוואי שיכולתי לעוף!
+Are you tired? If so, go to bed.|אתה עייף? אם כן, לך לישון.
+In a way, my dog is my best friend.|במובן מסוים, הכלב שלי הוא החבר הכי טוב שלי.
+We bought the tickets in advance.|קנינו את הכרטיסים מראש.
+What do you and your friend have in common?|מה משותף לך ולחבר שלך?
+The teacher explained the story in detail.|המורה הסבירה את הסיפור בפירוט.
+I thought it was hard, but in fact it was easy.|חשבתי שזה קשה, אבל בעצם זה היה קל.`,
 };
 
 let n = 0;
