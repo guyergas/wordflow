@@ -455,7 +455,8 @@ shower|מקלחת|n|I take a shower every evening.|אני מתקלח כל ערב
 skirt|חצאית|n|She wore a blue skirt to school.|היא לבשה חצאית כחולה לבית הספר.
 snack|חטיף|n|I eat an apple as a snack.|אני אוכל תפוח בתור חטיף.
 snake|נחש|n|The snake is long and green.|הנחש ארוך וירוק.
-soup|מרק|n|Mom made hot soup for dinner.|אמא הכינה מרק חם לארוחת הערב.`,
+soup|מרק|n|Mom made hot soup for dinner.|אמא הכינה מרק חם לארוחת הערב.
+star|כוכב|n|I can see a bright star in the sky.|אני רואה כוכב בהיר בשמיים.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -1027,7 +1028,19 @@ space|חלל; מקום|n|I want to fly into space one day.|אני רוצה לט�
 speaker|רמקול; דובר|n|The music comes out of the speaker.|המוזיקה יוצאת מהרמקול.
 forever|לנצח, לתמיד|d|We will be friends forever.|נהיה חברים לנצח.
 freeze|לקפוא; להקפיא|v|Water will freeze in the cold.|המים יקפאו בקור.
-fry|לטגן|v|Dad likes to fry eggs for breakfast.|אבא אוהב לטגן ביצים לארוחת הבוקר.`,
+fry|לטגן|v|Dad likes to fry eggs for breakfast.|אבא אוהב לטגן ביצים לארוחת הבוקר.
+spell|לאיית|v|Can you spell your name?|אתה יכול לאיית את השם שלך?
+square|ריבוע; כיכר|n|Draw a square on the paper.|ציירו ריבוע על הדף.
+stamp|בול; חותמת|n|Put a stamp on the letter.|שים בול על המכתב.
+steak|סטייק|n|Dad made a steak on the grill.|אבא הכין סטייק על הגריל.
+step|צעד; מדרגה|n|The baby took her first step.|התינוקת עשתה את הצעד הראשון שלה.
+still|עדיין|d|It is still raining outside.|עדיין יורד גשם בחוץ.
+stove|כיריים, תנור|n|Mom is cooking soup on the stove.|אמא מבשלת מרק על הכיריים.
+subject|מקצוע (לימוד); נושא|n|Math is my favorite subject.|חשבון הוא המקצוע האהוב עליי.
+suit|חליפה|n|Grandpa wore a black suit to the wedding.|סבא לבש חליפה שחורה לחתונה.
+future|עתיד|n|In the future, I want to be a doctor.|בעתיד אני רוצה להיות רופא.
+garage|מוסך; חניה מקורה|n|Dad keeps the car in the garage.|אבא שומר את המכונית בחניה המקורה.
+haircut|תספורת|n|I got a new haircut today.|עשיתי היום תספורת חדשה.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1410,7 +1423,11 @@ follower|חסיד, עוקב|n|The singer has a new follower every day.|לזמר 
 following|הבא|a|We went to the beach on the following day.|הלכנו לים ביום שאחרי.
 force|כוח; להכריח|n|The force of the wind broke the tree.|כוח הרוח שבר את העץ.
 fortunately|למרבה המזל|d|Fortunately, nobody was hurt.|למרבה המזל, אף אחד לא נפגע.
-fuel|דלק|n|The car needs more fuel.|המכונית צריכה עוד דלק.`,
+fuel|דלק|n|The car needs more fuel.|המכונית צריכה עוד דלק.
+gallery|גלריה|n|We saw beautiful paintings at the gallery.|ראינו ציורים יפים בגלריה.
+gay|הומו, גיי|a|My uncle is gay, and he lives with his husband.|הדוד שלי הומו, והוא גר עם בעלו.
+greet|לברך, לקבל בברכה|v|We greet our teacher every morning.|אנחנו מברכים את המורה שלנו כל בוקר.
+guilty|אשם|a|The dog looked guilty after it ate my shoe.|הכלב נראה אשם אחרי שאכל את הנעל שלי.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1675,7 +1692,10 @@ environmentally|מבחינה סביבתית|d|Riding a bike is environmentally f
 estimate|להעריך, לאמוד; הערכה|v|Can you estimate how many beans are in the jar?|אתה יכול להעריך כמה שעועיות יש בצנצנת?
 extent|מידה, היקף|n|To some extent, he is right.|במידה מסוימת, הוא צודק.
 external|חיצוני|a|The external walls of the house are white.|הקירות החיצוניים של הבית לבנים.
-frequently|לעתים קרובות|d|We frequently visit our grandparents.|אנחנו מבקרים את סבא וסבתא לעתים קרובות.`,
+frequently|לעתים קרובות|d|We frequently visit our grandparents.|אנחנו מבקרים את סבא וסבתא לעתים קרובות.
+goods|סחורה, מוצרים|n|The truck brings goods to the shop.|המשאית מביאה סחורה לחנות.
+grant|להעניק; מענק|v|The king will grant you one wish.|המלך יעניק לך משאלה אחת.
+grounds|שטח, מגרש|n|The school grounds are big and green.|שטח בית הספר גדול וירוק.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

@@ -1,15 +1,5 @@
 # Pre-Band I
 # Band I
-spell
-square
-stamp
-star
-steak
-step
-still
-stove
-subject
-suit
 suitcase
 supermarket
 sure
@@ -64,17 +54,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-full-time
-future
-gallery
-garage
-gay
-goods
-grant
-greet
-grounds
-guilty
-haircut
 handle
 handsome
 happiness
