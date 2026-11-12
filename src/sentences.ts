@@ -476,7 +476,17 @@ You are the best!|אתה הכי טוב!
 We met again the day after.|נפגשנו שוב למחרת.
 I saw him the day before.|ראיתי אותו יום קודם.
 I help Mom with the dishes.|אני עוזר לאמא עם הכלים.
-She was the first to arrive.|היא הייתה הראשונה שהגיעה.`,
+She was the first to arrive.|היא הייתה הראשונה שהגיעה.
+What's the matter with your leg?|מה קרה לרגל שלך?
+This is the most attractive dress in the shop.|זאת השמלה הכי יפה בחנות.
+The young always love new games.|הצעירים תמיד אוהבים משחקים חדשים.
+There's no doubt she will win.|אין ספק שהיא תנצח.
+What do you think of my drawing?|מה אתה חושב על הציור שלי?
+Please tidy up your room.|בבקשה תסדר את החדר שלך.
+Too bad!|חבל!
+Can I try on these shoes?|אפשר למדוד את הנעליים האלה?
+I always try my best.|אני תמיד משתדל כמיטב יכולתי.
+The library is up the street.|הספרייה נמצאת בהמשך הרחוב.`,
 };
 
 let n = 0;

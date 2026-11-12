@@ -305,7 +305,11 @@ rice|אורז|n|We eat rice with chicken.|אנחנו אוכלים אורז עם 
 road|כביש, דרך|n|Look both ways before you cross the road.|תסתכל לשני הצדדים לפני שאתה חוצה את הכביש.
 room|חדר|n|My room is very small.|החדר שלי קטן מאוד.
 salad|סלט|n|I made a salad for lunch.|הכנתי סלט לארוחת צהריים.
-salt|מלח|n|Please pass me the salt.|בבקשה תעביר לי את המלח.`,
+salt|מלח|n|Please pass me the salt.|בבקשה תעביר לי את המלח.
+sandwich|כריך|n|I have a cheese sandwich for lunch.|יש לי כריך גבינה לארוחת צהריים.
+sea|ים|n|We swim in the sea in summer.|אנחנו שוחים בים בקיץ.
+see|לראות|v|I can see a bird in the tree.|אני יכול לראות ציפור על העץ.
+seven|שבע, שבעה|n|My brother is seven years old.|אחי בן שבע.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -615,7 +619,16 @@ really|באמת, ממש|d|I really like your new shoes.|אני ממש אוהב �
 rich|עשיר|a|The rich king had a lot of gold.|למלך העשיר היה הרבה זהב.
 right|ימין, נכון|a|Raise your right hand.|תרימו את היד הימנית.
 rat|חולדה|n|A rat ran under the table.|חולדה רצה מתחת לשולחן.
-race|מרוץ, תחרות|n|She won the race at school.|היא ניצחה במרוץ בבית הספר.`,
+race|מרוץ, תחרות|n|She won the race at school.|היא ניצחה במרוץ בבית הספר.
+seat|מושב, מקום ישיבה|n|Please sit in your seat.|בבקשה שב במקום שלך.
+second|שני, שנייה|a|This is my second ice cream today.|זאת הגלידה השנייה שלי היום.
+sentence|משפט|n|Read the first sentence aloud.|תקרא את המשפט הראשון בקול.
+seventeen|שבע עשרה, שבעה עשר|n|My sister is seventeen years old.|אחותי בת שבע עשרה.
+seventy|שבעים|n|Grandma is seventy years old.|סבתא בת שבעים.
+rock|סלע|n|We sat on a big rock.|ישבנו על סלע גדול.
+sauce|רוטב|n|I like pasta with tomato sauce.|אני אוהב פסטה ברוטב עגבניות.
+sausage|נקניקייה|n|He ate a sausage at the party.|הוא אכל נקניקייה במסיבה.
+scarf|צעיף|n|Wear a scarf, it is cold outside.|תלבש צעיף, קר בחוץ.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -837,7 +850,11 @@ pure|טהור, נקי|a|The air in the mountains is pure.|האוויר בהרי�
 reach|להגיע, להושיט יד|v|I can't reach the top shelf.|אני לא מצליח להגיע למדף העליון.
 record|שיא|n|He broke the school record.|הוא שבר את השיא של בית הספר.
 recent|עדכני, מהזמן האחרון|a|This is a recent photo of my dog.|זאת תמונה עדכנית של הכלב שלי.
-remain|להישאר|v|Please remain in your seats.|בבקשה הישארו במקומות שלכם.`,
+remain|להישאר|v|Please remain in your seats.|בבקשה הישארו במקומות שלכם.
+remove|להסיר, להוציא|v|Please remove your shoes at the door.|בבקשה תורידו את הנעליים ליד הדלת.
+reply|לענות, להשיב|v|Please reply to my message.|בבקשה תענה להודעה שלי.
+roll|לגלגל, להתגלגל|v|The ball will roll down the hill.|הכדור יתגלגל במורד הגבעה.
+row|שורה|n|I sit in the first row.|אני יושב בשורה הראשונה.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1001,7 +1018,9 @@ quality|איכות|n|These shoes are of good quality.|הנעליים האלה ב
 range|טווח, מגוון|n|The shop has a wide range of toys.|בחנות יש מגוון רחב של צעצועים.
 reaction|תגובה|n|His reaction made us laugh.|התגובה שלו הצחיקה אותנו.
 reasonable|הגיוני, סביר|a|That is a reasonable price.|זה מחיר סביר.
-relations|יחסים|n|The two countries have good relations.|לשתי המדינות יש יחסים טובים.`,
+relations|יחסים|n|The two countries have good relations.|לשתי המדינות יש יחסים טובים.
+role|תפקיד|n|She got the main role in the play.|היא קיבלה את התפקיד הראשי בהצגה.
+scientific|מדעי|a|We did a scientific experiment in class.|עשינו ניסוי מדעי בכיתה.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
