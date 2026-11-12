@@ -180,7 +180,12 @@ animal|חיה|n|My favorite animal is the lion.|החיה האהובה עליי �
 another|עוד, אחר|o|Can I have another cookie?|אפשר לקבל עוד עוגייה?
 any|קצת, כלשהו|o|Is there any milk left?|נשאר קצת חלב?
 anyone|מישהו, כל אחד|o|Is anyone at home?|יש מישהו בבית?
-anything|משהו|o|Do you want anything to eat?|אתה רוצה משהו לאכול?`,
+anything|משהו|o|Do you want anything to eat?|אתה רוצה משהו לאכול?
+arm|זרוע, יד|n|I hurt my arm when I fell.|נפגעתי ביד כשנפלתי.
+art|אמנות|n|We paint pictures in art class.|אנחנו מציירים ציורים בשיעור אמנות.
+baby|תינוק|n|The baby is sleeping in her bed.|התינוקת ישנה במיטה שלה.
+back|גב|n|I carry my bag on my back.|אני סוחב את התיק שלי על הגב.
+ball|כדור|n|Throw the ball to me!|תזרוק לי את הכדור!`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -336,7 +341,15 @@ anyway|בכל מקרה|d|It was raining, but we played outside anyway.|ירד ג
 anywhere|בשום מקום, בכל מקום|d|I can't find my shoes anywhere.|אני לא מוצא את הנעליים שלי בשום מקום.
 cupboard|ארון|n|The cups are in the kitchen cupboard.|הכוסות בארון המטבח.
 curtain|וילון|n|Please close the curtain, the sun is too bright.|בבקשה סגרי את הווילון, השמש חזקה מדי.
-dentist|רופא שיניים|n|I go to the dentist twice a year.|אני הולך לרופא השיניים פעמיים בשנה.`,
+dentist|רופא שיניים|n|I go to the dentist twice a year.|אני הולך לרופא השיניים פעמיים בשנה.
+autumn|סתיו|n|The leaves fall in autumn.|העלים נושרים בסתיו.
+badly|רע, קשות|d|I slept badly last night.|ישנתי רע בלילה.
+bake|לאפות|v|Let's bake a cake for Mom.|בואו נאפה עוגה לאמא.
+banana|בננה|n|I eat a banana every morning.|אני אוכל בננה כל בוקר.
+band|להקה|n|My brother plays the drums in a band.|אחי מתופף בלהקה.
+dessert|קינוח|n|We had ice cream for dessert.|אכלנו גלידה לקינוח.
+diary|יומן|n|I write in my diary every night.|אני כותבת ביומן שלי כל ערב.
+dig|לחפור|v|The dog likes to dig in the garden.|הכלב אוהב לחפור בגינה.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -349,26 +362,26 @@ lonely|בודד|a|The old man felt lonely.|האיש הזקן הרגיש בודד
 nervous|לחוץ|a|I get nervous before a test.|אני נלחץ לפני מבחן.
 funny|מצחיק|a|That movie was really funny.|הסרט הזה היה ממש מצחיק.
 kind|אדיב|a|She is kind to everyone.|היא אדיבה לכולם.
-polite|מנומס|a|Always be polite to guests.
-honest|ישר|a|Please give me an honest answer.
-brave|אמיץ|a|The brave girl saved the cat.
-shy|ביישן|a|He is too shy to sing.
-lazy|עצלן|a|My lazy cat sleeps all day.
-strong|חזק|a|She is strong enough to lift it.
-weak|חלש|a|I felt weak after the flu.
-healthy|בריא|a|Vegetables keep you healthy.
-sick|חולה|a|I stayed home because I was sick.
-pain|כאב|n|I have a pain in my leg.
-headache|כאב ראש|n|Loud noise gives me a headache.
-stomach|קיבה|n|My stomach hurts.
-shoulder|כתף|n|She hurt her shoulder.
-knee|ברך|n|He fell and cut his knee.
-tooth|שן|n|My tooth fell out.
-blood|דם|n|There was blood on his shirt.
-medicine|תרופה|n|Take this medicine twice a day.
-doctor|רופא|n|The doctor checked my throat.
-laugh|לצחוק|v|Her jokes make me laugh.
-cry|לבכות|v|Sad movies make me cry.
+polite|מנומס|a|Always be polite to guests.|תמיד תהיו מנומסים לאורחים.
+honest|ישר|a|Please give me an honest answer.|בבקשה תן לי תשובה כנה.
+brave|אמיץ|a|The brave girl saved the cat.|הילדה האמיצה הצילה את החתול.
+shy|ביישן|a|He is too shy to sing.|הוא ביישן מדי בשביל לשיר.
+lazy|עצלן|a|My lazy cat sleeps all day.|החתול העצלן שלי ישן כל היום.
+strong|חזק|a|She is strong enough to lift it.|היא מספיק חזקה כדי להרים את זה.
+weak|חלש|a|I felt weak after the flu.|הרגשתי חלשה אחרי השפעת.
+healthy|בריא|a|Vegetables keep you healthy.|ירקות שומרים עליכם בריאים.
+sick|חולה|a|I stayed home because I was sick.|נשארתי בבית כי הייתי חולה.
+pain|כאב|n|I have a pain in my leg.|יש לי כאב ברגל.
+headache|כאב ראש|n|Loud noise gives me a headache.|רעש חזק עושה לי כאב ראש.
+stomach|קיבה|n|My stomach hurts.|הבטן שלי כואבת.
+shoulder|כתף|n|She hurt her shoulder.|היא נפגעה בכתף.
+knee|ברך|n|He fell and cut his knee.|הוא נפל ופצע את הברך שלו.
+tooth|שן|n|My tooth fell out.|השן שלי נפלה.
+blood|דם|n|There was blood on his shirt.|היה דם על החולצה שלו.
+medicine|תרופה|n|Take this medicine twice a day.|קחו את התרופה הזאת פעמיים ביום.
+doctor|רופא|n|The doctor checked my throat.|הרופא בדק לי את הגרון.
+laugh|לצחוק|v|Her jokes make me laugh.|הבדיחות שלה מצחיקות אותי.
+cry|לבכות|v|Sad movies make me cry.|סרטים עצובים גורמים לי לבכות.
 smile|לחייך|v|Smile for the camera!
 shout|לצעוק|v|Please don't shout at me.
 whisper|ללחוש|v|She began to whisper a secret.
@@ -462,7 +475,12 @@ crossing|מעבר חצייה|n|Wait at the crossing for the green light.|חכו 
 daily|יומי|a|Reading is part of my daily routine.|קריאה היא חלק מהשגרה היומית שלי.
 deal|עסקה|n|Two books for ten shekels is a good deal.|שני ספרים בעשרה שקלים זו עסקה טובה.
 degree|מעלה, תואר|n|Today it is one degree colder than yesterday.|היום קר במעלה אחת יותר מאתמול.
-delay|עיכוב|n|There was a delay, so the train came late.|היה עיכוב, אז הרכבת הגיעה באיחור.`,
+delay|עיכוב|n|There was a delay, so the train came late.|היה עיכוב, אז הרכבת הגיעה באיחור.
+description|תיאור|n|Write a short description of your room.|כתבו תיאור קצר של החדר שלכם.
+dictation|הכתבה|n|We have an English dictation tomorrow.|יש לנו הכתבה באנגלית מחר.
+difficulty|קושי|n|He climbed the hill with difficulty.|הוא טיפס על הגבעה בקושי.
+digital|דיגיטלי|a|My grandpa has a new digital camera.|לסבא שלי יש מצלמה דיגיטלית חדשה.
+directions|הוראות הגעה, הנחיות|n|We asked a man for directions to the station.|ביקשנו מאיש הוראות הגעה לתחנה.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -561,7 +579,9 @@ contract|חוזה|n|The player signed a contract with the team.|השחקן חת�
 credit|אשראי|n|Dad paid with a credit card.|אבא שילם בכרטיס אשראי.
 death|מוות|n|The death of our old dog made us very sad.|המוות של הכלב הזקן שלנו העציב אותנו מאוד.
 demand|לדרוש|v|The workers demand more money.|העובדים דורשים יותר כסף.
-dependent|תלוי|a|A baby is dependent on its parents.|תינוק תלוי בהורים שלו.`,
+dependent|תלוי|a|A baby is dependent on its parents.|תינוק תלוי בהורים שלו.
+differently|אחרת, באופן שונה|d|My sister and I dress differently.|אחותי ואני מתלבשות אחרת.
+diploma|תעודה|n|My brother got his diploma at the end of high school.|אחי קיבל את התעודה שלו בסוף התיכון.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.

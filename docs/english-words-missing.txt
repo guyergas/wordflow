@@ -1,17 +1,5 @@
 # Pre-Band I
 # Band I
-April
-arm
-art
-August
-autumn
-baby
-back
-badly
-bake
-ball
-banana
-band
 bank
 bath
 behind
@@ -650,16 +638,6 @@ yogurt
 yours
 zero
 # Band II Core I
-description
-dessert
-diary
-dictation
-differently
-difficulty
-dig
-digital
-diploma
-directions
 dirt
 discount
 discuss

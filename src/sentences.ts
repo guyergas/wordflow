@@ -256,7 +256,17 @@ My brother is as tall as my dad.|אחי גבוה כמו אבא שלי.
 She was late as usual.|היא איחרה כרגיל.
 I like cats as well as dogs.|אני אוהב חתולים וגם כלבים.
 Drink at least two glasses of water a day.|שתו לפחות שתי כוסות מים ביום.
-I am going to visit my grandma.|אני הולכת לבקר את סבתא שלי.`,
+I am going to visit my grandma.|אני הולכת לבקר את סבתא שלי.
+We stayed inside because of the rain.|נשארנו בפנים בגלל הגשם.
+I was born in Haifa.|נולדתי בחיפה.
+We are going to the park. Come along!|אנחנו הולכים לפארק. בואו איתנו!
+Dad comes home at six.|אבא חוזר הביתה בשש.
+Come in!|היכנסו!
+We eat dinner in the dining room.|אנחנו אוכלים ארוחת ערב בחדר האוכל.
+Do you mind if I open the window?|אכפת לך אם אפתח את החלון?
+Do you mind waiting a minute?|אכפת לך לחכות רגע?
+Enjoy yourself!|תיהנה!
+Everybody likes ice cream.|כולם אוהבים גלידה.`,
 };
 
 let n = 0;
