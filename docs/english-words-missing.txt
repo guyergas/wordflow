@@ -1,15 +1,5 @@
 # Pre-Band I
 # Band I
-suitcase
-supermarket
-true
-twice
-twin
-type
-umbrella
-unhappy
-university
-until
 unusual
 upstairs
 vacation
@@ -34,17 +24,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-internal
-introduction
-iron
-jar
-jet
-jungle
-killed
-knock
-Koran
-lab
-label
 labor
 lady
 lately

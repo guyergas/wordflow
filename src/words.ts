@@ -467,7 +467,10 @@ throw|לזרוק|v|Throw the ball to me!|זרוק אליי את הכדור!
 toilet|שירותים, אסלה|n|Where is the toilet, please?|איפה השירותים, בבקשה?
 tomato|עגבנייה|n|I put a red tomato in the salad.|שמתי עגבנייה אדומה בסלט.
 toothbrush|מברשת שיניים|n|My toothbrush is blue.|מברשת השיניים שלי כחולה.
-toy|צעצוע|n|The baby is playing with a toy.|התינוק משחק עם צעצוע.`,
+toy|צעצוע|n|The baby is playing with a toy.|התינוק משחק עם צעצוע.
+supermarket|סופרמרקט|n|We buy milk at the supermarket.|אנחנו קונים חלב בסופרמרקט.
+true|נכון, אמיתי|a|Is this story true?|הסיפור הזה אמיתי?
+umbrella|מטרייה|n|Take an umbrella, it is raining.|קח מטרייה, יורד גשם.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -1063,7 +1066,17 @@ thousand|אלף|n|There are a thousand books in the library.|יש אלף ספר�
 tights|גרביונים|n|She wore red tights under her dress.|היא לבשה גרביונים אדומים מתחת לשמלה.
 till|עד|o|We played outside till dinner.|שיחקנו בחוץ עד ארוחת הערב.
 town|עיירה, עיר|n|My grandma lives in a small town.|סבתא שלי גרה בעיירה קטנה.
-interested|מתעניין|a|I am interested in dinosaurs.|אני מתעניין בדינוזאורים.`,
+interested|מתעניין|a|I am interested in dinosaurs.|אני מתעניין בדינוזאורים.
+suitcase|מזוודה|n|I packed my suitcase for the trip.|ארזתי את המזוודה שלי לטיול.
+twice|פעמיים|d|I brush my teeth twice a day.|אני מצחצח שיניים פעמיים ביום.
+twin|תאום|n|My twin brother looks just like me.|אחי התאום נראה בדיוק כמוני.
+type|סוג; להקליד|n|What type of music do you like?|איזה סוג מוזיקה אתה אוהב?
+unhappy|לא מאושר, עצוב|a|The little boy looked unhappy.|הילד הקטן נראה לא מאושר.
+university|אוניברסיטה|n|My sister studies at the university.|אחותי לומדת באוניברסיטה.
+until|עד, עד ש|o|We waited until the rain stopped.|חיכינו עד שהגשם נפסק.
+jar|צנצנת|n|There is honey in the jar.|יש דבש בצנצנת.
+jungle|ג'ונגל|n|Tigers live in the jungle.|טיגריסים חיים בג'ונגל.
+knock|לדפוק|v|Please knock before you come in.|בבקשה לדפוק לפני שנכנסים.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1457,7 +1470,13 @@ housework|עבודות הבית|n|I help my parents with the housework.|אני �
 humor|הומור|n|My grandpa has a great sense of humor.|לסבא שלי יש חוש הומור נהדר.
 imagination|דמיון|n|You need a lot of imagination to write a story.|צריך הרבה דמיון כדי לכתוב סיפור.
 incorrect|לא נכון, שגוי|a|This answer is incorrect, try again.|התשובה הזאת לא נכונה, נסה שוב.
-injure|לפצוע|v|Be careful, or you will injure your knee.|תיזהר, אחרת תפצע את הברך.`,
+injure|לפצוע|v|Be careful, or you will injure your knee.|תיזהר, אחרת תפצע את הברך.
+introduction|הקדמה; היכרות|n|Read the introduction before the first chapter.|קראו את ההקדמה לפני הפרק הראשון.
+iron|ברזל; מגהץ|n|The old gate is made of iron.|השער הישן עשוי מברזל.
+jet|מטוס סילון|n|The jet flew high above the clouds.|מטוס הסילון טס גבוה מעל העננים.
+killed|הרג, נהרג|v|The cat killed a mouse in the garden.|החתול הרג עכבר בגינה.
+lab|מעבדה|n|We did an experiment in the science lab.|עשינו ניסוי במעבדת המדעים.
+label|תווית|n|Read the label on the bottle.|קרא את התווית על הבקבוק.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1735,7 +1754,8 @@ income|הכנסה|n|My parents work hard for their income.|ההורים שלי �
 indeed|אכן, באמת|d|It was indeed a very cold day.|זה אכן היה יום קר מאוד.
 individual|יחיד, פרט; אישי|n|Every individual in the class is special.|כל אחד בכיתה הוא מיוחד.
 institution|מוסד|n|The university is an important institution.|האוניברסיטה היא מוסד חשוב.
-intend|להתכוון|v|I intend to finish my homework tonight.|אני מתכוון לסיים את שיעורי הבית הערב.`,
+intend|להתכוון|v|I intend to finish my homework tonight.|אני מתכוון לסיים את שיעורי הבית הערב.
+internal|פנימי|a|The heart is an internal organ.|הלב הוא איבר פנימי.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
