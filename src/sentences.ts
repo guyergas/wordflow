@@ -386,7 +386,17 @@ I got back my ball from the neighbor.|קיבלתי בחזרה את הכדור ש
 My aunt will get married in June.|הדודה שלי תתחתן ביוני.
 I want to get to know my new classmates.|אני רוצה להכיר את החברים החדשים שלי בכיתה.
 Let's get together after school.|בואו ניפגש אחרי בית הספר.
-Please give back my pencil.|בבקשה תחזיר לי את העיפרון שלי.`,
+Please give back my pencil.|בבקשה תחזיר לי את העיפרון שלי.
+We will go abroad this summer.|ניסע לחו״ל בקיץ הזה.
+Let's go back home.|בואו נחזור הביתה.
+I want to be a doctor when I grow up.|אני רוצה להיות רופא כשאגדל.
+The teacher will hand out the tests.|המורה תחלק את המבחנים.
+It hardly ever snows here.|כמעט אף פעם לא יורד כאן שלג.
+I have to do my homework.|אני צריך להכין את שיעורי הבית.
+I have a question about the story.|יש לי שאלה על הסיפור.
+Let's have a talk after class.|בואו נדבר אחרי השיעור.
+It's getting dark, so we head back home.|מתחיל להחשיך, אז אנחנו חוזרים הביתה.
+I was happy to hear from my cousin.|שמחתי לשמוע מבן הדוד שלי.`,
 };
 
 let n = 0;

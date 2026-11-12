@@ -251,7 +251,14 @@ hair|שיער|n|She has long black hair.|יש לה שיער שחור וארוך.
 head|ראש|n|I put a hat on my head.|שמתי כובע על הראש.
 hear|לשמוע|v|I can hear the birds.|אני שומע את הציפורים.
 heart|לב|n|My heart beats fast when I run.|הלב שלי דופק מהר כשאני רץ.
-here|כאן|d|Come here, please.|בוא לכאן, בבקשה.`,
+here|כאן|d|Come here, please.|בוא לכאן, בבקשה.
+his|שלו|o|This is his bike.|אלה האופניים שלו.
+hers|שלה|o|The red bag is hers.|התיק האדום הוא שלה.
+hi|היי, שלום|o|Hi, my name is Dan.|היי, קוראים לי דן.
+hold|להחזיק|v|Hold my hand, please.|תחזיק לי את היד, בבקשה.
+home|בית, הביתה|n|I go home after school.|אני הולך הביתה אחרי בית הספר.
+horse|סוס|n|The horse runs fast.|הסוס רץ מהר.
+how|איך|o|How do you make a cake?|איך מכינים עוגה?`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -504,7 +511,13 @@ group|קבוצה, חבורה|n|We work in a group of four.|אנחנו עובדי
 guitar|גיטרה|n|My sister plays the guitar.|אחותי מנגנת בגיטרה.
 heavy|כבד|a|This box is too heavy.|הארגז הזה כבד מדי.
 lemonade|לימונדה|n|We drank cold lemonade.|שתינו לימונדה קרה.
-lick|ללקק|v|The dog likes to lick my hand.|הכלב אוהב ללקק לי את היד.`,
+lick|ללקק|v|The dog likes to lick my hand.|הכלב אוהב ללקק לי את היד.
+hey|הֵי (קריאה)|o|Hey, look at that bird!|הֵי, תראה את הציפור הזאת!
+hotel|מלון|n|We stayed in a hotel by the sea.|לנו במלון ליד הים.
+hundred|מאה|n|My grandpa is almost a hundred years old.|סבא שלי כמעט בן מאה.
+lion|אריה|n|The lion is the king of the jungle.|האריה הוא מלך הג'ונגל.
+lucky|בר מזל|a|I am lucky to have a dog.|יש לי מזל שיש לי כלב.
+lock|לנעול|v|Please lock the door.|בבקשה תנעל את הדלת.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -687,7 +700,12 @@ laptop|מחשב נייד|n|Dad works on his laptop.|אבא עובד על המח�
 latest|האחרון, החדש ביותר|a|Have you seen the latest movie?|ראית את הסרט החדש ביותר?
 lift|להרים|v|Can you lift this bag?|אתה יכול להרים את התיק הזה?
 level|רמה, שלב|n|I finished the next level of the game.|סיימתי את השלב הבא במשחק.
-lead|להוביל|v|The teacher will lead us to the bus.|המורה תוביל אותנו לאוטובוס.`,
+lead|להוביל|v|The teacher will lead us to the bus.|המורה תוביל אותנו לאוטובוס.
+mail|דואר|n|Did we get any mail today?|קיבלנו דואר היום?
+liter|ליטר|n|We need one liter of milk.|אנחנו צריכים ליטר אחד של חלב.
+main|ראשי, עיקרי|a|The main door is closed.|הדלת הראשית סגורה.
+marry|להתחתן|v|My uncle wants to marry his girlfriend.|הדוד שלי רוצה להתחתן עם החברה שלו.
+match|משחק (תחרות), גפרור|n|We watched the football match on TV.|צפינו במשחק הכדורגל בטלוויזיה.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -821,27 +839,29 @@ jail|כלא|n|The thief went to jail.|הגנב הלך לכלא.
 judge|שופט|n|The judge listened to both sides.|השופט הקשיב לשני הצדדים.
 largely|בעיקר, במידה רבה|d|The park is largely empty in winter.|הפארק ריק ברובו בחורף.
 lawyer|עורך דין|n|Her mom is a lawyer.|אמא שלה עורכת דין.
-limit|גבול, הגבלה|n|There is a limit of two cookies each.|יש הגבלה של שתי עוגיות לכל אחד.`,
-`knight|אביר|n|The knight rode a white horse.
-castle|טירה|n|The king lives in a castle.
-sword|חרב|n|He pulled out his sword.
-queen|מלכה|n|The queen wore a gold crown.
-treasure|אוצר|n|They found a hidden treasure.
-ghost|רוח רפאים|n|She saw a ghost in the mirror.
-stranger|זר (אדם)|n|A stranger knocked on our door.
-enemy|אויב|n|The two kings were each other's enemy.
-hero|גיבור|n|The hero saved the whole town.
-crowd|קהל|n|The crowd began to cheer.
-shadow|צל|n|I saw a shadow on the wall.
-silence|שקט מוחלט|n|There was a long silence.
-noise|רעש|n|What was that noise?
-smell|ריח|n|I love the smell of bread.
-sound|צליל|n|We heard a strange sound.
-escape|בריחה|n|Their escape was very clever.
-clue|רמז|n|The detective found a clue.
-mystery|תעלומה|n|The missing key is a mystery.
-journal|יומן|n|She writes in her journal at night.
-author|סופר|n|The author signed my book.
+limit|גבול, הגבלה|n|There is a limit of two cookies each.|יש הגבלה של שתי עוגיות לכל אחד.
+locate|לאתר|v|Can you locate Israel on the map?|אתה יכול לאתר את ישראל במפה?
+manage|להצליח (לעשות), לנהל|v|Did you manage to finish your homework?|הצלחת לסיים את שיעורי הבית?`,
+`knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
+castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
+sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
+queen|מלכה|n|The queen wore a gold crown.|המלכה חבשה כתר זהב.
+treasure|אוצר|n|They found a hidden treasure.|הם מצאו אוצר חבוי.
+ghost|רוח רפאים|n|She saw a ghost in the mirror.|היא ראתה רוח רפאים במראה.
+stranger|זר (אדם)|n|A stranger knocked on our door.|אדם זר דפק על הדלת שלנו.
+enemy|אויב|n|The two kings were each other's enemy.|שני המלכים היו אויבים זה של זה.
+hero|גיבור|n|The hero saved the whole town.|הגיבור הציל את כל העיר.
+crowd|קהל|n|The crowd began to cheer.|הקהל התחיל להריע.
+shadow|צל|n|I saw a shadow on the wall.|ראיתי צל על הקיר.
+silence|שקט מוחלט|n|There was a long silence.|היה שקט ארוך.
+noise|רעש|n|What was that noise?|מה היה הרעש הזה?
+smell|ריח|n|I love the smell of bread.|אני אוהב את הריח של לחם.
+sound|צליל|n|We heard a strange sound.|שמענו צליל מוזר.
+escape|בריחה|n|Their escape was very clever.|הבריחה שלהם הייתה מאוד חכמה.
+clue|רמז|n|The detective found a clue.|הבלש מצא רמז.
+mystery|תעלומה|n|The missing key is a mystery.|המפתח שנעלם הוא תעלומה.
+journal|יומן|n|She writes in her journal at night.|היא כותבת ביומן שלה בלילה.
+author|סופר|n|The author signed my book.|הסופר חתם על הספר שלי.
 character|דמות|n|Who is your favorite character?
 ending|סוף|n|The ending made me cry.
 fear|פחד|n|He hid his fear.
