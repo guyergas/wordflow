@@ -349,7 +349,14 @@ wall|קיר|n|There is a picture on the wall.|יש תמונה על הקיר.
 warm|חמים|a|The water is warm.|המים חמימים.
 watch|לצפות ב-|v|I watch cartoons after school.|אני צופה בסרטים מצוירים אחרי בית הספר.
 way|דרך|n|This is the way to the park.|זאת הדרך לפארק.
-vegetable|ירק|n|A carrot is a vegetable.|גזר הוא ירק.`,
+vegetable|ירק|n|A carrot is a vegetable.|גזר הוא ירק.
+we|אנחנו|o|We are best friends.|אנחנו החברים הכי טובים.
+week|שבוע|n|There are seven days in a week.|יש שבעה ימים בשבוע.
+what|מה|o|What is your name?|מה השם שלך?
+when|מתי|o|When is your birthday?|מתי יום ההולדת שלך?
+where|איפה|o|Where is my bag?|איפה התיק שלי?
+white|לבן|a|Snow is white.|השלג לבן.
+wear|ללבוש|v|I wear a coat in winter.|אני לובש מעיל בחורף.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -714,7 +721,12 @@ waitress|מלצרית|n|The waitress gave us the menu.|המלצרית נתנה �
 tie|עניבה|n|Dad wears a tie to work.|אבא עונב עניבה לעבודה.
 toe|בוהן|n|I hurt my big toe.|נפגעתי בבוהן הגדולה.
 toast|טוסט, לחם קלוי|n|I eat toast for breakfast.|אני אוכל טוסט לארוחת בוקר.
-tongue|לשון|n|The dog has a pink tongue.|לכלב יש לשון ורודה.`,
+tongue|לשון|n|The dog has a pink tongue.|לכלב יש לשון ורודה.
+well|היטב, טוב|d|She sings very well.|היא שרה טוב מאוד.
+west|מערב|n|The sun sets in the west.|השמש שוקעת במערב.
+touch|לגעת|v|Don't touch the hot stove.|אל תיגע בכיריים החמות.
+tower|מגדל|n|We built a tall tower of blocks.|בנינו מגדל גבוה מקוביות.
+trousers|מכנסיים ארוכים|n|My trousers are too long.|המכנסיים שלי ארוכים מדי.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -970,7 +982,12 @@ themselves|בעצמם, בעצמן|o|The children made the cake themselves.|הי�
 toothpaste|משחת שיניים|n|We need a new tube of toothpaste.|אנחנו צריכים שפופרת חדשה של משחת שיניים.
 toothache|כאב שיניים|n|I have a bad toothache.|יש לי כאב שיניים חזק.
 tin|קופסת פח|n|The cookies are in a tin.|העוגיות בקופסת פח.
-title|שם (של ספר או סרט), כותרת|n|What is the title of the book?|מה השם של הספר?`,
+title|שם (של ספר או סרט), כותרת|n|What is the title of the book?|מה השם של הספר?
+tour|סיור|n|We went on a tour of the museum.|יצאנו לסיור במוזיאון.
+tram|רכבת קלה, חשמלית|n|We took the tram to the city center.|נסענו ברכבת הקלה למרכז העיר.
+treat|פינוק|n|Ice cream is a special treat.|גלידה היא פינוק מיוחד.
+trouble|צרה, בעיה|n|The puppy got into trouble.|הגור הסתבך בצרות.
+traveler|מטייל, נוסע|n|The traveler carried a big bag.|המטייל סחב תיק גדול.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1156,7 +1173,9 @@ teaching|הוראה|n|My mom loves teaching.|אמא שלי אוהבת את עב�
 though|למרות ש-|o|I went out, though it was cold.|יצאתי החוצה, למרות שהיה קר.
 threat|איום|n|Pollution is a threat to the sea.|זיהום הוא איום על הים.
 timetable|לוח זמנים, מערכת שעות|n|Check the timetable for the next bus.|תבדוק בלוח הזמנים מתי האוטובוס הבא.
-topic|נושא|n|The topic of my project is space.|הנושא של העבודה שלי הוא החלל.`,
+topic|נושא|n|The topic of my project is space.|הנושא של העבודה שלי הוא החלל.
+total|סכום כולל, סך הכול|n|The total is fifty shekels.|הסכום הכולל הוא חמישים שקלים.
+trade|מסחר|n|Trade between the two countries grew.|המסחר בין שתי המדינות גדל.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1317,26 +1336,26 @@ amount|כמות|n|That is a huge amount of sugar.|זאת כמות עצומה ש�
 average|ממוצע|n|My average went up.|הממוצע שלי עלה.
 percent|אחוז|n|Ten percent of us were absent.|עשרה אחוזים מאיתנו נעדרו.
 global|עולמי|a|This is a global problem.|זאת בעיה עולמית.
-local|מקומי|a|We buy from a local farm.
-modern|מודרני|a|They live in a modern building.
-natural|טבעי|a|This juice is natural.
-public|ציבורי|a|This is a public park.
-private|פרטי|a|This is a private beach.
-powerful|עוצמתי|a|This is a powerful computer.
-rapid|מהיר|a|The town saw rapid growth.
-rare|נדיר|a|This is a rare bird.
-measure|למדוד|v|We measure the room.
-invent|להמציא|v|Who did invent the telephone?
-develop|לפתח|v|They develop new games.
-produce|לייצר|v|Bees produce honey.
-increase|להגדיל|v|We need to increase our speed.
-reduce|להפחית|v|We must reduce waste.
-recycle|למחזר|v|We recycle paper and glass.
-vote|להצביע|v|Adults can vote in the election.
-predict|לחזות|v|Nobody can predict the future.
-affect|להשפיע על|v|Sleep can affect your mood.
-depend|להיות תלוי|v|Plants depend on the sun.
-survive|לשרוד|v|Few animals survive here.`,
+local|מקומי|a|We buy from a local farm.|אנחנו קונים מחווה מקומית.
+modern|מודרני|a|They live in a modern building.|הם גרים בבניין מודרני.
+natural|טבעי|a|This juice is natural.|המיץ הזה טבעי.
+public|ציבורי|a|This is a public park.|זה פארק ציבורי.
+private|פרטי|a|This is a private beach.|זה חוף פרטי.
+powerful|עוצמתי|a|This is a powerful computer.|זה מחשב עוצמתי.
+rapid|מהיר|a|The town saw rapid growth.|העיירה גדלה בקצב מהיר.
+rare|נדיר|a|This is a rare bird.|זאת ציפור נדירה.
+measure|למדוד|v|We measure the room.|אנחנו מודדים את החדר.
+invent|להמציא|v|Who did invent the telephone?|מי המציא את הטלפון?
+develop|לפתח|v|They develop new games.|הם מפתחים משחקים חדשים.
+produce|לייצר|v|Bees produce honey.|דבורים מייצרות דבש.
+increase|להגדיל|v|We need to increase our speed.|אנחנו צריכים להגביר את המהירות שלנו.
+reduce|להפחית|v|We must reduce waste.|אנחנו חייבים להפחית פסולת.
+recycle|למחזר|v|We recycle paper and glass.|אנחנו ממחזרים נייר וזכוכית.
+vote|להצביע|v|Adults can vote in the election.|מבוגרים יכולים להצביע בבחירות.
+predict|לחזות|v|Nobody can predict the future.|אף אחד לא יכול לחזות את העתיד.
+affect|להשפיע על|v|Sleep can affect your mood.|שינה יכולה להשפיע על מצב הרוח שלך.
+depend|להיות תלוי|v|Plants depend on the sun.|צמחים תלויים בשמש.
+survive|לשרוד|v|Few animals survive here.|מעט בעלי חיים שורדים כאן.`,
 `achievement|הישג|n|Winning the prize was a big achievement.
 advantage|יתרון|n|Being tall is an advantage in basketball.
 disadvantage|חיסרון|n|The only disadvantage is the price.

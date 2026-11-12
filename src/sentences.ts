@@ -556,7 +556,17 @@ We consider him a good friend.|אנחנו מחשיבים אותו לחבר טו�
 The team consists of five players.|הקבוצה מורכבת מחמישה שחקנים.
 They cut down the old tree.|הם כרתו את העץ הישן.
 Music is part of my daily life.|מוזיקה היא חלק מחיי היומיום שלי.
-I can deal with this problem.|אני יכול להתמודד עם הבעיה הזאת.`,
+I can deal with this problem.|אני יכול להתמודד עם הבעיה הזאת.
+Dear Madam|גברתי הנכבדה
+Dear Sir|אדוני הנכבד
+You can depend on me.|אתה יכול לסמוך עליי.
+We read a dialogue in class.|קראנו דיאלוג בכיתה.
+I did well on the test.|הצלחתי במבחן.
+Just do your best!|פשוט תעשה כמיטב יכולתך!
+Drag and drop the picture.|גרור ושחרר את התמונה.
+My sister got her driving license.|אחותי קיבלה רישיון נהיגה.
+The game was canceled due to rain.|המשחק בוטל בגלל הגשם.
+You can have either juice or milk.|אתה יכול לקבל מיץ או חלב.`,
 };
 
 let n = 0;
