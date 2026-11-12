@@ -1,15 +1,5 @@
 # Pre-Band I
 # Band I
-phone
-photo
-pick
-piece
-pig
-pilot
-plastic
-platform
-pleasant
-pocket
 point
 police
 pour
@@ -125,16 +115,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-divide
-documentary
-dolphin
-domestic
-dot
-download
-downtown
-drama
-dressed
-drug
 dust
 duty-free
 eastern

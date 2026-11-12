@@ -431,7 +431,11 @@ number|מספר|n|Seven is my lucky number.|שבע הוא מספר המזל של
 nurse|אח, אחות (בבית חולים)|n|The nurse gave me a bandage.|האחות נתנה לי תחבושת.
 other|אחר|a|Where is my other shoe?|איפה הנעל השנייה שלי?
 outside|בחוץ|d|Let's play outside!|בואו נשחק בחוץ!
-paint|צבע; לצבוע|v|Let's paint a picture.|בואו נצייר ציור בצבעים.`,
+paint|צבע; לצבוע|v|Let's paint a picture.|בואו נצייר ציור בצבעים.
+phone|טלפון|n|Mom is talking on the phone.|אמא מדברת בטלפון.
+photo|תמונה, צילום|n|I took a photo of my dog.|צילמתי תמונה של הכלב שלי.
+pig|חזיר|n|The pig is rolling in the mud.|החזיר מתגלגל בבוץ.
+pocket|כיס|n|I put the key in my pocket.|שמתי את המפתח בכיס שלי.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -957,7 +961,13 @@ part|חלק|n|This is my favorite part of the movie.|זה החלק האהוב ע
 pay|לשלם|v|Dad will pay for the ice cream.|אבא ישלם על הגלידה.
 perfect|מושלם|a|The weather is perfect for the beach.|מזג האוויר מושלם לים.
 perhaps|אולי, ייתכן|d|Perhaps it will rain tomorrow.|ייתכן שמחר ירד גשם.
-person|אדם|n|She is a very kind person.|היא אדם טוב לב מאוד.`,
+person|אדם|n|She is a very kind person.|היא אדם טוב לב מאוד.
+pick|לבחור; לקטוף|v|You can pick a book from the shelf.|אתה יכול לבחור ספר מהמדף.
+piece|חתיכה|n|Can I have a piece of cake?|אפשר לקבל חתיכת עוגה?
+pilot|טייס|n|The pilot flies the plane.|הטייס מטיס את המטוס.
+plastic|פלסטיק|n|This cup is made of plastic.|הכוס הזאת עשויה מפלסטיק.
+platform|רציף; במה|n|We waited for the train on the platform.|חיכינו לרכבת על הרציף.
+pleasant|נעים|a|We had a pleasant day at the park.|היה לנו יום נעים בפארק.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1301,7 +1311,14 @@ desktop|שולחן העבודה (במחשב)|n|The game is on the desktop of my 
 detail|פרט|n|She drew every detail of the flower.|היא ציירה כל פרט של הפרח.
 detective|בלש|n|The detective found the missing ring.|הבלש מצא את הטבעת שנעלמה.
 disagree|לא להסכים|v|I disagree with you about the movie.|אני לא מסכים איתך לגבי הסרט.
-dive|לצלול, לקפוץ למים|v|I can dive into the pool.|אני יודע לקפוץ למים בבריכה.`,
+dive|לצלול, לקפוץ למים|v|I can dive into the pool.|אני יודע לקפוץ למים בבריכה.
+divide|לחלק|v|Let's divide the pizza into eight slices.|בואו נחלק את הפיצה לשמונה משולשים.
+dolphin|דולפין|n|The dolphin jumped out of the water.|הדולפין קפץ מתוך המים.
+dot|נקודה|n|Draw a small dot in the middle of the page.|צייר נקודה קטנה באמצע הדף.
+download|להוריד (מהאינטרנט)|v|I want to download a new game.|אני רוצה להוריד משחק חדש.
+downtown|למרכז העיר, במרכז העיר|d|We took the bus downtown.|נסענו באוטובוס למרכז העיר.
+drama|דרמה, תיאטרון|n|She loves her drama class at school.|היא אוהבת את שיעור הדרמה שלה בבית הספר.
+dressed|לבוש|a|He was dressed in a blue shirt.|הוא היה לבוש בחולצה כחולה.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1555,7 +1572,10 @@ desire|רצון עז, תשוקה|n|He has a strong desire to fly.|יש לו רצ
 diet|תזונה; דיאטה|n|A healthy diet has lots of vegetables.|בתזונה בריאה יש הרבה ירקות.
 disappoint|לאכזב|v|I don't want to disappoint my coach.|אני לא רוצה לאכזב את המאמן שלי.
 display|תצוגה; להציג|n|The museum has a display of old toys.|במוזיאון יש תצוגה של צעצועים ישנים.
-district|מחוז, אזור|n|We live in a quiet district of the city.|אנחנו גרים באזור שקט בעיר.`,
+district|מחוז, אזור|n|We live in a quiet district of the city.|אנחנו גרים באזור שקט בעיר.
+documentary|סרט תיעודי|n|We watched a documentary about whales.|צפינו בסרט תיעודי על לווייתנים.
+domestic|ביתי; פנים-ארצי|a|A dog is a domestic animal.|כלב הוא חיית בית.
+drug|תרופה; סם|n|The doctor gave him a drug for the pain.|הרופא נתן לו תרופה נגד הכאב.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
