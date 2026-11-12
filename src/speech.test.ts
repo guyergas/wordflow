@@ -71,6 +71,8 @@ describe('letter names said alone', () => {
     expect(forSpeech('תָּו')).toBe('תָּב');
     expect(forSpeech('הָאוֹת תָּו')).toBe('האות תָּב');
     expect(forSpeech('שִׁין')).toBe('שִׁן');
+    expect(forSpeech('הָאוֹת לָמֶד')).toBe('האות לַאמֶד');
+    expect(forSpeech('לָמַד')).toBe('למד');
     expect(speechRate('הָאוֹת חֵית')).toBeUndefined();
     expect(speechRate('חָתוּל')).toBeUndefined();
     expect(recordingName('חֵית', 'he')).not.toBe(recordingName('הָאוֹת חֵית', 'he'));

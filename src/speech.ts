@@ -17,7 +17,7 @@ const MARKS_ALL = /[\u0591-\u05C7]/g;
  * dropped wherever it does not change the sound. It stays in ב, כ and פ, where it is the difference between b and v.
  */
 /** Letter names Guy chose a different spelling for by ear. */
-const SPOKEN: Record<string, string> = { 'תָּו': 'תָּב', 'שִׁין': 'שִׁן' };
+const SPOKEN: Record<string, string> = { 'תָּו': 'תָּב', 'שִׁין': 'שִׁן', 'לָמֶד': 'לַאמֶד' };
 const noDagesh = (w: string) => w.replace(/([^בכפ\u05B0-\u05C7][\u05B0-\u05BB\u05C1\u05C2]*)\u05BC/g, '$1');
 const KEEP: Record<string, string> = Object.fromEntries(LETTERS.map((l) => [l.say.replace(MARKS_ALL, ''), l.say]));
 
@@ -99,11 +99,5 @@ export interface Trial { text: string; rate: string; note: string; voice?: strin
 const speeds = (text: string): Trial[] => [
   { text, rate: '-10%', note: 'כמו היום (איטי)' }, { text, rate: '+0%', note: 'מהירות רגילה' }, { text, rate: '+15%', note: 'קצת מהר' }, { text, rate: '+30%', note: 'מהר' },
 ];
-// ל: לָמֶד is stressed on its first syllable, and the voice stresses the second. Niqqud has marks for stress.
-export const TRIALS: { label: string; options: Trial[] }[] = [
-  { label: 'ל (לָמֶד)', options: [
-    { text: 'לָֽמֶד', rate: '+15%', note: 'מתג' }, { text: 'לָ֥מֶד', rate: '+15%', note: 'טעם מרכא' }, { text: 'לָ֣מֶד', rate: '+15%', note: 'טעם מונח' },
-    { text: 'לָ֫מֶד', rate: '+15%', note: 'סימן הטעמה' }, { text: 'לָה מֶד', rate: '+15%', note: 'בשתי מילים' }, { text: 'לַאמֶד', rate: '+15%', note: 'עם א' },
-    { text: 'לָמֶד', rate: '+15%', note: 'קול גברי', voice: 'he-IL-AvriNeural' }, { text: 'לָֽמֶד', rate: '+15%', note: 'קול גברי עם מתג', voice: 'he-IL-AvriNeural' }] },
-];
+export const TRIALS: { label: string; options: Trial[] }[] = [];
 export const trialName = (t: Trial) => audioName(`trial|${t.rate}|${t.voice ?? ''}|${t.text}`);
