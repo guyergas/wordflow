@@ -406,7 +406,17 @@ In case of fire, use the stairs.|במקרה של שריפה, השתמשו במד
 The car is parked in front of the house.|המכונית חונה מול הבית.
 The prince is in love with the princess.|הנסיך מאוהב בנסיכה.
 In the end, we found the lost dog.|בסוף מצאנו את הכלב האבוד.
-We got to school just in time.|הגענו לבית הספר בדיוק בזמן.`,
+We got to school just in time.|הגענו לבית הספר בדיוק בזמן.
+Cut the apple in half.|חתוך את התפוח לחצי.
+It looks like it's going to rain.|נראה שעומד לרדת גשם.
+It depends on the weather.|זה תלוי במזג האוויר.
+Just a moment, please.|רק רגע, בבקשה.
+The plants died because of a lack of water.|הצמחים מתו בגלל מחסור במים.
+It isn't nice to laugh at people.|לא יפה לצחוק על אנשים.
+Don't leave out any words.|אל תדלג על אף מילה.
+Please let me know when you get home.|בבקשה תודיע לי כשתגיע הביתה.
+My dad has a driving license.|לאבא שלי יש רישיון נהיגה.
+Let's look around the old city.|בואו נסתובב בעיר העתיקה.`,
 };
 
 let n = 0;
