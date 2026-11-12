@@ -2,16 +2,6 @@
 # Band I
 suitcase
 supermarket
-sure
-surname
-surprise
-sweet
-taxi
-television
-tell
-tennis
-text
-thank
 theirs
 thousand
 throw
@@ -54,16 +44,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-handle
-handsome
-happiness
-heat
-hire
-historical
-honor
-household
-housework
-humor
 illegal
 imagination
 income

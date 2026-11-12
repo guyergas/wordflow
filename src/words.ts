@@ -456,7 +456,13 @@ skirt|חצאית|n|She wore a blue skirt to school.|היא לבשה חצאית �
 snack|חטיף|n|I eat an apple as a snack.|אני אוכל תפוח בתור חטיף.
 snake|נחש|n|The snake is long and green.|הנחש ארוך וירוק.
 soup|מרק|n|Mom made hot soup for dinner.|אמא הכינה מרק חם לארוחת הערב.
-star|כוכב|n|I can see a bright star in the sky.|אני רואה כוכב בהיר בשמיים.`,
+star|כוכב|n|I can see a bright star in the sky.|אני רואה כוכב בהיר בשמיים.
+sweet|מתוק|a|This cake is very sweet.|העוגה הזאת מתוקה מאוד.
+taxi|מונית|n|We took a taxi to the airport.|לקחנו מונית לשדה התעופה.
+television|טלוויזיה|n|We watch television in the evening.|אנחנו צופים בטלוויזיה בערב.
+tell|לספר; להגיד|v|Please tell me a story.|בבקשה ספר לי סיפור.
+tennis|טניס|n|I play tennis with my sister.|אני משחק טניס עם אחותי.
+thank|להודות|v|I want to thank you for the gift.|אני רוצה להודות לך על המתנה.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -1040,7 +1046,13 @@ subject|מקצוע (לימוד); נושא|n|Math is my favorite subject.|חשב�
 suit|חליפה|n|Grandpa wore a black suit to the wedding.|סבא לבש חליפה שחורה לחתונה.
 future|עתיד|n|In the future, I want to be a doctor.|בעתיד אני רוצה להיות רופא.
 garage|מוסך; חניה מקורה|n|Dad keeps the car in the garage.|אבא שומר את המכונית בחניה המקורה.
-haircut|תספורת|n|I got a new haircut today.|עשיתי היום תספורת חדשה.`,
+haircut|תספורת|n|I got a new haircut today.|עשיתי היום תספורת חדשה.
+sure|בטוח|a|Are you sure the door is closed?|אתה בטוח שהדלת סגורה?
+surname|שם משפחה|n|My surname is Cohen.|שם המשפחה שלי הוא כהן.
+surprise|הפתעה|n|We made a surprise party for Mom.|עשינו לאמא מסיבת הפתעה.
+text|טקסט; הודעה|n|Read the text and answer the questions.|קראו את הטקסט וענו על השאלות.
+handsome|נאה, יפה תואר|a|The prince in the story is very handsome.|הנסיך בסיפור נאה מאוד.
+heat|חום|n|The heat of the sun made us tired.|חום השמש עייף אותנו.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1427,7 +1439,11 @@ fuel|דלק|n|The car needs more fuel.|המכונית צריכה עוד דלק.
 gallery|גלריה|n|We saw beautiful paintings at the gallery.|ראינו ציורים יפים בגלריה.
 gay|הומו, גיי|a|My uncle is gay, and he lives with his husband.|הדוד שלי הומו, והוא גר עם בעלו.
 greet|לברך, לקבל בברכה|v|We greet our teacher every morning.|אנחנו מברכים את המורה שלנו כל בוקר.
-guilty|אשם|a|The dog looked guilty after it ate my shoe.|הכלב נראה אשם אחרי שאכל את הנעל שלי.`,
+guilty|אשם|a|The dog looked guilty after it ate my shoe.|הכלב נראה אשם אחרי שאכל את הנעל שלי.
+handle|להתמודד; ידית|v|I can handle this problem by myself.|אני יכול להתמודד עם הבעיה הזאת לבד.
+happiness|אושר|n|Her face was full of happiness.|הפנים שלה היו מלאות אושר.
+housework|עבודות הבית|n|I help my parents with the housework.|אני עוזר להורים שלי בעבודות הבית.
+humor|הומור|n|My grandpa has a great sense of humor.|לסבא שלי יש חוש הומור נהדר.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1695,7 +1711,11 @@ external|חיצוני|a|The external walls of the house are white.|הקירות 
 frequently|לעתים קרובות|d|We frequently visit our grandparents.|אנחנו מבקרים את סבא וסבתא לעתים קרובות.
 goods|סחורה, מוצרים|n|The truck brings goods to the shop.|המשאית מביאה סחורה לחנות.
 grant|להעניק; מענק|v|The king will grant you one wish.|המלך יעניק לך משאלה אחת.
-grounds|שטח, מגרש|n|The school grounds are big and green.|שטח בית הספר גדול וירוק.`,
+grounds|שטח, מגרש|n|The school grounds are big and green.|שטח בית הספר גדול וירוק.
+hire|לשכור, להעסיק|v|The shop wants to hire a new worker.|החנות רוצה להעסיק עובד חדש.
+historical|היסטורי|a|We visited a historical building in Jerusalem.|ביקרנו בבניין היסטורי בירושלים.
+honor|כבוד|n|It is an honor to meet you.|זה כבוד לפגוש אותך.
+household|משק בית|n|Everyone in our household helps with the dishes.|כולם במשק הבית שלנו עוזרים בשטיפת הכלים.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
