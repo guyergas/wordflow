@@ -283,7 +283,13 @@ name|שם|n|Her name is Noa.|השם שלה הוא נועה.
 neck|צוואר|n|The giraffe has a long neck.|לג'ירפה יש צוואר ארוך.
 need|להיות צריך|v|I need a new pencil.|אני צריך עיפרון חדש.
 nice|נחמד|a|She is a nice girl.|היא ילדה נחמדה.
-nine|תשע|n|My little brother is nine years old.|אחי הקטן בן תשע.`,
+nine|תשע|n|My little brother is nine years old.|אחי הקטן בן תשע.
+now|עכשיו|d|Let's go home now.|בואו נלך הביתה עכשיו.
+one|אחד, אחת|n|I have one sister.|יש לי אחות אחת.
+or|או|o|Do you want tea or juice?|אתה רוצה תה או מיץ?
+orange|תפוז, כתום|n|I eat an orange every morning.|אני אוכל תפוז כל בוקר.
+our|שלנו|o|This is our house.|זה הבית שלנו.
+out|החוצה, בחוץ|d|The kids went out to play.|הילדים יצאו החוצה לשחק.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -563,7 +569,14 @@ nineteen|תשע עשרה|n|There are nineteen kids in my class.|יש תשעה ע
 ninety|תשעים|n|My great-grandma is ninety years old.|סבתא רבתא שלי בת תשעים.
 nobody|אף אחד|o|Nobody was at home.|אף אחד לא היה בבית.
 ourselves|בעצמנו|o|We built the tree house ourselves.|בנינו את בית העץ בעצמנו.
-pear|אגס|n|I ate a sweet pear.|אכלתי אגס מתוק.`,
+pear|אגס|n|I ate a sweet pear.|אכלתי אגס מתוק.
+office|משרד|n|My mom works in an office.|אמא שלי עובדת במשרד.
+once|פעם אחת|d|I have been to Eilat once.|הייתי באילת פעם אחת.
+only|רק, היחיד|d|I have only one pencil.|יש לי רק עיפרון אחד.
+ours|שייך לנו|o|That ball is ours.|הכדור הזה שלנו.
+pepper|פלפל|n|Mom put pepper in the soup.|אמא שמה פלפל במרק.
+piano|פסנתר|n|My sister plays the piano.|אחותי מנגנת בפסנתר.
+playground|גן שעשועים|n|We met at the playground.|נפגשנו בגן השעשועים.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -772,7 +785,10 @@ organize|לארגן|v|Let's organize a party.|בואו נארגן מסיבה.
 original|מקורי|a|What an original idea!|איזה רעיון מקורי!
 package|אריזה, חבילה|n|Read what it says on the package.|תקרא מה כתוב על האריזה.
 palace|ארמון|n|The queen lives in a big palace.|המלכה גרה בארמון גדול.
-patient|סבלני|a|Be patient, the cake is almost ready.|תהיה סבלני, העוגה כמעט מוכנה.`,
+patient|סבלני|a|Be patient, the cake is almost ready.|תהיה סבלני, העוגה כמעט מוכנה.
+personal|אישי|a|A diary is very personal.|יומן הוא דבר אישי מאוד.
+physical|גופני|a|Running is good physical exercise.|ריצה היא פעילות גופנית טובה.
+pleased|מרוצה|a|The teacher was pleased with my work.|המורה הייתה מרוצה מהעבודה שלי.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -921,7 +937,11 @@ organization|ארגון|n|She works for an organization that helps animals.|הי
 owe|להיות חייב|v|I owe you five shekels.|אני חייב לך חמישה שקלים.
 passenger|נוסע|n|Every passenger on the bus has a seat.|לכל נוסע באוטובוס יש מושב.
 path|שביל|n|We walked along the path in the forest.|הלכנו לאורך השביל ביער.
-pattern|דוגמה, דפוס|n|I like the pattern on your shirt.|אני אוהב את הדוגמה על החולצה שלך.`,
+pattern|דוגמה, דפוס|n|I like the pattern on your shirt.|אני אוהב את הדוגמה על החולצה שלך.
+pension|פנסיה|n|My grandpa lives on his pension.|סבא שלי חי מהפנסיה שלו.
+period|תקופה|n|We lived in Haifa for a short period.|גרנו בחיפה לתקופה קצרה.
+petrol|דלק, בנזין|n|The car needs petrol.|המכונית צריכה דלק.
+physics|פיזיקה|n|My brother studies physics.|אחי לומד פיזיקה.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

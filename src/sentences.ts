@@ -436,7 +436,17 @@ Please be on time.|בבקשה תגיעו בזמן.
 The friends helped one another.|החברים עזרו זה לזה.
 One day I will be a pilot.|יום אחד אני אהיה טייס.
 Let's watch a movie or something.|בוא נראה סרט או משהו.
-The lift is out of order.|המעלית לא עובדת.`,
+The lift is out of order.|המעלית לא עובדת.
+The party starts at 5 p.m.|המסיבה מתחילה בחמש אחר הצהריים.
+My pajamas have stars on them.|על הפיג'מה שלי יש כוכבים.
+This is part of the game.|זה חלק מהמשחק.
+Can you pick me up from school?|אתה יכול לאסוף אותי מבית הספר?
+The long line put me off.|התור הארוך הוריד לי את החשק.
+Don't put off your homework.|אל תדחה את שיעורי הבית.
+Put on your coat, it's cold.|תלבש את המעיל, קר בחוץ.
+We put on a show for our parents.|העלינו הצגה בשביל ההורים שלנו.
+Grandma can put us up for the night.|סבתא יכולה לארח אותנו ללילה.
+Please put it in writing.|בבקשה תעלה את זה על הכתב.`,
 };
 
 let n = 0;
