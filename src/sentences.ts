@@ -316,7 +316,17 @@ Nobody knows the future.|אף אחד לא יודע מה יהיה בעתיד.
 We live on the ground floor.|אנחנו גרים בקומת הקרקע.
 The ball is in the middle of the room.|הכדור נמצא באמצע החדר.
 The moon is bright tonight.|הירח בהיר הלילה.
-Dad watches the news every evening.|אבא צופה בחדשות כל ערב.`,
+Dad watches the news every evening.|אבא צופה בחדשות כל ערב.
+We learn about the past in history class.|אנחנו לומדים על העבר בשיעור היסטוריה.
+Try to enjoy the present.|נסו ליהנות מההווה.
+Always tell the truth.|תמיד תגיד את האמת.
+I read the whole of the book in one day.|קראתי את כל הספר ביום אחד.
+I ate too much candy.|אכלתי יותר מדי ממתקים.
+Thank you very much!|תודה רבה!
+I help Mom wash up after dinner.|אני עוזרת לאמא לשטוף כלים אחרי ארוחת הערב.
+I am a little bit tired.|אני קצת עייף.
+What a pity!|חבל!
+It is a shame you can't come.|חבל שאתה לא יכול לבוא.`,
 };
 
 let n = 0;

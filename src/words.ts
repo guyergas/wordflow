@@ -214,7 +214,13 @@ coffee|קפה|n|Mom drinks coffee every morning.|אמא שותה קפה כל ב�
 come|לבוא|v|Please come to my party.|בבקשה תבוא למסיבה שלי.
 computer|מחשב|n|I play games on the computer.|אני משחק משחקים במחשב.
 cook|לבשל|v|Dad likes to cook pasta.|אבא אוהב לבשל פסטה.
-cow|פרה|n|The cow gives us milk.|הפרה נותנת לנו חלב.`,
+cow|פרה|n|The cow gives us milk.|הפרה נותנת לנו חלב.
+daddy|אבא|n|My daddy reads me a story every night.|אבא שלי מקריא לי סיפור כל לילה.
+dark|חשוך, כהה|a|It is dark outside at night.|בלילה חשוך בחוץ.
+day|יום|n|Today is a sunny day.|היום יום שמשי.
+dinner|ארוחת ערב|n|We eat dinner at seven.|אנחנו אוכלים ארוחת ערב בשבע.
+down|למטה|d|The cat jumped down from the table.|החתול קפץ למטה מהשולחן.
+draw|לצייר|v|I like to draw cats.|אני אוהב לצייר חתולים.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -418,7 +424,14 @@ customer|לקוח|n|The first customer bought bread.|הלקוח הראשון ק�
 flag|דגל|n|The flag is blue and white.|הדגל כחול ולבן.
 fix|לתקן|v|Dad can fix my bike.|אבא יכול לתקן את האופניים שלי.
 free|חופשי, חינם|a|The tickets are free for children.|הכרטיסים בחינם לילדים.
-fresh|טרי|a|We bought fresh bread.|קנינו לחם טרי.`,
+fresh|טרי|a|We bought fresh bread.|קנינו לחם טרי.
+date|תאריך|n|What is the date today?|מה התאריך היום?
+daughter|בת|n|She has one daughter and two sons.|יש לה בת אחת ושני בנים.
+document|מסמך|n|Mom signed an important document.|אמא חתמה על מסמך חשוב.
+dollar|דולר|n|This toy costs one dollar.|הצעצוע הזה עולה דולר אחד.
+gas|גז, דלק|n|The car needs gas.|המכונית צריכה דלק.
+garbage|זבל|n|Please take out the garbage.|בבקשה תוציא את הזבל.
+geography|גאוגרפיה|n|In geography we learn about maps.|בגאוגרפיה אנחנו לומדים על מפות.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -568,7 +581,11 @@ fit|להתאים במידה|v|My old shoes do not fit me.|הנעליים היש�
 flour|קמח|n|We need flour to make a cake.|אנחנו צריכים קמח כדי להכין עוגה.
 fog|ערפל|n|We could not see the hills in the fog.|לא יכולנו לראות את הגבעות בערפל.
 forward|קדימה|d|Take one step forward.|תעשה צעד אחד קדימה.
-friendship|חברות|n|Their friendship started in first grade.|החברות שלהם התחילה בכיתה א'.`,
+friendship|חברות|n|Their friendship started in first grade.|החברות שלהם התחילה בכיתה א'.
+fur|פרווה|n|The cat has soft fur.|לחתול יש פרווה רכה.
+furniture|רהיטים|n|We bought new furniture for my room.|קנינו רהיטים חדשים לחדר שלי.
+gap|רווח, פער|n|There is a gap between his teeth.|יש רווח בין השיניים שלו.
+gather|לאסוף, להתאסף|v|We gather around the fire at night.|בלילה אנחנו מתאספים סביב המדורה.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -681,7 +698,10 @@ examine|לבדוק|v|The doctor will examine your ear.|הרופא יבדוק ל�
 explanation|הסבר|n|The teacher gave a clear explanation.|המורה נתנה הסבר ברור.
 express|להביע|v|Drawing helps me express my feelings.|ציור עוזר לי להביע את הרגשות שלי.
 extremely|מאוד, ביותר|d|The test was extremely easy.|המבחן היה קל מאוד.
-frame|מסגרת|n|The photo is in a gold frame.|התמונה נמצאת במסגרת זהב.`,
+frame|מסגרת|n|The photo is in a gold frame.|התמונה נמצאת במסגרת זהב.
+fully|לגמרי, במלואו|d|The battery is fully charged.|הסוללה טעונה לגמרי.
+gain|לצבור, להשיג|v|You gain points for every right answer.|אתה צובר נקודות על כל תשובה נכונה.
+general|כללי|a|The teacher asked a general question.|המורה שאלה שאלה כללית.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.
