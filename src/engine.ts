@@ -427,6 +427,9 @@ export const PLACEMENT_PASS = 3;
 /** Levels she passed become assumed-familiar; spelling stays unmeasured because it is a separate skill. */
 export function applyPlacement(st: State, results: Record<string, boolean>, startLevel: number, today: number): State {
   const words = { ...st.words };
+  // Assumed words come back for a quick check, spread out so no day gets more than about 40 of them.
+  const assumedCount = WORDS.filter((w) => w.level < startLevel).length;
+  const spreadDays = Math.max(21, Math.ceil(assumedCount / 40));
   let i = 0;
   for (const w of WORDS) {
     if (w.level < startLevel) {
@@ -434,7 +437,7 @@ export function applyPlacement(st: State, results: Record<string, boolean>, star
       if (answered === false) {
         words[w.id] = { ...freshWord(), met: today, r: { ...freshMetric(), box: 1, due: today } };
       } else {
-        words[w.id] = { ...freshWord(), met: today, assumed: answered !== true, r: { ...freshMetric(), box: KNOWN_BOX, due: today + 1 + (i++ % 21) } };
+        words[w.id] = { ...freshWord(), met: today, assumed: answered !== true, r: { ...freshMetric(), box: KNOWN_BOX, due: today + 1 + (i++ % spreadDays) } };
       }
     } else if (results[w.id] === true) {
       words[w.id] = { ...freshWord(), met: today, r: { ...freshMetric(), box: 2, due: today + 1 } };

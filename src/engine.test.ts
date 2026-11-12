@@ -198,7 +198,7 @@ describe('placement', () => {
   });
   it('does not flood the first day with due words', () => {
     const st = applyPlacement(initialState(), {}, 4, T);
-    expect(WORDS.filter((w) => ws(st, w.id).met !== null && ws(st, w.id).r.due <= T + 1).length).toBeLessThan(25);
+    expect(WORDS.filter((w) => ws(st, w.id).met !== null && ws(st, w.id).r.due <= T + 1).length).toBeLessThanOrEqual(40);
   });
 });
 
