@@ -696,7 +696,17 @@ I like cakes, cookies and things like that.|אני אוהב עוגות, עוגי
 My bike has a flat tire.|לאופניים שלי יש תקר בצמיג.
 To be honest, I didn't like the movie.|למען האמת, לא אהבתי את הסרט.
 To begin with, we need some paper.|קודם כול, אנחנו צריכים קצת נייר.
-Can I try out your new skateboard?|אני יכול לנסות את הסקייטבורד החדש שלך?`,
+Can I try out your new skateboard?|אני יכול לנסות את הסקייטבורד החדש שלך?
+He turned down my offer to help.|הוא דחה את ההצעה שלי לעזור.
+The picture is upside down.|התמונה הפוכה.
+This map is up to date.|המפה הזאת מעודכנת.
+I will walk you home.|אני אלווה אותך הביתה.
+What about pizza for dinner?|מה דעתך על פיצה לארוחת ערב?
+What if it rains tomorrow?|מה אם ירד גשם מחר?
+What's up?|מה קורה?
+Wish me luck!|תאחלו לי בהצלחה!
+We found the way with the help of a map.|מצאנו את הדרך בעזרת מפה.
+Please come home without delay.|בבקשה תבוא הביתה בלי עיכוב.`,
 };
 
 let n = 0;

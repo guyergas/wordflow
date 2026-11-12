@@ -413,7 +413,14 @@ jam|ריבה|n|I like bread with jam.|אני אוהב לחם עם ריבה.
 jeans|ג'ינס|n|He is wearing blue jeans.|הוא לובש ג'ינס כחולים.
 jump|לקפוץ|v|The frog can jump very high.|הצפרדע יכולה לקפוץ גבוה מאוד.
 kick|לבעוט|v|Kick the ball to me!|תבעט אליי את הכדור!
-kiss|נשיקה; לנשק|n|Mom gave me a kiss goodnight.|אמא נתנה לי נשיקת לילה טוב.`,
+kiss|נשיקה; לנשק|n|Mom gave me a kiss goodnight.|אמא נתנה לי נשיקת לילה טוב.
+lip|שפה (של הפה)|n|I bit my lip by mistake.|נשכתי את השפה שלי בטעות.
+list|רשימה|n|Mom wrote a shopping list.|אמא כתבה רשימת קניות.
+live|לגור; לחיות|v|We live near the sea.|אנחנו גרים ליד הים.
+long|ארוך|a|My sister has long hair.|לאחותי יש שיער ארוך.
+love|לאהוב; אהבה|v|I love my grandma.|אני אוהב את סבתא שלי.
+lovely|מקסים, נחמד|a|What a lovely day!|איזה יום מקסים!
+low|נמוך|a|The table is too low for me.|השולחן נמוך מדי בשבילי.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -894,7 +901,11 @@ large|גדול, רחב ממדים|a|An elephant is a large animal.|פיל הוא
 later|מאוחר יותר, אחר כך|d|I will call you later.|אתקשר אליך אחר כך.
 chain|שלשלת|n|The bike has a metal chain.|לאופניים יש שלשלת מתכת.
 cheek|לחי|n|She kissed the baby on the cheek.|היא נישקה את התינוק על הלחי.
-chest|חזה|n|He held the ball to his chest.|הוא החזיק את הכדור צמוד לחזה.`,
+chest|חזה|n|He held the ball to his chest.|הוא החזיק את הכדור צמוד לחזה.
+least|הכי מעט, הכי פחות|o|Who ate the least candy?|מי אכל הכי מעט ממתקים?
+leather|עור (חומר)|n|My dad has a leather belt.|לאבא שלי יש חגורת עור.
+less|פחות|d|I want less sugar in my tea.|אני רוצה פחות סוכר בתה שלי.
+chin|סנטר|n|Grandpa has a beard on his chin.|לסבא יש זקן על הסנטר.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1211,7 +1222,12 @@ celebrity|ידוען, סלבריטי|n|A famous celebrity visited our school.|י
 chapter|פרק|n|We read one chapter every night.|אנחנו קוראים פרק אחד כל לילה.
 chart|תרשים, טבלה|n|The chart shows how tall we are.|התרשים מראה כמה אנחנו גבוהים.
 cheerful|עליז, שמח|a|Our teacher is always cheerful.|המורה שלנו תמיד עליזה.
-chemistry|כימיה|n|My sister studies chemistry at school.|אחותי לומדת כימיה בבית הספר.`,
+chemistry|כימיה|n|My sister studies chemistry at school.|אחותי לומדת כימיה בבית הספר.
+circular|עגול|a|We sat at a circular table.|ישבנו ליד שולחן עגול.
+coast|חוף|n|We drove along the coast.|נסענו לאורך החוף.
+college|מכללה|n|My brother goes to college.|אחי לומד במכללה.
+column|טור; עמוד|n|Write the answers in the first column.|כתוב את התשובות בטור הראשון.
+comedy|קומדיה|n|We watched a funny comedy.|צפינו בקומדיה מצחיקה.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1435,7 +1451,11 @@ category|קטגוריה|n|Put each animal in the right category.|שים כל ח�
 central|מרכזי|a|The library is in a central part of the city.|הספרייה נמצאת בחלק מרכזי של העיר.
 certainty|ודאות|n|Nobody can say with certainty what will happen.|אף אחד לא יכול לומר בוודאות מה יקרה.
 charity|צדקה, ארגון צדקה|n|We gave our old toys to charity.|נתנו את הצעצועים הישנים שלנו לצדקה.
-chief|ראש, מנהיג|n|The fire chief spoke to our class.|מפקד הכבאים דיבר עם הכיתה שלנו.`,
+chief|ראש, מנהיג|n|The fire chief spoke to our class.|מפקד הכבאים דיבר עם הכיתה שלנו.
+circumstance|נסיבה, מצב|n|The circumstance was strange, but we stayed calm.|המצב היה מוזר, אבל נשארנו רגועים.
+client|לקוח|n|The shop owner smiled at a client.|בעל החנות חייך אל לקוח.
+colleague|עמית לעבודה|n|My mom's colleague came for dinner.|העמיתה של אמא שלי מהעבודה באה לארוחת ערב.
+combined|משולב, משותף|a|Our combined score was the highest.|הניקוד המשותף שלנו היה הגבוה ביותר.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1876,16 +1896,16 @@ persistent|עיקש|a|She is a persistent student.|היא תלמידה עיקש�
 plausible|סביר ומתקבל|a|That sounds like a plausible story.|זה נשמע כמו סיפור סביר.
 profound|עמוק ומשמעותי|a|The book had a profound effect on me.|לספר הייתה השפעה עמוקה עליי.
 reluctant|מסרב בלב כבד|a|He was reluctant to leave.|הוא לא רצה לעזוב.
-resilient|חסין ומתאושש|a|Children are often resilient.
-scarce|נדיר ומועט|a|Food was scarce that winter.
-skeptical|ספקן|a|I am skeptical about this plan.
-subtle|מעודן|a|There is a subtle difference.
-tedious|מייגע|a|Copying the list was tedious.
-thrive|לשגשג|v|These plants thrive in the sun.
-trivial|זניח|a|It was a trivial mistake.
-ubiquitous|נמצא בכל מקום|a|Phones are ubiquitous today.
-unprecedented|חסר תקדים|a|This was an unprecedented event.
-vivid|חי וצבעוני|a|I have a vivid memory of that day.`,
+resilient|חסין ומתאושש|a|Children are often resilient.|ילדים מתאוששים לעתים קרובות במהירות.
+scarce|נדיר ומועט|a|Food was scarce that winter.|האוכל היה מועט באותו חורף.
+skeptical|ספקן|a|I am skeptical about this plan.|אני ספקן לגבי התוכנית הזאת.
+subtle|מעודן|a|There is a subtle difference.|יש הבדל עדין.
+tedious|מייגע|a|Copying the list was tedious.|העתקת הרשימה הייתה מייגעת.
+thrive|לשגשג|v|These plants thrive in the sun.|הצמחים האלה משגשגים בשמש.
+trivial|זניח|a|It was a trivial mistake.|זו הייתה טעות זניחה.
+ubiquitous|נמצא בכל מקום|a|Phones are ubiquitous today.|טלפונים נמצאים היום בכל מקום.
+unprecedented|חסר תקדים|a|This was an unprecedented event.|זה היה אירוע חסר תקדים.
+vivid|חי וצבעוני|a|I have a vivid memory of that day.|יש לי זיכרון חי מאותו יום.`,
 ];
 
 const seen = new Set<string>();

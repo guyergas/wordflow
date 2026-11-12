@@ -1,16 +1,5 @@
 # Pre-Band I
 # Band I
-least
-leather
-left-hand
-less
-lip
-list
-live
-long
-love
-lovely
-low
 lunchtime
 magazine
 mark
@@ -189,16 +178,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-chin
-circular
-circumstance
-client
-coast
-colleague
-college
-column
-combined
-comedy
 comment
 commit
 commitment
