@@ -234,7 +234,12 @@ fifteen|חמש עשרה|n|There are fifteen kids in my class.|יש חמישה ע
 finger|אצבע|n|I cut my finger.|חתכתי את האצבע.
 fish|דג|n|The fish swims in the water.|הדג שוחה במים.
 five|חמש|n|I have five pencils.|יש לי חמישה עפרונות.
-floor|רצפה|n|The ball is on the floor.|הכדור על הרצפה.`,
+floor|רצפה|n|The ball is on the floor.|הכדור על הרצפה.
+flower|פרח|n|I gave Mom a red flower.|נתתי לאמא פרח אדום.
+fly|לעוף|v|Birds can fly high.|ציפורים יכולות לעוף גבוה.
+foot|כף רגל|n|My left foot hurts.|כף הרגל השמאלית שלי כואבת.
+four|ארבע|n|A dog has four legs.|לכלב יש ארבע רגליים.
+fruit|פרי|n|An apple is a fruit.|תפוח הוא פרי.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -468,7 +473,14 @@ find|למצוא|v|I can't find my shoes.|אני לא מוצא את הנעליי�
 first|ראשון|a|I was first in the race.|הייתי ראשון במרוץ.
 flat|שטוח|a|The table is flat.|השולחן שטוח.
 hundreds|מאות|n|There are hundreds of birds in the sky.|יש מאות ציפורים בשמיים.
-ill|חולה|a|I stayed home because I was ill.|נשארתי בבית כי הייתי חולה.`,
+ill|חולה|a|I stayed home because I was ill.|נשארתי בבית כי הייתי חולה.
+forty|ארבעים|n|There are forty chairs in the hall.|יש ארבעים כיסאות באולם.
+fourteen|ארבע עשרה|n|My brother is fourteen years old.|אחי בן ארבע עשרה.
+fourth|רביעי|a|We live on the fourth floor.|אנחנו גרים בקומה הרביעית.
+friendly|ידידותי|a|Our new neighbor is very friendly.|השכן החדש שלנו מאוד ידידותי.
+garlic|שום|n|Dad puts garlic in the soup.|אבא שם שום במרק.
+instrument|כלי נגינה, מכשיר|n|The piano is my favorite instrument.|הפסנתר הוא כלי הנגינה האהוב עליי.
+interest|עניין|n|He has a big interest in stars.|יש לו עניין גדול בכוכבים.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -637,7 +649,11 @@ human|אדם, אנושי|n|A dog can smell better than a human.|כלב יכול 
 hunger|רעב|n|The baby cried from hunger.|התינוק בכה מרעב.
 hunting|ציד|n|Lions go hunting at night.|אריות יוצאים לציד בלילה.
 ignore|להתעלם|v|Please don't ignore me.|בבקשה אל תתעלם ממני.
-housewife|עקרת בית|n|My grandma was a housewife.|סבתא שלי הייתה עקרת בית.`,
+housewife|עקרת בית|n|My grandma was a housewife.|סבתא שלי הייתה עקרת בית.
+insult|להעליב|v|It is not nice to insult your friends.|לא יפה להעליב את החברים שלך.
+introduce|להציג, להכיר|v|Let me introduce my friend Dan.|הרשו לי להכיר לכם את החבר שלי דן.
+included|כלול|a|Breakfast is included in the price.|ארוחת הבוקר כלולה במחיר.
+ingredient|מרכיב|n|Flour is the main ingredient in bread.|קמח הוא המרכיב העיקרי בלחם.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -656,26 +672,26 @@ wind|רוח|n|The wind blew my hat away.|הרוח העיפה לי את הכוב�
 rain|גשם|n|The rain stopped at noon.|הגשם הפסיק בצהריים.
 snow|שלג|n|The snow covered the road.|השלג כיסה את הכביש.
 lightning|ברק|n|We saw lightning over the sea.|ראינו ברק מעל הים.
-thunder|רעם|n|The thunder scared my dog.
-season|עונה|n|Spring is my favorite season.
-forest|יער|n|Bears live in the forest.
-mountain|הר|n|We climbed the mountain.
-valley|עמק|n|A river runs through the valley.
-river|נהר|n|The river is very wide.
-lake|אגם|n|We swam in the lake.
-ocean|אוקיינוס|n|Whales live in the ocean.
-island|אי|n|They live on a small island.
-desert|מדבר|n|It rarely rains in the desert.
-beach|חוף|n|We played on the beach.
-sand|חול|n|The sand was very hot.
-shell|צדף|n|I found a shell by the sea.
-leaf|עלה|n|A yellow leaf fell on my head.
-branch|ענף|n|The bird sat on a branch.
-root|שורש|n|This root is very deep.
-grass|דשא|n|The grass is wet.
-insect|חרק|n|An insect landed on my arm.
-butterfly|פרפר|n|A butterfly landed on the flower.
-camel|גמל|n|We rode a camel in the desert.
+thunder|רעם|n|The thunder scared my dog.|הרעם הבהיל את הכלב שלי.
+season|עונה|n|Spring is my favorite season.|האביב היא העונה האהובה עליי.
+forest|יער|n|Bears live in the forest.|דובים חיים ביער.
+mountain|הר|n|We climbed the mountain.|טיפסנו על ההר.
+valley|עמק|n|A river runs through the valley.|נהר זורם בעמק.
+river|נהר|n|The river is very wide.|הנהר רחב מאוד.
+lake|אגם|n|We swam in the lake.|שחינו באגם.
+ocean|אוקיינוס|n|Whales live in the ocean.|לווייתנים חיים באוקיינוס.
+island|אי|n|They live on a small island.|הם גרים על אי קטן.
+desert|מדבר|n|It rarely rains in the desert.|כמעט אף פעם לא יורד גשם במדבר.
+beach|חוף|n|We played on the beach.|שיחקנו על החוף.
+sand|חול|n|The sand was very hot.|החול היה חם מאוד.
+shell|צדף|n|I found a shell by the sea.|מצאתי צדף ליד הים.
+leaf|עלה|n|A yellow leaf fell on my head.|עלה צהוב נפל לי על הראש.
+branch|ענף|n|The bird sat on a branch.|הציפור ישבה על ענף.
+root|שורש|n|This root is very deep.|השורש הזה עמוק מאוד.
+grass|דשא|n|The grass is wet.|הדשא רטוב.
+insect|חרק|n|An insect landed on my arm.|חרק נחת לי על היד.
+butterfly|פרפר|n|A butterfly landed on the flower.|פרפר נחת על הפרח.
+camel|גמל|n|We rode a camel in the desert.|רכבנו על גמל במדבר.
 danger|סכנה|n|There is danger in these waters.
 adventure|הרפתקה|n|Our trip was a real adventure.
 tent|אוהל|n|We slept in a tent.
@@ -761,7 +777,11 @@ heavily|בכבדות, בחוזקה|d|It rained heavily all night.|ירד גשם 
 highway|כביש מהיר|n|The cars drive fast on the highway.|המכוניות נוסעות מהר בכביש המהיר.
 image|תמונה, דמות|n|I saw my image in the water.|ראיתי את הדמות שלי במים.
 immediate|מיידי|a|We need an immediate answer.|אנחנו צריכים תשובה מיידית.
-importance|חשיבות|n|The teacher spoke about the importance of sleep.|המורה דיברה על החשיבות של שינה.`,
+importance|חשיבות|n|The teacher spoke about the importance of sleep.|המורה דיברה על החשיבות של שינה.
+inform|להודיע|v|Please inform the teacher if you are late.|בבקשה תודיע למורה אם אתה מאחר.
+inner|פנימי|a|The inner part of the fruit is sweet.|החלק הפנימי של הפרי מתוק.
+international|בינלאומי|a|We went to an international food fair.|הלכנו ליריד אוכל בינלאומי.
+interval|הפסקה, מרווח|n|We bought ice cream in the interval.|קנינו גלידה בהפסקה.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.

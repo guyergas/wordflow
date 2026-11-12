@@ -356,7 +356,17 @@ This ball belongs to my brother.|הכדור הזה שייך לאח שלי.
 Best wishes!|איחולים חמים!
 My sister has blonde hair.|לאחותי יש שיער בלונדיני.
 Our car broke down on the way.|המכונית שלנו התקלקלה בדרך.
-Please bring back my book tomorrow.|בבקשה תחזיר לי את הספר מחר.`,
+Please bring back my book tomorrow.|בבקשה תחזיר לי את הספר מחר.
+I took his pencil by mistake.|לקחתי את העיפרון שלו בטעות.
+By the way, I like your shoes.|דרך אגב, אני אוהב את הנעליים שלך.
+We drank hot chocolate at the café.|שתינו שוקו חם בבית הקפה.
+I will call you back after dinner.|אני אחזור אלייך אחרי ארוחת הערב.
+I can afford this toy with my own money.|אני יכול להרשות לעצמי את הצעצוע הזה מהכסף שלי.
+I can't stand loud noise.|אני לא סובל רעש חזק.
+I can't wait for summer!|אני לא יכול לחכות לקיץ!
+Carry on reading, please.|תמשיכו לקרוא, בבקשה.
+The children carried out the plan.|הילדים ביצעו את התוכנית.
+Paper can catch fire easily.|נייר יכול להתלקח בקלות.`,
 };
 
 let n = 0;
