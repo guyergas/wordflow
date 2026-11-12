@@ -277,7 +277,13 @@ many|הרבה|a|There are many birds in the tree.|יש הרבה ציפורים �
 monkey|קוף|n|The monkey is eating a banana.|הקוף אוכל בננה.
 more|עוד, יותר|d|Can I have more water, please?|אפשר עוד מים, בבקשה?
 mouth|פה|n|Open your mouth, please.|תפתח את הפה, בבקשה.
-movie|סרט|n|We watched a funny movie.|צפינו בסרט מצחיק.`,
+movie|סרט|n|We watched a funny movie.|צפינו בסרט מצחיק.
+my|שלי|o|This is my dog.|זה הכלב שלי.
+name|שם|n|Her name is Noa.|השם שלה הוא נועה.
+neck|צוואר|n|The giraffe has a long neck.|לג'ירפה יש צוואר ארוך.
+need|להיות צריך|v|I need a new pencil.|אני צריך עיפרון חדש.
+nice|נחמד|a|She is a nice girl.|היא ילדה נחמדה.
+nine|תשע|n|My little brother is nine years old.|אחי הקטן בן תשע.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -551,7 +557,13 @@ meal|ארוחה|n|Breakfast is my favorite meal.|ארוחת הבוקר היא ה
 meat|בשר|n|My brother does not eat meat.|אחי לא אוכל בשר.
 mobile|נייד|a|My mom has a new mobile phone.|לאמא שלי יש טלפון נייד חדש.
 nothing|כלום|o|There is nothing in the box.|אין כלום בקופסה.
-oh|אוי, הו|o|Oh, I forgot my bag!|אוי, שכחתי את התיק!`,
+oh|אוי, הו|o|Oh, I forgot my bag!|אוי, שכחתי את התיק!
+near|קרוב|o|We live near the park.|אנחנו גרים קרוב לפארק.
+nineteen|תשע עשרה|n|There are nineteen kids in my class.|יש תשעה עשר ילדים בכיתה שלי.
+ninety|תשעים|n|My great-grandma is ninety years old.|סבתא רבתא שלי בת תשעים.
+nobody|אף אחד|o|Nobody was at home.|אף אחד לא היה בבית.
+ourselves|בעצמנו|o|We built the tree house ourselves.|בנינו את בית העץ בעצמנו.
+pear|אגס|n|I ate a sweet pear.|אכלתי אגס מתוק.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -756,7 +768,11 @@ noun|שם עצם|n|The word "dog" is a noun.|המילה "כלב" היא שם ע�
 object|חפץ|n|What is that strange object?|מה החפץ המוזר הזה?
 officer|קצין, שוטר|n|The police officer helped us.|השוטר עזר לנו.
 option|אפשרות|n|We have one more option.|יש לנו עוד אפשרות אחת.
-organize|לארגן|v|Let's organize a party.|בואו נארגן מסיבה.`,
+organize|לארגן|v|Let's organize a party.|בואו נארגן מסיבה.
+original|מקורי|a|What an original idea!|איזה רעיון מקורי!
+package|אריזה, חבילה|n|Read what it says on the package.|תקרא מה כתוב על האריזה.
+palace|ארמון|n|The queen lives in a big palace.|המלכה גרה בארמון גדול.
+patient|סבלני|a|Be patient, the cake is almost ready.|תהיה סבלני, העוגה כמעט מוכנה.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -901,7 +917,11 @@ nationality|אזרחות, לאום|n|What is your nationality?|מה האזרחו
 neither|אף אחד מהשניים|o|Neither of my friends came.|אף אחד משני החברים שלי לא בא.
 noticeboard|לוח מודעות|n|The list is on the noticeboard.|הרשימה תלויה על לוח המודעות.
 operate|להפעיל|v|Can you operate this machine?|אתה יודע להפעיל את המכונה הזאת?
-organization|ארגון|n|She works for an organization that helps animals.|היא עובדת בארגון שעוזר לבעלי חיים.`,
+organization|ארגון|n|She works for an organization that helps animals.|היא עובדת בארגון שעוזר לבעלי חיים.
+owe|להיות חייב|v|I owe you five shekels.|אני חייב לך חמישה שקלים.
+passenger|נוסע|n|Every passenger on the bus has a seat.|לכל נוסע באוטובוס יש מושב.
+path|שביל|n|We walked along the path in the forest.|הלכנו לאורך השביל ביער.
+pattern|דוגמה, דפוס|n|I like the pattern on your shirt.|אני אוהב את הדוגמה על החולצה שלך.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

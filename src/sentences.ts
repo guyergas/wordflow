@@ -426,7 +426,17 @@ The baby made a face when she tasted the lemon.|התינוקת עשתה פרצו
 Make sure you close the door.|תוודא שסגרת את הדלת.
 My friend Ali is Muslim.|החבר שלי עלי הוא מוסלמי.
 Our new neighbors move in next week.|השכנים החדשים שלנו עוברים לגור כאן בשבוע הבא.
-Never mind.|לא משנה.`,
+Never mind.|לא משנה.
+Of course not!|ברור שלא!
+My dad went to London on business.|אבא שלי נסע ללונדון לרגל עבודה.
+The old house is on fire!|הבית הישן עולה באש!
+We go to school on foot.|אנחנו הולכים לבית הספר ברגל.
+Ice cream is on offer this week.|יש מבצע על גלידה השבוע.
+Please be on time.|בבקשה תגיעו בזמן.
+The friends helped one another.|החברים עזרו זה לזה.
+One day I will be a pilot.|יום אחד אני אהיה טייס.
+Let's watch a movie or something.|בוא נראה סרט או משהו.
+The lift is out of order.|המעלית לא עובדת.`,
 };
 
 let n = 0;
