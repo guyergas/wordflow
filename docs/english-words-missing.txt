@@ -1,15 +1,5 @@
 # Pre-Band I
 # Band I
-pizza
-place
-plant
-play
-player
-please
-poor
-potato
-price
-pupil
 radio
 rainy
 really
@@ -432,16 +422,6 @@ yogurt
 yours
 zero
 # Band II Core I
-professional
-property
-proposal
-puppy
-pure
-purple
-purse
-puzzle
-quality
-quite
 race
 range
 rat

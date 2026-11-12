@@ -456,7 +456,17 @@ Come here right away!|בוא לכאן מיד!
 My brother rides an electric scooter.|אחי נוסע על קורקינט חשמלי.
 You seem happy today.|אתה נראה שמח היום.
 The players shake hands after the game.|השחקנים לוחצים ידיים אחרי המשחק.
-We watch TV in the sitting room.|אנחנו צופים בטלוויזיה בסלון.`,
+We watch TV in the sitting room.|אנחנו צופים בטלוויזיה בסלון.
+We have read three books so far.|עד עכשיו קראנו שלושה ספרים.
+I'd like a soft drink, please.|אני רוצה משקה קל, בבקשה.
+I have a stomach ache.|יש לי כאב בטן.
+It was such a nice day!|זה היה יום כל כך נחמד!
+I like fruit such as apples and bananas.|אני אוהב פירות כמו תפוחים ובננות.
+Let's take a break.|בואו ניקח הפסקה.
+We will take an exam tomorrow.|מחר יש לנו מבחן.
+Please take your homework seriously.|בבקשה תתייחס לשיעורי הבית ברצינות.
+I'm sorry, I take it back.|סליחה, אני חוזר בי.
+Please take out the trash.|בבקשה תוציא את הזבל.`,
 };
 
 let n = 0;

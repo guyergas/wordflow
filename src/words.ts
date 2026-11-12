@@ -295,7 +295,11 @@ paper|נייר|n|I need a piece of paper.|אני צריך דף נייר.
 park|פארק, גן ציבורי|n|We play in the park after school.|אנחנו משחקים בפארק אחרי בית הספר.
 people|אנשים|n|There are many people at the beach.|יש הרבה אנשים בחוף.
 picture|תמונה, ציור|n|Look at this picture of a cat.|תסתכל על התמונה הזאת של חתול.
-pink|ורוד|a|She has a pink dress.|יש לה שמלה ורודה.`,
+pink|ורוד|a|She has a pink dress.|יש לה שמלה ורודה.
+pizza|פיצה|n|We eat pizza on Friday.|אנחנו אוכלים פיצה ביום שישי.
+play|לשחק|v|The children play in the yard.|הילדים משחקים בחצר.
+please|בבקשה|o|Can you help me, please?|אתה יכול לעזור לי, בבקשה?
+potato|תפוח אדמה|n|Mom cut a potato for the soup.|אמא חתכה תפוח אדמה למרק.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -590,7 +594,16 @@ picnic|פיקניק|n|We had a picnic by the lake.|עשינו פיקניק לי�
 popcorn|פופקורן|n|We ate popcorn at the movies.|אכלנו פופקורן בקולנוע.
 poem|שיר|n|I wrote a poem for my mom.|כתבתי שיר לאמא שלי.
 press|ללחוץ|v|Press the red button.|תלחץ על הכפתור האדום.
-post|לשלוח בדואר|v|I will post the letter today.|אשלח את המכתב בדואר היום.`,
+post|לשלוח בדואר|v|I will post the letter today.|אשלח את המכתב בדואר היום.
+place|מקום|n|This is my favorite place.|זה המקום האהוב עליי.
+plant|צמח|n|Water the plant every day.|תשקה את הצמח כל יום.
+player|שחקן|n|He is the best player on the team.|הוא השחקן הכי טוב בקבוצה.
+poor|עני, מסכן|a|The poor dog was wet and cold.|הכלב המסכן היה רטוב וקר.
+price|מחיר|n|What is the price of this toy?|מה המחיר של הצעצוע הזה?
+pupil|תלמיד|n|Every pupil has a new book.|לכל תלמיד יש ספר חדש.
+puppy|גור כלבים|n|Our puppy sleeps in a little bed.|הגור שלנו ישן במיטה קטנה.
+purple|סגול|a|She has a purple bag.|יש לה תיק סגול.
+puzzle|פאזל, חידה|n|We finished the puzzle together.|סיימנו את הפאזל ביחד.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -805,7 +818,10 @@ physical|גופני|a|Running is good physical exercise.|ריצה היא פעי�
 pleased|מרוצה|a|The teacher was pleased with my work.|המורה הייתה מרוצה מהעבודה שלי.
 pleasure|הנאה|n|Reading is a real pleasure.|קריאה היא הנאה אמיתית.
 position|מקום, תנוחה|n|Sit in a comfortable position.|שבו בתנוחה נוחה.
-preparation|הכנה|n|The party needs a lot of preparation.|המסיבה דורשת הרבה הכנה.`,
+preparation|הכנה|n|The party needs a lot of preparation.|המסיבה דורשת הרבה הכנה.
+purse|ארנק|n|Mom keeps her money in her purse.|אמא שומרת את הכסף שלה בארנק.
+quite|די, למדי|d|The test was quite easy.|המבחן היה די קל.
+pure|טהור, נקי|a|The air in the mountains is pure.|האוויר בהרים נקי.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -961,7 +977,11 @@ petrol|דלק, בנזין|n|The car needs petrol.|המכונית צריכה דל
 physics|פיזיקה|n|My brother studies physics.|אחי לומד פיזיקה.
 possibility|אפשרות, סיכוי|n|There is a possibility of rain tomorrow.|יש סיכוי לגשם מחר.
 potential|פוטנציאל|n|This young player has great potential.|לשחקן הצעיר הזה יש פוטנציאל גדול.
-prison|בית סוהר|n|The bad king was sent to prison.|המלך הרע נשלח לבית הסוהר.`,
+prison|בית סוהר|n|The bad king was sent to prison.|המלך הרע נשלח לבית הסוהר.
+professional|מקצועי|a|She is a professional singer.|היא זמרת מקצועית.
+property|רכוש|n|This ball is school property.|הכדור הזה הוא רכוש של בית הספר.
+proposal|הצעה|n|The class liked my proposal for the trip.|הכיתה אהבה את ההצעה שלי לטיול.
+quality|איכות|n|These shoes are of good quality.|הנעליים האלה באיכות טובה.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
