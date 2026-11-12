@@ -1,16 +1,6 @@
 # Pre-Band I
 # Band I
 Arabic
-asleep
-away
-bathroom
-beard
-beer
-bicycle
-bottom
-break
-bright
-camera
 candy
 change
 circle
@@ -294,16 +284,6 @@ zero
 # Band II Core I
 well-made
 # Band II Core II
-academic
-accommodation
-active
-actual
-adapt
-adopt
-agency
-ahead
-aid
-aircraft
 alcohol
 alike
 allow

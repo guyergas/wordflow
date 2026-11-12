@@ -596,7 +596,17 @@ Something went wrong with my computer.|משהו השתבש במחשב שלי.
 Good for you!|כל הכבוד לך!
 Please hand in your homework.|בבקשה תגישו את שיעורי הבית.
 Don't hang up the phone yet.|אל תנתק עדיין את הטלפון.
-She has a red dress on.|היא לובשת שמלה אדומה.`,
+She has a red dress on.|היא לובשת שמלה אדומה.
+I have no doubt you will win.|אין לי ספק שתנצח.
+I have no idea where my keys are.|אין לי מושג איפה המפתחות שלי.
+We have a lot in common.|יש לנו הרבה במשותף.
+Help yourself to some cake.|תתכבד בעוגה.
+My mom works in high-tech.|אמא שלי עובדת בהייטק.
+Hold your breath under the water.|תעצור את הנשימה מתחת למים.
+We learn about the Holocaust at school.|אנחנו לומדים על השואה בבית הספר.
+I hope to see you soon.|אני מקווה לראות אותך בקרוב.
+I bet you can't catch me!|אני בטוח שאתה לא יכול לתפוס אותי!
+I guess it will rain.|אני מניח שירד גשם.`,
 };
 
 let n = 0;

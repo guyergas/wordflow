@@ -372,7 +372,11 @@ your|שלך|o|Is this your bag?|זה התיק שלך?
 zoo|גן חיות|n|We saw lions at the zoo.|ראינו אריות בגן החיות.
 all|כל, כולם|o|All the children are in the garden.|כל הילדים בגינה.
 around|מסביב ל-|o|We sat around the table.|ישבנו מסביב לשולחן.
-artist|אמן, צייר|n|The artist painted a big picture.|האמן צייר תמונה גדולה.`,
+artist|אמן, צייר|n|The artist painted a big picture.|האמן צייר תמונה גדולה.
+away|הרחק, משם|d|The bird flew away.|הציפור עפה משם.
+bathroom|חדר אמבטיה|n|I brush my teeth in the bathroom.|אני מצחצח שיניים בחדר האמבטיה.
+bicycle|אופניים|n|I ride my bicycle to the park.|אני רוכב על האופניים שלי לפארק.
+camera|מצלמה|n|I took a photo with my new camera.|צילמתי תמונה עם המצלמה החדשה שלי.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -765,7 +769,14 @@ along|לאורך|o|We walked along the beach.|הלכנו לאורך החוף.
 already|כבר|d|I already finished my homework.|כבר סיימתי את שיעורי הבית.
 wish|לאחל, לייחל|v|I wish you a happy birthday.|אני מאחל לך יום הולדת שמח.
 wool|צמר|n|My hat is made of wool.|הכובע שלי עשוי מצמר.
-yourself|בעצמך, את עצמך|o|Did you make this cake yourself?|הכנת את העוגה הזאת בעצמך?`,
+yourself|בעצמך, את עצמך|o|Did you make this cake yourself?|הכנת את העוגה הזאת בעצמך?
+asleep|ישן, רדום|a|The baby is asleep.|התינוק ישן.
+beard|זקן|n|My grandpa has a white beard.|לסבא שלי יש זקן לבן.
+beer|בירה|n|Beer is a drink for adults.|בירה היא משקה למבוגרים.
+bottom|תחתית|n|The ball is at the bottom of the pool.|הכדור נמצא בתחתית הבריכה.
+break|הפסקה|n|We play outside during the break.|אנחנו משחקים בחוץ בהפסקה.
+bright|בהיר, מואר|a|The room is bright and sunny.|החדר מואר ושטוף שמש.
+active|פעיל|a|My grandma is very active.|סבתא שלי מאוד פעילה.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1040,7 +1051,12 @@ whose|של מי|o|Whose book is this?|של מי הספר הזה?
 wonder|לתהות|v|I wonder where my cat is.|אני תוהה איפה החתול שלי.
 worse|גרוע יותר|a|My cold is worse today.|ההצטננות שלי גרועה יותר היום.
 yourselves|בעצמכם, את עצמכם|o|Did you build it yourselves?|בניתם את זה בעצמכם?
-absent|נעדר|a|Tom was absent from school today.|תום נעדר היום מבית הספר.`,
+absent|נעדר|a|Tom was absent from school today.|תום נעדר היום מבית הספר.
+ahead|קדימה, לפנים|d|Look straight ahead.|תסתכל ישר קדימה.
+adopt|לאמץ|v|We want to adopt a dog.|אנחנו רוצים לאמץ כלב.
+aid|עזרה, סיוע|n|The nurse gave him first aid.|האחות נתנה לו עזרה ראשונה.
+aircraft|כלי טיס, מטוס|n|The aircraft landed safely.|המטוס נחת בשלום.
+adapt|להסתגל|v|Animals adapt to the cold.|בעלי חיים מסתגלים לקור.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1235,7 +1251,11 @@ volume|עוצמת קול|n|Please turn down the volume.|בבקשה תנמיך א
 whether|אם|o|I don't know whether it will rain.|אני לא יודע אם ירד גשם.
 whenever|בכל פעם ש-|o|Whenever it rains, I wear boots.|בכל פעם שיורד גשם, אני נועל מגפיים.
 widely|באופן נרחב|d|English is widely spoken around the world.|מדברים אנגלית בכל רחבי העולם.
-abstract|מופשט|a|She paints abstract pictures.|היא מציירת ציורים מופשטים.`,
+abstract|מופשט|a|She paints abstract pictures.|היא מציירת ציורים מופשטים.
+academic|אקדמי, לימודי|a|The academic year starts in September.|שנת הלימודים מתחילה בספטמבר.
+accommodation|מקום לינה|n|We found cheap accommodation near the beach.|מצאנו מקום לינה זול ליד החוף.
+actual|ממשי, אמיתי|a|The actual size of the whale is huge.|הגודל האמיתי של הלווייתן עצום.
+agency|סוכנות|n|We booked the trip through a travel agency.|הזמנו את הטיול דרך סוכנות נסיעות.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1476,26 +1496,26 @@ persuade|לשכנע בטיעונים|v|Try to persuade your parents.|נסה לש
 pronounce|להגות|v|How do you pronounce this word?|איך הוגים את המילה הזאת?
 recommend|להמליץ|v|I recommend this book.|אני ממליץ על הספר הזה.
 succeed|להצליח|v|I know you will succeed.|אני יודע שתצליח.`,
-`analyze|לנתח|v|Scientists analyze the data carefully.
-conclude|להסיק|v|We can conclude that the plan worked.
-contrast|ניגוד|n|There is a sharp contrast between the two cities.
-define|להגדיר|v|Can you define this term?
-demonstrate|להדגים|v|The teacher will demonstrate the experiment.
-evaluate|לשקול ולהעריך|v|We must evaluate every option.
-evidence|ראיה|n|There is no evidence against him.
-assumption|הנחה|n|That assumption turned out to be wrong.
-illustrate|להמחיש|v|These pictures illustrate the idea.
-indicate|להצביע על|v|The dark clouds indicate a storm.
-interpret|לפרש|v|People interpret the poem differently.
-justify|להצדיק|v|Nothing can justify such behavior.
-outline|מתווה|n|Write an outline before the essay.
-summarize|לסכם|v|Please summarize the article in two lines.
-argument|טיעון|n|Her argument was very clear.
-paragraph|פסקה|n|The first paragraph is too long.
-essay|חיבור|n|I wrote an essay about the sea.
-source|מקור|n|Check the source of this story.
-criticism|ביקורת|n|He did not take the criticism well.
-approach|דרך פעולה|n|We need a new approach to this problem.
+`analyze|לנתח|v|Scientists analyze the data carefully.|מדענים מנתחים את הנתונים בקפידה.
+conclude|להסיק|v|We can conclude that the plan worked.|אפשר להסיק שהתוכנית הצליחה.
+contrast|ניגוד|n|There is a sharp contrast between the two cities.|יש ניגוד חד בין שתי הערים.
+define|להגדיר|v|Can you define this term?|אתה יכול להגדיר את המונח הזה?
+demonstrate|להדגים|v|The teacher will demonstrate the experiment.|המורה ידגים את הניסוי.
+evaluate|לשקול ולהעריך|v|We must evaluate every option.|עלינו לשקול כל אפשרות.
+evidence|ראיה|n|There is no evidence against him.|אין שום ראיה נגדו.
+assumption|הנחה|n|That assumption turned out to be wrong.|ההנחה הזאת התבררה כשגויה.
+illustrate|להמחיש|v|These pictures illustrate the idea.|התמונות האלה ממחישות את הרעיון.
+indicate|להצביע על|v|The dark clouds indicate a storm.|העננים הכהים מצביעים על סערה.
+interpret|לפרש|v|People interpret the poem differently.|אנשים מפרשים את השיר בדרכים שונות.
+justify|להצדיק|v|Nothing can justify such behavior.|שום דבר לא יכול להצדיק התנהגות כזאת.
+outline|מתווה|n|Write an outline before the essay.|כתוב מתווה לפני החיבור.
+summarize|לסכם|v|Please summarize the article in two lines.|בבקשה סכם את הכתבה בשתי שורות.
+argument|טיעון|n|Her argument was very clear.|הטיעון שלה היה ברור מאוד.
+paragraph|פסקה|n|The first paragraph is too long.|הפסקה הראשונה ארוכה מדי.
+essay|חיבור|n|I wrote an essay about the sea.|כתבתי חיבור על הים.
+source|מקור|n|Check the source of this story.|בדוק את המקור של הסיפור הזה.
+criticism|ביקורת|n|He did not take the criticism well.|הוא לא קיבל את הביקורת יפה.
+approach|דרך פעולה|n|We need a new approach to this problem.|אנחנו צריכים דרך חדשה לגשת לבעיה הזאת.
 aspect|היבט|n|Money is only one aspect of the job.
 concept|מושג|n|Gravity is a difficult concept.
 context|הקשר|n|The word changes with the context.
