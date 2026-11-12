@@ -258,7 +258,13 @@ hi|היי, שלום|o|Hi, my name is Dan.|היי, קוראים לי דן.
 hold|להחזיק|v|Hold my hand, please.|תחזיק לי את היד, בבקשה.
 home|בית, הביתה|n|I go home after school.|אני הולך הביתה אחרי בית הספר.
 horse|סוס|n|The horse runs fast.|הסוס רץ מהר.
-how|איך|o|How do you make a cake?|איך מכינים עוגה?`,
+how|איך|o|How do you make a cake?|איך מכינים עוגה?
+husband|בעל|n|Her husband is a doctor.|בעלה הוא רופא.
+inside|בפנים|d|It is cold, so we play inside.|קר, אז אנחנו משחקים בפנים.
+juice|מיץ|n|I drink orange juice every morning.|אני שותה מיץ תפוזים כל בוקר.
+keep|לשמור|v|Can I keep this drawing?|אפשר לשמור את הציור הזה?
+king|מלך|n|The king lives in a big castle.|המלך גר בטירה גדולה.
+know|לדעת, להכיר|v|I know the answer.|אני יודע את התשובה.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -517,7 +523,12 @@ hotel|מלון|n|We stayed in a hotel by the sea.|לנו במלון ליד הי�
 hundred|מאה|n|My grandpa is almost a hundred years old.|סבא שלי כמעט בן מאה.
 lion|אריה|n|The lion is the king of the jungle.|האריה הוא מלך הג'ונגל.
 lucky|בר מזל|a|I am lucky to have a dog.|יש לי מזל שיש לי כלב.
-lock|לנעול|v|Please lock the door.|בבקשה תנעל את הדלת.`,
+lock|לנעול|v|Please lock the door.|בבקשה תנעל את הדלת.
+interesting|מעניין|a|This book is very interesting.|הספר הזה מעניין מאוד.
+into|לתוך|o|The cat jumped into the box.|החתול קפץ לתוך הקופסה.
+just|רק, בדיוק|d|I just want one cookie.|אני רק רוצה עוגייה אחת.
+midnight|חצות|n|We stayed up until midnight.|נשארנו ערים עד חצות.
+knife|סכין|n|Be careful with the knife.|תיזהר עם הסכין.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -705,7 +716,14 @@ mail|דואר|n|Did we get any mail today?|קיבלנו דואר היום?
 liter|ליטר|n|We need one liter of milk.|אנחנו צריכים ליטר אחד של חלב.
 main|ראשי, עיקרי|a|The main door is closed.|הדלת הראשית סגורה.
 marry|להתחתן|v|My uncle wants to marry his girlfriend.|הדוד שלי רוצה להתחתן עם החברה שלו.
-match|משחק (תחרות), גפרור|n|We watched the football match on TV.|צפינו במשחק הכדורגל בטלוויזיה.`,
+match|משחק (תחרות), גפרור|n|We watched the football match on TV.|צפינו במשחק הכדורגל בטלוויזיה.
+maximum|מקסימום|n|Each child can take a maximum of two books.|כל ילד יכול לקחת מקסימום שני ספרים.
+medal|מדליה|n|She won a gold medal.|היא זכתה במדליית זהב.
+medium|בינוני|a|I would like a medium pizza, please.|אני רוצה פיצה בינונית, בבקשה.
+midday|צהריים|n|The sun is very hot at midday.|השמש חמה מאוד בצהריים.
+mind|שכל, מחשבה|n|She has a sharp mind.|יש לה שכל חד.
+minimum|מינימום|n|You need a minimum of ten points to win.|צריך מינימום עשר נקודות כדי לנצח.
+mosque|מסגד|n|There is an old mosque in the city.|יש מסגד עתיק בעיר.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -841,7 +859,9 @@ largely|בעיקר, במידה רבה|d|The park is largely empty in winter.|ה�
 lawyer|עורך דין|n|Her mom is a lawyer.|אמא שלה עורכת דין.
 limit|גבול, הגבלה|n|There is a limit of two cookies each.|יש הגבלה של שתי עוגיות לכל אחד.
 locate|לאתר|v|Can you locate Israel on the map?|אתה יכול לאתר את ישראל במפה?
-manage|להצליח (לעשות), לנהל|v|Did you manage to finish your homework?|הצלחת לסיים את שיעורי הבית?`,
+manage|להצליח (לעשות), לנהל|v|Did you manage to finish your homework?|הצלחת לסיים את שיעורי הבית?
+military|צבאי|a|My brother wears a military uniform.|אחי לובש מדים צבאיים.
+mostly|בעיקר|d|The sky was mostly blue today.|השמיים היו בעיקר כחולים היום.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

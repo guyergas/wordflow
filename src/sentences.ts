@@ -396,7 +396,17 @@ I have to do my homework.|אני צריך להכין את שיעורי הבית.
 I have a question about the story.|יש לי שאלה על הסיפור.
 Let's have a talk after class.|בואו נדבר אחרי השיעור.
 It's getting dark, so we head back home.|מתחיל להחשיך, אז אנחנו חוזרים הביתה.
-I was happy to hear from my cousin.|שמחתי לשמוע מבן הדוד שלי.`,
+I was happy to hear from my cousin.|שמחתי לשמוע מבן הדוד שלי.
+How do you do?|נעים מאוד.
+How about pizza for dinner?|מה דעתך על פיצה לארוחת ערב?
+You can sit here if you like.|אפשר לשבת כאן אם בא לך.
+I'm afraid I can't come to your party.|אני חושש שאני לא יכול לבוא למסיבה שלך.
+In addition to English, she speaks French.|בנוסף לאנגלית, היא מדברת צרפתית.
+In case of fire, use the stairs.|במקרה של שריפה, השתמשו במדרגות.
+The car is parked in front of the house.|המכונית חונה מול הבית.
+The prince is in love with the princess.|הנסיך מאוהב בנסיכה.
+In the end, we found the lost dog.|בסוף מצאנו את הכלב האבוד.
+We got to school just in time.|הגענו לבית הספר בדיוק בזמן.`,
 };
 
 let n = 0;
