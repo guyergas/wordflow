@@ -429,7 +429,9 @@ move|לזוז; לעבור (דירה)|v|Don't move, I am taking a photo.|אל ת�
 noon|צהריים (12:00)|n|We eat lunch at noon.|אנחנו אוכלים ארוחת צהריים בשתים עשרה בצהריים.
 number|מספר|n|Seven is my lucky number.|שבע הוא מספר המזל שלי.
 nurse|אח, אחות (בבית חולים)|n|The nurse gave me a bandage.|האחות נתנה לי תחבושת.
-other|אחר|a|Where is my other shoe?|איפה הנעל השנייה שלי?`,
+other|אחר|a|Where is my other shoe?|איפה הנעל השנייה שלי?
+outside|בחוץ|d|Let's play outside!|בואו נשחק בחוץ!
+paint|צבע; לצבוע|v|Let's paint a picture.|בואו נצייר ציור בצבעים.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -947,7 +949,15 @@ oil|שמן (לבישול)|n|Dad cooks the eggs in oil.|אבא מטגן את הב
 online|ברשת, באינטרנט|d|We play chess online.|אנחנו משחקים שחמט ברשת.
 opposite|הפוך, ההפך; ממול|n|Hot is the opposite of cold.|חם הוא ההפך של קר.
 order|סדר; הזמנה; להזמין|n|Put the cards in order.|סדר את הקלפים לפי הסדר.
-delicious|טעים|a|This soup is delicious.|המרק הזה טעים.`,
+delicious|טעים|a|This soup is delicious.|המרק הזה טעים.
+over|מעל; נגמר|o|The bird flew over the house.|הציפור עפה מעל הבית.
+own|משלו, שלי (בעצמי)|a|I have my own room.|יש לי חדר משלי.
+pair|זוג (של דברים)|n|I got a new pair of shoes.|קיבלתי זוג נעליים חדש.
+part|חלק|n|This is my favorite part of the movie.|זה החלק האהוב עליי בסרט.
+pay|לשלם|v|Dad will pay for the ice cream.|אבא ישלם על הגלידה.
+perfect|מושלם|a|The weather is perfect for the beach.|מזג האוויר מושלם לים.
+perhaps|אולי, ייתכן|d|Perhaps it will rain tomorrow.|ייתכן שמחר ירד גשם.
+person|אדם|n|She is a very kind person.|היא אדם טוב לב מאוד.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1286,7 +1296,12 @@ curly|מתולתל|a|My sister has curly hair.|לאחותי יש שיער מתו
 damage|נזק; להזיק|n|The storm caused a lot of damage.|הסערה גרמה לנזק רב.
 defend|להגן על|v|The players defend their goal.|השחקנים מגנים על השער שלהם.
 delete|למחוק|v|Don't delete my photos!|אל תמחק את התמונות שלי!
-design|עיצוב; לעצב|n|I like the design of your shirt.|אני אוהב את העיצוב של החולצה שלך.`,
+design|עיצוב; לעצב|n|I like the design of your shirt.|אני אוהב את העיצוב של החולצה שלך.
+desktop|שולחן העבודה (במחשב)|n|The game is on the desktop of my computer.|המשחק נמצא על שולחן העבודה של המחשב שלי.
+detail|פרט|n|She drew every detail of the flower.|היא ציירה כל פרט של הפרח.
+detective|בלש|n|The detective found the missing ring.|הבלש מצא את הטבעת שנעלמה.
+disagree|לא להסכים|v|I disagree with you about the movie.|אני לא מסכים איתך לגבי הסרט.
+dive|לצלול, לקפוץ למים|v|I can dive into the pool.|אני יודע לקפוץ למים בבריכה.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1535,7 +1550,12 @@ curriculum|תוכנית לימודים|n|Music is part of our school curriculum.
 data|נתונים|n|The computer saves all the data.|המחשב שומר את כל הנתונים.
 debate|ויכוח, דיון|n|Our class had a debate about homework.|בכיתה שלנו היה דיון על שיעורי בית.
 deny|להכחיש|v|He did not deny that he ate the cake.|הוא לא הכחיש שהוא אכל את העוגה.
-depression|דיכאון; שקע|n|The rain filled a small depression in the ground.|הגשם מילא שקע קטן באדמה.`,
+depression|דיכאון; שקע|n|The rain filled a small depression in the ground.|הגשם מילא שקע קטן באדמה.
+desire|רצון עז, תשוקה|n|He has a strong desire to fly.|יש לו רצון עז לעוף.
+diet|תזונה; דיאטה|n|A healthy diet has lots of vegetables.|בתזונה בריאה יש הרבה ירקות.
+disappoint|לאכזב|v|I don't want to disappoint my coach.|אני לא רוצה לאכזב את המאמן שלי.
+display|תצוגה; להציג|n|The museum has a display of old toys.|במוזיאון יש תצוגה של צעצועים ישנים.
+district|מחוז, אזור|n|We live in a quiet district of the city.|אנחנו גרים באזור שקט בעיר.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

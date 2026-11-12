@@ -1,15 +1,5 @@
 # Pre-Band I
 # Band I
-outside
-over
-own
-paint
-pair
-part
-pay
-perfect
-perhaps
-person
 phone
 photo
 pick
@@ -135,16 +125,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-desire
-desktop
-detail
-detective
-diet
-disagree
-disappoint
-display
-district
-dive
 divide
 documentary
 dolphin
