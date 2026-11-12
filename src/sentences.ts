@@ -686,7 +686,17 @@ The plane will take off soon.|המטוס ימריא בקרוב.
 My dad took up swimming last year.|אבא שלי התחיל לשחות בשנה שעברה.
 Everyone must obey the law.|כולם חייבים לציית לחוק.
 I saw your sister the other day.|ראיתי את אחותך לפני כמה ימים.
-The press wrote about our school play.|העיתונות כתבה על ההצגה של בית הספר שלנו.`,
+The press wrote about our school play.|העיתונות כתבה על ההצגה של בית הספר שלנו.
+The museum is open to the public.|המוזיאון פתוח לקהל הרחב.
+We both said the same thing.|שנינו אמרנו את אותו הדבר.
+We saw the sights of the old city.|ראינו את אתרי התיירות של העיר העתיקה.
+Many people in the West drink coffee.|הרבה אנשים במערב שותים קפה.
+These days, everyone has a phone.|בימים אלה לכל אחד יש טלפון.
+I like cakes, cookies and things like that.|אני אוהב עוגות, עוגיות ודברים כאלה.
+My bike has a flat tire.|לאופניים שלי יש תקר בצמיג.
+To be honest, I didn't like the movie.|למען האמת, לא אהבתי את הסרט.
+To begin with, we need some paper.|קודם כול, אנחנו צריכים קצת נייר.
+Can I try out your new skateboard?|אני יכול לנסות את הסקייטבורד החדש שלך?`,
 };
 
 let n = 0;

@@ -1,15 +1,5 @@
 # Pre-Band I
 # Band I
-jam
-jeans
-join
-jump
-keyboard
-kick
-kill
-kiss
-large
-later
 least
 leather
 left-hand
@@ -199,16 +189,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-certainty
-chain
-chapter
-charity
-chart
-cheek
-cheerful
-chemistry
-chest
-chief
 chin
 circular
 circumstance
