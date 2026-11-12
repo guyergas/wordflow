@@ -656,7 +656,17 @@ Please pay attention to the teacher.|בבקשה שימו לב למורה.
 Fifty percent of the class are girls.|חמישים אחוז מהכיתה הן בנות.
 Let's play a trick on Dad!|בוא נעשה תעלול לאבא!
 Pleased to meet you!|נעים להכיר!
-I grew quite a bit this year.|גדלתי לא מעט השנה.`,
+I grew quite a bit this year.|גדלתי לא מעט השנה.
+Quite a few children came to the party.|לא מעט ילדים באו למסיבה.
+I haven't seen him for quite a while.|לא ראיתי אותו כבר די הרבה זמן.
+I want to walk rather than take the bus.|אני רוצה ללכת ברגל במקום לנסוע באוטובוס.
+My grade was relatively good.|הציון שלי היה טוב יחסית.
+This song reminds me of summer.|השיר הזה מזכיר לי את הקיץ.
+Running in the hall can result in an accident.|ריצה במסדרון יכולה לגרום לתאונה.
+It's not my fault!|זו לא אשמתי!
+Don't worry, I'll see to it.|אל תדאג, אני אטפל בזה.
+It seems like it will rain.|נראה שירד גשם.
+We had to send the toy back because it was broken.|נאלצנו לשלוח את הצעצוע בחזרה כי הוא היה שבור.`,
 };
 
 let n = 0;

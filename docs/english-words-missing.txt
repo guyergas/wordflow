@@ -1,15 +1,5 @@
 # Pre-Band I
 # Band I
-fine
-fire
-folder
-football
-form
-front
-full
-gate
-glasses
-gram
 great
 grill
 guess
@@ -232,16 +222,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-bite
-blame
-blank
-blind
-block
-blog
-bomb
-bone
-bookcase
-bother
 breath
 brief
 broad

@@ -395,7 +395,13 @@ eighth|שמיני|a|Our class is on the eighth floor.|הכיתה שלנו בקו
 field|שדה, מגרש|n|The cows eat grass in the field.|הפרות אוכלות עשב בשדה.
 fill|למלא|v|Please fill the glass with water.|בבקשה מלא את הכוס במים.
 feed|להאכיל|v|I feed my dog every morning.|אני מאכיל את הכלב שלי כל בוקר.
-famous|מפורסם|a|She wants to be a famous singer.|היא רוצה להיות זמרת מפורסמת.`,
+famous|מפורסם|a|She wants to be a famous singer.|היא רוצה להיות זמרת מפורסמת.
+fire|אש, שריפה|n|We sat around the fire and sang songs.|ישבנו מסביב למדורה ושרנו שירים.
+football|כדורגל|n|We play football after school.|אנחנו משחקים כדורגל אחרי בית הספר.
+full|מלא|a|My bag is full of books.|התיק שלי מלא בספרים.
+gate|שער|n|Please close the gate.|בבקשה סגור את השער.
+glasses|משקפיים|n|Grandma can't read without her glasses.|סבתא לא יכולה לקרוא בלי המשקפיים שלה.
+front|קדמה, חזית|n|I sit in the front of the class.|אני יושב בקדמת הכיתה.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -840,7 +846,16 @@ bee|דבורה|n|A bee is sitting on the flower.|דבורה יושבת על הפ
 beef|בשר בקר|n|We had beef and rice for dinner.|אכלנו בשר בקר ואורז לארוחת ערב.
 belt|חגורה|n|He wears a brown belt.|הוא חוגר חגורה חומה.
 bin|פח|n|Put the paper in the bin.|שים את הנייר בפח.
-birth|לידה|n|We were so happy at the birth of my baby brother.|כל כך שמחנו בלידה של אחי התינוק.`,
+birth|לידה|n|We were so happy at the birth of my baby brother.|כל כך שמחנו בלידה של אחי התינוק.
+fine|בסדר, נעים|a|The weather is fine today.|מזג האוויר נעים היום.
+folder|תיקייה|n|Put your drawings in the blue folder.|שים את הציורים שלך בתיקייה הכחולה.
+form|טופס|n|Please fill in this form.|בבקשה מלא את הטופס הזה.
+gram|גרם|n|A paper clip weighs about one gram.|מהדק נייר שוקל בערך גרם אחד.
+bone|עצם|n|The dog is chewing a bone.|הכלב לועס עצם.
+bite|לנשוך|v|Don't worry, my dog doesn't bite.|אל תדאג, הכלב שלי לא נושך.
+bookcase|כוננית ספרים|n|There are many books in the bookcase.|יש הרבה ספרים בכוננית.
+blog|בלוג|n|My sister writes a blog about cooking.|אחותי כותבת בלוג על בישול.
+block|קובייה, גוש|n|The baby is playing with a wooden block.|התינוק משחק בקובייה מעץ.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1141,7 +1156,11 @@ become|להפוך ל-, להיות|v|The little caterpillar will become a butterf
 bill|חשבון|n|Dad paid the bill at the restaurant.|אבא שילם את החשבון במסעדה.
 billion|מיליארד|n|The world has about eight billion people.|בעולם יש בערך שמונה מיליארד אנשים.
 beyond|מעבר ל-|o|The village is just beyond the hill.|הכפר נמצא ממש מעבר לגבעה.
-benefit|יתרון, תועלת|n|One benefit of reading is learning new words.|יתרון אחד של קריאה הוא לימוד מילים חדשות.`,
+benefit|יתרון, תועלת|n|One benefit of reading is learning new words.|יתרון אחד של קריאה הוא לימוד מילים חדשות.
+blank|ריק|a|Write your name in the blank space.|כתוב את השם שלך במקום הריק.
+blind|עיוור|a|The blind man walks with a dog.|האיש העיוור הולך עם כלב.
+blame|להאשים|v|Don't blame your brother for your mistake.|אל תאשים את אחיך בטעות שלך.
+bomb|פצצה|n|The water balloon fell like a bomb.|בלון המים נפל כמו פצצה.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1355,7 +1374,8 @@ attract|למשוך|v|Flowers attract bees.|פרחים מושכים דבורים.
 authority|סמכות|n|The principal has the authority to close the school.|למנהלת יש סמכות לסגור את בית הספר.
 avatar|דמות (במשחק), אווטאר|n|I chose a funny avatar for the game.|בחרתי דמות מצחיקה למשחק.
 basis|בסיס, יסוד|n|Trust is the basis of a good friendship.|אמון הוא הבסיס של חברות טובה.
-beneath|מתחת ל-|o|The cat is sleeping beneath the table.|החתול ישן מתחת לשולחן.`,
+beneath|מתחת ל-|o|The cat is sleeping beneath the table.|החתול ישן מתחת לשולחן.
+bother|להפריע, להטריד|v|Please don't bother me while I'm reading.|בבקשה אל תפריע לי כשאני קורא.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1716,26 +1736,26 @@ inequality|אי שוויון|n|The report shows growing inequality.|הדוח מ�
 justice|צדק|n|They marched for justice.|הם צעדו למען הצדק.
 freedom|חופש|n|Freedom is worth fighting for.|על חופש שווה להילחם.
 protest|מחאה|n|Thousands joined the protest.|אלפים הצטרפו למחאה.
-treaty|הסכם בין מדינות|n|The two nations signed a treaty.
-border|גבול|n|We crossed the border at night.
-empire|אימפריה|n|The Roman empire was huge.
-colony|מושבה|n|It was once a British colony.
-medieval|מימי הביניים|a|The town has a medieval castle.
-revolution|מהפכה|n|The revolution changed the country.
-civilization|ציוויליזציה|n|Egypt had a great civilization.
-ancestor|אב קדמון|n|My ancestor came from Spain.
-archaeology|ארכאולוגיה|n|She wants to study archaeology.
-immigrant|מהגר|n|His father was an immigrant.
-refugee|פליט|n|The refugee found a safe home.
-conflict|סכסוך|n|The conflict lasted many years.
-peace|שלום|n|Everyone hopes for peace.
-crisis|משבר|n|The crisis forced many shops to close.
-disaster|אסון|n|The fire was a terrible disaster.
-impact|השפעה ניכרת|n|The film had a huge impact.
-trend|מגמה|n|The trend is moving upward.
-statistics|סטטיסטיקה|n|The statistics surprised everyone.
-majority|רוב|n|The majority voted yes.
-minority|מיעוט|n|Only a minority agreed.
+treaty|הסכם בין מדינות|n|The two nations signed a treaty.|שתי המדינות חתמו על הסכם.
+border|גבול|n|We crossed the border at night.|חצינו את הגבול בלילה.
+empire|אימפריה|n|The Roman empire was huge.|האימפריה הרומית הייתה עצומה.
+colony|מושבה|n|It was once a British colony.|פעם זו הייתה מושבה בריטית.
+medieval|מימי הביניים|a|The town has a medieval castle.|בעיירה יש טירה מימי הביניים.
+revolution|מהפכה|n|The revolution changed the country.|המהפכה שינתה את המדינה.
+civilization|ציוויליזציה|n|Egypt had a great civilization.|במצרים הייתה ציוויליזציה גדולה.
+ancestor|אב קדמון|n|My ancestor came from Spain.|האב הקדמון שלי הגיע מספרד.
+archaeology|ארכאולוגיה|n|She wants to study archaeology.|היא רוצה ללמוד ארכאולוגיה.
+immigrant|מהגר|n|His father was an immigrant.|אבא שלו היה מהגר.
+refugee|פליט|n|The refugee found a safe home.|הפליט מצא בית בטוח.
+conflict|סכסוך|n|The conflict lasted many years.|הסכסוך נמשך שנים רבות.
+peace|שלום|n|Everyone hopes for peace.|כולם מקווים לשלום.
+crisis|משבר|n|The crisis forced many shops to close.|המשבר אילץ חנויות רבות להיסגר.
+disaster|אסון|n|The fire was a terrible disaster.|השריפה הייתה אסון נורא.
+impact|השפעה ניכרת|n|The film had a huge impact.|לסרט הייתה השפעה עצומה.
+trend|מגמה|n|The trend is moving upward.|המגמה היא כלפי מעלה.
+statistics|סטטיסטיקה|n|The statistics surprised everyone.|הנתונים הסטטיסטיים הפתיעו את כולם.
+majority|רוב|n|The majority voted yes.|הרוב הצביע בעד.
+minority|מיעוט|n|Only a minority agreed.|רק מיעוט הסכים.
 urban|עירוני|a|Urban life can be noisy.
 rural|כפרי|a|She grew up in a rural area.
 abolish|לבטל (חוק)|v|They voted to abolish the rule.
