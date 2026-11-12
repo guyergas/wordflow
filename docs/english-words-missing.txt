@@ -1,15 +1,5 @@
 # Pre-Band I
 # Band I
-unusual
-upstairs
-vacation
-visitor
-vocabulary
-war
-wave
-welcome
-wet
-which
 while
 whole
 will
@@ -24,16 +14,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-labor
-lady
-lately
-league
-legal
-leisure
-length
-link
-lioness
-literature
 loss
 major
 make-up

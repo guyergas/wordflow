@@ -470,7 +470,12 @@ toothbrush|מברשת שיניים|n|My toothbrush is blue.|מברשת השינ�
 toy|צעצוע|n|The baby is playing with a toy.|התינוק משחק עם צעצוע.
 supermarket|סופרמרקט|n|We buy milk at the supermarket.|אנחנו קונים חלב בסופרמרקט.
 true|נכון, אמיתי|a|Is this story true?|הסיפור הזה אמיתי?
-umbrella|מטרייה|n|Take an umbrella, it is raining.|קח מטרייה, יורד גשם.`,
+umbrella|מטרייה|n|Take an umbrella, it is raining.|קח מטרייה, יורד גשם.
+upstairs|למעלה (בקומה העליונה)|d|My room is upstairs.|החדר שלי למעלה.
+vacation|חופשה|n|We went to the beach on vacation.|נסענו לים בחופשה.
+welcome|ברוך הבא|o|Welcome to our new home!|ברוכים הבאים לבית החדש שלנו!
+wet|רטוב|a|My shoes are wet from the rain.|הנעליים שלי רטובות מהגשם.
+which|איזה, איזו|o|Which color do you like best?|איזה צבע אתה הכי אוהב?`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -1076,7 +1081,14 @@ university|אוניברסיטה|n|My sister studies at the university.|אחות�
 until|עד, עד ש|o|We waited until the rain stopped.|חיכינו עד שהגשם נפסק.
 jar|צנצנת|n|There is honey in the jar.|יש דבש בצנצנת.
 jungle|ג'ונגל|n|Tigers live in the jungle.|טיגריסים חיים בג'ונגל.
-knock|לדפוק|v|Please knock before you come in.|בבקשה לדפוק לפני שנכנסים.`,
+knock|לדפוק|v|Please knock before you come in.|בבקשה לדפוק לפני שנכנסים.
+unusual|לא רגיל, יוצא דופן|a|It is unusual to see snow here.|זה לא רגיל לראות כאן שלג.
+visitor|מבקר, אורח|n|We have a visitor from France.|יש לנו אורח מצרפת.
+vocabulary|אוצר מילים|n|Reading helps you learn new vocabulary.|קריאה עוזרת ללמוד אוצר מילים חדש.
+war|מלחמה|n|My grandpa told me about the war.|סבא שלי סיפר לי על המלחמה.
+wave|גל; לנופף|n|A big wave hit the beach.|גל גדול פגע בחוף.
+lady|גברת|n|The old lady fed the birds.|הגברת הזקנה האכילה את הציפורים.
+lioness|לביאה|n|The lioness hunts for her cubs.|הלביאה צדה בשביל הגורים שלה.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1476,7 +1488,11 @@ iron|ברזל; מגהץ|n|The old gate is made of iron.|השער הישן עשו
 jet|מטוס סילון|n|The jet flew high above the clouds.|מטוס הסילון טס גבוה מעל העננים.
 killed|הרג, נהרג|v|The cat killed a mouse in the garden.|החתול הרג עכבר בגינה.
 lab|מעבדה|n|We did an experiment in the science lab.|עשינו ניסוי במעבדת המדעים.
-label|תווית|n|Read the label on the bottle.|קרא את התווית על הבקבוק.`,
+label|תווית|n|Read the label on the bottle.|קרא את התווית על הבקבוק.
+lately|לאחרונה|d|Have you seen Dana lately?|ראית את דנה לאחרונה?
+league|ליגה|n|Our team plays in a junior league.|הקבוצה שלנו משחקת בליגת נוער.
+length|אורך|n|Measure the length of the table.|מדוד את אורך השולחן.
+link|קישור; חוליה|n|Click the link to see the video.|לחץ על הקישור כדי לראות את הסרטון.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1755,7 +1771,11 @@ indeed|אכן, באמת|d|It was indeed a very cold day.|זה אכן היה יו
 individual|יחיד, פרט; אישי|n|Every individual in the class is special.|כל אחד בכיתה הוא מיוחד.
 institution|מוסד|n|The university is an important institution.|האוניברסיטה היא מוסד חשוב.
 intend|להתכוון|v|I intend to finish my homework tonight.|אני מתכוון לסיים את שיעורי הבית הערב.
-internal|פנימי|a|The heart is an internal organ.|הלב הוא איבר פנימי.`,
+internal|פנימי|a|The heart is an internal organ.|הלב הוא איבר פנימי.
+labor|עבודה, עמל|n|Building a house takes a lot of labor.|בניית בית דורשת הרבה עבודה.
+legal|חוקי|a|Is it legal to ride a bike here?|זה חוקי לרכוב על אופניים כאן?
+leisure|פנאי|n|What do you do in your leisure time?|מה אתה עושה בזמן הפנאי שלך?
+literature|ספרות|n|We read a poem in literature class.|קראנו שיר בשיעור ספרות.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
