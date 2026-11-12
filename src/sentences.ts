@@ -646,7 +646,17 @@ Let's read the story once again.|בואו נקרא את הסיפור עוד פע
 Some day I will visit Paris.|יום אחד אבקר בפריז.
 The cat jumped onto the table.|החתול קפץ על השולחן.
 Tell me if you like it or not.|תגיד לי אם זה מוצא חן בעיניך או לא.
-You ought to say sorry.|כדאי שתבקש סליחה.`,
+You ought to say sorry.|כדאי שתבקש סליחה.
+Please read the story out loud.|בבקשה קרא את הסיפור בקול רם.
+The cat jumped out of the box.|החתול קפץ מתוך הקופסה.
+My uncle is out of work right now.|הדוד שלי מובטל כרגע.
+This map is out of date.|המפה הזאת לא מעודכנת.
+Come over here!|בוא לכאן!
+Please pay attention to the teacher.|בבקשה שימו לב למורה.
+Fifty percent of the class are girls.|חמישים אחוז מהכיתה הן בנות.
+Let's play a trick on Dad!|בוא נעשה תעלול לאבא!
+Pleased to meet you!|נעים להכיר!
+I grew quite a bit this year.|גדלתי לא מעט השנה.`,
 };
 
 let n = 0;

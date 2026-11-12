@@ -391,7 +391,11 @@ drawing|ציור|n|Look at my drawing of a horse.|תסתכל על הציור ש�
 each|כל אחד|o|The teacher gave each child a balloon.|המורה נתנה לכל ילד בלון.
 elephant|פיל|n|The elephant has big ears.|לפיל יש אוזניים גדולות.
 exam|מבחן|n|I studied hard for the exam.|למדתי קשה למבחן.
-eighth|שמיני|a|Our class is on the eighth floor.|הכיתה שלנו בקומה השמינית.`,
+eighth|שמיני|a|Our class is on the eighth floor.|הכיתה שלנו בקומה השמינית.
+field|שדה, מגרש|n|The cows eat grass in the field.|הפרות אוכלות עשב בשדה.
+fill|למלא|v|Please fill the glass with water.|בבקשה מלא את הכוס במים.
+feed|להאכיל|v|I feed my dog every morning.|אני מאכיל את הכלב שלי כל בוקר.
+famous|מפורסם|a|She wants to be a famous singer.|היא רוצה להיות זמרת מפורסמת.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -825,7 +829,18 @@ exactly|בדיוק|d|The movie starts at exactly five o'clock.|הסרט מתחי
 bean|שעועית|n|I planted a bean in a cup.|שתלתי גרגר שעועית בכוס.
 barber|ספר (מספרה)|n|The barber cut my hair short.|הספר קיצר לי את השיער.
 excellent|מצוין|a|You did an excellent job!|עשית עבודה מצוינת!
-bandage|תחבושת|n|The nurse put a bandage on my knee.|האחות שמה לי תחבושת על הברך.`,
+bandage|תחבושת|n|The nurse put a bandage on my knee.|האחות שמה לי תחבושת על הברך.
+except|חוץ מ-|o|Everyone came except Dan.|כולם באו חוץ מדן.
+exercise|תרגיל|n|Please do exercise five in your book.|בבקשה תעשו את תרגיל חמש בספר.
+extra|נוסף, עוד|a|Can I have an extra pencil?|אפשר לקבל עוד עיפרון?
+fail|להיכשל|v|If you don't study, you may fail the test.|אם לא תלמד, אתה עלול להיכשל במבחן.
+fairly|די, למדי|d|The test was fairly easy.|המבחן היה די קל.
+final|אחרון, סופי|a|This is the final game of the season.|זה המשחק האחרון של העונה.
+bee|דבורה|n|A bee is sitting on the flower.|דבורה יושבת על הפרח.
+beef|בשר בקר|n|We had beef and rice for dinner.|אכלנו בשר בקר ואורז לארוחת ערב.
+belt|חגורה|n|He wears a brown belt.|הוא חוגר חגורה חומה.
+bin|פח|n|Put the paper in the bin.|שים את הנייר בפח.
+birth|לידה|n|We were so happy at the birth of my baby brother.|כל כך שמחנו בלידה של אחי התינוק.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1122,7 +1137,11 @@ basic|בסיסי|a|I know some basic words in French.|אני יודע כמה מ�
 balance|שיווי משקל, איזון|n|I lost my balance and fell.|איבדתי את שיווי המשקל ונפלתי.
 beat|לנצח|v|Our team beat them in the final.|הקבוצה שלנו ניצחה אותם בגמר.
 base|בסיס|n|The base of the lamp is heavy.|הבסיס של המנורה כבד.
-become|להפוך ל-, להיות|v|The little caterpillar will become a butterfly.|הזחל הקטן יהפוך לפרפר.`,
+become|להפוך ל-, להיות|v|The little caterpillar will become a butterfly.|הזחל הקטן יהפוך לפרפר.
+bill|חשבון|n|Dad paid the bill at the restaurant.|אבא שילם את החשבון במסעדה.
+billion|מיליארד|n|The world has about eight billion people.|בעולם יש בערך שמונה מיליארד אנשים.
+beyond|מעבר ל-|o|The village is just beyond the hill.|הכפר נמצא ממש מעבר לגבעה.
+benefit|יתרון, תועלת|n|One benefit of reading is learning new words.|יתרון אחד של קריאה הוא לימוד מילים חדשות.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1335,7 +1354,8 @@ attempt|ניסיון|n|He jumped over the wall on his first attempt.|הוא קפ
 attract|למשוך|v|Flowers attract bees.|פרחים מושכים דבורים.
 authority|סמכות|n|The principal has the authority to close the school.|למנהלת יש סמכות לסגור את בית הספר.
 avatar|דמות (במשחק), אווטאר|n|I chose a funny avatar for the game.|בחרתי דמות מצחיקה למשחק.
-basis|בסיס, יסוד|n|Trust is the basis of a good friendship.|אמון הוא הבסיס של חברות טובה.`,
+basis|בסיס, יסוד|n|Trust is the basis of a good friendship.|אמון הוא הבסיס של חברות טובה.
+beneath|מתחת ל-|o|The cat is sleeping beneath the table.|החתול ישן מתחת לשולחן.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1676,26 +1696,26 @@ misunderstanding|אי הבנה|n|It was just a misunderstanding.|זו הייתה
 `drought|בצורת|n|The drought killed the crops.|הבצורת הרסה את היבולים.
 earthquake|רעידת אדמה|n|The earthquake woke the whole city.|רעידת האדמה העירה את כל העיר.
 flood|שיטפון|n|The flood destroyed the bridge.|השיטפון הרס את הגשר.
-resource|משאב|n|Water is a precious resource.
-extinct|נכחד|a|Dinosaurs have been extinct for millions of years.
-endangered|בסכנת הכחדה|a|The tiger is an endangered animal.
-renewable|מתחדש|a|Wind is a renewable source of energy.
-sustainable|בר קיימא|a|We need a sustainable way of life.
-agriculture|חקלאות|n|Agriculture needs a lot of water.
-community|קהילה|n|Our community built a new park.
-democracy|דמוקרטיה|n|In a democracy people can vote.
-parliament|פרלמנט|n|The parliament will meet tomorrow.
-citizen|אזרח|n|Every citizen has a duty to vote.
-president|נשיא|n|The president gave a speech.
-minister|שר|n|The minister answered the question.
-policy|מדיניות|n|The school changed its policy on phones.
-budget|תקציב|n|We have a small budget for the trip.
-poverty|עוני|n|Many families live in poverty.
-wealth|עושר|n|Wealth does not buy happiness.
-inequality|אי שוויון|n|The report shows growing inequality.
-justice|צדק|n|They marched for justice.
-freedom|חופש|n|Freedom is worth fighting for.
-protest|מחאה|n|Thousands joined the protest.
+resource|משאב|n|Water is a precious resource.|מים הם משאב יקר ערך.
+extinct|נכחד|a|Dinosaurs have been extinct for millions of years.|הדינוזאורים נכחדו לפני מיליוני שנים.
+endangered|בסכנת הכחדה|a|The tiger is an endangered animal.|הנמר הוא חיה בסכנת הכחדה.
+renewable|מתחדש|a|Wind is a renewable source of energy.|רוח היא מקור אנרגיה מתחדש.
+sustainable|בר קיימא|a|We need a sustainable way of life.|אנחנו צריכים אורח חיים בר קיימא.
+agriculture|חקלאות|n|Agriculture needs a lot of water.|חקלאות צריכה הרבה מים.
+community|קהילה|n|Our community built a new park.|הקהילה שלנו בנתה פארק חדש.
+democracy|דמוקרטיה|n|In a democracy people can vote.|בדמוקרטיה אנשים יכולים להצביע.
+parliament|פרלמנט|n|The parliament will meet tomorrow.|הפרלמנט יתכנס מחר.
+citizen|אזרח|n|Every citizen has a duty to vote.|לכל אזרח יש חובה להצביע.
+president|נשיא|n|The president gave a speech.|הנשיא נשא נאום.
+minister|שר|n|The minister answered the question.|השר ענה על השאלה.
+policy|מדיניות|n|The school changed its policy on phones.|בית הספר שינה את המדיניות שלו לגבי טלפונים.
+budget|תקציב|n|We have a small budget for the trip.|יש לנו תקציב קטן לטיול.
+poverty|עוני|n|Many families live in poverty.|הרבה משפחות חיות בעוני.
+wealth|עושר|n|Wealth does not buy happiness.|עושר לא קונה אושר.
+inequality|אי שוויון|n|The report shows growing inequality.|הדוח מראה אי שוויון הולך וגדל.
+justice|צדק|n|They marched for justice.|הם צעדו למען הצדק.
+freedom|חופש|n|Freedom is worth fighting for.|על חופש שווה להילחם.
+protest|מחאה|n|Thousands joined the protest.|אלפים הצטרפו למחאה.
 treaty|הסכם בין מדינות|n|The two nations signed a treaty.
 border|גבול|n|We crossed the border at night.
 empire|אימפריה|n|The Roman empire was huge.

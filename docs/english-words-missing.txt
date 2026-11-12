@@ -1,15 +1,5 @@
 # Pre-Band I
 # Band I
-except
-exercise
-extra
-fail
-fairly
-famous
-feed
-field
-fill
-final
 fine
 fire
 folder
@@ -242,17 +232,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-bee
-beef
-belt
-beneath
-benefit
-beyond
-bill
-billion
-bin
-binge-watch
-birth
 bite
 blame
 blank
