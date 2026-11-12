@@ -376,7 +376,17 @@ Write your date of birth here.|כתוב כאן את תאריך הלידה שלך
 We bought shoes at the department store.|קנינו נעליים בחנות הכלבו.
 The twins help each other.|התאומים עוזרים זה לזה.
 Be careful, don't fall down!|זהירות, אל תיפול!
-Please fill in your name.|בבקשה תמלא את השם שלך.`,
+Please fill in your name.|בבקשה תמלא את השם שלך.
+First of all, wash your hands.|קודם כל, תשטפו ידיים.
+Our old bike is for sale.|האופניים הישנים שלנו למכירה.
+Let's go out for some fresh air.|בואו נצא לנשום אוויר צח.
+Put a full stop at the end of the sentence.|שים נקודה בסוף המשפט.
+The car needs gas.|המכונית צריכה דלק.
+I got back my ball from the neighbor.|קיבלתי בחזרה את הכדור שלי מהשכן.
+My aunt will get married in June.|הדודה שלי תתחתן ביוני.
+I want to get to know my new classmates.|אני רוצה להכיר את החברים החדשים שלי בכיתה.
+Let's get together after school.|בואו ניפגש אחרי בית הספר.
+Please give back my pencil.|בבקשה תחזיר לי את העיפרון שלי.`,
 };
 
 let n = 0;

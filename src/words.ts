@@ -245,7 +245,13 @@ glass|כוס זכוכית, זכוכית|n|Can I have a glass of water?|אפשר 
 good|טוב|a|This cake is very good.|העוגה הזאת טובה מאוד.
 grandfather|סבא|n|My grandfather tells funny stories.|סבא שלי מספר סיפורים מצחיקים.
 grandmother|סבתא|n|My grandmother bakes cookies for us.|סבתא שלי אופה לנו עוגיות.
-gray|אפור|a|The elephant is gray.|הפיל אפור.`,
+gray|אפור|a|The elephant is gray.|הפיל אפור.
+green|ירוק|a|The grass is green.|הדשא ירוק.
+hair|שיער|n|She has long black hair.|יש לה שיער שחור וארוך.
+head|ראש|n|I put a hat on my head.|שמתי כובע על הראש.
+hear|לשמוע|v|I can hear the birds.|אני שומע את הציפורים.
+heart|לב|n|My heart beats fast when I run.|הלב שלי דופק מהר כשאני רץ.
+here|כאן|d|Come here, please.|בוא לכאן, בבקשה.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -492,7 +498,13 @@ grade|ציון, כיתה|n|I got a good grade on the test.|קיבלתי ציון
 grandchild|נכד|n|Grandma has one grandchild.|לסבתא יש נכד אחד.
 grandparent|סבא או סבתא|n|A grandparent is the parent of your mom or dad.|סבא או סבתא הם ההורים של אמא או של אבא.
 joke|בדיחה|n|Tell me a funny joke.|ספר לי בדיחה מצחיקה.
-kite|עפיפון|n|We flew a kite at the beach.|הטסנו עפיפון בחוף.`,
+kite|עפיפון|n|We flew a kite at the beach.|הטסנו עפיפון בחוף.
+ground|קרקע, אדמה|n|The apple fell to the ground.|התפוח נפל על האדמה.
+group|קבוצה, חבורה|n|We work in a group of four.|אנחנו עובדים בקבוצה של ארבעה.
+guitar|גיטרה|n|My sister plays the guitar.|אחותי מנגנת בגיטרה.
+heavy|כבד|a|This box is too heavy.|הארגז הזה כבד מדי.
+lemonade|לימונדה|n|We drank cold lemonade.|שתינו לימונדה קרה.
+lick|ללקק|v|The dog likes to lick my hand.|הכלב אוהב ללקק לי את היד.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -670,7 +682,12 @@ joy|שמחה|n|She jumped with joy.|היא קפצה משמחה.
 jewelry|תכשיטים|n|Mom keeps her jewelry in a small box.|אמא שומרת את התכשיטים שלה בקופסה קטנה.
 kilogram|קילוגרם|n|This bag of rice weighs one kilogram.|שקית האורז הזאת שוקלת קילוגרם אחד.
 kilometer|קילומטר|n|My school is one kilometer from home.|בית הספר שלי נמצא קילומטר אחד מהבית.
-land|אדמה, יבשה|n|The farmer works on his land.|החקלאי עובד על האדמה שלו.`,
+land|אדמה, יבשה|n|The farmer works on his land.|החקלאי עובד על האדמה שלו.
+laptop|מחשב נייד|n|Dad works on his laptop.|אבא עובד על המחשב הנייד שלו.
+latest|האחרון, החדש ביותר|a|Have you seen the latest movie?|ראית את הסרט החדש ביותר?
+lift|להרים|v|Can you lift this bag?|אתה יכול להרים את התיק הזה?
+level|רמה, שלב|n|I finished the next level of the game.|סיימתי את השלב הבא במשחק.
+lead|להוביל|v|The teacher will lead us to the bus.|המורה תוביל אותנו לאוטובוס.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -729,26 +746,26 @@ climb|לטפס|v|Monkeys climb trees.|קופים מטפסים על עצים.
 swim|לשחות|v|Can you swim?|אתה יודע לשחות?
 follow|לעקוב אחרי|v|Follow me to the door.|לך אחריי עד הדלת.
 pack|לארוז|v|I need to pack my bag.|אני צריך לארוז את התיק שלי.
-explore|לחקור|v|Let's explore the cave.
-grow|לגדול|v|Flowers grow fast in spring.
-receive|לקבל|v|Did you receive my letter?
-prepare|להכין|v|We prepare for the test together.
-support|לתמוך|v|Good friends support each other.
-describe|לתאר|v|Can you describe your new school?
-fence|גדר|n|The cat jumped over the fence.
-ladder|סולם|n|He climbed the ladder to the roof.
-scissors|מספריים|n|Use the scissors to cut the paper.
-envelope|מעטפה|n|Put the letter in the envelope.
-nearby|בקרבת מקום|d|My aunt lives nearby, so we often visit.
-receipt|קבלה|n|Keep the receipt in case the shoes are too small.
-repair|לתקן|v|Dad can repair my broken bike.
-forecast|תחזית|n|The forecast says it will rain tomorrow.
-prevent|למנוע|v|Washing your hands can prevent illness.
-translate|לתרגם|v|Can you translate this letter into Hebrew?
-responsible|אחראי|a|She is responsible for feeding the dog.
-sew|לתפור|v|My aunt can sew a button on a shirt.
-parcel|חבילה|n|A parcel arrived for you this morning.
-harvest|קציר|n|The farmers finished the wheat harvest in spring.
+explore|לחקור|v|Let's explore the cave.|בוא נחקור את המערה.
+grow|לגדול|v|Flowers grow fast in spring.|פרחים גדלים מהר באביב.
+receive|לקבל|v|Did you receive my letter?|קיבלת את המכתב שלי?
+prepare|להכין|v|We prepare for the test together.|אנחנו מתכוננים למבחן יחד.
+support|לתמוך|v|Good friends support each other.|חברים טובים תומכים זה בזה.
+describe|לתאר|v|Can you describe your new school?|אתה יכול לתאר את בית הספר החדש שלך?
+fence|גדר|n|The cat jumped over the fence.|החתול קפץ מעל הגדר.
+ladder|סולם|n|He climbed the ladder to the roof.|הוא טיפס בסולם לגג.
+scissors|מספריים|n|Use the scissors to cut the paper.|השתמש במספריים כדי לגזור את הנייר.
+envelope|מעטפה|n|Put the letter in the envelope.|שים את המכתב במעטפה.
+nearby|בקרבת מקום|d|My aunt lives nearby, so we often visit.|הדודה שלי גרה קרוב, אז אנחנו מבקרים אותה הרבה.
+receipt|קבלה|n|Keep the receipt in case the shoes are too small.|שמור את הקבלה למקרה שהנעליים קטנות מדי.
+repair|לתקן|v|Dad can repair my broken bike.|אבא יכול לתקן את האופניים השבורים שלי.
+forecast|תחזית|n|The forecast says it will rain tomorrow.|התחזית אומרת שמחר ירד גשם.
+prevent|למנוע|v|Washing your hands can prevent illness.|שטיפת ידיים יכולה למנוע מחלות.
+translate|לתרגם|v|Can you translate this letter into Hebrew?|אתה יכול לתרגם את המכתב הזה לעברית?
+responsible|אחראי|a|She is responsible for feeding the dog.|היא אחראית להאכיל את הכלב.
+sew|לתפור|v|My aunt can sew a button on a shirt.|הדודה שלי יודעת לתפור כפתור לחולצה.
+parcel|חבילה|n|A parcel arrived for you this morning.|חבילה הגיעה בשבילך הבוקר.
+harvest|קציר|n|The farmers finished the wheat harvest in spring.|החקלאים סיימו את קציר החיטה באביב.
 accompany|ללוות|v|My mom will accompany us on the trip.|אמא שלי תלווה אותנו בטיול.
 adjust|לכוונן|v|You can adjust the seat to your height.|אפשר לכוונן את המושב לגובה שלך.
 admit|להודות|v|He did not want to admit his mistake.|הוא לא רצה להודות בטעות שלו.
@@ -801,7 +818,10 @@ international|בינלאומי|a|We went to an international food fair.|הלכנ
 interval|הפסקה, מרווח|n|We bought ice cream in the interval.|קנינו גלידה בהפסקה.
 jazz|ג'אז|n|My uncle plays jazz on the piano.|הדוד שלי מנגן ג'אז בפסנתר.
 jail|כלא|n|The thief went to jail.|הגנב הלך לכלא.
-judge|שופט|n|The judge listened to both sides.|השופט הקשיב לשני הצדדים.`,
+judge|שופט|n|The judge listened to both sides.|השופט הקשיב לשני הצדדים.
+largely|בעיקר, במידה רבה|d|The park is largely empty in winter.|הפארק ריק ברובו בחורף.
+lawyer|עורך דין|n|Her mom is a lawyer.|אמא שלה עורכת דין.
+limit|גבול, הגבלה|n|There is a limit of two cookies each.|יש הגבלה של שתי עוגיות לכל אחד.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.
