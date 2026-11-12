@@ -356,7 +356,13 @@ what|מה|o|What is your name?|מה השם שלך?
 when|מתי|o|When is your birthday?|מתי יום ההולדת שלך?
 where|איפה|o|Where is my bag?|איפה התיק שלי?
 white|לבן|a|Snow is white.|השלג לבן.
-wear|ללבוש|v|I wear a coat in winter.|אני לובש מעיל בחורף.`,
+wear|ללבוש|v|I wear a coat in winter.|אני לובש מעיל בחורף.
+who|מי|o|Who is at the door?|מי בדלת?
+why|למה|o|Why are you sad?|למה אתה עצוב?
+win|לנצח|v|I hope our team will win.|אני מקווה שהקבוצה שלנו תנצח.
+winter|חורף|n|It is cold in winter.|קר בחורף.
+with|עם|o|I play with my sister.|אני משחקת עם אחותי.
+woman|אישה|n|The woman has a red umbrella.|לאישה יש מטרייה אדומה.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -726,7 +732,14 @@ well|היטב, טוב|d|She sings very well.|היא שרה טוב מאוד.
 west|מערב|n|The sun sets in the west.|השמש שוקעת במערב.
 touch|לגעת|v|Don't touch the hot stove.|אל תיגע בכיריים החמות.
 tower|מגדל|n|We built a tall tower of blocks.|בנינו מגדל גבוה מקוביות.
-trousers|מכנסיים ארוכים|n|My trousers are too long.|המכנסיים שלי ארוכים מדי.`,
+trousers|מכנסיים ארוכים|n|My trousers are too long.|המכנסיים שלי ארוכים מדי.
+wife|רעיה, אשתו של|n|My uncle's wife is very kind.|אשתו של הדוד שלי נחמדה מאוד.
+windy|עם רוח חזקה, סוער|a|It is windy today.|יש היום רוח חזקה.
+winner|מנצח, זוכה|n|The winner gets a medal.|המנצח מקבל מדליה.
+wine|יין|n|Grapes are used to make wine.|מענבים מכינים יין.
+truck|משאית|n|A big truck stopped near our house.|משאית גדולה עצרה ליד הבית שלנו.
+ugly|מכוער|a|The ugly duckling became a swan.|הברווזון המכוער הפך לברבור.
+uniform|מדים, תלבושת אחידה|n|We wear a uniform to school.|אנחנו לובשים תלבושת אחידה לבית הספר.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -987,7 +1000,12 @@ tour|סיור|n|We went on a tour of the museum.|יצאנו לסיור במוז�
 tram|רכבת קלה, חשמלית|n|We took the tram to the city center.|נסענו ברכבת הקלה למרכז העיר.
 treat|פינוק|n|Ice cream is a special treat.|גלידה היא פינוק מיוחד.
 trouble|צרה, בעיה|n|The puppy got into trouble.|הגור הסתבך בצרות.
-traveler|מטייל, נוסע|n|The traveler carried a big bag.|המטייל סחב תיק גדול.`,
+traveler|מטייל, נוסע|n|The traveler carried a big bag.|המטייל סחב תיק גדול.
+tune|מנגינה, לחן|n|She hummed a happy tune.|היא זמזמה מנגינה שמחה.
+turning|פנייה|n|Take the second turning on the left.|תפנה בפנייה השנייה שמאלה.
+unit|יחידה|n|We finished the first unit of the book.|סיימנו את היחידה הראשונה בספר.
+usual|הרגיל, כרגיל|a|I woke up later than usual.|קמתי מאוחר מהרגיל.
+unpleasant|לא נעים|a|The smell was unpleasant.|הריח היה לא נעים.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1175,7 +1193,9 @@ threat|איום|n|Pollution is a threat to the sea.|זיהום הוא איום �
 timetable|לוח זמנים, מערכת שעות|n|Check the timetable for the next bus.|תבדוק בלוח הזמנים מתי האוטובוס הבא.
 topic|נושא|n|The topic of my project is space.|הנושא של העבודה שלי הוא החלל.
 total|סכום כולל, סך הכול|n|The total is fifty shekels.|הסכום הכולל הוא חמישים שקלים.
-trade|מסחר|n|Trade between the two countries grew.|המסחר בין שתי המדינות גדל.`,
+trade|מסחר|n|Trade between the two countries grew.|המסחר בין שתי המדינות גדל.
+understanding|הבנה|n|She has a good understanding of math.|יש לה הבנה טובה במתמטיקה.
+unnecessary|מיותר, לא נחוץ|a|Don't buy unnecessary things.|אל תקנה דברים מיותרים.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1356,26 +1376,26 @@ predict|לחזות|v|Nobody can predict the future.|אף אחד לא יכול ל
 affect|להשפיע על|v|Sleep can affect your mood.|שינה יכולה להשפיע על מצב הרוח שלך.
 depend|להיות תלוי|v|Plants depend on the sun.|צמחים תלויים בשמש.
 survive|לשרוד|v|Few animals survive here.|מעט בעלי חיים שורדים כאן.`,
-`achievement|הישג|n|Winning the prize was a big achievement.
-advantage|יתרון|n|Being tall is an advantage in basketball.
-disadvantage|חיסרון|n|The only disadvantage is the price.
-challenge|אתגר|n|Learning piano is a real challenge.
-consequence|השלכה|n|Every choice has a consequence.
-conscience|מצפון|n|My conscience told me to return it.
-curiosity|סקרנות|n|Curiosity drives every scientist.
-determination|נחישות|n|Her determination helped her win.
-embarrassment|מבוכה|n|His face went red with embarrassment.
-encouragement|עידוד|n|A little encouragement goes a long way.
-independence|עצמאות|n|Teens want more independence.
-influence|השפעה|n|Friends have a big influence on us.
-opportunity|הזדמנות פז|n|This is a great opportunity.
-perspective|נקודת מבט|n|Try to see it from her perspective.
-prejudice|דעה קדומה|n|Prejudice hurts people.
-privilege|זכות יתר|n|It is a privilege to be here.
-recommendation|המלצה|n|Thanks for the book recommendation.
-sacrifice|הקרבה|n|Parents often make a sacrifice for their kids.
-strategy|אסטרטגיה|n|We need a better strategy.
-tendency|נטייה|n|He has a tendency to arrive late.
+`achievement|הישג|n|Winning the prize was a big achievement.|הזכייה בפרס הייתה הישג גדול.
+advantage|יתרון|n|Being tall is an advantage in basketball.|להיות גבוה זה יתרון בכדורסל.
+disadvantage|חיסרון|n|The only disadvantage is the price.|החיסרון היחיד הוא המחיר.
+challenge|אתגר|n|Learning piano is a real challenge.|ללמוד לנגן בפסנתר זה אתגר אמיתי.
+consequence|השלכה|n|Every choice has a consequence.|לכל בחירה יש השלכה.
+conscience|מצפון|n|My conscience told me to return it.|המצפון שלי אמר לי להחזיר את זה.
+curiosity|סקרנות|n|Curiosity drives every scientist.|סקרנות מניעה כל מדען.
+determination|נחישות|n|Her determination helped her win.|הנחישות שלה עזרה לה לנצח.
+embarrassment|מבוכה|n|His face went red with embarrassment.|הפנים שלו האדימו ממבוכה.
+encouragement|עידוד|n|A little encouragement goes a long way.|קצת עידוד עושה הרבה.
+independence|עצמאות|n|Teens want more independence.|בני נוער רוצים יותר עצמאות.
+influence|השפעה|n|Friends have a big influence on us.|לחברים יש השפעה גדולה עלינו.
+opportunity|הזדמנות פז|n|This is a great opportunity.|זאת הזדמנות נהדרת.
+perspective|נקודת מבט|n|Try to see it from her perspective.|נסה לראות את זה מנקודת המבט שלה.
+prejudice|דעה קדומה|n|Prejudice hurts people.|דעות קדומות פוגעות באנשים.
+privilege|זכות יתר|n|It is a privilege to be here.|זאת זכות גדולה להיות כאן.
+recommendation|המלצה|n|Thanks for the book recommendation.|תודה על המלצת הספר.
+sacrifice|הקרבה|n|Parents often make a sacrifice for their kids.|הורים מקריבים הרבה למען הילדים שלהם.
+strategy|אסטרטגיה|n|We need a better strategy.|אנחנו צריכים אסטרטגיה טובה יותר.
+tendency|נטייה|n|He has a tendency to arrive late.|יש לו נטייה להגיע באיחור.
 accurate|מדויק|a|This clock is very accurate.
 anxious|חרד|a|She felt anxious before the show.
 awkward|מביך|a|There was an awkward silence.

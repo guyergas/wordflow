@@ -566,7 +566,17 @@ Just do your best!|פשוט תעשה כמיטב יכולתך!
 Drag and drop the picture.|גרור ושחרר את התמונה.
 My sister got her driving license.|אחותי קיבלה רישיון נהיגה.
 The game was canceled due to rain.|המשחק בוטל בגלל הגשם.
-You can have either juice or milk.|אתה יכול לקבל מיץ או חלב.`,
+You can have either juice or milk.|אתה יכול לקבל מיץ או חלב.
+We always end up laughing.|תמיד בסוף אנחנו צוחקים.
+We bought apples, bananas, pears, etc.|קנינו תפוחים, בננות, אגסים וכו'.
+We have been friends ever since.|מאז אנחנו חברים.
+I read every single page.|קראתי כל עמוד ועמוד.
+I fall asleep fast after a long day.|אני נרדם מהר אחרי יום ארוך.
+Please come in and feel at home.|בבקשה תיכנס ותרגיש בבית.
+I feel bad about the broken vase.|אני מרגיש רע בגלל האגרטל השבור.
+I feel like eating pizza.|בא לי לאכול פיצה.
+I feel as if I can fly.|אני מרגיש כאילו אני יכול לעוף.
+I feel sorry for the lost puppy.|אני מרחם על הגור שהלך לאיבוד.`,
 };
 
 let n = 0;
