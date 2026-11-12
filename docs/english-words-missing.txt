@@ -1,15 +1,5 @@
 # Pre-Band I
 # Band I
-must
-nature
-nearly
-negative
-news
-newspaper
-none
-noon
-normal
-north
 note
 number
 nurse
@@ -156,16 +146,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-couple
-court
-creature
-crew
-crime
-crown
-cruel
-cucumber
-curly
-currency
 curriculum
 damage
 damn

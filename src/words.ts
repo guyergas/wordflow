@@ -425,7 +425,8 @@ market|שוק|n|We buy fruit at the market.|אנחנו קונים פירות ב�
 message|הודעה|n|I sent my friend a message.|שלחתי הודעה לחבר שלי.
 mine|שלי|o|This pencil is mine.|העיפרון הזה שלי.
 mouse|עכבר|n|The cat is chasing a mouse.|החתול רודף אחרי עכבר.
-move|לזוז; לעבור (דירה)|v|Don't move, I am taking a photo.|אל תזוז, אני מצלם.`,
+move|לזוז; לעבור (דירה)|v|Don't move, I am taking a photo.|אל תזוז, אני מצלם.
+noon|צהריים (12:00)|n|We eat lunch at noon.|אנחנו אוכלים ארוחת צהריים בשתים עשרה בצהריים.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -925,7 +926,17 @@ moment|רגע|n|Wait a moment, please.|חכה רגע, בבקשה.
 most|הכי, הכי הרבה; רוב|d|I like math the most.|אני הכי אוהב מתמטיקה.
 much|הרבה, מאוד|d|Thank you very much!|תודה רבה!
 mug|ספל|n|Grandpa drinks tea from a big mug.|סבא שותה תה מספל גדול.
-museum|מוזיאון|n|We visited the science museum.|ביקרנו במוזיאון המדע.`,
+museum|מוזיאון|n|We visited the science museum.|ביקרנו במוזיאון המדע.
+must|חייב|v|You must wash your hands before lunch.|אתה חייב לשטוף ידיים לפני ארוחת הצהריים.
+nature|טבע|n|We love to walk in nature.|אנחנו אוהבים ללכת בטבע.
+nearly|כמעט|d|It is nearly time for bed.|כמעט הגיע הזמן ללכת לישון.
+negative|שלילי|a|Try not to be so negative.|נסה לא להיות כל כך שלילי.
+news|חדשות|n|Grandpa watches the news every evening.|סבא צופה בחדשות כל ערב.
+newspaper|עיתון|n|Dad reads the newspaper at breakfast.|אבא קורא את העיתון בארוחת הבוקר.
+none|אף אחד, אף לא אחד|o|I wanted a cookie, but there were none left.|רציתי עוגייה, אבל לא נשארה אף אחת.
+normal|רגיל, נורמלי|a|Today was a normal school day.|היום היה יום לימודים רגיל.
+north|צפון|n|It is cold in the north.|קר בצפון.
+cucumber|מלפפון|n|I put a cucumber in my salad.|שמתי מלפפון בסלט שלי.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1254,7 +1265,13 @@ communicate|לתקשר|v|Dolphins communicate with sounds.|דולפינים מת
 confidence|ביטחון עצמי|n|Practice gives you confidence.|תרגול נותן לך ביטחון עצמי.
 construction|בנייה|n|There is construction on our street.|יש עבודות בנייה ברחוב שלנו.
 cottage|בקתה, בית קטן|n|We stayed in a cottage by the lake.|גרנו בבקתה ליד האגם.
-council|מועצה|n|The student council meets every week.|מועצת התלמידים נפגשת כל שבוע.`,
+council|מועצה|n|The student council meets every week.|מועצת התלמידים נפגשת כל שבוע.
+couple|זוג; כמה|n|A young couple lives next door.|זוג צעיר גר בדירה הסמוכה.
+court|מגרש; בית משפט|n|We played tennis on the new court.|שיחקנו טניס במגרש החדש.
+creature|יצור|n|A strange creature lives in the lake.|יצור מוזר חי באגם.
+crown|כתר|n|The queen wore a gold crown.|המלכה חבשה כתר זהב.
+cruel|אכזרי|a|It is cruel to hurt animals.|זה אכזרי לפגוע בבעלי חיים.
+curly|מתולתל|a|My sister has curly hair.|לאחותי יש שיער מתולתל.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1495,7 +1512,10 @@ consciousness|הכרה, מודעות|n|After the fall, he lost consciousness for
 constant|קבוע, בלתי פוסק|a|The constant noise kept me awake.|הרעש הבלתי פוסק לא נתן לי לישון.
 content|תוכן|n|The content of the book is very interesting.|התוכן של הספר מעניין מאוד.
 convert|להמיר, להפוך|v|We can convert the old box into a dollhouse.|אנחנו יכולים להפוך את הקופסה הישנה לבית בובות.
-county|מחוז|n|Our county has many farms.|במחוז שלנו יש הרבה חוות.`,
+county|מחוז|n|Our county has many farms.|במחוז שלנו יש הרבה חוות.
+crew|צוות|n|The ship's crew waved to us.|צוות הספינה נופף לנו.
+crime|פשע|n|The police solved the crime.|המשטרה פתרה את הפשע.
+currency|מטבע (כסף של מדינה)|n|The shekel is the currency of Israel.|השקל הוא המטבע של ישראל.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
