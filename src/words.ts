@@ -229,7 +229,12 @@ eleven|אחת עשרה|n|My sister is eleven years old.|אחותי בת אחת �
 evening|ערב|n|We read a story in the evening.|אנחנו קוראים סיפור בערב.
 eye|עין|n|I have something in my eye.|יש לי משהו בעין.
 face|פנים|n|Wash your face before bed.|תשטוף את הפנים לפני השינה.
-farm|חווה|n|There are cows on the farm.|יש פרות בחווה.`,
+farm|חווה|n|There are cows on the farm.|יש פרות בחווה.
+fifteen|חמש עשרה|n|There are fifteen kids in my class.|יש חמישה עשר ילדים בכיתה שלי.
+finger|אצבע|n|I cut my finger.|חתכתי את האצבע.
+fish|דג|n|The fish swims in the water.|הדג שוחה במים.
+five|חמש|n|I have five pencils.|יש לי חמישה עפרונות.
+floor|רצפה|n|The ball is on the floor.|הכדור על הרצפה.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -456,7 +461,14 @@ everywhere|בכל מקום|d|There are toys everywhere in my room.|יש צעצו
 fall|ליפול|v|Hold on so you don't fall off the bike.|תחזיק חזק כדי שלא תיפול מהאופניים.
 honey|דבש|n|Bees make honey.|דבורים מכינות דבש.
 hobby|תחביב|n|My hobby is painting.|התחביב שלי הוא ציור.
-helpful|מועיל, עוזר|a|The map was very helpful.|המפה עזרה מאוד.`,
+helpful|מועיל, עוזר|a|The map was very helpful.|המפה עזרה מאוד.
+fat|שמן|a|Our cat is very fat.|החתול שלנו שמן מאוד.
+fifty|חמישים|n|My dad is fifty years old.|אבא שלי בן חמישים.
+find|למצוא|v|I can't find my shoes.|אני לא מוצא את הנעליים שלי.
+first|ראשון|a|I was first in the race.|הייתי ראשון במרוץ.
+flat|שטוח|a|The table is flat.|השולחן שטוח.
+hundreds|מאות|n|There are hundreds of birds in the sky.|יש מאות ציפורים בשמיים.
+ill|חולה|a|I stayed home because I was ill.|נשארתי בבית כי הייתי חולה.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -529,8 +541,8 @@ traffic|תנועת כלי רכב|n|There is a lot of traffic in the morning.|י�
 notice|להבחין|v|Did you notice the new sign on the door?|שמת לב לשלט החדש על הדלת?
 chew|ללעוס|v|Please chew your food slowly.|בבקשה תלעס את האוכל לאט.
 tidy|מסודר|a|Her room is always tidy.|החדר שלה תמיד מסודר.
-stir|לערבב|v|Stir the soup with a big spoon.
-remind|להזכיר|v|Please remind me to call Grandma.
+stir|לערבב|v|Stir the soup with a big spoon.|תערבב את המרק בכף גדולה.
+remind|להזכיר|v|Please remind me to call Grandma.|בבקשה תזכיר לי להתקשר לסבתא.
 accent|מבטא|n|Her grandmother speaks with a French accent.|סבתא שלה מדברת במבטא צרפתי.
 achieve|להשיג|v|If you work hard, you can achieve your goals.|אם תעבדו קשה, תוכלו להשיג את המטרות שלכם.
 adjective|שם תואר|n|"Happy" is an adjective.|"שמח" הוא שם תואר.
@@ -620,25 +632,30 @@ handbag|תיק יד|n|Grandma keeps her keys in her handbag.|סבתא שומרת
 health|בריאות|n|Fruit is good for your health.|פירות טובים לבריאות שלך.
 horrible|נורא, איום|a|The medicine has a horrible taste.|לתרופה יש טעם נורא.
 himself|בעצמו, את עצמו|o|He made the cake himself.|הוא הכין את העוגה בעצמו.
-herself|בעצמה, את עצמה|o|She looked at herself in the mirror.|היא הסתכלה על עצמה במראה.`,
-`journey|מסע|n|The journey took two days.
-passport|דרכון|n|Don't lose your passport.
-luggage|מזוודות|n|Our luggage is at the airport.
-airport|שדה תעופה|n|We arrived at the airport early.
-flight|טיסה|n|Our flight leaves at noon.
-station|תחנה|n|The train station is close.
-bridge|גשר|n|We crossed the old bridge.
-map|מפה|n|Look at the map.
-guide|מדריך|n|Our guide told us a story.
-tourist|תייר|n|A tourist asked me for directions.
-abroad|בחו״ל|d|We travel abroad every summer.
-weather|מזג אוויר|n|The weather is lovely today.
-storm|סערה|n|The storm broke a big tree.
-cloud|ענן|n|That cloud looks like a dog.
-wind|רוח|n|The wind blew my hat away.
-rain|גשם|n|The rain stopped at noon.
-snow|שלג|n|The snow covered the road.
-lightning|ברק|n|We saw lightning over the sea.
+herself|בעצמה, את עצמה|o|She looked at herself in the mirror.|היא הסתכלה על עצמה במראה.
+human|אדם, אנושי|n|A dog can smell better than a human.|כלב יכול להריח טוב יותר מאדם.
+hunger|רעב|n|The baby cried from hunger.|התינוק בכה מרעב.
+hunting|ציד|n|Lions go hunting at night.|אריות יוצאים לציד בלילה.
+ignore|להתעלם|v|Please don't ignore me.|בבקשה אל תתעלם ממני.
+housewife|עקרת בית|n|My grandma was a housewife.|סבתא שלי הייתה עקרת בית.`,
+`journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
+passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
+luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
+airport|שדה תעופה|n|We arrived at the airport early.|הגענו לשדה התעופה מוקדם.
+flight|טיסה|n|Our flight leaves at noon.|הטיסה שלנו יוצאת בצהריים.
+station|תחנה|n|The train station is close.|תחנת הרכבת קרובה.
+bridge|גשר|n|We crossed the old bridge.|חצינו את הגשר הישן.
+map|מפה|n|Look at the map.|תסתכל על המפה.
+guide|מדריך|n|Our guide told us a story.|המדריך שלנו סיפר לנו סיפור.
+tourist|תייר|n|A tourist asked me for directions.|תייר שאל אותי איך מגיעים.
+abroad|בחו״ל|d|We travel abroad every summer.|אנחנו נוסעים לחו״ל כל קיץ.
+weather|מזג אוויר|n|The weather is lovely today.|מזג האוויר נפלא היום.
+storm|סערה|n|The storm broke a big tree.|הסערה שברה עץ גדול.
+cloud|ענן|n|That cloud looks like a dog.|הענן ההוא נראה כמו כלב.
+wind|רוח|n|The wind blew my hat away.|הרוח העיפה לי את הכובע.
+rain|גשם|n|The rain stopped at noon.|הגשם הפסיק בצהריים.
+snow|שלג|n|The snow covered the road.|השלג כיסה את הכביש.
+lightning|ברק|n|We saw lightning over the sea.|ראינו ברק מעל הים.
 thunder|רעם|n|The thunder scared my dog.
 season|עונה|n|Spring is my favorite season.
 forest|יער|n|Bears live in the forest.
@@ -741,7 +758,10 @@ god|אל|n|Poseidon was the Greek god of the sea.|פוסידון היה אל ה�
 hardly|בקושי|d|I can hardly see in the dark.|אני בקושי רואה בחושך.
 hearing|שמיעה|n|Owls have very good hearing.|לינשופים יש שמיעה טובה מאוד.
 heavily|בכבדות, בחוזקה|d|It rained heavily all night.|ירד גשם חזק כל הלילה.
-highway|כביש מהיר|n|The cars drive fast on the highway.|המכוניות נוסעות מהר בכביש המהיר.`,
+highway|כביש מהיר|n|The cars drive fast on the highway.|המכוניות נוסעות מהר בכביש המהיר.
+image|תמונה, דמות|n|I saw my image in the water.|ראיתי את הדמות שלי במים.
+immediate|מיידי|a|We need an immediate answer.|אנחנו צריכים תשובה מיידית.
+importance|חשיבות|n|The teacher spoke about the importance of sleep.|המורה דיברה על החשיבות של שינה.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.

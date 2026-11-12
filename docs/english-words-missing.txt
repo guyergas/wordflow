@@ -1,16 +1,5 @@
 # Pre-Band I
 # Band I
-fat
-February
-fifteen
-fifty
-find
-finger
-first
-fish
-five
-flat
-floor
 flower
 fly
 foot
@@ -555,16 +544,6 @@ yogurt
 yours
 zero
 # Band II Core I
-housewife
-human
-hundreds
-hunger
-hunting
-ignore
-ill
-image
-immediate
-importance
 included
 inform
 ingredient

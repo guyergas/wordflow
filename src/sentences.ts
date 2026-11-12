@@ -346,7 +346,17 @@ This table is made of wood.|השולחן הזה עשוי מעץ.
 I am off to school!|אני יוצא לבית הספר!
 I am responsible for feeding the dog.|אני אחראי להאכיל את הכלב.
 You are supposed to be in bed.|אתה אמור להיות במיטה.
-The little bird was unable to fly.|הציפור הקטנה לא הייתה מסוגלת לעוף.`,
+The little bird was unable to fly.|הציפור הקטנה לא הייתה מסוגלת לעוף.
+I am used to waking up early.|אני רגיל לקום מוקדם.
+She is willing to help.|היא מוכנה לעזור.
+This old coin is worth a lot of money.|המטבע הישן הזה שווה הרבה כסף.
+The long walk was worth it.|ההליכה הארוכה הייתה שווה את זה.
+You are wrong, the answer is ten.|אתה טועה, התשובה היא עשר.
+This ball belongs to my brother.|הכדור הזה שייך לאח שלי.
+Best wishes!|איחולים חמים!
+My sister has blonde hair.|לאחותי יש שיער בלונדיני.
+Our car broke down on the way.|המכונית שלנו התקלקלה בדרך.
+Please bring back my book tomorrow.|בבקשה תחזיר לי את הספר מחר.`,
 };
 
 let n = 0;
