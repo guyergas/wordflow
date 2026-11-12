@@ -401,7 +401,11 @@ football|כדורגל|n|We play football after school.|אנחנו משחקים �
 full|מלא|a|My bag is full of books.|התיק שלי מלא בספרים.
 gate|שער|n|Please close the gate.|בבקשה סגור את השער.
 glasses|משקפיים|n|Grandma can't read without her glasses.|סבתא לא יכולה לקרוא בלי המשקפיים שלה.
-front|קדמה, חזית|n|I sit in the front of the class.|אני יושב בקדמת הכיתה.`,
+front|קדמה, חזית|n|I sit in the front of the class.|אני יושב בקדמת הכיתה.
+great|נהדר|a|We had a great day at the beach.|היה לנו יום נהדר בחוף הים.
+guess|לנחש|v|Can you guess my name?|אתה יכול לנחש את השם שלי?
+hard|קשה, לא קל|a|This puzzle is very hard.|הפאזל הזה קשה מאוד.
+hate|לשנוא|v|I hate getting up early.|אני שונא לקום מוקדם.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -855,7 +859,16 @@ bone|עצם|n|The dog is chewing a bone.|הכלב לועס עצם.
 bite|לנשוך|v|Don't worry, my dog doesn't bite.|אל תדאג, הכלב שלי לא נושך.
 bookcase|כוננית ספרים|n|There are many books in the bookcase.|יש הרבה ספרים בכוננית.
 blog|בלוג|n|My sister writes a blog about cooking.|אחותי כותבת בלוג על בישול.
-block|קובייה, גוש|n|The baby is playing with a wooden block.|התינוק משחק בקובייה מעץ.`,
+block|קובייה, גוש|n|The baby is playing with a wooden block.|התינוק משחק בקובייה מעץ.
+grill|גריל|n|Dad cooks fish on the grill.|אבא מבשל דגים על הגריל.
+gun|אקדח, רובה|n|My brother has a water gun.|לאח שלי יש אקדח מים.
+hall|מסדרון, אולם|n|Our classroom is at the end of the hall.|הכיתה שלנו נמצאת בסוף המסדרון.
+hang|לתלות|v|Please hang your coat on the hook.|בבקשה תלה את המעיל שלך על הוו.
+happen|לקרות|v|What will happen next?|מה יקרה אחר כך?
+helicopter|מסוק|n|A helicopter flew over our house.|מסוק טס מעל הבית שלנו.
+brush|מברשת|n|I need a brush to paint the fence.|אני צריך מברשת כדי לצבוע את הגדר.
+burger|המבורגר|n|I ordered a burger with fries.|הזמנתי המבורגר עם צ'יפס.
+cage|כלוב|n|The bird sings in its cage.|הציפור שרה בכלוב שלה.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1160,7 +1173,11 @@ benefit|יתרון, תועלת|n|One benefit of reading is learning new words.|�
 blank|ריק|a|Write your name in the blank space.|כתוב את השם שלך במקום הריק.
 blind|עיוור|a|The blind man walks with a dog.|האיש העיוור הולך עם כלב.
 blame|להאשים|v|Don't blame your brother for your mistake.|אל תאשים את אחיך בטעות שלך.
-bomb|פצצה|n|The water balloon fell like a bomb.|בלון המים נפל כמו פצצה.`,
+bomb|פצצה|n|The water balloon fell like a bomb.|בלון המים נפל כמו פצצה.
+breath|נשימה|n|Take a deep breath and relax.|קח נשימה עמוקה ותירגע.
+builder|בנאי|n|The builder is fixing our roof.|הבנאי מתקן את הגג שלנו.
+cabbage|כרוב|n|Grandma makes soup with cabbage.|סבתא מכינה מרק כרוב.
+cancel|לבטל|v|They had to cancel the trip because of the rain.|הם נאלצו לבטל את הטיול בגלל הגשם.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1375,7 +1392,10 @@ authority|סמכות|n|The principal has the authority to close the school.|למ
 avatar|דמות (במשחק), אווטאר|n|I chose a funny avatar for the game.|בחרתי דמות מצחיקה למשחק.
 basis|בסיס, יסוד|n|Trust is the basis of a good friendship.|אמון הוא הבסיס של חברות טובה.
 beneath|מתחת ל-|o|The cat is sleeping beneath the table.|החתול ישן מתחת לשולחן.
-bother|להפריע, להטריד|v|Please don't bother me while I'm reading.|בבקשה אל תפריע לי כשאני קורא.`,
+bother|להפריע, להטריד|v|Please don't bother me while I'm reading.|בבקשה אל תפריע לי כשאני קורא.
+brief|קצר, תמציתי|a|The teacher gave a brief talk.|המורה נתן הרצאה קצרה.
+broad|רחב, נרחב|a|The river is broad and deep.|הנהר רחב ועמוק.
+canal|תעלה|n|Boats sail along the canal.|סירות שטות לאורך התעלה.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1756,26 +1776,26 @@ trend|מגמה|n|The trend is moving upward.|המגמה היא כלפי מעלה
 statistics|סטטיסטיקה|n|The statistics surprised everyone.|הנתונים הסטטיסטיים הפתיעו את כולם.
 majority|רוב|n|The majority voted yes.|הרוב הצביע בעד.
 minority|מיעוט|n|Only a minority agreed.|רק מיעוט הסכים.
-urban|עירוני|a|Urban life can be noisy.
-rural|כפרי|a|She grew up in a rural area.
-abolish|לבטל (חוק)|v|They voted to abolish the rule.
-conquer|לכבוש|v|The army tried to conquer the city.
-migrate|לנדוד|v|Birds migrate south in winter.
-preserve|לשמר|v|We must preserve these old buildings.`,
-`abandon|לנטוש|v|They had to abandon the ship.
-absurd|אבסורדי|a|What an absurd idea!
-abundant|בשפע|a|Fish are abundant in this lake.
-accumulate|להצטבר|v|Dust will accumulate under the bed.
-adequate|מספיק לצורך|a|The room has adequate light.
-adversity|מצוקה|n|She showed courage in adversity.
-ambiguous|דו משמעי|a|His reply was ambiguous.
-anticipate|לצפות מראש|v|We did not anticipate this delay.
-apparent|נראה לעין|a|The problem became apparent quickly.
-arbitrary|שרירותי|a|The decision seemed arbitrary.
-astonishing|מדהים|a|The view from the top was astonishing.
-authentic|אותנטי|a|This is an authentic Italian recipe.
-bewildered|מבולבל לגמרי|a|He looked bewildered by the question.
-bizarre|מוזר מאוד|a|What a bizarre dream!
+urban|עירוני|a|Urban life can be noisy.|החיים בעיר יכולים להיות רועשים.
+rural|כפרי|a|She grew up in a rural area.|היא גדלה באזור כפרי.
+abolish|לבטל (חוק)|v|They voted to abolish the rule.|הם הצביעו בעד ביטול הכלל.
+conquer|לכבוש|v|The army tried to conquer the city.|הצבא ניסה לכבוש את העיר.
+migrate|לנדוד|v|Birds migrate south in winter.|ציפורים נודדות דרומה בחורף.
+preserve|לשמר|v|We must preserve these old buildings.|עלינו לשמר את הבניינים הישנים האלה.`,
+`abandon|לנטוש|v|They had to abandon the ship.|הם נאלצו לנטוש את הספינה.
+absurd|אבסורדי|a|What an absurd idea!|איזה רעיון אבסורדי!
+abundant|בשפע|a|Fish are abundant in this lake.|יש דגים בשפע באגם הזה.
+accumulate|להצטבר|v|Dust will accumulate under the bed.|אבק יצטבר מתחת למיטה.
+adequate|מספיק לצורך|a|The room has adequate light.|בחדר יש מספיק אור.
+adversity|מצוקה|n|She showed courage in adversity.|היא גילתה אומץ במצוקה.
+ambiguous|דו משמעי|a|His reply was ambiguous.|התשובה שלו הייתה דו משמעית.
+anticipate|לצפות מראש|v|We did not anticipate this delay.|לא צפינו את העיכוב הזה.
+apparent|נראה לעין|a|The problem became apparent quickly.|הבעיה התגלתה מהר.
+arbitrary|שרירותי|a|The decision seemed arbitrary.|ההחלטה נראתה שרירותית.
+astonishing|מדהים|a|The view from the top was astonishing.|הנוף מהפסגה היה מדהים.
+authentic|אותנטי|a|This is an authentic Italian recipe.|זה מתכון איטלקי אותנטי.
+bewildered|מבולבל לגמרי|a|He looked bewildered by the question.|הוא נראה מבולבל לגמרי מהשאלה.
+bizarre|מוזר מאוד|a|What a bizarre dream!|איזה חלום מוזר!
 blunt|בוטה|a|Sorry to be blunt about it.
 compassion|חמלה|n|She treated him with compassion.
 comprehend|לתפוס (להבין)|v|I cannot comprehend this math.

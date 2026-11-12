@@ -1,17 +1,5 @@
 # Pre-Band I
 # Band I
-great
-grill
-guess
-gun
-half-price
-hall
-hang
-happen
-hard
-hate
-Hebrew
-helicopter
 high
 hill
 hole
@@ -222,16 +210,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-breath
-brief
-broad
-brush
-builder
-burger
-cabbage
-cage
-canal
-cancel
 candidate
 captain
 career

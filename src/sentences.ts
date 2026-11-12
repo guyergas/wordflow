@@ -666,7 +666,17 @@ Running in the hall can result in an accident.|ריצה במסדרון יכול�
 It's not my fault!|זו לא אשמתי!
 Don't worry, I'll see to it.|אל תדאג, אני אטפל בזה.
 It seems like it will rain.|נראה שירד גשם.
-We had to send the toy back because it was broken.|נאלצנו לשלוח את הצעצוע בחזרה כי הוא היה שבור.`,
+We had to send the toy back because it was broken.|נאלצנו לשלוח את הצעצוע בחזרה כי הוא היה שבור.
+Let's set a date for the party.|בואו נקבע תאריך למסיבה.
+We set off early in the morning.|יצאנו לדרך מוקדם בבוקר.
+Please set the table for dinner.|בבקשה ערוך את השולחן לארוחת הערב.
+The shop assistant helped me find new shoes.|המוכר בחנות עזר לי למצוא נעליים חדשות.
+We ate lunch, and shortly afterward it started to rain.|אכלנו ארוחת צהריים, וזמן קצר אחר כך התחיל לרדת גשם.
+Her mom is a single parent.|אמא שלה היא הורה יחידנית.
+I left early so that I would not be late.|יצאתי מוקדם כדי שלא אאחר.
+My sister spends a lot of time on social media.|אחותי מבלה הרבה זמן ברשתות החברתיות.
+Social networking helps people stay in touch.|רשתות חברתיות עוזרות לאנשים לשמור על קשר.
+That sounds like a good plan.|זה נשמע כמו תוכנית טובה.`,
 };
 
 let n = 0;
