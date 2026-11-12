@@ -426,7 +426,10 @@ message|הודעה|n|I sent my friend a message.|שלחתי הודעה לחבר 
 mine|שלי|o|This pencil is mine.|העיפרון הזה שלי.
 mouse|עכבר|n|The cat is chasing a mouse.|החתול רודף אחרי עכבר.
 move|לזוז; לעבור (דירה)|v|Don't move, I am taking a photo.|אל תזוז, אני מצלם.
-noon|צהריים (12:00)|n|We eat lunch at noon.|אנחנו אוכלים ארוחת צהריים בשתים עשרה בצהריים.`,
+noon|צהריים (12:00)|n|We eat lunch at noon.|אנחנו אוכלים ארוחת צהריים בשתים עשרה בצהריים.
+number|מספר|n|Seven is my lucky number.|שבע הוא מספר המזל שלי.
+nurse|אח, אחות (בבית חולים)|n|The nurse gave me a bandage.|האחות נתנה לי תחבושת.
+other|אחר|a|Where is my other shoe?|איפה הנעל השנייה שלי?`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -936,7 +939,15 @@ newspaper|עיתון|n|Dad reads the newspaper at breakfast.|אבא קורא א�
 none|אף אחד, אף לא אחד|o|I wanted a cookie, but there were none left.|רציתי עוגייה, אבל לא נשארה אף אחת.
 normal|רגיל, נורמלי|a|Today was a normal school day.|היום היה יום לימודים רגיל.
 north|צפון|n|It is cold in the north.|קר בצפון.
-cucumber|מלפפון|n|I put a cucumber in my salad.|שמתי מלפפון בסלט שלי.`,
+cucumber|מלפפון|n|I put a cucumber in my salad.|שמתי מלפפון בסלט שלי.
+note|פתק; תו|n|Mom left a note on the fridge.|אמא השאירה פתק על המקרר.
+off|כבוי; מעל, מ־|d|Please turn off the light.|בבקשה כבה את האור.
+offer|להציע; הצעה|v|Can I offer you some cake?|אפשר להציע לך עוגה?
+oil|שמן (לבישול)|n|Dad cooks the eggs in oil.|אבא מטגן את הביצים בשמן.
+online|ברשת, באינטרנט|d|We play chess online.|אנחנו משחקים שחמט ברשת.
+opposite|הפוך, ההפך; ממול|n|Hot is the opposite of cold.|חם הוא ההפך של קר.
+order|סדר; הזמנה; להזמין|n|Put the cards in order.|סדר את הקלפים לפי הסדר.
+delicious|טעים|a|This soup is delicious.|המרק הזה טעים.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1271,7 +1282,11 @@ court|מגרש; בית משפט|n|We played tennis on the new court.|שיחקנ�
 creature|יצור|n|A strange creature lives in the lake.|יצור מוזר חי באגם.
 crown|כתר|n|The queen wore a gold crown.|המלכה חבשה כתר זהב.
 cruel|אכזרי|a|It is cruel to hurt animals.|זה אכזרי לפגוע בבעלי חיים.
-curly|מתולתל|a|My sister has curly hair.|לאחותי יש שיער מתולתל.`,
+curly|מתולתל|a|My sister has curly hair.|לאחותי יש שיער מתולתל.
+damage|נזק; להזיק|n|The storm caused a lot of damage.|הסערה גרמה לנזק רב.
+defend|להגן על|v|The players defend their goal.|השחקנים מגנים על השער שלהם.
+delete|למחוק|v|Don't delete my photos!|אל תמחק את התמונות שלי!
+design|עיצוב; לעצב|n|I like the design of your shirt.|אני אוהב את העיצוב של החולצה שלך.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1515,7 +1530,12 @@ convert|להמיר, להפוך|v|We can convert the old box into a dollhouse.|א
 county|מחוז|n|Our county has many farms.|במחוז שלנו יש הרבה חוות.
 crew|צוות|n|The ship's crew waved to us.|צוות הספינה נופף לנו.
 crime|פשע|n|The police solved the crime.|המשטרה פתרה את הפשע.
-currency|מטבע (כסף של מדינה)|n|The shekel is the currency of Israel.|השקל הוא המטבע של ישראל.`,
+currency|מטבע (כסף של מדינה)|n|The shekel is the currency of Israel.|השקל הוא המטבע של ישראל.
+curriculum|תוכנית לימודים|n|Music is part of our school curriculum.|מוזיקה היא חלק מתוכנית הלימודים בבית הספר שלנו.
+data|נתונים|n|The computer saves all the data.|המחשב שומר את כל הנתונים.
+debate|ויכוח, דיון|n|Our class had a debate about homework.|בכיתה שלנו היה דיון על שיעורי בית.
+deny|להכחיש|v|He did not deny that he ate the cake.|הוא לא הכחיש שהוא אכל את העוגה.
+depression|דיכאון; שקע|n|The rain filled a small depression in the ground.|הגשם מילא שקע קטן באדמה.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

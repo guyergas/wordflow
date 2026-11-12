@@ -1,16 +1,5 @@
 # Pre-Band I
 # Band I
-note
-number
-nurse
-off
-offer
-oil
-OK
-online
-opposite
-order
-other
 outside
 over
 own
@@ -146,17 +135,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-curriculum
-damage
-damn
-data
-debate
-defend
-delete
-delicious
-deny
-depression
-design
 desire
 desktop
 detail
