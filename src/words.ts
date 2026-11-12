@@ -202,7 +202,14 @@ butter|חמאה|n|I put butter on my bread.|אני מורח חמאה על הלח
 bye|ביי, להתראות|o|Bye, see you tomorrow!|ביי, נתראה מחר!
 cake|עוגה|n|Grandma made a chocolate cake for my birthday.|סבתא הכינה עוגת שוקולד ליום ההולדת שלי.
 car|מכונית|n|Dad drives a red car.|אבא נוהג במכונית אדומה.
-chicken|עוף, תרנגולת|n|We have chicken and rice for dinner.|יש לנו עוף ואורז לארוחת ערב.`,
+chicken|עוף, תרנגולת|n|We have chicken and rice for dinner.|יש לנו עוף ואורז לארוחת ערב.
+child|ילד|n|The child is playing in the sand.|הילד משחק בחול.
+chocolate|שוקולד|n|Can I have a piece of chocolate?|אפשר לקבל חתיכת שוקולד?
+city|עיר|n|Tel Aviv is a big city.|תל אביב היא עיר גדולה.
+class|כיתה, שיעור|n|There are thirty children in my class.|יש שלושים ילדים בכיתה שלי.
+clock|שעון|n|The clock on the wall is slow.|השעון על הקיר מאחר.
+clothes|בגדים|n|I put my clothes in the closet.|אני שם את הבגדים שלי בארון.
+coat|מעיל|n|It is cold, so wear your coat.|קר, אז תלבש את המעיל שלך.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -390,7 +397,14 @@ cellphone|טלפון נייד|n|My sister got a new cellphone.|אחותי קיב
 center|מרכז|n|There is a big tree in the center of the park.|יש עץ גדול במרכז הפארק.
 enter|להיכנס|v|Please knock before you enter the room.|בבקשה תדפקו לפני שאתם נכנסים לחדר.
 euro|יורו|n|This pen costs one euro.|העט הזה עולה יורו אחד.
-exit|יציאה|n|The exit is next to the stairs.|היציאה נמצאת ליד המדרגות.`,
+exit|יציאה|n|The exit is next to the stairs.|היציאה נמצאת ליד המדרגות.
+cinema|קולנוע|n|We saw a funny movie at the cinema.|ראינו סרט מצחיק בקולנוע.
+classroom|כיתה|n|Our classroom has big windows.|בכיתה שלנו יש חלונות גדולים.
+club|מועדון, חוג|n|I go to the chess club after school.|אני הולך לחוג שחמט אחרי בית הספר.
+fantastic|נהדר, מדהים|a|We had a fantastic day at the beach.|היה לנו יום נהדר בים.
+feather|נוצה|n|I found a white feather in the yard.|מצאתי נוצה לבנה בחצר.
+fight|לריב, להילחם|v|My cats fight over the toy.|החתולים שלי רבים על הצעצוע.
+fishing|דיג|n|Grandpa takes me fishing at the lake.|סבא לוקח אותי לדוג באגם.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -532,7 +546,10 @@ electricity|חשמל|n|The lights went out because there was no electricity.|ה�
 error|טעות|n|There is an error in my answer.|יש טעות בתשובה שלי.
 even|אפילו|d|Even my dad laughed at the joke.|אפילו אבא שלי צחק מהבדיחה.
 event|אירוע|n|The school play is a big event.|ההצגה של בית הספר היא אירוע גדול.
-everyday|יומיומי|a|Brushing your teeth is an everyday habit.|צחצוח שיניים הוא הרגל יומיומי.`,
+everyday|יומיומי|a|Brushing your teeth is an everyday habit.|צחצוח שיניים הוא הרגל יומיומי.
+false|לא נכון, שקרי|a|Is the sentence true or false?|המשפט נכון או לא נכון?
+familiar|מוכר|a|Her face looks familiar.|הפנים שלה נראות לי מוכרות.
+fashion|אופנה|n|My sister loves fashion and clothes.|אחותי אוהבת אופנה ובגדים.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -641,7 +658,10 @@ effect|השפעה|n|The medicine had a good effect.|לתרופה הייתה הש
 employ|להעסיק|v|The shop will employ two new workers.|החנות תעסיק שני עובדים חדשים.
 equipment|ציוד|n|We packed our camping equipment.|ארזנו את ציוד הקמפינג שלנו.
 exact|מדויק|a|What is the exact time?|מה השעה המדויקת?
-examine|לבדוק|v|The doctor will examine your ear.|הרופא יבדוק לך את האוזן.`,
+examine|לבדוק|v|The doctor will examine your ear.|הרופא יבדוק לך את האוזן.
+explanation|הסבר|n|The teacher gave a clear explanation.|המורה נתנה הסבר ברור.
+express|להביע|v|Drawing helps me express my feelings.|ציור עוזר לי להביע את הרגשות שלי.
+extremely|מאוד, ביותר|d|The test was extremely easy.|המבחן היה קל מאוד.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.

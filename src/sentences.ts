@@ -296,7 +296,17 @@ We watch TV in the living room.|אנחנו צופים בטלוויזיה בסל�
 I look after my little sister.|אני שומרת על אחותי הקטנה.
 My mom makes me eat vegetables.|אמא שלי גורמת לי לאכול ירקות.
 I need to finish my homework.|אני צריך לסיים את שיעורי הבית.
-Not bad!|לא רע!`,
+Not bad!|לא רע!
+The soup is not too hot.|המרק לא חם מדי.
+We eat lunch at one o'clock.|אנחנו אוכלים ארוחת צהריים באחת.
+Please pick up your toys.|בבקשה תרים את הצעצועים שלך.
+We plan to visit Grandma on Saturday.|אנחנו מתכננים לבקר את סבתא בשבת.
+The police station is near my school.|תחנת המשטרה נמצאת ליד בית הספר שלי.
+Please put away your books.|בבקשה תחזירו את הספרים למקום.
+Put down the scissors!|תניח את המספריים!
+The firefighters put out the fire.|הכבאים כיבו את השריפה.
+Remember to brush your teeth!|תזכור לצחצח שיניים!
+I got a good report card.|קיבלתי תעודה טובה.`,
 };
 
 let n = 0;
