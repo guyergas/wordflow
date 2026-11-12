@@ -1,15 +1,5 @@
 # Pre-Band I
 # Band I
-say
-sell
-set
-several
-shop
-short
-should
-shower
-side
-simple
 since
 size
 skirt
@@ -84,16 +74,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-fee
-female
-festival
-fever
-few
-fiction
-figure
-file
-firefighter
-flavor
 flow
 follower
 following

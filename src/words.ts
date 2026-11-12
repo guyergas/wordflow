@@ -446,7 +446,12 @@ repeat|לחזור על|v|Please repeat the word after me.|בבקשה חזרו ע
 ride|לרכוב|v|I like to ride my bike in the park.|אני אוהב לרכוב על האופניים שלי בפארק.
 ring|טבעת; לצלצל|n|My mom has a gold ring.|לאמא שלי יש טבעת זהב.
 ruler|סרגל|n|Use a ruler to draw a straight line.|השתמשו בסרגל כדי לצייר קו ישר.
-save|לחסוך; להציל|v|I save my coins in a jar.|אני חוסך את המטבעות שלי בצנצנת.`,
+save|לחסוך; להציל|v|I save my coins in a jar.|אני חוסך את המטבעות שלי בצנצנת.
+say|להגיד|v|What did you say to your friend?|מה אמרת לחבר שלך?
+sell|למכור|v|They sell fresh bread at the market.|מוכרים לחם טרי בשוק.
+shop|חנות|n|We bought ice cream at the shop.|קנינו גלידה בחנות.
+short|קצר; נמוך|a|My little brother is short.|אחי הקטן נמוך.
+shower|מקלחת|n|I take a shower every evening.|אני מתקלח כל ערב.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -999,7 +1004,17 @@ runner|רץ|n|She is the fastest runner in our class.|היא הרצה הכי מ�
 safe|בטוח|a|It is not safe to play in the street.|לא בטוח לשחק ברחוב.
 expert|מומחה|n|My uncle is an expert on birds.|הדוד שלי מומחה לציפורים.
 screen|מסך|n|Don't sit too close to the screen.|אל תשבו קרוב מדי למסך.
-favor|טובה|n|Can you do me a favor?|אתה יכול לעשות לי טובה?`,
+favor|טובה|n|Can you do me a favor?|אתה יכול לעשות לי טובה?
+set|לערוך; סט, ערכה|v|Please set the table for dinner.|בבקשה ערכו את השולחן לארוחת הערב.
+several|כמה, אחדים|a|I have several friends in my class.|יש לי כמה חברים בכיתה שלי.
+should|צריך, כדאי|v|You should wear a coat today.|כדאי שתלבש מעיל היום.
+side|צד|n|Our school is on the other side of the street.|בית הספר שלנו נמצא בצד השני של הרחוב.
+simple|פשוט|a|The rules of the game are simple.|חוקי המשחק פשוטים.
+festival|פסטיבל, חג|n|We went to a music festival in the park.|הלכנו לפסטיבל מוזיקה בפארק.
+fever|חום (גוף)|n|She stayed home because she had a fever.|היא נשארה בבית כי היה לה חום.
+few|מעט, כמה|a|Only a few children came to the party.|רק כמה ילדים באו למסיבה.
+firefighter|כבאי|n|The firefighter saved the cat from the tree.|הכבאי הציל את החתול מהעץ.
+flavor|טעם|n|Which ice cream flavor do you like?|איזה טעם גלידה אתה אוהב?`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1371,7 +1386,12 @@ expression|הבעה; ביטוי|n|I could see a happy expression on her face.|ר
 facility|מתקן|n|The new sports facility has a big pool.|במתקן הספורט החדש יש בריכה גדולה.
 facilities|מתקנים|n|Our school has great sports facilities.|לבית הספר שלנו יש מתקני ספורט מצוינים.
 faith|אמונה; אמון|n|I have faith in my team.|יש לי אמון בקבוצה שלי.
-fault|אשמה|n|It was not my fault.|זאת לא הייתה אשמתי.`,
+fault|אשמה|n|It was not my fault.|זאת לא הייתה אשמתי.
+fee|תשלום, דמי|n|The entrance fee is ten shekels.|דמי הכניסה הם עשרה שקלים.
+female|נקבה; נקבי|a|The female bird sits on the eggs.|הציפור הנקבה דוגרת על הביצים.
+fiction|סיפורת, בדיון|n|I like to read fiction about dragons.|אני אוהב לקרוא סיפורים דמיוניים על דרקונים.
+figure|דמות; ספרה|n|I saw a dark figure near the door.|ראיתי דמות כהה ליד הדלת.
+file|קובץ; תיקייה|n|Save the file on your computer.|שמרו את הקובץ במחשב שלכם.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
