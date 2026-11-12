@@ -185,7 +185,12 @@ arm|זרוע, יד|n|I hurt my arm when I fell.|נפגעתי ביד כשנפלת
 art|אמנות|n|We paint pictures in art class.|אנחנו מציירים ציורים בשיעור אמנות.
 baby|תינוק|n|The baby is sleeping in her bed.|התינוקת ישנה במיטה שלה.
 back|גב|n|I carry my bag on my back.|אני סוחב את התיק שלי על הגב.
-ball|כדור|n|Throw the ball to me!|תזרוק לי את הכדור!`,
+ball|כדור|n|Throw the ball to me!|תזרוק לי את הכדור!
+bath|אמבטיה|n|I take a bath before bed.|אני מתרחץ באמבטיה לפני השינה.
+behind|מאחורי|o|The cat is hiding behind the door.|החתול מתחבא מאחורי הדלת.
+bird|ציפור|n|A little bird is singing in the tree.|ציפור קטנה שרה על העץ.
+black|שחור|a|My dog is black and white.|הכלב שלי שחור-לבן.
+blue|כחול|a|The sky is blue today.|השמיים כחולים היום.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -349,7 +354,16 @@ banana|בננה|n|I eat a banana every morning.|אני אוכל בננה כל ב
 band|להקה|n|My brother plays the drums in a band.|אחי מתופף בלהקה.
 dessert|קינוח|n|We had ice cream for dessert.|אכלנו גלידה לקינוח.
 diary|יומן|n|I write in my diary every night.|אני כותבת ביומן שלי כל ערב.
-dig|לחפור|v|The dog likes to dig in the garden.|הכלב אוהב לחפור בגינה.`,
+dig|לחפור|v|The dog likes to dig in the garden.|הכלב אוהב לחפור בגינה.
+bank|בנק|n|Mom keeps her money in the bank.|אמא שומרת את הכסף שלה בבנק.
+below|מתחת, למטה|o|Write your name below the picture.|כתבו את השם שלכם מתחת לתמונה.
+better|טוב יותר|a|I feel better today.|אני מרגיש טוב יותר היום.
+biscuit|ביסקוויט|n|Can I have a biscuit with my tea?|אפשר לקבל ביסקוויט עם התה?
+blouse|חולצה (לנשים)|n|Mom is wearing a pink blouse.|אמא לובשת חולצה ורודה.
+dish|צלחת, מנה|n|Pizza is my favorite dish.|פיצה היא המנה האהובה עליי.
+drawer|מגירה|n|My socks are in the top drawer.|הגרביים שלי במגירה העליונה.
+drop|להפיל|v|Be careful not to drop the eggs.|תיזהרו לא להפיל את הביצים.
+drum|תוף|n|He plays the drum in the school band.|הוא מנגן בתוף בלהקה של בית הספר.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -382,26 +396,26 @@ medicine|תרופה|n|Take this medicine twice a day.|קחו את התרופה �
 doctor|רופא|n|The doctor checked my throat.|הרופא בדק לי את הגרון.
 laugh|לצחוק|v|Her jokes make me laugh.|הבדיחות שלה מצחיקות אותי.
 cry|לבכות|v|Sad movies make me cry.|סרטים עצובים גורמים לי לבכות.
-smile|לחייך|v|Smile for the camera!
-shout|לצעוק|v|Please don't shout at me.
-whisper|ללחוש|v|She began to whisper a secret.
-hurt|לכאוב|v|Does your arm hurt?
-feel|להרגיש|v|I feel much better now.
-believe|להאמין|v|I believe you.
-hope|לקוות|v|I hope you win.
-worry|לדאוג|v|Don't worry about it.
-share|לחלוק|v|We share a room.
-hug|לחבק|v|I want to hug my dog.
-argue|להתווכח|v|My brothers always argue.
-agree|להסכים|v|I agree with you.
-promise|להבטיח|v|I promise to call you.
-apologize|להתנצל|v|You should apologize to her.
-forgive|לסלוח|v|Please forgive me.
-trust|לסמוך על|v|You can trust me.
-secret|סוד|n|Can you keep a secret?
-advice|עצה|n|She gave me good advice.
-habit|הרגל|n|Reading is a good habit.
-dream|חלום|n|I had a weird dream.
+smile|לחייך|v|Smile for the camera!|חייכו למצלמה!
+shout|לצעוק|v|Please don't shout at me.|בבקשה אל תצעק עליי.
+whisper|ללחוש|v|She began to whisper a secret.|היא התחילה ללחוש סוד.
+hurt|לכאוב|v|Does your arm hurt?|היד שלך כואבת?
+feel|להרגיש|v|I feel much better now.|אני מרגיש הרבה יותר טוב עכשיו.
+believe|להאמין|v|I believe you.|אני מאמינה לך.
+hope|לקוות|v|I hope you win.|אני מקווה שתנצח.
+worry|לדאוג|v|Don't worry about it.|אל תדאג בקשר לזה.
+share|לחלוק|v|We share a room.|אנחנו חולקים חדר.
+hug|לחבק|v|I want to hug my dog.|אני רוצה לחבק את הכלב שלי.
+argue|להתווכח|v|My brothers always argue.|האחים שלי תמיד מתווכחים.
+agree|להסכים|v|I agree with you.|אני מסכים איתך.
+promise|להבטיח|v|I promise to call you.|אני מבטיחה להתקשר אליך.
+apologize|להתנצל|v|You should apologize to her.|כדאי לך להתנצל בפניה.
+forgive|לסלוח|v|Please forgive me.|בבקשה תסלח לי.
+trust|לסמוך על|v|You can trust me.|אתה יכול לסמוך עליי.
+secret|סוד|n|Can you keep a secret?|אתה יודע לשמור סוד?
+advice|עצה|n|She gave me good advice.|היא נתנה לי עצה טובה.
+habit|הרגל|n|Reading is a good habit.|קריאה היא הרגל טוב.
+dream|חלום|n|I had a weird dream.|חלמתי חלום מוזר.
 memory|זיכרון|n|That is my favorite memory.
 luck|מזל|n|Good luck on your test!
 weight|משקל|n|The bag's weight is two kilos.
@@ -480,7 +494,11 @@ description|תיאור|n|Write a short description of your room.|כתבו תיא
 dictation|הכתבה|n|We have an English dictation tomorrow.|יש לנו הכתבה באנגלית מחר.
 difficulty|קושי|n|He climbed the hill with difficulty.|הוא טיפס על הגבעה בקושי.
 digital|דיגיטלי|a|My grandpa has a new digital camera.|לסבא שלי יש מצלמה דיגיטלית חדשה.
-directions|הוראות הגעה, הנחיות|n|We asked a man for directions to the station.|ביקשנו מאיש הוראות הגעה לתחנה.`,
+directions|הוראות הגעה, הנחיות|n|We asked a man for directions to the station.|ביקשנו מאיש הוראות הגעה לתחנה.
+dirt|לכלוך|n|There is dirt on your shoes.|יש לכלוך על הנעליים שלך.
+discount|הנחה|n|We got a discount on the new bike.|קיבלנו הנחה על האופניים החדשים.
+discuss|לדון|v|Let's discuss the plan for the trip.|בואו נדון בתוכנית לטיול.
+distance|מרחק|n|What is the distance from here to the beach?|מה המרחק מכאן לחוף?`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -581,7 +599,9 @@ death|מוות|n|The death of our old dog made us very sad.|המוות של הכ
 demand|לדרוש|v|The workers demand more money.|העובדים דורשים יותר כסף.
 dependent|תלוי|a|A baby is dependent on its parents.|תינוק תלוי בהורים שלו.
 differently|אחרת, באופן שונה|d|My sister and I dress differently.|אחותי ואני מתלבשות אחרת.
-diploma|תעודה|n|My brother got his diploma at the end of high school.|אחי קיבל את התעודה שלו בסוף התיכון.`,
+diploma|תעודה|n|My brother got his diploma at the end of high school.|אחי קיבל את התעודה שלו בסוף התיכון.
+doubt|ספק|n|There is no doubt that she will win.|אין ספק שהיא תנצח.
+due|צריך להגיש, צפוי|a|The homework is due on Monday.|צריך להגיש את שיעורי הבית ביום שני.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.

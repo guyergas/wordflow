@@ -266,7 +266,17 @@ We eat dinner in the dining room.|אנחנו אוכלים ארוחת ערב בח
 Do you mind if I open the window?|אכפת לך אם אפתח את החלון?
 Do you mind waiting a minute?|אכפת לך לחכות רגע?
 Enjoy yourself!|תיהנה!
-Everybody likes ice cream.|כולם אוהבים גלידה.`,
+Everybody likes ice cream.|כולם אוהבים גלידה.
+Everyone came except for Dan.|כולם באו חוץ מדן.
+I want to find out the answer.|אני רוצה לגלות את התשובה.
+I like fruit, for example apples and pears.|אני אוהבת פירות, למשל תפוחים ואגסים.
+I hope you get better soon.|אני מקווה שתרגישי טוב בקרוב.
+Wear a coat so you don't get the flu.|תלבש מעיל כדי שלא תחלה בשפעת.
+Get down from the table!|רד מהשולחן!
+Get in the car, please.|תיכנס למכונית, בבקשה.
+We get off the bus at the park.|אנחנו יורדים מהאוטובוס ליד הפארק.
+We get on the train at nine.|אנחנו עולים לרכבת בתשע.
+Please give in your homework today.|בבקשה תגישו את שיעורי הבית היום.`,
 };
 
 let n = 0;
