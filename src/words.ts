@@ -462,7 +462,12 @@ taxi|מונית|n|We took a taxi to the airport.|לקחנו מונית לשדה 
 television|טלוויזיה|n|We watch television in the evening.|אנחנו צופים בטלוויזיה בערב.
 tell|לספר; להגיד|v|Please tell me a story.|בבקשה ספר לי סיפור.
 tennis|טניס|n|I play tennis with my sister.|אני משחק טניס עם אחותי.
-thank|להודות|v|I want to thank you for the gift.|אני רוצה להודות לך על המתנה.`,
+thank|להודות|v|I want to thank you for the gift.|אני רוצה להודות לך על המתנה.
+throw|לזרוק|v|Throw the ball to me!|זרוק אליי את הכדור!
+toilet|שירותים, אסלה|n|Where is the toilet, please?|איפה השירותים, בבקשה?
+tomato|עגבנייה|n|I put a red tomato in the salad.|שמתי עגבנייה אדומה בסלט.
+toothbrush|מברשת שיניים|n|My toothbrush is blue.|מברשת השיניים שלי כחולה.
+toy|צעצוע|n|The baby is playing with a toy.|התינוק משחק עם צעצוע.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -1052,7 +1057,13 @@ surname|שם משפחה|n|My surname is Cohen.|שם המשפחה שלי הוא �
 surprise|הפתעה|n|We made a surprise party for Mom.|עשינו לאמא מסיבת הפתעה.
 text|טקסט; הודעה|n|Read the text and answer the questions.|קראו את הטקסט וענו על השאלות.
 handsome|נאה, יפה תואר|a|The prince in the story is very handsome.|הנסיך בסיפור נאה מאוד.
-heat|חום|n|The heat of the sun made us tired.|חום השמש עייף אותנו.`,
+heat|חום|n|The heat of the sun made us tired.|חום השמש עייף אותנו.
+theirs|שלהם|o|This ball is not ours, it is theirs.|הכדור הזה לא שלנו, הוא שלהם.
+thousand|אלף|n|There are a thousand books in the library.|יש אלף ספרים בספרייה.
+tights|גרביונים|n|She wore red tights under her dress.|היא לבשה גרביונים אדומים מתחת לשמלה.
+till|עד|o|We played outside till dinner.|שיחקנו בחוץ עד ארוחת הערב.
+town|עיירה, עיר|n|My grandma lives in a small town.|סבתא שלי גרה בעיירה קטנה.
+interested|מתעניין|a|I am interested in dinosaurs.|אני מתעניין בדינוזאורים.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1443,7 +1454,10 @@ guilty|אשם|a|The dog looked guilty after it ate my shoe.|הכלב נראה א
 handle|להתמודד; ידית|v|I can handle this problem by myself.|אני יכול להתמודד עם הבעיה הזאת לבד.
 happiness|אושר|n|Her face was full of happiness.|הפנים שלה היו מלאות אושר.
 housework|עבודות הבית|n|I help my parents with the housework.|אני עוזר להורים שלי בעבודות הבית.
-humor|הומור|n|My grandpa has a great sense of humor.|לסבא שלי יש חוש הומור נהדר.`,
+humor|הומור|n|My grandpa has a great sense of humor.|לסבא שלי יש חוש הומור נהדר.
+imagination|דמיון|n|You need a lot of imagination to write a story.|צריך הרבה דמיון כדי לכתוב סיפור.
+incorrect|לא נכון, שגוי|a|This answer is incorrect, try again.|התשובה הזאת לא נכונה, נסה שוב.
+injure|לפצוע|v|Be careful, or you will injure your knee.|תיזהר, אחרת תפצע את הברך.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1715,7 +1729,13 @@ grounds|שטח, מגרש|n|The school grounds are big and green.|שטח בית �
 hire|לשכור, להעסיק|v|The shop wants to hire a new worker.|החנות רוצה להעסיק עובד חדש.
 historical|היסטורי|a|We visited a historical building in Jerusalem.|ביקרנו בבניין היסטורי בירושלים.
 honor|כבוד|n|It is an honor to meet you.|זה כבוד לפגוש אותך.
-household|משק בית|n|Everyone in our household helps with the dishes.|כולם במשק הבית שלנו עוזרים בשטיפת הכלים.`,
+household|משק בית|n|Everyone in our household helps with the dishes.|כולם במשק הבית שלנו עוזרים בשטיפת הכלים.
+illegal|לא חוקי|a|It is illegal to drive without a license.|זה לא חוקי לנהוג בלי רישיון.
+income|הכנסה|n|My parents work hard for their income.|ההורים שלי עובדים קשה בשביל ההכנסה שלהם.
+indeed|אכן, באמת|d|It was indeed a very cold day.|זה אכן היה יום קר מאוד.
+individual|יחיד, פרט; אישי|n|Every individual in the class is special.|כל אחד בכיתה הוא מיוחד.
+institution|מוסד|n|The university is an important institution.|האוניברסיטה היא מוסד חשוב.
+intend|להתכוון|v|I intend to finish my homework tonight.|אני מתכוון לסיים את שיעורי הבית הערב.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

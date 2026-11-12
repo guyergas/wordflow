@@ -2,16 +2,6 @@
 # Band I
 suitcase
 supermarket
-theirs
-thousand
-throw
-tights
-till
-toilet
-tomato
-toothbrush
-town
-toy
 true
 twice
 twin
@@ -44,16 +34,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-illegal
-imagination
-income
-incorrect
-indeed
-individual
-injure
-institution
-intend
-interested
 internal
 introduction
 iron
