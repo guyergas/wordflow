@@ -224,7 +224,12 @@ draw|לצייר|v|I like to draw cats.|אני אוהב לצייר חתולים.
 dress|שמלה|n|She wears a pink dress.|היא לובשת שמלה ורודה.
 dry|יבש|a|My towel is dry.|המגבת שלי יבשה.
 ear|אוזן|n|The dog has one black ear.|לכלב יש אוזן שחורה אחת.
-eight|שמונה|n|A spider has eight legs.|לעכביש יש שמונה רגליים.`,
+eight|שמונה|n|A spider has eight legs.|לעכביש יש שמונה רגליים.
+eleven|אחת עשרה|n|My sister is eleven years old.|אחותי בת אחת עשרה.
+evening|ערב|n|We read a story in the evening.|אנחנו קוראים סיפור בערב.
+eye|עין|n|I have something in my eye.|יש לי משהו בעין.
+face|פנים|n|Wash your face before bed.|תשטוף את הפנים לפני השינה.
+farm|חווה|n|There are cows on the farm.|יש פרות בחווה.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -443,7 +448,15 @@ east|מזרח|n|The sun comes up in the east.|השמש זורחת במזרח.
 eighteen|שמונה עשרה|n|My cousin is eighteen years old.|בן הדוד שלי בן שמונה עשרה.
 eighty|שמונים|n|My grandpa is eighty years old.|סבא שלי בן שמונים.
 gold|זהב|n|The queen has a crown of gold.|למלכה יש כתר מזהב.
-gym|אולם ספורט, חדר כושר|n|We play basketball in the gym.|אנחנו משחקים כדורסל באולם הספורט.`,
+gym|אולם ספורט, חדר כושר|n|We play basketball in the gym.|אנחנו משחקים כדורסל באולם הספורט.
+enjoy|ליהנות|v|I enjoy swimming in the sea.|אני נהנה לשחות בים.
+every|כל|o|I brush my teeth every morning.|אני מצחצח שיניים כל בוקר.
+everything|הכול|o|I told Mom everything.|סיפרתי לאמא הכול.
+everywhere|בכל מקום|d|There are toys everywhere in my room.|יש צעצועים בכל מקום בחדר שלי.
+fall|ליפול|v|Hold on so you don't fall off the bike.|תחזיק חזק כדי שלא תיפול מהאופניים.
+honey|דבש|n|Bees make honey.|דבורים מכינות דבש.
+hobby|תחביב|n|My hobby is painting.|התחביב שלי הוא ציור.
+helpful|מועיל, עוזר|a|The map was very helpful.|המפה עזרה מאוד.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -496,26 +509,26 @@ secret|סוד|n|Can you keep a secret?|אתה יודע לשמור סוד?
 advice|עצה|n|She gave me good advice.|היא נתנה לי עצה טובה.
 habit|הרגל|n|Reading is a good habit.|קריאה היא הרגל טוב.
 dream|חלום|n|I had a weird dream.|חלמתי חלום מוזר.
-memory|זיכרון|n|That is my favorite memory.
-luck|מזל|n|Good luck on your test!
-weight|משקל|n|The bag's weight is two kilos.
-height|גובה|n|What is the height of that wall?
-enough|מספיק|d|We have enough chairs.
-almost|כמעט|d|I almost missed the bus.
-maybe|אולי|d|Maybe we can go tomorrow.
-suddenly|פתאום|d|Suddenly the lights went out.
-lend|להשאיל|v|Can you lend me your book?
-invite|להזמין|v|I want to invite my class to the party.
-village|כפר|n|My grandmother lives in a small village.
-careful|זהיר|a|Be careful when you cross the road.
-wallet|ארנק|n|He keeps his money in a wallet.
-ceiling|תקרה|n|A spider is walking on the ceiling.
-accept|לקבל|v|Please accept this small gift.
-connect|לחבר|v|This cable will connect the phone to the computer.
-traffic|תנועת כלי רכב|n|There is a lot of traffic in the morning.
-notice|להבחין|v|Did you notice the new sign on the door?
-chew|ללעוס|v|Please chew your food slowly.
-tidy|מסודר|a|Her room is always tidy.
+memory|זיכרון|n|That is my favorite memory.|זה הזיכרון האהוב עליי.
+luck|מזל|n|Good luck on your test!|בהצלחה במבחן!
+weight|משקל|n|The bag's weight is two kilos.|המשקל של התיק הוא שני קילו.
+height|גובה|n|What is the height of that wall?|מה הגובה של הקיר הזה?
+enough|מספיק|d|We have enough chairs.|יש לנו מספיק כיסאות.
+almost|כמעט|d|I almost missed the bus.|כמעט פספסתי את האוטובוס.
+maybe|אולי|d|Maybe we can go tomorrow.|אולי נוכל ללכת מחר.
+suddenly|פתאום|d|Suddenly the lights went out.|פתאום האורות כבו.
+lend|להשאיל|v|Can you lend me your book?|אתה יכול להשאיל לי את הספר שלך?
+invite|להזמין|v|I want to invite my class to the party.|אני רוצה להזמין את הכיתה שלי למסיבה.
+village|כפר|n|My grandmother lives in a small village.|סבתא שלי גרה בכפר קטן.
+careful|זהיר|a|Be careful when you cross the road.|תיזהר כשאתה חוצה את הכביש.
+wallet|ארנק|n|He keeps his money in a wallet.|הוא שומר את הכסף שלו בארנק.
+ceiling|תקרה|n|A spider is walking on the ceiling.|עכביש הולך על התקרה.
+accept|לקבל|v|Please accept this small gift.|בבקשה קבל את המתנה הקטנה הזאת.
+connect|לחבר|v|This cable will connect the phone to the computer.|הכבל הזה יחבר את הטלפון למחשב.
+traffic|תנועת כלי רכב|n|There is a lot of traffic in the morning.|יש הרבה תנועה בכבישים בבוקר.
+notice|להבחין|v|Did you notice the new sign on the door?|שמת לב לשלט החדש על הדלת?
+chew|ללעוס|v|Please chew your food slowly.|בבקשה תלעס את האוכל לאט.
+tidy|מסודר|a|Her room is always tidy.|החדר שלה תמיד מסודר.
 stir|לערבב|v|Stir the soup with a big spoon.
 remind|להזכיר|v|Please remind me to call Grandma.
 accent|מבטא|n|Her grandmother speaks with a French accent.|סבתא שלה מדברת במבטא צרפתי.
@@ -603,7 +616,11 @@ golden|מוזהב, זהוב|a|The girl has golden hair.|לילדה יש שיער
 grammar|דקדוק|n|We learn English grammar at school.|אנחנו לומדים דקדוק אנגלי בבית הספר.
 guard|שומר|n|A guard stands at the gate.|שומר עומד בשער.
 guy|בחור|n|He is a nice guy.|הוא בחור נחמד.
-handbag|תיק יד|n|Grandma keeps her keys in her handbag.|סבתא שומרת את המפתחות שלה בתיק היד.`,
+handbag|תיק יד|n|Grandma keeps her keys in her handbag.|סבתא שומרת את המפתחות שלה בתיק היד.
+health|בריאות|n|Fruit is good for your health.|פירות טובים לבריאות שלך.
+horrible|נורא, איום|a|The medicine has a horrible taste.|לתרופה יש טעם נורא.
+himself|בעצמו, את עצמו|o|He made the cake himself.|הוא הכין את העוגה בעצמו.
+herself|בעצמה, את עצמה|o|She looked at herself in the mirror.|היא הסתכלה על עצמה במראה.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -721,7 +738,10 @@ fully|לגמרי, במלואו|d|The battery is fully charged.|הסוללה טע
 gain|לצבור, להשיג|v|You gain points for every right answer.|אתה צובר נקודות על כל תשובה נכונה.
 general|כללי|a|The teacher asked a general question.|המורה שאלה שאלה כללית.
 god|אל|n|Poseidon was the Greek god of the sea.|פוסידון היה אל הים היווני.
-hardly|בקושי|d|I can hardly see in the dark.|אני בקושי רואה בחושך.`,
+hardly|בקושי|d|I can hardly see in the dark.|אני בקושי רואה בחושך.
+hearing|שמיעה|n|Owls have very good hearing.|לינשופים יש שמיעה טובה מאוד.
+heavily|בכבדות, בחוזקה|d|It rained heavily all night.|ירד גשם חזק כל הלילה.
+highway|כביש מהיר|n|The cars drive fast on the highway.|המכוניות נוסעות מהר בכביש המהיר.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.

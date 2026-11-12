@@ -336,7 +336,17 @@ Call me as soon as you get home.|תתקשר אליי ברגע שתגיע הבי�
 As you know, the test is tomorrow.|כמו שאתם יודעים, המבחן מחר.
 At first I was afraid of the dog.|בהתחלה פחדתי מהכלב.
 At present we live in Haifa.|כרגע אנחנו גרים בחיפה.
-I am busy at the moment.|אני עסוק כרגע.`,
+I am busy at the moment.|אני עסוק כרגע.
+Attention!|שימו לב!
+The cat walked backwards.|החתול הלך אחורה.
+Soon I will be able to swim.|בקרוב אוכל לשחות.
+Don't be crazy, it is too cold to swim!|אל תהיה משוגע, קר מדי לשחות!
+Our school is located near the park.|בית הספר שלנו נמצא ליד הפארק.
+This table is made of wood.|השולחן הזה עשוי מעץ.
+I am off to school!|אני יוצא לבית הספר!
+I am responsible for feeding the dog.|אני אחראי להאכיל את הכלב.
+You are supposed to be in bed.|אתה אמור להיות במיטה.
+The little bird was unable to fly.|הציפור הקטנה לא הייתה מסוגלת לעוף.`,
 };
 
 let n = 0;
