@@ -496,7 +496,17 @@ Why not?|למה לא?
 I would love a cup of hot chocolate.|הייתי שמח לכוס שוקו חם.
 I would love to visit you.|הייתי שמח לבקר אותך.
 I would prefer to stay home.|הייתי מעדיף להישאר בבית.
-Wow!|וואו!`,
+Wow!|וואו!
+Let's wrap up the gift for Mom.|בוא נעטוף את המתנה לאמא.
+You know, I really like this game.|אתה יודע, אני ממש אוהב את המשחק הזה.
+Is your big brother at home?|אחיך הגדול בבית?
+I learned a great deal today.|למדתי המון היום.
+My dad has a great sense of humor.|לאבא שלי יש חוש הומור נהדר.
+I read the book again and again.|קראתי את הספר שוב ושוב.
+It rained all day long.|ירד גשם כל היום.
+We bought apples, bananas, oranges and so on.|קנינו תפוחים, בננות, תפוזים וכן הלאה.
+Apart from Dan, everyone came.|חוץ מדן, כולם באו.
+Are you kidding?|אתה צוחק עליי?`,
 };
 
 let n = 0;

@@ -314,7 +314,12 @@ she|היא|o|She is my little sister.|היא אחותי הקטנה.
 sheep|כבשה|n|The sheep eats green grass.|הכבשה אוכלת דשא ירוק.
 shoe|נעל|n|I lost my left shoe.|איבדתי את הנעל השמאלית שלי.
 show|להראות|v|Show me your new bag.|תראה לי את התיק החדש שלך.
-sky|שמיים|n|The sky is blue today.|השמיים כחולים היום.`,
+sky|שמיים|n|The sky is blue today.|השמיים כחולים היום.
+slow|איטי|a|The turtle is very slow.|הצב איטי מאוד.
+some|קצת, כמה|o|I want some milk.|אני רוצה קצת חלב.
+son|בן|n|Their son is five years old.|הבן שלהם בן חמש.
+song|שיר, מנגינה|n|We sang a happy song.|שרנו שיר שמח.
+soon|בקרוב|d|Dinner will be ready soon.|ארוחת הערב תהיה מוכנה בקרוב.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -639,7 +644,15 @@ sign|שלט, סימן|n|Read the sign on the door.|תקרא את השלט על �
 singer|זמר|n|She is a famous singer.|היא זמרת מפורסמת.
 sixteen|שש עשרה, שישה עשר|n|My cousin is sixteen years old.|בן הדוד שלי בן שש עשרה.
 sixty|שישים|n|There are sixty minutes in an hour.|יש שישים דקות בשעה.
-shape|צורה|n|A circle is a round shape.|עיגול הוא צורה עגולה.`,
+shape|צורה|n|A circle is a round shape.|עיגול הוא צורה עגולה.
+somebody|מישהו|o|Somebody is knocking on the door.|מישהו דופק בדלת.
+someone|מישהו, מישהי|o|Someone ate my cake!|מישהו אכל לי את העוגה!
+something|משהו, דבר מה|o|I have something for you.|יש לי משהו בשבילך.
+sometimes|לפעמים|d|Sometimes I walk to school.|לפעמים אני הולך ברגל לבית הספר.
+somewhere|איפשהו|d|My keys are somewhere in this room.|המפתחות שלי איפשהו בחדר הזה.
+ship|ספינה, אונייה|n|The big ship sailed across the sea.|הספינה הגדולה הפליגה על פני הים.
+shopping|קניות|n|Mom went shopping for food.|אמא הלכה לקנות אוכל.
+silly|מטופש, מצחיק|a|He made a silly face.|הוא עשה פרצוף מצחיק.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -870,7 +883,12 @@ score|ניקוד, תוצאה|n|What is the score of the game?|מה התוצאה 
 scream|לצרוח|v|The children scream on the roller coaster.|הילדים צורחים ברכבת ההרים.
 secretary|מזכיר, מזכירה|n|The school secretary gave me a note.|המזכירה של בית הספר נתנה לי פתק.
 selfie|סלפי|n|We took a selfie at the beach.|צילמנו סלפי בחוף.
-serve|להגיש|v|They serve lunch at twelve.|הם מגישים ארוחת צהריים בשתים עשרה.`,
+serve|להגיש|v|They serve lunch at twelve.|הם מגישים ארוחת צהריים בשתים עשרה.
+sheet|סדין, דף|n|Take a sheet of paper.|קחו דף נייר.
+shoot|לירות, לבעוט לשער|v|He can shoot the ball into the goal.|הוא יודע לבעוט את הכדור לתוך השער.
+silver|כסוף, עשוי כסף|a|She has a silver ring.|יש לה טבעת כסף.
+sink|כיור|n|Put the dishes in the sink.|שימו את הכלים בכיור.
+sir|אדוני|n|Excuse me, sir, is this your bag?|סליחה, אדוני, זה התיק שלך?`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1039,7 +1057,9 @@ role|תפקיד|n|She got the main role in the play.|היא קיבלה את הת
 scientific|מדעי|a|We did a scientific experiment in class.|עשינו ניסוי מדעי בכיתה.
 select|לבחור, לסמן|v|Select a color for your drawing.|בחרו צבע לציור שלכם.
 sense|חוש|n|Dogs have a great sense of smell.|לכלבים יש חוש ריח מצוין.
-separate|נפרד|a|We sleep in separate rooms.|אנחנו ישנים בחדרים נפרדים.`,
+separate|נפרד|a|We sleep in separate rooms.|אנחנו ישנים בחדרים נפרדים.
+sight|מראה, ראייה|n|What a beautiful sight!|איזה מראה יפה!
+single|יחיד, אחד|a|I did not make a single mistake.|לא עשיתי אף טעות אחת.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1080,26 +1100,26 @@ wonderful|נפלא|a|What a wonderful surprise!|איזו הפתעה נפלאה!
 curious|סקרן|a|The curious cat opened the box.|החתול הסקרן פתח את הקופסה.
 clever|פיקח|a|That was a clever plan.|זאת הייתה תוכנית פיקחית.
 foolish|טיפשי|a|It was a foolish mistake.|זאת הייתה טעות טיפשית.
-gradually|בהדרגה|d|The sky gradually turned dark.
-slowly|לאט|d|She slowly opened the door.
-quickly|במהירות|d|He quickly ran away.
-quietly|בשקט|d|They walked quietly past the door.
-finally|לבסוף|d|We finally reached the top.
-through|דרך|o|We walked through the forest.
-toward|לעבר|o|She ran toward the gate.
-against|נגד|o|We played against a good team.
-legend|אגדה|n|The old legend is about a dragon.
-hide|להתחבא|v|Let's hide behind the tree.
-chase|לרדוף|v|Dogs love to chase cats.
-catch|לתפוס|v|Try to catch the ball.
-steal|לגנוב|v|They tried to steal the gold.
-search|לחפש|v|We search for the key.
-discover|לגלות|v|They discover a secret room.
-destroy|להרוס|v|The fire could destroy the village.
-protect|להגן|v|The wall will protect the city.
-rescue|להציל|v|They came to rescue the sailors.
-imagine|לדמיין|v|Imagine a world without rain.
-disappear|להיעלם|v|The sun will disappear soon.`,
+gradually|בהדרגה|d|The sky gradually turned dark.|השמיים החשיכו בהדרגה.
+slowly|לאט|d|She slowly opened the door.|היא פתחה את הדלת לאט.
+quickly|במהירות|d|He quickly ran away.|הוא ברח במהירות.
+quietly|בשקט|d|They walked quietly past the door.|הם עברו בשקט ליד הדלת.
+finally|לבסוף|d|We finally reached the top.|לבסוף הגענו לפסגה.
+through|דרך|o|We walked through the forest.|הלכנו דרך היער.
+toward|לעבר|o|She ran toward the gate.|היא רצה לעבר השער.
+against|נגד|o|We played against a good team.|שיחקנו נגד קבוצה טובה.
+legend|אגדה|n|The old legend is about a dragon.|האגדה העתיקה מספרת על דרקון.
+hide|להתחבא|v|Let's hide behind the tree.|בואו נתחבא מאחורי העץ.
+chase|לרדוף|v|Dogs love to chase cats.|כלבים אוהבים לרדוף אחרי חתולים.
+catch|לתפוס|v|Try to catch the ball.|נסה לתפוס את הכדור.
+steal|לגנוב|v|They tried to steal the gold.|הם ניסו לגנוב את הזהב.
+search|לחפש|v|We search for the key.|אנחנו מחפשים את המפתח.
+discover|לגלות|v|They discover a secret room.|הם מגלים חדר סודי.
+destroy|להרוס|v|The fire could destroy the village.|האש עלולה להרוס את הכפר.
+protect|להגן|v|The wall will protect the city.|החומה תגן על העיר.
+rescue|להציל|v|They came to rescue the sailors.|הם באו להציל את המלחים.
+imagine|לדמיין|v|Imagine a world without rain.|דמיינו עולם בלי גשם.
+disappear|להיעלם|v|The sun will disappear soon.|השמש תיעלם בקרוב.`,
 `opinion|דעה|n|What is your opinion?
 reason|סיבה|n|Give me one good reason.
 example|דוגמה|n|Can you give an example?
