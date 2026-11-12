@@ -405,7 +405,10 @@ front|קדמה, חזית|n|I sit in the front of the class.|אני יושב בק
 great|נהדר|a|We had a great day at the beach.|היה לנו יום נהדר בחוף הים.
 guess|לנחש|v|Can you guess my name?|אתה יכול לנחש את השם שלי?
 hard|קשה, לא קל|a|This puzzle is very hard.|הפאזל הזה קשה מאוד.
-hate|לשנוא|v|I hate getting up early.|אני שונא לקום מוקדם.`,
+hate|לשנוא|v|I hate getting up early.|אני שונא לקום מוקדם.
+hill|גבעה|n|We ran up the hill.|רצנו במעלה הגבעה.
+hole|חור|n|There is a hole in my sock.|יש חור בגרב שלי.
+ice|קרח|n|I put ice in my drink.|שמתי קרח במשקה שלי.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -868,7 +871,17 @@ happen|לקרות|v|What will happen next?|מה יקרה אחר כך?
 helicopter|מסוק|n|A helicopter flew over our house.|מסוק טס מעל הבית שלנו.
 brush|מברשת|n|I need a brush to paint the fence.|אני צריך מברשת כדי לצבוע את הגדר.
 burger|המבורגר|n|I ordered a burger with fries.|הזמנתי המבורגר עם צ'יפס.
-cage|כלוב|n|The bird sings in its cage.|הציפור שרה בכלוב שלה.`,
+cage|כלוב|n|The bird sings in its cage.|הציפור שרה בכלוב שלה.
+high|גבוה, למעלה|a|The kite flew high in the sky.|העפיפון עף גבוה בשמיים.
+homemaker|עקרת בית, מנהל משק בית|n|My uncle is a homemaker and cooks every day.|הדוד שלי מנהל את משק הבית ומבשל כל יום.
+include|לכלול|v|Does the price include breakfast?|האם המחיר כולל ארוחת בוקר?
+information|מידע|n|The website has information about animals.|באתר יש מידע על בעלי חיים.
+instead|במקום זאת|d|We had no milk, so we drank juice instead.|לא היה לנו חלב, אז שתינו מיץ במקום.
+instructions|הוראות|n|Read the instructions before you start.|קרא את ההוראות לפני שאתה מתחיל.
+itself|את עצמו, בעצמו|o|The cat is cleaning itself.|החתול מנקה את עצמו.
+captain|קפטן, רב חובל|n|The captain steered the ship.|הקפטן היגה את הספינה.
+carpet|שטיח|n|The dog is sleeping on the carpet.|הכלב ישן על השטיח.
+cartoon|סרט מצויר|n|My little sister loves this cartoon.|אחותי הקטנה אוהבת את הסרט המצויר הזה.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1177,7 +1190,11 @@ bomb|פצצה|n|The water balloon fell like a bomb.|בלון המים נפל כ�
 breath|נשימה|n|Take a deep breath and relax.|קח נשימה עמוקה ותירגע.
 builder|בנאי|n|The builder is fixing our roof.|הבנאי מתקן את הגג שלנו.
 cabbage|כרוב|n|Grandma makes soup with cabbage.|סבתא מכינה מרק כרוב.
-cancel|לבטל|v|They had to cancel the trip because of the rain.|הם נאלצו לבטל את הטיול בגלל הגשם.`,
+cancel|לבטל|v|They had to cancel the trip because of the rain.|הם נאלצו לבטל את הטיול בגלל הגשם.
+career|קריירה|n|She wants a career in music.|היא רוצה קריירה במוזיקה.
+cast|צוות שחקנים|n|The whole cast came on stage at the end.|כל צוות השחקנים עלה לבמה בסוף.
+cause|לגרום|v|Ice on the road can cause accidents.|קרח על הכביש יכול לגרום לתאונות.
+celebrity|ידוען, סלבריטי|n|A famous celebrity visited our school.|ידוען מפורסם ביקר בבית הספר שלנו.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1395,7 +1412,10 @@ beneath|מתחת ל-|o|The cat is sleeping beneath the table.|החתול ישן 
 bother|להפריע, להטריד|v|Please don't bother me while I'm reading.|בבקשה אל תפריע לי כשאני קורא.
 brief|קצר, תמציתי|a|The teacher gave a brief talk.|המורה נתן הרצאה קצרה.
 broad|רחב, נרחב|a|The river is broad and deep.|הנהר רחב ועמוק.
-canal|תעלה|n|Boats sail along the canal.|סירות שטות לאורך התעלה.`,
+canal|תעלה|n|Boats sail along the canal.|סירות שטות לאורך התעלה.
+candidate|מועמד|n|Each candidate gave a short speech.|כל מועמד נשא נאום קצר.
+category|קטגוריה|n|Put each animal in the right category.|שים כל חיה בקטגוריה הנכונה.
+central|מרכזי|a|The library is in a central part of the city.|הספרייה נמצאת בחלק מרכזי של העיר.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1796,26 +1816,26 @@ astonishing|מדהים|a|The view from the top was astonishing.|הנוף מהפ�
 authentic|אותנטי|a|This is an authentic Italian recipe.|זה מתכון איטלקי אותנטי.
 bewildered|מבולבל לגמרי|a|He looked bewildered by the question.|הוא נראה מבולבל לגמרי מהשאלה.
 bizarre|מוזר מאוד|a|What a bizarre dream!|איזה חלום מוזר!
-blunt|בוטה|a|Sorry to be blunt about it.
-compassion|חמלה|n|She treated him with compassion.
-comprehend|לתפוס (להבין)|v|I cannot comprehend this math.
-conceal|להסתיר|v|He tried to conceal his fear.
-controversial|שנוי במחלוקת|a|The new law is controversial.
-convey|להעביר (מסר)|v|Music can convey strong feelings.
-crucial|מכריע|a|This is a crucial moment.
-deceive|להונות|v|Don't try to deceive me.
-deliberate|מכוון|a|It was a deliberate choice.
-despair|ייאוש|n|He sat down in despair.
-devastating|הרסני|a|The storm was devastating.
-dilemma|דילמה|n|I face a real dilemma.
-diminish|להצטמצם|v|The pain will diminish with time.
-distinct|מובחן|a|There are two distinct groups.
-elaborate|מפורט ומורכב|a|They made an elaborate plan.
-eloquent|רהוט|a|She gave an eloquent speech.
-elusive|חמקמק|a|Success remained elusive.
-endure|לעמוד ב (סבל)|v|They had to endure the long winter.
-enormous|עצום|a|An enormous wave hit the boat.
-evident|ברור|a|Her joy was evident to all.
+blunt|בוטה|a|Sorry to be blunt about it.|סליחה שאני בוטה בעניין הזה.
+compassion|חמלה|n|She treated him with compassion.|היא התייחסה אליו בחמלה.
+comprehend|לתפוס (להבין)|v|I cannot comprehend this math.|אני לא מצליח לתפוס את המתמטיקה הזאת.
+conceal|להסתיר|v|He tried to conceal his fear.|הוא ניסה להסתיר את הפחד שלו.
+controversial|שנוי במחלוקת|a|The new law is controversial.|החוק החדש שנוי במחלוקת.
+convey|להעביר (מסר)|v|Music can convey strong feelings.|מוזיקה יכולה להעביר רגשות חזקים.
+crucial|מכריע|a|This is a crucial moment.|זה רגע מכריע.
+deceive|להונות|v|Don't try to deceive me.|אל תנסה להונות אותי.
+deliberate|מכוון|a|It was a deliberate choice.|זו הייתה בחירה מכוונת.
+despair|ייאוש|n|He sat down in despair.|הוא התיישב בייאוש.
+devastating|הרסני|a|The storm was devastating.|הסערה הייתה הרסנית.
+dilemma|דילמה|n|I face a real dilemma.|אני עומד בפני דילמה אמיתית.
+diminish|להצטמצם|v|The pain will diminish with time.|הכאב יפחת עם הזמן.
+distinct|מובחן|a|There are two distinct groups.|יש שתי קבוצות נפרדות.
+elaborate|מפורט ומורכב|a|They made an elaborate plan.|הם הכינו תוכנית מפורטת ומורכבת.
+eloquent|רהוט|a|She gave an eloquent speech.|היא נשאה נאום רהוט.
+elusive|חמקמק|a|Success remained elusive.|ההצלחה נשארה חמקמקה.
+endure|לעמוד ב (סבל)|v|They had to endure the long winter.|הם נאלצו לעמוד בחורף הארוך.
+enormous|עצום|a|An enormous wave hit the boat.|גל עצום פגע בסירה.
+evident|ברור|a|Her joy was evident to all.|השמחה שלה הייתה ברורה לכולם.
 exceed|לעלות על|v|Costs may exceed the budget.
 fragile|שביר|a|Be careful, the glass is fragile.
 futile|חסר תוחלת|a|Our efforts proved futile.

@@ -676,7 +676,17 @@ Her mom is a single parent.|אמא שלה היא הורה יחידנית.
 I left early so that I would not be late.|יצאתי מוקדם כדי שלא אאחר.
 My sister spends a lot of time on social media.|אחותי מבלה הרבה זמן ברשתות החברתיות.
 Social networking helps people stay in touch.|רשתות חברתיות עוזרות לאנשים לשמור על קשר.
-That sounds like a good plan.|זה נשמע כמו תוכנית טובה.`,
+That sounds like a good plan.|זה נשמע כמו תוכנית טובה.
+Sounds good to me!|נשמע לי טוב!
+Please switch off the light.|בבקשה כבה את האור.
+Take a deep breath and count to ten.|קח נשימה עמוקה וספור עד עשר.
+I take care of my little brother.|אני שומר על אחי הקטן.
+Take it easy, there is no rush.|תירגע, אין לחץ.
+The plane will take off soon.|המטוס ימריא בקרוב.
+My dad took up swimming last year.|אבא שלי התחיל לשחות בשנה שעברה.
+Everyone must obey the law.|כולם חייבים לציית לחוק.
+I saw your sister the other day.|ראיתי את אחותך לפני כמה ימים.
+The press wrote about our school play.|העיתונות כתבה על ההצגה של בית הספר שלנו.`,
 };
 
 let n = 0;

@@ -1,16 +1,5 @@
 # Pre-Band I
 # Band I
-high
-hill
-hole
-homemaker
-ice
-include
-information
-instead
-instructions
-Internet
-itself
 jam
 jeans
 join
@@ -210,16 +199,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-candidate
-captain
-career
-carpet
-cartoon
-cast
-category
-cause
-celebrity
-central
 certainty
 chain
 chapter
