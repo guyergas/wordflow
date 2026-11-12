@@ -586,7 +586,17 @@ We have lived here for years.|אנחנו גרים כאן כבר שנים.
 We get around the city by bike.|אנחנו מתניידים בעיר באופניים.
 We need to get rid of these old toys.|אנחנו צריכים להיפטר מהצעצועים הישנים האלה.
 I got used to my new school.|התרגלתי לבית הספר החדש שלי.
-It is late, so go to sleep.|מאוחר, אז לך לישון.`,
+It is late, so go to sleep.|מאוחר, אז לך לישון.
+Our cat gave birth to four kittens.|החתולה שלנו ילדה ארבעה גורים.
+I will give you a call tonight.|אני אתקשר אליך הערב.
+The test went well.|המבחן עבר טוב.
+Let's go out and play.|בוא נצא החוצה לשחק.
+Prices go up every year.|המחירים עולים כל שנה.
+Something went wrong with my computer.|משהו השתבש במחשב שלי.
+Good for you!|כל הכבוד לך!
+Please hand in your homework.|בבקשה תגישו את שיעורי הבית.
+Don't hang up the phone yet.|אל תנתק עדיין את הטלפון.
+She has a red dress on.|היא לובשת שמלה אדומה.`,
 };
 
 let n = 0;

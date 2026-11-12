@@ -1,16 +1,6 @@
 # Pre-Band I
 # Band I
-act
-action
-address
-advise
-all
-alone
-along
-already
 Arabic
-around
-artist
 asleep
 away
 bathroom
@@ -303,17 +293,7 @@ yours
 zero
 # Band II Core I
 well-made
-whose
-widely
-wish
-wonder
-wool
-worse
-yourself
-yourselves
 # Band II Core II
-absent
-abstract
 academic
 accommodation
 active

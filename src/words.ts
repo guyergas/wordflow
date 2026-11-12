@@ -369,7 +369,10 @@ world|עולם|n|I want to travel around the world.|אני רוצה לטייל �
 year|שנה|n|This year I am in third grade.|השנה אני בכיתה ג'.
 yellow|צהוב|a|The sun is yellow.|השמש צהובה.
 your|שלך|o|Is this your bag?|זה התיק שלך?
-zoo|גן חיות|n|We saw lions at the zoo.|ראינו אריות בגן החיות.`,
+zoo|גן חיות|n|We saw lions at the zoo.|ראינו אריות בגן החיות.
+all|כל, כולם|o|All the children are in the garden.|כל הילדים בגינה.
+around|מסביב ל-|o|We sat around the table.|ישבנו מסביב לשולחן.
+artist|אמן, צייר|n|The artist painted a big picture.|האמן צייר תמונה גדולה.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -752,7 +755,17 @@ account|חשבון|n|Dad has a bank account.|לאבא יש חשבון בנק.
 across|לרוחב, מעבר ל-|o|We walked across the bridge.|חצינו את הגשר ברגל.
 video|סרטון|n|We watched a funny video.|צפינו בסרטון מצחיק.
 voice|קול|n|She has a beautiful voice.|יש לה קול יפה.
-wheel|גלגל|n|One wheel of my bike is broken.|גלגל אחד של האופניים שלי שבור.`,
+wheel|גלגל|n|One wheel of my bike is broken.|גלגל אחד של האופניים שלי שבור.
+act|לפעול|v|We must act fast to help the bird.|עלינו לפעול מהר כדי לעזור לציפור.
+action|פעולה, אקשן|n|I like action movies.|אני אוהב סרטי אקשן.
+address|כתובת|n|What is your address?|מה הכתובת שלך?
+advise|לייעץ|v|The doctor will advise you what to do.|הרופא ייעץ לך מה לעשות.
+alone|לבד|a|The cat was alone at home.|החתול היה לבד בבית.
+along|לאורך|o|We walked along the beach.|הלכנו לאורך החוף.
+already|כבר|d|I already finished my homework.|כבר סיימתי את שיעורי הבית.
+wish|לאחל, לייחל|v|I wish you a happy birthday.|אני מאחל לך יום הולדת שמח.
+wool|צמר|n|My hat is made of wool.|הכובע שלי עשוי מצמר.
+yourself|בעצמך, את עצמך|o|Did you make this cake yourself?|הכנת את העוגה הזאת בעצמך?`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1022,7 +1035,12 @@ unpleasant|לא נעים|a|The smell was unpleasant.|הריח היה לא נעי
 website|אתר אינטרנט|n|Our school has a new website.|לבית הספר שלנו יש אתר אינטרנט חדש.
 weekly|שבועי|a|We have a weekly spelling test.|יש לנו מבחן כתיב שבועי.
 warn|להזהיר|v|I want to warn you about the dog.|אני רוצה להזהיר אותך מפני הכלב.
-virus|נגיף, וירוס|n|A virus can make you sick.|נגיף יכול לגרום לך לחלות.`,
+virus|נגיף, וירוס|n|A virus can make you sick.|נגיף יכול לגרום לך לחלות.
+whose|של מי|o|Whose book is this?|של מי הספר הזה?
+wonder|לתהות|v|I wonder where my cat is.|אני תוהה איפה החתול שלי.
+worse|גרוע יותר|a|My cold is worse today.|ההצטננות שלי גרועה יותר היום.
+yourselves|בעצמכם, את עצמכם|o|Did you build it yourselves?|בניתם את זה בעצמכם?
+absent|נעדר|a|Tom was absent from school today.|תום נעדר היום מבית הספר.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1215,7 +1233,9 @@ understanding|הבנה|n|She has a good understanding of math.|יש לה הבנ�
 unnecessary|מיותר, לא נחוץ|a|Don't buy unnecessary things.|אל תקנה דברים מיותרים.
 volume|עוצמת קול|n|Please turn down the volume.|בבקשה תנמיך את עוצמת הקול.
 whether|אם|o|I don't know whether it will rain.|אני לא יודע אם ירד גשם.
-whenever|בכל פעם ש-|o|Whenever it rains, I wear boots.|בכל פעם שיורד גשם, אני נועל מגפיים.`,
+whenever|בכל פעם ש-|o|Whenever it rains, I wear boots.|בכל פעם שיורד גשם, אני נועל מגפיים.
+widely|באופן נרחב|d|English is widely spoken around the world.|מדברים אנגלית בכל רחבי העולם.
+abstract|מופשט|a|She paints abstract pictures.|היא מציירת ציורים מופשטים.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1436,26 +1456,26 @@ unique|ייחודי|a|Every snowflake is unique.|כל פתית שלג הוא י�
 vulnerable|פגיע|a|Baby birds are vulnerable.|גוזלים הם פגיעים.
 absolutely|בהחלט|d|You are absolutely right.|אתה צודק בהחלט.
 definitely|בוודאות|d|I will definitely be there.|אני בהחלט אהיה שם.
-eventually|בסופו של דבר|d|We eventually found the way.
-immediately|מיד|d|Call me immediately.
-occasionally|לפעמים|d|We occasionally eat out.
-unfortunately|לצערי|d|Unfortunately, the shop was closed.
-accomplish|להשיג|v|You can accomplish a lot in a year.
-acknowledge|להודות ב|v|You must acknowledge your mistake.
-appreciate|להעריך|v|I appreciate your help.
-assume|להניח|v|Don't assume I know.
-avoid|להימנע|v|Try to avoid sugar.
-concentrate|להתרכז|v|I can't concentrate with this noise.
-criticize|למתוח ביקורת|v|Don't criticize her work.
-emphasize|להדגיש|v|Teachers emphasize good habits.
-exaggerate|להגזים|v|Don't exaggerate the story.
-hesitate|להסס|v|Don't hesitate to ask.
-interrupt|להפריע|v|Please don't interrupt me.
-overcome|להתגבר|v|We can overcome this fear.
-persuade|לשכנע בטיעונים|v|Try to persuade your parents.
-pronounce|להגות|v|How do you pronounce this word?
-recommend|להמליץ|v|I recommend this book.
-succeed|להצליח|v|I know you will succeed.`,
+eventually|בסופו של דבר|d|We eventually found the way.|בסופו של דבר מצאנו את הדרך.
+immediately|מיד|d|Call me immediately.|תתקשר אליי מיד.
+occasionally|לפעמים|d|We occasionally eat out.|לפעמים אנחנו אוכלים בחוץ.
+unfortunately|לצערי|d|Unfortunately, the shop was closed.|לצערי, החנות הייתה סגורה.
+accomplish|להשיג|v|You can accomplish a lot in a year.|אפשר להשיג הרבה בשנה אחת.
+acknowledge|להודות ב|v|You must acknowledge your mistake.|אתה חייב להודות בטעות שלך.
+appreciate|להעריך|v|I appreciate your help.|אני מעריך את העזרה שלך.
+assume|להניח|v|Don't assume I know.|אל תניח שאני יודע.
+avoid|להימנע|v|Try to avoid sugar.|נסה להימנע מסוכר.
+concentrate|להתרכז|v|I can't concentrate with this noise.|אני לא מצליח להתרכז עם הרעש הזה.
+criticize|למתוח ביקורת|v|Don't criticize her work.|אל תמתח ביקורת על העבודה שלה.
+emphasize|להדגיש|v|Teachers emphasize good habits.|מורים מדגישים הרגלים טובים.
+exaggerate|להגזים|v|Don't exaggerate the story.|אל תגזים בסיפור.
+hesitate|להסס|v|Don't hesitate to ask.|אל תהסס לשאול.
+interrupt|להפריע|v|Please don't interrupt me.|בבקשה אל תפריע לי.
+overcome|להתגבר|v|We can overcome this fear.|אנחנו יכולים להתגבר על הפחד הזה.
+persuade|לשכנע בטיעונים|v|Try to persuade your parents.|נסה לשכנע את ההורים שלך.
+pronounce|להגות|v|How do you pronounce this word?|איך הוגים את המילה הזאת?
+recommend|להמליץ|v|I recommend this book.|אני ממליץ על הספר הזה.
+succeed|להצליח|v|I know you will succeed.|אני יודע שתצליח.`,
 `analyze|לנתח|v|Scientists analyze the data carefully.
 conclude|להסיק|v|We can conclude that the plan worked.
 contrast|ניגוד|n|There is a sharp contrast between the two cities.
