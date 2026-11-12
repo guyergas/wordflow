@@ -441,7 +441,12 @@ pretty|יפה|a|She has a pretty red dress.|יש לה שמלה אדומה יפה
 pull|למשוך|v|You need to pull the door to open it.|צריך למשוך את הדלת כדי לפתוח אותה.
 push|לדחוף|v|Can you push the swing, please?|אתה יכול לדחוף את הנדנדה, בבקשה?
 quick|מהיר|a|The rabbit is very quick.|הארנב מהיר מאוד.
-raincoat|מעיל גשם|n|Wear your raincoat, it is raining.|תלבש את מעיל הגשם שלך, יורד גשם.`,
+raincoat|מעיל גשם|n|Wear your raincoat, it is raining.|תלבש את מעיל הגשם שלך, יורד גשם.
+repeat|לחזור על|v|Please repeat the word after me.|בבקשה חזרו על המילה אחריי.
+ride|לרכוב|v|I like to ride my bike in the park.|אני אוהב לרכוב על האופניים שלי בפארק.
+ring|טבעת; לצלצל|n|My mom has a gold ring.|לאמא שלי יש טבעת זהב.
+ruler|סרגל|n|Use a ruler to draw a straight line.|השתמשו בסרגל כדי לצייר קו ישר.
+save|לחסוך; להציל|v|I save my coins in a jar.|אני חוסך את המטבעות שלי בצנצנת.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -987,7 +992,14 @@ raise|להרים|v|Please raise your hand before you speak.|בבקשה הרימ�
 reader|קורא|n|My brother is a fast reader.|אחי קורא מהר.
 real|אמיתי|a|Is that a real dinosaur bone?|זאת עצם אמיתית של דינוזאור?
 refrigerator|מקרר|n|Put the milk back in the refrigerator.|תחזיר את החלב למקרר.
-relationship|קשר, מערכת יחסים|n|I have a good relationship with my teacher.|יש לי קשר טוב עם המורה שלי.`,
+relationship|קשר, מערכת יחסים|n|I have a good relationship with my teacher.|יש לי קשר טוב עם המורה שלי.
+return|לחזור; להחזיר|v|Please return the book to the library.|בבקשה תחזיר את הספר לספרייה.
+round|עגול|a|The ball is round.|הכדור עגול.
+runner|רץ|n|She is the fastest runner in our class.|היא הרצה הכי מהירה בכיתה שלנו.
+safe|בטוח|a|It is not safe to play in the street.|לא בטוח לשחק ברחוב.
+expert|מומחה|n|My uncle is an expert on birds.|הדוד שלי מומחה לציפורים.
+screen|מסך|n|Don't sit too close to the screen.|אל תשבו קרוב מדי למסך.
+favor|טובה|n|Can you do me a favor?|אתה יכול לעשות לי טובה?`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1353,7 +1365,13 @@ entire|שלם, כל|a|I read the entire book in one day.|קראתי את כל ה
 equal|שווה|a|Cut the cake into equal pieces.|חתכו את העוגה לחתיכות שוות.
 exchange|להחליף; החלפה|v|Can I exchange this shirt for a bigger one?|אפשר להחליף את החולצה הזאת בגדולה יותר?
 excitement|התרגשות|n|The children shouted with excitement.|הילדים צעקו מהתרגשות.
-excuse|תירוץ|n|He always has an excuse for being late.|תמיד יש לו תירוץ לאיחור.`,
+excuse|תירוץ|n|He always has an excuse for being late.|תמיד יש לו תירוץ לאיחור.
+expectation|ציפייה|n|The trip was beyond every expectation.|הטיול עלה על כל ציפייה.
+expression|הבעה; ביטוי|n|I could see a happy expression on her face.|ראיתי הבעה שמחה על הפנים שלה.
+facility|מתקן|n|The new sports facility has a big pool.|במתקן הספורט החדש יש בריכה גדולה.
+facilities|מתקנים|n|Our school has great sports facilities.|לבית הספר שלנו יש מתקני ספורט מצוינים.
+faith|אמונה; אמון|n|I have faith in my team.|יש לי אמון בקבוצה שלי.
+fault|אשמה|n|It was not my fault.|זאת לא הייתה אשמתי.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1615,7 +1633,9 @@ effective|יעיל, אפקטיבי|a|This medicine is very effective.|התרופ
 employment|תעסוקה, העסקה|n|The new factory will bring employment to the town.|המפעל החדש יביא תעסוקה לעיר.
 ensure|לוודא, להבטיח|v|Please ensure that the door is locked.|בבקשה ודאו שהדלת נעולה.
 environmentally|מבחינה סביבתית|d|Riding a bike is environmentally friendly.|רכיבה על אופניים ידידותית לסביבה.
-estimate|להעריך, לאמוד; הערכה|v|Can you estimate how many beans are in the jar?|אתה יכול להעריך כמה שעועיות יש בצנצנת?`,
+estimate|להעריך, לאמוד; הערכה|v|Can you estimate how many beans are in the jar?|אתה יכול להעריך כמה שעועיות יש בצנצנת?
+extent|מידה, היקף|n|To some extent, he is right.|במידה מסוימת, הוא צודק.
+external|חיצוני|a|The external walls of the house are white.|הקירות החיצוניים של הבית לבנים.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

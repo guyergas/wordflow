@@ -1,17 +1,6 @@
 # Pre-Band I
 # Band I
-repeat
-return
-ride
-right-hand
-ring
-round
-ruler
-runner
-safe
-save
 say
-screen
 sell
 set
 several
@@ -95,17 +84,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-expectation
-expert
-expression
-extent
-external
-face-to-face
-facilities
-facility
-faith
-fault
-favor
 fee
 female
 festival
