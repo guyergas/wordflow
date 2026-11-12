@@ -516,7 +516,17 @@ The garden looks its best in spring.|הגינה נראית במיטבה באבי
 Come here at once!|בוא לכאן מיד!
 We both laughed at the same time.|שנינו צחקנו באותו הזמן.
 My grandparents attend a synagogue every Saturday.|סבא וסבתא שלי הולכים לבית כנסת כל שבת.
-The movie is based on a book.|הסרט מבוסס על ספר.`,
+The movie is based on a book.|הסרט מבוסס על ספר.
+I am dying to see the new movie!|אני מת לראות את הסרט החדש!
+We are expecting guests tonight.|אנחנו מצפים לאורחים הערב.
+Are you familiar with this game?|אתה מכיר את המשחק הזה?
+I want to be friends with you.|אני רוצה להיות חבר שלך.
+When you are in doubt, ask the teacher.|כשאתה בספק, תשאל את המורה.
+My brother is into dinosaurs.|אחי מתלהב מדינוזאורים.
+Jerusalem is known as the City of Gold.|ירושלים ידועה כעיר הזהב.
+We are short of chairs for the party.|חסרים לנו כיסאות למסיבה.
+It is up to you.|זה תלוי בך.
+What are you up to today?|מה אתה עושה היום?`,
 };
 
 let n = 0;

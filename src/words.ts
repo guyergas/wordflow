@@ -324,7 +324,14 @@ sorry|מצטער|a|I am sorry I was late.|אני מצטער שאיחרתי.
 start|להתחיל, לפתוח|v|Let's start the game!|בואו נתחיל את המשחק!
 story|סיפור|n|Mom reads me a story at night.|אמא מקריאה לי סיפור בלילה.
 sugar|סוכר|n|I don't put sugar in my tea.|אני לא שם סוכר בתה שלי.
-summer|קיץ|n|We go to the beach in summer.|אנחנו הולכים לים בקיץ.`,
+summer|קיץ|n|We go to the beach in summer.|אנחנו הולכים לים בקיץ.
+sunny|שמשי|a|It is a sunny day.|זה יום שמשי.
+tea|תה|n|Grandma drinks hot tea.|סבתא שותה תה חם.
+there|שם|d|Put the box over there.|שים את הקופסה שם.
+these|אלה, האלה|o|These shoes are new.|הנעליים האלה חדשות.
+thin|דק, רזה|a|This book is very thin.|הספר הזה דק מאוד.
+thing|דבר|n|What is this thing?|מה הדבר הזה?
+think|לחשוב|v|I think it will rain.|אני חושב שירד גשם.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -663,7 +670,12 @@ stay|להישאר, לשהות|v|Can I stay at your house tonight?|אני יכו�
 straight|ישר (לא עקום)|a|Draw a straight line.|תצייר קו ישר.
 study|ללמוד, לשנן|v|I study for my test every day.|אני לומד למבחן שלי כל יום.
 smart|חכם, נבון|a|My dog is very smart.|הכלב שלי חכם מאוד.
-soccer|כדורגל|n|We play soccer after school.|אנחנו משחקים כדורגל אחרי בית הספר.`,
+soccer|כדורגל|n|We play soccer after school.|אנחנו משחקים כדורגל אחרי בית הספר.
+supper|ארוחת ערב|n|We eat supper at seven.|אנחנו אוכלים ארוחת ערב בשבע.
+telephone|טלפון|n|The telephone is ringing.|הטלפון מצלצל.
+tenth|עשירי|a|Today is my tenth birthday.|היום יום ההולדת העשירי שלי.
+stone|אבן|n|He threw a stone into the lake.|הוא זרק אבן לתוך האגם.
+strawberry|תות|n|I put a strawberry on my cake.|שמתי תות על העוגה שלי.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -903,7 +915,11 @@ sir|אדוני|n|Excuse me, sir, is this your bag?|סליחה, אדוני, זה 
 skate|להחליק (בגלגיליות או על קרח)|v|I can skate on ice.|אני יודע להחליק על הקרח.
 ski|לגלוש בסקי|v|We ski in the mountains in winter.|אנחנו גולשים בסקי בהרים בחורף.
 slice|פרוסה|n|Can I have a slice of bread?|אפשר לקבל פרוסת לחם?
-soldier|חייל|n|The soldier wore a green uniform.|החייל לבש מדים ירוקים.`,
+soldier|חייל|n|The soldier wore a green uniform.|החייל לבש מדים ירוקים.
+sort|למיין|v|Sort the cards by color.|מיינו את הקלפים לפי צבע.
+speech|נאום|n|The principal gave a short speech.|המנהלת נשאה נאום קצר.
+spot|כתם, נקודה|n|There is a spot on my shirt.|יש כתם על החולצה שלי.
+steam|אדים|n|Steam came out of the hot soup.|אדים יצאו מהמרק החם.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1078,7 +1094,11 @@ single|יחיד, אחד|a|I did not make a single mistake.|לא עשיתי אף 
 situation|מצב|n|This is a hard situation.|זה מצב קשה.
 slim|רזה, תמיר|a|The dancer is tall and slim.|הרקדנית גבוהה ורזה.
 software|תוכנה|n|This software helps me learn math.|התוכנה הזאת עוזרת לי ללמוד חשבון.
-somehow|איכשהו|d|Somehow we found the way home.|איכשהו מצאנו את הדרך הביתה.`,
+somehow|איכשהו|d|Somehow we found the way home.|איכשהו מצאנו את הדרך הביתה.
+staff|צוות|n|The school staff planned a party.|צוות בית הספר תכנן מסיבה.
+standard|רמה, תקן|n|Her work is of a high standard.|העבודה שלה ברמה גבוהה.
+state|מדינה (במדינה פדרלית)|n|Texas is a big state.|טקסס היא מדינה גדולה.
+strength|כוח|n|He lifted the box with all his strength.|הוא הרים את הקופסה בכל הכוח שלו.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1159,26 +1179,26 @@ failure|כישלון|n|One failure is not the end.|כישלון אחד הוא ל
 rule|כלל|n|Every game has a rule like this.|לכל משחק יש כלל כזה.
 truth|אמת|n|Tell me the truth.|תגיד לי את האמת.
 fact|עובדה|n|That is a fact.|זאת עובדה.
-rumor|שמועה|n|I heard a rumor about her.
-attitude|גישה|n|She has a positive attitude.
-respect|כבוד|n|Treat others with respect.
-behavior|התנהגות|n|His behavior surprised everyone.
-responsibility|אחריות|n|Feeding the dog is my responsibility.
-necessary|הכרחי|a|Is it necessary to wait?
-possible|אפשרי|a|Is it possible to fix it?
-impossible|בלתי אפשרי|a|Nothing is impossible.
-certain|בטוח|a|I am certain about this.
-obvious|ברור מאליו|a|The answer is obvious.
-useful|שימושי|a|This is a useful tool.
-useless|חסר תועלת|a|This old map is useless.
-fair|הוגן|a|That is not fair!
-serious|רציני|a|This is a serious problem.
-similar|דומה|a|Our bags are similar.
-wrong|שגוי|a|That answer is wrong.
-correct|נכון|a|Your spelling is correct.
-popular|פופולרי|a|This game is very popular.
-ordinary|רגיל|a|It was an ordinary day.
-special|מיוחד|a|Today is a special day.
+rumor|שמועה|n|I heard a rumor about her.|שמעתי שמועה עליה.
+attitude|גישה|n|She has a positive attitude.|יש לה גישה חיובית.
+respect|כבוד|n|Treat others with respect.|התייחסו לאחרים בכבוד.
+behavior|התנהגות|n|His behavior surprised everyone.|ההתנהגות שלו הפתיעה את כולם.
+responsibility|אחריות|n|Feeding the dog is my responsibility.|להאכיל את הכלב זו האחריות שלי.
+necessary|הכרחי|a|Is it necessary to wait?|האם הכרחי לחכות?
+possible|אפשרי|a|Is it possible to fix it?|אפשר לתקן את זה?
+impossible|בלתי אפשרי|a|Nothing is impossible.|שום דבר אינו בלתי אפשרי.
+certain|בטוח|a|I am certain about this.|אני בטוח בזה.
+obvious|ברור מאליו|a|The answer is obvious.|התשובה ברורה מאליה.
+useful|שימושי|a|This is a useful tool.|זה כלי שימושי.
+useless|חסר תועלת|a|This old map is useless.|המפה הישנה הזאת חסרת תועלת.
+fair|הוגן|a|That is not fair!|זה לא הוגן!
+serious|רציני|a|This is a serious problem.|זו בעיה רצינית.
+similar|דומה|a|Our bags are similar.|התיקים שלנו דומים.
+wrong|שגוי|a|That answer is wrong.|התשובה הזאת שגויה.
+correct|נכון|a|Your spelling is correct.|האיות שלך נכון.
+popular|פופולרי|a|This game is very popular.|המשחק הזה פופולרי מאוד.
+ordinary|רגיל|a|It was an ordinary day.|זה היה יום רגיל.
+special|מיוחד|a|Today is a special day.|היום הוא יום מיוחד.
 actually|בעצם|d|Actually, I like it.
 probably|כנראה|d|He will probably come.
 especially|במיוחד|d|I love fruit, especially mango.
