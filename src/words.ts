@@ -475,7 +475,11 @@ upstairs|למעלה (בקומה העליונה)|d|My room is upstairs.|החדר 
 vacation|חופשה|n|We went to the beach on vacation.|נסענו לים בחופשה.
 welcome|ברוך הבא|o|Welcome to our new home!|ברוכים הבאים לבית החדש שלנו!
 wet|רטוב|a|My shoes are wet from the rain.|הנעליים שלי רטובות מהגשם.
-which|איזה, איזו|o|Which color do you like best?|איזה צבע אתה הכי אוהב?`,
+which|איזה, איזו|o|Which color do you like best?|איזה צבע אתה הכי אוהב?
+without|בלי|o|I can't sleep without my teddy bear.|אני לא יכול לישון בלי הדובי שלי.
+yogurt|יוגורט|n|I eat yogurt for breakfast.|אני אוכל יוגורט לארוחת בוקר.
+yours|שלך|o|Is this pencil yours?|העיפרון הזה שלך?
+zero|אפס|n|Two minus two is zero.|שתיים פחות שתיים זה אפס.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -1088,7 +1092,14 @@ vocabulary|אוצר מילים|n|Reading helps you learn new vocabulary.|קרי�
 war|מלחמה|n|My grandpa told me about the war.|סבא שלי סיפר לי על המלחמה.
 wave|גל; לנופף|n|A big wave hit the beach.|גל גדול פגע בחוף.
 lady|גברת|n|The old lady fed the birds.|הגברת הזקנה האכילה את הציפורים.
-lioness|לביאה|n|The lioness hunts for her cubs.|הלביאה צדה בשביל הגורים שלה.`,
+lioness|לביאה|n|The lioness hunts for her cubs.|הלביאה צדה בשביל הגורים שלה.
+while|בזמן ש|o|I read a book while I waited.|קראתי ספר בזמן שחיכיתי.
+whole|שלם, כל|a|I ate the whole pizza!|אכלתי את כל הפיצה!
+wood|עץ (חומר)|n|The table is made of wood.|השולחן עשוי מעץ.
+worst|הגרוע ביותר|a|This is the worst day ever!|זה היום הגרוע ביותר אי פעם!
+writing|כתיבה|n|Writing stories is fun.|כתיבת סיפורים זה כיף.
+yet|עדיין (לא), עוד|d|I have not finished yet.|עוד לא סיימתי.
+mall|קניון|n|We met our friends at the mall.|פגשנו את החברים שלנו בקניון.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1492,7 +1503,11 @@ label|תווית|n|Read the label on the bottle.|קרא את התווית על �
 lately|לאחרונה|d|Have you seen Dana lately?|ראית את דנה לאחרונה?
 league|ליגה|n|Our team plays in a junior league.|הקבוצה שלנו משחקת בליגת נוער.
 length|אורך|n|Measure the length of the table.|מדוד את אורך השולחן.
-link|קישור; חוליה|n|Click the link to see the video.|לחץ על הקישור כדי לראות את הסרטון.`,
+link|קישור; חוליה|n|Click the link to see the video.|לחץ על הקישור כדי לראות את הסרטון.
+loss|הפסד; אובדן|n|After the loss, the team was sad.|אחרי ההפסד, הקבוצה הייתה עצובה.
+male|זכר|a|The male lion has a big mane.|לאריה הזכר יש רעמה גדולה.
+marathon|מרתון|n|My dad ran a marathon last year.|אבא שלי רץ מרתון בשנה שעברה.
+mathematics|מתמטיקה|n|Mathematics is my favorite subject.|מתמטיקה היא המקצוע האהוב עליי.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1775,7 +1790,12 @@ internal|פנימי|a|The heart is an internal organ.|הלב הוא איבר פ�
 labor|עבודה, עמל|n|Building a house takes a lot of labor.|בניית בית דורשת הרבה עבודה.
 legal|חוקי|a|Is it legal to ride a bike here?|זה חוקי לרכוב על אופניים כאן?
 leisure|פנאי|n|What do you do in your leisure time?|מה אתה עושה בזמן הפנאי שלך?
-literature|ספרות|n|We read a poem in literature class.|קראנו שיר בשיעור ספרות.`,
+literature|ספרות|n|We read a poem in literature class.|קראנו שיר בשיעור ספרות.
+major|עיקרי, חשוב|a|Water is a major problem in the desert.|מים הם בעיה עיקרית במדבר.
+master|אדון, בעלים; מומחה|n|The dog waited for its master.|הכלב חיכה לבעלים שלו.
+material|חומר|n|Cotton is a soft material.|כותנה היא חומר רך.
+matter|להיות חשוב; עניין|v|It does not matter who wins.|לא משנה מי מנצח.
+meanwhile|בינתיים|d|Mom cooked dinner. Meanwhile, I set the table.|אמא בישלה ארוחת ערב. בינתיים, ערכתי את השולחן.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
