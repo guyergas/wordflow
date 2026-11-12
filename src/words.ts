@@ -175,7 +175,12 @@ above|מעל|o|The bird is flying above the house.|הציפור עפה מעל ה
 afternoon|אחר הצהריים|n|We play in the park in the afternoon.|אנחנו משחקים בפארק אחר הצהריים.
 again|שוב|d|Please read the story again.|בבקשה תקרא את הסיפור שוב.
 air|אוויר|n|Open the window to let in fresh air.|תפתח את החלון כדי להכניס אוויר צח.
-also|גם|d|I like dogs, and I also like cats.|אני אוהב כלבים, ואני גם אוהב חתולים.`,
+also|גם|d|I like dogs, and I also like cats.|אני אוהב כלבים, ואני גם אוהב חתולים.
+animal|חיה|n|My favorite animal is the lion.|החיה האהובה עליי היא האריה.
+another|עוד, אחר|o|Can I have another cookie?|אפשר לקבל עוד עוגייה?
+any|קצת, כלשהו|o|Is there any milk left?|נשאר קצת חלב?
+anyone|מישהו, כל אחד|o|Is anyone at home?|יש מישהו בבית?
+anything|משהו|o|Do you want anything to eat?|אתה רוצה משהו לאכול?`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -248,14 +253,14 @@ farmer|חקלאי|n|The farmer feeds his cows every morning.|החקלאי מאכ
 belong|להשתייך|v|These books belong to my sister.|הספרים האלה שייכים לאחותי.
 collect|לאסוף|v|My brother likes to collect old coins.|אחי אוהב לאסוף מטבעות ישנים.
 celebrate|לחגוג|v|We celebrate my birthday with a big cake.|אנחנו חוגגים את יום ההולדת שלי עם עוגה גדולה.
-glove|כפפה|n|I lost one glove in the snow.
-basket|סל|n|We put the apples in a basket.
-noisy|רועש|a|The classroom was very noisy today.
-sleepy|מנומנם|a|The baby is sleepy after lunch.
-hurry|למהר|v|We must hurry or we will miss the bus.
-guest|אורח|n|Our guest stayed for dinner.
-puddle|שלולית|n|The kids jumped into a puddle.
-recipe|מתכון|n|Grandma gave me her cake recipe.
+glove|כפפה|n|I lost one glove in the snow.|איבדתי כפפה אחת בשלג.
+basket|סל|n|We put the apples in a basket.|שמנו את התפוחים בסל.
+noisy|רועש|a|The classroom was very noisy today.|הכיתה הייתה רועשת מאוד היום.
+sleepy|מנומנם|a|The baby is sleepy after lunch.|התינוק מנומנם אחרי ארוחת הצהריים.
+hurry|למהר|v|We must hurry or we will miss the bus.|אנחנו חייבים למהר, אחרת נפספס את האוטובוס.
+guest|אורח|n|Our guest stayed for dinner.|האורח שלנו נשאר לארוחת ערב.
+puddle|שלולית|n|The kids jumped into a puddle.|הילדים קפצו לתוך שלולית.
+recipe|מתכון|n|Grandma gave me her cake recipe.|סבתא נתנה לי את המתכון שלה לעוגה.
 best|הכי טוב|a|This is the best cake I have ever eaten.|זו העוגה הכי טובה שאכלתי אי פעם.
 bit|קצת|n|Can I have a bit of your sandwich?|אפשר לקבל קצת מהכריך שלך?
 both|שניהם|o|Both of my sisters like to sing.|שתי האחיות שלי אוהבות לשיר.
@@ -323,19 +328,27 @@ alphabet|האלף-בית|n|There are 26 letters in the English alphabet.|יש 26
 corn|תירס|n|We ate hot corn at the beach.|אכלנו תירס חם בחוף.
 cough|להשתעל, שיעול|v|The sick boy began to cough.|הילד החולה התחיל להשתעל.
 could|יכול (בעבר)|v|I could swim when I was five.|יכולתי לשחות כשהייתי בן חמש.
-cousin|בן דוד, בת דודה|n|My cousin is coming to visit us.|בן הדוד שלי בא לבקר אותנו.`,
-`feeling|הרגשה|n|I had a strange feeling.
-angry|כועס|a|She was angry at her brother.
-afraid|מפחד|a|He is afraid of spiders.
-excited|נרגש|a|I am so excited about the trip.
-bored|משועמם|a|I get bored on long drives.
-surprised|מופתע|a|We were surprised by the news.
-worried|מודאג|a|Mom is worried about the storm.
-proud|גאה|a|I am proud of my work.
-lonely|בודד|a|The old man felt lonely.
-nervous|לחוץ|a|I get nervous before a test.
-funny|מצחיק|a|That movie was really funny.
-kind|אדיב|a|She is kind to everyone.
+cousin|בן דוד, בת דודה|n|My cousin is coming to visit us.|בן הדוד שלי בא לבקר אותנו.
+ambulance|אמבולנס|n|The ambulance took the man to the hospital.|האמבולנס לקח את האיש לבית החולים.
+among|בין, בקרב|o|The cat is hiding among the flowers.|החתול מתחבא בין הפרחים.
+anybody|מישהו, כל אחד|o|Did anybody see my pencil?|מישהו ראה את העיפרון שלי?
+anyway|בכל מקרה|d|It was raining, but we played outside anyway.|ירד גשם, אבל שיחקנו בחוץ בכל מקרה.
+anywhere|בשום מקום, בכל מקום|d|I can't find my shoes anywhere.|אני לא מוצא את הנעליים שלי בשום מקום.
+cupboard|ארון|n|The cups are in the kitchen cupboard.|הכוסות בארון המטבח.
+curtain|וילון|n|Please close the curtain, the sun is too bright.|בבקשה סגרי את הווילון, השמש חזקה מדי.
+dentist|רופא שיניים|n|I go to the dentist twice a year.|אני הולך לרופא השיניים פעמיים בשנה.`,
+`feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
+angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
+afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
+excited|נרגש|a|I am so excited about the trip.|אני כל כך נרגשת לקראת הטיול.
+bored|משועמם|a|I get bored on long drives.|אני משתעמם בנסיעות ארוכות.
+surprised|מופתע|a|We were surprised by the news.|הופתענו מהחדשות.
+worried|מודאג|a|Mom is worried about the storm.|אמא מודאגת בגלל הסערה.
+proud|גאה|a|I am proud of my work.|אני גאה בעבודה שלי.
+lonely|בודד|a|The old man felt lonely.|האיש הזקן הרגיש בודד.
+nervous|לחוץ|a|I get nervous before a test.|אני נלחץ לפני מבחן.
+funny|מצחיק|a|That movie was really funny.|הסרט הזה היה ממש מצחיק.
+kind|אדיב|a|She is kind to everyone.|היא אדיבה לכולם.
 polite|מנומס|a|Always be polite to guests.
 honest|ישר|a|Please give me an honest answer.
 brave|אמיץ|a|The brave girl saved the cat.
@@ -445,7 +458,11 @@ cotton|כותנה|n|My shirt is made of cotton.|החולצה שלי עשויה �
 course|קורס|n|My mom is taking a cooking course.|אמא שלי לומדת בקורס בישול.
 create|ליצור|v|Let's create a poster for our class.|בואו ניצור פוסטר בשביל הכיתה שלנו.
 crisp|פריך|a|This apple is crisp and sweet.|התפוח הזה פריך ומתוק.
-crossing|מעבר חצייה|n|Wait at the crossing for the green light.|חכו במעבר החצייה לאור הירוק.`,
+crossing|מעבר חצייה|n|Wait at the crossing for the green light.|חכו במעבר החצייה לאור הירוק.
+daily|יומי|a|Reading is part of my daily routine.|קריאה היא חלק מהשגרה היומית שלי.
+deal|עסקה|n|Two books for ten shekels is a good deal.|שני ספרים בעשרה שקלים זו עסקה טובה.
+degree|מעלה, תואר|n|Today it is one degree colder than yesterday.|היום קר במעלה אחת יותר מאתמול.
+delay|עיכוב|n|There was a delay, so the train came late.|היה עיכוב, אז הרכבת הגיעה באיחור.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -541,7 +558,10 @@ combine|לשלב, לחבר|v|Let's combine the red and the blue paint.|בואו 
 communication|תקשורת|n|Good communication helps a team win.|תקשורת טובה עוזרת לקבוצה לנצח.
 connection|חיבור, קשר|n|The internet connection is very slow.|החיבור לאינטרנט איטי מאוד.
 contract|חוזה|n|The player signed a contract with the team.|השחקן חתם על חוזה עם הקבוצה.
-credit|אשראי|n|Dad paid with a credit card.|אבא שילם בכרטיס אשראי.`,
+credit|אשראי|n|Dad paid with a credit card.|אבא שילם בכרטיס אשראי.
+death|מוות|n|The death of our old dog made us very sad.|המוות של הכלב הזקן שלנו העציב אותנו מאוד.
+demand|לדרוש|v|The workers demand more money.|העובדים דורשים יותר כסף.
+dependent|תלוי|a|A baby is dependent on its parents.|תינוק תלוי בהורים שלו.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.

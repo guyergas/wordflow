@@ -246,7 +246,17 @@ Put your bag on the chair.|שימי את התיק שלך על הכיסא.
 See you soon!|נתראה בקרוב!
 I ate the rest of the cake.|אכלתי את שארית העוגה.
 I would like to go home now.|הייתי רוצה ללכת הביתה עכשיו.
-Would you like some tea?|את רוצה קצת תה?`,
+Would you like some tea?|את רוצה קצת תה?
+I am a bit tired.|אני קצת עייפה.
+We waited for a while.|חיכינו זמן מה.
+School starts at 8 a.m.|בית הספר מתחיל בשמונה בבוקר.
+The shop sells all sorts of toys.|החנות מוכרת כל מיני צעצועים.
+I don't want to go anywhere else.|אני לא רוצה ללכת לשום מקום אחר.
+My brother is as tall as my dad.|אחי גבוה כמו אבא שלי.
+She was late as usual.|היא איחרה כרגיל.
+I like cats as well as dogs.|אני אוהב חתולים וגם כלבים.
+Drink at least two glasses of water a day.|שתו לפחות שתי כוסות מים ביום.
+I am going to visit my grandma.|אני הולכת לבקר את סבתא שלי.`,
 };
 
 let n = 0;
