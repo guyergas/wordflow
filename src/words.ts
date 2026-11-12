@@ -343,7 +343,13 @@ two|שתיים, שניים|n|I have two hands.|יש לי שתי ידיים.
 under|מתחת ל-|o|The cat is under the table.|החתול מתחת לשולחן.
 uncle|דוד|n|My uncle has a red car.|לדוד שלי יש מכונית אדומה.
 try|לנסות|v|Try again, you can do it!|תנסה שוב, אתה יכול!
-use|להשתמש|v|Can I use your pencil?|אפשר להשתמש בעיפרון שלך?`,
+use|להשתמש|v|Can I use your pencil?|אפשר להשתמש בעיפרון שלך?
+very|מאוד|d|The soup is very hot.|המרק חם מאוד.
+wall|קיר|n|There is a picture on the wall.|יש תמונה על הקיר.
+warm|חמים|a|The water is warm.|המים חמימים.
+watch|לצפות ב-|v|I watch cartoons after school.|אני צופה בסרטים מצוירים אחרי בית הספר.
+way|דרך|n|This is the way to the park.|זאת הדרך לפארק.
+vegetable|ירק|n|A carrot is a vegetable.|גזר הוא ירק.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -700,7 +706,15 @@ twenty|עשרים|n|I can count to twenty.|אני יודע לספור עד עש�
 thanks|תודה|o|Thanks for the gift!|תודה על המתנה!
 thick|עבה|a|This rope is very thick.|החבל הזה עבה מאוד.
 thumb|אגודל|n|I hurt my thumb.|נפגעתי באגודל.
-throat|גרון|n|My throat hurts.|הגרון שלי כואב.`,
+throat|גרון|n|My throat hurts.|הגרון שלי כואב.
+usually|בדרך כלל, לרוב|d|I usually eat cereal for breakfast.|בדרך כלל אני אוכל דגני בוקר לארוחת בוקר.
+verb|פועל|n|Every sentence needs a verb.|כל משפט צריך פועל.
+waiter|מלצר|n|The waiter brought our food.|המלצר הביא לנו את האוכל.
+waitress|מלצרית|n|The waitress gave us the menu.|המלצרית נתנה לנו את התפריט.
+tie|עניבה|n|Dad wears a tie to work.|אבא עונב עניבה לעבודה.
+toe|בוהן|n|I hurt my big toe.|נפגעתי בבוהן הגדולה.
+toast|טוסט, לחם קלוי|n|I eat toast for breakfast.|אני אוכל טוסט לארוחת בוקר.
+tongue|לשון|n|The dog has a pink tongue.|לכלב יש לשון ורודה.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -952,7 +966,11 @@ suppose|להניח, לשער|v|I suppose you are right.|אני מניח שאתה
 teenager|נער מתבגר, נערה מתבגרת|n|My cousin is a teenager.|בת הדודה שלי נערה מתבגרת.
 theater|תיאטרון|n|We saw a play at the theater.|ראינו הצגה בתיאטרון.
 thought|מחשבה|n|I had a happy thought.|הייתה לי מחשבה שמחה.
-themselves|בעצמם, בעצמן|o|The children made the cake themselves.|הילדים הכינו את העוגה בעצמם.`,
+themselves|בעצמם, בעצמן|o|The children made the cake themselves.|הילדים הכינו את העוגה בעצמם.
+toothpaste|משחת שיניים|n|We need a new tube of toothpaste.|אנחנו צריכים שפופרת חדשה של משחת שיניים.
+toothache|כאב שיניים|n|I have a bad toothache.|יש לי כאב שיניים חזק.
+tin|קופסת פח|n|The cookies are in a tin.|העוגיות בקופסת פח.
+title|שם (של ספר או סרט), כותרת|n|What is the title of the book?|מה השם של הספר?`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1136,7 +1154,9 @@ strongly|בתוקף, מאוד|d|I strongly believe in you.|אני מאמין ב�
 surely|בוודאי, בטח|d|Surely you know the answer.|בטח אתה יודע את התשובה.
 teaching|הוראה|n|My mom loves teaching.|אמא שלי אוהבת את עבודת ההוראה.
 though|למרות ש-|o|I went out, though it was cold.|יצאתי החוצה, למרות שהיה קר.
-threat|איום|n|Pollution is a threat to the sea.|זיהום הוא איום על הים.`,
+threat|איום|n|Pollution is a threat to the sea.|זיהום הוא איום על הים.
+timetable|לוח זמנים, מערכת שעות|n|Check the timetable for the next bus.|תבדוק בלוח הזמנים מתי האוטובוס הבא.
+topic|נושא|n|The topic of my project is space.|הנושא של העבודה שלי הוא החלל.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1277,26 +1297,26 @@ culture|תרבות|n|I love learning about Thai culture.|אני אוהב ללמ�
 tradition|מסורת|n|It is a family tradition.|זו מסורת משפחתית.
 religion|דת|n|We studied religion in class.|למדנו על דתות בכיתה.
 history|היסטוריה|n|History is my best subject.|היסטוריה היא המקצוע הכי טוב שלי.
-century|מאה (שנים)|n|This house is a century old.
-generation|דור|n|Each generation learns something new.
-technology|טכנולוגיה|n|Technology changes fast.
-device|מכשיר|n|This device measures heat.
-machine|מכונה|n|The machine makes coffee.
-engine|מנוע|n|The engine is very loud.
-invention|המצאה|n|The phone was a great invention.
-factory|מפעל|n|The factory makes toys.
-industry|תעשייה|n|The car industry is huge.
-economy|כלכלה|n|Tourism helps the economy.
-company|חברה (עסק)|n|My aunt runs a small company.
-salary|משכורת|n|He earns a good salary.
-article|כתבה|n|I read an article about bees.
-journalist|עיתונאי|n|The journalist asked hard questions.
-audience|קהל צופים|n|The audience clapped loudly.
-survey|סקר|n|We filled out a survey.
-amount|כמות|n|That is a huge amount of sugar.
-average|ממוצע|n|My average went up.
-percent|אחוז|n|Ten percent of us were absent.
-global|עולמי|a|This is a global problem.
+century|מאה (שנים)|n|This house is a century old.|הבית הזה בן מאה שנה.
+generation|דור|n|Each generation learns something new.|כל דור לומד משהו חדש.
+technology|טכנולוגיה|n|Technology changes fast.|הטכנולוגיה משתנה מהר.
+device|מכשיר|n|This device measures heat.|המכשיר הזה מודד חום.
+machine|מכונה|n|The machine makes coffee.|המכונה מכינה קפה.
+engine|מנוע|n|The engine is very loud.|המנוע רועש מאוד.
+invention|המצאה|n|The phone was a great invention.|הטלפון היה המצאה גדולה.
+factory|מפעל|n|The factory makes toys.|המפעל מייצר צעצועים.
+industry|תעשייה|n|The car industry is huge.|תעשיית המכוניות ענקית.
+economy|כלכלה|n|Tourism helps the economy.|התיירות עוזרת לכלכלה.
+company|חברה (עסק)|n|My aunt runs a small company.|הדודה שלי מנהלת חברה קטנה.
+salary|משכורת|n|He earns a good salary.|הוא מרוויח משכורת טובה.
+article|כתבה|n|I read an article about bees.|קראתי כתבה על דבורים.
+journalist|עיתונאי|n|The journalist asked hard questions.|העיתונאי שאל שאלות קשות.
+audience|קהל צופים|n|The audience clapped loudly.|הקהל מחא כפיים בקול רם.
+survey|סקר|n|We filled out a survey.|מילאנו סקר.
+amount|כמות|n|That is a huge amount of sugar.|זאת כמות עצומה של סוכר.
+average|ממוצע|n|My average went up.|הממוצע שלי עלה.
+percent|אחוז|n|Ten percent of us were absent.|עשרה אחוזים מאיתנו נעדרו.
+global|עולמי|a|This is a global problem.|זאת בעיה עולמית.
 local|מקומי|a|We buy from a local farm.
 modern|מודרני|a|They live in a modern building.
 natural|טבעי|a|This juice is natural.

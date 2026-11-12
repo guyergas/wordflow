@@ -546,7 +546,17 @@ I couldn't help laughing.|לא יכולתי שלא לצחוק.
 She is capable of great things.|היא מסוגלת לדברים גדולים.
 The bright sign caught my attention.|השלט הבוהק משך את תשומת הלב שלי.
 Run fast and catch up with us!|רוץ מהר ותשיג אותנו!
-Did you change your mind?|שינית את דעתך?`,
+Did you change your mind?|שינית את דעתך?
+I have chewing gum in my bag.|יש לי מסטיק בתיק.
+Come on!|נו, קדימה!
+The sun will come out soon.|השמש תצא בקרוב.
+I hope your dream will come true.|אני מקווה שהחלום שלך יתגשם.
+Use your common sense.|תשתמש בשכל הישר.
+We consider him a good friend.|אנחנו מחשיבים אותו לחבר טוב.
+The team consists of five players.|הקבוצה מורכבת מחמישה שחקנים.
+They cut down the old tree.|הם כרתו את העץ הישן.
+Music is part of my daily life.|מוזיקה היא חלק מחיי היומיום שלי.
+I can deal with this problem.|אני יכול להתמודד עם הבעיה הזאת.`,
 };
 
 let n = 0;

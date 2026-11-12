@@ -1,15 +1,5 @@
 # Pre-Band I
 # Band I
-usually
-vegetable
-verb
-very
-waiter
-waitress
-wall
-warm
-watch
-way
 we
 wear
 Wednesday
@@ -342,16 +332,6 @@ yogurt
 yours
 zero
 # Band II Core I
-tie
-timetable
-tin
-title
-toast
-toe
-tongue
-toothache
-toothpaste
-topic
 total
 touch
 tour
