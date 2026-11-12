@@ -1,15 +1,5 @@
 # Pre-Band I
 # Band I
-quarter
-quick
-quiz
-railway
-raincoat
-raise
-reader
-real
-refrigerator
-relationship
 repeat
 return
 ride
@@ -105,16 +95,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-engineer
-ensure
-entertain
-entire
-environmentally
-equal
-estimate
-exchange
-excitement
-excuse
 expectation
 expert
 expression

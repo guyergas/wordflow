@@ -439,7 +439,9 @@ pocket|כיס|n|I put the key in my pocket.|שמתי את המפתח בכיס ש
 police|משטרה|n|The police helped the lost boy.|המשטרה עזרה לילד שהלך לאיבוד.
 pretty|יפה|a|She has a pretty red dress.|יש לה שמלה אדומה יפה.
 pull|למשוך|v|You need to pull the door to open it.|צריך למשוך את הדלת כדי לפתוח אותה.
-push|לדחוף|v|Can you push the swing, please?|אתה יכול לדחוף את הנדנדה, בבקשה?`,
+push|לדחוף|v|Can you push the swing, please?|אתה יכול לדחוף את הנדנדה, בבקשה?
+quick|מהיר|a|The rabbit is very quick.|הארנב מהיר מאוד.
+raincoat|מעיל גשם|n|Wear your raincoat, it is raining.|תלבש את מעיל הגשם שלך, יורד גשם.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -977,7 +979,15 @@ pour|למזוג, לשפוך|v|Please pour some milk into my glass.|בבקשה ת
 practice|אימון, תרגול; להתאמן|n|I have soccer practice after school.|יש לי אימון כדורגל אחרי בית הספר.
 prize|פרס|n|He won first prize in the race.|הוא זכה בפרס הראשון במרוץ.
 program|תוכנית|n|This TV program is for kids.|תוכנית הטלוויזיה הזאת מיועדת לילדים.
-project|פרויקט, עבודה|n|We made a science project about plants.|הכנו עבודה במדעים על צמחים.`,
+project|פרויקט, עבודה|n|We made a science project about plants.|הכנו עבודה במדעים על צמחים.
+quarter|רבע|n|I ate a quarter of the pizza.|אכלתי רבע מהפיצה.
+quiz|בוחן, חידון|n|We have a math quiz tomorrow.|יש לנו בוחן במתמטיקה מחר.
+railway|מסילת ברזל, רכבת|n|The railway goes through the valley.|מסילת הרכבת עוברת דרך העמק.
+raise|להרים|v|Please raise your hand before you speak.|בבקשה הרימו יד לפני שאתם מדברים.
+reader|קורא|n|My brother is a fast reader.|אחי קורא מהר.
+real|אמיתי|a|Is that a real dinosaur bone?|זאת עצם אמיתית של דינוזאור?
+refrigerator|מקרר|n|Put the milk back in the refrigerator.|תחזיר את החלב למקרר.
+relationship|קשר, מערכת יחסים|n|I have a good relationship with my teacher.|יש לי קשר טוב עם המורה שלי.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1336,7 +1346,14 @@ electric|חשמלי|a|My uncle drives an electric car.|הדוד שלי נוהג 
 electronic|אלקטרוני|a|A tablet is an electronic device.|טאבלט הוא מכשיר אלקטרוני.
 elementary|יסודי; בסיסי|a|My little sister goes to elementary school.|אחותי הקטנה הולכת לבית ספר יסודי.
 emergency|מקרה חירום|n|Call this number in an emergency.|התקשרו למספר הזה במקרה חירום.
-endless|אינסופי, בלי סוף|a|The road looked endless.|הדרך נראתה אינסופית.`,
+endless|אינסופי, בלי סוף|a|The road looked endless.|הדרך נראתה אינסופית.
+engineer|מהנדס|n|My aunt is an engineer who builds bridges.|הדודה שלי מהנדסת שבונה גשרים.
+entertain|לבדר; לארח|v|The clown came to entertain the children.|הליצן בא לבדר את הילדים.
+entire|שלם, כל|a|I read the entire book in one day.|קראתי את כל הספר ביום אחד.
+equal|שווה|a|Cut the cake into equal pieces.|חתכו את העוגה לחתיכות שוות.
+exchange|להחליף; החלפה|v|Can I exchange this shirt for a bigger one?|אפשר להחליף את החולצה הזאת בגדולה יותר?
+excitement|התרגשות|n|The children shouted with excitement.|הילדים צעקו מהתרגשות.
+excuse|תירוץ|n|He always has an excuse for being late.|תמיד יש לו תירוץ לאיחור.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1595,7 +1612,10 @@ documentary|סרט תיעודי|n|We watched a documentary about whales.|צפי�
 domestic|ביתי; פנים-ארצי|a|A dog is a domestic animal.|כלב הוא חיית בית.
 drug|תרופה; סם|n|The doctor gave him a drug for the pain.|הרופא נתן לו תרופה נגד הכאב.
 effective|יעיל, אפקטיבי|a|This medicine is very effective.|התרופה הזאת יעילה מאוד.
-employment|תעסוקה, העסקה|n|The new factory will bring employment to the town.|המפעל החדש יביא תעסוקה לעיר.`,
+employment|תעסוקה, העסקה|n|The new factory will bring employment to the town.|המפעל החדש יביא תעסוקה לעיר.
+ensure|לוודא, להבטיח|v|Please ensure that the door is locked.|בבקשה ודאו שהדלת נעולה.
+environmentally|מבחינה סביבתית|d|Riding a bike is environmentally friendly.|רכיבה על אופניים ידידותית לסביבה.
+estimate|להעריך, לאמוד; הערכה|v|Can you estimate how many beans are in the jar?|אתה יכול להעריך כמה שעועיות יש בצנצנת?`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
