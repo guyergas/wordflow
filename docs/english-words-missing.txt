@@ -1,17 +1,5 @@
 # Pre-Band I
 # Band I
-million
-mine
-model
-moment
-most
-mouse
-move
-Mr
-Mrs
-much
-mug
-museum
 must
 nature
 nearly
@@ -168,16 +156,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-confirm
-confusion
-consciousness
-constant
-construction
-content
-convert
-cottage
-council
-county
 couple
 court
 creature

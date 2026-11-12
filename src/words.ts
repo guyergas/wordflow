@@ -422,7 +422,10 @@ love|לאהוב; אהבה|v|I love my grandma.|אני אוהב את סבתא ש�
 lovely|מקסים, נחמד|a|What a lovely day!|איזה יום מקסים!
 low|נמוך|a|The table is too low for me.|השולחן נמוך מדי בשבילי.
 market|שוק|n|We buy fruit at the market.|אנחנו קונים פירות בשוק.
-message|הודעה|n|I sent my friend a message.|שלחתי הודעה לחבר שלי.`,
+message|הודעה|n|I sent my friend a message.|שלחתי הודעה לחבר שלי.
+mine|שלי|o|This pencil is mine.|העיפרון הזה שלי.
+mouse|עכבר|n|The cat is chasing a mouse.|החתול רודף אחרי עכבר.
+move|לזוז; לעבור (דירה)|v|Don't move, I am taking a photo.|אל תזוז, אני מצלם.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -915,7 +918,14 @@ married|נשוי|a|My aunt is married.|הדודה שלי נשואה.
 mean|להתכוון; פירושו|v|What does this word mean?|מה פירוש המילה הזאת?
 medical|רפואי|a|The nurse has a medical bag.|לאחות יש תיק רפואי.
 meeting|פגישה|n|Dad has a meeting at work.|לאבא יש פגישה בעבודה.
-member|חבר (בקבוצה)|n|I am a member of the chess club.|אני חבר במועדון השחמט.`,
+member|חבר (בקבוצה)|n|I am a member of the chess club.|אני חבר במועדון השחמט.
+million|מיליון|n|A million stars shine in the sky.|מיליון כוכבים זורחים בשמיים.
+model|דגם; דוגמן|n|I built a model of a plane.|בניתי דגם של מטוס.
+moment|רגע|n|Wait a moment, please.|חכה רגע, בבקשה.
+most|הכי, הכי הרבה; רוב|d|I like math the most.|אני הכי אוהב מתמטיקה.
+much|הרבה, מאוד|d|Thank you very much!|תודה רבה!
+mug|ספל|n|Grandpa drinks tea from a big mug.|סבא שותה תה מספל גדול.
+museum|מוזיאון|n|We visited the science museum.|ביקרנו במוזיאון המדע.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1241,7 +1251,10 @@ comedy|קומדיה|n|We watched a funny comedy.|צפינו בקומדיה מצ�
 comment|הערה, תגובה|n|The teacher wrote a nice comment on my story.|המורה כתבה הערה נחמדה על הסיפור שלי.
 common|נפוץ; משותף|a|Cats are common pets.|חתולים הם חיות מחמד נפוצות.
 communicate|לתקשר|v|Dolphins communicate with sounds.|דולפינים מתקשרים בעזרת צלילים.
-confidence|ביטחון עצמי|n|Practice gives you confidence.|תרגול נותן לך ביטחון עצמי.`,
+confidence|ביטחון עצמי|n|Practice gives you confidence.|תרגול נותן לך ביטחון עצמי.
+construction|בנייה|n|There is construction on our street.|יש עבודות בנייה ברחוב שלנו.
+cottage|בקתה, בית קטן|n|We stayed in a cottage by the lake.|גרנו בבקתה ליד האגם.
+council|מועצה|n|The student council meets every week.|מועצת התלמידים נפגשת כל שבוע.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1475,7 +1488,14 @@ commitment|מחויבות|n|Playing in a band is a big commitment.|לנגן בל
 committee|ועדה|n|The school committee planned the party.|ועדת בית הספר תכננה את המסיבה.
 concern|דאגה|n|My mom's main concern is my health.|הדאגה העיקרית של אמא שלי היא הבריאות שלי.
 conclusion|מסקנה; סיום|n|Write a short conclusion at the end.|כתוב מסקנה קצרה בסוף.
-conference|כנס|n|My dad went to a science conference.|אבא שלי נסע לכנס מדע.`,
+conference|כנס|n|My dad went to a science conference.|אבא שלי נסע לכנס מדע.
+confirm|לאשר|v|Please confirm the time of the party.|בבקשה תאשר את שעת המסיבה.
+confusion|בלבול|n|There was confusion about the bus time.|היה בלבול לגבי שעת האוטובוס.
+consciousness|הכרה, מודעות|n|After the fall, he lost consciousness for a moment.|אחרי הנפילה הוא איבד את ההכרה לרגע.
+constant|קבוע, בלתי פוסק|a|The constant noise kept me awake.|הרעש הבלתי פוסק לא נתן לי לישון.
+content|תוכן|n|The content of the book is very interesting.|התוכן של הספר מעניין מאוד.
+convert|להמיר, להפוך|v|We can convert the old box into a dollhouse.|אנחנו יכולים להפוך את הקופסה הישנה לבית בובות.
+county|מחוז|n|Our county has many farms.|במחוז שלנו יש הרבה חוות.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
