@@ -1,16 +1,6 @@
 # Pre-Band I
 # Band I
 Arabic
-depth
-dictionary
-die
-direct
-doll
-double
-downstairs
-drawing
-during
-each
 earlier
 effort
 eighth
@@ -264,16 +254,6 @@ zero
 # Band II Core I
 well-made
 # Band II Core II
-attack
-attempt
-attend
-attract
-authority
-avatar
-award
-aware
-awful
-babysit
 balance
 bandage
 barber

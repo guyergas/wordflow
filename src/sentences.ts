@@ -626,7 +626,17 @@ It seems that nobody is home.|נראה שאין אף אחד בבית.
 Take an umbrella just in case.|קח מטרייה, ליתר ביטחון.
 Please keep this a secret.|בבקשה תשמור את זה בסוד.
 Let's keep in touch after the summer.|בוא נשמור על קשר אחרי הקיץ.
-I'll call you later on.|אתקשר אליך מאוחר יותר.`,
+I'll call you later on.|אתקשר אליך מאוחר יותר.
+Lay the baby down on the bed.|תשכיב את התינוק על המיטה.
+Can you help me lay the table?|אתה יכול לעזור לי לערוך את השולחן?
+Don't lean on the door.|אל תישען על הדלת.
+Let me help you with that bag.|תן לי לעזור לך עם התיק הזה.
+Tell me about your likes and dislikes.|ספר לי מה אתה אוהב ומה אתה לא אוהב.
+We have loads of homework today.|יש לנו המון שיעורי בית היום.
+It is easy to make friends at camp.|קל להכיר חברים במחנה.
+Don't miss the chance to see the show.|אל תפספס את ההזדמנות לראות את ההצגה.
+He no longer lives here.|הוא כבר לא גר כאן.
+No way!|אין מצב!`,
 };
 
 let n = 0;

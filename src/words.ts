@@ -384,7 +384,11 @@ clown|ליצן|n|The clown made us laugh.|הליצן הצחיק אותנו.
 cookie|עוגייה|n|I ate a chocolate cookie.|אכלתי עוגיית שוקולד.
 cream|קצפת, שמנת|n|I like strawberries with cream.|אני אוהב תותים עם קצפת.
 dance|לרקוד|v|We dance at the party.|אנחנו רוקדים במסיבה.
-crazy|משוגע, מטורף|a|My cat runs around like crazy.|החתול שלי מתרוצץ כמו משוגע.`,
+crazy|משוגע, מטורף|a|My cat runs around like crazy.|החתול שלי מתרוצץ כמו משוגע.
+doll|בובה|n|My sister plays with her doll.|אחותי משחקת עם הבובה שלה.
+downstairs|למטה (בקומה)|d|Mom is waiting downstairs.|אמא מחכה למטה.
+drawing|ציור|n|Look at my drawing of a horse.|תסתכל על הציור שלי של סוס.
+each|כל אחד|o|The teacher gave each child a balloon.|המורה נתנה לכל ילד בלון.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -800,7 +804,15 @@ cover|לכסות|v|Please cover the cake with a cloth.|בבקשה כסה את ה
 dead|מת|a|The flower is dead because nobody watered it.|הפרח מת כי אף אחד לא השקה אותו.
 dear|יקר|a|She is my dear friend.|היא החברה היקרה שלי.
 department|מחלקה|n|The toys are in the children's department.|הצעצועים נמצאים במחלקת הילדים.
-athlete|ספורטאי|n|The athlete runs every morning.|הספורטאי רץ כל בוקר.`,
+athlete|ספורטאי|n|The athlete runs every morning.|הספורטאי רץ כל בוקר.
+depth|עומק|n|What is the depth of the pool?|מה העומק של הבריכה?
+dictionary|מילון|n|I looked up the word in the dictionary.|חיפשתי את המילה במילון.
+die|למות|v|Plants die without water.|צמחים מתים בלי מים.
+direct|ישיר|a|We took a direct flight to London.|טסנו בטיסה ישירה ללונדון.
+double|כפול|a|I ordered a double ice cream.|הזמנתי גלידה כפולה.
+during|במהלך|o|Don't talk during the movie.|אל תדבר במהלך הסרט.
+awful|נורא, איום|a|The soup tastes awful.|למרק יש טעם נורא.
+babysit|לשמור על ילדים|v|My cousin will babysit us tonight.|בת הדודה שלי תשמור עלינו הערב.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1087,7 +1099,11 @@ anniversary|יום נישואים, יום שנה|n|My parents had their wedding 
 apart|בנפרד, זה מזה|d|The two houses are far apart.|שני הבתים רחוקים זה מזה.
 appear|להופיע|v|The stars appear at night.|הכוכבים מופיעים בלילה.
 attach|לצרף, להצמיד|v|Please attach a photo to the form.|בבקשה צרפו תמונה לטופס.
-arrest|לעצור (משטרה)|v|The police will arrest the thief.|המשטרה תעצור את הגנב.`,
+arrest|לעצור (משטרה)|v|The police will arrest the thief.|המשטרה תעצור את הגנב.
+attack|לתקוף|v|The dog did not attack the cat.|הכלב לא תקף את החתול.
+attend|להשתתף, לבקר ב-|v|All the students attend the school party.|כל התלמידים משתתפים במסיבת בית הספר.
+award|פרס|n|She won an award for her story.|היא זכתה בפרס על הסיפור שלה.
+aware|מודע|a|Are you aware of the danger?|אתה מודע לסכנה?`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1295,7 +1311,11 @@ application|בקשה, טופס הרשמה|n|I filled in an application for the s
 apply|להגיש מועמדות, לבקש|v|My sister wants to apply to a music school.|אחותי רוצה להגיש מועמדות לבית ספר למוזיקה.
 approve|לאשר|v|The principal must approve the trip.|המנהלת צריכה לאשר את הטיול.
 architect|אדריכל|n|The architect drew a plan of the new school.|האדריכל שרטט תוכנית של בית הספר החדש.
-arrange|לסדר, לארגן|v|Let's arrange the chairs in a circle.|בואו נסדר את הכיסאות במעגל.`,
+arrange|לסדר, לארגן|v|Let's arrange the chairs in a circle.|בואו נסדר את הכיסאות במעגל.
+attempt|ניסיון|n|He jumped over the wall on his first attempt.|הוא קפץ מעל הקיר בניסיון הראשון שלו.
+attract|למשוך|v|Flowers attract bees.|פרחים מושכים דבורים.
+authority|סמכות|n|The principal has the authority to close the school.|למנהלת יש סמכות לסגור את בית הספר.
+avatar|דמות (במשחק), אווטאר|n|I chose a funny avatar for the game.|בחרתי דמות מצחיקה למשחק.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1596,26 +1616,26 @@ stage|במה|n|He walked nervously onto the stage.|הוא עלה לבמה בעצ
 script|תסריט|n|The actor forgot the script.|השחקן שכח את התסריט.
 director|במאי|n|The director shouted, "Cut!"|הבמאי צעק: "קאט!"
 masterpiece|יצירת מופת|n|This painting is a masterpiece.|הציור הזה הוא יצירת מופת.
-exhibition|תערוכה|n|We saw an exhibition of old photos.
-sculpture|פסל|n|The sculpture stands in the garden.
-novel|רומן|n|I could not put the novel down.
-biography|ביוגרפיה|n|She read a biography of Einstein.
-plot|עלילה|n|The plot has a surprising ending.
-custom|מנהג|n|Every country has its own custom.
-heritage|מורשת|n|We are proud of our heritage.
-ceremony|טקס|n|The ceremony ended with a song.
-identity|זהות|n|Language is part of our identity.
-reputation|מוניטין|n|The school has a good reputation.
-headline|כותרת|n|The headline shocked the readers.
-interview|ראיון|n|The interview lasted an hour.
-broadcast|שידור|n|We watched the live broadcast.
-advertisement|פרסומת|n|That advertisement is really annoying.
-gossip|רכילות|n|I try to stay away from gossip.
-ambitious|שאפתן|a|She is ambitious and works hard.
-humble|צנוע|a|He stayed humble after the win.
-sensitive|רגיש|a|She is sensitive to loud noise.
-cautious|זהיר|a|Be cautious on the wet road.
-embarrassed|נבוך|a|I felt embarrassed by my mistake.
+exhibition|תערוכה|n|We saw an exhibition of old photos.|ראינו תערוכה של תמונות ישנות.
+sculpture|פסל|n|The sculpture stands in the garden.|הפסל עומד בגינה.
+novel|רומן|n|I could not put the novel down.|לא יכולתי להניח את הרומן מהיד.
+biography|ביוגרפיה|n|She read a biography of Einstein.|היא קראה ביוגרפיה של איינשטיין.
+plot|עלילה|n|The plot has a surprising ending.|לעלילה יש סוף מפתיע.
+custom|מנהג|n|Every country has its own custom.|לכל מדינה יש מנהג משלה.
+heritage|מורשת|n|We are proud of our heritage.|אנחנו גאים במורשת שלנו.
+ceremony|טקס|n|The ceremony ended with a song.|הטקס הסתיים בשיר.
+identity|זהות|n|Language is part of our identity.|השפה היא חלק מהזהות שלנו.
+reputation|מוניטין|n|The school has a good reputation.|לבית הספר יש מוניטין טוב.
+headline|כותרת|n|The headline shocked the readers.|הכותרת הזעזעה את הקוראים.
+interview|ראיון|n|The interview lasted an hour.|הראיון נמשך שעה.
+broadcast|שידור|n|We watched the live broadcast.|צפינו בשידור החי.
+advertisement|פרסומת|n|That advertisement is really annoying.|הפרסומת הזאת ממש מעצבנת.
+gossip|רכילות|n|I try to stay away from gossip.|אני משתדל להתרחק מרכילות.
+ambitious|שאפתן|a|She is ambitious and works hard.|היא שאפתנית ועובדת קשה.
+humble|צנוע|a|He stayed humble after the win.|הוא נשאר צנוע אחרי הניצחון.
+sensitive|רגיש|a|She is sensitive to loud noise.|היא רגישה לרעש חזק.
+cautious|זהיר|a|Be cautious on the wet road.|תהיה זהיר בכביש הרטוב.
+embarrassed|נבוך|a|I felt embarrassed by my mistake.|הרגשתי נבוך בגלל הטעות שלי.
 exhausted|מותש|a|We were exhausted after the climb.
 frustrated|מתוסכל|a|He got frustrated with the puzzle.
 grateful|אסיר תודה|a|I am grateful for your help.
