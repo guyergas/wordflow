@@ -435,7 +435,11 @@ paint|צבע; לצבוע|v|Let's paint a picture.|בואו נצייר ציור �
 phone|טלפון|n|Mom is talking on the phone.|אמא מדברת בטלפון.
 photo|תמונה, צילום|n|I took a photo of my dog.|צילמתי תמונה של הכלב שלי.
 pig|חזיר|n|The pig is rolling in the mud.|החזיר מתגלגל בבוץ.
-pocket|כיס|n|I put the key in my pocket.|שמתי את המפתח בכיס שלי.`,
+pocket|כיס|n|I put the key in my pocket.|שמתי את המפתח בכיס שלי.
+police|משטרה|n|The police helped the lost boy.|המשטרה עזרה לילד שהלך לאיבוד.
+pretty|יפה|a|She has a pretty red dress.|יש לה שמלה אדומה יפה.
+pull|למשוך|v|You need to pull the door to open it.|צריך למשוך את הדלת כדי לפתוח אותה.
+push|לדחוף|v|Can you push the swing, please?|אתה יכול לדחוף את הנדנדה, בבקשה?`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -967,7 +971,13 @@ piece|חתיכה|n|Can I have a piece of cake?|אפשר לקבל חתיכת עו
 pilot|טייס|n|The pilot flies the plane.|הטייס מטיס את המטוס.
 plastic|פלסטיק|n|This cup is made of plastic.|הכוס הזאת עשויה מפלסטיק.
 platform|רציף; במה|n|We waited for the train on the platform.|חיכינו לרכבת על הרציף.
-pleasant|נעים|a|We had a pleasant day at the park.|היה לנו יום נעים בפארק.`,
+pleasant|נעים|a|We had a pleasant day at the park.|היה לנו יום נעים בפארק.
+point|נקודה; להצביע|v|Don't point at people, it is not polite.|לא מצביעים על אנשים, זה לא מנומס.
+pour|למזוג, לשפוך|v|Please pour some milk into my glass.|בבקשה תמזוג לי קצת חלב לכוס.
+practice|אימון, תרגול; להתאמן|n|I have soccer practice after school.|יש לי אימון כדורגל אחרי בית הספר.
+prize|פרס|n|He won first prize in the race.|הוא זכה בפרס הראשון במרוץ.
+program|תוכנית|n|This TV program is for kids.|תוכנית הטלוויזיה הזאת מיועדת לילדים.
+project|פרויקט, עבודה|n|We made a science project about plants.|הכנו עבודה במדעים על צמחים.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1318,7 +1328,15 @@ dot|נקודה|n|Draw a small dot in the middle of the page.|צייר נקודה
 download|להוריד (מהאינטרנט)|v|I want to download a new game.|אני רוצה להוריד משחק חדש.
 downtown|למרכז העיר, במרכז העיר|d|We took the bus downtown.|נסענו באוטובוס למרכז העיר.
 drama|דרמה, תיאטרון|n|She loves her drama class at school.|היא אוהבת את שיעור הדרמה שלה בבית הספר.
-dressed|לבוש|a|He was dressed in a blue shirt.|הוא היה לבוש בחולצה כחולה.`,
+dressed|לבוש|a|He was dressed in a blue shirt.|הוא היה לבוש בחולצה כחולה.
+dust|אבק|n|There is dust on the old books.|יש אבק על הספרים הישנים.
+eastern|מזרחי|a|We visited the eastern part of the country.|ביקרנו בחלק המזרחי של הארץ.
+edge|קצה|n|Don't stand on the edge of the roof.|אל תעמוד על קצה הגג.
+electric|חשמלי|a|My uncle drives an electric car.|הדוד שלי נוהג במכונית חשמלית.
+electronic|אלקטרוני|a|A tablet is an electronic device.|טאבלט הוא מכשיר אלקטרוני.
+elementary|יסודי; בסיסי|a|My little sister goes to elementary school.|אחותי הקטנה הולכת לבית ספר יסודי.
+emergency|מקרה חירום|n|Call this number in an emergency.|התקשרו למספר הזה במקרה חירום.
+endless|אינסופי, בלי סוף|a|The road looked endless.|הדרך נראתה אינסופית.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1575,7 +1593,9 @@ display|תצוגה; להציג|n|The museum has a display of old toys.|במוז�
 district|מחוז, אזור|n|We live in a quiet district of the city.|אנחנו גרים באזור שקט בעיר.
 documentary|סרט תיעודי|n|We watched a documentary about whales.|צפינו בסרט תיעודי על לווייתנים.
 domestic|ביתי; פנים-ארצי|a|A dog is a domestic animal.|כלב הוא חיית בית.
-drug|תרופה; סם|n|The doctor gave him a drug for the pain.|הרופא נתן לו תרופה נגד הכאב.`,
+drug|תרופה; סם|n|The doctor gave him a drug for the pain.|הרופא נתן לו תרופה נגד הכאב.
+effective|יעיל, אפקטיבי|a|This medicine is very effective.|התרופה הזאת יעילה מאוד.
+employment|תעסוקה, העסקה|n|The new factory will bring employment to the town.|המפעל החדש יביא תעסוקה לעיר.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
