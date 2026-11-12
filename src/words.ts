@@ -209,7 +209,12 @@ city|עיר|n|Tel Aviv is a big city.|תל אביב היא עיר גדולה.
 class|כיתה, שיעור|n|There are thirty children in my class.|יש שלושים ילדים בכיתה שלי.
 clock|שעון|n|The clock on the wall is slow.|השעון על הקיר מאחר.
 clothes|בגדים|n|I put my clothes in the closet.|אני שם את הבגדים שלי בארון.
-coat|מעיל|n|It is cold, so wear your coat.|קר, אז תלבש את המעיל שלך.`,
+coat|מעיל|n|It is cold, so wear your coat.|קר, אז תלבש את המעיל שלך.
+coffee|קפה|n|Mom drinks coffee every morning.|אמא שותה קפה כל בוקר.
+come|לבוא|v|Please come to my party.|בבקשה תבוא למסיבה שלי.
+computer|מחשב|n|I play games on the computer.|אני משחק משחקים במחשב.
+cook|לבשל|v|Dad likes to cook pasta.|אבא אוהב לבשל פסטה.
+cow|פרה|n|The cow gives us milk.|הפרה נותנת לנו חלב.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -404,7 +409,16 @@ club|מועדון, חוג|n|I go to the chess club after school.|אני הולך
 fantastic|נהדר, מדהים|a|We had a fantastic day at the beach.|היה לנו יום נהדר בים.
 feather|נוצה|n|I found a white feather in the yard.|מצאתי נוצה לבנה בחצר.
 fight|לריב, להילחם|v|My cats fight over the toy.|החתולים שלי רבים על הצעצוע.
-fishing|דיג|n|Grandpa takes me fishing at the lake.|סבא לוקח אותי לדוג באגם.`,
+fishing|דיג|n|Grandpa takes me fishing at the lake.|סבא לוקח אותי לדוג באגם.
+cool|קריר, מגניב|a|The water in the pool is cool.|המים בבריכה קרירים.
+corner|פינה|n|The shop is on the corner.|החנות נמצאת בפינה.
+count|לספור|v|Can you count to ten?|אתה יודע לספור עד עשר?
+country|ארץ, מדינה|n|Israel is a small country.|ישראל היא מדינה קטנה.
+customer|לקוח|n|The first customer bought bread.|הלקוח הראשון קנה לחם.
+flag|דגל|n|The flag is blue and white.|הדגל כחול ולבן.
+fix|לתקן|v|Dad can fix my bike.|אבא יכול לתקן את האופניים שלי.
+free|חופשי, חינם|a|The tickets are free for children.|הכרטיסים בחינם לילדים.
+fresh|טרי|a|We bought fresh bread.|קנינו לחם טרי.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -549,7 +563,12 @@ event|אירוע|n|The school play is a big event.|ההצגה של בית הספ
 everyday|יומיומי|a|Brushing your teeth is an everyday habit.|צחצוח שיניים הוא הרגל יומיומי.
 false|לא נכון, שקרי|a|Is the sentence true or false?|המשפט נכון או לא נכון?
 familiar|מוכר|a|Her face looks familiar.|הפנים שלה נראות לי מוכרות.
-fashion|אופנה|n|My sister loves fashion and clothes.|אחותי אוהבת אופנה ובגדים.`,
+fashion|אופנה|n|My sister loves fashion and clothes.|אחותי אוהבת אופנה ובגדים.
+fit|להתאים במידה|v|My old shoes do not fit me.|הנעליים הישנות שלי כבר לא במידה שלי.
+flour|קמח|n|We need flour to make a cake.|אנחנו צריכים קמח כדי להכין עוגה.
+fog|ערפל|n|We could not see the hills in the fog.|לא יכולנו לראות את הגבעות בערפל.
+forward|קדימה|d|Take one step forward.|תעשה צעד אחד קדימה.
+friendship|חברות|n|Their friendship started in first grade.|החברות שלהם התחילה בכיתה א'.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -661,7 +680,8 @@ exact|מדויק|a|What is the exact time?|מה השעה המדויקת?
 examine|לבדוק|v|The doctor will examine your ear.|הרופא יבדוק לך את האוזן.
 explanation|הסבר|n|The teacher gave a clear explanation.|המורה נתנה הסבר ברור.
 express|להביע|v|Drawing helps me express my feelings.|ציור עוזר לי להביע את הרגשות שלי.
-extremely|מאוד, ביותר|d|The test was extremely easy.|המבחן היה קל מאוד.`,
+extremely|מאוד, ביותר|d|The test was extremely easy.|המבחן היה קל מאוד.
+frame|מסגרת|n|The photo is in a gold frame.|התמונה נמצאת במסגרת זהב.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.

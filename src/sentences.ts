@@ -306,7 +306,17 @@ Please put away your books.|בבקשה תחזירו את הספרים למקום
 Put down the scissors!|תניח את המספריים!
 The firefighters put out the fire.|הכבאים כיבו את השריפה.
 Remember to brush your teeth!|תזכור לצחצח שיניים!
-I got a good report card.|קיבלתי תעודה טובה.`,
+I got a good report card.|קיבלתי תעודה טובה.
+I read books in my spare time.|אני קוראת ספרים בזמן הפנוי שלי.
+We swim in the swimming pool.|אנחנו שוחים בבריכה.
+Please take away the dirty plates.|בבקשה תפנה את הצלחות המלוכלכות.
+Take off your shoes, please.|תוריד את הנעליים, בבקשה.
+Don't stay out in the cold.|אל תישאר בחוץ בקור.
+Nobody knows the future.|אף אחד לא יודע מה יהיה בעתיד.
+We live on the ground floor.|אנחנו גרים בקומת הקרקע.
+The ball is in the middle of the room.|הכדור נמצא באמצע החדר.
+The moon is bright tonight.|הירח בהיר הלילה.
+Dad watches the news every evening.|אבא צופה בחדשות כל ערב.`,
 };
 
 let n = 0;
