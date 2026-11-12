@@ -1,15 +1,5 @@
 # Pre-Band I
 # Band I
-since
-size
-skirt
-smoke
-snack
-snake
-soup
-south
-space
-speaker
 spell
 square
 stamp
@@ -74,16 +64,6 @@ yours
 zero
 # Band II Core I
 # Band II Core II
-flow
-follower
-following
-force
-forever
-fortunately
-freeze
-frequently
-fry
-fuel
 full-time
 future
 gallery

@@ -451,7 +451,11 @@ say|להגיד|v|What did you say to your friend?|מה אמרת לחבר שלך?
 sell|למכור|v|They sell fresh bread at the market.|מוכרים לחם טרי בשוק.
 shop|חנות|n|We bought ice cream at the shop.|קנינו גלידה בחנות.
 short|קצר; נמוך|a|My little brother is short.|אחי הקטן נמוך.
-shower|מקלחת|n|I take a shower every evening.|אני מתקלח כל ערב.`,
+shower|מקלחת|n|I take a shower every evening.|אני מתקלח כל ערב.
+skirt|חצאית|n|She wore a blue skirt to school.|היא לבשה חצאית כחולה לבית הספר.
+snack|חטיף|n|I eat an apple as a snack.|אני אוכל תפוח בתור חטיף.
+snake|נחש|n|The snake is long and green.|הנחש ארוך וירוק.
+soup|מרק|n|Mom made hot soup for dinner.|אמא הכינה מרק חם לארוחת הערב.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -1014,7 +1018,16 @@ festival|פסטיבל, חג|n|We went to a music festival in the park.|הלכנ�
 fever|חום (גוף)|n|She stayed home because she had a fever.|היא נשארה בבית כי היה לה חום.
 few|מעט, כמה|a|Only a few children came to the party.|רק כמה ילדים באו למסיבה.
 firefighter|כבאי|n|The firefighter saved the cat from the tree.|הכבאי הציל את החתול מהעץ.
-flavor|טעם|n|Which ice cream flavor do you like?|איזה טעם גלידה אתה אוהב?`,
+flavor|טעם|n|Which ice cream flavor do you like?|איזה טעם גלידה אתה אוהב?
+since|מאז|o|I have known him since first grade.|אני מכיר אותו מאז כיתה א'.
+size|מידה, גודל|n|What size are your shoes?|מה מידת הנעליים שלך?
+smoke|עשן|n|I can see smoke from the fire.|אני רואה עשן מהמדורה.
+south|דרום|n|Eilat is in the south of Israel.|אילת נמצאת בדרום ישראל.
+space|חלל; מקום|n|I want to fly into space one day.|אני רוצה לטוס לחלל יום אחד.
+speaker|רמקול; דובר|n|The music comes out of the speaker.|המוזיקה יוצאת מהרמקול.
+forever|לנצח, לתמיד|d|We will be friends forever.|נהיה חברים לנצח.
+freeze|לקפוא; להקפיא|v|Water will freeze in the cold.|המים יקפאו בקור.
+fry|לטגן|v|Dad likes to fry eggs for breakfast.|אבא אוהב לטגן ביצים לארוחת הבוקר.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1391,7 +1404,13 @@ fee|תשלום, דמי|n|The entrance fee is ten shekels.|דמי הכניסה ה
 female|נקבה; נקבי|a|The female bird sits on the eggs.|הציפור הנקבה דוגרת על הביצים.
 fiction|סיפורת, בדיון|n|I like to read fiction about dragons.|אני אוהב לקרוא סיפורים דמיוניים על דרקונים.
 figure|דמות; ספרה|n|I saw a dark figure near the door.|ראיתי דמות כהה ליד הדלת.
-file|קובץ; תיקייה|n|Save the file on your computer.|שמרו את הקובץ במחשב שלכם.`,
+file|קובץ; תיקייה|n|Save the file on your computer.|שמרו את הקובץ במחשב שלכם.
+flow|לזרום; זרימה|v|The river will flow into the sea.|הנהר יזרום אל הים.
+follower|חסיד, עוקב|n|The singer has a new follower every day.|לזמר יש עוקב חדש כל יום.
+following|הבא|a|We went to the beach on the following day.|הלכנו לים ביום שאחרי.
+force|כוח; להכריח|n|The force of the wind broke the tree.|כוח הרוח שבר את העץ.
+fortunately|למרבה המזל|d|Fortunately, nobody was hurt.|למרבה המזל, אף אחד לא נפגע.
+fuel|דלק|n|The car needs more fuel.|המכונית צריכה עוד דלק.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1655,7 +1674,8 @@ ensure|לוודא, להבטיח|v|Please ensure that the door is locked.|בבק�
 environmentally|מבחינה סביבתית|d|Riding a bike is environmentally friendly.|רכיבה על אופניים ידידותית לסביבה.
 estimate|להעריך, לאמוד; הערכה|v|Can you estimate how many beans are in the jar?|אתה יכול להעריך כמה שעועיות יש בצנצנת?
 extent|מידה, היקף|n|To some extent, he is right.|במידה מסוימת, הוא צודק.
-external|חיצוני|a|The external walls of the house are white.|הקירות החיצוניים של הבית לבנים.`,
+external|חיצוני|a|The external walls of the house are white.|הקירות החיצוניים של הבית לבנים.
+frequently|לעתים קרובות|d|We frequently visit our grandparents.|אנחנו מבקרים את סבא וסבתא לעתים קרובות.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
