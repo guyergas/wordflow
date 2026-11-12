@@ -190,7 +190,14 @@ bath|אמבטיה|n|I take a bath before bed.|אני מתרחץ באמבטיה �
 behind|מאחורי|o|The cat is hiding behind the door.|החתול מתחבא מאחורי הדלת.
 bird|ציפור|n|A little bird is singing in the tree.|ציפור קטנה שרה על העץ.
 black|שחור|a|My dog is black and white.|הכלב שלי שחור-לבן.
-blue|כחול|a|The sky is blue today.|השמיים כחולים היום.`,
+blue|כחול|a|The sky is blue today.|השמיים כחולים היום.
+boat|סירה|n|We sailed in a small boat on the lake.|שטנו בסירה קטנה באגם.
+body|גוף|n|Running is good for your body.|ריצה טובה לגוף שלך.
+book|ספר|n|I read a book before I go to sleep.|אני קורא ספר לפני שאני הולך לישון.
+bottle|בקבוק|n|I take a bottle of water to school.|אני לוקח בקבוק מים לבית הספר.
+breakfast|ארוחת בוקר|n|I eat eggs for breakfast.|אני אוכל ביצים לארוחת בוקר.
+bring|להביא|v|Please bring your pencils tomorrow.|בבקשה תביאו מחר את העפרונות שלכם.
+brown|חום|a|My teddy bear is brown.|הדובי שלי חום.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -363,7 +370,14 @@ blouse|חולצה (לנשים)|n|Mom is wearing a pink blouse.|אמא לובשת
 dish|צלחת, מנה|n|Pizza is my favorite dish.|פיצה היא המנה האהובה עליי.
 drawer|מגירה|n|My socks are in the top drawer.|הגרביים שלי במגירה העליונה.
 drop|להפיל|v|Be careful not to drop the eggs.|תיזהרו לא להפיל את הביצים.
-drum|תוף|n|He plays the drum in the school band.|הוא מנגן בתוף בלהקה של בית הספר.`,
+drum|תוף|n|He plays the drum in the school band.|הוא מנגן בתוף בלהקה של בית הספר.
+board|לוח|n|The teacher writes on the board.|המורה כותבת על הלוח.
+build|לבנות|v|Let's build a tower with the blocks.|בואו נבנה מגדל מהקוביות.
+busy|עסוק|a|Mom is busy right now.|אמא עסוקה עכשיו.
+earring|עגיל|n|I lost my earring in the garden.|איבדתי את העגיל שלי בגינה.
+elevator|מעלית|n|We took the elevator to the tenth floor.|עלינו במעלית לקומה העשירית.
+email|אימייל|n|I sent my teacher an email.|שלחתי אימייל למורה שלי.
+emoji|אימוג'י|n|She sent me a smiling emoji.|היא שלחה לי אימוג'י מחייך.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -498,7 +512,10 @@ directions|הוראות הגעה, הנחיות|n|We asked a man for directions t
 dirt|לכלוך|n|There is dirt on your shoes.|יש לכלוך על הנעליים שלך.
 discount|הנחה|n|We got a discount on the new bike.|קיבלנו הנחה על האופניים החדשים.
 discuss|לדון|v|Let's discuss the plan for the trip.|בואו נדון בתוכנית לטיול.
-distance|מרחק|n|What is the distance from here to the beach?|מה המרחק מכאן לחוף?`,
+distance|מרחק|n|What is the distance from here to the beach?|מה המרחק מכאן לחוף?
+earn|להרוויח|v|I earn money when I walk our neighbor's dog.|אני מרוויח כסף כשאני מוציא לטיול את הכלב של השכנים.
+education|חינוך, השכלה|n|Education is important for every child.|חינוך חשוב לכל ילד.
+electricity|חשמל|n|The lights went out because there was no electricity.|האורות כבו כי לא היה חשמל.`,
 `journey|מסע|n|The journey took two days.
 passport|דרכון|n|Don't lose your passport.
 luggage|מזוודות|n|Our luggage is at the airport.
@@ -601,7 +618,10 @@ dependent|תלוי|a|A baby is dependent on its parents.|תינוק תלוי ב�
 differently|אחרת, באופן שונה|d|My sister and I dress differently.|אחותי ואני מתלבשות אחרת.
 diploma|תעודה|n|My brother got his diploma at the end of high school.|אחי קיבל את התעודה שלו בסוף התיכון.
 doubt|ספק|n|There is no doubt that she will win.|אין ספק שהיא תנצח.
-due|צריך להגיש, צפוי|a|The homework is due on Monday.|צריך להגיש את שיעורי הבית ביום שני.`,
+due|צריך להגיש, צפוי|a|The homework is due on Monday.|צריך להגיש את שיעורי הבית ביום שני.
+duty|חובה, תפקיד|n|It is my duty to feed the cat.|התפקיד שלי הוא להאכיל את החתול.
+effect|השפעה|n|The medicine had a good effect.|לתרופה הייתה השפעה טובה.
+employ|להעסיק|v|The shop will employ two new workers.|החנות תעסיק שני עובדים חדשים.`,
 `knight|אביר|n|The knight rode a white horse.
 castle|טירה|n|The king lives in a castle.
 sword|חרב|n|He pulled out his sword.

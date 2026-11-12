@@ -276,7 +276,17 @@ Get down from the table!|רד מהשולחן!
 Get in the car, please.|תיכנס למכונית, בבקשה.
 We get off the bus at the park.|אנחנו יורדים מהאוטובוס ליד הפארק.
 We get on the train at nine.|אנחנו עולים לרכבת בתשע.
-Please give in your homework today.|בבקשה תגישו את שיעורי הבית היום.`,
+Please give in your homework today.|בבקשה תגישו את שיעורי הבית היום.
+The teacher will give out the tests.|המורה תחלק את המבחנים.
+Good evening!|ערב טוב!
+Guess what!|נחש מה!
+Hang on!|חכה רגע!
+I am happy to help you.|אני שמח לעזור לך.
+Have fun!|תיהנו!
+I have got a new bike.|יש לי אופניים חדשים.
+Hold on tight!|תחזיקו חזק!
+I don't mind.|לא אכפת לי.
+I like it. I mean, I love it!|אני אוהבת את זה. כלומר, אני מתה על זה!`,
 };
 
 let n = 0;
