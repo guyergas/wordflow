@@ -331,7 +331,13 @@ there|שם|d|Put the box over there.|שים את הקופסה שם.
 these|אלה, האלה|o|These shoes are new.|הנעליים האלה חדשות.
 thin|דק, רזה|a|This book is very thin.|הספר הזה דק מאוד.
 thing|דבר|n|What is this thing?|מה הדבר הזה?
-think|לחשוב|v|I think it will rain.|אני חושב שירד גשם.`,
+think|לחשוב|v|I think it will rain.|אני חושב שירד גשם.
+time|זמן, שעה|n|What time is it?|מה השעה?
+too|גם|d|I want to come too.|גם אני רוצה לבוא.
+train|רכבת|n|We go to the city by train.|אנחנו נוסעים לעיר ברכבת.
+together|ביחד|d|We play together every day.|אנחנו משחקים ביחד כל יום.
+those|ההם, ההן|o|Those birds are very loud.|הציפורים ההן רועשות מאוד.
+tonight|הערב, הלילה|d|We will watch a movie tonight.|נראה סרט הערב.`,
 `neighbor|שכן|n|Our neighbor has three cats.|לשכן שלנו יש שלושה חתולים.
 street|רחוב|n|We live on a quiet street.|אנחנו גרים ברחוב שקט.
 library|ספרייה|n|I borrowed it from the library.|שאלתי את זה מהספרייה.
@@ -675,7 +681,13 @@ supper|ארוחת ערב|n|We eat supper at seven.|אנחנו אוכלים אר�
 telephone|טלפון|n|The telephone is ringing.|הטלפון מצלצל.
 tenth|עשירי|a|Today is my tenth birthday.|היום יום ההולדת העשירי שלי.
 stone|אבן|n|He threw a stone into the lake.|הוא זרק אבן לתוך האגם.
-strawberry|תות|n|I put a strawberry on my cake.|שמתי תות על העוגה שלי.`,
+strawberry|תות|n|I put a strawberry on my cake.|שמתי תות על העוגה שלי.
+third|שלישי|a|I was third in the race.|הייתי שלישי במרוץ.
+thirteen|שלוש עשרה, שלושה עשר|n|My brother is thirteen years old.|אחי בן שלוש עשרה.
+thirty|שלושים|n|There are thirty children in my class.|יש שלושים ילדים בכיתה שלי.
+sunglasses|משקפי שמש|n|Wear your sunglasses at the beach.|תרכיב משקפי שמש בחוף.
+taste|טעם|n|I love the taste of honey.|אני אוהב את הטעם של דבש.
+teaspoon|כפית|n|Add a teaspoon of sugar.|תוסיף כפית סוכר.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -919,7 +931,11 @@ soldier|חייל|n|The soldier wore a green uniform.|החייל לבש מדים 
 sort|למיין|v|Sort the cards by color.|מיינו את הקלפים לפי צבע.
 speech|נאום|n|The principal gave a short speech.|המנהלת נשאה נאום קצר.
 spot|כתם, נקודה|n|There is a spot on my shirt.|יש כתם על החולצה שלי.
-steam|אדים|n|Steam came out of the hot soup.|אדים יצאו מהמרק החם.`,
+steam|אדים|n|Steam came out of the hot soup.|אדים יצאו מהמרק החם.
+synagogue|בית כנסת|n|We walk to the synagogue on Saturday.|אנחנו הולכים לבית הכנסת בשבת.
+tear|דמעה|n|A tear ran down her face.|דמעה זלגה על הפנים שלה.
+style|סגנון|n|I like your style.|אני אוהב את הסגנון שלך.
+suppose|להניח, לשער|v|I suppose you are right.|אני מניח שאתה צודק.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1098,7 +1114,10 @@ somehow|איכשהו|d|Somehow we found the way home.|איכשהו מצאנו א
 staff|צוות|n|The school staff planned a party.|צוות בית הספר תכנן מסיבה.
 standard|רמה, תקן|n|Her work is of a high standard.|העבודה שלה ברמה גבוהה.
 state|מדינה (במדינה פדרלית)|n|Texas is a big state.|טקסס היא מדינה גדולה.
-strength|כוח|n|He lifted the box with all his strength.|הוא הרים את הקופסה בכל הכוח שלו.`,
+strength|כוח|n|He lifted the box with all his strength.|הוא הרים את הקופסה בכל הכוח שלו.
+strongly|בתוקף, מאוד|d|I strongly believe in you.|אני מאמין בך מאוד.
+surely|בוודאי, בטח|d|Surely you know the answer.|בטח אתה יודע את התשובה.
+teaching|הוראה|n|My mom loves teaching.|אמא שלי אוהבת את עבודת ההוראה.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
@@ -1199,26 +1218,26 @@ correct|נכון|a|Your spelling is correct.|האיות שלך נכון.
 popular|פופולרי|a|This game is very popular.|המשחק הזה פופולרי מאוד.
 ordinary|רגיל|a|It was an ordinary day.|זה היה יום רגיל.
 special|מיוחד|a|Today is a special day.|היום הוא יום מיוחד.
-actually|בעצם|d|Actually, I like it.
-probably|כנראה|d|He will probably come.
-especially|במיוחד|d|I love fruit, especially mango.
-however|עם זאת|d|It was late; however, we kept going.
-therefore|לכן|d|It rained; therefore, we stayed home.
-although|למרות ש|o|I went although I was tired.
-unless|אלא אם כן|o|We will go unless it rains.
-despite|למרות|o|We won despite the rain.
-explain|להסביר|v|Can you explain this?
-suggest|להציע|v|I suggest a short break.
-decide|להחליט|v|We must decide today.
-compare|להשוות|v|Compare these two pictures.
-prefer|להעדיף|v|I prefer tea.
-consider|לשקול|v|Please consider my offer.
-improve|לשפר|v|I want to improve my English.
-prove|להוכיח|v|Can you prove it?
-convince|לשכנע|v|You can't convince me.
-realize|להבין פתאום|v|I realize that I was wrong.
-recognize|לזהות|v|I did not recognize him.
-expect|לצפות|v|I expect a good grade.`,
+actually|בעצם|d|Actually, I like it.|בעצם, אני אוהב את זה.
+probably|כנראה|d|He will probably come.|הוא כנראה יבוא.
+especially|במיוחד|d|I love fruit, especially mango.|אני אוהב פירות, במיוחד מנגו.
+however|עם זאת|d|It was late; however, we kept going.|היה מאוחר; עם זאת, המשכנו.
+therefore|לכן|d|It rained; therefore, we stayed home.|ירד גשם; לכן נשארנו בבית.
+although|למרות ש|o|I went although I was tired.|הלכתי למרות שהייתי עייף.
+unless|אלא אם כן|o|We will go unless it rains.|נלך, אלא אם כן ירד גשם.
+despite|למרות|o|We won despite the rain.|ניצחנו למרות הגשם.
+explain|להסביר|v|Can you explain this?|אתה יכול להסביר את זה?
+suggest|להציע|v|I suggest a short break.|אני מציע הפסקה קצרה.
+decide|להחליט|v|We must decide today.|אנחנו חייבים להחליט היום.
+compare|להשוות|v|Compare these two pictures.|השוו בין שתי התמונות האלה.
+prefer|להעדיף|v|I prefer tea.|אני מעדיף תה.
+consider|לשקול|v|Please consider my offer.|בבקשה תשקול את ההצעה שלי.
+improve|לשפר|v|I want to improve my English.|אני רוצה לשפר את האנגלית שלי.
+prove|להוכיח|v|Can you prove it?|אתה יכול להוכיח את זה?
+convince|לשכנע|v|You can't convince me.|אתה לא יכול לשכנע אותי.
+realize|להבין פתאום|v|I realize that I was wrong.|אני מבין שטעיתי.
+recognize|לזהות|v|I did not recognize him.|לא זיהיתי אותו.
+expect|לצפות|v|I expect a good grade.|אני מצפה לציון טוב.`,
 `science|מדע|n|Science explains how things work.
 experiment|ניסוי|n|We did an experiment with water.
 research|מחקר|n|Her research is about whales.

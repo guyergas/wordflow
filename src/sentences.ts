@@ -526,7 +526,17 @@ My brother is into dinosaurs.|אחי מתלהב מדינוזאורים.
 Jerusalem is known as the City of Gold.|ירושלים ידועה כעיר הזהב.
 We are short of chairs for the party.|חסרים לנו כיסאות למסיבה.
 It is up to you.|זה תלוי בך.
-What are you up to today?|מה אתה עושה היום?`,
+What are you up to today?|מה אתה עושה היום?
+You are welcome to join us.|אתה מוזמן להצטרף אלינו.
+This book is worth reading.|הספר הזה שווה קריאה.
+Let's keep in touch!|בוא נשמור על קשר!
+Come home before dark.|תחזור הביתה לפני שמחשיך.
+This bag belongs to my sister.|התיק הזה שייך לאחותי.
+Blow your nose, please.|תקנח את האף, בבקשה.
+She wants to break a record.|היא רוצה לשבור שיא.
+Please break the cookie in two.|בבקשה תשבור את העוגייה לשניים.
+Music brings me happiness.|מוזיקה מביאה לי אושר.
+I broke the glass by accident.|שברתי את הכוס בטעות.`,
 };
 
 let n = 0;
