@@ -12,7 +12,7 @@ class Mem {
 }
 
 let ls: Mem;
-beforeEach(() => { ls = new Mem(); vi.stubGlobal('localStorage', ls); });
+beforeEach(() => { ls = new Mem(); ls.setItem('wordflow.fam.moved', '1'); vi.stubGlobal('localStorage', ls); });
 afterEach(() => { vi.unstubAllGlobals(); vi.useRealTimers(); });
 
 describe('which keys are copied', () => {

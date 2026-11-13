@@ -6,14 +6,14 @@ import './users.css';
 import { FamilySheet } from './family';
 import { dbUrl } from './familySync';
 import { Trial, trialName, TRIALS } from './speech';
-import { COURSE_ID, COURSES, joinCourses, leaveCourse, myCourses, signOut, switchCourse, USER_NAME } from './course';
+import { COURSE_ID, COURSES, openCourses, joinCourses, leaveCourse, myCourses, signOut, switchCourse, USER_NAME } from './course';
 
 const Close = () => <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg>;
 export const SettingsIcon = () => <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="2" /></svg>;
 
 /** The person and the course, with switching between them. Also used on NoteFlow's own settings page. */
 export function WhoPanel() {
-  const mine = myCourses(), more = COURSES.filter((c) => !mine.includes(c));
+  const mine = myCourses(), more = openCourses().filter((c) => !mine.includes(c));
   const [editing, setEditing] = useState(false);
   const [adding, setAdding] = useState(false);
   const [, refresh] = useState(0);

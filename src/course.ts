@@ -1,5 +1,7 @@
 // Which course this device is on. It is read once at startup, and changing it reloads the app.
 // A new course only needs a line here: it then appears in the picker, the switcher and the summary.
+import { cachedMeta, peopleOf, Person, Role } from './families';
+import { familyId } from './db';
 export type CourseId = 'en' | 'th' | 'math' | 'hist' | 'geo' | 'sci' | 'art' | 'nature' | 'sport' | 'heb' | 'jud' | 'food' | 'alef' | 'tots' | 'tinyen' | 'notes';
 export interface CourseInfo { id: CourseId; name: string; hello: string; note: string; storageKey: string; defaultMinutes: number; short?: string; newLabel: string; knowledge?: boolean; alef?: boolean; tots?: boolean; tinyen?: boolean; notes?: boolean }
 const K = (id: CourseId, name: string, short: string, hello: string, note: string): CourseInfo => ({ id, name, short, hello, note, storageKey: `wordflow.${id}.v1`, defaultMinutes: 0, newLabel: 'שיעורים חדשים', knowledge: true });
@@ -32,16 +34,28 @@ function moveOld(v: string | null) {
 }
 
 // Each member of the family has courses of their own and separate progress in each, on the same device.
-export const USERS = [{ id: 'guy', name: 'גיא', she: false }, { id: 'dikla', name: 'דיקלה', she: true }, { id: 'ayala', name: 'איילה', she: true }, { id: 'ofir', name: 'אופיר', she: true }, { id: 'omer', name: 'עומר', she: false }, { id: 'ido', name: 'עידו', she: false }];
+// The people come from the family, as this device last saw it (see families.ts).
+export const FAMILY_ID = familyId();
+export const FAMILY_NAME = cachedMeta()?.name ?? '';
+/** The family's people. A parent's changes update this list in place. */
+export const USERS: Person[] = peopleOf(cachedMeta());
+/** Little ones' courses are for little ones only, and they see nothing else. */
+export const isTotCourse = (c: CourseInfo) => !!(c.alef || c.tots || c.tinyen);
+export const coursesFor = (role: Role | undefined) => COURSES.filter((c) => (role === 'tot') === isTotCourse(c));
 const USER_KEY = 'wordflow.user', MOVED_KEY = 'wordflow.moved';
 const uKey = (u: string, k: string) => `wordflow.u.${u}.${k}`;
 const get = (k: string) => { try { return localStorage.getItem(k); } catch { return null; } };
 const put = (k: string, v: string) => { try { localStorage.setItem(k, v); } catch { /* this visit only */ } };
-const listOf = (raw: string | null): CourseId[] => { try { return (JSON.parse(raw ?? '[]') as string[]).map(current).filter(valid); } catch { return []; } };
+const listOf = (raw: string | null): CourseId[] => { try { return (JSON.parse(raw ?? '[]') as string[]).map(current).filter(valid).filter((c) => ALLOWED.includes(c)); } catch { return []; } };
 
 const savedUser = get(USER_KEY);
 export const USER_ID = USERS.some((u) => u.id === savedUser) ? savedUser! : null;
 export const USER_NAME = USERS.find((u) => u.id === USER_ID)?.name ?? '';
+export const ROLE: Role | undefined = USERS.find((u) => u.id === USER_ID)?.role;
+export const IS_PARENT = ROLE === 'parent';
+/** Only Guy, in the first family, opens new families. */
+export const IS_OWNER = FAMILY_ID === 'argas' && USER_ID === 'guy';
+const ALLOWED = coursesFor(ROLE).map((c) => c.id);
 /** Wording for the person using the app: feminine for a girl or woman, and before anyone has signed in. */
 export const g = (she: string, he: string) => (USERS.find((u) => u.id === USER_ID)?.she ?? true ? she : he);
 /** A setting of the person using the app. Before anyone has signed in, it is the device's old setting. */
@@ -49,10 +63,12 @@ export const userKey = (k: string) => (USER_ID ? uKey(USER_ID, k) : `wordflow.${
 let enrolled = USER_ID ? listOf(get(uKey(USER_ID, 'courses'))) : [];
 export const enrolledCourses = () => enrolled;
 export const myCourses = () => (USER_ID ? COURSES.filter((c) => enrolled.includes(c.id)) : COURSES);
+/** The courses this person may join: by role. */
+export const openCourses = () => coursesFor(ROLE);
 export const storageKeyOf = (c: CourseInfo) => (USER_ID ? uKey(USER_ID, `data.${c.id}`) : c.storageKey);
 const setEnrolled = (list: CourseId[]) => { enrolled = list; if (USER_ID) put(uKey(USER_ID, 'courses'), JSON.stringify(list)); };
-// Omer and Ido get each little ones' course once, and can leave it like any other.
-if ((USER_ID === 'omer' || USER_ID === 'ido') && enrolled.length) {
+// A little one gets each little ones' course once, and can leave it like any other.
+if (USER_ID && ROLE === 'tot' && enrolled.length) {
   for (const [flag, id] of [['gotTots', 'tots'], ['gotTinyEn', 'tinyen']] as const) {
     if (get(uKey(USER_ID, flag))) continue;
     put(uKey(USER_ID, flag), '1');
@@ -66,7 +82,7 @@ function read(): CourseId | null {
   moveOld(asked); asked = current(asked);
   { const was = get(KEY); moveOld(was); if (current(was) !== was) put(KEY, 'alef'); }
   if (USER_ID) {
-    if (valid(asked)) { if (!enrolled.includes(asked)) setEnrolled([...enrolled, asked]); put(uKey(USER_ID, 'course'), asked); return asked; }
+    if (valid(asked) && ALLOWED.includes(asked)) { if (!enrolled.includes(asked)) setEnrolled([...enrolled, asked]); put(uKey(USER_ID, 'course'), asked); return asked; }
     const saved = get(uKey(USER_ID, 'course'));
     return valid(saved) && enrolled.includes(saved) ? saved : enrolled[0] ?? null;
   }

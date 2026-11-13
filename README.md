@@ -29,4 +29,6 @@ The summary tab in every course shows study time and new items across all course
 
 Every course's home screen opens with the same header and greeting from `src/topBar.tsx`, and the piano course uses the same yellow for its main actions. Wording that addresses the user goes through `g(feminine, masculine)` in `src/course.ts`.
 
+Families (`src/families.ts`, `src/familyAdmin.tsx`): every family has its own people, study times, goals and achievements under `families/{id}` in the database; the courses are shared. A device joins a family once through an invite link (`?join=id`), and devices that were in use before families are in the Argas family, whose old data was copied once from the top of the database (the old copy is kept). Each person is a parent, a kid (9-15) or a little one (4-8). Little ones see only the little ones' courses, and nobody else sees those. Parents set goals, add, edit and remove people, and share the invite link from the "מערכת" page. Only Guy opens new families, from the same page.
+
 `npm test` · `npm run dev` · `npm run build`. Pushing to `main` deploys to GitHub Pages.

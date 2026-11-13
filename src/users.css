@@ -136,3 +136,30 @@
 .st-trial-list .st-btn { text-align: start; display: flex; gap: 8px; align-items: center; }
 .st-trial-list .st-btn[aria-pressed="true"] { background: var(--cs-dark); color: var(--cs-dark-ink) !important; }
 .st-trial-list small { opacity: .75; font-size: 13px; }
+/* Managing the family */
+.fa-card { gap: 12px; }
+.fa-invite { display: grid; gap: 6px; padding: 12px; border-radius: 14px; background: var(--cs-soft); }
+.fa-invite code, .fa-list code { display: block; overflow-wrap: anywhere; font-size: 13px; opacity: .8; text-align: left; }
+.fa-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.fa-btn { min-height: 46px; padding: 0 18px; border: 1px solid var(--cs-line); border-radius: 999px; background: var(--cs-surface); font-weight: 650; }
+.fa-btn.main { border-color: var(--cs-sun); background: var(--cs-sun); color: #2a2100; }
+.fa-btn.danger { border-color: #c0392b; background: #c0392b; color: #fff; }
+.fa-btn:disabled { opacity: .45; }
+.fa-people { display: grid; gap: 8px; }
+.fa-person { display: flex; align-items: center; justify-content: space-between; min-height: 56px; padding: 8px 14px; border: 1px solid var(--cs-line); border-radius: 14px; background: var(--cs-surface); text-align: start; }
+.fa-person > span:first-child { display: grid; } .fa-person small { opacity: .7; font-size: 13px; }
+.fa-edit { font-size: 14px; text-decoration: underline; opacity: .8; }
+.fa-form { display: grid; gap: 10px; padding: 12px; border: 2px solid var(--cs-sun); border-radius: 16px; background: var(--cs-surface); }
+.fa-field { display: grid; gap: 4px; font-size: 14px; }
+.fa-field input { min-height: 46px; padding: 0 12px; border: 1px solid var(--cs-line); border-radius: 12px; background: var(--cs-bg); color: var(--cs-ink); font: inherit; font-size: 17px; }
+.fa-roles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.fa-roles button { display: grid; gap: 2px; min-height: 60px; padding: 6px; border: 1px solid var(--cs-line); border-radius: 12px; background: var(--cs-bg); text-align: center; }
+.fa-roles button small { font-size: 11px; opacity: .7; }
+.fa-roles button[aria-pressed="true"] { background: var(--cs-dark); color: var(--cs-dark-ink); border-color: var(--cs-dark); }
+.fa-roles button:disabled { opacity: .4; }
+.fa-danger { display: grid; gap: 8px; padding: 10px; border-radius: 12px; background: #fdecea; color: #7a1f16; }
+.fa-danger p { margin: 0; }
+.fa-del { justify-self: start; color: #a8322a; }
+.fa-err { color: #a8322a; opacity: 1; }
+.fa-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.fa-list li { padding: 10px; border-radius: 12px; background: var(--cs-soft); }

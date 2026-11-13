@@ -1,8 +1,9 @@
 // Piano notes has its own look, so each app's styles load only with that app.
 import { pullProgress, startProgressSync } from './progressSync';
+import { setupFamily } from './families';
 
-// Progress from another device arrives before the course is read, so the course opens with it.
-void pullProgress().then(async () => {
+// The family and its people come first, then progress from another device, so the course opens with both.
+void setupFamily().then(() => pullProgress()).then(async () => {
   startProgressSync();
   const [{ COURSE_CHOSEN, IS_NOTES, USER_ID }, { startSync }] = await Promise.all([import('./course'), import('./familySync')]);
   startSync();

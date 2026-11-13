@@ -1,6 +1,7 @@
 // The whole family's study time for a day or a week, and each person's daily goals.
 import { useEffect, useState } from 'react';
-import { COURSES, CourseId, USER_ID, USERS, userKey } from './course';
+import { COURSES, CourseId, coursesFor, FAMILY_NAME, IS_OWNER, IS_PARENT, USER_ID, USERS, userKey } from './course';
+import { FamilyAdmin, OwnerAdmin } from './familyAdmin';
 import { lineOf, readWins, Win } from './wins';
 import { FamilyData, pushPlan, readFamily } from './familySync';
 import { cleanSchedule, Schedule, timeLabel, weekday, weekStart } from './summary';
@@ -32,7 +33,7 @@ function Goals({ user, courses, plan, onChange }: { user: string; courses: Cours
 
 const Bar = ({ part, state }: { part: number; state: string }) => <div className="fam-bar"><span className={state} style={{ width: `${Math.min(100, part * 100)}%` }} /></div>;
 
-/** A full page for everyone, in every course. Only Guy changes goals; the others see them. */
+/** A full page for everyone in the family, in every course. Parents change goals and manage the family; the others see them. */
 const RED_FROM = 20761;
 
 export function FamilySheet({ onClose }: { onClose: () => void }) {
@@ -51,7 +52,7 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
   return (
     <div className="fam-page">
       <div className="fam-inner">
-        <div className="cs-row"><h2>מערכת</h2><button type="button" className="cs-round" aria-label="סגירה" onClick={onClose}><X /></button></div>
+        <div className="cs-row"><h2>מערכת{FAMILY_NAME ? ` · ${FAMILY_NAME}` : ''}</h2><button type="button" className="cs-round" aria-label="סגירה" onClick={onClose}><X /></button></div>
         <div className="fam-seg" role="group" aria-label="תקופה">{([['today', 'היום'], ['yesterday', 'אתמול'], ['week', 'השבוע']] as const).map(([k, t]) => <button key={k} type="button" aria-pressed={choice === k} onClick={() => setChoice(k)}>{t}</button>)}</div>
         {failed && <p className="cs-note">אין כרגע חיבור לנתוני המשפחה. נסו שוב כשיש אינטרנט.</p>}
         {!failed && !data && <p className="cs-note">טוען…</p>}
@@ -78,11 +79,13 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
                   <tbody>{rows.map((r) => <tr key={r.c}><th scope="row">{r.name}</th>{week.map((d) => { const m = Math.floor(secOn(u.id, r.c, d) / 60), g = goalOn(r.c, d); return <td key={d} className={stateOf(secOn(u.id, r.c, d), g, d)}>{m || g ? <>{m}{g > 0 && <small>/{g}</small>}</> : '–'}</td>; })}</tr>)}</tbody>
                 </table></div>
               )}
-              {USER_ID === 'guy' && <button type="button" className="cs-link" aria-expanded={editing === u.id} onClick={() => setEditing(editing === u.id ? null : u.id)}>קביעת יעדים</button>}
-              {USER_ID === 'guy' && editing === u.id && <Goals user={u.id} courses={[...mine, ...COURSES.map((c) => c.id).filter((c) => !mine.includes(c))]} plan={plan} onChange={(p) => setData({ ...data, plans: { ...data.plans, [u.id]: p } })} />}
+              {IS_PARENT && <button type="button" className="cs-link" aria-expanded={editing === u.id} onClick={() => setEditing(editing === u.id ? null : u.id)}>קביעת יעדים</button>}
+              {IS_PARENT && editing === u.id && <Goals user={u.id} courses={(() => { const open = coursesFor(u.role).map((c) => c.id); return [...mine.filter((c) => open.includes(c)), ...open.filter((c) => !mine.includes(c))]; })()} plan={plan} onChange={(p) => setData({ ...data, plans: { ...data.plans, [u.id]: p } })} />}
             </section>
           );
         })}
+        {IS_PARENT && <FamilyAdmin onChange={() => setData(data ? { ...data } : data)} />}
+        {IS_OWNER && <OwnerAdmin />}
       </div>
     </div>
   );

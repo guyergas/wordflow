@@ -1,4 +1,4 @@
-// Achievements shared with the whole family: one line each time someone finishes something new.
+// Achievements shared with the whole family (each family has its own): one line each time someone finishes something new.
 // Like the study times, they are open by the family's choice, and hold only a name, a course and a title.
 import { COURSE_INFO, USER_ID, USERS } from './course';
 import { dbUrl } from './familySync';
@@ -6,8 +6,7 @@ import { pushProgress } from './progressSync';
 
 export interface Win { user: string; course: string; title: string; kind: 'lesson' | 'skill' | 'grammar' | 'reading'; at: number; style: number }
 
-const FEMALE = new Set(['dikla', 'ayala', 'ofir']);
-const g = (user: string, f: string, m: string) => (FEMALE.has(user) ? f : m);
+const g = (user: string, f: string, m: string) => (USERS.find((u) => u.id === user)?.she ?? true ? f : m);
 
 /** Cheering lines. {n} is the name, {t} what was done ("שיעור על המונה ליזה"), {c} the course. */
 const STYLES: ((n: string, t: string, c: string, u: string) => string)[] = [
@@ -46,7 +45,7 @@ export const readWins = async (): Promise<Win[]> => {
   // Achievements are kept for two weeks. Whoever opens the screen removes older ones for everyone.
   const old = Date.now() - KEEP_DAYS * 864e5;
   for (const [k, w] of Object.entries(d ?? {})) if (!w || !(w.at > old)) void fetch(`${dbUrl()}/wins/${k}.json`, { method: 'DELETE' }).catch(() => undefined);
-  return Object.values(d ?? {}).filter((w) => w && w.user && w.title && w.at > old).sort((a, b) => b.at - a.at);
+  return Object.values(d ?? {}).filter((w) => w && w.user && w.title && w.at > old && USERS.some((u) => u.id === w.user)).sort((a, b) => b.at - a.at);
 };
 export const KEEP_DAYS = 14;
 export const STYLE_COUNT = STYLES.length;

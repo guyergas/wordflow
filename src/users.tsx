@@ -3,12 +3,26 @@ import { useState } from 'react';
 import './users.css';
 import { FamilySheet } from './family';
 import { dbUrl } from './familySync';
-import { COURSE_ID, COURSE_INFO, COURSES, CourseId, joinCourses, leaveCourse, myCourses, oldProgress, signIn, signOut, switchCourse, USER_NAME, USERS } from './course';
+import { COURSE_ID, COURSE_INFO, CourseId, FAMILY_ID, FAMILY_NAME, joinCourses, leaveCourse, myCourses, oldProgress, openCourses, signIn, signOut, switchCourse, USER_NAME, USERS } from './course';
 
 export function UserPicker() {
   const old = oldProgress();
+  if (!FAMILY_ID) return (
+    <div className="onb">
+      <h1>ברוכים הבאים ל־WordFlow</h1>
+      <p className="lead">כדי להתחיל צריך קישור הזמנה למשפחה. אפשר לבקש אותו מהורה במשפחה: הוא נמצא אצלו במסך ״מערכת״, בניהול המשפחה.</p>
+    </div>
+  );
+  if (!USERS.length) return (
+    <div className="onb">
+      <h1>רגע, טוען את המשפחה</h1>
+      <p className="lead">בפעם הראשונה צריך חיבור לאינטרנט כדי לדעת מי במשפחה.</p>
+      <button type="button" className="cta" onClick={() => location.reload()}>לנסות שוב</button>
+    </div>
+  );
   return (
     <div className="onb">
+      {FAMILY_NAME && <p className="lead">משפחת {FAMILY_NAME}</p>}
       <h1>מי לומד עכשיו?</h1>
       {old.length > 0 && <p className="lead">ההתקדמות שכבר נמצאת במכשיר הזה תישמר אצל מי שייבחר עכשיו.</p>}
       <div className="people">{USERS.map((u) => <button key={u.id} type="button" className="person" onClick={() => signIn(u.id)}>{u.name}</button>)}</div>
@@ -24,7 +38,7 @@ export function CoursePicker() {
       <h1>{USER_NAME}, מה לומדים?</h1>
       <p className="lead">אפשר לבחור כמה קורסים, ולהוסיף עוד בהמשך.</p>
       <div className="courses">
-        {COURSES.map((c) => (
+        {openCourses().map((c) => (
           <button key={c.id} type="button" className="course" aria-pressed={chosen.includes(c.id)} onClick={() => toggle(c.id)}>
             <b>{c.name}</b><small>{c.note}</small>
           </button>
@@ -39,7 +53,7 @@ export function CoursePicker() {
 const Close = () => <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg>;
 
 function CourseSheet({ onClose }: { onClose: () => void }) {
-  const mine = myCourses(), more = COURSES.filter((c) => !mine.includes(c));
+  const mine = myCourses(), more = openCourses().filter((c) => !mine.includes(c));
   const [editing, setEditing] = useState(false);
   const [, refresh] = useState(0);
   const [family, setFamily] = useState(false);

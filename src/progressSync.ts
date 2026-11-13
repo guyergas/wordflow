@@ -3,7 +3,7 @@
 // written by another device replaces the one here. The last copy written wins; nothing is merged.
 // The data is open by the family's choice, like the study times. The piano course keeps its own storage and is not copied.
 // This module does not import the course, so the app can pull before the course is loaded.
-import { dbUrl, deviceId } from './db';
+import { famUrl, deviceId } from './db';
 
 export interface Remote { at: number; device: string; data: Record<string, string> }
 type Storage = Pick<globalThis.Storage, 'getItem' | 'setItem' | 'removeItem' | 'key' | 'length'>;
@@ -53,13 +53,13 @@ let pending = false, timer: ReturnType<typeof setTimeout> | null = null;
 
 async function send(keepalive = false) {
   const user = currentUser(), s = store();
-  if (!user || !s || !dbUrl()) return;
+  if (!user || !s || !famUrl()) return;
   if (timer) { clearTimeout(timer); timer = null; }
   const at = Date.now();
   const body = JSON.stringify({ at, device: deviceId(), data: encodeData(collect(user, s)) });
   try {
     // A page that is closing can only send a small body with keepalive.
-    const r = await fetch(`${dbUrl()}/progress/${user}.json`, { method: 'PUT', body, keepalive: keepalive && body.length < 60_000 });
+    const r = await fetch(`${famUrl()}/progress/${user}.json`, { method: 'PUT', body, keepalive: keepalive && body.length < 60_000 });
     if (!r.ok) throw new Error(String(r.status));
     pending = false;
     try { s.setItem(`${prefix(user)}syncedAt`, String(at)); } catch { /* sent again next time */ }
@@ -77,11 +77,11 @@ export function pushProgress() {
 /** Before the course loads: takes a newer copy from another device, or sends the first copy. Never waits longer than the limit. */
 export async function pullProgress(limitMs = 2500) {
   const user = currentUser(), s = store();
-  if (!user || !s || !dbUrl()) return;
+  if (!user || !s || !famUrl()) return;
   const stop = new AbortController();
   const late = setTimeout(() => stop.abort(), limitMs);
   try {
-    const r = await fetch(`${dbUrl()}/progress/${user}.json`, { signal: stop.signal });
+    const r = await fetch(`${famUrl()}/progress/${user}.json`, { signal: stop.signal });
     if (!r.ok) return;
     const remote = (await r.json()) as Remote | null;
     if (!remote) { if (Object.keys(collect(user, s)).length) void send(); return; }
