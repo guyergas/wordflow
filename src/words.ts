@@ -1099,7 +1099,11 @@ wood|עץ (חומר)|n|The table is made of wood.|השולחן עשוי מעץ.
 worst|הגרוע ביותר|a|This is the worst day ever!|זה היום הגרוע ביותר אי פעם!
 writing|כתיבה|n|Writing stories is fun.|כתיבת סיפורים זה כיף.
 yet|עדיין (לא), עוד|d|I have not finished yet.|עוד לא סיימתי.
-mall|קניון|n|We met our friends at the mall.|פגשנו את החברים שלנו בקניון.`,
+mall|קניון|n|We met our friends at the mall.|פגשנו את החברים שלנו בקניון.
+oven|תנור|n|Mom put the cake in the oven.|אמא הכניסה את העוגה לתנור.
+pan|מחבת|n|Dad fried eggs in a pan.|אבא טיגן ביצים במחבת.
+pants|מכנסיים|n|I wore my blue pants to school.|לבשתי את המכנסיים הכחולים שלי לבית הספר.
+pie|פשטידה, פאי|n|Grandma baked an apple pie.|סבתא אפתה פאי תפוחים.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1517,7 +1521,16 @@ motor|מנוע|n|The boat has a small motor.|לסירה יש מנוע קטן.
 neighborhood|שכונה|n|There is a new park in our neighborhood.|יש פארק חדש בשכונה שלנו.
 nowhere|בשום מקום|d|My cat is nowhere to be found.|את החתול שלי אי אפשר למצוא בשום מקום.
 obey|לציית|v|The dog learned to obey its owner.|הכלב למד לציית לבעלים שלו.
-odd|מוזר; אי-זוגי|a|Three is an odd number.|שלוש הוא מספר אי-זוגי.`,
+odd|מוזר; אי-זוגי|a|Three is an odd number.|שלוש הוא מספר אי-זוגי.
+outdoors|בחוץ, בטבע|d|We like to play outdoors in the summer.|אנחנו אוהבים לשחק בחוץ בקיץ.
+partner|שותף, בן זוג|n|My partner and I did the project together.|השותף שלי ואני עשינו את הפרויקט יחד.
+password|סיסמה|n|Never tell anyone your password.|לעולם אל תגלה לאף אחד את הסיסמה שלך.
+perfectly|בצורה מושלמת|d|She sang the song perfectly.|היא שרה את השיר בצורה מושלמת.
+perform|להופיע, לבצע|v|Our class will perform a play.|הכיתה שלנו תציג הצגה.
+photographer|צלם|n|The photographer took a picture of our class.|הצלם צילם תמונה של הכיתה שלנו.
+pile|ערימה|n|There is a pile of books on my desk.|יש ערימה של ספרים על השולחן שלי.
+pipe|צינור|n|Water comes through the pipe.|מים עוברים בצינור.
+plenty|הרבה, די והותר|o|We have plenty of time.|יש לנו הרבה זמן.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1815,7 +1828,14 @@ nowadays|בימינו|d|Nowadays, many kids have phones.|בימינו להרבה
 nuclear|גרעיני|a|A nuclear power plant makes electricity.|תחנת כוח גרעינית מייצרת חשמל.
 occasion|הזדמנות, אירוע|n|A birthday is a special occasion.|יום הולדת הוא אירוע מיוחד.
 opera|אופרה|n|We went to the opera with Grandma.|הלכנו לאופרה עם סבתא.
-oppose|להתנגד|v|Many parents oppose the new rule.|הורים רבים מתנגדים לכלל החדש.`,
+oppose|להתנגד|v|Many parents oppose the new rule.|הורים רבים מתנגדים לכלל החדש.
+originally|במקור|d|My family is originally from Morocco.|המשפחה שלי במקור ממרוקו.
+per|ל-, בכל (לכל אחד)|o|The tickets cost ten shekels per person.|הכרטיסים עולים עשרה שקלים לאדם.
+permanent|קבוע|a|This marker is permanent, so be careful.|זה טוש קבוע שלא נמחק, אז תיזהר.
+permit|להרשות; היתר|v|Mom will not permit me to stay up late.|אמא לא תרשה לי להישאר ער עד מאוחר.
+photocopy|צילום מסמך; לצלם מסמך|n|The teacher gave us a photocopy of the story.|המורה נתנה לנו צילום של הסיפור.
+phrase|ביטוי|n|"Good morning" is a useful phrase.|"בוקר טוב" הוא ביטוי שימושי.
+plain|פשוט, רגיל|a|I like plain rice with no sauce.|אני אוהב אורז פשוט בלי רוטב.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
