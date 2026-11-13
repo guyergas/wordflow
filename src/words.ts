@@ -1119,7 +1119,12 @@ sale|מכירה; מבצע|n|The shoes are on sale today.|הנעליים במבצ
 seed|זרע|n|I planted a seed in a pot.|שתלתי זרע בעציץ.
 skill|מיומנות|n|Reading is an important skill.|קריאה היא מיומנות חשובה.
 shake|לנער; ללחוץ (יד)|v|Please shake the bottle before you drink.|בבקשה נערו את הבקבוק לפני שאתם שותים.
-shine|לזרוח, להבריק|v|The stars shine at night.|הכוכבים זורחים בלילה.`,
+shine|לזרוח, להבריק|v|The stars shine at night.|הכוכבים זורחים בלילה.
+skin|עור|n|Use sunscreen to protect your skin.|השתמשו בקרם הגנה כדי להגן על העור שלכם.
+solve|לפתור|v|Can you solve this riddle?|אתה יכול לפתור את החידה הזאת?
+stadium|אצטדיון|n|We watched the game at the stadium.|צפינו במשחק באצטדיון.
+stick|מקל; להדביק|n|The dog brought back the stick.|הכלב החזיר את המקל.
+stupid|טיפשי|a|I made a stupid mistake on the test.|עשיתי טעות טיפשית במבחן.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1570,7 +1575,17 @@ shall|פועל עזר לעתיד ולהצעה (נ..., א...)|v|What shall we pla
 sharp|חד|a|Be careful, the knife is sharp.|זהירות, הסכין חדה.
 shock|הלם|n|The news was a big shock.|החדשות היו הלם גדול.
 simply|פשוט|d|You simply press the green button.|אתם פשוט לוחצים על הכפתור הירוק.
-site|אתר|n|We visited a site with old ruins.|ביקרנו באתר עם חורבות עתיקות.`,
+site|אתר|n|We visited a site with old ruins.|ביקרנו באתר עם חורבות עתיקות.
+solid|מוצק|a|Ice is water in solid form.|קרח הוא מים במצב מוצק.
+southern|דרומי|a|Eilat is in the southern part of Israel.|אילת נמצאת בחלק הדרומי של ישראל.
+spare|רזרבי, נוסף|a|Dad keeps a spare key under the mat.|אבא שומר מפתח רזרבי מתחת לשטיח.
+sparkling|נוצץ; מוגז|a|She wore a sparkling dress.|היא לבשה שמלה נוצצת.
+spice|תבלין|n|Mom adds a spice to the soup.|אמא מוסיפה תבלין למרק.
+statue|פסל|n|There is a statue of a lion in the park.|יש פסל של אריה בפארק.
+studio|סטודיו, אולפן|n|The singer recorded a song in the studio.|הזמר הקליט שיר באולפן.
+stuff|דברים, חפצים|n|Put your stuff in your bag.|שימו את הדברים שלכם בתיק.
+such|כזה, כל כך|o|It was such a nice day.|זה היה יום כל כך נחמד.
+sudden|פתאומי|a|There was a sudden noise outside.|היה רעש פתאומי בחוץ.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1895,7 +1910,12 @@ represent|לייצג|v|She will represent our school in the contest.|היא תי
 security|ביטחון; אבטחה|n|The security guard checked our bags.|המאבטח בדק את התיקים שלנו.
 seek|לחפש|v|We seek a safe place to camp.|אנחנו מחפשים מקום בטוח לקמפינג.
 session|מפגש, שיעור|n|The next practice session is on Monday.|האימון הבא הוא ביום שני.
-singular|יחיד (בדקדוק)|a|The word "cat" is singular.|המילה "cat" היא בלשון יחיד.`,
+singular|יחיד (בדקדוק)|a|The word "cat" is singular.|המילה "cat" היא בלשון יחיד.
+somewhat|במידה מסוימת, קצת|d|The soup was somewhat salty.|המרק היה קצת מלוח.
+soul|נשמה|n|She sings with all her soul.|היא שרה בכל הנשמה.
+stress|לחץ, מתח|n|Exams can cause a lot of stress.|מבחנים יכולים לגרום להרבה לחץ.
+strike|שביתה; להכות|n|The workers are on strike today.|העובדים בשביתה היום.
+suffer|לסבול|v|Animals suffer in the heat.|בעלי חיים סובלים בחום.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

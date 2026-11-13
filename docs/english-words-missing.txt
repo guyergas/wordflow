@@ -2,26 +2,6 @@
 # Band I
 # Band II Core I
 # Band II Core II
-skin
-solid
-solve
-somewhat
-soul
-southern
-spare
-sparkling
-spice
-stadium
-statue
-stick
-stress
-strike
-studio
-stuff
-stupid
-such
-sudden
-suffer
 suitable
 sum
 sunrise
