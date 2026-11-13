@@ -1127,7 +1127,9 @@ stick|מקל; להדביק|n|The dog brought back the stick.|הכלב החזיר
 stupid|טיפשי|a|I made a stupid mistake on the test.|עשיתי טעות טיפשית במבחן.
 sunrise|זריחה|n|We woke up early to see the sunrise.|קמנו מוקדם כדי לראות את הזריחה.
 sunset|שקיעה|n|The sky turns orange at sunset.|השמיים נצבעים בכתום בשקיעה.
-sunshine|אור שמש|n|The cat sleeps in the sunshine.|החתול ישן באור השמש.`,
+sunshine|אור שמש|n|The cat sleeps in the sunshine.|החתול ישן באור השמש.
+tag|תווית; תופסת|n|Look at the price tag on the shirt.|תסתכל על תווית המחיר על החולצה.
+task|משימה|n|Your first task is to clean your room.|המשימה הראשונה שלך היא לנקות את החדר.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1592,7 +1594,12 @@ sudden|פתאומי|a|There was a sudden noise outside.|היה רעש פתאומ
 sum|סכום|n|The sum of two and three is five.|הסכום של שתיים ושלוש הוא חמש.
 supply|אספקה; לספק|n|We have a big supply of water for the trip.|יש לנו אספקה גדולה של מים לטיול.
 swallow|לבלוע|v|Chew your food before you swallow it.|תלעס את האוכל לפני שאתה בולע אותו.
-system|מערכת|n|Our school has a new computer system.|לבית הספר שלנו יש מערכת מחשבים חדשה.`,
+system|מערכת|n|Our school has a new computer system.|לבית הספר שלנו יש מערכת מחשבים חדשה.
+tablespoon|כף|n|Add one tablespoon of sugar to the cake.|הוסיפו כף אחת של סוכר לעוגה.
+talent|כישרון|n|She has a talent for drawing.|יש לה כישרון לציור.
+target|מטרה|n|He threw the ball and hit the target.|הוא זרק את הכדור ופגע במטרה.
+tax|מס|n|We pay tax when we buy things.|אנחנו משלמים מס כשאנחנו קונים דברים.
+temperature|טמפרטורה, חום|n|The nurse took my temperature.|האחות מדדה לי את החום.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1925,7 +1932,10 @@ strike|שביתה; להכות|n|The workers are on strike today.|העובדים 
 suffer|לסבול|v|Animals suffer in the heat.|בעלי חיים סובלים בחום.
 suitable|מתאים|a|This movie is suitable for children.|הסרט הזה מתאים לילדים.
 surround|להקיף|v|Tall trees surround the lake.|עצים גבוהים מקיפים את האגם.
-sympathy|חמלה, השתתפות בצער|n|We felt sympathy for the lost puppy.|הרגשנו חמלה כלפי הגור האבוד.`,
+sympathy|חמלה, השתתפות בצער|n|We felt sympathy for the lost puppy.|הרגשנו חמלה כלפי הגור האבוד.
+technical|טכני|a|The game stopped because of a technical problem.|המשחק נעצר בגלל בעיה טכנית.
+technique|טכניקה, שיטה|n|The coach showed us a new technique for swimming.|המאמן הראה לנו טכניקה חדשה לשחייה.
+telecommunications|תקשורת, טלקומוניקציה|n|My uncle works in telecommunications.|הדוד שלי עובד בתחום התקשורת.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

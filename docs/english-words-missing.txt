@@ -2,16 +2,6 @@
 # Band I
 # Band II Core I
 # Band II Core II
-tablespoon
-tag
-talent
-target
-task
-tax
-technical
-technique
-telecommunications
-temperature
 temporary
 tense
 term
