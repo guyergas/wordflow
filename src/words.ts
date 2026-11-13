@@ -1103,7 +1103,9 @@ mall|קניון|n|We met our friends at the mall.|פגשנו את החברים �
 oven|תנור|n|Mom put the cake in the oven.|אמא הכניסה את העוגה לתנור.
 pan|מחבת|n|Dad fried eggs in a pan.|אבא טיגן ביצים במחבת.
 pants|מכנסיים|n|I wore my blue pants to school.|לבשתי את המכנסיים הכחולים שלי לבית הספר.
-pie|פשטידה, פאי|n|Grandma baked an apple pie.|סבתא אפתה פאי תפוחים.`,
+pie|פשטידה, פאי|n|Grandma baked an apple pie.|סבתא אפתה פאי תפוחים.
+pot|סיר; עציץ|n|Dad cooked soup in a big pot.|אבא בישל מרק בסיר גדול.
+prince|נסיך|n|The prince lived in a big castle.|הנסיך גר בטירה גדולה.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1530,7 +1532,12 @@ perform|להופיע, לבצע|v|Our class will perform a play.|הכיתה של�
 photographer|צלם|n|The photographer took a picture of our class.|הצלם צילם תמונה של הכיתה שלנו.
 pile|ערימה|n|There is a pile of books on my desk.|יש ערימה של ספרים על השולחן שלי.
 pipe|צינור|n|Water comes through the pipe.|מים עוברים בצינור.
-plenty|הרבה, די והותר|o|We have plenty of time.|יש לנו הרבה זמן.`,
+plenty|הרבה, די והותר|o|We have plenty of time.|יש לנו הרבה זמן.
+poet|משורר|n|The poet read us a poem about the sea.|המשורר הקריא לנו שיר על הים.
+pop|להתפוצץ (בפיצוץ קטן); פופ|v|Don't pop my balloon!|אל תפוצץ לי את הבלון!
+power|כוח; חשמל|n|The storm cut off the power.|הסערה גרמה להפסקת חשמל.
+print|להדפיס|v|Can you print this page for me?|אתה יכול להדפיס לי את הדף הזה?
+progress|התקדמות|n|You made great progress in math this year.|התקדמת מאוד במתמטיקה השנה.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1835,7 +1842,20 @@ permanent|קבוע|a|This marker is permanent, so be careful.|זה טוש קבו
 permit|להרשות; היתר|v|Mom will not permit me to stay up late.|אמא לא תרשה לי להישאר ער עד מאוחר.
 photocopy|צילום מסמך; לצלם מסמך|n|The teacher gave us a photocopy of the story.|המורה נתנה לנו צילום של הסיפור.
 phrase|ביטוי|n|"Good morning" is a useful phrase.|"בוקר טוב" הוא ביטוי שימושי.
-plain|פשוט, רגיל|a|I like plain rice with no sauce.|אני אוהב אורז פשוט בלי רוטב.`,
+plain|פשוט, רגיל|a|I like plain rice with no sauce.|אני אוהב אורז פשוט בלי רוטב.
+plural|רבים (בדקדוק)|n|The plural of "child" is "children".|צורת הרבים של "child" היא "children".
+politics|פוליטיקה|n|My uncle likes to talk about politics.|הדוד שלי אוהב לדבר על פוליטיקה.
+port|נמל|n|The big ship sailed into the port.|הספינה הגדולה הפליגה לתוך הנמל.
+positive|חיובי|a|Try to think in a positive way.|נסה לחשוב בצורה חיובית.
+possibly|אולי, ייתכן|d|It will possibly snow tomorrow.|ייתכן שירד שלג מחר.
+postpone|לדחות (למועד אחר)|v|We had to postpone the trip because of the rain.|נאלצנו לדחות את הטיול בגלל הגשם.
+practical|מעשי|a|A backpack is a practical gift.|תיק גב הוא מתנה מעשית.
+presence|נוכחות|n|We felt the presence of the teacher in the room.|הרגשנו את נוכחות המורה בחדר.
+previous|קודם|a|The answer is on the previous page.|התשובה נמצאת בעמוד הקודם.
+process|תהליך|n|Learning to read is a long process.|ללמוד לקרוא זה תהליך ארוך.
+profit|רווח|n|We sold lemonade and made a small profit.|מכרנו לימונדה והרווחנו רווח קטן.
+proper|נכון, מתאים|a|Wear proper shoes for the hike.|נעלו נעליים מתאימות לטיול.
+provide|לספק|v|The school will provide lunch for everyone.|בית הספר יספק ארוחת צהריים לכולם.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

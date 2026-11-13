@@ -2,26 +2,6 @@
 # Band I
 # Band II Core I
 # Band II Core II
-plural
-poet
-politics
-pop
-port
-positive
-possibly
-postpone
-pot
-power
-practical
-presence
-previous
-prince
-print
-process
-profit
-progress
-proper
-provide
 publish
 rate
 rather
