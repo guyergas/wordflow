@@ -1129,7 +1129,9 @@ sunrise|זריחה|n|We woke up early to see the sunrise.|קמנו מוקדם כ
 sunset|שקיעה|n|The sky turns orange at sunset.|השמיים נצבעים בכתום בשקיעה.
 sunshine|אור שמש|n|The cat sleeps in the sunshine.|החתול ישן באור השמש.
 tag|תווית; תופסת|n|Look at the price tag on the shirt.|תסתכל על תווית המחיר על החולצה.
-task|משימה|n|Your first task is to clean your room.|המשימה הראשונה שלך היא לנקות את החדר.`,
+task|משימה|n|Your first task is to clean your room.|המשימה הראשונה שלך היא לנקות את החדר.
+things|חפצים, דברים|n|Pack your things for the trip.|ארזו את החפצים שלכם לטיול.
+tip|טיפ, עצה; קצה|n|My teacher gave me a good tip for the test.|המורה שלי נתן לי טיפ טוב למבחן.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1599,7 +1601,11 @@ tablespoon|כף|n|Add one tablespoon of sugar to the cake.|הוסיפו כף א�
 talent|כישרון|n|She has a talent for drawing.|יש לה כישרון לציור.
 target|מטרה|n|He threw the ball and hit the target.|הוא זרק את הכדור ופגע במטרה.
 tax|מס|n|We pay tax when we buy things.|אנחנו משלמים מס כשאנחנו קונים דברים.
-temperature|טמפרטורה, חום|n|The nurse took my temperature.|האחות מדדה לי את החום.`,
+temperature|טמפרטורה, חום|n|The nurse took my temperature.|האחות מדדה לי את החום.
+terrific|נהדר, מצוין|a|We had a terrific time at the beach.|היה לנו זמן נהדר בחוף.
+thirst|צמא|n|Water is the best drink for thirst.|מים הם המשקה הטוב ביותר נגד צמא.
+thread|חוט|n|Grandma used a needle and thread to fix my shirt.|סבתא השתמשה במחט וחוט כדי לתקן את החולצה שלי.
+tissue|ממחטת נייר, טישו|n|Use a tissue when you sneeze.|השתמשו בטישו כשאתם מתעטשים.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1935,7 +1941,11 @@ surround|להקיף|v|Tall trees surround the lake.|עצים גבוהים מקי
 sympathy|חמלה, השתתפות בצער|n|We felt sympathy for the lost puppy.|הרגשנו חמלה כלפי הגור האבוד.
 technical|טכני|a|The game stopped because of a technical problem.|המשחק נעצר בגלל בעיה טכנית.
 technique|טכניקה, שיטה|n|The coach showed us a new technique for swimming.|המאמן הראה לנו טכניקה חדשה לשחייה.
-telecommunications|תקשורת, טלקומוניקציה|n|My uncle works in telecommunications.|הדוד שלי עובד בתחום התקשורת.`,
+telecommunications|תקשורת, טלקומוניקציה|n|My uncle works in telecommunications.|הדוד שלי עובד בתחום התקשורת.
+temporary|זמני|a|This is only a temporary classroom.|זאת רק כיתה זמנית.
+tense|מתוח; זמן (בדקדוק)|a|I felt tense before the big game.|הרגשתי מתוח לפני המשחק הגדול.
+term|מונח; מחצית, תקופה|n|The first term of school ends in December.|המחצית הראשונה של שנת הלימודים מסתיימת בדצמבר.
+tone|טון, נימה|n|Please speak in a calm tone.|בבקשה דברו בטון רגוע.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
