@@ -1,6 +1,6 @@
 // The whole family's study time for a day or a week, and each person's daily goals.
 import { useEffect, useState } from 'react';
-import { COURSES, CourseId, coursesFor, FAMILY_NAME, IS_PARENT, USER_ID, USERS, userKey } from './course';
+import { COURSES, CourseId, coursesFor, IS_PARENT, USER_ID, USERS, userKey } from './course';
 import { lineOf, readWins, Win } from './wins';
 import { FamilyData, pushPlan, readFamily } from './familySync';
 import { cleanSchedule, Schedule, timeLabel, weekday, weekStart } from './summary';
@@ -51,7 +51,7 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
   return (
     <div className="fam-page">
       <div className="fam-inner">
-        <div className="cs-row"><h2>מערכת{FAMILY_NAME ? ` · ${FAMILY_NAME}` : ''}</h2><button type="button" className="cs-round" aria-label="סגירה" onClick={onClose}><X /></button></div>
+        <div className="cs-row"><h2>מערכת</h2><button type="button" className="cs-round" aria-label="סגירה" onClick={onClose}><X /></button></div>
         <div className="fam-seg" role="group" aria-label="תקופה">{([['today', 'היום'], ['yesterday', 'אתמול'], ['week', 'השבוע']] as const).map(([k, t]) => <button key={k} type="button" aria-pressed={choice === k} onClick={() => setChoice(k)}>{t}</button>)}</div>
         {failed && <p className="cs-note">אין כרגע חיבור לנתוני המשפחה. נסו שוב כשיש אינטרנט.</p>}
         {!failed && !data && <p className="cs-note">טוען…</p>}
