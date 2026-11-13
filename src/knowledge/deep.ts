@@ -9,5 +9,6 @@ import { DEEP_SPORT } from './deep/sport';
 import { DEEP_HEB } from './deep/heb';
 import { DEEP_JUD } from './deep/jud';
 import { DEEP_FOOD } from './deep/food';
+import { DEEP_ECON } from './deep/econ';
 
-export const DEEP = { ...DEEP_GEO, ...DEEP_HIST, ...DEEP_SCI, ...DEEP_ART, ...DEEP_NATURE, ...DEEP_SPORT, ...DEEP_HEB, ...DEEP_JUD, ...DEEP_FOOD };
+export const DEEP = { ...DEEP_GEO, ...DEEP_HIST, ...DEEP_SCI, ...DEEP_ART, ...DEEP_NATURE, ...DEEP_SPORT, ...DEEP_HEB, ...DEEP_JUD, ...DEEP_FOOD, ...DEEP_ECON };

@@ -6,7 +6,7 @@ import { NEW_LESSONS } from '../src/knowledge/new-lessons';
 // Optional: `--course <id>` limits the answer to one course, so that one agent per course can work in parallel.
 const ci = process.argv.indexOf('--course'), ONLY = ci > 0 ? process.argv[ci + 1] : undefined;
 const mine = (id: string) => !ONLY || id.split('.')[0] === ONLY;
-const ORDER = ['geo', 'sci', 'nature', 'hist', 'art', 'sport', 'heb', 'jud', 'food'], TARGET: Record<string, number> = { geo: 75, sci: 80, hist: 95, heb: 72, jud: 80 }; // sci, hist, heb and jud are higher so that every topic in docs/new-topics.md gets a lesson
+const ORDER = ['geo', 'sci', 'nature', 'hist', 'art', 'sport', 'heb', 'jud', 'food', 'econ'], TARGET: Record<string, number> = { econ: 30, geo: 75, sci: 80, hist: 95, heb: 72, jud: 80 }; // sci, hist, heb and jud are higher so that every topic in docs/new-topics.md gets a lesson
 const targetOf = (c: string) => TARGET[c] ?? 60;
 const full = (c: string) => Object.keys(DEEP).filter((id) => id.startsWith(`${c}.`)).length + NEW_LESSONS.filter((l) => l.course === c).length;
 const counts = ORDER.map((c) => ({ c, n: full(c) }));

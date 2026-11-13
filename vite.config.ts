@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
               // Recordings stay out of the app update, so a new version arrives quickly and English devices never download them.
               globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
               // The lessons make the app larger than the default limit, and it must still work offline.
-              maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
+              maximumFileSizeToCacheInBytes: 16 * 1024 * 1024,
               navigateFallback: 'index.html',
               runtimeCaching: [
                 { urlPattern: /\/assets\/[^/]+\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'piano-samples', expiration: { maxEntries: 60 } } },

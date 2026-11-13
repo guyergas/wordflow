@@ -15,6 +15,7 @@ import { MORE_SPORT } from './more-sport';
 import { MORE_HEB } from './more-heb';
 import { MORE_JUD } from './more-jud';
 import { FOOD } from './food';
+import { ECON } from './econ';
 
 export type { Lesson, QuizQ } from './kit';
 
@@ -276,6 +277,6 @@ const FIRST: Lesson[] = [
   ], [['באיזו עיר נולד הרמב״ם?', 'קורדובה', ['קהיר', 'ירושלים', 'אלכסנדריה'], 'קורדובה.']]),
 ];
 
-const ALL: Lesson[] = [...FIRST.map((l) => ({ ...l, text: EXTRA[l.id] ? `${l.text}\n\n${EXTRA[l.id]}` : l.text })), ...MORE_GEO, ...MORE_SCI, ...MORE_NATURE, ...MORE_HIST, ...MORE_ART, ...MORE_SPORT, ...MORE_HEB, ...MORE_JUD, ...FOOD];
+const ALL: Lesson[] = [...FIRST.map((l) => ({ ...l, text: EXTRA[l.id] ? `${l.text}\n\n${EXTRA[l.id]}` : l.text })), ...MORE_GEO, ...MORE_SCI, ...MORE_NATURE, ...MORE_HIST, ...MORE_ART, ...MORE_SPORT, ...MORE_HEB, ...MORE_JUD, ...FOOD, ...ECON];
 
 export const LESSONS: Lesson[] = ALL.map((l) => (DEEP[l.id] ? { ...l, text: DEEP[l.id].text, qs: [...DEEP[l.id].qs] } : l)).concat(NEW_LESSONS, HOLOCAUST);

@@ -2,7 +2,7 @@
 // A new course only needs a line here: it then appears in the picker, the switcher and the summary.
 import { cachedMeta, peopleOf, Person, Role } from './families';
 import { familyId } from './db';
-export type CourseId = 'en' | 'th' | 'math' | 'hist' | 'geo' | 'sci' | 'art' | 'nature' | 'sport' | 'heb' | 'jud' | 'food' | 'alef' | 'tots' | 'tinyen' | 'notes';
+export type CourseId = 'en' | 'th' | 'math' | 'hist' | 'geo' | 'sci' | 'art' | 'nature' | 'sport' | 'heb' | 'jud' | 'food' | 'econ' | 'alef' | 'tots' | 'tinyen' | 'notes';
 export interface CourseInfo { id: CourseId; name: string; hello: string; note: string; storageKey: string; defaultMinutes: number; short?: string; newLabel: string; knowledge?: boolean; alef?: boolean; tots?: boolean; tinyen?: boolean; notes?: boolean }
 const K = (id: CourseId, name: string, short: string, hello: string, note: string): CourseInfo => ({ id, name, short, hello, note, storageKey: `wordflow.${id}.v1`, defaultMinutes: 0, newLabel: 'שיעורים חדשים', knowledge: true });
 export const COURSES: CourseInfo[] = [
@@ -18,6 +18,7 @@ export const COURSES: CourseInfo[] = [
   K('heb', 'שפה ועברית', 'עברית', 'א', 'שורשים, פתגמים וכללי לשון'),
   K('jud', 'יהדות ומסורת', 'יהדות', 'תנ״ך', 'חגים, מקורות והיסטוריה'),
   K('food', 'תזונה', 'תזונה', 'C', 'איך הגוף משתמש באוכל, ומדע במטבח'),
+  K('econ', 'כלכלה וכסף', 'כלכלה', '₪', 'ממסחר וכסף ועד בנקים, מניות והשקעות'),
   { id: 'alef', name: 'עברית לקטנטנים', short: 'עברית לקטנטנים', hello: 'אב', note: 'לזהות ולכתוב את האותיות, קו אחרי קו', storageKey: 'wordflow.alef.v1', defaultMinutes: 0, newLabel: 'אותיות חדשות', alef: true },
   { id: 'tots', name: 'חשבון לקטנטנים', short: 'חשבון לקטנטנים', hello: '1+1', note: 'מספרים, ספירה, חיבור וחיסור לגיל 5-6', storageKey: 'wordflow.tots.v1', defaultMinutes: 0, newLabel: 'דברים חדשים', tots: true },
   { id: 'tinyen', name: 'אנגלית לקטנטנים', short: 'אנגלית לקטנטנים', hello: 'ABC', note: 'ה־ABC: לזהות ולכתוב אותיות, עם מילים קלות', storageKey: 'wordflow.tinyen.v1', defaultMinutes: 0, newLabel: 'אותיות חדשות', tinyen: true },

@@ -11,7 +11,7 @@ const T = 20000;
 describe('lesson bank', () => {
   it('each knowledge course has lessons at every level', () => {
     const list = COURSES.filter((c) => c.knowledge);
-    expect(list).toHaveLength(9);
+    expect(list).toHaveLength(10);
     for (const c of list) { const l = lessonsOf(c.id); expect(l.length, c.id).toBeGreaterThanOrEqual(30); expect(new Set(l.map((x) => x.level)).size, c.id).toBe(3); }
   });
   it('marked sentences are balanced, and full-length lessons have several', () => {
