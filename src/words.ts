@@ -1625,7 +1625,9 @@ vehicle|כלי רכב|n|A bus is a big vehicle.|אוטובוס הוא כלי ר�
 volunteer|מתנדב; להתנדב|n|My mom is a volunteer at the hospital.|אמא שלי מתנדבת בבית החולים.
 waste|לבזבז; פסולת|v|Do not waste water.|אל תבזבזו מים.
 western|מערבי|a|We visited the western part of the country.|ביקרנו בחלק המערבי של המדינה.
-wipe|לנגב|v|Please wipe the table after lunch.|בבקשה נגבו את השולחן אחרי ארוחת הצהריים.`,
+wipe|לנגב|v|Please wipe the table after lunch.|בבקשה נגבו את השולחן אחרי ארוחת הצהריים.
+written|כתוב|a|The story is written in English.|הסיפור כתוב באנגלית.
+zone|אזור|n|This is a quiet zone in the library.|זה אזור שקט בספרייה.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1975,7 +1977,8 @@ violence|אלימות|n|Our school says no to violence.|בית הספר שלנו
 viral|ויראלי, מתפשט ברשת|a|The funny cat video went viral.|הסרטון המצחיק של החתול הפך לוויראלי.
 virtual|וירטואלי|a|We took a virtual tour of the museum.|יצאנו לסיור וירטואלי במוזיאון.
 vision|ראייה; חזון|n|The doctor checked my vision.|הרופא בדק את הראייה שלי.
-whoever|כל מי ש|o|Give the ball to whoever wants it.|תנו את הכדור לכל מי שרוצה אותו.`,
+whoever|כל מי ש|o|Give the ball to whoever wants it.|תנו את הכדור לכל מי שרוצה אותו.
+youth|נעורים; בני נוער|n|My grandfather played football in his youth.|סבא שלי שיחק כדורגל בנעוריו.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
