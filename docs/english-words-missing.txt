@@ -2,16 +2,6 @@
 # Band I
 # Band II Core I
 # Band II Core II
-suitable
-sum
-sunrise
-sunset
-sunshine
-supply
-surround
-swallow
-sympathy
-system
 tablespoon
 tag
 talent

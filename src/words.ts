@@ -1124,7 +1124,10 @@ skin|עור|n|Use sunscreen to protect your skin.|השתמשו בקרם הגנה
 solve|לפתור|v|Can you solve this riddle?|אתה יכול לפתור את החידה הזאת?
 stadium|אצטדיון|n|We watched the game at the stadium.|צפינו במשחק באצטדיון.
 stick|מקל; להדביק|n|The dog brought back the stick.|הכלב החזיר את המקל.
-stupid|טיפשי|a|I made a stupid mistake on the test.|עשיתי טעות טיפשית במבחן.`,
+stupid|טיפשי|a|I made a stupid mistake on the test.|עשיתי טעות טיפשית במבחן.
+sunrise|זריחה|n|We woke up early to see the sunrise.|קמנו מוקדם כדי לראות את הזריחה.
+sunset|שקיעה|n|The sky turns orange at sunset.|השמיים נצבעים בכתום בשקיעה.
+sunshine|אור שמש|n|The cat sleeps in the sunshine.|החתול ישן באור השמש.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1585,7 +1588,11 @@ statue|פסל|n|There is a statue of a lion in the park.|יש פסל של ארי
 studio|סטודיו, אולפן|n|The singer recorded a song in the studio.|הזמר הקליט שיר באולפן.
 stuff|דברים, חפצים|n|Put your stuff in your bag.|שימו את הדברים שלכם בתיק.
 such|כזה, כל כך|o|It was such a nice day.|זה היה יום כל כך נחמד.
-sudden|פתאומי|a|There was a sudden noise outside.|היה רעש פתאומי בחוץ.`,
+sudden|פתאומי|a|There was a sudden noise outside.|היה רעש פתאומי בחוץ.
+sum|סכום|n|The sum of two and three is five.|הסכום של שתיים ושלוש הוא חמש.
+supply|אספקה; לספק|n|We have a big supply of water for the trip.|יש לנו אספקה גדולה של מים לטיול.
+swallow|לבלוע|v|Chew your food before you swallow it.|תלעס את האוכל לפני שאתה בולע אותו.
+system|מערכת|n|Our school has a new computer system.|לבית הספר שלנו יש מערכת מחשבים חדשה.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1915,7 +1922,10 @@ somewhat|במידה מסוימת, קצת|d|The soup was somewhat salty.|המרק
 soul|נשמה|n|She sings with all her soul.|היא שרה בכל הנשמה.
 stress|לחץ, מתח|n|Exams can cause a lot of stress.|מבחנים יכולים לגרום להרבה לחץ.
 strike|שביתה; להכות|n|The workers are on strike today.|העובדים בשביתה היום.
-suffer|לסבול|v|Animals suffer in the heat.|בעלי חיים סובלים בחום.`,
+suffer|לסבול|v|Animals suffer in the heat.|בעלי חיים סובלים בחום.
+suitable|מתאים|a|This movie is suitable for children.|הסרט הזה מתאים לילדים.
+surround|להקיף|v|Tall trees surround the lake.|עצים גבוהים מקיפים את האגם.
+sympathy|חמלה, השתתפות בצער|n|We felt sympathy for the lost puppy.|הרגשנו חמלה כלפי הגור האבוד.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
