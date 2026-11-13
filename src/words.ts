@@ -1112,7 +1112,14 @@ rise|לעלות, לזרוח|v|The sun will rise at six.|השמש תזרח בשש
 roast|לצלות|v|We roast marshmallows over the fire.|אנחנו צולים מרשמלו על האש.
 rose|ורד|n|Mom got a red rose.|אמא קיבלה ורד אדום.
 royal|מלכותי|a|The king lives in a royal palace.|המלך גר בארמון מלכותי.
-rubber|גומי|n|The ball is made of rubber.|הכדור עשוי מגומי.`,
+rubber|גומי|n|The ball is made of rubber.|הכדור עשוי מגומי.
+safety|בטיחות, ביטחון|n|Wear a helmet for your safety.|חבשו קסדה למען הבטיחות שלכם.
+sail|להפליג|v|We will sail across the lake.|נפליג לרוחב האגם.
+sale|מכירה; מבצע|n|The shoes are on sale today.|הנעליים במבצע היום.
+seed|זרע|n|I planted a seed in a pot.|שתלתי זרע בעציץ.
+skill|מיומנות|n|Reading is an important skill.|קריאה היא מיומנות חשובה.
+shake|לנער; ללחוץ (יד)|v|Please shake the bottle before you drink.|בבקשה נערו את הבקבוק לפני שאתם שותים.
+shine|לזרוח, להבריק|v|The stars shine at night.|הכוכבים זורחים בלילה.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1554,7 +1561,16 @@ regular|רגיל; קבוע|a|It was a regular school day.|זה היה יום ל�
 relative|קרוב משפחה|n|My uncle is my favorite relative.|הדוד שלי הוא קרוב המשפחה האהוב עליי.
 release|לשחרר|v|We will release the bird in the garden.|נשחרר את הציפור בגינה.
 rough|מחוספס; גס|a|The tree bark feels rough.|קליפת העץ מרגישה מחוספסת.
-route|מסלול, דרך|n|We took the short route home.|הלכנו הביתה בדרך הקצרה.`,
+route|מסלול, דרך|n|We took the short route home.|הלכנו הביתה בדרך הקצרה.
+savings|חסכונות|n|I bought a bike with my savings.|קניתי אופניים מהחסכונות שלי.
+scene|סצנה; זירה|n|This is my favorite scene in the movie.|זו הסצנה האהובה עליי בסרט.
+section|חלק, מדור|n|The books for kids are in this section.|ספרי הילדים נמצאים בחלק הזה.
+series|סדרה|n|I watched a new series on TV.|צפיתי בסדרה חדשה בטלוויזיה.
+shall|פועל עזר לעתיד ולהצעה (נ..., א...)|v|What shall we play today?|מה נשחק היום?
+sharp|חד|a|Be careful, the knife is sharp.|זהירות, הסכין חדה.
+shock|הלם|n|The news was a big shock.|החדשות היו הלם גדול.
+simply|פשוט|d|You simply press the green button.|אתם פשוט לוחצים על הכפתור הירוק.
+site|אתר|n|We visited a site with old ruins.|ביקרנו באתר עם חורבות עתיקות.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1875,7 +1891,11 @@ proper|נכון, מתאים|a|Wear proper shoes for the hike.|נעלו נעלי�
 provide|לספק|v|The school will provide lunch for everyone.|בית הספר יספק ארוחת צהריים לכולם.
 reality|מציאות|n|Dreams are not the same as reality.|חלומות הם לא אותו דבר כמו המציאות.
 reception|קבלה; קליטה|n|Ask for the key at the reception desk.|בקשו את המפתח בדלפק הקבלה.
-represent|לייצג|v|She will represent our school in the contest.|היא תייצג את בית הספר שלנו בתחרות.`,
+represent|לייצג|v|She will represent our school in the contest.|היא תייצג את בית הספר שלנו בתחרות.
+security|ביטחון; אבטחה|n|The security guard checked our bags.|המאבטח בדק את התיקים שלנו.
+seek|לחפש|v|We seek a safe place to camp.|אנחנו מחפשים מקום בטוח לקמפינג.
+session|מפגש, שיעור|n|The next practice session is on Monday.|האימון הבא הוא ביום שני.
+singular|יחיד (בדקדוק)|a|The word "cat" is singular.|המילה "cat" היא בלשון יחיד.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

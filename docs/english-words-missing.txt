@@ -2,27 +2,6 @@
 # Band I
 # Band II Core I
 # Band II Core II
-safety
-sail
-sale
-savings
-scene
-section
-security
-seed
-seek
-self-service
-series
-session
-shake
-shall
-sharp
-shine
-shock
-simply
-singular
-site
-skill
 skin
 solid
 solve
