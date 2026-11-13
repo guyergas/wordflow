@@ -72,7 +72,7 @@ export function FamilyAdmin({ onChange }: { onChange?: () => void }) {
   const done = (changed: boolean) => { setEditing(null); if (changed) onChange?.(); };
   const fresh: Person = { id: '', name: '', she: true, role: 'kid', order: Math.max(-1, ...USERS.map((u) => u.order ?? 0)) + 1 };
   return (
-    <section className="fam-card fa-card">
+    <section className="st-sec fa-card">
       <h3>ניהול המשפחה</h3>
       <Invite link={inviteLink()} />
       <div className="fa-people">
@@ -99,7 +99,7 @@ export function OwnerAdmin() {
     setBusy(false);
   };
   return (
-    <section className="fam-card fa-card">
+    <section className="st-sec fa-card">
       <h3>משפחות</h3>
       <p className="cs-note">משפחה חדשה מקבלת את כל הקורסים, ומערכת והישגים משלה. ההורה הראשון מוסיף את השאר.</p>
       <label className="fa-field"><span>שם המשפחה</span><input value={name} maxLength={30} placeholder="למשל: כהן" onChange={(e) => setName(e.target.value)} /></label>

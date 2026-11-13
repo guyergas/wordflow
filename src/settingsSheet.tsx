@@ -3,10 +3,11 @@
 // Switching the person or the course happens only here.
 import { ReactNode, useState } from 'react';
 import './users.css';
+import { FamilyAdmin, OwnerAdmin } from './familyAdmin';
 import { FamilySheet } from './family';
 import { dbUrl } from './familySync';
 import { Trial, trialName, TRIALS } from './speech';
-import { COURSE_ID, COURSES, openCourses, joinCourses, leaveCourse, myCourses, signOut, switchCourse, USER_NAME } from './course';
+import { COURSE_ID, COURSES, openCourses, joinCourses, leaveCourse, myCourses, FAMILY_ID, IS_OWNER, IS_PARENT, signOut, switchCourse, USER_NAME } from './course';
 
 const Close = () => <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg>;
 export const SettingsIcon = () => <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="2" /></svg>;
@@ -42,6 +43,8 @@ export function WhoPanel() {
           {mine.length > 1 && <button type="button" className="cs-link" aria-pressed={editing} onClick={() => setEditing(!editing)}>{editing ? 'סיום' : 'עריכת הקורסים'}</button>}
         </div>
       </section>
+      {IS_PARENT && FAMILY_ID && <FamilyAdmin />}
+      {IS_OWNER && <OwnerAdmin />}
       {family && <FamilySheet onClose={() => setFamily(false)} />}
     </>
   );

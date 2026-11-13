@@ -1,7 +1,6 @@
 // The whole family's study time for a day or a week, and each person's daily goals.
 import { useEffect, useState } from 'react';
-import { COURSES, CourseId, coursesFor, FAMILY_NAME, IS_OWNER, IS_PARENT, USER_ID, USERS, userKey } from './course';
-import { FamilyAdmin, OwnerAdmin } from './familyAdmin';
+import { COURSES, CourseId, coursesFor, FAMILY_NAME, IS_PARENT, USER_ID, USERS, userKey } from './course';
 import { lineOf, readWins, Win } from './wins';
 import { FamilyData, pushPlan, readFamily } from './familySync';
 import { cleanSchedule, Schedule, timeLabel, weekday, weekStart } from './summary';
@@ -84,8 +83,6 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
             </section>
           );
         })}
-        {IS_PARENT && <FamilyAdmin onChange={() => setData(data ? { ...data } : data)} />}
-        {IS_OWNER && <OwnerAdmin />}
       </div>
     </div>
   );
