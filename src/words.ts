@@ -1507,7 +1507,17 @@ link|קישור; חוליה|n|Click the link to see the video.|לחץ על הק�
 loss|הפסד; אובדן|n|After the loss, the team was sad.|אחרי ההפסד, הקבוצה הייתה עצובה.
 male|זכר|a|The male lion has a big mane.|לאריה הזכר יש רעמה גדולה.
 marathon|מרתון|n|My dad ran a marathon last year.|אבא שלי רץ מרתון בשנה שעברה.
-mathematics|מתמטיקה|n|Mathematics is my favorite subject.|מתמטיקה היא המקצוע האהוב עליי.`,
+mathematics|מתמטיקה|n|Mathematics is my favorite subject.|מתמטיקה היא המקצוע האהוב עליי.
+metal|מתכת|n|The spoon is made of metal.|הכף עשויה ממתכת.
+meter|מטר|n|The little pool is one meter deep.|הבריכה הקטנה בעומק מטר אחד.
+might|אולי, עשוי ל|o|It might rain this afternoon.|אולי ירד גשם אחר הצהריים.
+mile|מייל (מידת אורך)|n|We walked one mile to the park.|הלכנו מייל אחד עד הפארק.
+missing|חסר, נעדר|a|One of my socks is missing.|אחד הגרביים שלי חסר.
+motor|מנוע|n|The boat has a small motor.|לסירה יש מנוע קטן.
+neighborhood|שכונה|n|There is a new park in our neighborhood.|יש פארק חדש בשכונה שלנו.
+nowhere|בשום מקום|d|My cat is nowhere to be found.|את החתול שלי אי אפשר למצוא בשום מקום.
+obey|לציית|v|The dog learned to obey its owner.|הכלב למד לציית לבעלים שלו.
+odd|מוזר; אי-זוגי|a|Three is an odd number.|שלוש הוא מספר אי-זוגי.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1795,7 +1805,17 @@ major|עיקרי, חשוב|a|Water is a major problem in the desert.|מים הם
 master|אדון, בעלים; מומחה|n|The dog waited for its master.|הכלב חיכה לבעלים שלו.
 material|חומר|n|Cotton is a soft material.|כותנה היא חומר רך.
 matter|להיות חשוב; עניין|v|It does not matter who wins.|לא משנה מי מנצח.
-meanwhile|בינתיים|d|Mom cooked dinner. Meanwhile, I set the table.|אמא בישלה ארוחת ערב. בינתיים, ערכתי את השולחן.`,
+meanwhile|בינתיים|d|Mom cooked dinner. Meanwhile, I set the table.|אמא בישלה ארוחת ערב. בינתיים, ערכתי את השולחן.
+minor|קטן, משני|a|It was only a minor mistake.|זו הייתה רק טעות קטנה.
+myth|מיתוס, אגדה|n|We read an old Greek myth in class.|קראנו בכיתה מיתוס יווני עתיק.
+network|רשת|n|The school has a computer network.|לבית הספר יש רשת מחשבים.
+nor|וגם לא|o|I like neither tea nor coffee.|אני לא אוהב תה וגם לא קפה.
+northern|צפוני|a|It snows in the northern part of the country.|יורד שלג בחלק הצפוני של הארץ.
+nowadays|בימינו|d|Nowadays, many kids have phones.|בימינו להרבה ילדים יש טלפונים.
+nuclear|גרעיני|a|A nuclear power plant makes electricity.|תחנת כוח גרעינית מייצרת חשמל.
+occasion|הזדמנות, אירוע|n|A birthday is a special occasion.|יום הולדת הוא אירוע מיוחד.
+opera|אופרה|n|We went to the opera with Grandma.|הלכנו לאופרה עם סבתא.
+oppose|להתנגד|v|Many parents oppose the new rule.|הורים רבים מתנגדים לכלל החדש.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.

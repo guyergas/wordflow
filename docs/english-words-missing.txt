@@ -2,26 +2,6 @@
 # Band I
 # Band II Core I
 # Band II Core II
-metal
-meter
-might
-mile
-minor
-missing
-motor
-myth
-neighborhood
-network
-nor
-northern
-nowadays
-nowhere
-nuclear
-obey
-occasion
-odd
-opera
-oppose
 originally
 outdoors
 oven
