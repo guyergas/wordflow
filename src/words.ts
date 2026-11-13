@@ -1136,7 +1136,8 @@ tool|כלי|n|Dad keeps every tool in a red box.|אבא שומר כל כלי ב�
 tunnel|מנהרה|n|The train went through a long tunnel.|הרכבת עברה דרך מנהרה ארוכה.
 turkey|תרנגול הודו|n|We saw a turkey on the farm.|ראינו תרנגול הודו בחווה.
 unkind|לא נחמד, אכזרי|a|It is unkind to laugh at others.|זה לא נחמד לצחוק על אחרים.
-upset|נסער, עצוב|a|She was upset when she lost her ball.|היא הייתה עצובה כשאיבדה את הכדור שלה.`,
+upset|נסער, עצוב|a|She was upset when she lost her ball.|היא הייתה עצובה כשאיבדה את הכדור שלה.
+wedding|חתונה|n|We danced at my cousin's wedding.|רקדנו בחתונה של בן הדוד שלי.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1620,7 +1621,11 @@ unimportant|לא חשוב|a|Do not worry about unimportant things.|אל תדאג
 update|לעדכן; עדכון|v|I need to update the game on my phone.|אני צריך לעדכן את המשחק בטלפון שלי.
 upper|עליון|a|My room is on the upper floor.|החדר שלי נמצא בקומה העליונה.
 vegetarian|צמחוני|a|My sister eats only vegetarian food.|אחותי אוכלת רק אוכל צמחוני.
-vehicle|כלי רכב|n|A bus is a big vehicle.|אוטובוס הוא כלי רכב גדול.`,
+vehicle|כלי רכב|n|A bus is a big vehicle.|אוטובוס הוא כלי רכב גדול.
+volunteer|מתנדב; להתנדב|n|My mom is a volunteer at the hospital.|אמא שלי מתנדבת בבית החולים.
+waste|לבזבז; פסולת|v|Do not waste water.|אל תבזבזו מים.
+western|מערבי|a|We visited the western part of the country.|ביקרנו בחלק המערבי של המדינה.
+wipe|לנגב|v|Please wipe the table after lunch.|בבקשה נגבו את השולחן אחרי ארוחת הצהריים.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1965,7 +1970,12 @@ trial|משפט; ניסיון|n|The thief went on trial in court.|הגנב עמד
 typical|טיפוסי, אופייני|a|Rain is typical for winter here.|גשם אופייני לחורף כאן.
 victory|ניצחון|n|The team celebrated their victory.|הקבוצה חגגה את הניצחון שלה.
 value|ערך|n|This old coin has a high value.|למטבע הישן הזה יש ערך גבוה.
-various|שונים, מגוונים|a|The shop sells various kinds of fruit.|החנות מוכרת סוגים שונים של פירות.`,
+various|שונים, מגוונים|a|The shop sells various kinds of fruit.|החנות מוכרת סוגים שונים של פירות.
+violence|אלימות|n|Our school says no to violence.|בית הספר שלנו אומר לא לאלימות.
+viral|ויראלי, מתפשט ברשת|a|The funny cat video went viral.|הסרטון המצחיק של החתול הפך לוויראלי.
+virtual|וירטואלי|a|We took a virtual tour of the museum.|יצאנו לסיור וירטואלי במוזיאון.
+vision|ראייה; חזון|n|The doctor checked my vision.|הרופא בדק את הראייה שלי.
+whoever|כל מי ש|o|Give the ball to whoever wants it.|תנו את הכדור לכל מי שרוצה אותו.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
