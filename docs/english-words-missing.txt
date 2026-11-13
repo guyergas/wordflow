@@ -2,26 +2,6 @@
 # Band I
 # Band II Core I
 # Band II Core II
-publish
-rate
-rather
-reality
-reception
-recover
-refuse
-regular
-relative
-release
-report
-represent
-reward
-rise
-roast
-rose
-rough
-route
-royal
-rubber
 safety
 sail
 sale

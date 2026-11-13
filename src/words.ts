@@ -1105,7 +1105,14 @@ pan|מחבת|n|Dad fried eggs in a pan.|אבא טיגן ביצים במחבת.
 pants|מכנסיים|n|I wore my blue pants to school.|לבשתי את המכנסיים הכחולים שלי לבית הספר.
 pie|פשטידה, פאי|n|Grandma baked an apple pie.|סבתא אפתה פאי תפוחים.
 pot|סיר; עציץ|n|Dad cooked soup in a big pot.|אבא בישל מרק בסיר גדול.
-prince|נסיך|n|The prince lived in a big castle.|הנסיך גר בטירה גדולה.`,
+prince|נסיך|n|The prince lived in a big castle.|הנסיך גר בטירה גדולה.
+report|דוח, דיווח|n|I wrote a report about bees.|כתבתי דוח על דבורים.
+reward|פרס, גמול|n|The dog got a treat as a reward.|הכלב קיבל חטיף כפרס.
+rise|לעלות, לזרוח|v|The sun will rise at six.|השמש תזרח בשש.
+roast|לצלות|v|We roast marshmallows over the fire.|אנחנו צולים מרשמלו על האש.
+rose|ורד|n|Mom got a red rose.|אמא קיבלה ורד אדום.
+royal|מלכותי|a|The king lives in a royal palace.|המלך גר בארמון מלכותי.
+rubber|גומי|n|The ball is made of rubber.|הכדור עשוי מגומי.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1537,7 +1544,17 @@ poet|משורר|n|The poet read us a poem about the sea.|המשורר הקריא
 pop|להתפוצץ (בפיצוץ קטן); פופ|v|Don't pop my balloon!|אל תפוצץ לי את הבלון!
 power|כוח; חשמל|n|The storm cut off the power.|הסערה גרמה להפסקת חשמל.
 print|להדפיס|v|Can you print this page for me?|אתה יכול להדפיס לי את הדף הזה?
-progress|התקדמות|n|You made great progress in math this year.|התקדמת מאוד במתמטיקה השנה.`,
+progress|התקדמות|n|You made great progress in math this year.|התקדמת מאוד במתמטיקה השנה.
+publish|לפרסם|v|They will publish her book next year.|הם יפרסמו את הספר שלה בשנה הבאה.
+rate|לדרג; קצב|v|Please rate the movie from one to five.|בבקשה דרגו את הסרט מאחת עד חמש.
+rather|די; דווקא|d|The test was rather easy.|המבחן היה די קל.
+recover|להחלים|v|I hope you recover quickly.|אני מקווה שתחלים מהר.
+refuse|לסרב|v|I refuse to eat cold soup.|אני מסרב לאכול מרק קר.
+regular|רגיל; קבוע|a|It was a regular school day.|זה היה יום לימודים רגיל.
+relative|קרוב משפחה|n|My uncle is my favorite relative.|הדוד שלי הוא קרוב המשפחה האהוב עליי.
+release|לשחרר|v|We will release the bird in the garden.|נשחרר את הציפור בגינה.
+rough|מחוספס; גס|a|The tree bark feels rough.|קליפת העץ מרגישה מחוספסת.
+route|מסלול, דרך|n|We took the short route home.|הלכנו הביתה בדרך הקצרה.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1855,7 +1872,10 @@ previous|קודם|a|The answer is on the previous page.|התשובה נמצאת 
 process|תהליך|n|Learning to read is a long process.|ללמוד לקרוא זה תהליך ארוך.
 profit|רווח|n|We sold lemonade and made a small profit.|מכרנו לימונדה והרווחנו רווח קטן.
 proper|נכון, מתאים|a|Wear proper shoes for the hike.|נעלו נעליים מתאימות לטיול.
-provide|לספק|v|The school will provide lunch for everyone.|בית הספר יספק ארוחת צהריים לכולם.`,
+provide|לספק|v|The school will provide lunch for everyone.|בית הספר יספק ארוחת צהריים לכולם.
+reality|מציאות|n|Dreams are not the same as reality.|חלומות הם לא אותו דבר כמו המציאות.
+reception|קבלה; קליטה|n|Ask for the key at the reception desk.|בקשו את המפתח בדלפק הקבלה.
+represent|לייצג|v|She will represent our school in the contest.|היא תייצג את בית הספר שלנו בתחרות.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
