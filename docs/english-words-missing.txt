@@ -2,16 +2,6 @@
 # Band I
 # Band II Core I
 # Band II Core II
-tool
-track
-trial
-tunnel
-turkey
-tweet
-typical
-underground
-underline
-unfriendly
 unimportant
 unkind
 update

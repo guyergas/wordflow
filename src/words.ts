@@ -1131,7 +1131,10 @@ sunshine|אור שמש|n|The cat sleeps in the sunshine.|החתול ישן בא�
 tag|תווית; תופסת|n|Look at the price tag on the shirt.|תסתכל על תווית המחיר על החולצה.
 task|משימה|n|Your first task is to clean your room.|המשימה הראשונה שלך היא לנקות את החדר.
 things|חפצים, דברים|n|Pack your things for the trip.|ארזו את החפצים שלכם לטיול.
-tip|טיפ, עצה; קצה|n|My teacher gave me a good tip for the test.|המורה שלי נתן לי טיפ טוב למבחן.`,
+tip|טיפ, עצה; קצה|n|My teacher gave me a good tip for the test.|המורה שלי נתן לי טיפ טוב למבחן.
+tool|כלי|n|Dad keeps every tool in a red box.|אבא שומר כל כלי בארגז אדום.
+tunnel|מנהרה|n|The train went through a long tunnel.|הרכבת עברה דרך מנהרה ארוכה.
+turkey|תרנגול הודו|n|We saw a turkey on the farm.|ראינו תרנגול הודו בחווה.`,
 `feeling|הרגשה|n|I had a strange feeling.|הייתה לי הרגשה מוזרה.
 angry|כועס|a|She was angry at her brother.|היא כעסה על אחיה.
 afraid|מפחד|a|He is afraid of spiders.|הוא מפחד מעכבישים.
@@ -1605,7 +1608,12 @@ temperature|טמפרטורה, חום|n|The nurse took my temperature.|האחות
 terrific|נהדר, מצוין|a|We had a terrific time at the beach.|היה לנו זמן נהדר בחוף.
 thirst|צמא|n|Water is the best drink for thirst.|מים הם המשקה הטוב ביותר נגד צמא.
 thread|חוט|n|Grandma used a needle and thread to fix my shirt.|סבתא השתמשה במחט וחוט כדי לתקן את החולצה שלי.
-tissue|ממחטת נייר, טישו|n|Use a tissue when you sneeze.|השתמשו בטישו כשאתם מתעטשים.`,
+tissue|ממחטת נייר, טישו|n|Use a tissue when you sneeze.|השתמשו בטישו כשאתם מתעטשים.
+track|מסלול; מסילה|n|The runners ran around the track.|הרצים רצו סביב המסלול.
+tweet|לצייץ; ציוץ|v|The little birds tweet in the morning.|הציפורים הקטנות מצייצות בבוקר.
+underground|תת-קרקעי, מתחת לאדמה|a|Moles live in underground tunnels.|חפרפרות חיות במנהרות מתחת לאדמה.
+underline|למתוח קו מתחת|v|Please underline the new words.|בבקשה מתחו קו מתחת למילים החדשות.
+unfriendly|לא ידידותי|a|The new dog was unfriendly at first.|הכלב החדש לא היה ידידותי בהתחלה.`,
 `journey|מסע|n|The journey took two days.|המסע נמשך יומיים.
 passport|דרכון|n|Don't lose your passport.|אל תאבד את הדרכון שלך.
 luggage|מזוודות|n|Our luggage is at the airport.|המזוודות שלנו בשדה התעופה.
@@ -1945,7 +1953,9 @@ telecommunications|תקשורת, טלקומוניקציה|n|My uncle works in te
 temporary|זמני|a|This is only a temporary classroom.|זאת רק כיתה זמנית.
 tense|מתוח; זמן (בדקדוק)|a|I felt tense before the big game.|הרגשתי מתוח לפני המשחק הגדול.
 term|מונח; מחצית, תקופה|n|The first term of school ends in December.|המחצית הראשונה של שנת הלימודים מסתיימת בדצמבר.
-tone|טון, נימה|n|Please speak in a calm tone.|בבקשה דברו בטון רגוע.`,
+tone|טון, נימה|n|Please speak in a calm tone.|בבקשה דברו בטון רגוע.
+trial|משפט; ניסיון|n|The thief went on trial in court.|הגנב עמד למשפט בבית המשפט.
+typical|טיפוסי, אופייני|a|Rain is typical for winter here.|גשם אופייני לחורף כאן.`,
 `knight|אביר|n|The knight rode a white horse.|האביר רכב על סוס לבן.
 castle|טירה|n|The king lives in a castle.|המלך גר בטירה.
 sword|חרב|n|He pulled out his sword.|הוא שלף את החרב שלו.
