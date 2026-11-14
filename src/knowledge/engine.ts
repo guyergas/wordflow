@@ -73,9 +73,12 @@ export function finishReview(st: KState, step: Step, ok: number, all: number, to
   return st;
 }
 
-/** A lesson is passed on two thirds of first-try answers. Otherwise it returns tomorrow, without any label of failure. */
+/** A lesson is passed on two thirds of first-try answers. Otherwise it returns tomorrow, and its closing screen says why. */
+export const passes = (ok: number, all: number) => all === 0 || ok / all >= PASS;
+/** How many first-try answers a lesson of `all` questions needs. */
+export const needed = (all: number) => Math.ceil(all * PASS - 1e-9);
 export function finishLesson(st: KState, id: string, ok: number, all: number, today: number): KState {
-  const first = !st.lessons[id], pass = all === 0 || ok / all >= PASS, log = dayLog(st, today);
+  const first = !st.lessons[id], pass = passes(ok, all), log = dayLog(st, today);
   const keys = { ...st.keys };
   LESSON[id].keys.forEach((_, i) => { const k = `${id}#${i}`; keys[k] ??= { box: 0, due: today + 1, flag: false, ok: 0, no: 0, last: -1 }; });
   return { ...st, keys, lessons: { ...st.lessons, [id]: { done: st.lessons[id]?.done ?? today, pass, ok, all, due: today + 1 } }, days: { ...st.days, [today]: { ...log, fresh: log.fresh + (first ? 1 : 0), ok: log.ok + ok, no: log.no + (all - ok) } } };
@@ -97,4 +100,4 @@ export function advance(st: KState): KState {
 }
 export const addTime = (st: KState, day: number, sec: number): KState => { const log = dayLog(st, day); return { ...st, days: { ...st.days, [day]: { ...log, sec: (log.sec ?? 0) + sec } } }; };
 export const isSolid = (st: KState, l: Lesson) => !!st.lessons[l.id]?.pass && l.keys.every((_, i) => (st.keys[`${l.id}#${i}`]?.box ?? 0) >= SOLID);
-export const statusOf = (st: KState, l: Lesson) => { const s = st.lessons[l.id]; if (!s) return 'מחכה לך'; if (!s.pass) return 'חוזר מחר'; return isSolid(st, l) ? 'מבוסס' : 'בחזרה'; };
+export const statusOf = (st: KState, l: Lesson) => { const s = st.lessons[l.id]; if (!s) return 'מחכה לך'; if (!s.pass) return s.due <= dayNumber() ? 'חוזר היום' : 'חוזר מחר'; return isSolid(st, l) ? 'מבוסס' : 'בחזרה'; };

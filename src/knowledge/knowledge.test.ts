@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { COURSES } from '../course';
-import { answerKey, buildPlan, dayLog, finishLesson, finishReview, initial, isSolid, lessonsOf, LESSON, pickQs } from './engine';
+import { answerKey, buildPlan, dayLog, finishLesson, finishReview, initial, isSolid, lessonsOf, LESSON, needed, passes, pickQs } from './engine';
 import { DEEP } from './deep';
 import { NEW_LESSONS } from './new-lessons';
 import { shortParagraphs } from './kit';
@@ -48,6 +48,11 @@ describe('lesson bank', () => {
   });
 });
 describe('learning rules', () => {
+  it('the number of first-try answers shown as needed is exactly the number that passes', () => {
+    for (let all = 1; all <= 30; all++) { const n = needed(all); expect(passes(n, all)).toBe(true); expect(passes(n - 1, all)).toBe(false); }
+    expect(needed(19)).toBe(13);
+  });
+
   const id = lessonsOf('geo')[0].id;
   it('a day has one topic, and no spaced review on the first day', () => {
     const p = buildPlan(initial(), T, {}, 'geo');

@@ -9,7 +9,7 @@ import { pushWin } from '../wins';
 import { sfx } from '../platform';
 import { readCourses } from '../summary';
 import { SummaryTab, TodayPlan } from '../summaryUi';
-import { addTime, advance, answerKey, buildPlan, dayLog, dayNumber, finishLesson, finishReview, initial, keyOf, KState, LESSON, lessonsOf, nextLesson, pickQs, recallCount, statusOf, Step } from './engine';
+import { addTime, advance, answerKey, buildPlan, dayLog, dayNumber, finishLesson, finishReview, initial, keyOf, KState, LESSON, lessonsOf, needed, nextLesson, passes, pickQs, recallCount, statusOf, Step } from './engine';
 import { Lesson, QuizQ } from './lessons';
 
 type Update = (fn: (s: KState) => KState) => void;
@@ -86,7 +86,7 @@ function Home({ st, today, onStart, onSettings }: { st: KState; today: number; o
   const preview = useMemo(() => open ?? buildPlan(st, today, { rnd: () => 0.5 }), [open?.at, st.lessons, st.keys, today]);
   const all = lessonsOf(), done = all.filter((l) => st.lessons[l.id]).length, log = dayLog(st, today), next = nextLesson(st);
   const fresh = preview.steps.filter((x) => x.t === 'lesson').length, keys = preview.steps.filter((x) => x.t === 'key').length;
-  const firstLesson = preview.steps.find((x) => x.t === 'lesson'), review = preview.steps.some((x) => x.t === 'review'), recall = preview.steps.some((x) => x.t === 'recall');
+  const firstLesson = preview.steps.find((x) => x.t === 'lesson'), again = firstLesson?.t === 'lesson' && !!st.lessons[firstLesson.id], review = preview.steps.some((x) => x.t === 'review'), recall = preview.steps.some((x) => x.t === 'recall');
   return (
     <>
       <TopBar onSettings={onSettings} />
@@ -101,9 +101,10 @@ function Home({ st, today, onStart, onSettings }: { st: KState; today: number; o
           </>
         ) : (
           <>
-            <span className="chip-d">{open && open.at > 0 ? g('ממשיכות מאיפה שעצרת', 'ממשיכים מאיפה שעצרת') : 'האימון של היום'}</span>
+            <span className="chip-d">{open && open.at > 0 ? g('ממשיכות מאיפה שעצרת', 'ממשיכים מאיפה שעצרת') : again ? 'חוזרים על השיעור' : 'האימון של היום'}</span>
             <h2>{review ? 'שיעור חזרה' : firstLesson && firstLesson.t === 'lesson' ? LESSON[firstLesson.id].title : 'חזרה קצרה על מה שלמדת'}</h2>
-            <p>{review ? 'בלי נושא חדש היום: כל השאלות של חמשת השיעורים האחרונים.' : [recall ? 'מה זוכרים מהשיעור הקודם' : '', fresh > 0 ? 'נושא אחד' : '', keys > 0 ? `${keys} שאלות חזרה` : ''].filter(Boolean).join(', ')}</p>
+            <p>{review ? 'בלי נושא חדש היום: כל השאלות של חמשת השיעורים האחרונים.' : [recall ? 'מה זוכרים מהשיעור הקודם' : '', fresh > 0 && !again ? 'נושא אחד' : '', keys > 0 ? `${keys} שאלות חזרה` : ''].filter(Boolean).join(', ')}</p>
+            {again && firstLesson?.t === 'lesson' && (() => { const s = st.lessons[firstLesson.id], all = LESSON[firstLesson.id].qs.length; return <p className="k-again-note">עוד לא עברת את השיעור הזה, ולכן חוזרים עליו. כדי לעבור לנושא הבא צריך {needed(all)} תשובות נכונות מתוך {all} בניסיון הראשון. בפעם הקודמת: {s.ok}.</p>; })()}
             <button type="button" className="cta-d" onClick={() => onStart()}>{open && open.at > 0 ? 'להמשיך' : 'להתחיל'}</button>
           </>
         )}
@@ -258,6 +259,7 @@ function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boo
     <div className="q">
       <span className="m-chip-hi center">מה לקחת מכאן</span>
       <p className="k-idea">{lesson.idea}</p>
+      {!passes(score.current, lesson.qs.length) && <div className="feedback soft k-again" role="status"><b>כל הכבוד על השיעור!</b><span>ענית נכון בניסיון הראשון על {score.current} מתוך {lesson.qs.length} שאלות. כדי לעבור לנושא הבא צריך {needed(lesson.qs.length)}, ולכן השיעור יחזור מחר כדי לחזק אותו. בפעם הבאה כדאי לקרוא לאט ולחפש את התשובה בקטע לפני שעונים.</span></div>}
       <section className="card"><h3>שלושה דברים לזכור</h3><ul className="k-sum">{summaryOf(lesson).map((x) => <li key={x}>{x}</li>)}</ul></section>
       {wiki && <a className="link center-block" href={`https://he.wikipedia.org/wiki/${encodeURIComponent(lesson.wiki.replace(/ /g, '_'))}`} target="_blank" rel="noreferrer">רוצה לדעת עוד? בוויקיפדיה</a>}
       <ReportProblem lesson={lesson} />

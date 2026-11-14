@@ -823,3 +823,6 @@ html.a-lock .a-finish { height: 100dvh; min-height: 0; overflow: hidden; }
 .lw-finish { align-items: center; text-align: center; }
 .lw-opt { width: 100%; font: 700 clamp(36px, 11vw, 52px)/1.1 var(--font-ui); color: var(--ink); }
 .lw-opt[dir="ltr"] { font-family: var(--font-en); font-weight: 600; }
+
+.k-again-note { font-size: 15px; line-height: 1.5; opacity: .9; margin-block: 4px 8px; }
+.k-again { margin-block: 8px; }
