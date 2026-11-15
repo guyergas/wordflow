@@ -60,7 +60,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     metaphor`),
   jud: list(`
     tanakh bible-order creation eden-cain noah-babel abraham jacob-esau joseph moses jethro ten-commandments mishkan-calf spies korah copper-snake
-    joshua deborah-gideon deborah samson ruth david solomon-split elijah-elisha psalms
+    joshua deborah-gideon deborah samson ruth samuel-saul david solomon-split elijah-elisha psalms
     shabbat synagogue kashrut tzedakah batmitzvah highdays sukkot hanukkah tubishvat purim pesach shavuot
     kedoshim devarim judges samuel2 esther calendar temple tishabeav tu-beav hillel yavne pirkei-avot talmud love-neighbor
     rashi spain piyut hasidism communities betaisrael prayer-streams
