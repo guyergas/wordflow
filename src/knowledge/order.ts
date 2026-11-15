@@ -52,7 +52,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     muscle physics munich politics fans-racism esports`),
   heb: list(`
     pos agreement numbers ordinal-numbers tenses future root
-    subject-predicate subject-agreement simple-compound prepositions possession definite-article adjective-adverbial binyanim-intro
+    subject-predicate subject-agreement simple-compound connectives prepositions possession definite-article adjective-adverbial binyanim-intro
     punctuation spelling synonyms homonyms general-specific context slang acronyms names bodyidioms biblical proverb nikud
     text-types info-texts mainidea between-lines writer-stance audience paragraph open-answer email
     benyehuda academy alefbet ktiv loanwords aramaic arabic
@@ -78,6 +78,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
 export const AFTER: [string, string][] = [
   ['heb.prepositions', 'heb.possession'], ['heb.possession', 'heb.definite-article'], ['heb.definite-article', 'heb.adjective-adverbial'],
   ['heb.subject-predicate', 'heb.subject-agreement'], ['heb.subject-agreement', 'heb.adjective-adverbial'], ['heb.active-passive', 'heb.active-to-passive'],
+  ['heb.simple-compound', 'heb.connectives'],
   ['geo.nile', 'geo.egypt-today'], ['jud.david', 'jud.samuel2'], ['food.carbs', 'food.taste'], ['sport.robinson', 'sport.baseball'],
   ['sci.energy-forms', 'sci.home-energy'], ['sci.heat-conductors', 'sci.home-energy'], ['sci.photosynthesis', 'sci.breathing'],
   ['econ.work', 'econ.taxes'], ['econ.taxes', 'econ.business'], ['econ.account', 'econ.cards'], ['econ.funds', 'econ.etf'],
