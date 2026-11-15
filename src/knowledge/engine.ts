@@ -6,7 +6,7 @@ import { Lesson, LESSONS, QuizQ } from './lessons';
 export interface Metric { box: number; due: number; flag: boolean; ok: number; no: number; last: number }
 export interface LessonState { done: number; pass: boolean; ok: number; all: number; due: number; recalled?: boolean }
 export type Step = { t: 'key'; id: string } | { t: 'lesson'; id: string } | { t: 'recall'; id: string } | { t: 'review'; ids: string[]; n: number };
-export interface Plan { day: number; steps: Step[]; at: number; bonus?: boolean; extra?: boolean }
+export interface Plan { day: number; steps: Step[]; at: number; bonus?: boolean; extra?: boolean; practice?: boolean; seed?: number }
 export interface DayLog { fresh: number; ok: number; no: number; done: boolean; sec?: number }
 export interface KState { v: 1; name: string; onboarded: boolean; lessons: Record<string, LessonState>; keys: Record<string, Metric>; days: Record<string, DayLog>; plan: Plan | null; reviews?: number[]; settings: { sound: boolean; wiki: boolean } }
 
@@ -60,11 +60,14 @@ export function reviewDue(st: KState, today: number, c: CourseId = COURSE_ID): S
   return { t: 'review', ids: list.slice(n - REVIEW_EVERY, n).map((l) => l.id), n };
 }
 /** Picks questions from a lesson for a recall or a review, in a fixed order for the day so returning to it does not reshuffle. */
-export function pickQs(id: string, count: number, seed: number): [string, number][] {
+export function pickQs(id: string, count: number, seed: number, mixed = false): [string, number][] {
   const qs = LESSON[id].qs.map((_, i) => i);
   let x = seed % 2147483647 || 1; const r = () => (x = (x * 48271) % 2147483647) / 2147483647;
-  return shuffle(qs, r).slice(0, count).sort((a, b) => a - b).map((i) => [id, i]);
+  const pick = shuffle(qs, r).slice(0, count);
+  return (mixed ? pick : pick.sort((a, b) => a - b)).map((i) => [id, i]);
 }
+/** Practice on one lesson she chose: a share of its questions in random order. It does not change the lesson's progress. */
+export const practicePlan = (id: string, today: number, seed = Math.floor(Math.random() * 1e9)): Plan => ({ day: today, steps: [{ t: 'recall', id }], at: 0, extra: true, practice: true, seed });
 /** Marks a recall or a review as done and counts its first-try answers in the day's log. */
 export function finishReview(st: KState, step: Step, ok: number, all: number, today: number): KState {
   const log = dayLog(st, today), days = { ...st.days, [today]: { ...log, ok: log.ok + ok, no: log.no + all - ok } };
@@ -73,7 +76,7 @@ export function finishReview(st: KState, step: Step, ok: number, all: number, to
   return st;
 }
 
-/** A lesson is passed on two thirds of first-try answers. Otherwise it returns tomorrow, and its closing screen says why. */
+/** A lesson is passed on two thirds of first-try answers. Otherwise it can be tried again right away, as many times as needed. */
 export const passes = (ok: number, all: number) => all === 0 || ok / all >= PASS;
 /** How many first-try answers a lesson of `all` questions needs. */
 export const needed = (all: number) => Math.ceil(all * PASS - 1e-9);
@@ -81,7 +84,7 @@ export function finishLesson(st: KState, id: string, ok: number, all: number, to
   const first = !st.lessons[id], pass = passes(ok, all), log = dayLog(st, today);
   const keys = { ...st.keys };
   LESSON[id].keys.forEach((_, i) => { const k = `${id}#${i}`; keys[k] ??= { box: 0, due: today + 1, flag: false, ok: 0, no: 0, last: -1 }; });
-  return { ...st, keys, lessons: { ...st.lessons, [id]: { done: st.lessons[id]?.done ?? today, pass, ok, all, due: today + 1 } }, days: { ...st.days, [today]: { ...log, fresh: log.fresh + (first ? 1 : 0), ok: log.ok + ok, no: log.no + (all - ok) } } };
+  return { ...st, keys, lessons: { ...st.lessons, [id]: { done: st.lessons[id]?.done ?? today, pass, ok, all, due: pass ? today + 1 : today } }, days: { ...st.days, [today]: { ...log, fresh: log.fresh + (first ? 1 : 0), ok: log.ok + ok, no: log.no + (all - ok) } } };
 }
 
 export function answerKey(st: KState, id: string, correct: boolean, today: number): KState {

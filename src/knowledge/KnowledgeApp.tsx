@@ -9,7 +9,7 @@ import { pushWin } from '../wins';
 import { sfx } from '../platform';
 import { readCourses } from '../summary';
 import { SummaryTab, TodayPlan } from '../summaryUi';
-import { addTime, advance, answerKey, buildPlan, dayLog, dayNumber, finishLesson, finishReview, initial, keyOf, KState, LESSON, lessonsOf, needed, nextLesson, passes, pickQs, recallCount, statusOf, Step } from './engine';
+import { addTime, advance, answerKey, buildPlan, dayLog, dayNumber, finishLesson, finishReview, initial, keyOf, KState, LESSON, lessonsOf, needed, nextLesson, passes, pickQs, practicePlan, recallCount, statusOf, Step } from './engine';
 import { Lesson, QuizQ } from './lessons';
 
 type Update = (fn: (s: KState) => KState) => void;
@@ -52,12 +52,13 @@ export function KnowledgeApp() {
     update((s) => { const open = !!s.plan && s.plan.day === today && s.plan.at < s.plan.steps.length; return open && !o.bonus && !o.extra ? s : { ...s, plan: buildPlan(s, today, o) }; });
     setInSession(true);
   };
+  const practice = (id: string) => { update((s) => ({ ...s, plan: practicePlan(id, today) })); setInSession(true); };
   if (!st.onboarded) return <Hello st={st} update={update} />;
   if (inSession && st.plan) return <Session st={st} update={update} onExit={() => setInSession(false)} onMore={start} />;
   return (
     <div className="app">
       <main className="page">
-        {tab === 'home' ? <Home st={st} today={today} onStart={start} onSettings={() => setSettings(true)} /> : <Path st={st} />}
+        {tab === 'home' ? <Home st={st} today={today} onStart={start} onSettings={() => setSettings(true)} /> : <Path st={st} onPick={practice} onStart={() => start()} />}
       </main>
       <nav className="nav" aria-label="ניווט">
         {([['home', 'בית'], ['path', 'המסע']] as const).map(([k, t]) => <button key={k} type="button" className={tab === k ? 'on' : ''} aria-current={tab === k ? 'page' : undefined} onClick={() => setTab(k)}>{t}</button>)}
@@ -82,7 +83,7 @@ function Hello({ st, update }: { st: KState; update: Update }) {
 }
 
 function Home({ st, today, onStart, onSettings }: { st: KState; today: number; onStart: (o?: { bonus?: boolean; extra?: boolean }) => void; onSettings: () => void }) {
-  const open = st.plan && st.plan.day === today && st.plan.at < st.plan.steps.length && !st.plan.extra ? st.plan : null;
+  const open = st.plan && st.plan.day === today && st.plan.at < st.plan.steps.length && !st.plan.extra && !st.plan.practice ? st.plan : null;
   const preview = useMemo(() => open ?? buildPlan(st, today, { rnd: () => 0.5 }), [open?.at, st.lessons, st.keys, today]);
   const all = lessonsOf(), done = all.filter((l) => st.lessons[l.id]).length, log = dayLog(st, today), next = nextLesson(st);
   const fresh = preview.steps.filter((x) => x.t === 'lesson').length, keys = preview.steps.filter((x) => x.t === 'key').length;
@@ -92,20 +93,20 @@ function Home({ st, today, onStart, onSettings }: { st: KState; today: number; o
       <TopBar onSettings={onSettings} />
       <h1 className="greet">{greeting(st.name)}</h1>
       <div className="next-card">
-        {preview.steps.length === 0 || (log.done && !open) ? (
+        {preview.steps.length === 0 ? (
           <>
-            <span className="chip-d">{next ? 'היום הושלם' : 'הכול נלמד'}</span>
-            <h2>{next ? 'סיימת להיום' : 'סיימת את כל השיעורים שיש כרגע'}</h2>
-            <p>{next ? 'הנושא הבא מחכה לך באימון של מחר.' : 'שיעורים חדשים ייתווספו בהמשך.'}</p>
+            <span className="chip-d">{next ? 'עד כאן להיום' : 'הכול נלמד'}</span>
+            <h2>{next ? 'אין כרגע שיעור פתוח' : 'סיימת את כל השיעורים שיש כרגע'}</h2>
+            <p>{next ? 'הנושא הבא יחכה לך כאן.' : 'שיעורים חדשים ייתווספו בהמשך. אפשר לחזור על כל שיעור דרך המסע.'}</p>
             {Object.keys(st.keys).length > 0 && <button type="button" className="cta-d" onClick={() => onStart({ extra: true })}>חזרה קצרה</button>}
           </>
         ) : (
           <>
-            <span className="chip-d">{open && open.at > 0 ? g('ממשיכות מאיפה שעצרת', 'ממשיכים מאיפה שעצרת') : again ? 'חוזרים על השיעור' : 'האימון של היום'}</span>
+            <span className="chip-d">{open && open.at > 0 ? g('ממשיכות מאיפה שעצרת', 'ממשיכים מאיפה שעצרת') : again ? 'השיעור עוד לא עבר' : log.done ? 'עוד נושא' : 'האימון של היום'}</span>
             <h2>{review ? 'שיעור חזרה' : firstLesson && firstLesson.t === 'lesson' ? LESSON[firstLesson.id].title : 'חזרה קצרה על מה שלמדת'}</h2>
             <p>{review ? 'בלי נושא חדש היום: כל השאלות של חמשת השיעורים האחרונים.' : [recall ? 'מה זוכרים מהשיעור הקודם' : '', fresh > 0 && !again ? 'נושא אחד' : '', keys > 0 ? `${keys} שאלות חזרה` : ''].filter(Boolean).join(', ')}</p>
-            {again && firstLesson?.t === 'lesson' && (() => { const s = st.lessons[firstLesson.id], all = LESSON[firstLesson.id].qs.length; return <p className="k-again-note">עוד לא עברת את השיעור הזה, ולכן חוזרים עליו. כדי לעבור לנושא הבא צריך {needed(all)} תשובות נכונות מתוך {all} בניסיון הראשון. בפעם הקודמת: {s.ok}.</p>; })()}
-            <button type="button" className="cta-d" onClick={() => onStart()}>{open && open.at > 0 ? 'להמשיך' : 'להתחיל'}</button>
+            {again && firstLesson?.t === 'lesson' && (() => { const s = st.lessons[firstLesson.id], all = LESSON[firstLesson.id].qs.length; return <p className="k-again-note">השיעור הזה עוד לא עבר את הרף, ולכן חוזרים עליו. כדי לעבור לנושא הבא צריך {needed(all)} תשובות נכונות מתוך {all} בניסיון הראשון. בפעם הקודמת: {s.ok}. אפשר לנסות שוב כמה פעמים שרוצים.</p>; })()}
+            <button type="button" className="cta-d" onClick={() => onStart()}>{open && open.at > 0 ? 'להמשיך' : again ? 'לנסות שוב' : 'להתחיל'}</button>
           </>
         )}
       </div>
@@ -115,13 +116,15 @@ function Home({ st, today, onStart, onSettings }: { st: KState; today: number; o
   );
 }
 
-function Path({ st }: { st: KState }) {
+function Path({ st, onPick, onStart }: { st: KState; onPick: (id: string) => void; onStart: () => void }) {
   return (
     <>
-      <header className="page-head"><h1>המסע</h1><p className="muted">{COURSE_INFO.name}, משיעורי הבסיס ועד הקפיצה.</p></header>
+      <header className="page-head"><h1>המסע</h1><p className="muted">{COURSE_INFO.name}, משיעורי הבסיס ועד הקפיצה. {g('לחצי', 'לחץ')} על שיעור שלמדת כדי לחזור עליו.</p></header>
       {[0, 1, 2].map((lv) => { const list = lessonsOf().filter((l) => l.level === lv); return list.length > 0 && (
         <section key={lv} className="station"><div className="st-head"><span className="st-num">{lv + 1}</span><span className="st-txt"><b>{LEVEL[lv]}</b></span></div>
-          {list.map((l) => <div key={l.id} className="m-skill"><span>{l.title}</span><small>{statusOf(st, l)}</small></div>)}
+          {list.map((l) => { const s = st.lessons[l.id]; return s
+            ? <button key={l.id} type="button" className="m-skill" onClick={() => (s.pass ? onPick(l.id) : onStart())}><span>{l.title}</span><small>{s.pass ? statusOf(st, l) : 'לא עבר · לנסות שוב'}</small></button>
+            : <div key={l.id} className="m-skill"><span>{l.title}</span><small>{statusOf(st, l)}</small></div>; })}
         </section>
       ); })}
     </>
@@ -130,12 +133,12 @@ function Path({ st }: { st: KState }) {
 
 function Session({ st, update, onExit, onMore }: { st: KState; update: Update; onExit: () => void; onMore: (o?: { bonus?: boolean; extra?: boolean }) => void }) {
   const plan = st.plan!, step = plan.steps[plan.at];
-  if (!step) return <Finish st={st} onExit={onExit} />;
+  if (!step) return <Finish st={st} onExit={onExit} onRetry={() => onMore()} />;
   return (
     <div className="session" key={plan.at}>
       <div className="s-top"><button type="button" className="round" aria-label="יציאה. ההתקדמות נשמרת" onClick={onExit}><CloseIcon /></button><div className="thin" style={{ flex: 1 }}><span style={{ width: `${(plan.at / plan.steps.length) * 100}%` }} /></div></div>
       {step.t === 'recall' || step.t === 'review'
-        ? <Recall step={step} seed={plan.day * 7 + plan.at} nextTitle={(() => { const n = plan.steps[plan.at + 1]; return n?.t === 'lesson' ? LESSON[n.id].title : undefined; })()} sound={st.settings.sound} onDone={(ok, all) => { pushProgress(); update((s) => advance(finishReview(s, step, ok, all, plan.day))); }} />
+        ? <Recall step={step} seed={plan.seed ?? plan.day * 7 + plan.at} practice={plan.practice} nextTitle={(() => { const n = plan.steps[plan.at + 1]; return n?.t === 'lesson' ? LESSON[n.id].title : undefined; })()} sound={st.settings.sound} onDone={(ok, all) => { pushProgress(); update((s) => (plan.practice ? { ...s, plan: null } : advance(finishReview(s, step, ok, all, plan.day)))); if (plan.practice) onExit(); }} />
         : step.t === 'key'
         ? <Quiz q={keyOf(step.id)} sound={st.settings.sound} onAnswer={(ok) => update((s) => answerKey(s, step.id, ok, plan.day))} onNext={() => update(advance)} label="חזרה" />
         : <LessonView lesson={LESSON[step.id]} wiki={st.settings.wiki} sound={st.settings.sound} onDone={(ok, all) => { if (!st.lessons[step.id]) pushWin('lesson', LESSON[step.id].title); pushProgress(); update((s) => advance(finishLesson(s, step.id, ok, all, plan.day))); }} />}
@@ -197,8 +200,8 @@ function Text({ lesson, marks = false }: { lesson: Lesson; marks?: boolean }) {
 }
 
 /** Questions on lessons already read. The text is closed, a tap away. A wrong answer sends her back to it, with no answer shown. */
-function Recall({ step, seed, sound, onDone, nextTitle }: { step: Extract<Step, { t: 'recall' | 'review' }>; seed: number; sound: boolean; onDone: (ok: number, all: number) => void; nextTitle?: string }) {
-  const items = useMemo(() => (step.t === 'recall' ? pickQs(step.id, recallCount(step.id), seed) : step.ids.flatMap((id) => LESSON[id].qs.map((_, i): [string, number] => [id, i]))), [step, seed]);
+function Recall({ step, seed, sound, onDone, nextTitle, practice }: { step: Extract<Step, { t: 'recall' | 'review' }>; seed: number; sound: boolean; onDone: (ok: number, all: number) => void; nextTitle?: string; practice?: boolean }) {
+  const items = useMemo(() => (step.t === 'recall' ? pickQs(step.id, recallCount(step.id), seed, practice) : step.ids.flatMap((id) => LESSON[id].qs.map((_, i): [string, number] => [id, i]))), [step, seed]);
   const [i, setI] = useState(0), [reread, setReread] = useState(false), score = useRef(0);
   const [stage, setStage] = useState<'intro' | 'q' | 'end'>('intro');
   // The review is a screen of its own: an opening, the questions, and a closing before the day's new topic.
@@ -206,7 +209,7 @@ function Recall({ step, seed, sound, onDone, nextTitle }: { step: Extract<Step, 
     <div className="q">
       <span className="m-chip-hi center">{step.t === 'recall' ? 'חזרה' : 'שיעור חזרה'}</span>
       <h1 className="k-title">{step.t === 'recall' ? `מה זוכרים מ"${LESSON[step.id].title}"?` : 'חוזרים על חמשת השיעורים האחרונים'}</h1>
-      <p className="k-idea">{step.t === 'recall' ? `${items.length} שאלות על השיעור הקודם, לפני הנושא החדש.` : `${items.length} שאלות, בלי נושא חדש היום.`} הקטע סגור. אם לא זוכרים, אפשר להציץ בו.</p>
+      <p className="k-idea">{practice ? `${items.length} שאלות מהשיעור, בסדר מעורבב.` : step.t === 'recall' ? `${items.length} שאלות על השיעור הקודם, לפני הנושא החדש.` : `${items.length} שאלות, בלי נושא חדש היום.`} הקטע סגור. אם לא זוכרים, אפשר להציץ בו.</p>
       <div className="grow" />
       <button type="button" className="cta" onClick={() => setStage('q')}>להתחיל את החזרה</button>
     </div>
@@ -259,7 +262,7 @@ function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boo
     <div className="q">
       <span className="m-chip-hi center">מה לקחת מכאן</span>
       <p className="k-idea">{lesson.idea}</p>
-      {!passes(score.current, lesson.qs.length) && <div className="feedback soft k-again" role="status"><b>כל הכבוד על השיעור!</b><span>ענית נכון בניסיון הראשון על {score.current} מתוך {lesson.qs.length} שאלות. כדי לעבור לנושא הבא צריך {needed(lesson.qs.length)}, ולכן השיעור יחזור מחר כדי לחזק אותו. בפעם הבאה כדאי לקרוא לאט ולחפש את התשובה בקטע לפני שעונים.</span></div>}
+      {!passes(score.current, lesson.qs.length) && <div className="feedback soft k-again" role="status"><b>השיעור עוד לא עבר את הרף</b><span>ענית נכון בניסיון הראשון על {score.current} מתוך {lesson.qs.length} שאלות. כדי לעבור לנושא הבא צריך {needed(lesson.qs.length)}. אפשר לנסות שוב מיד, כמה פעמים שרוצים. כדאי לקרוא לאט ולחפש את התשובה בקטע לפני שעונים.</span></div>}
       <section className="card"><h3>שלושה דברים לזכור</h3><ul className="k-sum">{summaryOf(lesson).map((x) => <li key={x}>{x}</li>)}</ul></section>
       {wiki && <a className="link center-block" href={`https://he.wikipedia.org/wiki/${encodeURIComponent(lesson.wiki.replace(/ /g, '_'))}`} target="_blank" rel="noreferrer">רוצה לדעת עוד? בוויקיפדיה</a>}
       <ReportProblem lesson={lesson} />
@@ -269,17 +272,20 @@ function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boo
   );
 }
 
-function Finish({ st, onExit }: { st: KState; onExit: () => void }) {
+function Finish({ st, onExit, onRetry }: { st: KState; onExit: () => void; onRetry: () => void }) {
   // A finished practice is a whole point: the progress goes to the person's other devices.
   useEffect(() => { pushProgress(); }, []);
   const log = dayLog(st, st.plan!.day);
+  const failed = st.plan!.steps.find((x): x is Extract<Step, { t: 'lesson' }> => x.t === 'lesson' && !st.lessons[x.id]?.pass);
   return (
     <div className="session finish">
       <span className="stage">סיימת</span>
       <h1>כל הכבוד{st.name ? `, ${st.name}` : ''}!</h1>
+      {failed && <div className="feedback soft k-again" role="status"><b>"{LESSON[failed.id].title}" עוד לא עבר את הרף</b><span>צריך {needed(LESSON[failed.id].qs.length)} תשובות נכונות מתוך {LESSON[failed.id].qs.length} בניסיון הראשון. אפשר לנסות שוב עכשיו.</span></div>}
       <section className="two-meters solo"><div><b>{log.fresh}</b><span>נושאים חדשים היום</span></div></section>
       <div className="grow" />
-      <button type="button" className="cta" onClick={onExit}>סיום</button>
+      {failed && <button type="button" className="cta" onClick={onRetry}>לנסות שוב עכשיו</button>}
+      <button type="button" className={failed ? 'cta-d' : 'cta'} onClick={onExit}>סיום</button>
     </div>
   );
 }

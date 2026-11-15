@@ -414,6 +414,7 @@ input[type=range] { width: 100%; accent-color: var(--rec); }
 .m-where li:last-child { border: 0; padding: 0; }
 .m-skill { display: flex; justify-content: space-between; gap: 10px; padding: 9px 14px; border-top: 1px solid var(--line); font-size: 15px; }
 .m-skill small { color: var(--ink-2); font-size: 13px; flex: none; }
+button.m-skill { width: 100%; background: none; border-left: 0; border-right: 0; border-bottom: 0; color: inherit; font: inherit; text-align: start; cursor: pointer; }
 .m-skill.flagged small { color: var(--spell); font-weight: 650; }
 .m-pick .ans { font-size: 22px; }
 .ans .frac, .m-big .frac { font-size: .92em; }

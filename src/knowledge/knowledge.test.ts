@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { COURSES } from '../course';
-import { answerKey, buildPlan, dayLog, finishLesson, finishReview, initial, isSolid, lessonsOf, LESSON, needed, passes, pickQs } from './engine';
+import { answerKey, buildPlan, dayLog, finishLesson, finishReview, initial, isSolid, lessonsOf, LESSON, needed, passes, pickQs, practicePlan, recallCount } from './engine';
 import { DEEP } from './deep';
 import { NEW_LESSONS } from './new-lessons';
 import { shortParagraphs } from './kit';
@@ -116,3 +116,21 @@ describe('recall and review lessons', () => {
   });
 });
 
+
+describe('retrying a lesson that did not pass', () => {
+  const c = 'geo', T = 500;
+  it('a failed lesson can be tried again the same day, and a pass opens the next topic the same day', () => {
+    const id = lessonsOf(c)[0].id, n = LESSON[id].qs.length;
+    const failed = finishLesson(initial(), id, 0, n, T);
+    expect(buildPlan(failed, T, {}, c).steps.filter((s) => s.t === 'lesson')).toEqual([{ t: 'lesson', id }]);
+    const passed = finishLesson(failed, id, n, n, T);
+    expect(buildPlan(passed, T, {}, c).steps.filter((s) => s.t === 'lesson')).toEqual([{ t: 'lesson', id: lessonsOf(c)[1].id }]);
+  });
+  it('practice on a chosen lesson asks 60-70% of its questions in mixed order', () => {
+    const id = lessonsOf(c)[0].id, n = LESSON[id].qs.length, k = recallCount(id);
+    expect(k / n).toBeGreaterThanOrEqual(0.5);
+    const p = practicePlan(id, T, 11);
+    expect(p.practice).toBe(true);
+    expect(pickQs(id, k, 11, true)).toHaveLength(k);
+  });
+});
