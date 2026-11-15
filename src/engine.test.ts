@@ -66,7 +66,7 @@ describe('word bank', () => {
       expect(new Set(o.map((x) => x.he)).size).toBe(4);
       expect(new Set(o.map((x) => x.en)).size, w.id).toBe(4);
     }
-  });
+  }, 30000); // ~1.4s alone, but slow when several agents test at once
 });
 
 describe('two independent measures', () => {
