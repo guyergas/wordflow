@@ -38,7 +38,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     selection biodiversity wolves climate-animals conservation-development farming-nature crop-genetics israel-forests`),
   art: list(`
     ancient-mosaic monalisa vangogh kahlo sculpture nachum-gutman
-    notes orchestra bach mozart beethoven rossini-opera ballet arabic-music kids-songs shemer
+    notes orchestra bach vivaldi-seasons mozart beethoven rossini-opera ballet arabic-music kids-songs shemer
     grimm classic-books littleprince comics kishon taking-photos cinema animation israeli-cinema
     homer greektheatre michelangelo quixote shakespeare moliere rembrandt hokusai photo sherlock picasso african-art chagall bauhaus jazz rock
     bialik tchernichovsky rachel leah alterman amichai amos-oz grossman mizrahi-writers israel-museum digital
