@@ -6,6 +6,7 @@ import { NEW_LESSONS } from './new-lessons';
 import { shortParagraphs } from './kit';
 import { LESSONS } from './lessons';
 import { guessable } from './answer-length';
+import { AFTER, ORDER } from './order';
 
 const T = 20000;
 describe('lesson bank', () => {
@@ -13,6 +14,10 @@ describe('lesson bank', () => {
     const list = COURSES.filter((c) => c.knowledge);
     expect(list).toHaveLength(10);
     for (const c of list) { const l = lessonsOf(c.id); expect(l.length, c.id).toBeGreaterThanOrEqual(30); expect(new Set(l.map((x) => x.level)).size, c.id).toBe(3); }
+  });
+  it('each listed course order holds every lesson once, and lessons come after the ones they refer to', () => {
+    for (const [c, ids] of Object.entries(ORDER)) expect([...ids!].sort(), c).toEqual(LESSONS.filter((l) => l.course === c).map((l) => l.id.slice(c.length + 1)).sort());
+    for (const [a, b] of AFTER) { const l = lessonsOf(a.split('.')[0] as never).map((x) => x.id); expect(l.indexOf(a), `${a} before ${b}`).toBeLessThan(l.indexOf(b)); expect(l.indexOf(a)).toBeGreaterThanOrEqual(0); }
   });
   it('marked sentences are balanced, and full-length lessons have several', () => {
     for (const l of LESSONS) expect(l.text.split('[[').length, l.id).toBe(l.text.split(']]').length);
