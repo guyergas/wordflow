@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { COURSES } from '../course';
-import { answerKey, buildPlan, dayLog, finishLesson, finishReview, initial, isSolid, lessonsOf, LESSON, needed, passes, pickQs, practicePlan, recallCount } from './engine';
+import { answerKey, buildPlan, dayLog, finishLesson, finishReview, initial, isSolid, lessonsOf, LESSON, needed, passes, pickQs, practicePlan, practiceQs, recallCount } from './engine';
 import { DEEP } from './deep';
 import { NEW_LESSONS } from './new-lessons';
 import { shortParagraphs } from './kit';
@@ -132,5 +132,17 @@ describe('retrying a lesson that did not pass', () => {
     const p = practicePlan(id, T, 11);
     expect(p.practice).toBe(true);
     expect(pickQs(id, k, 11, true)).toHaveLength(k);
+  });
+});
+
+describe('practice on a passed lesson', () => {
+  it('includes the questions answered wrong in the lesson, in mixed order', () => {
+    const id = lessonsOf('geo')[0].id, k = recallCount(id), miss = [1, 4];
+    for (const seed of [3, 99, 12345]) { const qs = practiceQs(id, k, seed, miss).map(([, i]) => i); expect(qs).toHaveLength(k); expect(qs).toEqual(expect.arrayContaining(miss)); }
+  });
+  it('a failed lesson blocks the next topic even when its old due day is tomorrow', () => {
+    const id = lessonsOf('geo')[0].id, st = finishLesson(initial(), id, 0, LESSON[id].qs.length, 700);
+    const old = { ...st, lessons: { [id]: { ...st.lessons[id], due: 701 } } };
+    expect(buildPlan(old, 700, {}, 'geo').steps.filter((s) => s.t === 'lesson')).toEqual([{ t: 'lesson', id }]);
   });
 });

@@ -4,7 +4,7 @@ import { COURSE_ID, CourseId, USER_ID } from '../course';
 import { Lesson, LESSONS, QuizQ } from './lessons';
 
 export interface Metric { box: number; due: number; flag: boolean; ok: number; no: number; last: number }
-export interface LessonState { done: number; pass: boolean; ok: number; all: number; due: number; recalled?: boolean }
+export interface LessonState { done: number; pass: boolean; ok: number; all: number; due: number; recalled?: boolean; miss?: number[] }
 export type Step = { t: 'key'; id: string } | { t: 'lesson'; id: string } | { t: 'recall'; id: string } | { t: 'review'; ids: string[]; n: number };
 export interface Plan { day: number; steps: Step[]; at: number; bonus?: boolean; extra?: boolean; practice?: boolean; seed?: number }
 export interface DayLog { fresh: number; ok: number; no: number; done: boolean; sec?: number }
@@ -33,9 +33,9 @@ export function buildPlan(st: KState, today: number, o: { bonus?: boolean; extra
     const due = mine.filter(([, m]) => o.extra || m.due <= today).sort((a, b) => Number(b[1].flag) - Number(a[1].flag) || a[1].due - b[1].due);
     shuffle(due.slice(0, KEYS_PER_DAY * 2), rnd).slice(0, KEYS_PER_DAY).forEach(([id]) => steps.push({ t: 'key', id }));
   }
-  // One topic a day: a lesson that was not understood comes back first, and otherwise the next one opens.
+  // A lesson that did not pass blocks the next topic until it passes.
   if (!o.extra) {
-    const again = lessonsOf(c).find((l) => { const s = st.lessons[l.id]; return s && !s.pass && s.due <= today; });
+    const again = lessonsOf(c).find((l) => { const s = st.lessons[l.id]; return s && !s.pass; });
     const review = again ? null : reviewDue(st, today, c);
     const topic = again ?? lessonsOf(c).find((l) => !st.lessons[l.id]);
     if (review) steps.push(review);
@@ -66,6 +66,14 @@ export function pickQs(id: string, count: number, seed: number, mixed = false): 
   const pick = shuffle(qs, r).slice(0, count);
   return (mixed ? pick : pick.sort((a, b) => a - b)).map((i) => [id, i]);
 }
+/** Doing a lesson that did not pass once more, on its own. */
+export const retryPlan = (id: string, today: number): Plan => ({ day: today, steps: [{ t: 'lesson', id }], at: 0, extra: true });
+/** Questions for practice on a lesson: the ones she got wrong in the lesson come first, the rest are random, and all are mixed. */
+export function practiceQs(id: string, count: number, seed: number, miss: number[] = []): [string, number][] {
+  let x = seed % 2147483647 || 1; const r = () => (x = (x * 48271) % 2147483647) / 2147483647;
+  const n = LESSON[id].qs.length, wrong = shuffle(miss.filter((i) => i < n), r), rest = shuffle(LESSON[id].qs.map((_, i) => i).filter((i) => !wrong.includes(i)), r);
+  return shuffle([...wrong, ...rest].slice(0, count), r).map((i) => [id, i]);
+}
 /** Practice on one lesson she chose: a share of its questions in random order. It does not change the lesson's progress. */
 export const practicePlan = (id: string, today: number, seed = Math.floor(Math.random() * 1e9)): Plan => ({ day: today, steps: [{ t: 'recall', id }], at: 0, extra: true, practice: true, seed });
 /** Marks a recall or a review as done and counts its first-try answers in the day's log. */
@@ -80,11 +88,11 @@ export function finishReview(st: KState, step: Step, ok: number, all: number, to
 export const passes = (ok: number, all: number) => all === 0 || ok / all >= PASS;
 /** How many first-try answers a lesson of `all` questions needs. */
 export const needed = (all: number) => Math.ceil(all * PASS - 1e-9);
-export function finishLesson(st: KState, id: string, ok: number, all: number, today: number): KState {
+export function finishLesson(st: KState, id: string, ok: number, all: number, today: number, miss: number[] = []): KState {
   const first = !st.lessons[id], pass = passes(ok, all), log = dayLog(st, today);
   const keys = { ...st.keys };
   LESSON[id].keys.forEach((_, i) => { const k = `${id}#${i}`; keys[k] ??= { box: 0, due: today + 1, flag: false, ok: 0, no: 0, last: -1 }; });
-  return { ...st, keys, lessons: { ...st.lessons, [id]: { done: st.lessons[id]?.done ?? today, pass, ok, all, due: pass ? today + 1 : today } }, days: { ...st.days, [today]: { ...log, fresh: log.fresh + (first ? 1 : 0), ok: log.ok + ok, no: log.no + (all - ok) } } };
+  return { ...st, keys, lessons: { ...st.lessons, [id]: { done: st.lessons[id]?.done ?? today, pass, ok, all, due: pass ? today + 1 : today, miss } }, days: { ...st.days, [today]: { ...log, fresh: log.fresh + (first ? 1 : 0), ok: log.ok + ok, no: log.no + (all - ok) } } };
 }
 
 export function answerKey(st: KState, id: string, correct: boolean, today: number): KState {

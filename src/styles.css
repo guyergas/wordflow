@@ -827,3 +827,8 @@ html.a-lock .a-finish { height: 100dvh; min-height: 0; overflow: hidden; }
 
 .k-again-note { font-size: 15px; line-height: 1.5; opacity: .9; margin-block: 4px 8px; }
 .k-again { margin-block: 8px; }
+.k-cards { display: flex; flex-direction: column; gap: 12px; }
+.k-chip { align-self: flex-start; display: inline-flex; align-items: center; gap: 5px; font-size: 13px; color: var(--ink-2); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; }
+.k-chip.ok { color: var(--ink); border-color: var(--sun); }
+.k-locked { opacity: .55; }
+.k-btn { min-height: 46px; border-radius: 999px; border: 1.5px solid var(--ink); color: var(--ink); font-weight: 700; font-size: 16px; }
