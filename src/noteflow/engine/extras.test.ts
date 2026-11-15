@@ -52,7 +52,7 @@ describe('mistakes workshop', () => {
 
 describe('weekly', () => {
   it('summarises the week and spots the most improved note', () => {
-    const now = Date.now();
+    const now = Date.parse('2026-10-28T12:00:00'); // a Wednesday, so 8 days back is in the previous week
     const lastWeek = now - 8 * 86_400_000;
     const a: Attempt[] = [];
     for (let i = 0; i < 5; i++) a.push(att({ ts: lastWeek + i, pitch: 'F4', rtMs: 3000 }));
