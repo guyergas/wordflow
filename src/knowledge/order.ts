@@ -16,9 +16,9 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     method cells photosynthesis breathing germs vaccine brain drugs-brain atoms periodic acid-base rust energy radiation curie air-quality flight telescope rockets binary
     internet dna ai`),
   hist: list(`
-    what-is-history writing egypt cyrus-return rome knights herzl aliyah tel-hai independence knesset rights-duties local-authority smart-consumer
-    persia athens alexander herod roman-judea great-revolt-masada mishnah-amoraim islam jews-under-islam christian-world jews-christendom holy-land-islam-christianity silk
-    printing columbus reformation scientific-revolution early-modern-jews enlightenment america france industrial nationalism lincoln suffrage
+    what-is-history writing egypt cyrus-return rome knights herzl aliyah betaisrael tel-hai independence knesset rights-duties local-authority smart-consumer
+    persia athens alexander herod temple roman-judea great-revolt-masada yavne mishnah-amoraim islam jews-under-islam christian-world jews-christendom spain holy-land-islam-christianity silk
+    printing columbus reformation scientific-revolution early-modern-jews hasidism enlightenment america france industrial nationalism lincoln suffrage
     eretz-19th-century hashomer-haganah wwi balfour-white-paper mandate szold-kook weizmann university-library un golda sixday peace mlk mandela
     powers president-institutions jewish-democratic multicultural-israel israel-then-now
     shoah1 shoah2 shoah3 shoah4 shoah5 twostories coldwar`),
@@ -68,8 +68,8 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     samuel-saul david samuel2
     solomon-split elijah-elisha ruth esther
     shabbat synagogue kashrut tzedakah batmitzvah highdays sukkot hanukkah tubishvat purim pesach shavuot
-    calendar temple tishabeav tu-beav hillel yavne pirkei-avot talmud love-neighbor
-    rashi spain piyut hasidism communities betaisrael prayer-streams
+    calendar tishabeav tu-beav hillel pirkei-avot talmud love-neighbor
+    rashi piyut communities prayer-streams
     rambam`),
   food: list(`
     why groups carbs protein fats vitamins vitA vitC calcium water fiber hunger taste

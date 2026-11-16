@@ -1,6 +1,6 @@
 # Coverage of the Ministry of Education curriculum
 
-Checked on 5 November 2026 against the documents that could be opened. Full lessons come from `docs/new-topics.md`, which is written so that these are covered: 60 lessons per course, 75 in geo, 80 in sci, 81 in jud, 95 in hist and 72 in heb, enough for every topic on the list.
+Checked on 5 November 2026 against the documents that could be opened. Full lessons come from `docs/new-topics.md`, which is written so that these are covered: 60 lessons per course, 75 in geo, 80 in sci, 76 in jud, 100 in hist and 72 in heb, enough for every topic on the list.
 
 ## Covered or scheduled
 - Math, grades 2 to 7: operations, fractions, decimals, percent, ratio, price, rounding, time, scale, areas, volume, surface, data, angles, signed numbers, powers, roots, expressions, equations.
