@@ -54,7 +54,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     pos agreement numbers ordinal-numbers tenses future root
     subject-predicate subject-agreement simple-compound connectives prepositions possession definite-article adjective-adverbial binyanim-intro
     punctuation spelling synonyms homonyms general-specific context dictionary opposites slang acronyms names bodyidioms biblical proverb nikud
-    text-types info-texts tables-charts mainidea between-lines writer-stance audience paragraph open-answer email
+    text-types info-texts tables-charts mainidea summary between-lines writer-stance audience paragraph open-answer email
     benyehuda academy alefbet ktiv loanwords aramaic arabic
     binyan binyan-paal-nifal binyan-piel-pual binyan-hifil-hufal binyan-hitpael active-passive active-to-passive root-pattern smikhut factopinion
     metaphor`),
