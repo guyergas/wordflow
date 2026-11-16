@@ -62,7 +62,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
   jud: list(`
     tanakh bible-order creation eden-cain noah-babel abraham
     isaac jacob-esau joseph
-    moses jethro ten-commandments mishkan-calf
+    moses jethro ten-commandments mishpatim mishkan-calf
     kedoshim spies korah copper-snake devarim
     joshua judges deborah-gideon samson
     samuel-saul david samuel2
