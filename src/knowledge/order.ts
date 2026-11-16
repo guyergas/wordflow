@@ -28,7 +28,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     maps latlong timezones contour-lines thematic-maps aerial-satellite atlas-online climate atmosphere-layers deltas everest quakes-israel
     capitals global-village europe med-basin med-people greece-italy turkey-spain egypt-today suez africa amazon panama russia japan antarctica
     israel-mideast env-israel coast-dev compare-regions
-    desert ring glaciers population cities water-israel india-china usa latin-america industry-location human-migration energy-geo borders`),
+    desert ring glaciers population cities water-israel india-china usa latin-america industry-location human-migration energy-geo borders sea-trade`),
   nature: list(`
     living-things plant-parts plant-needs trees plant-reproduction seed-dispersal wildflowers
     animal-classes mammals bluewhale dogs birds reptiles frogs sharks dinosaurs ants bees metamorphosis spiders camouflage israelwild
