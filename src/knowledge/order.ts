@@ -58,11 +58,17 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     benyehuda academy alefbet ktiv loanwords aramaic arabic
     binyan binyan-paal-nifal binyan-piel-pual binyan-hifil-hufal binyan-hitpael active-passive active-to-passive root-pattern smikhut factopinion
     metaphor`),
+  // jud: the Bible lessons first, in the order of the state Bible curriculum (grades 2 to 9, one line per grade, see docs/new-topics.md), then the rest.
   jud: list(`
-    tanakh bible-order creation eden-cain noah-babel abraham jacob-esau joseph moses jethro ten-commandments mishkan-calf spies korah copper-snake
-    joshua deborah-gideon deborah samson ruth samuel-saul david solomon-split elijah-elisha psalms
+    tanakh bible-order creation eden-cain noah-babel abraham
+    jacob-esau joseph
+    moses jethro ten-commandments mishkan-calf
+    kedoshim spies korah copper-snake devarim
+    joshua judges deborah-gideon samson
+    samuel-saul david samuel2
+    solomon-split elijah-elisha ruth esther
     shabbat synagogue kashrut tzedakah batmitzvah highdays sukkot hanukkah tubishvat purim pesach shavuot
-    kedoshim devarim judges samuel2 esther calendar temple tishabeav tu-beav hillel yavne pirkei-avot talmud love-neighbor
+    calendar temple tishabeav tu-beav hillel yavne pirkei-avot talmud love-neighbor
     rashi spain piyut hasidism communities betaisrael prayer-streams
     rambam`),
   food: list(`

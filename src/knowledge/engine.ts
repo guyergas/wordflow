@@ -31,7 +31,7 @@ function shuffle<T>(a: T[], rnd: () => number): T[] { const r = [...a]; for (let
 export function buildPlan(st: KState, today: number, o: { bonus?: boolean; extra?: boolean; rnd?: () => number } = {}, c: CourseId = COURSE_ID): Plan {
   const rnd = o.rnd ?? Math.random, steps: Step[] = [];
   // A lesson opens with its text, so reading comes first and review questions follow.
-  const mine = Object.entries(st.keys).filter(([id]) => id.startsWith(`${c}.`));
+  const mine = Object.entries(st.keys).filter(([id]) => id.startsWith(`${c}.`) && LESSON[id.split('#')[0]]); // a removed lesson's keys stay in old progress
   if (!o.bonus) {
     const due = mine.filter(([, m]) => o.extra || m.due <= today).sort((a, b) => Number(b[1].flag) - Number(a[1].flag) || a[1].due - b[1].due);
     shuffle(due.slice(0, KEYS_PER_DAY * 2), rnd).slice(0, KEYS_PER_DAY).forEach(([id]) => steps.push({ t: 'key', id }));

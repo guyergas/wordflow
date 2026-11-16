@@ -48,12 +48,25 @@ Level 1: פעיל וסביל; המרה מפעיל לסביל; הבניינים: 
 Level 2: משפט מורכב; פסוקית; הנמקה נגד טענה מנוגדת; רטוריקה ופרסומת.
 
 ## jud
-From the Bible program: הבריאה; נוח ומגדל בבל; יתרו; מרד קורח; נחש הנחושת; הספר המקראי: סדר הספרים; גן עדן וקין והבל; שלמה המלך ופילוג הממלכה; אליהו ואלישע; תהילים: מזמורים מוכרים.
-From the Israeli-Jewish culture program for state schools: פרקי אבות; פיוטים ושירת הקודש של קהילות ישראל; ט״ו באב; ואהבת לרעך כמוך: פרשנויות.
-Must be covered first: ויקרא: קדושים תהיו; ספר דברים; ספר אסתר; ספר שופטים; שמואל ב ודוד; תפילה ואמונה לפי זרמים.
-Level 0: יעקב ועשו; יוסף ואחיו; עשרת הדיברות; המשכן ועגל הזהב; המרגלים; יהושע וכיבוש הארץ; דבורה וגדעון; שמשון; שמואל ושאול; יונה; בלעם.
-Level 1: שבעת המינים וחקלאות במקרא; ל״ג בעומר; יום העצמאות ויום הזיכרון כמועדים; העלייה לרגל; הכנסת אורחים; שכנים בני דתות אחרות: דרוזים, מוסלמים ונוצרים; נביאי הצדק: עמוס וישעיהו; מגילות ים המלח; רבי עקיבא; זרמים ביהדות.
-Level 2: קהלת ואיוב; יהדות ודמוקרטיה, עמדות שונות; שפינוזה; הרב קוק וא״ד גורדון.
+The Bible lessons follow the state Bible curriculum (תכנית הלימודים בתנ״ך ממלכתי, משרד החינוך, תשע״ט), grades 2 to 9, and come first, in this order. The jud list in `src/knowledge/order.ts` has one line per grade, from ב (creation to abraham) to ח (solomon-split to esther). Add each new lesson with the id given, on its grade line at the place given; grade 9 lessons go on a new line after the grade 8 line. Here the level follows the grade: grades 2 to 5 are 0, grades 6 and 7 are 1, grades 8 and 9 are 2. Do not add Bible topics that are not in the curriculum (Psalms, women in the Bible, Kohelet and Job were removed for that reason). A topic another lesson already teaches gets a sentence, not a lesson: the return from Babylon is in `hist.cyrus-return`.
+Bible, in this order:
+- `isaac`: יצחק ורבקה (בראשית כ״ד–כ״ז). Grade 3, after abraham.
+- `mishpatim`: פרשת משפטים: חוקים של צדק (שמות כ״א–כ״ג). Grade 4, after ten-commandments.
+- `numbers-camp`: המחנה במדבר: ברכת כהנים ותלונות העם (במדבר ו׳, ט׳, י״א–י״ב). Grade 5, after kedoshim.
+- `rock-aaron`: מי מריבה ומות אהרן (במדבר כ׳). Grade 5, after korah.
+- `balaam`: בלק ובלעם (במדבר כ״ב–כ״ד). Grade 5, after copper-snake.
+- `zelophehad`: בנות צלפחד, גד וראובן וערי מקלט (במדבר כ״ז, ל״ב, ל״ה). Grade 5, after balaam.
+- `saul-david`: דוד וגלית: בין שאול לדוד (שמואל א ט״ז–י״ח). Grade 7, after samuel-saul.
+- `jonah`: ספר יונה. Grade 9, first on the grade 9 line.
+- `israel-exile`: חורבן ממלכת ישראל וגלות עשרת השבטים (מלכים ב י״ז). Grade 9.
+- `hezekiah`: חזקיהו ומסע סנחריב (מלכים ב י״ח–י״ט). Grade 9.
+- `judah-exile`: מנשה וחורבן יהודה (מלכים ב כ״א, כ״ד–כ״ה). Grade 9; end with one sentence on Cyrus, pointing to the history lesson.
+- `amos`: עמוס: נביא הצדק (עמוס ג׳, ד׳, ז׳). Grade 9.
+- `isaiah`: ישעיהו: חזון אחרית הימים (ישעיהו א׳, ב׳, ה׳, מ׳). Grade 9.
+- `jeremiah`: ירמיהו: הנביא שהזהיר מהחורבן (ירמיהו א׳, ז׳, ל״א). Grade 9.
+Then, from the Israeli-Jewish culture program, after the rest of the list in `order.ts`:
+Level 1: שבעת המינים וחקלאות במקרא; ל״ג בעומר; יום העצמאות ויום הזיכרון כמועדים; העלייה לרגל; הכנסת אורחים; שכנים בני דתות אחרות: דרוזים, מוסלמים ונוצרים; מגילות ים המלח; רבי עקיבא.
+Level 2: יהדות ודמוקרטיה, עמדות שונות; שפינוזה.
 
 ## food
 Must be covered first: קשת המזון; חמישה צבעים ביום, בלי לספור מנות; דגני בוקר: איך קוראים ומשווים.

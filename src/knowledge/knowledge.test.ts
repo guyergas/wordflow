@@ -141,6 +141,10 @@ describe('retrying a lesson that did not pass', () => {
 });
 
 describe('practice on a passed lesson', () => {
+  it('skips review keys of a lesson that was removed', () => {
+    const st = initial(); st.keys['jud.psalms#0'] = { box: 0, due: 0, flag: false, ok: 0, no: 0, last: -1 };
+    expect(buildPlan(st, 5, {}, 'jud').steps.some((x) => x.t === 'key')).toBe(false);
+  });
   it('includes the questions answered wrong in the lesson, in mixed order', () => {
     const id = lessonsOf('geo')[0].id, k = recallCount(id), miss = [1, 4];
     for (const seed of [3, 99, 12345]) { const qs = practiceQs(id, k, seed, miss).map(([, i]) => i); expect(qs).toHaveLength(k); expect(qs).toEqual(expect.arrayContaining(miss)); }
