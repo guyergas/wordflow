@@ -61,7 +61,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
   // jud: the Bible lessons first, in the order of the state Bible curriculum (grades 2 to 9, one line per grade, see docs/new-topics.md), then the rest.
   jud: list(`
     tanakh bible-order creation eden-cain noah-babel abraham
-    jacob-esau joseph
+    isaac jacob-esau joseph
     moses jethro ten-commandments mishkan-calf
     kedoshim spies korah copper-snake devarim
     joshua judges deborah-gideon samson
