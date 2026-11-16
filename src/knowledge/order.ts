@@ -12,7 +12,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     gravity forces-motion simple-machines energy-forms heat-conductors home-energy circuit electric-safety magnet light sound
     day-month-year seasons moon solar galaxies weather
     skeleton skin digestion blood
-    tech-system design-process information tech-society
+    tech-system design-process engineering-design information tech-society
     method fair-test tables-graphs cells photosynthesis breathing germs vaccine brain nervous-system drugs-brain atoms periodic acid-base rust energy israel-energy radiation curie air-quality flight telescope rockets binary
     internet dna ai`),
   hist: list(`
