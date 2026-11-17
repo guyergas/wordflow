@@ -56,7 +56,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     punctuation spelling synonyms homonyms general-specific context dictionary opposites slang acronyms names bodyidioms biblical proverb nikud
     text-types info-texts tables-charts mainidea summary between-lines writer-stance audience paragraph open-answer email
     benyehuda academy alefbet ktiv loanwords aramaic arabic
-    binyan binyan-paal-nifal binyan-piel-pual binyan-hifil-hufal binyan-hitpael active-passive active-to-passive root-pattern smikhut factopinion claim-reason opinion-piece complaint-letter news-item merge-sources
+    binyan binyan-paal-nifal binyan-piel-pual binyan-hifil-hufal binyan-hitpael active-passive active-to-passive root-pattern smikhut factopinion claim-reason opinion-piece complaint-letter news-item merge-sources complex-sentence
     metaphor`),
   // jud: the Bible lessons first, in the order of the state Bible curriculum (grades 2 to 9, one line per grade, see docs/new-topics.md), then the rest.
   jud: list(`
@@ -85,7 +85,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
 export const AFTER: [string, string][] = [
   ['heb.prepositions', 'heb.possession'], ['heb.possession', 'heb.definite-article'], ['heb.definite-article', 'heb.adjective-adverbial'],
   ['heb.subject-predicate', 'heb.subject-agreement'], ['heb.subject-agreement', 'heb.adjective-adverbial'], ['heb.active-passive', 'heb.active-to-passive'],
-  ['heb.simple-compound', 'heb.connectives'], ['heb.synonyms', 'heb.opposites'], ['heb.context', 'heb.opposites'],
+  ['heb.simple-compound', 'heb.connectives'], ['heb.simple-compound', 'heb.complex-sentence'], ['heb.synonyms', 'heb.opposites'], ['heb.context', 'heb.opposites'],
   ['geo.nile', 'geo.egypt-today'], ['jud.david', 'jud.samuel2'], ['food.carbs', 'food.taste'], ['sport.robinson', 'sport.baseball'],
   ['sci.energy-forms', 'sci.home-energy'], ['sci.heat-conductors', 'sci.home-energy'], ['sci.photosynthesis', 'sci.breathing'],
   ['econ.work', 'econ.taxes'], ['econ.taxes', 'econ.business'], ['econ.account', 'econ.cards'], ['econ.funds', 'econ.etf'],
