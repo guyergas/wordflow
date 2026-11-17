@@ -25,7 +25,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
   geo: list(`
     globe-map continents oceans map-parts map-distance compass-rose watercycle rocks-soil volcano med nile australia
     israel-regions galilee-golan valleys-carmel coastal-plain judea-samaria-hills jerusalem kinneret negev-arava deadsea
-    maps latlong timezones contour-lines thematic-maps aerial-satellite atlas-online climate atmosphere-layers hurricanes deltas caves islands everest quakes-israel
+    maps latlong timezones contour-lines thematic-maps aerial-satellite atlas-online climate atmosphere-layers hurricanes deltas caves islands floods everest quakes-israel
     capitals global-village europe med-basin med-people greece-italy turkey-spain egypt-today suez africa amazon panama russia japan antarctica
     israel-mideast env-israel coast-dev compare-regions
     desert ring glaciers population cities water-israel india-china usa latin-america industry-location human-migration energy-geo borders sea-trade`),
