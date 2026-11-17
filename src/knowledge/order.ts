@@ -67,6 +67,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     joshua judges deborah-gideon samson
     samuel-saul saul-david david samuel2
     solomon-split elijah-elisha ruth esther
+    jonah
     shabbat synagogue kashrut tzedakah batmitzvah highdays sukkot hanukkah tubishvat purim pesach shavuot
     calendar tishabeav tu-beav hillel pirkei-avot talmud love-neighbor
     rashi piyut communities prayer-streams
