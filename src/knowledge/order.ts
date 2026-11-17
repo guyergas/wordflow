@@ -18,7 +18,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
   hist: list(`
     what-is-history writing egypt cyrus-return rome knights herzl aliyah betaisrael tel-hai independence knesset rights-duties local-authority smart-consumer
     persia athens alexander hasmoneans herod temple roman-judea great-revolt-masada yavne bar-kokhba mishnah-amoraim islam jews-under-islam christian-world jews-christendom spain jewish-communities holy-land-islam-christianity silk
-    printing columbus reformation scientific-revolution early-modern-jews hasidism enlightenment america france industrial nationalism lincoln suffrage
+    printing columbus reformation scientific-revolution early-modern-jews hasidism enlightenment america france haskalah industrial nationalism lincoln suffrage
     eretz-19th-century first-aliyah hashomer-haganah first-kibbutz tel-aviv wwi balfour-white-paper mandate szold-kook weizmann university-library un partition-vote golda sixday peace mlk mandela
     powers president-institutions jewish-democratic multicultural-israel israel-then-now
     shoah1 shoah2 shoah3 shoah4 shoah5 twostories coldwar`),
