@@ -65,7 +65,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     moses jethro ten-commandments mishpatim mishkan-calf
     kedoshim numbers-camp spies korah rock-aaron copper-snake balaam zelophehad devarim
     joshua judges deborah-gideon samson
-    samuel-saul david samuel2
+    samuel-saul saul-david david samuel2
     solomon-split elijah-elisha ruth esther
     shabbat synagogue kashrut tzedakah batmitzvah highdays sukkot hanukkah tubishvat purim pesach shavuot
     calendar tishabeav tu-beav hillel pirkei-avot talmud love-neighbor
