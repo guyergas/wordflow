@@ -9,7 +9,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
   sci: list(`
     scientific-question models
     matter material-properties volume-mass density metals materials-safety solutions physical-chemical combustion fuels natural-resources recycle
-    gravity forces-motion simple-machines energy-forms heat-conductors home-energy circuit electric-safety magnet light sound
+    gravity forces-motion newton-laws simple-machines energy-forms heat-conductors home-energy circuit electric-safety magnet light sound
     day-month-year seasons moon solar galaxies weather
     skeleton skin digestion blood
     tech-system design-process engineering-design information tech-society
