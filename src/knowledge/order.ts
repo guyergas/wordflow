@@ -57,7 +57,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     text-types info-texts tables-charts mainidea summary between-lines writer-stance audience paragraph open-answer email
     benyehuda academy alefbet ktiv loanwords aramaic arabic
     binyan binyan-paal-nifal binyan-piel-pual binyan-hifil-hufal binyan-hitpael active-passive active-to-passive root-pattern smikhut factopinion claim-reason opinion-piece complaint-letter news-item merge-sources complex-sentence clause counter-argument
-    metaphor`),
+    metaphor rhetoric`),
   // jud: the Bible lessons first, in the order of the state Bible curriculum (grades 2 to 9, one line per grade, see docs/new-topics.md), then the rest.
   jud: list(`
     tanakh bible-order creation eden-cain noah-babel abraham
