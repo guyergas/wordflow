@@ -18,10 +18,10 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
   hist: list(`
     what-is-history cyrus-return rome knights herzl betaisrael independence
     persia athens alexander hasmoneans herod temple roman-judea great-revolt-masada yavne bar-kokhba mishnah-amoraim islam jews-under-islam christian-world jews-christendom spain jewish-communities holy-land-islam-christianity
-    printing columbus reformation scientific-revolution early-modern-jews hasidism enlightenment america france haskalah industrial nationalism
-    eretz-19th-century first-aliyah kishinev hashomer-haganah wwi balfour-white-paper second-third-aliyah mandate un partition-vote golda sixday peace
-    powers jewish-democratic multicultural-israel
-    shoah1 shoah2 shoah3 shoah4 shoah5 twostories coldwar`),
+    printing columbus reformation scientific-revolution early-modern-jews hasidism enlightenment america france haskalah industrial nationalism suffrage
+    eretz-19th-century first-aliyah kishinev hashomer-haganah first-kibbutz wwi balfour-white-paper second-third-aliyah mandate weizmann un partition-vote golda sixday peace mlk mandela
+    multicultural-israel
+    shoah1 shoah2 shoah3 shoah4 shoah5 twostories`),
   geo: list(`
     globe-map continents oceans map-parts map-distance compass-rose watercycle rocks-soil volcano med nile australia
     israel-regions galilee-golan valleys-carmel coastal-plain judea-samaria-hills jerusalem kinneret negev-arava deadsea
