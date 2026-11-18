@@ -27,7 +27,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     israel-regions galilee-golan valleys-carmel coastal-plain judea-samaria-hills jerusalem kinneret negev-arava deadsea
     maps latlong timezones contour-lines thematic-maps aerial-satellite atlas-online climate atmosphere-layers winds hurricanes deltas caves islands floods everest quakes-israel
     capitals global-village europe med-basin med-people greece-italy turkey-spain egypt-today suez africa amazon panama russia japan antarctica arctic
-    israel-mideast env-israel coast-dev compare-regions
+    israel-mideast env-israel coast-dev tourism compare-regions
     desert ring glaciers population cities water-israel india-china usa latin-america industry-location human-migration energy-geo borders sea-trade`),
   nature: list(`
     living-things plant-parts plant-needs trees plant-reproduction seed-dispersal wildflowers
