@@ -16,11 +16,11 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     method fair-test tables-graphs measurement-error correlation-cause cells photosynthesis breathing germs vaccine brain nervous-system drugs-brain atoms periodic acid-base rust energy israel-energy radiation curie air-quality pollution flight telescope rockets binary
     robots internet dna ai`),
   hist: list(`
-    what-is-history writing egypt cyrus-return rome knights herzl aliyah betaisrael tel-hai independence knesset rights-duties local-authority smart-consumer
-    persia athens alexander hasmoneans herod temple roman-judea great-revolt-masada yavne bar-kokhba mishnah-amoraim islam jews-under-islam christian-world jews-christendom spain jewish-communities holy-land-islam-christianity silk
-    printing columbus reformation scientific-revolution early-modern-jews hasidism enlightenment america france haskalah industrial nationalism lincoln suffrage
-    eretz-19th-century first-aliyah kishinev hashomer-haganah first-kibbutz tel-aviv wwi balfour-white-paper second-third-aliyah mandate szold-kook weizmann university-library un partition-vote golda sixday peace mlk mandela
-    powers president-institutions jewish-democratic multicultural-israel israel-then-now
+    what-is-history cyrus-return rome knights herzl betaisrael independence
+    persia athens alexander hasmoneans herod temple roman-judea great-revolt-masada yavne bar-kokhba mishnah-amoraim islam jews-under-islam christian-world jews-christendom spain jewish-communities holy-land-islam-christianity
+    printing columbus reformation scientific-revolution early-modern-jews hasidism enlightenment america france haskalah industrial nationalism
+    eretz-19th-century first-aliyah kishinev hashomer-haganah wwi balfour-white-paper second-third-aliyah mandate un partition-vote golda sixday peace
+    powers jewish-democratic multicultural-israel
     shoah1 shoah2 shoah3 shoah4 shoah5 twostories coldwar`),
   geo: list(`
     globe-map continents oceans map-parts map-distance compass-rose watercycle rocks-soil volcano med nile australia
