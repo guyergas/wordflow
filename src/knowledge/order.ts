@@ -13,7 +13,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     day-month-year seasons moon solar galaxies weather
     skeleton skin digestion blood
     tech-system design-process engineering-design information tech-society
-    method fair-test tables-graphs measurement-error correlation-cause cells photosynthesis breathing germs vaccine brain nervous-system drugs-brain atoms periodic acid-base rust carbon energy israel-energy batteries-ev radiation sun-radiation curie air-quality pollution flight telescope rockets binary
+    method fair-test tables-graphs measurement-error correlation-cause cells photosynthesis breathing germs vaccine brain nervous-system drugs-brain atoms periodic acid-base rust carbon energy israel-energy batteries-ev radiation sun-radiation curie nobel-israel air-quality pollution flight telescope rockets binary
     robots internet dna ai`),
   hist: list(`
     what-is-history cyrus-return rome knights herzl betaisrael independence
