@@ -24,7 +24,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     shoah1 shoah2 shoah3 shoah4 shoah5 twostories`),
   geo: list(`
     globe-map continents oceans map-parts map-distance compass-rose watercycle rocks-soil volcano med nile australia
-    israel-regions galilee-golan valleys-carmel coastal-plain judea-samaria-hills jerusalem kinneret negev-arava deadsea
+    israel-regions galilee-golan valleys-carmel coastal-plain judea-samaria-hills jerusalem kinneret negev-arava deadsea settlements
     maps latlong timezones contour-lines thematic-maps aerial-satellite atlas-online climate atmosphere-layers winds hurricanes deltas caves islands floods everest quakes-israel
     capitals global-village europe med-basin med-people greece-italy turkey-spain egypt-today suez africa amazon panama russia japan antarctica arctic
     israel-mideast env-israel coast-dev tourism compare-regions
