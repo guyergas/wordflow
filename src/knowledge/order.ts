@@ -14,7 +14,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     skeleton skin digestion blood
     tech-system design-process engineering-design information tech-society
     method fair-test tables-graphs measurement-error correlation-cause cells photosynthesis breathing germs vaccine brain nervous-system drugs-brain atoms periodic acid-base rust carbon energy israel-energy batteries-ev radiation sun-radiation curie nobel-israel air-quality pollution flight telescope rockets binary
-    robots internet dna ai`),
+    robots internet dna ai ethics`),
   hist: list(`
     what-is-history cyrus-return rome knights herzl betaisrael independence
     persia ezra-nehemiah athens sparta-athens alexander hellenism hasmoneans sects herod temple roman-judea great-revolt-masada yavne diaspora-revolt bar-kokhba mishnah-amoraim islam jews-under-islam christian-world jews-christendom spain jewish-communities holy-land-islam-christianity
