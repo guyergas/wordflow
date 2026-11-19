@@ -71,7 +71,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     shabbat synagogue kashrut tzedakah batmitzvah highdays sukkot hanukkah tubishvat purim pesach shavuot
     calendar tishabeav tu-beav hillel pirkei-avot talmud love-neighbor
     rashi piyut communities prayer-streams
-    rambam seven-species lag-baomer`),
+    rambam seven-species lag-baomer memorial-independence`),
   food: list(`
     why groups carbs protein fats vitamins vitA vitC calcium water fiber hunger taste
     grains legumes dairyeggs animal nuts colors fivecolors plate rainbow cereal safety
