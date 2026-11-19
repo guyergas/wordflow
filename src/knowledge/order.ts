@@ -17,7 +17,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     robots internet dna ai ethics`),
   hist: list(`
     what-is-history cyrus-return rome knights herzl betaisrael independence
-    persia ezra-nehemiah athens sparta-athens alexander hellenism hasmoneans sects herod temple roman-judea great-revolt-masada yavne diaspora-revolt bar-kokhba mishnah-amoraim christianity-rome islam jews-under-islam christian-world jews-christendom spain jewish-communities holy-land-islam-christianity
+    persia ezra-nehemiah athens sparta-athens alexander hellenism hasmoneans sects herod temple roman-judea great-revolt-masada yavne diaspora-revolt bar-kokhba mishnah-amoraim christianity-rome islam jews-under-islam christian-world jews-christendom black-death spain jewish-communities holy-land-islam-christianity
     printing columbus reformation scientific-revolution early-modern-jews hasidism enlightenment america france haskalah industrial nationalism suffrage
     eretz-19th-century first-aliyah kishinev hashomer-haganah first-kibbutz wwi balfour-white-paper second-third-aliyah mandate weizmann un partition-vote golda sixday peace mlk mandela
     multicultural-israel
