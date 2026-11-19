@@ -11,7 +11,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
     matter material-properties volume-mass density metals materials-safety solutions physical-chemical combustion fuels natural-resources recycle
     gravity forces-motion newton-laws simple-machines energy-forms heat-conductors home-energy circuit electric-safety magnet light sound
     day-month-year seasons moon solar galaxies weather
-    skeleton skin digestion blood
+    skeleton skin digestion blood kidneys
     tech-system design-process engineering-design information tech-society
     method fair-test tables-graphs measurement-error correlation-cause cells photosynthesis breathing germs vaccine brain nervous-system eye drugs-brain atoms periodic acid-base rust carbon energy israel-energy batteries-ev radiation sun-radiation curie nobel-israel air-quality pollution flight telescope rockets binary
     robots internet dna ai ethics`),
