@@ -18,7 +18,7 @@ export const ORDER: Partial<Record<CourseId, string[]>> = {
   hist: list(`
     what-is-history cyrus-return rome knights herzl betaisrael independence
     persia ezra-nehemiah athens sparta-athens alexander hellenism hasmoneans sects herod temple roman-judea great-revolt-masada yavne diaspora-revolt bar-kokhba mishnah-amoraim christianity-rome islam jews-under-islam christian-world feudalism jews-christendom black-death baghdad-prague spain jewish-communities holy-land-islam-christianity
-    renaissance printing columbus reformation scientific-revolution early-modern-jews hasidism enlightenment america france haskalah industrial socialism nationalism suffrage
+    renaissance printing columbus reformation scientific-revolution early-modern-jews hasidism enlightenment america france haskalah industrial socialism nationalism antisemitism suffrage
     eretz-19th-century first-aliyah kishinev hashomer-haganah first-kibbutz wwi balfour-white-paper second-third-aliyah mandate weizmann un partition-vote golda sixday peace mlk mandela
     multicultural-israel
     shoah1 shoah2 shoah3 shoah4 shoah5 twostories`),
