@@ -6,6 +6,8 @@ import { NEW_LESSONS } from '../src/knowledge/new-lessons';
 // Optional: `--course <id>` limits the answer to one course, so that one agent per course can work in parallel.
 const ci = process.argv.indexOf('--course'), ONLY = ci > 0 ? process.argv[ci + 1] : undefined;
 const mine = (id: string) => !ONLY || id.split('.')[0] === ONLY;
+// Optional: `--skip <k>` gives the (k+1)-th lesson in the course's queue instead of the first, so that several agents can work on one course at once.
+const si = process.argv.indexOf('--skip'), SKIP = si > 0 ? Number(process.argv[si + 1]) : 0;
 const ORDER = ['geo', 'sci', 'nature', 'hist', 'art', 'sport', 'heb', 'jud', 'food', 'econ'], TARGET: Record<string, number> = { econ: 30, geo: 75, sci: 80, hist: 77, heb: 72, jud: 76 }; // hist is capped at 77 (the parent's decision, docs/new-topics.md); sci, heb and jud are higher so that every topic in docs/new-topics.md gets a lesson
 const targetOf = (c: string) => TARGET[c] ?? 60;
 const full = (c: string) => Object.keys(DEEP).filter((id) => id.startsWith(`${c}.`)).length + NEW_LESSONS.filter((l) => l.course === c).length;
@@ -31,7 +33,8 @@ if (thin.length) {
 }
 const short = LESSONS.filter((l) => !DEEP[l.id] && !NEW_LESSONS.includes(l) && !l.only && mine(l.id));
 if (short.length) {
-  const l = [...short].sort(byOrder)[0], c = l.course;
+  if (SKIP >= short.length) { console.log(JSON.stringify({ done: true, reason: 'skip is past the queue' })); process.exit(0); }
+  const l = [...short].sort(byOrder)[SKIP], c = l.course;
   console.log(JSON.stringify({ kind: 'expand', file: `src/knowledge/deep/${c}.ts`, id: l.id, level: l.level, title: l.title, idea: l.idea, keys: l.keys, text: l.text, counts }, null, 1));
   process.exit(0);
 }
@@ -48,7 +51,9 @@ if (!open.length) { console.log(JSON.stringify({ done: true, counts })); process
 const low = Math.min(...open.map((x) => x.n));
 const course = open.find((x) => x.n === low)!.c;
 const all = LESSONS.filter((l) => l.course === course).sort((a, b) => a.level - b.level);
-const next = all.find((l) => !DEEP[l.id] && !NEW_LESSONS.includes(l) && !l.only);
+const left = targetOf(course) - low;
+if (ONLY && SKIP >= left) { console.log(JSON.stringify({ done: true, reason: 'skip is past the queue' })); process.exit(0); }
+const next = all.filter((l) => !DEEP[l.id] && !NEW_LESSONS.includes(l) && !l.only)[ONLY ? SKIP : 0];
 console.log(JSON.stringify(next
   ? { kind: 'expand', file: `src/knowledge/deep/${course}.ts`, id: next.id, level: next.level, title: next.title, idea: next.idea, keys: next.keys, text: next.text, counts }
-  : { kind: 'new', course, file: 'src/knowledge/new-lessons.ts', existingTitles: all.map((l) => l.title), counts }, null, 1));
+  : { kind: 'new', course, file: 'src/knowledge/new-lessons.ts', existingTitles: all.map((l) => l.title), skip: ONLY ? SKIP : 0, counts }, null, 1));
