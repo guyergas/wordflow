@@ -79,7 +79,7 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
                   <tbody>{rows.map((r) => <tr key={r.c}><th scope="row">{r.name}</th>{week.map((d) => { const m = Math.floor(secOn(u.id, r.c, d) / 60), g = goalOn(r.c, d); return <td key={d} className={stateOf(secOn(u.id, r.c, d), g, d)}>{m || g ? <>{m}{g > 0 && <small>/{g}</small>}</> : '–'}</td>; })}</tr>)}</tbody>
                 </table></div>
               )}
-              {IS_PARENT && u.role !== 'parent' && <GiveHearts user={u.id} she={u.she} />}
+              {IS_PARENT && u.role !== 'parent' && <GiveHearts user={u.id} />}
               {IS_PARENT && <button type="button" className="cs-link" aria-expanded={editing === u.id} onClick={() => setEditing(editing === u.id ? null : u.id)}>קביעת יעדים</button>}
               {IS_PARENT && editing === u.id && <Goals user={u.id} courses={(() => { const open = coursesFor(u.role).map((c) => c.id); return [...mine.filter((c) => open.includes(c)), ...open.filter((c) => !mine.includes(c))]; })()} plan={plan} onChange={(p) => setData({ ...data, plans: { ...data.plans, [u.id]: p } })} />}
             </section>
@@ -90,8 +90,8 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
   );
 }
 
-/** A parent gives a child hearts for the game. They reach the child's device the next time the app opens there. */
-function GiveHearts({ user, she }: { user: string; she: boolean }) {
+/** A parent gives a child hearts for the game. The count includes gifts still on their way to the child's device. */
+function GiveHearts({ user }: { user: string }) {
   const [has, setHas] = useState<number | null>(null);
   const [waiting, setWaiting] = useState(0);
   const [err, setErr] = useState(false);
@@ -100,7 +100,7 @@ function GiveHearts({ user, she }: { user: string; she: boolean }) {
   const give = () => giftHearts(user, 1).then(load).catch(() => setErr(true));
   return (
     <div className="fam-line hearts-give">
-      <span>❤️ {has ?? '…'}/{MAX_HEARTS}{waiting > 0 ? ` (עוד ${waiting} ${she ? 'יגיעו אליה' : 'יגיעו אליו'})` : ''}</span>
+      <span>❤️ {has === null ? '…' : Math.min(MAX_HEARTS, has + waiting)}/{MAX_HEARTS}</span>
       <button type="button" className="cs-link" onClick={give}>הוספת לב</button>
       {err && <small className="miss">אין חיבור כרגע</small>}
     </div>
