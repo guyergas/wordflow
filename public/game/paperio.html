@@ -2493,7 +2493,7 @@
     const ranked = aliveEntities
       .map(e => ({ id: e.id, name: e.name, color: e.color, pct: getAreaPct(e.id) }))
       .sort((a, b) => b.pct - a.pct)
-      .slice(0, 5);
+      .slice(0, 3);
 
     const listEl = document.getElementById('leaderboardList');
     listEl.innerHTML = ranked
