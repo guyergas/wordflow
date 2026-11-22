@@ -3,6 +3,7 @@
 // (the lesson's 2 and 2 for the new material), meeting all of today's time goals 5 (once a day), taking the whole map 1.
 // Stored under the person's keys, so it syncs with their progress and the game page reads the same place.
 import { userKey } from './course';
+import { isGameOpen } from './game';
 import { dayNumber } from './engine';
 import { buildSummary, loadSchedule, readCourses } from './summary';
 
@@ -50,6 +51,7 @@ export function addHearts(n: number) {
   const s = readHearts();
   const next = Math.min(MAX_HEARTS, s.n + n);
   writeHearts({ ...s, n: next });
+  if (isGameOpen()) return;
   if (listener) listener(next - s.n, next);
   else void import('./heartsOffer').then((m) => m.showOffer(next - s.n, next));
 }

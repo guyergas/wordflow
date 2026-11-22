@@ -14,7 +14,12 @@ export const gameUrl = (user: string | null, name: string, free = false) => {
   return `game/paperio.html#${q}`;
 };
 
+let open = 0;
+/** While the game is on screen, hearts that come in show in its menu, not in an offer behind it. */
+export const isGameOpen = () => open > 0;
+
 export function GameScreen({ onClose }: { onClose: () => void }) {
+  useEffect(() => { open += 1; return () => { open -= 1; }; }, []);
   useEffect(() => {
     const close = () => { pushProgress(); onClose(); };
     const onMsg = (e: MessageEvent) => { if (e.origin === location.origin && e.data?.type === 'wf-game-close') close(); };

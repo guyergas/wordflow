@@ -582,6 +582,9 @@
     st.n = Math.max(0, Math.min(MAX_HEARTS, (Number(st.n) || 0) + d));
     try { localStorage.setItem(HEARTS_KEY, JSON.stringify(st)); } catch (_) {}
   }
+  // Hearts that arrive while the game is open (a parent's gift) show in the menu at once.
+  window.addEventListener('storage', (e) => { if (e.key === HEARTS_KEY && gameState !== 'PLAYING') refreshAllUI(); });
+
   /** Takes a heart for a game; false when there is none. */
   function payHeart() {
     if (FREE) return true;

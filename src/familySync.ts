@@ -4,6 +4,7 @@ import { enrolledCourses, USER_ID, userKey } from './course';
 import { cleanSchedule, loadSchedule, readCourses, saveSchedule, Schedule } from './summary';
 import { famUrl, deviceId } from './db';
 import { addHearts } from './hearts';
+import { pushProgress } from './progressSync';
 /** The family's database address. Empty until the device is in a family. */
 export const dbUrl = famUrl;
 const get = (k: string) => { try { return localStorage.getItem(k); } catch { return null; } };
@@ -58,13 +59,18 @@ export async function takeGifts() {
   if (!dbUrl() || !USER_ID || taking) return;
   taking = true;
   try {
-    const raw = (await (await fetch(`${dbUrl()}/gifts/${USER_ID}.json`)).json()) as Record<string, number> | null;
+    const r = await fetch(`${dbUrl()}/gifts/${USER_ID}.json`);
+    if (!r.ok) return;
+    const raw = (await r.json()) as Record<string, number> | null;
     const keys = Object.keys(raw ?? {});
     if (!keys.length) return;
-    // Removed one by one: a gift sent meanwhile stays for next time.
-    await Promise.all(keys.map((k) => fetch(`${dbUrl()}/gifts/${USER_ID}/${k}.json`, { method: 'DELETE' })));
-    const n = keys.reduce((a, k) => a + (Number(raw![k]) || 0), 0);
-    if (n > 0) addHearts(n);
+    // Each gift counts only once it is removed, so it is never added twice. One sent meanwhile stays for next time.
+    let n = 0;
+    for (const k of keys) {
+      const d = await fetch(`${dbUrl()}/gifts/${USER_ID}/${k}.json`, { method: 'DELETE' });
+      if (d.ok) n += Number(raw![k]) || 0;
+    }
+    if (n > 0) { addHearts(n); pushProgress(); }
   } catch { /* the next launch tries again */ } finally { taking = false; }
 }
 
@@ -72,6 +78,8 @@ export function startSync() {
   if (!dbUrl() || !USER_ID) return;
   void pullPlan();
   void takeGifts();
+  // A gift reaches an open app too: checked every 20 seconds while it is on screen, and when it comes back.
+  setInterval(() => { if (document.visibilityState === 'visible') void takeGifts(); }, 20_000);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') void takeGifts(); });
   void pushTime();
   setInterval(() => { if (document.visibilityState === 'visible') void pushTime(); }, 60_000);

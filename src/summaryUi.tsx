@@ -1,6 +1,7 @@
 // Shared by every course: moving between courses, today's schedule, and the summary she sends.
 import { useMemo, useState } from 'react';
 import { GameScreen } from './game';
+import { takeGifts } from './familySync';
 import { COURSE_ID, myCourses, switchCourse } from './course';
 import { FamilySheet, WinsSheet } from './family';
 import { loadSchedule, minutes, planOf, readCourses, weekday } from './summary';
@@ -49,7 +50,7 @@ function GameTab() {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)}>משחק</button>
+      <button type="button" onClick={() => { void takeGifts(); setOpen(true); }}>משחק</button>
       {open && <GameScreen onClose={() => setOpen(false)} />}
     </>
   );
