@@ -1838,9 +1838,14 @@
     c.fillStyle = 'rgba(15, 23, 42, 0.2)';
     c.fill();
 
-    roundRectPath(c, left, top + depth, sz, sz, r);
+    // A dark outline around the whole block, so every player stands out even on land of its own color.
+    const OUTLINE = '#0f172a';
+    roundRectPath(c, left, top, sz, sz + depth, r);
     c.fillStyle = dark;
     c.fill();
+    c.lineWidth = Math.max(2, sz * 0.1);
+    c.strokeStyle = OUTLINE;
+    c.stroke();
 
     roundRectPath(c, left, top, sz, sz, r);
     const g = c.createLinearGradient(left, top, left + sz * 0.4, top + sz);
@@ -1850,7 +1855,7 @@
     c.fillStyle = g;
     c.fill();
     c.lineWidth = Math.max(1.5, sz * 0.07);
-    c.strokeStyle = 'rgba(255,255,255,0.95)';
+    c.strokeStyle = OUTLINE;
     c.stroke();
 
     c.beginPath();
