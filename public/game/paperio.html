@@ -1398,10 +1398,14 @@
       alpha: 0.95
     });
 
-    // Like Paper.io 2: the loser's land becomes empty again, it does not go to the killer.
-    transferAll(victim.num, 0);
+    // The killer takes the loser's land. With no killer, the land becomes empty.
+    const hasKiller = killer && killer.alive && killer !== victim;
+    const stolenCount = transferAll(victim.num, hasKiller ? killer.num : 0);
 
-    if (killer && killer.alive && killer !== victim) {
+    if (hasKiller) {
+      if (stolenCount > 0) {
+        effects.push({ kind: 'ring', x: victim.x, y: victim.y, r: 18, maxR: 135, color: killer.color, alpha: 0.85 });
+      }
       killer.kills += 1;
       killer.killBoost = 2.2;
       if (killer.isPlayer) {
@@ -1435,9 +1439,8 @@
     const pctFactor = Math.max(0, Math.min(1, playerPct / 95));
     const timeFactor = Math.max(0, Math.min(1, elapsedSec / 180));
     const progress = pctFactor * 0.72 + timeFactor * 0.28;
-    // Like Paper.io 2: the number of rivals stays the same however big you grow, and they come back quickly.
-    void progress;
-    return { delay: 1.5, targetAliveBots: 8 };
+    // Rivals come back more slowly as the player holds more land (and as time passes): 1.5s at the start, up to 20s.
+    return { delay: 1.5 + progress * 18.5, targetAliveBots: 8 };
   }
 
   function botDanger(bot, angle) {
@@ -1531,16 +1534,33 @@
 
     if (ent.killBoost > 0) ent.killBoost = Math.max(0, ent.killBoost - dt);
 
+    // The edge: close to it you are pulled onto it, on it you go faster, and with no steering you follow it.
+    const edgeDist = getDistanceToIslandEdge(ent.x, ent.y);
+    const onEdge = edgeDist <= 18;
+
     if (ent.isPlayer) {
       const desired = getDesiredAngleFromInput();
       if (desired !== null) {
         ent.angle = lerpAngle(ent.angle, desired, Math.min(1, dt * 11));
+      } else if (onEdge) {
+        const tangent = getIslandEdgeTangentAngle(ent.x, ent.y, ent.angle);
+        ent.angle = lerpAngle(ent.angle, tangent, Math.min(1, dt * 10));
+      }
+      const outward = Math.cos(ent.angle) * ent.x + Math.sin(ent.angle) * ent.y;
+      if (edgeDist > 0 && edgeDist < 46 && outward >= 0) {
+        const pull = Math.min(edgeDist, 90 * dt);
+        const d = Math.hypot(ent.x, ent.y) || 1;
+        ent.x += (ent.x / d) * pull;
+        ent.y += (ent.y / d) * pull;
       }
     } else {
       updateBotAI(ent, dt);
     }
 
     let targetSpeed = ent.baseSpeed + (ent.level - 1) * 5;
+    if (onEdge) {
+      targetSpeed *= 1.28;
+    }
     // Like Paper.io 2: a kill gives a short burst of speed.
     if (ent.killBoost > 0) {
       targetSpeed *= 1.3;
@@ -1560,7 +1580,7 @@
     ent.x = nextX;
     ent.y = nextY;
 
-    // Like Paper.io 2: the edge of the map is a wall. You slide along it, you don't die on it.
+    // The edge of the map is a wall. You slide along it, you never fall off.
     const WALL_GAP = CELL * 0.6;
     if (getDistanceToIslandEdge(ent.x, ent.y) < WALL_GAP) {
       const ang = Math.atan2(ent.y, ent.x);
@@ -1611,20 +1631,14 @@
   }
 
   // The rules of Paper.io 2:
-  // 1. Touching any trail kills its owner, your own trail included.
+  // 1. Touching another player's trail kills its owner. Your own trail is safe.
   // 2. Head against head: whoever is inside their own land wins. Otherwise the smaller land loses.
   function resolveCollisions() {
     const aliveList = entities.filter(e => e.alive);
     const HIT = UNIT * 0.55;
-    const SELF_SKIP = Math.ceil((UNIT * 1.6) / CELL);
 
     for (const attacker of aliveList) {
       if (!attacker.alive) continue;
-
-      if (attacker.trail.length > SELF_SKIP && !isProtected(attacker) && touchesTrail(attacker, attacker.x, attacker.y, HIT, SELF_SKIP)) {
-        eliminateEntity(attacker, null, 'נגעת בשובל של עצמך!');
-        continue;
-      }
 
       for (const defender of aliveList) {
         if (attacker === defender || !attacker.alive || !defender.alive) continue;
