@@ -6,7 +6,7 @@
 <title>Paper.io 2 — מהדורת גיבורי-על 2.5D</title>
 <style>
   :root {
-    --bg-sea: #dceaf5;
+    --bg-sea: #1d9bd7;
     --card-bg: rgba(255, 255, 255, 0.95);
     --text-main: #182230;
     --text-muted: #5b6b80;
@@ -126,11 +126,11 @@
   #minimapCanvas {
     position: absolute;
     bottom: 14px;
-    left: 14px;
+    right: 14px;
     width: 136px;
     height: 136px;
     border-radius: 20px;
-    background: rgba(214, 234, 248, 0.92);
+    background: #1d9bd7;
     border: 2px solid rgba(255, 255, 255, 0.95);
     box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16);
   }
@@ -339,29 +339,6 @@
     transform: none;
   }
 
-  .map-side-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-
-  .side-choice {
-    padding: 10px;
-    border-radius: 14px;
-    border: 2px solid #e2e8f0;
-    background: #f8fafc;
-    font-weight: 700;
-    font-size: 13px;
-    cursor: pointer;
-  }
-
-  .side-choice.active {
-    border-color: var(--accent-blue);
-    background: #eff6ff;
-    color: #1d4ed8;
-  }
-
   /* מסך החלפת דמות */
   .heroes-header {
     display: flex;
@@ -531,10 +508,6 @@
       <button id="openCharactersBtn" class="btn btn-secondary" type="button">החלפת דמות 🦸</button>
     </div>
 
-    <div class="map-side-row">
-      <button id="sideRightBtn" class="side-choice active" type="button">מיני-מפה: שמאל למטה</button>
-      <button id="sideLeftBtn" class="side-choice" type="button">מיני-מפה: ימין למטה</button>
-    </div>
 
     <button id="playNowBtn" class="btn btn-primary" type="button">שחק עכשיו ▶</button>
     <button id="exitGameBtn" class="btn btn-secondary" style="width:100%;margin-top:8px;" type="button">חזרה ללימוד</button>
@@ -613,10 +586,10 @@
     { name: 'נינג׳ה', color: '#10b981', dark: '#065f46', trail: '#6ee7b7' },
     { name: 'טורבו', color: '#ec4899', dark: '#831843', trail: '#f9a8d4' },
     { name: 'קוסמו', color: '#8b5cf6', dark: '#4c1d95', trail: '#ddd6fe' },
-    { name: 'סופה', color: '#06b6d4', dark: '#164e63', trail: '#a5f3fc' },
+    { name: 'סופה', color: '#9f1239', dark: '#4c0519', trail: '#fda4af' },
     { name: 'מגנט', color: '#84cc16', dark: '#3f6212', trail: '#bef264' },
     { name: 'אש', color: '#f97316', dark: '#7c2d12', trail: '#fdba74' },
-    { name: 'קרח', color: '#38bdf8', dark: '#0369a1', trail: '#bae6fd' },
+    { name: 'קרח', color: '#4f46e5', dark: '#312e81', trail: '#c7d2fe' },
     { name: 'צל', color: '#64748b', dark: '#1e293b', trail: '#cbd5e1' }
   ];
 
@@ -624,7 +597,6 @@
     const base = {
       name: 'אלוף האי',
       selectedHero: 'classic',
-      minimapSide: 'left',
       bestPct: 0,
       stars: 25,
       gems: 2,
@@ -2265,8 +2237,93 @@
     return cv;
   }
 
+  // A tropical island: deep sea with moving waves, a turquoise lagoon, white surf, a beach ring with palm trees
+  // outside the play area, and sand to play on.
+  const SEA = '#1d9bd7';
+  const scaledContour = (f) => smoothIslandContour.map(p => ({ x: p.x * f, y: p.y * f }));
+  const lagoonContour = scaledContour(1.17);
+  const beachContour = scaledContour(1.075);
+  const PALMS = (() => {
+    const out = [];
+    const n = 26;
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2 + Math.sin(i * 12.9898) * 0.08;
+      const r = getIslandRadiusAtAngle(a) * (1.035 + ((i * 7) % 3) * 0.008);
+      out.push({ x: Math.cos(a) * r, y: Math.sin(a) * r, a, size: 0.85 + ((i * 5) % 4) * 0.1, seed: i });
+    }
+    return out;
+  })();
+
+  function drawWaves(c, camX, camY, t) {
+    const STEP = 90;
+    const x0 = Math.floor((camX - viewW * 0.6) / STEP) * STEP;
+    const y0 = Math.floor((camY - viewH * 0.6) / STEP) * STEP;
+    c.strokeStyle = 'rgba(255,255,255,0.28)';
+    c.lineWidth = 2.5;
+    c.lineCap = 'round';
+    c.beginPath();
+    for (let y = y0; y <= camY + viewH * 0.6; y += STEP) {
+      for (let x = x0; x <= camX + viewW * 0.6; x += STEP) {
+        const k = Math.sin(x * 0.013 + y * 0.029) * 0.5 + 0.5;
+        const wx = x + k * 50 + Math.sin(t * 0.8 + y * 0.01) * 8;
+        const wy = y + k * 40;
+        c.moveTo(wx, wy);
+        c.quadraticCurveTo(wx + 9, wy - 6, wx + 18, wy);
+        c.quadraticCurveTo(wx + 27, wy + 6, wx + 36, wy);
+      }
+    }
+    c.stroke();
+  }
+
+  function drawPalm(c, p, t) {
+    const s = p.size;
+    const lean = Math.atan2(p.y, p.x);
+    const sway = Math.sin(t * 1.5 + p.seed) * 0.06;
+    const tx = p.x + Math.cos(lean + sway) * 26 * s, ty = p.y + Math.sin(lean + sway) * 26 * s - 34 * s;
+    c.save();
+    c.beginPath();
+    c.ellipse(p.x + 6, p.y + 3, 16 * s, 6 * s, 0, 0, Math.PI * 2);
+    c.fillStyle = 'rgba(120, 80, 20, 0.22)';
+    c.fill();
+    c.beginPath();
+    c.moveTo(p.x - 3 * s, p.y);
+    c.quadraticCurveTo(p.x + Math.cos(lean) * 6 * s, p.y - 18 * s, tx - 2 * s, ty);
+    c.lineTo(tx + 2 * s, ty);
+    c.quadraticCurveTo(p.x + Math.cos(lean) * 10 * s, p.y - 18 * s, p.x + 3 * s, p.y);
+    c.closePath();
+    c.fillStyle = '#a16207';
+    c.fill();
+    c.lineWidth = 1.5;
+    c.strokeStyle = '#713f12';
+    c.stroke();
+    for (let i = 0; i < 6; i++) {
+      const a = (i / 6) * Math.PI * 2 + sway * 2 + p.seed;
+      const len = 26 * s;
+      const ex = tx + Math.cos(a) * len, ey = ty + Math.sin(a) * len * 0.6 + 6 * s;
+      const mx = tx + Math.cos(a) * len * 0.5, my = ty + Math.sin(a) * len * 0.3 - 7 * s;
+      const nx = -Math.sin(a) * 6 * s, ny = Math.cos(a) * 6 * s;
+      c.beginPath();
+      c.moveTo(tx, ty);
+      c.quadraticCurveTo(mx + nx, my + ny, ex, ey);
+      c.quadraticCurveTo(mx - nx, my - ny, tx, ty);
+      c.fillStyle = i % 2 ? '#16a34a' : '#22c55e';
+      c.fill();
+      c.lineWidth = 1.2;
+      c.strokeStyle = '#14532d';
+      c.stroke();
+    }
+    c.fillStyle = '#78350f';
+    for (const [dx, dy] of [[-3, 3], [3, 3], [0, 6]]) {
+      c.beginPath();
+      c.arc(tx + dx * s, ty + dy * s, 3 * s, 0, Math.PI * 2);
+      c.fill();
+    }
+    c.restore();
+  }
+
   function renderWorld(player) {
-    ctx.fillStyle = '#d7e8f5';
+    const t = performance.now() / 1000;
+    ctx.fillStyle = SEA;
     ctx.fillRect(0, 0, viewW, viewH);
 
     const camX = player ? player.x : 0;
@@ -2275,18 +2332,33 @@
     ctx.save();
     ctx.translate(viewW * 0.5 - camX, viewH * 0.5 - camY);
 
-    ctx.save();
-    ctx.translate(0, 18);
-    traceSmoothClosedPath(ctx, smoothIslandContour);
-    ctx.fillStyle = '#94a3b8';
+    drawWaves(ctx, camX, camY, t);
+
+    traceSmoothClosedPath(ctx, lagoonContour);
+    ctx.fillStyle = '#4fd1e8';
     ctx.fill();
+
+    const surf = 1.075 + Math.sin(t * 1.6) * 0.008;
+    ctx.save();
+    ctx.scale(surf, surf);
+    traceSmoothClosedPath(ctx, smoothIslandContour);
     ctx.restore();
+    ctx.lineWidth = 9;
+    ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+    ctx.stroke();
+
+    traceSmoothClosedPath(ctx, beachContour);
+    ctx.fillStyle = '#f2d593';
+    ctx.fill();
 
     traceSmoothClosedPath(ctx, smoothIslandContour);
-    ctx.fillStyle = '#f8fafc';
+    const sand = ctx.createRadialGradient(0, 0, BASE_ISLAND_R * 0.2, 0, 0, BASE_ISLAND_R * 1.2);
+    sand.addColorStop(0, '#fcecc0');
+    sand.addColorStop(1, '#f6dea2');
+    ctx.fillStyle = sand;
     ctx.fill();
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = '#64748b';
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = 'rgba(202, 150, 60, 0.55)';
     ctx.stroke();
 
     ctx.save();
@@ -2328,6 +2400,11 @@
     }
 
     ctx.restore();
+
+    for (const palm of PALMS) {
+      if (Math.abs(palm.x - camX) > viewW * 0.7 || Math.abs(palm.y - camY) > viewH * 0.7) continue;
+      drawPalm(ctx, palm, t);
+    }
 
     for (const p of pickups) {
       p.pulse += 0.06;
@@ -2416,7 +2493,7 @@
     const h = MM_SIZE;
     mmCtx.clearRect(0, 0, w, h);
 
-    mmCtx.fillStyle = '#cfe4f5';
+    mmCtx.fillStyle = SEA;
     mmCtx.fillRect(0, 0, w, h);
 
     const maxR = BASE_ISLAND_R * 1.28;
@@ -2431,7 +2508,7 @@
 
     mmCtx.save();
     traceSmoothClosedPath(mmCtx, mapPts);
-    mmCtx.fillStyle = '#ffffff';
+    mmCtx.fillStyle = '#f6dea2';
     mmCtx.fill();
     mmCtx.clip();
 
@@ -2447,7 +2524,7 @@
 
     traceSmoothClosedPath(mmCtx, mapPts);
     mmCtx.lineWidth = 2;
-    mmCtx.strokeStyle = '#334155';
+    mmCtx.strokeStyle = '#ffffff';
     mmCtx.stroke();
 
     for (const e of entities) {
@@ -2523,11 +2600,6 @@
     document.getElementById('activeHeroTitle').textContent = hero.name;
     document.getElementById('activeHeroLevel').textContent = `רמה ${lvl} / 5`;
 
-    const isRight = save.minimapSide === 'right';
-    minimapCanvas.style.left = isRight ? 'auto' : '14px';
-    minimapCanvas.style.right = isRight ? '14px' : 'auto';
-    document.getElementById('sideRightBtn').classList.toggle('active', !isRight);
-    document.getElementById('sideLeftBtn').classList.toggle('active', isRight);
 
     renderCharactersGrid();
   }
@@ -2646,22 +2718,6 @@
     gameState = 'MENU';
     refreshAllUI();
     setActiveScreen('mainMenuScreen');
-  });
-
-  bindClick('sideRightBtn', () => {
-    save.minimapSide = 'left';
-    persistSave();
-    refreshAllUI();
-  });
-
-  bindClick('sideLeftBtn', () => {
-    save.minimapSide = 'right';
-    persistSave();
-    refreshAllUI();
-  });
-
-  bindClick('exitGameBtn', () => {
-    if (window.parent !== window) window.parent.postMessage({ type: 'wf-game-close' }, location.origin);
   });
 
   bindClick('playNowBtn', () => {
