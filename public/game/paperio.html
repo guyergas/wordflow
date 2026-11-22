@@ -650,9 +650,14 @@
     };
   }
 
-  const GRID_SIZE = 26;
-  const GRID_RADIUS = 46;
-  const BASE_ISLAND_R = GRID_RADIUS * GRID_SIZE;
+  // UNIT: sizes and distances of play. CELL: the territory grid, finer than UNIT so the shapes are smooth.
+  const UNIT = 26;
+  const CELL = 8;
+  const BASE_ISLAND_R = 46 * UNIT;
+  const GRID_HALF = Math.ceil(BASE_ISLAND_R * 1.25 / CELL) + 2;
+  const GRID_W = GRID_HALF * 2 + 1;
+  const inGrid = (gx, gy) => gx >= -GRID_HALF && gx <= GRID_HALF && gy >= -GRID_HALF && gy <= GRID_HALF;
+  const gIdx = (gx, gy) => (gy + GRID_HALF) * GRID_W + (gx + GRID_HALF);
 
   function getIslandRadiusAtAngle(angle) {
     const a = Number.isFinite(angle) ? angle : 0;
@@ -706,21 +711,17 @@
     return wrapAngle(a + wrapAngle(b - a) * Math.max(0, Math.min(1, t)));
   }
 
-  function cellKey(gx, gy) {
-    return `${gx},${gy}`;
-  }
-
   function worldToCell(wx, wy) {
     return {
-      gx: Math.round(wx / GRID_SIZE),
-      gy: Math.round(wy / GRID_SIZE)
+      gx: Math.round(wx / CELL),
+      gy: Math.round(wy / CELL)
     };
   }
 
   function cellToWorld(gx, gy) {
     return {
-      x: gx * GRID_SIZE,
-      y: gy * GRID_SIZE
+      x: gx * CELL,
+      y: gy * CELL
     };
   }
 
@@ -752,39 +753,182 @@
   }
 
   const validIslandCells = [];
-  const validIslandSet = new Set();
-  for (let gy = -GRID_RADIUS; gy <= GRID_RADIUS; gy++) {
-    for (let gx = -GRID_RADIUS; gx <= GRID_RADIUS; gx++) {
+  const validGrid = new Uint8Array(GRID_W * GRID_W);
+  for (let gy = -GRID_HALF; gy <= GRID_HALF; gy++) {
+    for (let gx = -GRID_HALF; gx <= GRID_HALF; gx++) {
       const w = cellToWorld(gx, gy);
-      if (getDistanceToIslandEdge(w.x, w.y) >= GRID_SIZE * 0.35) {
-        const k = cellKey(gx, gy);
-        validIslandCells.push({ gx, gy, key: k, x: w.x, y: w.y });
-        validIslandSet.add(k);
+      if (getDistanceToIslandEdge(w.x, w.y) >= CELL * 0.35) {
+        validIslandCells.push({ gx, gy, x: w.x, y: w.y });
+        validGrid[gIdx(gx, gy)] = 1;
       }
     }
   }
   const TOTAL_ISLAND_CELLS = Math.max(1, validIslandCells.length);
 
+  // Territory: one owner number per cell (0 = nobody). Counts are kept as cells change.
+  const ownerGrid = new Int16Array(GRID_W * GRID_W);
+  let ownerCounts = [];
+  let entByNum = [null];
+  let ownerPaths = [];
+  const dirtyOwners = new Set();
+
+  function ownerNumAt(gx, gy) {
+    return inGrid(gx, gy) ? ownerGrid[gIdx(gx, gy)] : 0;
+  }
+
+  function setOwner(gx, gy, num) {
+    if (!inGrid(gx, gy)) return false;
+    const i = gIdx(gx, gy);
+    if (!validGrid[i]) return false;
+    const prev = ownerGrid[i];
+    if (prev === num) return false;
+    if (prev) { ownerCounts[prev]--; dirtyOwners.add(prev); }
+    ownerGrid[i] = num;
+    if (num) { ownerCounts[num] = (ownerCounts[num] || 0) + 1; dirtyOwners.add(num); }
+    return true;
+  }
+
+  /** Moves all of one owner's cells to another (0 = nobody). Returns how many moved. */
+  function transferAll(from, to) {
+    const moved = ownerCounts[from] || 0;
+    if (!moved) return 0;
+    for (let i = 0; i < ownerGrid.length; i++) {
+      if (ownerGrid[i] === from) ownerGrid[i] = to;
+    }
+    ownerCounts[from] = 0;
+    dirtyOwners.add(from);
+    if (to) { ownerCounts[to] = (ownerCounts[to] || 0) + moved; dirtyOwners.add(to); }
+    return moved;
+  }
+
+  // Marching squares over the owner's cells, then Chaikin smoothing: a smooth outline instead of squares.
+  // Saddles keep diagonal cells apart. Each edge point is shared by exactly two squares, so every loop closes.
+  const MS = [null, ['L','B'], ['B','R'], ['L','R'], ['T','R'], ['B','L','T','R'], ['T','B'], ['L','T'],
+    ['L','T'], ['T','B'], ['L','T','B','R'], ['T','R'], ['L','R'], ['B','R'], ['L','B'], null];
+
+  function buildOwnerPath(num) {
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    for (let gy = -GRID_HALF; gy <= GRID_HALF; gy++) {
+      const row = (gy + GRID_HALF) * GRID_W;
+      for (let gx = -GRID_HALF; gx <= GRID_HALF; gx++) {
+        if (ownerGrid[row + gx + GRID_HALF] === num) {
+          if (gx < minX) minX = gx;
+          if (gx > maxX) maxX = gx;
+          if (gy < minY) minY = gy;
+          if (gy > maxY) maxY = gy;
+        }
+      }
+    }
+    if (minX === Infinity) return null;
+
+    const v = (x, y) => (inGrid(x, y) && ownerGrid[gIdx(x, y)] === num ? 1 : 0);
+    const OFF = GRID_HALF * 2 + 8;
+    const key = (X, Y) => (X + OFF) * 8192 + (Y + OFF);
+    const adj = new Map();
+    const link = (a, b) => {
+      (adj.get(a) || adj.set(a, []).get(a)).push(b);
+      (adj.get(b) || adj.set(b, []).get(b)).push(a);
+    };
+    for (let y = minY - 1; y <= maxY; y++) {
+      for (let x = minX - 1; x <= maxX; x++) {
+        const c = v(x, y) * 8 | v(x + 1, y) * 4 | v(x + 1, y + 1) * 2 | v(x, y + 1);
+        const segs = MS[c];
+        if (!segs) continue;
+        const pt = {
+          T: key(2 * x + 1, 2 * y),
+          R: key(2 * x + 2, 2 * y + 1),
+          B: key(2 * x + 1, 2 * y + 2),
+          L: key(2 * x, 2 * y + 1)
+        };
+        for (let i = 0; i < segs.length; i += 2) link(pt[segs[i]], pt[segs[i + 1]]);
+      }
+    }
+
+    const path = new Path2D();
+    const seen = new Set();
+    for (const start of adj.keys()) {
+      if (seen.has(start)) continue;
+      const loop = [];
+      let prev = -1, cur = start;
+      while (!seen.has(cur)) {
+        seen.add(cur);
+        const X = Math.floor(cur / 8192) - OFF, Y = (cur % 8192) - OFF;
+        loop.push({ x: X * 0.5 * CELL, y: Y * 0.5 * CELL });
+        const nb = adj.get(cur);
+        const next = nb[0] !== prev ? nb[0] : nb[1];
+        prev = cur;
+        cur = next;
+      }
+      if (loop.length < 3) continue;
+      const pts = chaikinSmooth(averageLoop(loop, 3), true, 2);
+      path.moveTo(pts[0].x, pts[0].y);
+      for (let i = 1; i < pts.length; i++) path.lineTo(pts[i].x, pts[i].y);
+      path.closePath();
+    }
+    return path;
+  }
+
+  /** Each point moves to the average of its neighbors: the stairs on diagonals become straight lines. */
+  function averageLoop(pts, passes) {
+    const n = pts.length;
+    if (n < 6) return pts;
+    let cur = pts;
+    for (let k = 0; k < passes; k++) {
+      const next = new Array(n);
+      for (let i = 0; i < n; i++) {
+        let x = 0, y = 0;
+        for (let d = -2; d <= 2; d++) {
+          const q = cur[(i + d + n) % n];
+          x += q.x;
+          y += q.y;
+        }
+        next[i] = { x: x / 5, y: y / 5 };
+      }
+      cur = next;
+    }
+    return cur;
+  }
+
+  function refreshOwnerPaths() {
+    for (const n of dirtyOwners) {
+      ownerPaths[n] = ownerCounts[n] > 0 ? buildOwnerPath(n) : null;
+    }
+    dirtyOwners.clear();
+  }
+
+  function roundRectPath(c, x, y, w, h, r) {
+    c.beginPath();
+    c.moveTo(x + r, y);
+    c.arcTo(x + w, y, x + w, y + h, r);
+    c.arcTo(x + w, y + h, x, y + h, r);
+    c.arcTo(x, y + h, x, y, r);
+    c.arcTo(x, y, x + w, y, r);
+    c.closePath();
+  }
+
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
   const minimapCanvas = document.getElementById('minimapCanvas');
   const mmCtx = minimapCanvas.getContext('2d');
+  const MM_SIZE = 136;
 
   let viewW = window.innerWidth;
   let viewH = window.innerHeight;
   function resizeCanvas() {
     viewW = window.innerWidth;
     viewH = window.innerHeight;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 3);
     canvas.width = Math.floor(viewW * dpr);
     canvas.height = Math.floor(viewH * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    minimapCanvas.width = Math.floor(MM_SIZE * dpr);
+    minimapCanvas.height = Math.floor(MM_SIZE * dpr);
+    mmCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
 
   let gameState = 'MENU';
-  let territoryMap = new Map();
   let entities = [];
   let pickups = [];
   let effects = [];
@@ -859,7 +1003,9 @@
   });
 
   function createEntity(opts) {
-    return {
+    const ent = {
+      num: entByNum.length,
+      trailPts: [],
       id: opts.id,
       name: opts.name,
       isPlayer: !!opts.isPlayer,
@@ -885,19 +1031,18 @@
       aiTimer: 0,
       aiTargetAngle: opts.angle || 0
     };
+    entByNum.push(ent);
+    return ent;
   }
 
-  function paintInitialPatch(cx, cy, ownerId, radiusCells = 2) {
+  function paintInitialPatch(cx, cy, ent, radiusUnits = 2) {
     const center = worldToCell(cx, cy);
-    for (let dy = -radiusCells; dy <= radiusCells; dy++) {
-      for (let dx = -radiusCells; dx <= radiusCells; dx++) {
-        if (dx * dx + dy * dy <= radiusCells * radiusCells + 1) {
-          const gx = center.gx + dx;
-          const gy = center.gy + dy;
-          const k = cellKey(gx, gy);
-          if (validIslandSet.has(k)) {
-            territoryMap.set(k, ownerId);
-          }
+    const r = radiusUnits * UNIT / CELL;
+    const ri = Math.ceil(r);
+    for (let dy = -ri; dy <= ri; dy++) {
+      for (let dx = -ri; dx <= ri; dx++) {
+        if (dx * dx + dy * dy <= r * r + 1) {
+          setOwner(center.gx + dx, center.gy + dy, ent.num);
         }
       }
     }
@@ -908,14 +1053,14 @@
     for (let attempt = 0; attempt < 90; attempt++) {
       const idx = Math.floor(Math.random() * validIslandCells.length);
       const c = validIslandCells[idx];
-      if (getDistanceToIslandEdge(c.x, c.y) < GRID_SIZE * 4) continue;
+      if (getDistanceToIslandEdge(c.x, c.y) < UNIT * 4) continue;
       if (player && minDistFromPlayer > 0) {
         if (Math.hypot(c.x - player.x, c.y - player.y) < minDistFromPlayer) continue;
       }
       let occupied = false;
       for (const e of entities) {
         if (!e.alive) continue;
-        if (Math.hypot(c.x - e.x, c.y - e.y) < GRID_SIZE * 5) {
+        if (Math.hypot(c.x - e.x, c.y - e.y) < UNIT * 5) {
           occupied = true;
           break;
         }
@@ -943,13 +1088,13 @@
       spawnShield: isRespawn ? 2.4 : 2.0
     });
     entities.push(bot);
-    paintInitialPatch(sp.x, sp.y, id, 2);
+    paintInitialPatch(sp.x, sp.y, bot, 2);
   }
 
   function spawnPickup(forcedType = null) {
     const idx = Math.floor(Math.random() * validIslandCells.length);
     const c = validIslandCells[idx];
-    if (getDistanceToIslandEdge(c.x, c.y) < GRID_SIZE * 2) return;
+    if (getDistanceToIslandEdge(c.x, c.y) < UNIT * 2) return;
 
     let type = forcedType;
     if (!type) {
@@ -974,7 +1119,11 @@
 
   function startNewMatch() {
     clearFlyingTokens();
-    territoryMap.clear();
+    ownerGrid.fill(0);
+    ownerCounts = [];
+    entByNum = [null];
+    ownerPaths = [];
+    dirtyOwners.clear();
     entities = [];
     pickups = [];
     effects = [];
@@ -1009,7 +1158,7 @@
       spawnShield: 1.5
     });
     entities.push(player);
-    paintInitialPatch(startSp.x, startSp.y, 'player', 2);
+    paintInitialPatch(startSp.x, startSp.y, player, 2);
 
     for (let i = 0; i < 8; i++) {
       spawnBot(false);
@@ -1028,11 +1177,8 @@
   }
 
   function countTerritoryFor(ownerId) {
-    let count = 0;
-    for (const v of territoryMap.values()) {
-      if (v === ownerId) count++;
-    }
-    return count;
+    const e = entities.find(x => x.id === ownerId);
+    return e ? (ownerCounts[e.num] || 0) : 0;
   }
 
   function getAreaPct(ownerId) {
@@ -1041,7 +1187,7 @@
 
   function appendTrailSegment(ent, fromX, fromY, toX, toY) {
     const dist = Math.hypot(toX - fromX, toY - fromY);
-    const steps = Math.max(1, Math.ceil(dist / (GRID_SIZE * 0.45)));
+    const steps = Math.max(1, Math.ceil(dist / (CELL * 0.45)));
     for (let s = 1; s <= steps; s++) {
       const t = s / steps;
       const sx = fromX + (toX - fromX) * t;
@@ -1060,24 +1206,20 @@
 
     let newlyCaptured = 0;
     for (const pt of ent.trail) {
-      const k = cellKey(pt.gx, pt.gy);
-      if (validIslandSet.has(k) && territoryMap.get(k) !== ent.id) {
-        territoryMap.set(k, ent.id);
-        newlyCaptured++;
-      }
+      if (setOwner(pt.gx, pt.gy, ent.num)) newlyCaptured++;
     }
 
-    const minX = -GRID_RADIUS - 2;
-    const maxX = GRID_RADIUS + 2;
-    const minY = -GRID_RADIUS - 2;
-    const maxY = GRID_RADIUS + 2;
+    const minX = -GRID_HALF;
+    const maxX = GRID_HALF;
+    const minY = -GRID_HALF;
+    const maxY = GRID_HALF;
     const w = maxX - minX + 1;
     const h = maxY - minY + 1;
     const visited = new Uint8Array(w * h);
 
     const isBlockedByOwner = (gx, gy) => {
       if (gx < minX || gx > maxX || gy < minY || gy > maxY) return false;
-      return territoryMap.get(cellKey(gx, gy)) === ent.id;
+      return ownerGrid[gIdx(gx, gy)] === ent.num;
     };
 
     const queue = [];
@@ -1125,14 +1267,12 @@
     for (const c of validIslandCells) {
       const idx = (c.gy - minY) * w + (c.gx - minX);
       if (idx >= 0 && idx < visited.length && !visited[idx]) {
-        if (territoryMap.get(c.key) !== ent.id) {
-          territoryMap.set(c.key, ent.id);
-          newlyCaptured++;
-        }
+        if (setOwner(c.gx, c.gy, ent.num)) newlyCaptured++;
       }
     }
 
     ent.trail = [];
+    ent.trailPts = [];
 
     const capturedPct = (newlyCaptured / TOTAL_ISLAND_CELLS) * 100;
 
@@ -1140,7 +1280,7 @@
       const remaining = [];
       for (const p of pickups) {
         const gc = worldToCell(p.x, p.y);
-        if (territoryMap.get(cellKey(gc.gx, gc.gy)) === ent.id) {
+        if (ownerNumAt(gc.gx, gc.gy) === ent.num) {
           collectPickup(ent, p, true);
         } else {
           remaining.push(p);
@@ -1205,7 +1345,7 @@
     const blastRadius = 155;
     effects.push({ kind: 'ring', x: bx, y: by, r: 14, maxR: blastRadius, color: '#ef4444', alpha: 0.95 });
 
-    const rCells = Math.ceil(blastRadius / GRID_SIZE);
+    const rCells = Math.ceil(blastRadius / CELL);
     const center = worldToCell(bx, by);
     for (let dy = -rCells; dy <= rCells; dy++) {
       for (let dx = -rCells; dx <= rCells; dx++) {
@@ -1213,10 +1353,7 @@
         const gy = center.gy + dy;
         const w = cellToWorld(gx, gy);
         if (Math.hypot(w.x - bx, w.y - by) <= blastRadius) {
-          const k = cellKey(gx, gy);
-          if (validIslandSet.has(k)) {
-            territoryMap.set(k, ent.id);
-          }
+          setOwner(gx, gy, ent.num);
         }
       }
     }
@@ -1246,13 +1383,7 @@
 
     if (killer && killer.alive) {
       killer.kills += 1;
-      let stolenCount = 0;
-      for (const [k, owner] of territoryMap.entries()) {
-        if (owner === victim.id) {
-          territoryMap.set(k, killer.id);
-          stolenCount++;
-        }
-      }
+      const stolenCount = transferAll(victim.num, killer.num);
       if (stolenCount > 0) {
         effects.push({
           kind: 'ring',
@@ -1270,14 +1401,11 @@
         spawnFloatingBadge('⚔️', victim.x, victim.y, '#ef4444');
       }
     } else {
-      for (const [k, owner] of territoryMap.entries()) {
-        if (owner === victim.id) {
-          territoryMap.delete(k);
-        }
-      }
+      transferAll(victim.num, 0);
     }
 
     victim.trail = [];
+    victim.trailPts = [];
 
     if (victim.isPlayer) {
       finishMatch(false, reasonText || 'השובל שלך נחצה או שיצאת מהאי!');
@@ -1313,17 +1441,17 @@
     for (const dist of probes) {
       const px = bot.x + Math.cos(bot.angle) * dist;
       const py = bot.y + Math.sin(bot.angle) * dist;
-      if (getDistanceToIslandEdge(px, py) < GRID_SIZE * 2.2) {
+      if (getDistanceToIslandEdge(px, py) < UNIT * 2.2) {
         dangerAhead = true;
         break;
       }
       const pc = worldToCell(px, py);
-      const ownerAtProbe = territoryMap.get(cellKey(pc.gx, pc.gy));
-      if (ownerAtProbe && ownerAtProbe !== bot.id) {
+      const ownerAtProbe = ownerNumAt(pc.gx, pc.gy);
+      if (ownerAtProbe && ownerAtProbe !== bot.num) {
         for (const other of entities) {
           if (!other.alive || other.id === bot.id) continue;
           for (const t of other.trail) {
-            if (Math.hypot(t.x - px, t.y - py) < GRID_SIZE * 1.4) {
+            if (Math.hypot(t.x - px, t.y - py) < UNIT * 1.4) {
               dangerAhead = true;
               break;
             }
@@ -1413,26 +1541,26 @@
     ent.x = nextX;
     ent.y = nextY;
 
-    if (getDistanceToIslandEdge(ent.x, ent.y) < -GRID_SIZE * 0.75) {
+    if (getDistanceToIslandEdge(ent.x, ent.y) < -UNIT * 0.75) {
       eliminateEntity(ent, null, 'נפלת מחוץ לגבולות האי!');
       return;
     }
 
     const cell = worldToCell(ent.x, ent.y);
-    const k = cellKey(cell.gx, cell.gy);
-    const ownerAtCell = territoryMap.get(k);
-
-    if (ownerAtCell === ent.id) {
+    if (ownerNumAt(cell.gx, cell.gy) === ent.num) {
       if (ent.trail.length > 0) {
         captureClosedLoop(ent);
       }
     } else {
+      if (ent.trailPts.length === 0) ent.trailPts.push({ x: prevX, y: prevY });
+      const lp = ent.trailPts[ent.trailPts.length - 1];
+      if (Math.hypot(ent.x - lp.x, ent.y - lp.y) >= 4) ent.trailPts.push({ x: ent.x, y: ent.y });
       appendTrailSegment(ent, prevX, prevY, ent.x, ent.y);
     }
 
     for (let i = pickups.length - 1; i >= 0; i--) {
       const p = pickups[i];
-      if (Math.hypot(ent.x - p.x, ent.y - p.y) <= GRID_SIZE * 1.15) {
+      if (Math.hypot(ent.x - p.x, ent.y - p.y) <= UNIT * 1.15) {
         pickups.splice(i, 1);
         collectPickup(ent, p, false);
       }
@@ -1458,7 +1586,7 @@
         if (defender.spawnShield <= 0 && defender.powerType !== 'shield' && defender.powerType !== 'kangaroo') {
           for (let i = 0; i < defender.trail.length; i++) {
             const t = defender.trail[i];
-            if (Math.hypot(attacker.x - t.x, attacker.y - t.y) <= GRID_SIZE * 0.72) {
+            if (Math.hypot(attacker.x - t.x, attacker.y - t.y) <= UNIT * 0.72) {
               eliminateEntity(defender, attacker, `השובל שלך נחצה על ידי ${attacker.name}!`);
               break;
             }
@@ -1620,57 +1748,38 @@
     traceSmoothClosedPath(ctx, smoothIslandContour);
     ctx.clip();
 
-    ctx.strokeStyle = 'rgba(148, 163, 184, 0.16)';
-    ctx.lineWidth = 1;
-    const startX = Math.floor((camX - viewW * 0.6) / GRID_SIZE) * GRID_SIZE;
-    const endX = camX + viewW * 0.6;
-    const startY = Math.floor((camY - viewH * 0.6) / GRID_SIZE) * GRID_SIZE;
-    const endY = camY + viewH * 0.6;
 
-    for (let x = startX; x <= endX; x += GRID_SIZE) {
-      ctx.beginPath();
-      ctx.moveTo(x, startY);
-      ctx.lineTo(x, endY);
-      ctx.stroke();
-    }
-    for (let y = startY; y <= endY; y += GRID_SIZE) {
-      ctx.beginPath();
-      ctx.moveTo(startX, y);
-      ctx.lineTo(endX, y);
-      ctx.stroke();
-    }
-
-    const ownerById = new Map();
-    for (const e of entities) ownerById.set(e.id, e);
-
-    for (const [k, ownerId] of territoryMap.entries()) {
-      const owner = ownerById.get(ownerId);
-      if (!owner) continue;
-      const parts = k.split(',');
-      const gx = Number(parts[0]);
-      const gy = Number(parts[1]);
-      const wx = gx * GRID_SIZE;
-      const wy = gy * GRID_SIZE;
-      if (Math.abs(wx - camX) > viewW * 0.65 || Math.abs(wy - camY) > viewH * 0.65) continue;
-
-      ctx.fillStyle = owner.color;
-      ctx.fillRect(wx - GRID_SIZE * 0.52, wy - GRID_SIZE * 0.52, GRID_SIZE * 1.04, GRID_SIZE * 1.04);
-    }
-
+    refreshOwnerPaths();
+    // Territory: a darker copy a little lower gives depth, then the color on top.
+    ctx.save();
+    ctx.translate(0, 5);
     for (const e of entities) {
-      if (!e.alive || e.trail.length === 0) continue;
-      ctx.fillStyle = e.trailColor;
-      for (const t of e.trail) {
-        ctx.fillRect(t.x - GRID_SIZE * 0.44, t.y - GRID_SIZE * 0.44, GRID_SIZE * 0.88, GRID_SIZE * 0.88);
-      }
-      const last = e.trail[e.trail.length - 1];
+      const p = ownerPaths[e.num];
+      if (!p) continue;
+      ctx.fillStyle = e.dark;
+      ctx.fill(p, 'evenodd');
+    }
+    ctx.restore();
+    for (const e of entities) {
+      const p = ownerPaths[e.num];
+      if (!p) continue;
+      ctx.fillStyle = e.color;
+      ctx.fill(p, 'evenodd');
+    }
+
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    for (const e of entities) {
+      if (!e.alive || e.trailPts.length === 0) continue;
       ctx.beginPath();
-      ctx.moveTo(last.x, last.y);
+      ctx.moveTo(e.trailPts[0].x, e.trailPts[0].y);
+      for (let i = 1; i < e.trailPts.length; i++) ctx.lineTo(e.trailPts[i].x, e.trailPts[i].y);
       ctx.lineTo(e.x, e.y);
       ctx.strokeStyle = e.trailColor;
-      ctx.lineWidth = GRID_SIZE * 0.82;
-      ctx.lineCap = 'round';
+      ctx.globalAlpha = 0.9;
+      ctx.lineWidth = UNIT * 0.66;
       ctx.stroke();
+      ctx.globalAlpha = 1;
     }
 
     ctx.restore();
@@ -1709,21 +1818,24 @@
     const drawOrder = [...entities].filter(e => e.alive).sort((a, b) => a.y - b.y);
     for (const e of drawOrder) {
       const liftY = e.powerType === 'kangaroo' ? -18 : 0;
-      const sz = GRID_SIZE * 1.05;
+      const sz = UNIT * 1.05;
 
       ctx.beginPath();
       ctx.ellipse(e.x, e.y + 8, sz * 0.52, sz * 0.34, 0, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(15, 23, 42, 0.22)';
       ctx.fill();
 
+      const rad = sz * 0.28;
+      roundRectPath(ctx, e.x - sz * 0.5, e.y - sz * 0.5 + liftY + 6, sz, sz, rad);
       ctx.fillStyle = e.dark;
-      ctx.fillRect(e.x - sz * 0.5, e.y - sz * 0.5 + liftY + 6, sz, sz);
+      ctx.fill();
 
+      roundRectPath(ctx, e.x - sz * 0.5, e.y - sz * 0.5 + liftY, sz, sz, rad);
       ctx.fillStyle = e.color;
-      ctx.fillRect(e.x - sz * 0.5, e.y - sz * 0.5 + liftY, sz, sz);
+      ctx.fill();
       ctx.lineWidth = 2.5;
       ctx.strokeStyle = '#ffffff';
-      ctx.strokeRect(e.x - sz * 0.5, e.y - sz * 0.5 + liftY, sz, sz);
+      ctx.stroke();
 
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 14px system-ui, sans-serif';
@@ -1777,8 +1889,8 @@
   }
 
   function renderMinimap() {
-    const w = minimapCanvas.width;
-    const h = minimapCanvas.height;
+    const w = MM_SIZE;
+    const h = MM_SIZE;
     mmCtx.clearRect(0, 0, w, h);
 
     mmCtx.fillStyle = '#cfe4f5';
@@ -1800,17 +1912,13 @@
     mmCtx.fill();
     mmCtx.clip();
 
-    const ownerById = new Map();
-    for (const e of entities) ownerById.set(e.id, e);
-
-    for (const [k, ownerId] of territoryMap.entries()) {
-      const owner = ownerById.get(ownerId);
-      if (!owner) continue;
-      const parts = k.split(',');
-      const px = cx + Number(parts[0]) * GRID_SIZE * scale;
-      const py = cy + Number(parts[1]) * GRID_SIZE * scale;
-      mmCtx.fillStyle = owner.color;
-      mmCtx.fillRect(px - 1.5, py - 1.5, 3, 3);
+    mmCtx.translate(cx, cy);
+    mmCtx.scale(scale, scale);
+    for (const e of entities) {
+      const p = ownerPaths[e.num];
+      if (!p) continue;
+      mmCtx.fillStyle = e.color;
+      mmCtx.fill(p, 'evenodd');
     }
     mmCtx.restore();
 
