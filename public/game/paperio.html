@@ -1910,9 +1910,6 @@
 
   const BOT_KINDS = ['classic', 'bat', 'steel', 'spider', 'flash', 'lantern', 'iron', 'thor', 'panther', 'captain', 'ant', 'mystic'];
 
-  /** What each upgrade level adds to a hero's look. */
-  const LEVEL_PERKS = { 2: 'גלימה', 3: 'סמל על החזה', 4: 'כוכבים מסתובבים', 5: 'הילה זוהרת' };
-
   function strokeFill(c, fill, lw) {
     c.fillStyle = fill;
     c.fill();
@@ -2601,7 +2598,7 @@
 
         const costDiv = document.createElement('div');
         costDiv.className = 'cost-line';
-        costDiv.textContent = `רמה ${lvl + 1} (${LEVEL_PERKS[lvl + 1]}): ⭐${upCost.stars} 💎${upCost.gems}`;
+        costDiv.textContent = `רמה ${lvl + 1}: ⭐${upCost.stars} 💎${upCost.gems}`;
         tile.appendChild(costDiv);
 
         const upBtn = document.createElement('button');
