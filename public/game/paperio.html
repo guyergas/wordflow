@@ -970,18 +970,29 @@
     return null;
   }
 
+  // A floating joystick, like Paper.io 2 on a phone: the direction is where the finger moved from where it went down.
+  // The anchor follows the finger, so a new turn needs only a short swipe.
+  let pointerOrigin = null;
+  const JOY_RADIUS = 36;
   function updatePointerAngleFromEvent(e) {
-    const dx = e.clientX - viewW * 0.5;
-    const dy = e.clientY - viewH * 0.5;
-    if (Math.hypot(dx, dy) > 4) {
+    if (!pointerOrigin) return;
+    let dx = e.clientX - pointerOrigin.x;
+    let dy = e.clientY - pointerOrigin.y;
+    const d = Math.hypot(dx, dy);
+    if (d > 8) {
       pointerTargetAngle = Math.atan2(dy, dx);
+    }
+    if (d > JOY_RADIUS) {
+      pointerOrigin.x = e.clientX - (dx / d) * JOY_RADIUS;
+      pointerOrigin.y = e.clientY - (dy / d) * JOY_RADIUS;
     }
   }
 
   canvas.addEventListener('pointerdown', (e) => {
     if (gameState !== 'PLAYING') return;
     pointerActive = true;
-    updatePointerAngleFromEvent(e);
+    pointerOrigin = { x: e.clientX, y: e.clientY };
+    pointerTargetAngle = null;
   });
 
   canvas.addEventListener('pointermove', (e) => {
@@ -989,9 +1000,10 @@
     updatePointerAngleFromEvent(e);
   });
 
+  // On release the square keeps going the last way it was sent.
   window.addEventListener('pointerup', () => {
     pointerActive = false;
-    pointerTargetAngle = null;
+    pointerOrigin = null;
   });
 
   window.addEventListener('keydown', (e) => {
@@ -1028,6 +1040,9 @@
       runCores: 0,
       powerType: null,
       powerTimer: 0,
+      killBoost: 0,
+      botPlan: null,
+      aggro: Math.random(),
       aiTimer: 0,
       aiTargetAngle: opts.angle || 0
     };
@@ -1057,6 +1072,7 @@
       if (player && minDistFromPlayer > 0) {
         if (Math.hypot(c.x - player.x, c.y - player.y) < minDistFromPlayer) continue;
       }
+      if (ownerGrid[gIdx(c.gx, c.gy)] !== 0) continue;
       let occupied = false;
       for (const e of entities) {
         if (!e.alive) continue;
@@ -1067,13 +1083,14 @@
       }
       if (!occupied) return { x: c.x, y: c.y };
     }
-    return { x: 0, y: 0 };
+    return null;
   }
 
   function spawnBot(isRespawn = false) {
     botCounter += 1;
     const prof = BOT_PROFILES[(botCounter - 1) % BOT_PROFILES.length];
     const sp = findSafeSpawnPoint(isRespawn ? 520 : 280);
+    if (!sp) return;
     const id = `bot_${botCounter}`;
     const bot = createEntity({
       id,
@@ -1142,7 +1159,7 @@
     save.name = playerName;
     persistSave();
 
-    const startSp = findSafeSpawnPoint(0);
+    const startSp = findSafeSpawnPoint(0) || { x: 0, y: 0 };
     const player = createEntity({
       id: 'player',
       name: playerName,
@@ -1381,27 +1398,17 @@
       alpha: 0.95
     });
 
-    if (killer && killer.alive) {
+    // Like Paper.io 2: the loser's land becomes empty again, it does not go to the killer.
+    transferAll(victim.num, 0);
+
+    if (killer && killer.alive && killer !== victim) {
       killer.kills += 1;
-      const stolenCount = transferAll(victim.num, killer.num);
-      if (stolenCount > 0) {
-        effects.push({
-          kind: 'ring',
-          x: victim.x,
-          y: victim.y,
-          r: 18,
-          maxR: 135,
-          color: killer.color,
-          alpha: 0.85
-        });
-      }
+      killer.killBoost = 2.2;
       if (killer.isPlayer) {
         killer.runStars += 3;
         killer.runGems += 1;
         spawnFloatingBadge('⚔️', victim.x, victim.y, '#ef4444');
       }
-    } else {
-      transferAll(victim.num, 0);
     }
 
     victim.trail = [];
@@ -1428,71 +1435,86 @@
     const pctFactor = Math.max(0, Math.min(1, playerPct / 95));
     const timeFactor = Math.max(0, Math.min(1, elapsedSec / 180));
     const progress = pctFactor * 0.72 + timeFactor * 0.28;
-    const delay = 5.0 + progress * 17.0;
-    const targetAliveBots = progress > 0.8 ? 2 : progress > 0.55 ? 3 : progress > 0.3 ? 4 : 5;
-    return { delay, targetAliveBots };
+    // Like Paper.io 2: the number of rivals stays the same however big you grow, and they come back quickly.
+    void progress;
+    return { delay: 1.5, targetAliveBots: 8 };
   }
 
+  function botDanger(bot, angle) {
+    for (const dist of [30, 60, 95]) {
+      const px = bot.x + Math.cos(angle) * dist;
+      const py = bot.y + Math.sin(angle) * dist;
+      if (getDistanceToIslandEdge(px, py) < UNIT * 1.2) return true;
+      if (bot.trail.length > 8 && touchesTrail(bot, px, py, UNIT * 0.9, 8)) return true;
+    }
+    return false;
+  }
+
+  // A bot leaves its land, draws three sides of a box and returns home, the way players capture in Paper.io 2.
+  // It also hunts a trail that passes close by.
   function updateBotAI(bot, dt) {
-    bot.aiTimer -= dt;
+    const home = inOwnLand(bot);
+    if (home) bot.botPlan = null;
 
-    const probes = [45, 95, 145];
-    let dangerAhead = false;
-    for (const dist of probes) {
-      const px = bot.x + Math.cos(bot.angle) * dist;
-      const py = bot.y + Math.sin(bot.angle) * dist;
-      if (getDistanceToIslandEdge(px, py) < UNIT * 2.2) {
-        dangerAhead = true;
-        break;
-      }
-      const pc = worldToCell(px, py);
-      const ownerAtProbe = ownerNumAt(pc.gx, pc.gy);
-      if (ownerAtProbe && ownerAtProbe !== bot.num) {
-        for (const other of entities) {
-          if (!other.alive || other.id === bot.id) continue;
-          for (const t of other.trail) {
-            if (Math.hypot(t.x - px, t.y - py) < UNIT * 1.4) {
-              dangerAhead = true;
-              break;
-            }
-          }
-        }
-      }
-    }
+    let target = bot.aiTargetAngle;
 
-    if (dangerAhead) {
-      bot.aiTargetAngle = wrapAngle(bot.angle + (Math.random() < 0.5 ? 1.15 : -1.15));
-      bot.aiTimer = 0.35;
-      bot.angle = lerpAngle(bot.angle, bot.aiTargetAngle, Math.min(1, dt * 8.5));
-      return;
-    }
-
-    if (bot.aiTimer <= 0) {
-      bot.aiTimer = 0.45 + Math.random() * 0.65;
-
-      let huntAngle = null;
-      let bestDist = 205;
+    // Hunt: a nearby enemy trail, while our own trail is still short.
+    if (bot.trail.length < 20) {
+      let best = 70 + bot.aggro * 80, huntAngle = null;
       for (const other of entities) {
-        if (!other.alive || other.id === bot.id) continue;
-        for (const t of other.trail) {
+        if (!other.alive || other === bot) continue;
+        for (let i = 0; i < other.trail.length; i += 3) {
+          const t = other.trail[i];
           const d = Math.hypot(t.x - bot.x, t.y - bot.y);
-          if (d < bestDist) {
-            bestDist = d;
-            huntAngle = Math.atan2(t.y - bot.y, t.x - bot.x);
-          }
+          if (d < best) { best = d; huntAngle = Math.atan2(t.y - bot.y, t.x - bot.x); }
         }
       }
+      if (huntAngle !== null) target = huntAngle;
+    }
 
-      if (huntAngle !== null && bot.trail.length < 18) {
-        bot.aiTargetAngle = huntAngle;
+    if (target === bot.aiTargetAngle) {
+      if (home) {
+        bot.aiTimer -= dt;
+        if (bot.aiTimer <= 0) {
+          bot.aiTimer = 0.5 + Math.random() * 0.8;
+          bot.aiTargetAngle = wrapAngle(bot.angle + (Math.random() - 0.5) * 1.6);
+        }
+        target = bot.aiTargetAngle;
       } else {
-        const turnChoices = [0, Math.PI * 0.5, -Math.PI * 0.5];
-        const pick = turnChoices[Math.floor(Math.random() * turnChoices.length)];
-        bot.aiTargetAngle = wrapAngle(bot.angle + pick);
+        if (!bot.botPlan) {
+          bot.botPlan = {
+            leg: 0,
+            legLen: 110 + Math.random() * 190,
+            dist: 0,
+            turn: Math.random() < 0.5 ? 1 : -1,
+            heading: bot.angle
+          };
+        }
+        const plan = bot.botPlan;
+        plan.dist += bot.currentSpeed * dt;
+        if (plan.leg < 3 && plan.dist >= plan.legLen * (plan.leg === 1 ? 1.3 : 1)) {
+          plan.leg += 1;
+          plan.dist = 0;
+          plan.heading = wrapAngle(plan.heading + plan.turn * Math.PI / 2);
+        }
+        if (plan.leg < 3) {
+          target = plan.heading;
+        } else {
+          const start = bot.trailPts[0] || { x: bot.x, y: bot.y };
+          target = Math.atan2(start.y - bot.y, start.x - bot.x);
+        }
+        bot.aiTargetAngle = target;
       }
     }
 
-    bot.angle = lerpAngle(bot.angle, bot.aiTargetAngle, Math.min(1, dt * 5.2));
+    if (botDanger(bot, target)) {
+      for (const turn of [0.7, -0.7, 1.4, -1.4, 2.1, -2.1]) {
+        const alt = wrapAngle(target + turn);
+        if (!botDanger(bot, alt)) { target = alt; break; }
+      }
+    }
+
+    bot.angle = lerpAngle(bot.angle, target, Math.min(1, dt * 6));
   }
 
   function updateEntity(ent, dt) {
@@ -1507,24 +1529,21 @@
       }
     }
 
-    const edgeDist = getDistanceToIslandEdge(ent.x, ent.y);
-    const onEdge = edgeDist >= -2 && edgeDist <= 18;
+    if (ent.killBoost > 0) ent.killBoost = Math.max(0, ent.killBoost - dt);
 
     if (ent.isPlayer) {
       const desired = getDesiredAngleFromInput();
       if (desired !== null) {
         ent.angle = lerpAngle(ent.angle, desired, Math.min(1, dt * 11));
-      } else if (onEdge) {
-        const tangent = getIslandEdgeTangentAngle(ent.x, ent.y, ent.angle);
-        ent.angle = lerpAngle(ent.angle, tangent, Math.min(1, dt * 10));
       }
     } else {
       updateBotAI(ent, dt);
     }
 
     let targetSpeed = ent.baseSpeed + (ent.level - 1) * 5;
-    if (onEdge) {
-      targetSpeed *= 1.28;
+    // Like Paper.io 2: a kill gives a short burst of speed.
+    if (ent.killBoost > 0) {
+      targetSpeed *= 1.3;
     }
     if (ent.powerType === 'boost' || ent.powerType === 'kangaroo') {
       targetSpeed *= 1.32;
@@ -1541,9 +1560,14 @@
     ent.x = nextX;
     ent.y = nextY;
 
-    if (getDistanceToIslandEdge(ent.x, ent.y) < -UNIT * 0.75) {
-      eliminateEntity(ent, null, 'נפלת מחוץ לגבולות האי!');
-      return;
+    // Like Paper.io 2: the edge of the map is a wall. You slide along it, you don't die on it.
+    const WALL_GAP = CELL * 0.6;
+    if (getDistanceToIslandEdge(ent.x, ent.y) < WALL_GAP) {
+      const ang = Math.atan2(ent.y, ent.x);
+      const r = getIslandRadiusAtAngle(ang) - WALL_GAP;
+      ent.x = Math.cos(ang) * r;
+      ent.y = Math.sin(ang) * r;
+      ent.angle = getIslandEdgeTangentAngle(ent.x, ent.y, ent.angle);
     }
 
     const cell = worldToCell(ent.x, ent.y);
@@ -1567,31 +1591,74 @@
     }
   }
 
+  function isProtected(e) {
+    return e.spawnShield > 0 || e.powerType === 'shield' || e.powerType === 'kangaroo';
+  }
+
+  function inOwnLand(e) {
+    const c = worldToCell(e.x, e.y);
+    return ownerNumAt(c.gx, c.gy) === e.num;
+  }
+
+  /** Does point (x, y) touch this trail? The newest cells, right behind the head, are skipped for its own head. */
+  function touchesTrail(owner, x, y, radius, skipNewest) {
+    const end = owner.trail.length - skipNewest;
+    for (let i = 0; i < end; i++) {
+      const t = owner.trail[i];
+      if (Math.abs(x - t.x) <= radius && Math.abs(y - t.y) <= radius && Math.hypot(x - t.x, y - t.y) <= radius) return true;
+    }
+    return false;
+  }
+
+  // The rules of Paper.io 2:
+  // 1. Touching any trail kills its owner, your own trail included.
+  // 2. Head against head: whoever is inside their own land wins. Otherwise the smaller land loses.
   function resolveCollisions() {
     const aliveList = entities.filter(e => e.alive);
+    const HIT = UNIT * 0.55;
+    const SELF_SKIP = Math.ceil((UNIT * 1.6) / CELL);
 
     for (const attacker of aliveList) {
+      if (!attacker.alive) continue;
+
+      if (attacker.trail.length > SELF_SKIP && !isProtected(attacker) && touchesTrail(attacker, attacker.x, attacker.y, HIT, SELF_SKIP)) {
+        eliminateEntity(attacker, null, 'נגעת בשובל של עצמך!');
+        continue;
+      }
+
       for (const defender of aliveList) {
-        if (attacker.id === defender.id) continue;
+        if (attacker === defender || !attacker.alive || !defender.alive) continue;
 
         if (attacker.powerType === 'kangaroo') {
-          if (defender.spawnShield <= 0 && defender.powerType !== 'shield') {
-            if (Math.hypot(attacker.x - defender.x, attacker.y - defender.y) <= 34) {
-              eliminateEntity(defender, attacker, 'נמחצת על ידי קנגורו!');
-            }
+          if (!isProtected(defender) && Math.hypot(attacker.x - defender.x, attacker.y - defender.y) <= 34) {
+            eliminateEntity(defender, attacker, 'נמחצת על ידי קנגורו!');
           }
           continue;
         }
 
-        if (defender.spawnShield <= 0 && defender.powerType !== 'shield' && defender.powerType !== 'kangaroo') {
-          for (let i = 0; i < defender.trail.length; i++) {
-            const t = defender.trail[i];
-            if (Math.hypot(attacker.x - t.x, attacker.y - t.y) <= UNIT * 0.72) {
-              eliminateEntity(defender, attacker, `השובל שלך נחצה על ידי ${attacker.name}!`);
-              break;
-            }
-          }
+        if (!isProtected(defender) && defender.trail.length > 0 && touchesTrail(defender, attacker.x, attacker.y, HIT, 0)) {
+          eliminateEntity(defender, attacker, `השובל שלך נחצה על ידי ${attacker.name}!`);
         }
+      }
+    }
+
+    // Head-on: each pair once.
+    const alive = entities.filter(e => e.alive);
+    for (let i = 0; i < alive.length; i++) {
+      for (let j = i + 1; j < alive.length; j++) {
+        const a = alive[i], b = alive[j];
+        if (!a.alive || !b.alive) continue;
+        if (Math.hypot(a.x - b.x, a.y - b.y) > UNIT * 0.9) continue;
+        const aHome = inOwnLand(a), bHome = inOwnLand(b);
+        let loser;
+        if (aHome !== bHome) loser = aHome ? b : a;
+        else {
+          const ca = ownerCounts[a.num] || 0, cb = ownerCounts[b.num] || 0;
+          loser = ca === cb ? (Math.random() < 0.5 ? a : b) : (ca < cb ? a : b);
+        }
+        const winner = loser === a ? b : a;
+        if (isProtected(loser)) continue;
+        eliminateEntity(loser, winner, `התנגשת ראש בראש ב${winner.name}!`);
       }
     }
   }
