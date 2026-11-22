@@ -1,6 +1,7 @@
 import { SettingsSheet } from '../settingsSheet';
 import { g } from '../course';
 import { FirstRunTop, greeting, TopBar } from '../topBar';
+import { reward } from '../hearts';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { pushProgress } from '../progressSync';
 import { pushWin } from '../wins';
@@ -267,6 +268,8 @@ function Session({ st, update, onExit, onMore }: { st: MathState; update: Update
 function Finish({ st, onExit, onMore }: { st: MathState; onExit: () => void; onMore: (o?: { extra?: boolean; bonus?: boolean }) => void }) {
   // A finished practice is a whole point: the progress goes to the person's other devices.
   useEffect(() => { pushProgress(); }, []);
+  // And it earns hearts for the game.
+  useEffect(() => { reward(st.plan?.newSkill ? 'fresh' : 'lesson'); }, []);
   const plan = st.plan!, log = dayLog(st, plan.day);
   const fresh = plan.newSkill ? SKILL[plan.newSkill] : null;
   return (

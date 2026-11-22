@@ -1,5 +1,6 @@
 import { SettingsSheet } from '../settingsSheet';
 import { greeting, TopBar } from '../topBar';
+import { reward } from '../hearts';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { pushProgress } from '../progressSync';
 import { Arrows, Glyph, Lines, Next, Speaker, useStudyTimer, WritePad } from '../alef/AlefApp';
@@ -270,6 +271,8 @@ function Make({ n, sound, onDone }: { n: number; sound: boolean; onDone: (ok: bo
 function Finish({ st, onExit }: { st: TState; onExit: () => void }) {
   // A finished practice is a whole point: the progress goes to the person's other devices.
   useEffect(() => { pushProgress(); }, []);
+  // And it earns hearts for the game.
+  useEffect(() => { reward('lesson'); }, []);
   useEffect(() => { sfx.win(); sayHebrew(SAY.finish); }, []);
   const day = st.plan!.day, today = Object.keys(st.skills).filter((id) => st.skills[id].met === day);
   return (

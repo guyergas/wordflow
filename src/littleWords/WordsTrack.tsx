@@ -1,6 +1,7 @@
 // The words track of the little ones' Hebrew and English: lessons of five words each, opened by the letters learned,
 // and free practice as often as they like. Choosing, then building, then writing with an example above.
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { reward } from '../hearts';
 import { Next, useStudyTimer, WritePad } from '../alef/AlefApp';
 import { LETTER as HE_LETTER, LETTERS, SAY } from '../alef/letters';
 import { ABC, EN, HE, LETTER as EN_LETTER } from '../tinyen/letters';
@@ -186,6 +187,8 @@ function WriteWord({ lang, w, form, sound, onDone }: { lang: Lang; w: LittleWord
 
 function Finish({ lang, ok, all, onAgain, onExit }: { lang: Lang; ok: number; all: number; onAgain?: () => void; onExit: () => void }) {
   useEffect(() => { sfx.win(); sayInTurn([he(HE_SAY.done)]); }, []);
+  // A finished lesson earns hearts for the game.
+  useEffect(() => { reward('lesson'); }, []);
   void lang;
   return (
     <div className="session a-session lw-finish">

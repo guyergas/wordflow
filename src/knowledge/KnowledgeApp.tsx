@@ -1,6 +1,7 @@
 import { SettingsSheet, Toggle } from '../settingsSheet';
 import { g } from '../course';
 import { FirstRunTop, greeting, TopBar } from '../topBar';
+import { reward } from '../hearts';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { pushProgress } from '../progressSync';
 import { COURSE_INFO, STORAGE_KEY, USER_NAME, userKey } from '../course';
@@ -306,6 +307,8 @@ function LessonView({ lesson, wiki, sound, onDone }: { lesson: Lesson; wiki: boo
 function Finish({ st, onExit, onRetry }: { st: KState; onExit: () => void; onRetry: (id: string) => void }) {
   // A finished practice is a whole point: the progress goes to the person's other devices.
   useEffect(() => { pushProgress(); }, []);
+  // And it earns hearts for the game.
+  useEffect(() => { reward('lesson'); }, []);
   const log = dayLog(st, st.plan!.day);
   const failed = st.plan!.steps.find((x): x is Extract<Step, { t: 'lesson' }> => x.t === 'lesson' && !st.lessons[x.id]?.pass);
   return (

@@ -166,3 +166,9 @@
 
 /* The reward game fills the screen above everything. */
 .wf-game { position: fixed; inset: 0; z-index: 200; width: 100vw; height: 100dvh; border: 0; background: #dceaf5; }
+
+/* The offer to play after learning. */
+.hearts-offer { text-align: center; }
+.hearts-offer h2 { margin: 0; }
+.hearts-row { display: flex; justify-content: center; gap: 6px; font-size: 30px; }
+.hearts-row span:not(.on) { opacity: 0.45; }

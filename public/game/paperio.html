@@ -488,6 +488,7 @@
       <div class="wallet-group">
         <div class="wallet-chip" id="walletStarsChip">⭐ <span id="menuStars">0</span></div>
         <div class="wallet-chip" id="walletGemsChip">💎 <span id="menuGems">0</span></div>
+        <div class="wallet-chip" id="walletHeartsChip">❤️ <span id="menuHearts">0</span></div>
       </div>
     </div>
 
@@ -549,6 +550,7 @@
     </div>
 
 
+ <button id="reviveBtn" class="btn btn-primary" style="display:none;background:linear-gradient(135deg,#f43f5e,#be123c);box-shadow:0 10px 24px rgba(225,29,72,0.3);" type="button">לחזור למשחק ❤️</button>
     <button id="playAgainBtn" class="btn btn-primary" type="button">שחק שוב 🔄</button>
     <button id="endMenuBtn" class="btn btn-secondary" style="width:100%;margin-top:8px;" type="button">תפריט ראשי</button>
   </div>
@@ -563,6 +565,30 @@
   const WF_USER = /^[a-z]+$/.test(PARAMS.get('user') || '') ? PARAMS.get('user') : null;
   const WF_NAME = (PARAMS.get('name') || '').trim().slice(0, 16);
   const STORAGE_KEY = WF_USER ? `wordflow.u.${WF_USER}.game.paperio` : 'wordflow.game.paperio';
+
+  // Hearts come from learning (the app writes them, see src/hearts.ts). A game costs one, coming back after being
+  // knocked out costs one, taking the whole map gives one. Parents (free=1) play without hearts.
+  const FREE = PARAMS.get('free') === '1' || !WF_USER;
+  const HEARTS_KEY = `wordflow.u.${WF_USER}.hearts`;
+  const MAX_HEARTS = 5;
+  function readHeartState() {
+    try { return JSON.parse(localStorage.getItem(HEARTS_KEY) || '{}') || {}; } catch (_) { return {}; }
+  }
+  function heartsLeft() {
+    return Math.max(0, Math.min(MAX_HEARTS, Number(readHeartState().n) || 0));
+  }
+  function changeHearts(d) {
+    const st = readHeartState();
+    st.n = Math.max(0, Math.min(MAX_HEARTS, (Number(st.n) || 0) + d));
+    try { localStorage.setItem(HEARTS_KEY, JSON.stringify(st)); } catch (_) {}
+  }
+  /** Takes a heart for a game; false when there is none. */
+  function payHeart() {
+    if (FREE) return true;
+    if (heartsLeft() < 1) return false;
+    changeHearts(-1);
+    return true;
+  }
 
   const HEROES = [
     { id: 'classic', name: 'כחול קלאסי', symbol: '★', color: '#2563eb', dark: '#1d4ed8', trail: '#93c5fd', starter: true },
@@ -1197,6 +1223,33 @@
     renderMinimap(player);
   }
 
+  /** Back into the same match after being knocked out: a new start somewhere free, a short shield. */
+  function revivePlayer() {
+    const p = entities.find(e => e.isPlayer);
+    if (!p) return;
+    clearFlyingTokens();
+    const sp = findSafeSpawnPoint(0) || { x: 0, y: 0 };
+    p.alive = true;
+    p.x = sp.x;
+    p.y = sp.y;
+    p.trail = [];
+    p.trailPts = [];
+    p.spawnShield = 2.5;
+    p.powerType = null;
+    p.powerTimer = 0;
+    // What the first part earned was already paid at its end.
+    p.runStars = 0;
+    p.runGems = 0;
+    p.kills = 0;
+    p.finalPct = undefined;
+    paintInitialPatch(sp.x, sp.y, p, 2);
+    pointerActive = false;
+    pointerTargetAngle = null;
+    gameState = 'PLAYING';
+    setActiveScreen(null);
+    document.getElementById('hud').classList.add('active');
+  }
+
   function countTerritoryFor(ownerId) {
     const e = entities.find(x => x.id === ownerId);
     return e ? (ownerCounts[e.num] || 0) : 0;
@@ -1707,6 +1760,8 @@
     document.getElementById('endTitle').textContent = isWin ? 'ניצחון מוחץ — 100% כיבוש!' : 'הסיבוב הסתיים';
     document.getElementById('endReason').textContent = reasonText;
 
+    if (isWin && !FREE) changeHearts(1);
+    document.getElementById('reviveBtn').style.display = !isWin && (FREE || heartsLeft() > 0) ? '' : 'none';
     setActiveScreen('endScreen');
     animateEndCounters({ pct, kills, runStars: runStars + winStars, runGems: runGems + winGems });
     refreshAllUI();
@@ -2850,6 +2905,11 @@
   function refreshAllUI() {
     document.getElementById('menuStars').textContent = `${save.stars}`;
     document.getElementById('menuGems').textContent = `${save.gems}`;
+    const hearts = heartsLeft();
+    document.getElementById('menuHearts').textContent = FREE ? '∞' : `${hearts}/${MAX_HEARTS}`;
+    const playBtn = document.getElementById('playNowBtn');
+    playBtn.disabled = !FREE && hearts < 1;
+    playBtn.textContent = !FREE && hearts < 1 ? 'אין לבבות: סיום שיעור נותן לב' : 'שחק עכשיו ❤️ ▶';
 
     document.getElementById('charStars').textContent = `${save.stars}`;
     document.getElementById('charGems').textContent = `${save.gems}`;
@@ -2983,11 +3043,17 @@
   });
 
   bindClick('playNowBtn', () => {
-    startNewMatch();
+    if (payHeart()) startNewMatch();
+    else refreshAllUI();
   });
 
   bindClick('playAgainBtn', () => {
-    startNewMatch();
+    if (payHeart()) startNewMatch();
+    else { gameState = 'MENU'; refreshAllUI(); setActiveScreen('mainMenuScreen'); }
+  });
+
+  bindClick('reviveBtn', () => {
+    if (payHeart()) revivePlayer();
   });
 
   bindClick('endMenuBtn', () => {

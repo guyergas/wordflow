@@ -1,6 +1,7 @@
 import { WordsButton, WordsTrack } from '../littleWords/WordsTrack';
 import { SettingsSheet } from '../settingsSheet';
 import { greeting, TopBar } from '../topBar';
+import { reward } from '../hearts';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { pushProgress } from '../progressSync';
 import { Arrows, Glyph, Lines, Next, useStudyTimer, WritePad } from '../alef/AlefApp';
@@ -305,6 +306,8 @@ function PictureGame({ st, l, n, sound, onDone }: { st: EState; l: AbcLetter; n:
 function Finish({ st, onExit }: { st: EState; onExit: () => void }) {
   // A finished practice is a whole point: the progress goes to the person's other devices.
   useEffect(() => { pushProgress(); }, []);
+  // And it earns hearts for the game.
+  useEffect(() => { reward('lesson'); }, []);
   useEffect(() => { sfx.win(); say(he(HE.finish)); }, []);
   const day = st.plan!.day, today = Object.keys(st.letters).filter((id) => st.letters[id].met === day);
   return (

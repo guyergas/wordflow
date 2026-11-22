@@ -1,6 +1,7 @@
 import { SettingsSheet, Toggle } from './settingsSheet';
 import { FirstRunTop, greeting, TopBar } from './topBar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { reward } from './hearts';
 import { pushProgress } from './progressSync';
 import {
   applyPlacement, buildPlan, clozeOf, currentLevel, dayLog, dayNumber, hardWords, isKnown, isMet, Kind, label, levelStats, LEARNING_CAP, options,
@@ -803,6 +804,8 @@ function Confetti() {
 function Finish({ st, plan, onExit, onMore, onMoreNew }: { st: State; plan: Plan; onExit: () => void; onMore: () => void; onMoreNew: () => void }) {
   // A finished practice is a whole point: the progress goes to the person's other devices.
   useEffect(() => { pushProgress(); }, []);
+  // It earns hearts for the game: more when new words were learned.
+  useEffect(() => { reward(plan.newIds.length > 0 ? 'fresh' : 'lesson'); }, []);
   const log = dayLog(st, plan.day);
   const total = log.rOk + log.rNo + log.sOk + log.sNo;
   const pct = total ? Math.round(((log.rOk + log.sOk) / total) * 100) : 100;
@@ -1105,7 +1108,7 @@ function SentenceSession({ st, update, today, onExit }: { st: State; update: Upd
   const [score, setScore] = useState({ ok: 0, all: 0 });
   const item = queue[at];
 
-  useEffect(() => { if (at >= queue.length) { pushProgress(); if (st.settings.sound) sfx.win(); } }, [at, queue.length]);
+  useEffect(() => { if (at >= queue.length) { pushProgress(); if (queue.length) reward('lesson'); if (st.settings.sound) sfx.win(); } }, [at, queue.length]);
 
   if (!item) return (
     <div className="session finish">
