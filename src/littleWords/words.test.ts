@@ -48,7 +48,10 @@ describe('little words', () => {
     it(`${lang}: practice uses only learned words and offers three readable choices`, () => {
       const p = finishLesson(emptyProgress(), LESSONS[lang][0].id);
       const ids = new Set(LESSONS[lang][0].words.map((w) => w.id));
-      const steps = practiceSteps(lang, p, 30);
+      // A fixed seed: by chance alone, 30 steps can miss a kind and fail the deploy.
+      let seed = 7;
+      const rnd = () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
+      const steps = practiceSteps(lang, p, 30, rnd);
       expect(steps).toHaveLength(30);
       expect(steps.every((x) => ids.has(x.id))).toBe(true);
       expect(new Set(steps.map((x) => x.kind)).size).toBe(3);
