@@ -28,6 +28,16 @@ describe('game', () => {
     expect(script).toContain('`wordflow.u.${WF_USER}.game.paperio`');
   });
 
+  it('every button on the page has a handler', () => {
+    const ids = [...page.matchAll(/<button id="([^"]+)"/g)].map((m) => m[1]);
+    expect(ids.length).toBeGreaterThan(3);
+    for (const id of ids) expect(script, id).toContain(`bindClick('${id}'`);
+  });
+
+  it('back to learning tells the app to close the game', () => {
+    expect(script).toMatch(/bindClick\('exitGameBtn'[\s\S]{0,200}wf-game-close/);
+  });
+
   it('the game script parses', () => {
     expect(() => new Function(script)).not.toThrow();
   });

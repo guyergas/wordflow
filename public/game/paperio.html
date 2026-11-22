@@ -3042,6 +3042,10 @@
     setActiveScreen('mainMenuScreen');
   });
 
+  bindClick('exitGameBtn', () => {
+    if (window.parent !== window) window.parent.postMessage({ type: 'wf-game-close' }, location.origin);
+  });
+
   bindClick('playNowBtn', () => {
     if (payHeart()) startNewMatch();
     else refreshAllUI();
