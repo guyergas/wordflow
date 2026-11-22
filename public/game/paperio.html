@@ -1408,6 +1408,8 @@
     });
 
     // The killer takes the loser's land. With no killer, the land becomes empty.
+    // The end screen shows the land held just before the loss, so it is saved before the land moves.
+    victim.finalPct = (countTerritoryFor(victim.id) / TOTAL_ISLAND_CELLS) * 100;
     const hasKiller = killer && killer.alive && killer !== victim;
     const stolenCount = transferAll(victim.num, hasKiller ? killer.num : 0);
 
@@ -1696,7 +1698,7 @@
     gameState = 'ENDED';
 
     const player = entities.find(e => e.isPlayer);
-    const pct = getAreaPct('player');
+    const pct = player && !player.alive && player.finalPct !== undefined ? player.finalPct : getAreaPct('player');
     const kills = player ? player.kills : 0;
     let earnedStars = player ? player.runStars : 0;
     let earnedGems = player ? player.runGems : 0;
