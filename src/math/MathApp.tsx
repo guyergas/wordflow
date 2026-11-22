@@ -2,6 +2,7 @@ import { SettingsSheet } from '../settingsSheet';
 import { g } from '../course';
 import { FirstRunTop, greeting, TopBar } from '../topBar';
 import { reward } from '../hearts';
+import { Views } from '../views';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { pushProgress } from '../progressSync';
 import { pushWin } from '../wins';
@@ -98,11 +99,13 @@ export function MathApp() {
     <div className="app">
       <main className="page">
         {tab === 'home' && <Home st={st} today={today} onStart={start} onSettings={() => setSettings(true)} onCheck={() => setRunning(true)} />}
-        {tab === 'path' && <PathScreen st={st} />}
-        {tab === 'progress' && <Progress st={st} />}
+        {tab === 'progress' && <Views views={[
+          ['progress', 'התקדמות', () => <Progress st={st} />],
+          ['path', 'המסע', () => <PathScreen st={st} />],
+        ]} />}
       </main>
       <nav className="nav" aria-label="ניווט">
-        {([['home', 'בית'], ['path', 'המסע'], ['progress', 'התקדמות']] as [Tab, string][]).map(([k, t]) => <button key={k} type="button" className={tab === k ? 'on' : ''} aria-current={tab === k ? 'page' : undefined} onClick={() => setTab(k)}>{t}</button>)}
+        {([['home', 'בית'], ['progress', 'התקדמות']] as [Tab, string][]).map(([k, t]) => <button key={k} type="button" className={tab === k ? 'on' : ''} aria-current={tab === k ? 'page' : undefined} onClick={() => setTab(k)}>{t}</button>)}
         <SummaryTab name={st.name} />
       </nav>
       {settings && <Settings st={st} update={update} onClose={() => setSettings(false)} />}

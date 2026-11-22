@@ -2,6 +2,7 @@ import { SettingsSheet, Toggle } from './settingsSheet';
 import { FirstRunTop, greeting, TopBar } from './topBar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { reward } from './hearts';
+import { Views } from './views';
 import { pushProgress } from './progressSync';
 import {
   applyPlacement, buildPlan, clozeOf, currentLevel, dayLog, dayNumber, hardWords, isKnown, isMet, Kind, label, levelStats, LEARNING_CAP, options,
@@ -118,12 +119,14 @@ export function App() {
     <div className="app">
       <main className="page">
         {tab === 'home' && <Home st={st} today={today} onStart={startSession} onSentences={() => setInSentences(true)} onSettings={() => setSettings(true)} onReadTime={(sec) => update((s) => addStudyTime(s, dayNumber(), sec))} />}
-        {tab === 'path' && <PathScreen st={st} onWord={setWordSheet} />}
-        {tab === 'progress' && <Progress st={st} today={today} onWord={setWordSheet} />}
-        {tab === 'words' && <WordsScreen st={st} onWord={setWordSheet} />}
+        {tab === 'progress' && <Views views={[
+          ['progress', 'התקדמות', () => <Progress st={st} today={today} onWord={setWordSheet} />],
+          ['path', 'המסע', () => <PathScreen st={st} onWord={setWordSheet} />],
+          ['words', 'מילים', () => <WordsScreen st={st} onWord={setWordSheet} />],
+        ]} />}
       </main>
       <nav className="nav" aria-label="ניווט">
-        {([['home', 'בית'], ['path', 'המסע'], ['progress', 'התקדמות'], ['words', 'מילים']] as [Tab, string][]).map(([k, t]) => (
+        {([['home', 'בית'], ['progress', 'התקדמות']] as [Tab, string][]).map(([k, t]) => (
           <button key={k} type="button" className={tab === k ? 'on' : ''} aria-current={tab === k ? 'page' : undefined} onClick={() => setTab(k)}>{t}</button>
         ))}
         <SummaryTab name={st.name} />

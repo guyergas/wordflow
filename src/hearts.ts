@@ -45,6 +45,15 @@ let listener: Listener | null = null;
 /** The offer to play listens here. */
 export function onHearts(l: Listener) { listener = l; }
 
+/** Hearts a parent gave: added (up to 5) and shown with the offer to play. */
+export function addHearts(n: number) {
+  const s = readHearts();
+  const next = Math.min(MAX_HEARTS, s.n + n);
+  writeHearts({ ...s, n: next });
+  if (listener) listener(next - s.n, next);
+  else void import('./heartsOffer').then((m) => m.showOffer(next - s.n, next));
+}
+
 /** Called where a lesson ends or new material is done. Offers a game when hearts came in. */
 export function reward(kind: Reward) {
   const { s, gained } = applyReward(readHearts(), kind, Date.now(), dayNumber(), goalsMetToday());

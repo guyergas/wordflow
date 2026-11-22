@@ -1,5 +1,6 @@
 // Shared by every course: moving between courses, today's schedule, and the summary she sends.
 import { useMemo, useState } from 'react';
+import { GameScreen } from './game';
 import { COURSE_ID, myCourses, switchCourse } from './course';
 import { FamilySheet, WinsSheet } from './family';
 import { loadSchedule, minutes, planOf, readCourses, weekday } from './summary';
@@ -38,6 +39,18 @@ export function SummaryTab(_: { name?: string }) {
       <button type="button" onClick={() => setOpen(true)}>מערכת</button>
       {open && <FamilySheet onClose={() => setOpen(false)} />}
       <WinsTab />
+      <GameTab />
+    </>
+  );
+}
+
+/** The reward game, in every course's bar. Kids pay a heart per game (see hearts.ts). */
+function GameTab() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button type="button" onClick={() => setOpen(true)}>משחק</button>
+      {open && <GameScreen onClose={() => setOpen(false)} />}
     </>
   );
 }

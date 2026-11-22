@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react';
 import { COURSES, CourseId, coursesFor, IS_PARENT, USER_ID, USERS, userKey } from './course';
 import { lineOf, readWins, Win } from './wins';
-import { FamilyData, pushPlan, readFamily } from './familySync';
+import { FamilyData, giftHearts, heartsOf, pendingGifts, pushPlan, readFamily } from './familySync';
+import { MAX_HEARTS } from './hearts';
 import { cleanSchedule, Schedule, timeLabel, weekday, weekStart } from './summary';
 
 const dayNow = () => { const d = new Date(); return Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() / 864e5 + 0.5); };
@@ -78,12 +79,30 @@ export function FamilySheet({ onClose }: { onClose: () => void }) {
                   <tbody>{rows.map((r) => <tr key={r.c}><th scope="row">{r.name}</th>{week.map((d) => { const m = Math.floor(secOn(u.id, r.c, d) / 60), g = goalOn(r.c, d); return <td key={d} className={stateOf(secOn(u.id, r.c, d), g, d)}>{m || g ? <>{m}{g > 0 && <small>/{g}</small>}</> : '–'}</td>; })}</tr>)}</tbody>
                 </table></div>
               )}
+              {IS_PARENT && u.role !== 'parent' && <GiveHearts user={u.id} she={u.she} />}
               {IS_PARENT && <button type="button" className="cs-link" aria-expanded={editing === u.id} onClick={() => setEditing(editing === u.id ? null : u.id)}>קביעת יעדים</button>}
               {IS_PARENT && editing === u.id && <Goals user={u.id} courses={(() => { const open = coursesFor(u.role).map((c) => c.id); return [...mine.filter((c) => open.includes(c)), ...open.filter((c) => !mine.includes(c))]; })()} plan={plan} onChange={(p) => setData({ ...data, plans: { ...data.plans, [u.id]: p } })} />}
             </section>
           );
         })}
       </div>
+    </div>
+  );
+}
+
+/** A parent gives a child hearts for the game. They reach the child's device the next time the app opens there. */
+function GiveHearts({ user, she }: { user: string; she: boolean }) {
+  const [has, setHas] = useState<number | null>(null);
+  const [waiting, setWaiting] = useState(0);
+  const [err, setErr] = useState(false);
+  const load = () => Promise.all([heartsOf(user), pendingGifts(user)]).then(([h, w]) => { setHas(h); setWaiting(w); setErr(false); }).catch(() => setErr(true));
+  useEffect(() => { void load(); }, [user]);
+  const give = () => giftHearts(user, 1).then(load).catch(() => setErr(true));
+  return (
+    <div className="fam-line hearts-give">
+      <span>❤️ {has ?? '…'}/{MAX_HEARTS}{waiting > 0 ? ` (עוד ${waiting} ${she ? 'יגיעו אליה' : 'יגיעו אליו'})` : ''}</span>
+      <button type="button" className="cs-link" onClick={give}>הוספת לב</button>
+      {err && <small className="miss">אין חיבור כרגע</small>}
     </div>
   );
 }
