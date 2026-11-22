@@ -406,8 +406,8 @@
   }
 
   .hero-mini-swatch {
-    width: 40px;
-    height: 40px;
+    width: 46px;
+    height: 46px;
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -1816,6 +1816,115 @@
     c.closePath();
   }
 
+  function shadeColor(hex, amt) {
+    const n = parseInt(hex.slice(1), 16);
+    const f = (v) => Math.max(0, Math.min(255, Math.round(amt >= 0 ? v + (255 - v) * amt : v * (1 + amt))));
+    return `rgb(${f(n >> 16)},${f((n >> 8) & 255)},${f(n & 255)})`;
+  }
+
+  /**
+   * A friendly 3D block with a face: a darker side underneath for depth, a glossy front, big eyes that look
+   * where it is going, blinking, cheeks and a smile. The hero's emblem sits on top. Used in the game and the menus.
+   */
+  function drawCharacter(c, x, y, sz, color, dark, angle, t, seed, symbol) {
+    const depth = sz * 0.26;
+    const bob = Math.sin(t * 7 + seed) * sz * 0.035;
+    const r = sz * 0.3;
+    const left = x - sz / 2;
+    const top = y - sz / 2 - bob;
+
+    c.save();
+    c.beginPath();
+    c.ellipse(x, y + sz / 2 + depth * 0.7, sz * 0.55, sz * 0.2, 0, 0, Math.PI * 2);
+    c.fillStyle = 'rgba(15, 23, 42, 0.2)';
+    c.fill();
+
+    roundRectPath(c, left, top + depth, sz, sz, r);
+    c.fillStyle = dark;
+    c.fill();
+
+    roundRectPath(c, left, top, sz, sz, r);
+    const g = c.createLinearGradient(left, top, left + sz * 0.4, top + sz);
+    g.addColorStop(0, shadeColor(color, 0.35));
+    g.addColorStop(0.55, color);
+    g.addColorStop(1, shadeColor(color, -0.12));
+    c.fillStyle = g;
+    c.fill();
+    c.lineWidth = Math.max(1.5, sz * 0.07);
+    c.strokeStyle = 'rgba(255,255,255,0.95)';
+    c.stroke();
+
+    c.beginPath();
+    c.ellipse(left + sz * 0.3, top + sz * 0.2, sz * 0.2, sz * 0.09, -0.5, 0, Math.PI * 2);
+    c.fillStyle = 'rgba(255,255,255,0.4)';
+    c.fill();
+
+    const ex = sz * 0.19, ey = top + sz * 0.46;
+    const blink = ((t * 1000 + seed * 811) % 3600) < 130;
+    const lookX = Math.cos(angle) * sz * 0.05, lookY = Math.sin(angle) * sz * 0.04;
+    for (const side of [-1, 1]) {
+      const cx = x + side * ex;
+      if (blink) {
+        c.beginPath();
+        c.moveTo(cx - sz * 0.1, ey);
+        c.quadraticCurveTo(cx, ey + sz * 0.06, cx + sz * 0.1, ey);
+        c.strokeStyle = '#0f172a';
+        c.lineWidth = Math.max(1.2, sz * 0.05);
+        c.lineCap = 'round';
+        c.stroke();
+        continue;
+      }
+      c.beginPath();
+      c.ellipse(cx, ey, sz * 0.13, sz * 0.16, 0, 0, Math.PI * 2);
+      c.fillStyle = '#ffffff';
+      c.fill();
+      c.beginPath();
+      c.arc(cx + lookX, ey + lookY, sz * 0.075, 0, Math.PI * 2);
+      c.fillStyle = '#0f172a';
+      c.fill();
+      c.beginPath();
+      c.arc(cx + lookX - sz * 0.025, ey + lookY - sz * 0.03, sz * 0.025, 0, Math.PI * 2);
+      c.fillStyle = '#ffffff';
+      c.fill();
+    }
+
+    c.fillStyle = 'rgba(251, 113, 133, 0.55)';
+    for (const side of [-1, 1]) {
+      c.beginPath();
+      c.ellipse(x + side * sz * 0.32, top + sz * 0.66, sz * 0.08, sz * 0.05, 0, 0, Math.PI * 2);
+      c.fill();
+    }
+
+    c.beginPath();
+    c.arc(x, top + sz * 0.64, sz * 0.09, 0.15 * Math.PI, 0.85 * Math.PI);
+    c.strokeStyle = '#0f172a';
+    c.lineWidth = Math.max(1.2, sz * 0.05);
+    c.lineCap = 'round';
+    c.stroke();
+
+    if (symbol) {
+      c.font = `${Math.round(sz * 0.42)}px system-ui, sans-serif`;
+      c.textAlign = 'center';
+      c.textBaseline = 'middle';
+      c.fillText(symbol, x + sz * 0.38, top - sz * 0.02);
+    }
+    c.restore();
+  }
+
+  /** A small canvas with the hero standing still, for the menus. */
+  function heroCanvas(hero, px) {
+    const cv = document.createElement('canvas');
+    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+    cv.width = px * dpr;
+    cv.height = px * dpr;
+    cv.style.width = `${px}px`;
+    cv.style.height = `${px}px`;
+    const c = cv.getContext('2d');
+    c.scale(dpr, dpr);
+    drawCharacter(c, px / 2, px * 0.44, px * 0.56, hero.color, hero.dark, Math.PI / 2, 0.3, 0, hero.symbol);
+    return cv;
+  }
+
   function renderWorld(player) {
     ctx.fillStyle = '#d7e8f5';
     ctx.fillRect(0, 0, viewW, viewH);
@@ -1914,30 +2023,8 @@
     const drawOrder = [...entities].filter(e => e.alive).sort((a, b) => a.y - b.y);
     for (const e of drawOrder) {
       const liftY = e.powerType === 'kangaroo' ? -18 : 0;
-      const sz = UNIT * 1.05;
-
-      ctx.beginPath();
-      ctx.ellipse(e.x, e.y + 8, sz * 0.52, sz * 0.34, 0, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(15, 23, 42, 0.22)';
-      ctx.fill();
-
-      const rad = sz * 0.28;
-      roundRectPath(ctx, e.x - sz * 0.5, e.y - sz * 0.5 + liftY + 6, sz, sz, rad);
-      ctx.fillStyle = e.dark;
-      ctx.fill();
-
-      roundRectPath(ctx, e.x - sz * 0.5, e.y - sz * 0.5 + liftY, sz, sz, rad);
-      ctx.fillStyle = e.color;
-      ctx.fill();
-      ctx.lineWidth = 2.5;
-      ctx.strokeStyle = '#ffffff';
-      ctx.stroke();
-
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 14px system-ui, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(e.hero ? e.hero.symbol : '•', e.x, e.y + liftY + 1);
+      const sz = UNIT * 1.3;
+      drawCharacter(ctx, e.x, e.y + liftY - sz * 0.15, sz, e.color, e.dark, e.angle, matchTime, e.num, e.hero ? e.hero.symbol : '');
 
       if (e.powerType === 'shield') {
         ctx.beginPath();
@@ -2090,8 +2177,8 @@
     const hero = HEROES.find(h => h.id === save.selectedHero) || HEROES[0];
     const lvl = save.levels[hero.id] || 1;
     const badge = document.getElementById('activeHeroBadge');
-    badge.textContent = hero.symbol;
-    badge.style.background = `linear-gradient(135deg, ${hero.color}, ${hero.dark})`;
+    badge.replaceChildren(heroCanvas(hero, 52));
+    badge.style.background = '#eef2ff';
     document.getElementById('activeHeroTitle').textContent = hero.name;
     document.getElementById('activeHeroLevel').textContent = `רמה ${lvl} / 5`;
 
@@ -2119,12 +2206,13 @@
       const top = document.createElement('div');
       top.className = 'hero-tile-top';
       top.innerHTML = `
-        <div class="hero-mini-swatch" style="background:linear-gradient(135deg,${h.color},${h.dark})">${h.symbol}</div>
+        <div class="hero-mini-swatch"></div>
         <div>
           <div class="hero-name">${h.name}</div>
           <div class="hero-meta">${unlocked ? `פתוח • רמה ${lvl}/5` : 'נעול'}</div>
         </div>
       `;
+      top.querySelector('.hero-mini-swatch').appendChild(heroCanvas(h, 46));
       top.addEventListener('click', () => {
         if (unlocked) {
           save.selectedHero = h.id;
