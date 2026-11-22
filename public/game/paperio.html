@@ -652,7 +652,7 @@
 
   // UNIT: sizes and distances of play. CELL: the territory grid, finer than UNIT so the shapes are smooth.
   const UNIT = 26;
-  const CELL = 8;
+  const CELL = 3;
   const BASE_ISLAND_R = 46 * UNIT;
   const GRID_HALF = Math.ceil(BASE_ISLAND_R * 1.25 / CELL) + 2;
   const GRID_W = GRID_HALF * 2 + 1;
@@ -770,7 +770,17 @@
   let ownerCounts = [];
   let entByNum = [null];
   let ownerPaths = [];
+  let ownerBoxes = [];
   const dirtyOwners = new Set();
+
+  function growBox(num, gx, gy) {
+    const b = ownerBoxes[num];
+    if (!b) { ownerBoxes[num] = { minX: gx, maxX: gx, minY: gy, maxY: gy }; return; }
+    if (gx < b.minX) b.minX = gx;
+    if (gx > b.maxX) b.maxX = gx;
+    if (gy < b.minY) b.minY = gy;
+    if (gy > b.maxY) b.maxY = gy;
+  }
 
   function ownerNumAt(gx, gy) {
     return inGrid(gx, gy) ? ownerGrid[gIdx(gx, gy)] : 0;
@@ -784,17 +794,23 @@
     if (prev === num) return false;
     if (prev) { ownerCounts[prev]--; dirtyOwners.add(prev); }
     ownerGrid[i] = num;
-    if (num) { ownerCounts[num] = (ownerCounts[num] || 0) + 1; dirtyOwners.add(num); }
+    if (num) { ownerCounts[num] = (ownerCounts[num] || 0) + 1; dirtyOwners.add(num); growBox(num, gx, gy); }
     return true;
   }
 
   /** Moves all of one owner's cells to another (0 = nobody). Returns how many moved. */
   function transferAll(from, to) {
     const moved = ownerCounts[from] || 0;
-    if (!moved) return 0;
-    for (let i = 0; i < ownerGrid.length; i++) {
-      if (ownerGrid[i] === from) ownerGrid[i] = to;
+    const fb = ownerBoxes[from];
+    if (!moved || !fb) return 0;
+    for (let gy = fb.minY; gy <= fb.maxY; gy++) {
+      for (let gx = fb.minX; gx <= fb.maxX; gx++) {
+        const i = gIdx(gx, gy);
+        if (ownerGrid[i] === from) ownerGrid[i] = to;
+      }
     }
+    if (to) { growBox(to, fb.minX, fb.minY); growBox(to, fb.maxX, fb.maxY); }
+    ownerBoxes[from] = null;
     ownerCounts[from] = 0;
     dirtyOwners.add(from);
     if (to) { ownerCounts[to] = (ownerCounts[to] || 0) + moved; dirtyOwners.add(to); }
@@ -807,10 +823,12 @@
     ['L','T'], ['T','B'], ['L','T','B','R'], ['T','R'], ['L','R'], ['B','R'], ['L','B'], null];
 
   function buildOwnerPath(num) {
+    const ob = ownerBoxes[num];
+    if (!ob) return null;
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-    for (let gy = -GRID_HALF; gy <= GRID_HALF; gy++) {
+    for (let gy = ob.minY; gy <= ob.maxY; gy++) {
       const row = (gy + GRID_HALF) * GRID_W;
-      for (let gx = -GRID_HALF; gx <= GRID_HALF; gx++) {
+      for (let gx = ob.minX; gx <= ob.maxX; gx++) {
         if (ownerGrid[row + gx + GRID_HALF] === num) {
           if (gx < minX) minX = gx;
           if (gx > maxX) maxX = gx;
@@ -860,7 +878,7 @@
         cur = next;
       }
       if (loop.length < 3) continue;
-      const pts = chaikinSmooth(averageLoop(loop, 2), true, 2);
+      const pts = chaikinSmooth(averageLoop(loop, 4), true, 2);
       path.moveTo(pts[0].x, pts[0].y);
       for (let i = 1; i < pts.length; i++) path.lineTo(pts[i].x, pts[i].y);
       path.closePath();
@@ -1140,6 +1158,7 @@
     ownerCounts = [];
     entByNum = [null];
     ownerPaths = [];
+    ownerBoxes = [];
     dirtyOwners.clear();
     entities = [];
     pickups = [];
@@ -1218,9 +1237,14 @@
     }
   }
 
-  // A trail turns into land as wide as it is drawn: each cell with its four neighbors.
+  // A trail turns into land as wide as it is drawn: a disc of cells around each trail cell.
   // A one-cell line breaks apart on diagonals, and the smoothing thins it into separate drops.
-  const BRUSH = [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]];
+  const BRUSH = (() => {
+    const r = Math.max(1, (UNIT * 0.33) / CELL);
+    const ri = Math.ceil(r), out = [];
+    for (let dy = -ri; dy <= ri; dy++) for (let dx = -ri; dx <= ri; dx++) if (dx * dx + dy * dy <= r * r) out.push([dx, dy]);
+    return out;
+  })();
 
   /** Turns trail cells into land, then fills what they close. Cells defaults to the entity's own trail. */
   function captureClosedLoop(ent, cells = ent.trail) {
@@ -1234,65 +1258,40 @@
       }
     }
 
-    const minX = -GRID_HALF;
-    const maxX = GRID_HALF;
-    const minY = -GRID_HALF;
-    const maxY = GRID_HALF;
+    // Only the owner's box can be closed off: flood from its border (one cell wider), never the whole map.
+    const box = ownerBoxes[ent.num];
+    if (!box) return;
+    const minX = Math.max(-GRID_HALF, box.minX - 1);
+    const maxX = Math.min(GRID_HALF, box.maxX + 1);
+    const minY = Math.max(-GRID_HALF, box.minY - 1);
+    const maxY = Math.min(GRID_HALF, box.maxY + 1);
     const w = maxX - minX + 1;
     const h = maxY - minY + 1;
     const visited = new Uint8Array(w * h);
-
-    const isBlockedByOwner = (gx, gy) => {
-      if (gx < minX || gx > maxX || gy < minY || gy > maxY) return false;
-      return ownerGrid[gIdx(gx, gy)] === ent.num;
+    const queue = new Int32Array(w * h);
+    let qEnd = 0;
+    const own = ent.num;
+    const blocked = (x, y) => ownerGrid[gIdx(x, y)] === own;
+    const seed = (x, y) => {
+      const idx = (y - minY) * w + (x - minX);
+      if (!visited[idx] && !blocked(x, y)) { visited[idx] = 1; queue[qEnd++] = idx; }
     };
-
-    const queue = [];
-    for (let x = minX; x <= maxX; x++) {
-      for (const y of [minY, maxY]) {
-        if (!isBlockedByOwner(x, y)) {
-          const idx = (y - minY) * w + (x - minX);
-          if (!visited[idx]) {
-            visited[idx] = 1;
-            queue.push(x, y);
-          }
-        }
-      }
-    }
-    for (let y = minY; y <= maxY; y++) {
-      for (const x of [minX, maxX]) {
-        if (!isBlockedByOwner(x, y)) {
-          const idx = (y - minY) * w + (x - minX);
-          if (!visited[idx]) {
-            visited[idx] = 1;
-            queue.push(x, y);
-          }
-        }
-      }
-    }
+    for (let x = minX; x <= maxX; x++) { seed(x, minY); seed(x, maxY); }
+    for (let y = minY; y <= maxY; y++) { seed(minX, y); seed(maxX, y); }
 
     let head = 0;
-    while (head < queue.length) {
-      const cx = queue[head++];
-      const cy = queue[head++];
-      const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]];
-      for (let i = 0; i < 4; i++) {
-        const nx = cx + dirs[i][0];
-        const ny = cy + dirs[i][1];
-        if (nx < minX || nx > maxX || ny < minY || ny > maxY) continue;
-        const idx = (ny - minY) * w + (nx - minX);
-        if (visited[idx]) continue;
-        if (!isBlockedByOwner(nx, ny)) {
-          visited[idx] = 1;
-          queue.push(nx, ny);
-        }
-      }
+    while (head < qEnd) {
+      const idx = queue[head++];
+      const cx = idx % w, cy = (idx - cx) / w;
+      if (cx > 0) { const n = idx - 1; if (!visited[n] && !blocked(minX + cx - 1, minY + cy)) { visited[n] = 1; queue[qEnd++] = n; } }
+      if (cx < w - 1) { const n = idx + 1; if (!visited[n] && !blocked(minX + cx + 1, minY + cy)) { visited[n] = 1; queue[qEnd++] = n; } }
+      if (cy > 0) { const n = idx - w; if (!visited[n] && !blocked(minX + cx, minY + cy - 1)) { visited[n] = 1; queue[qEnd++] = n; } }
+      if (cy < h - 1) { const n = idx + w; if (!visited[n] && !blocked(minX + cx, minY + cy + 1)) { visited[n] = 1; queue[qEnd++] = n; } }
     }
 
-    for (const c of validIslandCells) {
-      const idx = (c.gy - minY) * w + (c.gx - minX);
-      if (idx >= 0 && idx < visited.length && !visited[idx]) {
-        if (setOwner(c.gx, c.gy, ent.num)) newlyCaptured++;
+    for (let y = minY; y <= maxY; y++) {
+      for (let x = minX; x <= maxX; x++) {
+        if (!visited[(y - minY) * w + (x - minX)] && setOwner(x, y, own)) newlyCaptured++;
       }
     }
 
