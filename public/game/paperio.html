@@ -570,7 +570,7 @@
   'use strict';
 
   // WordFlow passes the current user. The save sits under the user's keys, so it is per player and synced with their progress.
-  const PARAMS = new URLSearchParams(location.search);
+  const PARAMS = new URLSearchParams(location.hash.slice(1));
   const WF_USER = /^[a-z]+$/.test(PARAMS.get('user') || '') ? PARAMS.get('user') : null;
   const WF_NAME = (PARAMS.get('name') || '').trim().slice(0, 16);
   const STORAGE_KEY = WF_USER ? `wordflow.u.${WF_USER}.game.paperio` : 'wordflow.game.paperio';

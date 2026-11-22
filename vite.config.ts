@@ -32,6 +32,8 @@ export default defineConfig(({ mode }) => {
               // The lessons make the app larger than the default limit, and it must still work offline.
               maximumFileSizeToCacheInBytes: 16 * 1024 * 1024,
               navigateFallback: 'index.html',
+              // The game is its own page, never the app.
+              navigateFallbackDenylist: [/\/game\//],
               runtimeCaching: [
                 { urlPattern: /\/assets\/[^/]+\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'piano-samples', expiration: { maxEntries: 60 } } },
                 { urlPattern: /\/audio\/th\/[^/]+\.mp3$/, handler: 'CacheFirst', options: { cacheName: 'thai-audio' } },

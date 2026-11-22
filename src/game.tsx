@@ -8,7 +8,8 @@ export const gameUrl = (user: string | null, name: string) => {
   const q = new URLSearchParams();
   if (user) q.set('user', user);
   if (name) q.set('name', name);
-  return `game/paperio.html?${q}`;
+  // In the hash, not the query: the service worker serves precached pages only by their exact address.
+  return `game/paperio.html#${q}`;
 };
 
 export function GameScreen({ onClose }: { onClose: () => void }) {
