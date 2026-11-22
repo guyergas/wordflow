@@ -860,7 +860,7 @@
         cur = next;
       }
       if (loop.length < 3) continue;
-      const pts = chaikinSmooth(averageLoop(loop, 3), true, 2);
+      const pts = chaikinSmooth(averageLoop(loop, 2), true, 2);
       path.moveTo(pts[0].x, pts[0].y);
       for (let i = 1; i < pts.length; i++) path.lineTo(pts[i].x, pts[i].y);
       path.closePath();
@@ -1218,12 +1218,20 @@
     }
   }
 
-  function captureClosedLoop(ent) {
-    if (!ent.trail || ent.trail.length === 0) return;
+  // A trail turns into land as wide as it is drawn: each cell with its four neighbors.
+  // A one-cell line breaks apart on diagonals, and the smoothing thins it into separate drops.
+  const BRUSH = [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]];
+
+  /** Turns trail cells into land, then fills what they close. Cells defaults to the entity's own trail. */
+  function captureClosedLoop(ent, cells = ent.trail) {
+    if (!cells || cells.length === 0) return;
+    const ownTrail = cells === ent.trail;
 
     let newlyCaptured = 0;
-    for (const pt of ent.trail) {
-      if (setOwner(pt.gx, pt.gy, ent.num)) newlyCaptured++;
+    for (const pt of cells) {
+      for (const [dx, dy] of BRUSH) {
+        if (setOwner(pt.gx + dx, pt.gy + dy, ent.num)) newlyCaptured++;
+      }
     }
 
     const minX = -GRID_HALF;
@@ -1288,8 +1296,10 @@
       }
     }
 
-    ent.trail = [];
-    ent.trailPts = [];
+    if (ownTrail) {
+      ent.trail = [];
+      ent.trailPts = [];
+    }
 
     const capturedPct = (newlyCaptured / TOTAL_ISLAND_CELLS) * 100;
 
@@ -1403,6 +1413,11 @@
     const stolenCount = transferAll(victim.num, hasKiller ? killer.num : 0);
 
     if (hasKiller) {
+      if (victim.trail.length > 0) {
+        const lostTrail = victim.trail;
+        victim.trail = [];
+        captureClosedLoop(killer, lostTrail);
+      }
       if (stolenCount > 0) {
         effects.push({ kind: 'ring', x: victim.x, y: victim.y, r: 18, maxR: 135, color: killer.color, alpha: 0.85 });
       }
