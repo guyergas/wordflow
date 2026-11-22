@@ -2120,10 +2120,14 @@
       if (!e.alive) continue;
       const ex = cx + e.x * scale;
       const ey = cy + e.y * scale;
+      // A dark ring around each player keeps them visible on land of their own color.
       mmCtx.beginPath();
-      mmCtx.arc(ex, ey, e.isPlayer ? 4 : 2.5, 0, Math.PI * 2);
-      mmCtx.fillStyle = e.isPlayer ? '#0f172a' : e.color;
+      mmCtx.arc(ex, ey, e.isPlayer ? 4.5 : 3.2, 0, Math.PI * 2);
+      mmCtx.fillStyle = e.isPlayer ? '#ffffff' : shadeColor(e.color, 0.25);
       mmCtx.fill();
+      mmCtx.lineWidth = e.isPlayer ? 2.2 : 1.6;
+      mmCtx.strokeStyle = '#0f172a';
+      mmCtx.stroke();
     }
   }
 
