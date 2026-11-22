@@ -1,13 +1,13 @@
-// Hearts: what learning pays into the game. Up to 5 are kept per person. A game costs one heart, and so does
-// coming back into a game after being knocked out. Earned: a finished lesson 1, new material 2 (instead of the 1),
-// meeting all of today's time goals 5 (once a day), taking the whole map in the game 1.
+// Hearts: what learning pays into the game. Up to 10 are kept per person. A game costs one heart, and so does
+// coming back into a game after being knocked out. Earned: a finished lesson 2, a lesson with new material 4
+// (the lesson's 2 and 2 for the new material), meeting all of today's time goals 5 (once a day), taking the whole map 1.
 // Stored under the person's keys, so it syncs with their progress and the game page reads the same place.
 import { userKey } from './course';
 import { dayNumber } from './engine';
 import { buildSummary, loadSchedule, readCourses } from './summary';
 
-export const MAX_HEARTS = 5;
-export const HEARTS = { lesson: 1, fresh: 2, goals: 5 } as const;
+export const MAX_HEARTS = 10;
+export const HEARTS = { lesson: 2, fresh: 4, goals: 5 } as const;
 /** A lesson finished this soon after new material in it was already paid as new material. */
 export const SAME_LESSON_MS = 10 * 60_000;
 

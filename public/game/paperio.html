@@ -566,11 +566,11 @@
   const WF_NAME = (PARAMS.get('name') || '').trim().slice(0, 16);
   const STORAGE_KEY = WF_USER ? `wordflow.u.${WF_USER}.game.paperio` : 'wordflow.game.paperio';
 
-  // Hearts come from learning (the app writes them, see src/hearts.ts). A game costs one, coming back after being
+  // Hearts come from learning (the app writes them, see src/hearts.ts), up to 10. A game costs one, coming back after being
   // knocked out costs one, taking the whole map gives one. Parents (free=1) play without hearts.
   const FREE = PARAMS.get('free') === '1' || !WF_USER;
   const HEARTS_KEY = `wordflow.u.${WF_USER}.hearts`;
-  const MAX_HEARTS = 5;
+  const MAX_HEARTS = 10;
   function readHeartState() {
     try { return JSON.parse(localStorage.getItem(HEARTS_KEY) || '{}') || {}; } catch (_) { return {}; }
   }
