@@ -179,7 +179,7 @@ function OrderPractice({ sound, onExit }: { sound: boolean; onExit: () => void }
   // A new question waits two seconds, with the button lit, so that the first letter is not missed.
   const soon = () => { clearTimeout(wait.current); stopSound(); setPlaying('part'); wait.current = setTimeout(() => part(), 2000); };
   const whole = () => { clearTimeout(wait.current); if (playing === 'all') { stopSound(); setPlaying(null); return; } setPlaying('all'); playPart(SONG_URL, 0, 9999, () => setPlaying(null)); };
-  useEffect(() => { if (round < ROUNDS) soon(); else { sfx.win(); sayHebrew(SAY.orderDone); } }, [round]);
+  useEffect(() => { if (round < ROUNDS) soon(); else { sfx.win(); sayHebrew(SAY.orderDone); reward('lesson'); } }, [round]);
   useEffect(() => () => { clearTimeout(wait.current); stopSound(); }, []);
   const tap = (c: string) => {
     if (right) return;
