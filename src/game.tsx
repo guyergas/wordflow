@@ -22,7 +22,12 @@ export function GameScreen({ onClose }: { onClose: () => void }) {
   useEffect(() => { open += 1; return () => { open -= 1; }; }, []);
   useEffect(() => {
     const close = () => { pushProgress(); onClose(); };
-    const onMsg = (e: MessageEvent) => { if (e.origin === location.origin && e.data?.type === 'wf-game-close') close(); };
+    const onMsg = (e: MessageEvent) => {
+      if (e.origin !== location.origin) return;
+      if (e.data?.type === 'wf-game-close') close();
+      // Hearts spent or won in the game go up at once (and on hiding the app, if that comes first).
+      if (e.data?.type === 'wf-hearts') pushProgress();
+    };
     window.addEventListener('message', onMsg);
     return () => window.removeEventListener('message', onMsg);
   }, [onClose]);

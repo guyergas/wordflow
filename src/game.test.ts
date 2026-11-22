@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { gameUrl } from './game';
 import page from '../public/game/paperio.html?raw';
 import config from '../vite.config.ts?raw';
+import gameSrc from './game.tsx?raw';
 
 const script = page.match(/<script>([\s\S]*)<\/script>/)![1];
 
@@ -36,6 +37,11 @@ describe('game', () => {
 
   it('back to learning tells the app to close the game', () => {
     expect(script).toMatch(/bindClick\('exitGameBtn'[\s\S]{0,200}wf-game-close/);
+  });
+
+  it('a change in hearts inside the game tells the app to send it on', () => {
+    expect(script).toMatch(/function changeHearts[\s\S]{0,400}wf-hearts/);
+    expect(gameSrc).toContain("'wf-hearts'");
   });
 
   it('the game script parses', () => {
