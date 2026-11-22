@@ -2532,14 +2532,14 @@
     },
     {
       id: 'desert', back: '#d98a45', backdrop: drawDuneLines,
-      ring: { scale: 1.16, color: '#e6a463' }, surf: null, beach: '#eebd7e',
-      ground: ['#f8e3bd', '#efcf98'], edge: 'rgba(160, 90, 30, 0.5)', deco: drawCactus,
+      ring: { scale: 1.12, color: '#e6a463' }, surf: 'rgba(180, 100, 30, 0.45)', surfAt: 1.0, beach: null,
+      ground: ['#f8e3bd', '#efcf98'], edge: 'rgba(160, 90, 30, 0.5)', deco: drawCactus, decoInside: true,
       mmBack: '#d98a45', mmLand: '#f3d7a7', mmEdge: '#7c2d12'
     },
     {
       id: 'space', back: '#0b1026', backdrop: drawStarfield,
-      ring: { scale: 1.16, color: 'rgba(139, 92, 246, 0.25)' }, surf: 'rgba(196, 181, 253, 0.6)', beach: '#57534e',
-      ground: ['#d6d3d1', '#a8a29e'], edge: 'rgba(41, 37, 36, 0.6)', deco: drawRock, craters: true,
+      ring: { scale: 1.12, color: 'rgba(139, 92, 246, 0.25)' }, surf: 'rgba(196, 181, 253, 0.6)', surfAt: 1.0, beach: null,
+      ground: ['#d6d3d1', '#a8a29e'], edge: 'rgba(41, 37, 36, 0.6)', deco: drawRock, decoInside: true, craters: true,
       mmBack: '#0b1026', mmLand: '#c4c0bc', mmEdge: '#c4b5fd'
     },
     {
@@ -2550,8 +2550,8 @@
     },
     {
       id: 'candy', back: '#f9a8d4', backdrop: drawSprinkles,
-      ring: { scale: 1.16, color: '#fbcfe8' }, surf: 'rgba(255,255,255,0.9)', beach: '#a16207',
-      ground: ['#fffbeb', '#fde7f3'], edge: 'rgba(190, 24, 93, 0.45)', deco: drawLollipop,
+      ring: { scale: 1.12, color: '#fbcfe8' }, surf: 'rgba(255,255,255,0.9)', surfAt: 1.0, beach: null,
+      ground: ['#fffbeb', '#fde7f3'], edge: 'rgba(190, 24, 93, 0.45)', deco: drawLollipop, decoInside: true,
       mmBack: '#f9a8d4', mmLand: '#fff1f2', mmEdge: '#be185d'
     }
   ];
