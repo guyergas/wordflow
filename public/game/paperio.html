@@ -567,17 +567,17 @@
 
   const HEROES = [
     { id: 'classic', name: 'כחול קלאסי', symbol: '★', color: '#2563eb', dark: '#1d4ed8', trail: '#93c5fd', starter: true },
-    { id: 'bat', name: 'אביר הלילה', symbol: '🦇', color: '#334155', dark: '#0f172a', trail: '#94a3b8', unlock: { stars: 65, gems: 4 } },
-    { id: 'steel', name: 'איש הפלדה', symbol: '🛡️', color: '#dc2626', dark: '#991b1b', trail: '#fca5a5', unlock: { stars: 95, gems: 6 } },
-    { id: 'spider', name: 'איש העכביש', symbol: '🕸️', color: '#e11d48', dark: '#881337', trail: '#fda4af', unlock: { stars: 130, gems: 8 } },
-    { id: 'flash', name: 'הברק האדום', symbol: '⚡', color: '#ea580c', dark: '#9a3412', trail: '#fdba74', unlock: { stars: 170, gems: 10 } },
-    { id: 'lantern', name: 'הפקח הירוק', symbol: '💚', color: '#16a34a', dark: '#14532d', trail: '#86efac', unlock: { stars: 215, gems: 13 } },
-    { id: 'iron', name: 'שריון הברזל', symbol: '🤖', color: '#b91c1c', dark: '#7f1d1d', trail: '#fcd34d', unlock: { stars: 265, gems: 16 } },
-    { id: 'thor', name: 'אל הרעם', symbol: '🔨', color: '#0284c7', dark: '#0c4a6e', trail: '#7dd3fc', unlock: { stars: 320, gems: 20 } },
-    { id: 'panther', name: 'הפנתר השחור', symbol: '🐆', color: '#6d28d9', dark: '#3b0764', trail: '#c4b5fd', unlock: { stars: 380, gems: 24 } },
-    { id: 'captain', name: 'קפטן המגן', symbol: '🌟', color: '#1d4ed8', dark: '#1e3a8a', trail: '#bfdbfe', unlock: { stars: 440, gems: 28 } },
-    { id: 'ant', name: 'איש הנמלה', symbol: '🐜', color: '#c2410c', dark: '#7c2d12', trail: '#fed7aa', unlock: { stars: 510, gems: 33 } },
-    { id: 'mystic', name: 'אדון המיסטיקה', symbol: '🔮', color: '#0f766e', dark: '#134e4a', trail: '#99f6e4', unlock: { stars: 590, gems: 40 } }
+    { id: 'bat', name: 'אביר הלילה', symbol: '🦇', color: '#334155', dark: '#0f172a', trail: '#94a3b8', unlock: { stars: 160, gems: 10 } },
+    { id: 'steel', name: 'איש הפלדה', symbol: '🛡️', color: '#dc2626', dark: '#991b1b', trail: '#fca5a5', unlock: { stars: 240, gems: 15 } },
+    { id: 'spider', name: 'איש העכביש', symbol: '🕸️', color: '#e11d48', dark: '#881337', trail: '#fda4af', unlock: { stars: 320, gems: 20 } },
+    { id: 'flash', name: 'הברק האדום', symbol: '⚡', color: '#ea580c', dark: '#9a3412', trail: '#fdba74', unlock: { stars: 420, gems: 25 } },
+    { id: 'lantern', name: 'הפקח הירוק', symbol: '💚', color: '#16a34a', dark: '#14532d', trail: '#86efac', unlock: { stars: 540, gems: 32 } },
+    { id: 'iron', name: 'שריון הברזל', symbol: '🤖', color: '#b91c1c', dark: '#7f1d1d', trail: '#fcd34d', unlock: { stars: 660, gems: 40 } },
+    { id: 'thor', name: 'אל הרעם', symbol: '🔨', color: '#0284c7', dark: '#0c4a6e', trail: '#7dd3fc', unlock: { stars: 800, gems: 50 } },
+    { id: 'panther', name: 'הפנתר השחור', symbol: '🐆', color: '#6d28d9', dark: '#3b0764', trail: '#c4b5fd', unlock: { stars: 950, gems: 60 } },
+    { id: 'captain', name: 'קפטן המגן', symbol: '🌟', color: '#1d4ed8', dark: '#1e3a8a', trail: '#bfdbfe', unlock: { stars: 1100, gems: 70 } },
+    { id: 'ant', name: 'איש הנמלה', symbol: '🐜', color: '#c2410c', dark: '#7c2d12', trail: '#fed7aa', unlock: { stars: 1280, gems: 82 } },
+    { id: 'mystic', name: 'אדון המיסטיקה', symbol: '🔮', color: '#0f766e', dark: '#134e4a', trail: '#99f6e4', unlock: { stars: 1480, gems: 100 } }
   ];
 
   const BOT_PROFILES = [
@@ -632,8 +632,8 @@
   function getUpgradeCost(nextLevel) {
     const idx = Math.max(1, Math.min(5, nextLevel));
     return {
-      stars: idx * 75,
-      gems: idx * 5
+      stars: idx * 150,
+      gems: idx * 10
     };
   }
 
