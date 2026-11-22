@@ -853,48 +853,73 @@
     }
     if (minX === Infinity) return null;
 
-    const v = (x, y) => (inGrid(x, y) && ownerGrid[gIdx(x, y)] === num ? 1 : 0);
-    const OFF = GRID_HALF * 2 + 8;
-    const key = (X, Y) => (X + OFF) * 8192 + (Y + OFF);
-    const adj = new Map();
-    const link = (a, b) => {
-      (adj.get(a) || adj.set(a, []).get(a)).push(b);
-      (adj.get(b) || adj.set(b, []).get(b)).push(a);
-    };
-    for (let y = minY - 1; y <= maxY; y++) {
-      for (let x = minX - 1; x <= maxX; x++) {
-        const c = v(x, y) * 8 | v(x + 1, y) * 4 | v(x + 1, y + 1) * 2 | v(x, y + 1);
-        const segs = MS[c];
-        if (!segs) continue;
-        const pt = {
-          T: key(2 * x + 1, 2 * y),
-          R: key(2 * x + 2, 2 * y + 1),
-          B: key(2 * x + 1, 2 * y + 2),
-          L: key(2 * x, 2 * y + 1)
-        };
-        for (let i = 0; i < segs.length; i += 2) link(pt[segs[i]], pt[segs[i + 1]]);
+    // Typed arrays instead of a Map: the outline of a large land has tens of thousands of edge points.
+    // Squares run over x0..maxX, y0..maxY; their corners are the cells x0..maxX+1, y0..maxY+1.
+    const x0 = minX - 1, y0 = minY - 1;
+    const W = maxX - x0 + 1, H = maxY - y0 + 1;
+    const CW = W + 1;
+    const corner = new Uint8Array(CW * (H + 1));
+    for (let j = 0; j <= H; j++) {
+      const gy = y0 + j;
+      if (gy < -GRID_HALF || gy > GRID_HALF) continue;
+      for (let i = 0; i <= W; i++) {
+        const gx = x0 + i;
+        if (gx >= -GRID_HALF && gx <= GRID_HALF && ownerGrid[gIdx(gx, gy)] === num) corner[j * CW + i] = 1;
       }
     }
+    // Edge points: horizontal edge (i, j) is the top of square (i, j); vertical edge (i, j) is its left side.
+    const HCOUNT = (H + 1) * W;
+    const nb = new Int32Array((HCOUNT + H * (W + 1)) * 2).fill(-1);
+    const hId = (i, j) => j * W + i;
+    const vId = (i, j) => HCOUNT + j * (W + 1) + i;
+    const link = (a, b) => {
+      if (nb[a * 2] < 0) nb[a * 2] = b; else nb[a * 2 + 1] = b;
+      if (nb[b * 2] < 0) nb[b * 2] = a; else nb[b * 2 + 1] = a;
+    };
+    const pt = { T: 0, R: 0, B: 0, L: 0 };
+    for (let j = 0; j < H; j++) {
+      for (let i = 0; i < W; i++) {
+        const c = corner[j * CW + i] * 8 | corner[j * CW + i + 1] * 4 | corner[(j + 1) * CW + i + 1] * 2 | corner[(j + 1) * CW + i];
+        const segs = MS[c];
+        if (!segs) continue;
+        pt.T = hId(i, j); pt.B = hId(i, j + 1); pt.L = vId(i, j); pt.R = vId(i + 1, j);
+        for (let k = 0; k < segs.length; k += 2) link(pt[segs[k]], pt[segs[k + 1]]);
+      }
+    }
+    // The world position of an edge point: the middle of its edge.
+    const posOf = (id) => {
+      if (id < HCOUNT) { const j = Math.floor(id / W), i = id - j * W; return { x: (x0 + i + 0.5) * CELL, y: (y0 + j) * CELL }; }
+      const r = id - HCOUNT, j = Math.floor(r / (W + 1)), i = r - j * (W + 1);
+      return { x: (x0 + i) * CELL, y: (y0 + j + 0.5) * CELL };
+    };
 
     const path = new Path2D();
-    const seen = new Set();
-    for (const start of adj.keys()) {
-      if (seen.has(start)) continue;
+    const seen = new Uint8Array(nb.length / 2);
+    for (let start = 0; start < seen.length; start++) {
+      if (seen[start] || nb[start * 2] < 0) continue;
       const loop = [];
       let prev = -1, cur = start;
-      while (!seen.has(cur)) {
-        seen.add(cur);
-        const X = Math.floor(cur / 8192) - OFF, Y = (cur % 8192) - OFF;
-        loop.push({ x: X * 0.5 * CELL, y: Y * 0.5 * CELL });
-        const nb = adj.get(cur);
-        const next = nb[0] !== prev ? nb[0] : nb[1];
+      while (cur >= 0 && !seen[cur]) {
+        seen[cur] = 1;
+        loop.push(posOf(cur));
+        const a = nb[cur * 2], b2 = nb[cur * 2 + 1];
+        const next = a !== prev ? a : b2;
         prev = cur;
         cur = next;
       }
       if (loop.length < 3) continue;
-      const pts = chaikinSmooth(averageLoop(loop, 4), true, 2);
-      path.moveTo(pts[0].x, pts[0].y);
-      for (let i = 1; i < pts.length; i++) path.lineTo(pts[i].x, pts[i].y);
+      // Few points, smooth curves: averaged, then a point only every few pixels, joined by curves through
+      // the midpoints. Far fewer points to build and to paint every frame, the same look.
+      const pts = thinLoop(averageLoop(loop, 4), 4);
+      if (pts.length < 3) continue;
+      const n = pts.length;
+      const mid = (a, b) => ({ x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 });
+      const m0 = mid(pts[n - 1], pts[0]);
+      path.moveTo(m0.x, m0.y);
+      for (let i = 0; i < n; i++) {
+        const m = mid(pts[i], pts[(i + 1) % n]);
+        path.quadraticCurveTo(pts[i].x, pts[i].y, m.x, m.y);
+      }
       path.closePath();
     }
     return path;
@@ -921,11 +946,30 @@
     return cur;
   }
 
-  function refreshOwnerPaths() {
-    for (const n of dirtyOwners) {
-      ownerPaths[n] = ownerCounts[n] > 0 ? buildOwnerPath(n) : null;
+  /** Keeps a point only once it is minGap away from the last one kept. */
+  function thinLoop(pts, minGap) {
+    const out = [pts[0]];
+    let last = pts[0];
+    for (let i = 1; i < pts.length; i++) {
+      const p = pts[i];
+      if (Math.abs(p.x - last.x) + Math.abs(p.y - last.y) >= minGap) { out.push(p); last = p; }
     }
-    dirtyOwners.clear();
+    return out;
+  }
+
+  /**
+   * Outlines are rebuilt within a small time budget per frame, the player's first; the rest wait a frame or two
+   * and keep their old outline meanwhile. Several captures at once no longer freeze the game.
+   */
+  function refreshOwnerPaths() {
+    if (!dirtyOwners.size) return;
+    const start = performance.now();
+    const order = [...dirtyOwners].sort((a, b) => (entByNum[b]?.isPlayer ? 1 : 0) - (entByNum[a]?.isPlayer ? 1 : 0));
+    for (const n of order) {
+      ownerPaths[n] = ownerCounts[n] > 0 ? buildOwnerPath(n) : null;
+      dirtyOwners.delete(n);
+      if (performance.now() - start > 6) break;
+    }
   }
 
   function roundRectPath(c, x, y, w, h, r) {
@@ -947,12 +991,13 @@
   let viewW = window.innerWidth;
   let viewH = window.innerHeight;
   // Painting pixels is what costs on a phone, not the game logic. The game paints at up to 2x and lowers the
-  // resolution on a slow device (down to 1x), remembering it on this device for the next game.
+  // resolution on a slow device (down to 0.75x), remembering it on this device for the next game.
   const SCALE_KEY = 'wordflow.game.renderScale';
   const MAX_SCALE = Math.min(window.devicePixelRatio || 1, 2);
+  const MIN_SCALE = 0.75;
   let renderScale = (() => {
     const saved = Number(localStorage.getItem(SCALE_KEY));
-    return saved >= 1 && saved <= MAX_SCALE ? saved : MAX_SCALE;
+    return saved >= MIN_SCALE && saved <= MAX_SCALE ? saved : MAX_SCALE;
   })();
   let perfFrames = 0, perfTime = 0;
   /** Called every frame while playing: after a second that ran below ~40 frames a second, one step lower. */
@@ -963,8 +1008,10 @@
     const avg = perfTime / perfFrames;
     perfFrames = 0;
     perfTime = 0;
-    if (avg > 0.025 && renderScale > 1) {
-      renderScale = Math.max(1, Math.round((renderScale - 0.25) * 4) / 4);
+    if (avg > 0.025 && renderScale > MIN_SCALE) {
+      // Very slow (under 25 frames a second): a bigger step, so it doesn't drag for seconds.
+      const step = avg > 0.04 ? 0.5 : 0.25;
+      renderScale = Math.max(MIN_SCALE, Math.round((renderScale - step) * 4) / 4);
       try { localStorage.setItem(SCALE_KEY, String(renderScale)); } catch (_) {}
       resizeCanvas();
     }
@@ -1336,7 +1383,8 @@
     const queue = new Int32Array(w * h);
     let qEnd = 0;
     const own = ent.num;
-    const blocked = (x, y) => ownerGrid[gIdx(x, y)] === own;
+    const gBase = (minY + GRID_HALF) * GRID_W + (minX + GRID_HALF);
+    const blocked = (x, y) => ownerGrid[gBase + (y - minY) * GRID_W + (x - minX)] === own;
     const seed = (x, y) => {
       const idx = (y - minY) * w + (x - minX);
       if (!visited[idx] && !blocked(x, y)) { visited[idx] = 1; queue[qEnd++] = idx; }
@@ -1345,13 +1393,16 @@
     for (let y = minY; y <= maxY; y++) { seed(minX, y); seed(maxX, y); }
 
     let head = 0;
+    // Box index -> grid index: row offset differs by GRID_W - w per row.
+    const gOf = (idx) => gBase + idx + Math.floor(idx / w) * (GRID_W - w);
     while (head < qEnd) {
       const idx = queue[head++];
-      const cx = idx % w, cy = (idx - cx) / w;
-      if (cx > 0) { const n = idx - 1; if (!visited[n] && !blocked(minX + cx - 1, minY + cy)) { visited[n] = 1; queue[qEnd++] = n; } }
-      if (cx < w - 1) { const n = idx + 1; if (!visited[n] && !blocked(minX + cx + 1, minY + cy)) { visited[n] = 1; queue[qEnd++] = n; } }
-      if (cy > 0) { const n = idx - w; if (!visited[n] && !blocked(minX + cx, minY + cy - 1)) { visited[n] = 1; queue[qEnd++] = n; } }
-      if (cy < h - 1) { const n = idx + w; if (!visited[n] && !blocked(minX + cx, minY + cy + 1)) { visited[n] = 1; queue[qEnd++] = n; } }
+      const cx = idx % w;
+      const g = gOf(idx);
+      if (cx > 0 && !visited[idx - 1] && ownerGrid[g - 1] !== own) { visited[idx - 1] = 1; queue[qEnd++] = idx - 1; }
+      if (cx < w - 1 && !visited[idx + 1] && ownerGrid[g + 1] !== own) { visited[idx + 1] = 1; queue[qEnd++] = idx + 1; }
+      if (idx >= w && !visited[idx - w] && ownerGrid[g - GRID_W] !== own) { visited[idx - w] = 1; queue[qEnd++] = idx - w; }
+      if (idx < w * (h - 1) && !visited[idx + w] && ownerGrid[g + GRID_W] !== own) { visited[idx + w] = 1; queue[qEnd++] = idx + w; }
     }
 
     for (let y = minY; y <= maxY; y++) {
