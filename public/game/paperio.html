@@ -1,0 +1,2116 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Paper.io 2 — מהדורת גיבורי-על 2.5D</title>
+<style>
+  :root {
+    --bg-sea: #dceaf5;
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --text-main: #182230;
+    --text-muted: #5b6b80;
+    --accent-green: #16a34a;
+    --accent-green-dark: #15803d;
+    --accent-blue: #2563eb;
+    --accent-purple: #7c3aed;
+    --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.16);
+    --radius-card: 24px;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg-sea);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-main);
+  }
+
+  #gameCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    z-index: 1;
+    touch-action: none;
+  }
+
+  /* HUD בזמן משחק */
+  #hud {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+    display: none;
+  }
+
+  #hud.active {
+    display: block;
+  }
+
+  .hud-top-right {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    max-width: 66vw;
+  }
+
+  .hud-pill {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+  }
+
+  .hud-top-left {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 16px;
+    padding: 8px 12px;
+    min-width: 145px;
+    max-width: 190px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+    font-size: 12px;
+  }
+
+  .board-title {
+    font-weight: 800;
+    margin-bottom: 5px;
+    color: #334155;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .board-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin: 3px 0;
+    font-weight: 600;
+  }
+
+  .board-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 5px;
+  }
+
+  #minimapCanvas {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    width: 136px;
+    height: 136px;
+    border-radius: 20px;
+    background: rgba(214, 234, 248, 0.92);
+    border: 2px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16);
+  }
+
+  /* מסכי תפריט ודמויות */
+  .screen-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(15, 23, 42, 0.24);
+    backdrop-filter: blur(5px);
+    pointer-events: none;
+  }
+
+  .screen-overlay.active {
+    display: flex;
+    pointer-events: auto;
+  }
+
+  .menu-card {
+    position: relative;
+    z-index: 35;
+    pointer-events: auto;
+    width: min(94vw, 520px);
+    max-height: 92vh;
+    overflow-y: auto;
+    background: var(--card-bg);
+    border-radius: var(--radius-card);
+    padding: 22px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  }
+
+  @media (min-width: 700px) {
+    .menu-card {
+      width: min(92vw, 820px);
+      padding: 28px 32px;
+    }
+  }
+
+  .menu-card * {
+    pointer-events: auto;
+  }
+
+  .menu-card button * {
+    pointer-events: none;
+  }
+
+  .top-wallet-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .wallet-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .wallet-chip {
+    background: #f1f5f9;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-weight: 800;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .game-title {
+    margin: 2px 0 4px;
+    text-align: center;
+    font-size: clamp(28px, 4.5vw, 40px);
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: #0f172a;
+  }
+
+  .game-subtitle {
+    margin: 0 0 16px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .name-input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 2px solid #cbd5e1;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    background: #fff;
+    color: var(--text-main);
+    margin-bottom: 14px;
+    outline: none;
+  }
+
+  .name-input:focus {
+    border-color: var(--accent-blue);
+  }
+
+  .selected-hero-box {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .hero-summary-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-badge-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    color: #fff;
+    font-weight: 900;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.16);
+    flex-shrink: 0;
+  }
+
+  .btn {
+    border: none;
+    border-radius: 16px;
+    padding: 12px 16px;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.12s ease, opacity 0.15s ease, background 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn-secondary {
+    background: #e2e8f0;
+    color: #0f172a;
+  }
+
+  .btn-secondary:hover {
+    background: #cbd5e1;
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 18px;
+    background: linear-gradient(135deg, #22c55e, #15803d);
+    color: #fff;
+    box-shadow: 0 10px 24px rgba(22, 163, 74, 0.3);
+    margin-top: 8px;
+  }
+
+  .btn-upgrade {
+    background: linear-gradient(135deg, #7c3aed, #5b21b6);
+    color: #fff;
+    padding: 9px 12px;
+    font-size: 13px;
+    border-radius: 12px;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .btn-unlock {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #fff;
+    padding: 9px 12px;
+    font-size: 13px;
+    border-radius: 12px;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .map-side-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .side-choice {
+    padding: 10px;
+    border-radius: 14px;
+    border: 2px solid #e2e8f0;
+    background: #f8fafc;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .side-choice.active {
+    border-color: var(--accent-blue);
+    background: #eff6ff;
+    color: #1d4ed8;
+  }
+
+  /* מסך החלפת דמות */
+  .heroes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .heroes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  @media (min-width: 680px) {
+    .heroes-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .hero-tile {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .hero-tile.selected {
+    border-color: var(--accent-green);
+    background: #f0fdf4;
+  }
+
+  .hero-tile-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .hero-mini-swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 900;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .hero-name {
+    font-weight: 800;
+    font-size: 14px;
+  }
+
+  .hero-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin-top: 2px;
+  }
+
+  .cost-line {
+    font-size: 11px;
+    font-weight: 700;
+    color: #334155;
+    margin-top: 6px;
+  }
+
+  /* מסך סיום / ניצחון */
+  .end-stats {
+    background: #f8fafc;
+    border-radius: 18px;
+    padding: 14px;
+    margin: 14px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 14px;
+  }
+
+  .fly-token {
+    position: fixed;
+    z-index: 60;
+    pointer-events: none;
+    font-size: 22px;
+    font-weight: 900;
+    transition: transform 1.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.45s ease;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="gameCanvas"></canvas>
+
+<!-- HUD בזמן משחק -->
+<div id="hud">
+  <div class="hud-top-right">
+    <div class="hud-pill">🗺️ <span id="hudArea">0.0%</span></div>
+    <div class="hud-pill">⚔️ <span id="hudKills">0</span></div>
+    <div class="hud-pill" id="hudStarBox">⭐ <span id="hudStars">0</span></div>
+    <div class="hud-pill" id="hudGemBox">💎 <span id="hudGems">0</span></div>
+    <div class="hud-pill" id="hudCoreBox">⚙️ <span id="hudCores">0</span></div>
+    <div class="hud-pill" id="hudPowerPill" style="display:none;">⚡ <span id="hudPowerLabel"></span></div>
+  </div>
+
+  <div class="hud-top-left">
+    <div class="board-title">
+      <span>דירוג באי</span>
+      <span id="hudAliveCount">9</span>
+    </div>
+    <div id="leaderboardList"></div>
+  </div>
+
+  <canvas id="minimapCanvas" width="136" height="136"></canvas>
+</div>
+
+<!-- תפריט ראשי -->
+<div id="mainMenuScreen" class="screen-overlay active">
+  <div class="menu-card">
+    <div class="top-wallet-bar">
+      <div class="wallet-group">
+        <div class="wallet-chip" id="walletStarsChip">⭐ <span id="menuStars">0</span></div>
+        <div class="wallet-chip" id="walletGemsChip">💎 <span id="menuGems">0</span></div>
+        <div class="wallet-chip" id="walletCoresChip">⚙️ <span id="menuCores">0</span></div>
+      </div>
+      <div class="wallet-chip">🏆 שיא: <span id="menuBestPct">0.0%</span></div>
+    </div>
+
+    <h1 class="game-title">Paper.io 2</h1>
+    <p class="game-subtitle">אי אורגני חופשי • 12 גיבורי-על ב-2.5D • כוחות מיוחדים</p>
+
+    <input id="playerNameInput" class="name-input" type="text" maxlength="16" placeholder="השם שלך בזירה" value="אלוף האי" />
+
+    <div class="selected-hero-box">
+      <div class="hero-summary-info">
+        <div id="activeHeroBadge" class="hero-badge-icon">🦸</div>
+        <div>
+          <div id="activeHeroTitle" style="font-weight:900;font-size:16px;">כחול קלאסי</div>
+          <div id="activeHeroLevel" style="font-size:12px;color:#475569;font-weight:700;">רמה 1 / 5</div>
+        </div>
+      </div>
+      <button id="openCharactersBtn" class="btn btn-secondary" type="button">החלפת דמות 🦸</button>
+    </div>
+
+    <div class="map-side-row">
+      <button id="sideRightBtn" class="side-choice active" type="button">מיני-מפה: שמאל למטה</button>
+      <button id="sideLeftBtn" class="side-choice" type="button">מיני-מפה: ימין למטה</button>
+    </div>
+
+    <button id="playNowBtn" class="btn btn-primary" type="button">שחק עכשיו ▶</button>
+    <button id="exitGameBtn" class="btn btn-secondary" style="width:100%;margin-top:8px;" type="button">חזרה ללימוד</button>
+  </div>
+</div>
+
+<!-- מסך החלפת דמות -->
+<div id="charactersScreen" class="screen-overlay">
+  <div class="menu-card">
+    <div class="heroes-header">
+      <div>
+        <h2 style="margin:0;font-size:22px;font-weight:900;">החלפת דמות ושדרוג (12 גיבורים)</h2>
+        <div style="font-size:12px;color:#64748b;font-weight:700;">כל דמות ניתנת לשדרוג עד רמה 5 באמצעות כוכבים, יהלומים וליבות</div>
+      </div>
+      <button id="backToMenuBtn" class="btn btn-secondary" type="button">חזרה לתפריט</button>
+    </div>
+
+    <div class="top-wallet-bar" style="margin-bottom:12px;">
+      <div class="wallet-group">
+        <div class="wallet-chip">⭐ <span id="charStars">0</span></div>
+        <div class="wallet-chip">💎 <span id="charGems">0</span></div>
+        <div class="wallet-chip">⚙️ <span id="charCores">0</span></div>
+      </div>
+    </div>
+
+    <div id="heroesGrid" class="heroes-grid"></div>
+  </div>
+</div>
+
+<!-- מסך סיום / ניצחון -->
+<div id="endScreen" class="screen-overlay">
+  <div class="menu-card" style="text-align:center;">
+    <h2 id="endTitle" style="margin:0 0 6px;font-size:28px;font-weight:900;">הסיבוב הסתיים</h2>
+    <p id="endReason" style="margin:0 0 12px;color:#475569;font-weight:700;"></p>
+
+    <div class="end-stats">
+      <div>🗺️ שטח נכבש: <span id="endAreaCount">0.0%</span></div>
+      <div>⚔️ חיסולים: <span id="endKillsCount">0</span></div>
+      <div>⭐ כוכבים שנאספו: <span id="endStarsCount">0</span></div>
+      <div>💎 יהלומים / ⚙️ ליבות: <span id="endExtrasCount">0 / 0</span></div>
+    </div>
+
+    <button id="playAgainBtn" class="btn btn-primary" type="button">שחק שוב 🔄</button>
+    <button id="endMenuBtn" class="btn btn-secondary" style="width:100%;margin-top:8px;" type="button">תפריט ראשי</button>
+  </div>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  // WordFlow passes the current user. The save sits under the user's keys, so it is per player and synced with their progress.
+  const PARAMS = new URLSearchParams(location.search);
+  const WF_USER = /^[a-z]+$/.test(PARAMS.get('user') || '') ? PARAMS.get('user') : null;
+  const WF_NAME = (PARAMS.get('name') || '').trim().slice(0, 16);
+  const STORAGE_KEY = WF_USER ? `wordflow.u.${WF_USER}.game.paperio` : 'wordflow.game.paperio';
+
+  const HEROES = [
+    { id: 'classic', name: 'כחול קלאסי', symbol: '★', color: '#2563eb', dark: '#1d4ed8', trail: '#93c5fd', starter: true },
+    { id: 'bat', name: 'אביר הלילה', symbol: '🦇', color: '#334155', dark: '#0f172a', trail: '#94a3b8', unlock: { stars: 65, gems: 4, cores: 0 } },
+    { id: 'steel', name: 'איש הפלדה', symbol: '🛡️', color: '#dc2626', dark: '#991b1b', trail: '#fca5a5', unlock: { stars: 95, gems: 6, cores: 0 } },
+    { id: 'spider', name: 'איש העכביש', symbol: '🕸️', color: '#e11d48', dark: '#881337', trail: '#fda4af', unlock: { stars: 130, gems: 8, cores: 1 } },
+    { id: 'flash', name: 'הברק האדום', symbol: '⚡', color: '#ea580c', dark: '#9a3412', trail: '#fdba74', unlock: { stars: 170, gems: 10, cores: 1 } },
+    { id: 'lantern', name: 'הפקח הירוק', symbol: '💚', color: '#16a34a', dark: '#14532d', trail: '#86efac', unlock: { stars: 215, gems: 13, cores: 2 } },
+    { id: 'iron', name: 'שריון הברזל', symbol: '🤖', color: '#b91c1c', dark: '#7f1d1d', trail: '#fcd34d', unlock: { stars: 265, gems: 16, cores: 2 } },
+    { id: 'thor', name: 'אל הרעם', symbol: '🔨', color: '#0284c7', dark: '#0c4a6e', trail: '#7dd3fc', unlock: { stars: 320, gems: 20, cores: 3 } },
+    { id: 'panther', name: 'הפנתר השחור', symbol: '🐆', color: '#6d28d9', dark: '#3b0764', trail: '#c4b5fd', unlock: { stars: 380, gems: 24, cores: 3 } },
+    { id: 'captain', name: 'קפטן המגן', symbol: '🌟', color: '#1d4ed8', dark: '#1e3a8a', trail: '#bfdbfe', unlock: { stars: 440, gems: 28, cores: 4 } },
+    { id: 'ant', name: 'איש הנמלה', symbol: '🐜', color: '#c2410c', dark: '#7c2d12', trail: '#fed7aa', unlock: { stars: 510, gems: 33, cores: 5 } },
+    { id: 'mystic', name: 'אדון המיסטיקה', symbol: '🔮', color: '#0f766e', dark: '#134e4a', trail: '#99f6e4', unlock: { stars: 590, gems: 40, cores: 6 } }
+  ];
+
+  const BOT_PROFILES = [
+    { name: 'רובי', color: '#ef4444', dark: '#991b1b', trail: '#fca5a5' },
+    { name: 'במבה', color: '#f59e0b', dark: '#92400e', trail: '#fde68a' },
+    { name: 'נינג׳ה', color: '#10b981', dark: '#065f46', trail: '#6ee7b7' },
+    { name: 'טורבו', color: '#ec4899', dark: '#831843', trail: '#f9a8d4' },
+    { name: 'קוסמו', color: '#8b5cf6', dark: '#4c1d95', trail: '#ddd6fe' },
+    { name: 'סופה', color: '#06b6d4', dark: '#164e63', trail: '#a5f3fc' },
+    { name: 'מגנט', color: '#84cc16', dark: '#3f6212', trail: '#bef264' },
+    { name: 'אש', color: '#f97316', dark: '#7c2d12', trail: '#fdba74' },
+    { name: 'קרח', color: '#38bdf8', dark: '#0369a1', trail: '#bae6fd' },
+    { name: 'צל', color: '#64748b', dark: '#1e293b', trail: '#cbd5e1' }
+  ];
+
+  function loadSave() {
+    const base = {
+      name: 'אלוף האי',
+      selectedHero: 'classic',
+      minimapSide: 'left',
+      bestPct: 0,
+      stars: 25,
+      gems: 2,
+      cores: 0,
+      unlocked: { classic: true },
+      levels: { classic: 1 }
+    };
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return base;
+      const parsed = JSON.parse(raw);
+      return {
+        ...base,
+        ...parsed,
+        unlocked: { classic: true, ...(parsed.unlocked || {}) },
+        levels: { classic: 1, ...(parsed.levels || {}) }
+      };
+    } catch (_) {
+      return base;
+    }
+  }
+
+  let save = loadSave();
+  if (WF_NAME) save.name = WF_NAME;
+  const nameInputEl = document.getElementById('playerNameInput');
+  nameInputEl.value = save.name;
+  if (WF_NAME) nameInputEl.readOnly = true;
+  function persistSave() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
+    } catch (_) {}
+  }
+
+  function getUpgradeCost(nextLevel) {
+    const idx = Math.max(1, Math.min(5, nextLevel));
+    return {
+      stars: idx * 75,
+      gems: idx * 5,
+      cores: idx >= 3 ? (idx - 2) * 2 : 0
+    };
+  }
+
+  const GRID_SIZE = 26;
+  const GRID_RADIUS = 46;
+  const BASE_ISLAND_R = GRID_RADIUS * GRID_SIZE;
+
+  function getIslandRadiusAtAngle(angle) {
+    const a = Number.isFinite(angle) ? angle : 0;
+    const w1 = 0.14 * Math.sin(a * 1 + 0.55);
+    const w2 = 0.12 * Math.cos(a * 2 - 1.10);
+    const w3 = 0.09 * Math.sin(a * 3 + 2.15);
+    const w4 = 0.06 * Math.cos(a * 5 - 0.70);
+    const cove = -0.13 * Math.exp(-Math.pow(Math.atan2(Math.sin(a - 2.35), Math.cos(a - 2.35)) / 0.45, 2));
+    const peninsula = 0.14 * Math.exp(-Math.pow(Math.atan2(Math.sin(a + 0.65), Math.cos(a + 0.65)) / 0.38, 2));
+    const factor = Math.max(0.62, Math.min(1.24, 1 + w1 + w2 + w3 + w4 + cove + peninsula));
+    return BASE_ISLAND_R * factor;
+  }
+
+  function isInsideIsland(wx, wy) {
+    if (!Number.isFinite(wx) || !Number.isFinite(wy)) return false;
+    const dist = Math.hypot(wx, wy);
+    const ang = Math.atan2(wy, wx);
+    return dist <= getIslandRadiusAtAngle(ang);
+  }
+
+  function getDistanceToIslandEdge(wx, wy) {
+    const dist = Math.hypot(wx, wy);
+    const ang = Math.atan2(wy, wx);
+    return getIslandRadiusAtAngle(ang) - dist;
+  }
+
+  function getIslandEdgeTangentAngle(wx, wy, currentAngle) {
+    const ang = Math.atan2(wy, wx);
+    const eps = 0.025;
+    const r1 = getIslandRadiusAtAngle(ang - eps);
+    const r2 = getIslandRadiusAtAngle(ang + eps);
+    const x1 = Math.cos(ang - eps) * r1;
+    const y1 = Math.sin(ang - eps) * r1;
+    const x2 = Math.cos(ang + eps) * r2;
+    const y2 = Math.sin(ang + eps) * r2;
+    const tangent = Math.atan2(y2 - y1, x2 - x1);
+    const opp = wrapAngle(tangent + Math.PI);
+    const d1 = Math.abs(wrapAngle(tangent - currentAngle));
+    const d2 = Math.abs(wrapAngle(opp - currentAngle));
+    return d1 <= d2 ? tangent : opp;
+  }
+
+  function wrapAngle(a) {
+    if (!Number.isFinite(a)) return 0;
+    let res = (a + Math.PI) % (Math.PI * 2);
+    if (res < 0) res += Math.PI * 2;
+    return res - Math.PI;
+  }
+
+  function lerpAngle(a, b, t) {
+    return wrapAngle(a + wrapAngle(b - a) * Math.max(0, Math.min(1, t)));
+  }
+
+  function cellKey(gx, gy) {
+    return `${gx},${gy}`;
+  }
+
+  function worldToCell(wx, wy) {
+    return {
+      gx: Math.round(wx / GRID_SIZE),
+      gy: Math.round(wy / GRID_SIZE)
+    };
+  }
+
+  function cellToWorld(gx, gy) {
+    return {
+      x: gx * GRID_SIZE,
+      y: gy * GRID_SIZE
+    };
+  }
+
+  function chaikinSmooth(points, closed = true, iterations = 2) {
+    let pts = points.slice();
+    if (pts.length < 3) return pts;
+    for (let it = 0; it < iterations; it++) {
+      const next = [];
+      const len = pts.length;
+      const limit = closed ? len : len - 1;
+      for (let i = 0; i < limit; i++) {
+        const p0 = pts[i];
+        const p1 = pts[(i + 1) % len];
+        next.push({
+          x: p0.x * 0.75 + p1.x * 0.25,
+          y: p0.y * 0.75 + p1.y * 0.25
+        });
+        next.push({
+          x: p0.x * 0.25 + p1.x * 0.75,
+          y: p0.y * 0.25 + p1.y * 0.75
+        });
+      }
+      if (!closed && pts.length > 0) {
+        next.push(pts[pts.length - 1]);
+      }
+      pts = next;
+    }
+    return pts;
+  }
+
+  const validIslandCells = [];
+  const validIslandSet = new Set();
+  for (let gy = -GRID_RADIUS; gy <= GRID_RADIUS; gy++) {
+    for (let gx = -GRID_RADIUS; gx <= GRID_RADIUS; gx++) {
+      const w = cellToWorld(gx, gy);
+      if (getDistanceToIslandEdge(w.x, w.y) >= GRID_SIZE * 0.35) {
+        const k = cellKey(gx, gy);
+        validIslandCells.push({ gx, gy, key: k, x: w.x, y: w.y });
+        validIslandSet.add(k);
+      }
+    }
+  }
+  const TOTAL_ISLAND_CELLS = Math.max(1, validIslandCells.length);
+
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+  const minimapCanvas = document.getElementById('minimapCanvas');
+  const mmCtx = minimapCanvas.getContext('2d');
+
+  let viewW = window.innerWidth;
+  let viewH = window.innerHeight;
+  function resizeCanvas() {
+    viewW = window.innerWidth;
+    viewH = window.innerHeight;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.floor(viewW * dpr);
+    canvas.height = Math.floor(viewH * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  let gameState = 'MENU';
+  let territoryMap = new Map();
+  let entities = [];
+  let pickups = [];
+  let effects = [];
+  let matchTime = 0;
+  let respawnTimer = 0;
+  let pickupSpawnTimer = 0;
+  let botCounter = 0;
+  let activeFlyingTimeouts = [];
+
+  function clearFlyingTokens() {
+    for (const tid of activeFlyingTimeouts) {
+      clearTimeout(tid);
+    }
+    activeFlyingTimeouts = [];
+    document.querySelectorAll('.fly-token').forEach(el => el.remove());
+  }
+
+  let pointerActive = false;
+  let pointerTargetAngle = null;
+  let manualSteering = false;
+  const keysDown = new Set();
+
+  function getDesiredAngleFromInput() {
+    let kx = 0, ky = 0;
+    if (keysDown.has('ArrowRight') || keysDown.has('KeyD')) kx += 1;
+    if (keysDown.has('ArrowLeft') || keysDown.has('KeyA')) kx -= 1;
+    if (keysDown.has('ArrowDown') || keysDown.has('KeyS')) ky += 1;
+    if (keysDown.has('ArrowUp') || keysDown.has('KeyW')) ky -= 1;
+
+    if (kx !== 0 || ky !== 0) {
+      manualSteering = true;
+      return Math.atan2(ky, kx);
+    }
+    if (pointerActive && pointerTargetAngle !== null) {
+      manualSteering = true;
+      return pointerTargetAngle;
+    }
+    manualSteering = false;
+    return null;
+  }
+
+  function updatePointerAngleFromEvent(e) {
+    const dx = e.clientX - viewW * 0.5;
+    const dy = e.clientY - viewH * 0.5;
+    if (Math.hypot(dx, dy) > 4) {
+      pointerTargetAngle = Math.atan2(dy, dx);
+    }
+  }
+
+  canvas.addEventListener('pointerdown', (e) => {
+    if (gameState !== 'PLAYING') return;
+    pointerActive = true;
+    updatePointerAngleFromEvent(e);
+  });
+
+  canvas.addEventListener('pointermove', (e) => {
+    if (gameState !== 'PLAYING' || !pointerActive) return;
+    updatePointerAngleFromEvent(e);
+  });
+
+  window.addEventListener('pointerup', () => {
+    pointerActive = false;
+    pointerTargetAngle = null;
+  });
+
+  window.addEventListener('keydown', (e) => {
+    keysDown.add(e.code);
+  });
+
+  window.addEventListener('keyup', (e) => {
+    keysDown.delete(e.code);
+  });
+
+  function createEntity(opts) {
+    return {
+      id: opts.id,
+      name: opts.name,
+      isPlayer: !!opts.isPlayer,
+      hero: opts.hero || null,
+      level: opts.level || 1,
+      color: opts.color,
+      dark: opts.dark,
+      trailColor: opts.trailColor,
+      x: opts.x,
+      y: opts.y,
+      angle: opts.angle || 0,
+      baseSpeed: 215,
+      currentSpeed: 215,
+      alive: true,
+      spawnShield: opts.spawnShield || 1.4,
+      trail: [],
+      kills: 0,
+      runStars: 0,
+      runGems: 0,
+      runCores: 0,
+      powerType: null,
+      powerTimer: 0,
+      aiTimer: 0,
+      aiTargetAngle: opts.angle || 0
+    };
+  }
+
+  function paintInitialPatch(cx, cy, ownerId, radiusCells = 2) {
+    const center = worldToCell(cx, cy);
+    for (let dy = -radiusCells; dy <= radiusCells; dy++) {
+      for (let dx = -radiusCells; dx <= radiusCells; dx++) {
+        if (dx * dx + dy * dy <= radiusCells * radiusCells + 1) {
+          const gx = center.gx + dx;
+          const gy = center.gy + dy;
+          const k = cellKey(gx, gy);
+          if (validIslandSet.has(k)) {
+            territoryMap.set(k, ownerId);
+          }
+        }
+      }
+    }
+  }
+
+  function findSafeSpawnPoint(minDistFromPlayer = 0) {
+    const player = entities.find(e => e.isPlayer);
+    for (let attempt = 0; attempt < 90; attempt++) {
+      const idx = Math.floor(Math.random() * validIslandCells.length);
+      const c = validIslandCells[idx];
+      if (getDistanceToIslandEdge(c.x, c.y) < GRID_SIZE * 4) continue;
+      if (player && minDistFromPlayer > 0) {
+        if (Math.hypot(c.x - player.x, c.y - player.y) < minDistFromPlayer) continue;
+      }
+      let occupied = false;
+      for (const e of entities) {
+        if (!e.alive) continue;
+        if (Math.hypot(c.x - e.x, c.y - e.y) < GRID_SIZE * 5) {
+          occupied = true;
+          break;
+        }
+      }
+      if (!occupied) return { x: c.x, y: c.y };
+    }
+    return { x: 0, y: 0 };
+  }
+
+  function spawnBot(isRespawn = false) {
+    botCounter += 1;
+    const prof = BOT_PROFILES[(botCounter - 1) % BOT_PROFILES.length];
+    const sp = findSafeSpawnPoint(isRespawn ? 520 : 280);
+    const id = `bot_${botCounter}`;
+    const bot = createEntity({
+      id,
+      name: `${prof.name}`,
+      isPlayer: false,
+      color: prof.color,
+      dark: prof.dark,
+      trailColor: prof.trail,
+      x: sp.x,
+      y: sp.y,
+      angle: Math.atan2(-sp.y, -sp.x) + (Math.random() - 0.5) * 1.1,
+      spawnShield: isRespawn ? 2.4 : 2.0
+    });
+    entities.push(bot);
+    paintInitialPatch(sp.x, sp.y, id, 2);
+  }
+
+  function spawnPickup(forcedType = null) {
+    const idx = Math.floor(Math.random() * validIslandCells.length);
+    const c = validIslandCells[idx];
+    if (getDistanceToIslandEdge(c.x, c.y) < GRID_SIZE * 2) return;
+
+    let type = forcedType;
+    if (!type) {
+      const r = Math.random();
+      if (r < 0.36) type = 'star';
+      else if (r < 0.52) type = 'gem';
+      else if (r < 0.62) type = 'core';
+      else if (r < 0.76) type = 'boost';
+      else if (r < 0.88) type = 'shield';
+      else if (r < 0.95) type = 'kangaroo';
+      else type = 'bomb';
+    }
+
+    pickups.push({
+      id: Math.random().toString(36).slice(2),
+      type,
+      x: c.x,
+      y: c.y,
+      pulse: Math.random() * Math.PI * 2
+    });
+  }
+
+  function startNewMatch() {
+    clearFlyingTokens();
+    territoryMap.clear();
+    entities = [];
+    pickups = [];
+    effects = [];
+    matchTime = 0;
+    respawnTimer = 0;
+    pickupSpawnTimer = 0;
+    botCounter = 0;
+    pointerActive = false;
+    pointerTargetAngle = null;
+    manualSteering = false;
+
+    const heroObj = HEROES.find(h => h.id === save.selectedHero) || HEROES[0];
+    const lvl = save.levels[heroObj.id] || 1;
+    const inputEl = document.getElementById('playerNameInput');
+    const playerName = ((inputEl ? inputEl.value : '') || '').trim() || 'אלוף האי';
+    save.name = playerName;
+    persistSave();
+
+    const startSp = findSafeSpawnPoint(0);
+    const player = createEntity({
+      id: 'player',
+      name: playerName,
+      isPlayer: true,
+      hero: heroObj,
+      level: lvl,
+      color: heroObj.color,
+      dark: heroObj.dark,
+      trailColor: heroObj.trail,
+      x: startSp.x,
+      y: startSp.y,
+      angle: 0,
+      spawnShield: 1.5
+    });
+    entities.push(player);
+    paintInitialPatch(startSp.x, startSp.y, 'player', 2);
+
+    for (let i = 0; i < 8; i++) {
+      spawnBot(false);
+    }
+
+    for (let i = 0; i < 16; i++) {
+      spawnPickup();
+    }
+
+    gameState = 'PLAYING';
+    setActiveScreen(null);
+    document.getElementById('hud').classList.add('active');
+    updateHud(player);
+    renderWorld(player);
+    renderMinimap(player);
+  }
+
+  function countTerritoryFor(ownerId) {
+    let count = 0;
+    for (const v of territoryMap.values()) {
+      if (v === ownerId) count++;
+    }
+    return count;
+  }
+
+  function getAreaPct(ownerId) {
+    return (countTerritoryFor(ownerId) / TOTAL_ISLAND_CELLS) * 100;
+  }
+
+  function appendTrailSegment(ent, fromX, fromY, toX, toY) {
+    const dist = Math.hypot(toX - fromX, toY - fromY);
+    const steps = Math.max(1, Math.ceil(dist / (GRID_SIZE * 0.45)));
+    for (let s = 1; s <= steps; s++) {
+      const t = s / steps;
+      const sx = fromX + (toX - fromX) * t;
+      const sy = fromY + (toY - fromY) * t;
+      const cell = worldToCell(sx, sy);
+      const last = ent.trail[ent.trail.length - 1];
+      if (!last || last.gx !== cell.gx || last.gy !== cell.gy) {
+        const cw = cellToWorld(cell.gx, cell.gy);
+        ent.trail.push({ gx: cell.gx, gy: cell.gy, x: cw.x, y: cw.y });
+      }
+    }
+  }
+
+  function captureClosedLoop(ent) {
+    if (!ent.trail || ent.trail.length === 0) return;
+
+    let newlyCaptured = 0;
+    for (const pt of ent.trail) {
+      const k = cellKey(pt.gx, pt.gy);
+      if (validIslandSet.has(k) && territoryMap.get(k) !== ent.id) {
+        territoryMap.set(k, ent.id);
+        newlyCaptured++;
+      }
+    }
+
+    const minX = -GRID_RADIUS - 2;
+    const maxX = GRID_RADIUS + 2;
+    const minY = -GRID_RADIUS - 2;
+    const maxY = GRID_RADIUS + 2;
+    const w = maxX - minX + 1;
+    const h = maxY - minY + 1;
+    const visited = new Uint8Array(w * h);
+
+    const isBlockedByOwner = (gx, gy) => {
+      if (gx < minX || gx > maxX || gy < minY || gy > maxY) return false;
+      return territoryMap.get(cellKey(gx, gy)) === ent.id;
+    };
+
+    const queue = [];
+    for (let x = minX; x <= maxX; x++) {
+      for (const y of [minY, maxY]) {
+        if (!isBlockedByOwner(x, y)) {
+          const idx = (y - minY) * w + (x - minX);
+          if (!visited[idx]) {
+            visited[idx] = 1;
+            queue.push(x, y);
+          }
+        }
+      }
+    }
+    for (let y = minY; y <= maxY; y++) {
+      for (const x of [minX, maxX]) {
+        if (!isBlockedByOwner(x, y)) {
+          const idx = (y - minY) * w + (x - minX);
+          if (!visited[idx]) {
+            visited[idx] = 1;
+            queue.push(x, y);
+          }
+        }
+      }
+    }
+
+    let head = 0;
+    while (head < queue.length) {
+      const cx = queue[head++];
+      const cy = queue[head++];
+      const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+      for (let i = 0; i < 4; i++) {
+        const nx = cx + dirs[i][0];
+        const ny = cy + dirs[i][1];
+        if (nx < minX || nx > maxX || ny < minY || ny > maxY) continue;
+        const idx = (ny - minY) * w + (nx - minX);
+        if (visited[idx]) continue;
+        if (!isBlockedByOwner(nx, ny)) {
+          visited[idx] = 1;
+          queue.push(nx, ny);
+        }
+      }
+    }
+
+    for (const c of validIslandCells) {
+      const idx = (c.gy - minY) * w + (c.gx - minX);
+      if (idx >= 0 && idx < visited.length && !visited[idx]) {
+        if (territoryMap.get(c.key) !== ent.id) {
+          territoryMap.set(c.key, ent.id);
+          newlyCaptured++;
+        }
+      }
+    }
+
+    ent.trail = [];
+
+    const capturedPct = (newlyCaptured / TOTAL_ISLAND_CELLS) * 100;
+
+    if (ent.isPlayer && newlyCaptured > 0) {
+      const remaining = [];
+      for (const p of pickups) {
+        const gc = worldToCell(p.x, p.y);
+        if (territoryMap.get(cellKey(gc.gx, gc.gy)) === ent.id) {
+          collectPickup(ent, p, true);
+        } else {
+          remaining.push(p);
+        }
+      }
+      pickups = remaining;
+
+      let bonusStars = 0;
+      if (capturedPct >= 6.5) bonusStars = Math.min(8, Math.floor(capturedPct / 2.2));
+      else if (capturedPct >= 3.0) bonusStars = 2;
+      else if (capturedPct >= 1.2) bonusStars = 1;
+
+      if (bonusStars > 0) {
+        ent.runStars += bonusStars;
+        spawnFloatingBadge('⭐', ent.x, ent.y - 24, '#f59e0b');
+      }
+    }
+
+    if (ent.isPlayer && getAreaPct('player') >= 99.6) {
+      finishMatch(true, 'כבשת 100% מהאי האורגני!');
+    }
+  }
+
+  function collectPickup(ent, p, autoCollected = false) {
+    if (p.type === 'star') {
+      if (ent.isPlayer) {
+        ent.runStars += 1;
+        spawnFloatingBadge('⭐', p.x, p.y, '#f59e0b');
+      }
+    } else if (p.type === 'gem') {
+      if (ent.isPlayer) {
+        ent.runGems += 1;
+        spawnFloatingBadge('💎', p.x, p.y, '#38bdf8');
+      }
+    } else if (p.type === 'core') {
+      if (ent.isPlayer) {
+        ent.runCores += 1;
+        spawnFloatingBadge('⚙️', p.x, p.y, '#a855f7');
+      }
+    } else if (p.type === 'boost') {
+      ent.powerType = 'boost';
+      ent.powerTimer = 3.6;
+      effects.push({ kind: 'ring', x: p.x, y: p.y, r: 10, maxR: 75, color: '#f97316', alpha: 0.9 });
+    } else if (p.type === 'shield') {
+      ent.powerType = 'shield';
+      ent.powerTimer = 4.5;
+      effects.push({ kind: 'ring', x: p.x, y: p.y, r: 10, maxR: 85, color: '#22c55e', alpha: 0.9 });
+    } else if (p.type === 'kangaroo') {
+      ent.powerType = 'kangaroo';
+      ent.powerTimer = 3.4;
+      effects.push({ kind: 'ring', x: p.x, y: p.y, r: 10, maxR: 95, color: '#10b981', alpha: 0.95 });
+    } else if (p.type === 'bomb') {
+      triggerBombBlast(ent, p.x, p.y);
+    }
+
+    if (autoCollected) {
+      effects.push({ kind: 'ring', x: p.x, y: p.y, r: 6, maxR: 42, color: '#facc15', alpha: 0.8 });
+    }
+  }
+
+  function triggerBombBlast(ent, bx, by) {
+    const blastRadius = 155;
+    effects.push({ kind: 'ring', x: bx, y: by, r: 14, maxR: blastRadius, color: '#ef4444', alpha: 0.95 });
+
+    const rCells = Math.ceil(blastRadius / GRID_SIZE);
+    const center = worldToCell(bx, by);
+    for (let dy = -rCells; dy <= rCells; dy++) {
+      for (let dx = -rCells; dx <= rCells; dx++) {
+        const gx = center.gx + dx;
+        const gy = center.gy + dy;
+        const w = cellToWorld(gx, gy);
+        if (Math.hypot(w.x - bx, w.y - by) <= blastRadius) {
+          const k = cellKey(gx, gy);
+          if (validIslandSet.has(k)) {
+            territoryMap.set(k, ent.id);
+          }
+        }
+      }
+    }
+
+    for (const other of entities) {
+      if (!other.alive || other.id === ent.id) continue;
+      if (other.spawnShield > 0 || other.powerType === 'shield') continue;
+      if (Math.hypot(other.x - bx, other.y - by) <= blastRadius) {
+        eliminateEntity(other, ent, 'נפסלת בפיצוץ כוח!');
+      }
+    }
+  }
+
+  function eliminateEntity(victim, killer, reasonText) {
+    if (!victim.alive) return;
+    victim.alive = false;
+
+    effects.push({
+      kind: 'ring',
+      x: victim.x,
+      y: victim.y,
+      r: 12,
+      maxR: 110,
+      color: victim.color,
+      alpha: 0.95
+    });
+
+    if (killer && killer.alive) {
+      killer.kills += 1;
+      let stolenCount = 0;
+      for (const [k, owner] of territoryMap.entries()) {
+        if (owner === victim.id) {
+          territoryMap.set(k, killer.id);
+          stolenCount++;
+        }
+      }
+      if (stolenCount > 0) {
+        effects.push({
+          kind: 'ring',
+          x: victim.x,
+          y: victim.y,
+          r: 18,
+          maxR: 135,
+          color: killer.color,
+          alpha: 0.85
+        });
+      }
+      if (killer.isPlayer) {
+        killer.runStars += 3;
+        killer.runGems += 1;
+        spawnFloatingBadge('⚔️', victim.x, victim.y, '#ef4444');
+      }
+    } else {
+      for (const [k, owner] of territoryMap.entries()) {
+        if (owner === victim.id) {
+          territoryMap.delete(k);
+        }
+      }
+    }
+
+    victim.trail = [];
+
+    if (victim.isPlayer) {
+      finishMatch(false, reasonText || 'השובל שלך נחצה או שיצאת מהאי!');
+    }
+  }
+
+  function spawnFloatingBadge(symbol, wx, wy, color) {
+    effects.push({
+      kind: 'badge',
+      symbol,
+      x: wx,
+      y: wy,
+      vy: -42,
+      color,
+      life: 1.0
+    });
+  }
+
+  function getProgressiveRespawnConfig(playerPct, elapsedSec) {
+    const pctFactor = Math.max(0, Math.min(1, playerPct / 95));
+    const timeFactor = Math.max(0, Math.min(1, elapsedSec / 180));
+    const progress = pctFactor * 0.72 + timeFactor * 0.28;
+    const delay = 5.0 + progress * 17.0;
+    const targetAliveBots = progress > 0.8 ? 2 : progress > 0.55 ? 3 : progress > 0.3 ? 4 : 5;
+    return { delay, targetAliveBots };
+  }
+
+  function updateBotAI(bot, dt) {
+    bot.aiTimer -= dt;
+
+    const probes = [45, 95, 145];
+    let dangerAhead = false;
+    for (const dist of probes) {
+      const px = bot.x + Math.cos(bot.angle) * dist;
+      const py = bot.y + Math.sin(bot.angle) * dist;
+      if (getDistanceToIslandEdge(px, py) < GRID_SIZE * 2.2) {
+        dangerAhead = true;
+        break;
+      }
+      const pc = worldToCell(px, py);
+      const ownerAtProbe = territoryMap.get(cellKey(pc.gx, pc.gy));
+      if (ownerAtProbe && ownerAtProbe !== bot.id) {
+        for (const other of entities) {
+          if (!other.alive || other.id === bot.id) continue;
+          for (const t of other.trail) {
+            if (Math.hypot(t.x - px, t.y - py) < GRID_SIZE * 1.4) {
+              dangerAhead = true;
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    if (dangerAhead) {
+      bot.aiTargetAngle = wrapAngle(bot.angle + (Math.random() < 0.5 ? 1.15 : -1.15));
+      bot.aiTimer = 0.35;
+      bot.angle = lerpAngle(bot.angle, bot.aiTargetAngle, Math.min(1, dt * 8.5));
+      return;
+    }
+
+    if (bot.aiTimer <= 0) {
+      bot.aiTimer = 0.45 + Math.random() * 0.65;
+
+      let huntAngle = null;
+      let bestDist = 205;
+      for (const other of entities) {
+        if (!other.alive || other.id === bot.id) continue;
+        for (const t of other.trail) {
+          const d = Math.hypot(t.x - bot.x, t.y - bot.y);
+          if (d < bestDist) {
+            bestDist = d;
+            huntAngle = Math.atan2(t.y - bot.y, t.x - bot.x);
+          }
+        }
+      }
+
+      if (huntAngle !== null && bot.trail.length < 18) {
+        bot.aiTargetAngle = huntAngle;
+      } else {
+        const turnChoices = [0, Math.PI * 0.5, -Math.PI * 0.5];
+        const pick = turnChoices[Math.floor(Math.random() * turnChoices.length)];
+        bot.aiTargetAngle = wrapAngle(bot.angle + pick);
+      }
+    }
+
+    bot.angle = lerpAngle(bot.angle, bot.aiTargetAngle, Math.min(1, dt * 5.2));
+  }
+
+  function updateEntity(ent, dt) {
+    if (!ent.alive) return;
+    if (ent.spawnShield > 0) ent.spawnShield = Math.max(0, ent.spawnShield - dt);
+
+    if (ent.powerTimer > 0) {
+      ent.powerTimer -= dt;
+      if (ent.powerTimer <= 0) {
+        ent.powerTimer = 0;
+        ent.powerType = null;
+      }
+    }
+
+    const edgeDist = getDistanceToIslandEdge(ent.x, ent.y);
+    const onEdge = edgeDist >= -2 && edgeDist <= 18;
+
+    if (ent.isPlayer) {
+      const desired = getDesiredAngleFromInput();
+      if (desired !== null) {
+        ent.angle = lerpAngle(ent.angle, desired, Math.min(1, dt * 11));
+      } else if (onEdge) {
+        const tangent = getIslandEdgeTangentAngle(ent.x, ent.y, ent.angle);
+        ent.angle = lerpAngle(ent.angle, tangent, Math.min(1, dt * 10));
+      }
+    } else {
+      updateBotAI(ent, dt);
+    }
+
+    let targetSpeed = ent.baseSpeed + (ent.level - 1) * 5;
+    if (onEdge) {
+      targetSpeed *= 1.28;
+    }
+    if (ent.powerType === 'boost' || ent.powerType === 'kangaroo') {
+      targetSpeed *= 1.32;
+    }
+    ent.currentSpeed += (targetSpeed - ent.currentSpeed) * Math.min(1, dt * 7.5);
+
+    const prevX = ent.x;
+    const prevY = ent.y;
+    const nextX = ent.x + Math.cos(ent.angle) * ent.currentSpeed * dt;
+    const nextY = ent.y + Math.sin(ent.angle) * ent.currentSpeed * dt;
+
+    if (!Number.isFinite(nextX) || !Number.isFinite(nextY)) return;
+
+    ent.x = nextX;
+    ent.y = nextY;
+
+    if (getDistanceToIslandEdge(ent.x, ent.y) < -GRID_SIZE * 0.75) {
+      eliminateEntity(ent, null, 'נפלת מחוץ לגבולות האי!');
+      return;
+    }
+
+    const cell = worldToCell(ent.x, ent.y);
+    const k = cellKey(cell.gx, cell.gy);
+    const ownerAtCell = territoryMap.get(k);
+
+    if (ownerAtCell === ent.id) {
+      if (ent.trail.length > 0) {
+        captureClosedLoop(ent);
+      }
+    } else {
+      appendTrailSegment(ent, prevX, prevY, ent.x, ent.y);
+    }
+
+    for (let i = pickups.length - 1; i >= 0; i--) {
+      const p = pickups[i];
+      if (Math.hypot(ent.x - p.x, ent.y - p.y) <= GRID_SIZE * 1.15) {
+        pickups.splice(i, 1);
+        collectPickup(ent, p, false);
+      }
+    }
+  }
+
+  function resolveCollisions() {
+    const aliveList = entities.filter(e => e.alive);
+
+    for (const attacker of aliveList) {
+      for (const defender of aliveList) {
+        if (attacker.id === defender.id) continue;
+
+        if (attacker.powerType === 'kangaroo') {
+          if (defender.spawnShield <= 0 && defender.powerType !== 'shield') {
+            if (Math.hypot(attacker.x - defender.x, attacker.y - defender.y) <= 34) {
+              eliminateEntity(defender, attacker, 'נמחצת על ידי קנגורו!');
+            }
+          }
+          continue;
+        }
+
+        if (defender.spawnShield <= 0 && defender.powerType !== 'shield' && defender.powerType !== 'kangaroo') {
+          for (let i = 0; i < defender.trail.length; i++) {
+            const t = defender.trail[i];
+            if (Math.hypot(attacker.x - t.x, attacker.y - t.y) <= GRID_SIZE * 0.72) {
+              eliminateEntity(defender, attacker, `השובל שלך נחצה על ידי ${attacker.name}!`);
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  function finishMatch(isWin, reasonText) {
+    if (gameState === 'ENDED') return;
+    gameState = 'ENDED';
+
+    const player = entities.find(e => e.isPlayer);
+    const pct = getAreaPct('player');
+    const kills = player ? player.kills : 0;
+    let earnedStars = player ? player.runStars : 0;
+    let earnedGems = player ? player.runGems : 0;
+    let earnedCores = player ? player.runCores : 0;
+
+    if (isWin) {
+      earnedStars += 60;
+      earnedGems += 6;
+      earnedCores += 2;
+    }
+
+    if (pct > save.bestPct) {
+      save.bestPct = Number(pct.toFixed(1));
+    }
+
+    save.stars += earnedStars;
+    save.gems += earnedGems;
+    save.cores += earnedCores;
+    persistSave();
+
+    document.getElementById('hud').classList.remove('active');
+    document.getElementById('endTitle').textContent = isWin ? 'ניצחון מוחץ — 100% כיבוש!' : 'הסיבוב הסתיים';
+    document.getElementById('endReason').textContent = reasonText;
+
+    setActiveScreen('endScreen');
+    animateEndCounters({ pct, kills, stars: earnedStars, gems: earnedGems, cores: earnedCores });
+    refreshAllUI();
+  }
+
+  function animateEndCounters(targets) {
+    const elArea = document.getElementById('endAreaCount');
+    const elKills = document.getElementById('endKillsCount');
+    const elStars = document.getElementById('endStarsCount');
+    const elExtras = document.getElementById('endExtrasCount');
+
+    const duration = 3400;
+    const start = performance.now();
+    let launchedTokens = false;
+
+    function step(now) {
+      if (gameState !== 'ENDED') return;
+      const rawT = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - rawT, 2.2);
+
+      elArea.textContent = `${(targets.pct * eased).toFixed(1)}%`;
+      elKills.textContent = `${Math.round(targets.kills * eased)}`;
+      elStars.textContent = `${Math.round(targets.stars * eased)}`;
+      elExtras.textContent = `${Math.round(targets.gems * eased)} / ${Math.round(targets.cores * eased)}`;
+
+      if (!launchedTokens && rawT > 0.15) {
+        launchedTokens = true;
+        for (let i = 0; i < Math.min(6, Math.max(2, targets.stars)); i++) {
+          spawnFlyingToken('⭐', i * 140);
+        }
+      }
+
+      if (rawT < 1) {
+        requestAnimationFrame(step);
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  function spawnFlyingToken(symbol, delayMs) {
+    const tid = setTimeout(() => {
+      if (gameState !== 'ENDED') return;
+      const el = document.createElement('div');
+      el.className = 'fly-token';
+      el.textContent = symbol;
+      el.style.left = `${viewW * 0.5 + (Math.random() - 0.5) * 120}px`;
+      el.style.top = `${viewH * 0.55}px`;
+      el.style.opacity = '1';
+      document.body.appendChild(el);
+
+      requestAnimationFrame(() => {
+        el.style.transform = `translate(${(Math.random() - 0.5) * 140}px, -240px) scale(1.25)`;
+        el.style.opacity = '0';
+      });
+
+      const remTid = setTimeout(() => {
+        el.remove();
+      }, 1550);
+      activeFlyingTimeouts.push(remTid);
+    }, delayMs);
+    activeFlyingTimeouts.push(tid);
+  }
+
+  function buildIslandPolygonPoints(steps = 128) {
+    const pts = [];
+    for (let i = 0; i < steps; i++) {
+      const ang = (i / steps) * Math.PI * 2;
+      const r = getIslandRadiusAtAngle(ang);
+      pts.push({
+        x: Math.cos(ang) * r,
+        y: Math.sin(ang) * r
+      });
+    }
+    return chaikinSmooth(pts, true, 2);
+  }
+
+  const smoothIslandContour = buildIslandPolygonPoints(128);
+
+  function traceSmoothClosedPath(c, pts) {
+    if (!pts || pts.length < 3) return;
+    c.beginPath();
+    const firstMidX = (pts[pts.length - 1].x + pts[0].x) * 0.5;
+    const firstMidY = (pts[pts.length - 1].y + pts[0].y) * 0.5;
+    c.moveTo(firstMidX, firstMidY);
+    for (let i = 0; i < pts.length; i++) {
+      const curr = pts[i];
+      const next = pts[(i + 1) % pts.length];
+      const midX = (curr.x + next.x) * 0.5;
+      const midY = (curr.y + next.y) * 0.5;
+      c.quadraticCurveTo(curr.x, curr.y, midX, midY);
+    }
+    c.closePath();
+  }
+
+  function renderWorld(player) {
+    ctx.fillStyle = '#d7e8f5';
+    ctx.fillRect(0, 0, viewW, viewH);
+
+    const camX = player ? player.x : 0;
+    const camY = player ? player.y : 0;
+
+    ctx.save();
+    ctx.translate(viewW * 0.5 - camX, viewH * 0.5 - camY);
+
+    ctx.save();
+    ctx.translate(0, 18);
+    traceSmoothClosedPath(ctx, smoothIslandContour);
+    ctx.fillStyle = '#94a3b8';
+    ctx.fill();
+    ctx.restore();
+
+    traceSmoothClosedPath(ctx, smoothIslandContour);
+    ctx.fillStyle = '#f8fafc';
+    ctx.fill();
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = '#64748b';
+    ctx.stroke();
+
+    ctx.save();
+    traceSmoothClosedPath(ctx, smoothIslandContour);
+    ctx.clip();
+
+    ctx.strokeStyle = 'rgba(148, 163, 184, 0.16)';
+    ctx.lineWidth = 1;
+    const startX = Math.floor((camX - viewW * 0.6) / GRID_SIZE) * GRID_SIZE;
+    const endX = camX + viewW * 0.6;
+    const startY = Math.floor((camY - viewH * 0.6) / GRID_SIZE) * GRID_SIZE;
+    const endY = camY + viewH * 0.6;
+
+    for (let x = startX; x <= endX; x += GRID_SIZE) {
+      ctx.beginPath();
+      ctx.moveTo(x, startY);
+      ctx.lineTo(x, endY);
+      ctx.stroke();
+    }
+    for (let y = startY; y <= endY; y += GRID_SIZE) {
+      ctx.beginPath();
+      ctx.moveTo(startX, y);
+      ctx.lineTo(endX, y);
+      ctx.stroke();
+    }
+
+    const ownerById = new Map();
+    for (const e of entities) ownerById.set(e.id, e);
+
+    for (const [k, ownerId] of territoryMap.entries()) {
+      const owner = ownerById.get(ownerId);
+      if (!owner) continue;
+      const parts = k.split(',');
+      const gx = Number(parts[0]);
+      const gy = Number(parts[1]);
+      const wx = gx * GRID_SIZE;
+      const wy = gy * GRID_SIZE;
+      if (Math.abs(wx - camX) > viewW * 0.65 || Math.abs(wy - camY) > viewH * 0.65) continue;
+
+      ctx.fillStyle = owner.color;
+      ctx.fillRect(wx - GRID_SIZE * 0.52, wy - GRID_SIZE * 0.52, GRID_SIZE * 1.04, GRID_SIZE * 1.04);
+    }
+
+    for (const e of entities) {
+      if (!e.alive || e.trail.length === 0) continue;
+      ctx.fillStyle = e.trailColor;
+      for (const t of e.trail) {
+        ctx.fillRect(t.x - GRID_SIZE * 0.44, t.y - GRID_SIZE * 0.44, GRID_SIZE * 0.88, GRID_SIZE * 0.88);
+      }
+      const last = e.trail[e.trail.length - 1];
+      ctx.beginPath();
+      ctx.moveTo(last.x, last.y);
+      ctx.lineTo(e.x, e.y);
+      ctx.strokeStyle = e.trailColor;
+      ctx.lineWidth = GRID_SIZE * 0.82;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+    }
+
+    ctx.restore();
+
+    for (const p of pickups) {
+      p.pulse += 0.06;
+      const scale = 1 + Math.sin(p.pulse) * 0.08;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.scale(scale, scale);
+
+      ctx.beginPath();
+      ctx.arc(0, 0, 15, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = p.type === 'bomb' ? '#ef4444' : p.type === 'kangaroo' ? '#10b981' : '#3b82f6';
+      ctx.stroke();
+
+      ctx.font = '15px system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      const iconMap = {
+        star: '⭐',
+        gem: '💎',
+        core: '⚙️',
+        boost: '⚡',
+        shield: '🛡️',
+        kangaroo: '🦘',
+        bomb: '💣'
+      };
+      ctx.fillText(iconMap[p.type] || '⭐', 0, 1);
+      ctx.restore();
+    }
+
+    const drawOrder = [...entities].filter(e => e.alive).sort((a, b) => a.y - b.y);
+    for (const e of drawOrder) {
+      const liftY = e.powerType === 'kangaroo' ? -18 : 0;
+      const sz = GRID_SIZE * 1.05;
+
+      ctx.beginPath();
+      ctx.ellipse(e.x, e.y + 8, sz * 0.52, sz * 0.34, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.22)';
+      ctx.fill();
+
+      ctx.fillStyle = e.dark;
+      ctx.fillRect(e.x - sz * 0.5, e.y - sz * 0.5 + liftY + 6, sz, sz);
+
+      ctx.fillStyle = e.color;
+      ctx.fillRect(e.x - sz * 0.5, e.y - sz * 0.5 + liftY, sz, sz);
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = '#ffffff';
+      ctx.strokeRect(e.x - sz * 0.5, e.y - sz * 0.5 + liftY, sz, sz);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 14px system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(e.hero ? e.hero.symbol : '•', e.x, e.y + liftY + 1);
+
+      if (e.powerType === 'shield') {
+        ctx.beginPath();
+        ctx.arc(e.x, e.y + liftY, sz * 0.72, 0, Math.PI * 2);
+        ctx.strokeStyle = '#22c55e';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+      }
+    }
+
+    for (let i = effects.length - 1; i >= 0; i--) {
+      const fx = effects[i];
+      if (fx.kind === 'ring') {
+        fx.r += (fx.maxR - fx.r) * 0.16;
+        fx.alpha -= 0.035;
+        if (fx.alpha <= 0) {
+          effects.splice(i, 1);
+          continue;
+        }
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, fx.alpha);
+        ctx.beginPath();
+        ctx.arc(fx.x, fx.y, fx.r, 0, Math.PI * 2);
+        ctx.strokeStyle = fx.color;
+        ctx.lineWidth = 4;
+        ctx.stroke();
+        ctx.restore();
+      } else if (fx.kind === 'badge') {
+        fx.y += fx.vy * 0.016;
+        fx.life -= 0.024;
+        if (fx.life <= 0) {
+          effects.splice(i, 1);
+          continue;
+        }
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, fx.life);
+        ctx.font = '18px system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(fx.symbol, fx.x, fx.y);
+        ctx.restore();
+      }
+    }
+
+    ctx.restore();
+  }
+
+  function renderMinimap() {
+    const w = minimapCanvas.width;
+    const h = minimapCanvas.height;
+    mmCtx.clearRect(0, 0, w, h);
+
+    mmCtx.fillStyle = '#cfe4f5';
+    mmCtx.fillRect(0, 0, w, h);
+
+    const maxR = BASE_ISLAND_R * 1.28;
+    const scale = (w * 0.44) / maxR;
+    const cx = w * 0.5;
+    const cy = h * 0.5;
+
+    const mapPts = smoothIslandContour.map(p => ({
+      x: cx + p.x * scale,
+      y: cy + p.y * scale
+    }));
+
+    mmCtx.save();
+    traceSmoothClosedPath(mmCtx, mapPts);
+    mmCtx.fillStyle = '#ffffff';
+    mmCtx.fill();
+    mmCtx.clip();
+
+    const ownerById = new Map();
+    for (const e of entities) ownerById.set(e.id, e);
+
+    for (const [k, ownerId] of territoryMap.entries()) {
+      const owner = ownerById.get(ownerId);
+      if (!owner) continue;
+      const parts = k.split(',');
+      const px = cx + Number(parts[0]) * GRID_SIZE * scale;
+      const py = cy + Number(parts[1]) * GRID_SIZE * scale;
+      mmCtx.fillStyle = owner.color;
+      mmCtx.fillRect(px - 1.5, py - 1.5, 3, 3);
+    }
+    mmCtx.restore();
+
+    traceSmoothClosedPath(mmCtx, mapPts);
+    mmCtx.lineWidth = 2;
+    mmCtx.strokeStyle = '#334155';
+    mmCtx.stroke();
+
+    for (const e of entities) {
+      if (!e.alive) continue;
+      const ex = cx + e.x * scale;
+      const ey = cy + e.y * scale;
+      mmCtx.beginPath();
+      mmCtx.arc(ex, ey, e.isPlayer ? 4 : 2.5, 0, Math.PI * 2);
+      mmCtx.fillStyle = e.isPlayer ? '#0f172a' : e.color;
+      mmCtx.fill();
+    }
+  }
+
+  function updateHud(player) {
+    if (!player) return;
+    const pct = getAreaPct('player');
+    document.getElementById('hudArea').textContent = `${pct.toFixed(1)}%`;
+    document.getElementById('hudKills').textContent = `${player.kills}`;
+    document.getElementById('hudStars').textContent = `${save.stars + player.runStars}`;
+    document.getElementById('hudGems').textContent = `${save.gems + player.runGems}`;
+    document.getElementById('hudCores').textContent = `${save.cores + player.runCores}`;
+
+    const pPill = document.getElementById('hudPowerPill');
+    const pLabel = document.getElementById('hudPowerLabel');
+    if (player.powerType && player.powerTimer > 0) {
+      pPill.style.display = 'inline-flex';
+      const labels = {
+        boost: 'האצה',
+        shield: 'מגן',
+        kangaroo: 'קנגורו'
+      };
+      pLabel.textContent = `${labels[player.powerType] || player.powerType} ${player.powerTimer.toFixed(1)}s`;
+    } else {
+      pPill.style.display = 'none';
+    }
+
+    const aliveEntities = entities.filter(e => e.alive);
+    document.getElementById('hudAliveCount').textContent = `${aliveEntities.length} באי`;
+
+    const ranked = aliveEntities
+      .map(e => ({ id: e.id, name: e.name, color: e.color, pct: getAreaPct(e.id) }))
+      .sort((a, b) => b.pct - a.pct)
+      .slice(0, 5);
+
+    const listEl = document.getElementById('leaderboardList');
+    listEl.innerHTML = ranked
+      .map((r, idx) => `<div class="board-row"><span>${idx + 1}. <span class="board-dot" style="background:${r.color}"></span>${String(r.name).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`)}</span><span>${r.pct.toFixed(1)}%</span></div>`)
+      .join('');
+  }
+
+  function setActiveScreen(screenId) {
+    document.querySelectorAll('.screen-overlay').forEach(el => {
+      el.classList.toggle('active', el.id === screenId);
+    });
+  }
+
+  function refreshAllUI() {
+    document.getElementById('menuStars').textContent = `${save.stars}`;
+    document.getElementById('menuGems').textContent = `${save.gems}`;
+    document.getElementById('menuCores').textContent = `${save.cores}`;
+    document.getElementById('menuBestPct').textContent = `${save.bestPct.toFixed(1)}%`;
+
+    document.getElementById('charStars').textContent = `${save.stars}`;
+    document.getElementById('charGems').textContent = `${save.gems}`;
+    document.getElementById('charCores').textContent = `${save.cores}`;
+
+    const hero = HEROES.find(h => h.id === save.selectedHero) || HEROES[0];
+    const lvl = save.levels[hero.id] || 1;
+    const badge = document.getElementById('activeHeroBadge');
+    badge.textContent = hero.symbol;
+    badge.style.background = `linear-gradient(135deg, ${hero.color}, ${hero.dark})`;
+    document.getElementById('activeHeroTitle').textContent = hero.name;
+    document.getElementById('activeHeroLevel').textContent = `רמה ${lvl} / 5`;
+
+    const isRight = save.minimapSide === 'right';
+    minimapCanvas.style.left = isRight ? 'auto' : '14px';
+    minimapCanvas.style.right = isRight ? '14px' : 'auto';
+    document.getElementById('sideRightBtn').classList.toggle('active', !isRight);
+    document.getElementById('sideLeftBtn').classList.toggle('active', isRight);
+
+    renderCharactersGrid();
+  }
+
+  function renderCharactersGrid() {
+    const grid = document.getElementById('heroesGrid');
+    grid.innerHTML = '';
+
+    for (const h of HEROES) {
+      const unlocked = !!save.unlocked[h.id] || !!h.starter;
+      const lvl = save.levels[h.id] || 1;
+      const isSelected = save.selectedHero === h.id;
+
+      const tile = document.createElement('div');
+      tile.className = `hero-tile ${isSelected ? 'selected' : ''}`;
+
+      const top = document.createElement('div');
+      top.className = 'hero-tile-top';
+      top.innerHTML = `
+        <div class="hero-mini-swatch" style="background:linear-gradient(135deg,${h.color},${h.dark})">${h.symbol}</div>
+        <div>
+          <div class="hero-name">${h.name}</div>
+          <div class="hero-meta">${unlocked ? `פתוח • רמה ${lvl}/5` : 'נעול'}</div>
+        </div>
+      `;
+      top.addEventListener('click', () => {
+        if (unlocked) {
+          save.selectedHero = h.id;
+          persistSave();
+          refreshAllUI();
+        }
+      });
+      tile.appendChild(top);
+
+      if (!unlocked && h.unlock) {
+        const uCost = h.unlock;
+        const canAfford =
+          save.stars >= (uCost.stars || 0) &&
+          save.gems >= (uCost.gems || 0) &&
+          save.cores >= (uCost.cores || 0);
+
+        const costDiv = document.createElement('div');
+        costDiv.className = 'cost-line';
+        costDiv.textContent = `פתיחה: ⭐${uCost.stars || 0} 💎${uCost.gems || 0}${uCost.cores ? ` ⚙️${uCost.cores}` : ''}`;
+        tile.appendChild(costDiv);
+
+        const unlockBtn = document.createElement('button');
+        unlockBtn.type = 'button';
+        unlockBtn.className = 'btn btn-unlock';
+        unlockBtn.textContent = 'פתח דמות';
+        unlockBtn.disabled = !canAfford;
+        unlockBtn.addEventListener('click', () => {
+          if (!canAfford) return;
+          save.stars -= (uCost.stars || 0);
+          save.gems -= (uCost.gems || 0);
+          save.cores -= (uCost.cores || 0);
+          save.unlocked[h.id] = true;
+          save.levels[h.id] = 1;
+          save.selectedHero = h.id;
+          persistSave();
+          refreshAllUI();
+        });
+        tile.appendChild(unlockBtn);
+      } else if (unlocked && lvl < 5) {
+        const upCost = getUpgradeCost(lvl + 1);
+        const canUpgrade =
+          save.stars >= upCost.stars &&
+          save.gems >= upCost.gems &&
+          save.cores >= upCost.cores;
+
+        const costDiv = document.createElement('div');
+        costDiv.className = 'cost-line';
+        costDiv.textContent = `רמה ${lvl + 1}: ⭐${upCost.stars} 💎${upCost.gems}${upCost.cores ? ` ⚙️${upCost.cores}` : ''}`;
+        tile.appendChild(costDiv);
+
+        const upBtn = document.createElement('button');
+        upBtn.type = 'button';
+        upBtn.className = 'btn btn-upgrade';
+        upBtn.textContent = `שדרג לרמה ${lvl + 1}`;
+        upBtn.disabled = !canUpgrade;
+        upBtn.addEventListener('click', () => {
+          if (!canUpgrade) return;
+          save.stars -= upCost.stars;
+          save.gems -= upCost.gems;
+          save.cores -= upCost.cores;
+          save.levels[h.id] = lvl + 1;
+          persistSave();
+          refreshAllUI();
+        });
+        tile.appendChild(upBtn);
+      } else if (unlocked && lvl >= 5) {
+        const maxDiv = document.createElement('div');
+        maxDiv.className = 'cost-line';
+        maxDiv.textContent = 'רמה מקסימלית (5/5)';
+        tile.appendChild(maxDiv);
+      }
+
+      grid.appendChild(tile);
+    }
+  }
+
+  function bindClick(id, handler) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handler();
+    });
+  }
+
+  bindClick('openCharactersBtn', () => {
+    gameState = 'CHARACTERS';
+    refreshAllUI();
+    setActiveScreen('charactersScreen');
+  });
+
+  bindClick('backToMenuBtn', () => {
+    gameState = 'MENU';
+    refreshAllUI();
+    setActiveScreen('mainMenuScreen');
+  });
+
+  bindClick('sideRightBtn', () => {
+    save.minimapSide = 'left';
+    persistSave();
+    refreshAllUI();
+  });
+
+  bindClick('sideLeftBtn', () => {
+    save.minimapSide = 'right';
+    persistSave();
+    refreshAllUI();
+  });
+
+  bindClick('exitGameBtn', () => {
+    if (window.parent !== window) window.parent.postMessage({ type: 'wf-game-close' }, location.origin);
+  });
+
+  bindClick('playNowBtn', () => {
+    startNewMatch();
+  });
+
+  bindClick('playAgainBtn', () => {
+    startNewMatch();
+  });
+
+  bindClick('endMenuBtn', () => {
+    clearFlyingTokens();
+    gameState = 'MENU';
+    refreshAllUI();
+    setActiveScreen('mainMenuScreen');
+  });
+
+  refreshAllUI();
+
+  let lastTs = performance.now();
+  let loopStarted = false;
+  function mainLoop(now) {
+    const dt = Math.min(0.05, Math.max(0.001, (now - lastTs) / 1000));
+    lastTs = now;
+
+    try {
+      if (gameState === 'PLAYING') {
+        matchTime += dt;
+
+        for (const ent of entities) {
+          updateEntity(ent, dt);
+        }
+        resolveCollisions();
+
+        const playerPct = getAreaPct('player');
+        const cfg = getProgressiveRespawnConfig(playerPct, matchTime);
+        const aliveBots = entities.filter(e => !e.isPlayer && e.alive).length;
+
+        if (aliveBots < cfg.targetAliveBots) {
+          respawnTimer += dt;
+          if (respawnTimer >= cfg.delay) {
+            respawnTimer = 0;
+            spawnBot(true);
+          }
+        } else {
+          respawnTimer = Math.max(0, respawnTimer - dt * 0.5);
+        }
+
+        pickupSpawnTimer += dt;
+        if (pickupSpawnTimer >= 2.2 && pickups.length < 24) {
+          pickupSpawnTimer = 0;
+          spawnPickup();
+        }
+
+        const player = entities.find(e => e.isPlayer);
+        renderWorld(player);
+        renderMinimap();
+        updateHud(player);
+      } else {
+        renderWorld(null);
+      }
+    } catch (err) {
+      console.error('Game loop error:', err);
+    }
+
+    requestAnimationFrame(mainLoop);
+  }
+
+  function ensureLoopRunning() {
+    if (!loopStarted) {
+      loopStarted = true;
+      requestAnimationFrame(mainLoop);
+    }
+  }
+
+  ensureLoopRunning();
+  window.addEventListener('load', ensureLoopRunning);
+})();
+</script>
+</body>
+</html>

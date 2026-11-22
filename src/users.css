@@ -163,3 +163,6 @@
 .fa-err { color: #a8322a; opacity: 1; }
 .fa-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .fa-list li { padding: 10px; border-radius: 12px; background: var(--cs-soft); }
+
+/* The reward game fills the screen above everything. */
+.wf-game { position: fixed; inset: 0; z-index: 200; width: 100vw; height: 100dvh; border: 0; background: #dceaf5; }

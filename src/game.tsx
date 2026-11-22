@@ -1,0 +1,22 @@
+// A reward game, a stand-alone page in public/game. For now it opens only from the settings.
+// The game saves under the current user's keys (game.paperio), so each player has their own progress and it syncs.
+import { useEffect } from 'react';
+import { USER_ID, USER_NAME } from './course';
+import { pushProgress } from './progressSync';
+
+export const gameUrl = (user: string | null, name: string) => {
+  const q = new URLSearchParams();
+  if (user) q.set('user', user);
+  if (name) q.set('name', name);
+  return `game/paperio.html?${q}`;
+};
+
+export function GameScreen({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    const close = () => { pushProgress(); onClose(); };
+    const onMsg = (e: MessageEvent) => { if (e.origin === location.origin && e.data?.type === 'wf-game-close') close(); };
+    window.addEventListener('message', onMsg);
+    return () => window.removeEventListener('message', onMsg);
+  }, [onClose]);
+  return <iframe className="wf-game" title="משחק" src={gameUrl(USER_ID, USER_NAME)} />;
+}

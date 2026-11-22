@@ -7,6 +7,7 @@ import { FamilyAdmin, OwnerAdmin } from './familyAdmin';
 import { FamilySheet } from './family';
 import { dbUrl } from './familySync';
 import { Trial, trialName, TRIALS } from './speech';
+import { GameScreen } from './game';
 import { COURSE_ID, COURSES, openCourses, joinCourses, leaveCourse, myCourses, FAMILY_ID, IS_OWNER, IS_PARENT, signOut, switchCourse, USER_NAME } from './course';
 
 const Close = () => <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="m6 6 12 12M18 6 6 18" /></svg>;
@@ -19,12 +20,14 @@ export function WhoPanel() {
   const [adding, setAdding] = useState(false);
   const [, refresh] = useState(0);
   const [family, setFamily] = useState(false);
+  const [game, setGame] = useState(false);
   return (
     <>
       <section className="st-sec">
         <h3>משתמש</h3>
         <div className="cs-row"><b className="st-who">{USER_NAME || 'בלי שם'}</b><button type="button" className="st-btn" onClick={signOut}>החלפת משתמש</button></div>
         {dbUrl() && <button type="button" className="fam-open" onClick={() => setFamily(true)}>מערכת: לו״ז, יעדים וביצוע</button>}
+        <button type="button" className="fam-open" onClick={() => setGame(true)}>משחק</button>
       </section>
       <section className="st-sec">
         <h3>קורס</h3>
@@ -46,6 +49,7 @@ export function WhoPanel() {
       {IS_PARENT && FAMILY_ID && <FamilyAdmin />}
       {IS_OWNER && <OwnerAdmin />}
       {family && <FamilySheet onClose={() => setFamily(false)} />}
+      {game && <GameScreen onClose={() => setGame(false)} />}
     </>
   );
 }
