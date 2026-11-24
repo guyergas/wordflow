@@ -282,9 +282,24 @@ function audio() {
   try {
     const Ctor = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     ctx ??= new Ctor();
-    if (ctx.state === 'suspended') void ctx.resume();
+    // iOS leaves the context 'interrupted' (not 'suspended') after switching apps.
+    if (ctx.state !== 'running') void ctx.resume().catch(() => {});
     return ctx;
   } catch { return null; }
+}
+
+// Back from another app: a stuck voice queue and an interrupted context stay silent on iPhone until relaunch.
+// Clear the voice, and drop a context that did not come back, so the next tap makes a fresh one.
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) return;
+    try { synth()?.cancel(); } catch { /* no voice */ }
+    if (ctx && ctx.state !== 'running') {
+      stopSound();
+      const old = ctx; ctx = null;
+      void old.close().catch(() => {});
+    }
+  });
 }
 function tone(freq: number, at: number, dur: number, vol = 0.08, type: OscillatorType = 'triangle') {
   const c = audio();
