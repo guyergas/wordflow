@@ -838,7 +838,8 @@
   const MS = [null, ['L','B'], ['B','R'], ['L','R'], ['T','R'], ['B','L','T','R'], ['T','B'], ['L','T'],
     ['L','T'], ['T','B'], ['L','T','B','R'], ['T','R'], ['L','R'], ['B','R'], ['L','B'], null];
 
-  function buildOwnerPath(num) {
+  /** The owner's cells as corners for marching squares, in the box around them (one cell wider). */
+  function ownerCorners(num) {
     const ob = ownerBoxes[num];
     if (!ob) return null;
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
@@ -854,8 +855,6 @@
       }
     }
     if (minX === Infinity) return null;
-
-    // Typed arrays instead of a Map: the outline of a large land has tens of thousands of edge points.
     // Squares run over x0..maxX, y0..maxY; their corners are the cells x0..maxX+1, y0..maxY+1.
     const x0 = minX - 1, y0 = minY - 1;
     const W = maxX - x0 + 1, H = maxY - y0 + 1;
@@ -864,16 +863,24 @@
     for (let j = 0; j <= H; j++) {
       const gy = y0 + j;
       if (gy < -GRID_HALF || gy > GRID_HALF) continue;
+      const row = (gy + GRID_HALF) * GRID_W + GRID_HALF;
       for (let i = 0; i <= W; i++) {
         const gx = x0 + i;
-        if (gx >= -GRID_HALF && gx <= GRID_HALF && ownerGrid[gIdx(gx, gy)] === num) corner[j * CW + i] = 1;
+        if (gx >= -GRID_HALF && gx <= GRID_HALF && ownerGrid[row + gx] === num) corner[j * CW + i] = 1;
       }
     }
-    // Edge points: horizontal edge (i, j) is the top of square (i, j); vertical edge (i, j) is its left side.
+    return { corner, W, H, x0, y0 };
+  }
+
+  /**
+   * Corners -> smooth outline loops, as flat [x, y, x, y...] arrays in world pixels. Self-contained (it also runs
+   * in a background worker, from its source text): marching squares with typed arrays, each loop averaged
+   * (stairs on diagonals become straight) and thinned to a point every few pixels.
+   */
+  function outlineLoops(corner, W, H, x0, y0, CELL, MS) {
+    const CW = W + 1;
     const HCOUNT = (H + 1) * W;
     const nb = new Int32Array((HCOUNT + H * (W + 1)) * 2).fill(-1);
-    const hId = (i, j) => j * W + i;
-    const vId = (i, j) => HCOUNT + j * (W + 1) + i;
     const link = (a, b) => {
       if (nb[a * 2] < 0) nb[a * 2] = b; else nb[a * 2 + 1] = b;
       if (nb[b * 2] < 0) nb[b * 2] = a; else nb[b * 2 + 1] = a;
@@ -884,79 +891,98 @@
         const c = corner[j * CW + i] * 8 | corner[j * CW + i + 1] * 4 | corner[(j + 1) * CW + i + 1] * 2 | corner[(j + 1) * CW + i];
         const segs = MS[c];
         if (!segs) continue;
-        pt.T = hId(i, j); pt.B = hId(i, j + 1); pt.L = vId(i, j); pt.R = vId(i + 1, j);
+        pt.T = j * W + i; pt.B = (j + 1) * W + i; pt.L = HCOUNT + j * (W + 1) + i; pt.R = HCOUNT + j * (W + 1) + i + 1;
         for (let k = 0; k < segs.length; k += 2) link(pt[segs[k]], pt[segs[k + 1]]);
       }
     }
-    // The world position of an edge point: the middle of its edge.
-    const posOf = (id) => {
-      if (id < HCOUNT) { const j = Math.floor(id / W), i = id - j * W; return { x: (x0 + i + 0.5) * CELL, y: (y0 + j) * CELL }; }
-      const r = id - HCOUNT, j = Math.floor(r / (W + 1)), i = r - j * (W + 1);
-      return { x: (x0 + i) * CELL, y: (y0 + j + 0.5) * CELL };
-    };
-
-    const path = new Path2D();
+    const out = [];
     const seen = new Uint8Array(nb.length / 2);
+    const xs = [], ys = [];
     for (let start = 0; start < seen.length; start++) {
       if (seen[start] || nb[start * 2] < 0) continue;
-      const loop = [];
+      xs.length = 0;
+      ys.length = 0;
       let prev = -1, cur = start;
       while (cur >= 0 && !seen[cur]) {
         seen[cur] = 1;
-        loop.push(posOf(cur));
+        if (cur < HCOUNT) { const j = Math.floor(cur / W); xs.push((x0 + cur - j * W + 0.5) * CELL); ys.push((y0 + j) * CELL); }
+        else { const r = cur - HCOUNT, j = Math.floor(r / (W + 1)); xs.push((x0 + r - j * (W + 1)) * CELL); ys.push((y0 + j + 0.5) * CELL); }
         const a = nb[cur * 2], b2 = nb[cur * 2 + 1];
         const next = a !== prev ? a : b2;
         prev = cur;
         cur = next;
       }
-      if (loop.length < 3) continue;
-      // Few points, smooth curves: averaged, then a point only every few pixels, joined by curves through
-      // the midpoints. Far fewer points to build and to paint every frame, the same look.
-      const pts = thinLoop(averageLoop(loop, 4), 4);
-      if (pts.length < 3) continue;
-      const n = pts.length;
-      const mid = (a, b) => ({ x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 });
-      const m0 = mid(pts[n - 1], pts[0]);
-      path.moveTo(m0.x, m0.y);
+      const n = xs.length;
+      if (n < 3) continue;
+      let ax = Float64Array.from(xs), ay = Float64Array.from(ys);
+      if (n >= 6) {
+        for (let pass = 0; pass < 4; pass++) {
+          const bx = new Float64Array(n), by = new Float64Array(n);
+          for (let i = 0; i < n; i++) {
+            let sx = 0, sy = 0;
+            for (let d = -2; d <= 2; d++) { const q = (i + d + n) % n; sx += ax[q]; sy += ay[q]; }
+            bx[i] = sx / 5;
+            by[i] = sy / 5;
+          }
+          ax = bx;
+          ay = by;
+        }
+      }
+      const thin = [ax[0], ay[0]];
+      let lx = ax[0], ly = ay[0];
+      for (let i = 1; i < n; i++) {
+        if (Math.abs(ax[i] - lx) + Math.abs(ay[i] - ly) >= 4) { thin.push(ax[i], ay[i]); lx = ax[i]; ly = ay[i]; }
+      }
+      if (thin.length >= 6) out.push(Float32Array.from(thin));
+    }
+    return out;
+  }
+
+  /** Smooth curves through the midpoints of the thinned points. */
+  function pathFromLoops(loops) {
+    const path = new Path2D();
+    for (const L of loops) {
+      const n = L.length / 2;
+      const mx = (i, k) => (L[i * 2] + L[k * 2]) / 2, my = (i, k) => (L[i * 2 + 1] + L[k * 2 + 1]) / 2;
+      path.moveTo(mx(n - 1, 0), my(n - 1, 0));
       for (let i = 0; i < n; i++) {
-        const m = mid(pts[i], pts[(i + 1) % n]);
-        path.quadraticCurveTo(pts[i].x, pts[i].y, m.x, m.y);
+        const k = (i + 1) % n;
+        path.quadraticCurveTo(L[i * 2], L[i * 2 + 1], mx(i, k), my(i, k));
       }
       path.closePath();
     }
     return path;
   }
 
-  /** Each point moves to the average of its neighbors: the stairs on diagonals become straight lines. */
-  function averageLoop(pts, passes) {
-    const n = pts.length;
-    if (n < 6) return pts;
-    let cur = pts;
-    for (let k = 0; k < passes; k++) {
-      const next = new Array(n);
-      for (let i = 0; i < n; i++) {
-        let x = 0, y = 0;
-        for (let d = -2; d <= 2; d++) {
-          const q = cur[(i + d + n) % n];
-          x += q.x;
-          y += q.y;
-        }
-        next[i] = { x: x / 5, y: y / 5 };
-      }
-      cur = next;
-    }
-    return cur;
+  // Outlines are built in a background worker, so a big capture never stops the movement. The old outline
+  // stays until the new one arrives (a frame or two). Without workers, they are built here.
+  let outlineWorker = null;
+  let outlineSeq = 0;
+  const outlineWanted = [];
+  try {
+    const src = `const MS=${JSON.stringify(MS)};const outlineLoops=${outlineLoops.toString()};` +
+      'onmessage=(e)=>{const d=e.data;const loops=outlineLoops(d.corner,d.W,d.H,d.x0,d.y0,d.CELL,MS);postMessage({num:d.num,seq:d.seq,loops},loops.map(l=>l.buffer));};';
+    outlineWorker = new Worker(URL.createObjectURL(new Blob([src], { type: 'text/javascript' })));
+    outlineWorker.onmessage = (e) => {
+      const d = e.data;
+      if (outlineWanted[d.num] !== d.seq) return;
+      ownerPaths[d.num] = pathFromLoops(d.loops);
+    };
+    outlineWorker.onerror = () => { outlineWorker = null; };
+  } catch (_) {
+    outlineWorker = null;
   }
 
-  /** Keeps a point only once it is minGap away from the last one kept. */
-  function thinLoop(pts, minGap) {
-    const out = [pts[0]];
-    let last = pts[0];
-    for (let i = 1; i < pts.length; i++) {
-      const p = pts[i];
-      if (Math.abs(p.x - last.x) + Math.abs(p.y - last.y) >= minGap) { out.push(p); last = p; }
+  function buildOwnerPath(num) {
+    const oc = ownerCorners(num);
+    if (!oc) { outlineWanted[num] = ++outlineSeq; return null; }
+    if (outlineWorker) {
+      const seq = ++outlineSeq;
+      outlineWanted[num] = seq;
+      outlineWorker.postMessage({ num, seq, corner: oc.corner, W: oc.W, H: oc.H, x0: oc.x0, y0: oc.y0, CELL }, [oc.corner.buffer]);
+      return ownerPaths[num] || null;
     }
-    return out;
+    return pathFromLoops(outlineLoops(oc.corner, oc.W, oc.H, oc.x0, oc.y0, CELL, MS));
   }
 
   /**
@@ -968,7 +994,8 @@
     const start = performance.now();
     const order = [...dirtyOwners].sort((a, b) => (entByNum[b]?.isPlayer ? 1 : 0) - (entByNum[a]?.isPlayer ? 1 : 0));
     for (const n of order) {
-      ownerPaths[n] = ownerCounts[n] > 0 ? buildOwnerPath(n) : null;
+      if (ownerCounts[n] > 0) ownerPaths[n] = buildOwnerPath(n);
+      else { ownerPaths[n] = null; outlineWanted[n] = ++outlineSeq; }
       dirtyOwners.delete(n);
       if (performance.now() - start > 6) break;
     }
@@ -1001,6 +1028,8 @@
     const saved = Number(localStorage.getItem(SCALE_KEY));
     return saved >= MIN_SCALE && saved <= MAX_SCALE ? saved : MAX_SCALE;
   })();
+  /** A weak device (already at the lowest resolution) skips what only decorates: moving sea and stars, surf, shading. */
+  const lightMode = () => renderScale <= MIN_SCALE;
   let perfFrames = 0, perfTime = 0;
   /** Called every frame while playing: after a second that ran below ~40 frames a second, one step lower. */
   function adaptResolution(dt) {
@@ -1010,6 +1039,11 @@
     const avg = perfTime / perfFrames;
     perfFrames = 0;
     perfTime = 0;
+    if (avg > 0.025 && renderScale <= MIN_SCALE && !cap30) {
+      cap30 = true;
+      try { localStorage.setItem(CAP_KEY, '1'); } catch (_) {}
+      return;
+    }
     if (avg > 0.025 && renderScale > MIN_SCALE) {
       // Very slow (under 25 frames a second): a bigger step, so it doesn't drag for seconds.
       const step = avg > 0.04 ? 0.5 : 0.25;
@@ -1147,6 +1181,8 @@
       killBoost: 0,
       botPlan: null,
       aggro: Math.random(),
+      huntClock: Math.random() * 0.1,
+      huntAngle: null,
       aiTimer: 0,
       aiTargetAngle: opts.angle || 0
     };
@@ -1246,6 +1282,7 @@
     entByNum = [null];
     ownerPaths = [];
     ownerBoxes = [];
+    outlineWanted.length = 0;
     dirtyOwners.clear();
     entities = [];
     pickups = [];
@@ -1589,23 +1626,27 @@
 
     let target = bot.aiTargetAngle;
 
-    // Hunt: a nearby enemy trail, while our own trail is still short.
     // Hunt: go for an exposed trail in reach, the player's first (bots in Paper.io 2 come after you).
-    // A bot with a long trail of its own goes home first.
-    if (bot.trail.length * CELL < 260) {
-      const reach = 120 + bot.aggro * 200;
-      let best = reach, huntAngle = null;
-      for (const other of entities) {
-        if (!other.alive || other === bot || other.trail.length < 6 || isProtected(other)) continue;
-        const pull = other.isPlayer ? 0.8 : 1;
-        for (let i = 0; i < other.trail.length; i += 4) {
-          const t = other.trail[i];
-          const d = Math.hypot(t.x - bot.x, t.y - bot.y) * pull;
-          if (d < best) { best = d; huntAngle = Math.atan2(t.y - bot.y, t.x - bot.x); }
+    // A bot with a long trail of its own goes home first. Looking around costs, so each bot looks 10 times
+    // a second (bots at different moments) and keeps its aim in between.
+    bot.huntClock = (bot.huntClock || 0) - dt;
+    if (bot.huntClock <= 0) {
+      bot.huntClock = 0.1;
+      bot.huntAngle = null;
+      if (bot.trail.length * CELL < 260) {
+        let best = 120 + bot.aggro * 200;
+        for (const other of entities) {
+          if (!other.alive || other === bot || other.trail.length < 6 || isProtected(other)) continue;
+          const pull = other.isPlayer ? 0.8 : 1;
+          for (let i = 0; i < other.trail.length; i += 4) {
+            const t = other.trail[i];
+            const d = Math.hypot(t.x - bot.x, t.y - bot.y) * pull;
+            if (d < best) { best = d; bot.huntAngle = Math.atan2(t.y - bot.y, t.x - bot.x); }
+          }
         }
       }
-      if (huntAngle !== null) target = huntAngle;
     }
+    if (bot.huntAngle != null && bot.trail.length * CELL < 260) target = bot.huntAngle;
 
     if (target === bot.aiTargetAngle) {
       if (home) {
@@ -2274,10 +2315,13 @@
 
     c.beginPath();
     c.arc(x, cy, R, 0, Math.PI * 2);
-    const g = c.createRadialGradient(x - R * 0.35, cy - R * 0.45, R * 0.1, x, cy, R * 1.05);
-    g.addColorStop(0, shadeColor(color, 0.45));
-    g.addColorStop(0.5, color);
-    g.addColorStop(1, shadeColor(color, -0.28));
+    let g = color;
+    if (c !== ctx || !lightMode()) {
+      g = c.createRadialGradient(x - R * 0.35, cy - R * 0.45, R * 0.1, x, cy, R * 1.05);
+      g.addColorStop(0, shadeColor(color, 0.45));
+      g.addColorStop(0.5, color);
+      g.addColorStop(1, shadeColor(color, -0.28));
+    }
     strokeFill(c, g, lw);
 
     c.beginPath();
@@ -2708,7 +2752,7 @@
     ctx.save();
     ctx.translate(viewW * 0.5 - camX, viewH * 0.5 - camY);
 
-    theme.backdrop(ctx, camX, camY, t);
+    if (!lightMode()) theme.backdrop(ctx, camX, camY, t);
 
     ctx.save();
     ctx.scale(theme.ring.scale, theme.ring.scale);
@@ -2717,7 +2761,7 @@
     ctx.fillStyle = theme.ring.color;
     ctx.fill();
 
-    if (theme.surf) {
+    if (theme.surf && !lightMode()) {
       const surf = (theme.surfAt || 1.075) + 0.006 + Math.sin(t * 1.6) * 0.006;
       ctx.save();
       ctx.scale(surf, surf);
@@ -3142,8 +3186,20 @@
   let lastTs = performance.now();
   let loopStarted = false;
   let uiClock = 0, hudTick = 0;
+  // Even movement: the time step follows the frame rate smoothly instead of jumping with each uneven frame.
+  // On a device that is still slow at the lowest resolution, a steady 30 frames a second (remembered on the
+  // device) moves more evenly than a rate that jumps between fast and slow.
+  let smoothDt = 1 / 60;
+  const CAP_KEY = 'wordflow.game.cap30';
+  let cap30 = (() => { try { return localStorage.getItem(CAP_KEY) === '1'; } catch (_) { return false; } })();
   function mainLoop(now) {
-    const dt = Math.min(0.05, Math.max(0.001, (now - lastTs) / 1000));
+    if (cap30 && gameState === 'PLAYING' && now - lastTs < 30) {
+      requestAnimationFrame(mainLoop);
+      return;
+    }
+    const raw = Math.min(0.05, Math.max(0.001, (now - lastTs) / 1000));
+    smoothDt += (raw - smoothDt) * 0.25;
+    const dt = smoothDt;
     lastTs = now;
 
     try {
