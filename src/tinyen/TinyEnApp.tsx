@@ -1,4 +1,5 @@
 import { WordsButton, WordsTrack } from '../littleWords/WordsTrack';
+import { EnText } from './enText';
 import { SettingsSheet } from '../settingsSheet';
 import { greeting, TopBar } from '../topBar';
 import { reward } from '../hearts';
@@ -37,7 +38,7 @@ function Art({ id, draw, arrows }: { id: string; draw?: boolean; arrows?: boolea
   const l = LETTER[id];
   return <svg viewBox={frameOf(l)} className="a-mini" aria-hidden="true"><Lines /><Glyph strokes={l.strokes} draw={draw} />{arrows && <Arrows strokes={l.strokes} />}</svg>;
 }
-const Print = ({ id }: { id: string }) => <span className="e-letter" dir="ltr">{id}</span>;
+const Print = ({ id }: { id: string }) => <span className="e-letter" dir="ltr"><EnText text={id} /></span>;
 
 export function TinyEnApp() {
   const [st, setSt] = useState<EState>(() => load());
@@ -117,7 +118,7 @@ function Home({ st, today, onStart, onProgress, onSettings, onWords }: { st: ESt
       <TodayPlan />
       <button type="button" className="card a-strip-card" onClick={onProgress}>
         <span className="row-between"><b>ה־ABC שלי</b><small className="muted">{met} מתוך {ABC.length} ›</small></span>
-        <span className="e-abc" dir="ltr">{ABC.map((l) => <i key={l.id} className={statusOf(st, l.id)}>{l.id}</i>)}</span>
+        <span className="e-abc" dir="ltr">{ABC.map((l) => <i key={l.id} className={statusOf(st, l.id)}><EnText text={l.id} /></i>)}</span>
       </button>
     </>
   );
@@ -151,12 +152,12 @@ function Progress({ st, onFocus }: { st: EState; onFocus: (id: string) => void }
         </section>
       ); })}
       {l && <div className="sheet-wrap" onClick={() => setShown(null)}><div className="sheet a-show" role="dialog" aria-label={l.id} onClick={(e) => e.stopPropagation()}>
-        <div className="row-between"><h2 dir="ltr">{l.id}</h2><SpeakBtn parts={[en(EN.name(l.id)), he(l.recipe)]} /></div>
+        <div className="row-between"><h2 dir="ltr"><EnText text={l.id} /></h2><SpeakBtn parts={[en(EN.name(l.id)), he(l.recipe)]} /></div>
         <p className="small muted">{FAMILIES[l.family]}</p>
         <div className="a-board t-show"><Art key={l.id} id={l.id} draw arrows /></div>
         <div className="e-show-words">{wordsOf(l.id).map((w) => <button key={w[0]} type="button" onClick={() => say(en(w[0]))}><i aria-hidden="true">{w[1]}</i><span dir="ltr">{w[0]}</span></button>)}</div>
         {k ? <ul className="a-facts"><li><span>זיהוי</span><b>{share(k.ok)}</b></li><li><span>כתיבה</span><b>{share(k.wrote)}</b></li><li><span>שלב הכתיבה</span><b>{STAGE[Math.min(3, k.write.box)]}</b></li>{topMisses(k).length > 0 && <li><span>מתבלבל עם</span><b dir="ltr">{topMisses(k).join(', ')}</b></li>}</ul> : <p className="small muted">האות הזאת עוד לא נלמדה.</p>}
-        {k && <button type="button" className="cta" onClick={() => onFocus(l.id)}>חזרה ממוקדת על <bdi dir="ltr">{l.id}</bdi></button>}
+        {k && <button type="button" className="cta" onClick={() => onFocus(l.id)}>חזרה ממוקדת על <bdi dir="ltr"><EnText text={l.id} /></bdi></button>}
       </div></div>}
     </>
   );

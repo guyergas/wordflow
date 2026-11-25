@@ -5,6 +5,7 @@ import { reward } from '../hearts';
 import { Next, useStudyTimer, WritePad } from '../alef/AlefApp';
 import { LETTER as HE_LETTER, LETTERS, SAY } from '../alef/letters';
 import { ABC, EN, HE, LETTER as EN_LETTER } from '../tinyen/letters';
+import { EnText } from '../tinyen/enText';
 import { sayInTurn, sfx } from '../platform';
 import { STORAGE_KEY } from '../course';
 import { HE_SAY, Lang, LESSONS, LittleWord, lessonOpen, shownForm } from './data';
@@ -120,7 +121,7 @@ function Choose({ lang, w, form, met, sound, onDone }: { lang: Lang; w: LittleWo
   return (
     <div className="a-step">
       <div className="lw-ask"><Speak onClick={ask} /><span className="lw-pic small" aria-hidden="true">{w.pic}</span></div>
-      <div className="lw-options">{options.map((o) => <button key={o.id} type="button" disabled={wrong.includes(o.id)} className={`a-answer lw-opt ${right && o.id === w.id ? 'right' : ''} ${wrong.includes(o.id) ? 'off' : ''}`} dir={lang === 'en' ? 'ltr' : 'rtl'} onClick={() => tap(o)}>{shown(o)}</button>)}</div>
+      <div className="lw-options">{options.map((o) => <button key={o.id} type="button" disabled={wrong.includes(o.id)} className={`a-answer lw-opt ${right && o.id === w.id ? 'right' : ''} ${wrong.includes(o.id) ? 'off' : ''}`} dir={lang === 'en' ? 'ltr' : 'rtl'} onClick={() => tap(o)}>{lang === 'en' ? <EnText text={shown(o)} /> : shown(o)}</button>)}</div>
       {right ? <Next onClick={() => onDone(wrong.length === 0)} /> : <div className="a-next-space" />}
     </div>
   );
@@ -172,7 +173,7 @@ function WriteWord({ lang, w, form, sound, onDone }: { lang: Lang; w: LittleWord
   const strip = (
     <div className="lw-model" aria-hidden="true">
       <span className="lw-pic small">{w.pic}</span>
-      <span className="lw-word" dir={lang === 'en' ? 'ltr' : 'rtl'}>{letters.map((x, i) => <i key={i} className={i === at ? 'now' : i < at ? 'past' : ''}>{x}</i>)}</span>
+      <span className="lw-word" dir={lang === 'en' ? 'ltr' : 'rtl'}>{letters.map((x, i) => <i key={i} className={i === at ? 'now' : i < at ? 'past' : ''}>{lang === 'en' ? <EnText text={x} /> : x}</i>)}</span>
     </div>
   );
   if (!shape) return <div className="a-step"><Next onClick={() => onDone(true)} /></div>;

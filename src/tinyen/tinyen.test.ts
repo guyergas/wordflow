@@ -107,3 +107,17 @@ describe('games', () => {
     expect(topMisses(noteMiss(s, 'E', 'F').letters.E)).toEqual(['F']);
   });
 });
+
+describe('capital I as the little ones learn it', async () => {
+  const { renderToStaticMarkup } = await import('react-dom/server');
+  const { createElement } = await import('react');
+  const { EnText } = await import('./enText');
+  const { LETTER } = await import('./letters');
+  it('is drawn with a line on top and at the bottom, like its tracing', () => {
+    expect(LETTER.I.strokes.length).toBe(3);
+    const html = renderToStaticMarkup(createElement(EnText, { text: 'PIG' }));
+    expect(html).toContain('serif-i');
+    expect(html.replace(/<svg[\s\S]*?<\/svg>/, '')).not.toContain('I');
+    expect(renderToStaticMarkup(createElement(EnText, { text: 'CAT' }))).toBe('CAT');
+  });
+});
