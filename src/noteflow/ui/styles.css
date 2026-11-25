@@ -854,3 +854,6 @@ h1, h2, .topbar h1, .hero .level, .score-ring b, .stage-card .title, .stat b, .n
 .lp-del { width: 36px; height: 36px; }
 .lp-ph { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--ink); left: calc(var(--p) * 100%); opacity: 0; z-index: 2; }
 .looper-tracks.playing .lp-ph { opacity: .75; }
+
+/* No pinch or double-tap zoom (see ../../noZoom.ts); scrolling still works. */
+html, body { touch-action: pan-x pan-y; }

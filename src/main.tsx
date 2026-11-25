@@ -1,6 +1,10 @@
 // Piano notes has its own look, so each app's styles load only with that app.
 import { pullProgress, startProgressSync } from './progressSync';
+import { blockZoom } from './noZoom';
 import { setupFamily } from './families';
+
+// Before anything renders: no zooming in any course.
+blockZoom();
 
 // The family and its people come first, then progress from another device, so the course opens with both.
 async function start() {

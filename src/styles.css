@@ -842,3 +842,6 @@ html.a-lock .a-finish { height: 100dvh; min-height: 0; overflow: hidden; }
 .fold-body .page-head h1 { display: none; }
 /* The little ones' capital I (tinyen/enText.tsx): as tall as a capital letter, the width of one. */
 .serif-i { display: inline-block; height: 0.72em; width: 0.46em; vertical-align: baseline; overflow: visible; }
+
+/* No pinch or double-tap zoom anywhere (see noZoom.ts); scrolling still works. Drawing pads keep 'none'. */
+html, body { touch-action: pan-x pan-y; }
