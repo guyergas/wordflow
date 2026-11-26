@@ -288,18 +288,42 @@ function audio() {
   } catch { return null; }
 }
 
-// Back from another app: a stuck voice queue and an interrupted context stay silent on iPhone until relaunch.
-// Clear the voice, and drop a context that did not come back, so the next tap makes a fresh one.
+// Back from another app, sound fails in ways that depend on timing: the context may still be 'interrupted',
+// may say 'running' yet stay silent (iPhone), and a context made or resumed without a touch stays muted.
+// So nothing is closed on return. The first touch after it makes a fresh context inside the touch, as phones
+// require, and plays a moment of silence to open it; the phone's voice is cleared and woken at the same time.
+let freshOnTouch = false;
+function newContext() {
+  const Ctor = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+  const c = new Ctor();
+  try {
+    const b = c.createBuffer(1, 1, 22050), src = c.createBufferSource();
+    src.buffer = b; src.connect(c.destination); src.start(0);
+  } catch { /* nothing to open */ }
+  return c;
+}
+function wakeOnTouch() {
+  try { synth()?.resume(); } catch { /* no voice */ }
+  if (!freshOnTouch && ctx?.state === 'running') return;
+  freshOnTouch = false;
+  try {
+    const old = ctx;
+    // Anything still playing in the old context stops with it (the very first touch has nothing to stop).
+    if (old) stopSound();
+    ctx = newContext();
+    void ctx.resume().catch(() => {});
+    if (old) void old.close().catch(() => {});
+  } catch { /* no audio on this device */ }
+}
 if (typeof document !== 'undefined') {
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) return;
-    try { synth()?.cancel(); } catch { /* no voice */ }
-    if (ctx && ctx.state !== 'running') {
-      stopSound();
-      const old = ctx; ctx = null;
-      void old.close().catch(() => {});
-    }
+    try { synth()?.cancel(); synth()?.resume(); } catch { /* no voice */ }
+    freshOnTouch = true;
+    // Where the phone allows it without a touch (most Android), sound comes back right away.
+    if (ctx && ctx.state !== 'running') void ctx.resume().catch(() => {});
   });
+  for (const ev of ['pointerdown', 'touchend', 'keydown']) document.addEventListener(ev, wakeOnTouch, { capture: true, passive: true });
 }
 function tone(freq: number, at: number, dur: number, vol = 0.08, type: OscillatorType = 'triangle') {
   const c = audio();
