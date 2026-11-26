@@ -305,15 +305,24 @@ function newContext() {
 function wakeOnTouch() {
   try { synth()?.resume(); } catch { /* no voice */ }
   if (!freshOnTouch && ctx?.state === 'running') return;
+  const wasFresh = freshOnTouch;
   freshOnTouch = false;
+  try { (navigator as unknown as { audioSession?: { type: string } }).audioSession!.type = 'playback'; } catch { /* other phones */ }
   try {
     const old = ctx;
     // Anything still playing in the old context stops with it (the very first touch has nothing to stop).
     if (old) stopSound();
     ctx = newContext();
-    void ctx.resume().catch(() => {});
+    const made = ctx;
+    void made.resume().catch(() => {});
     if (old) void old.close().catch(() => {});
+    // Still not playing a moment later: the next touch tries again.
+    setTimeout(() => { if (ctx === made && made.state !== 'running') freshOnTouch = true; }, 400);
   } catch { /* no audio on this device */ }
+  // iPhone's voice also needs a touch after coming back: a silent sentence inside this one opens it.
+  if (wasFresh) {
+    try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; synth()?.speak(u); } catch { /* no voice */ }
+  }
 }
 if (typeof document !== 'undefined') {
   document.addEventListener('visibilitychange', () => {
@@ -323,7 +332,8 @@ if (typeof document !== 'undefined') {
     // Where the phone allows it without a touch (most Android), sound comes back right away.
     if (ctx && ctx.state !== 'running') void ctx.resume().catch(() => {});
   });
-  for (const ev of ['pointerdown', 'touchend', 'keydown']) document.addEventListener(ev, wakeOnTouch, { capture: true, passive: true });
+  // iPhone opens sound only when the finger lifts (touchend), on a click or a key, never on touching down.
+  for (const ev of ['touchend', 'click', 'keydown']) document.addEventListener(ev, wakeOnTouch, { capture: true, passive: true });
 }
 function tone(freq: number, at: number, dur: number, vol = 0.08, type: OscillatorType = 'triangle') {
   const c = audio();
