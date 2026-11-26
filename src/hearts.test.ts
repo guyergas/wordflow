@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { applyReward, HEARTS, MAX_HEARTS, SAME_LESSON_MS } from './hearts';
 import gamePage from '../public/game/paperio.html?raw';
+import heartsSrc from './hearts.ts?raw';
 
 const T = 1_000_000_000, DAY = 20_000;
 
@@ -40,5 +41,9 @@ describe('hearts', () => {
     expect(gamePage).toContain('`wordflow.u.${WF_USER}.hearts`');
     expect(gamePage).toContain("PARAMS.get('free') === '1'");
     expect(gamePage).toContain(`const MAX_HEARTS = ${MAX_HEARTS};`);
+  });
+
+  it('parents are not offered a game at the end of a lesson', () => {
+    expect(heartsSrc).toMatch(/if \(IS_PARENT\) return;\s*if \(gained > 0/);
   });
 });

@@ -2,7 +2,7 @@
 // coming back into a game after being knocked out. Earned: a finished lesson 2, a lesson with new material 4
 // (the lesson's 2 and 2 for the new material), meeting all of today's time goals 5 (once a day), taking the whole map 1.
 // Stored under the person's keys, so it syncs with their progress and the game page reads the same place.
-import { userKey } from './course';
+import { IS_PARENT, userKey } from './course';
 import { isGameOpen } from './game';
 import { dayNumber } from './engine';
 import { buildSummary, loadSchedule, readCourses } from './summary';
@@ -60,6 +60,8 @@ export function addHearts(n: number) {
 export function reward(kind: Reward) {
   const { s, gained } = applyReward(readHearts(), kind, Date.now(), dayNumber(), goalsMetToday());
   writeHearts(s);
+  // Parents play free and aren't offered a game: the lesson simply goes on, as if they chose to keep learning.
+  if (IS_PARENT) return;
   if (gained > 0 || (kind === 'lesson' && s.n > 0)) {
     if (listener) listener(gained, s.n);
     else void import('./heartsOffer').then((m) => m.showOffer(gained, s.n));
